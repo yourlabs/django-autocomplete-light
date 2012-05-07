@@ -2,7 +2,7 @@
 
 <li class="result" data-value="{{ result.pk }}">
     {{ result }} 
-    <textarea>
+    <textarea style="display:none">
         {{ result|autocomplete_light_result_as_json:channel }}
     </textarea>
 </li>
