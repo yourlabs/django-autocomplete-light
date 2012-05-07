@@ -9,6 +9,7 @@ class ChannelBase(object):
     search_field = 'name'
     min_length = 0
     max_results = 20
+    bootstrap = 'normal'
 
     def __init__(self):
         self.q = ''

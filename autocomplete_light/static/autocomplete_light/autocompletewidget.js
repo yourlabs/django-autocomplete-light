@@ -114,7 +114,7 @@ AutocompleteDeck.prototype = {
 }
 
 $(document).ready(function() {
-    $('.autocompleteselectwidget_light').each(function() {
+    $('.autocompleteselectwidget_light[data-bootstrap=normal]').each(function() {
         $(this).yourlabs_deck();
     });
 
