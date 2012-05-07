@@ -11,9 +11,11 @@ class ChannelRegistry(dict):
         except KeyError:
             return
 
-    def register(self, channel, model=None):
-        if model:
+    def register(self, model, channel=None):
+        if channel is None:
             channel = type('%sChannel' % model.__name__, (ChannelBase,), {'model': model})
+        elif channel.model is None:
+            channel = type('%sChannel' % model.__name__, (channel,), {'model': model})
 
         self[channel.__name__] = channel
         self._models[channel.model] = channel
@@ -46,5 +48,5 @@ def _autodiscover(registry):
 registry = ChannelRegistry()
 autodiscover = lambda: _autodiscover(registry)
 
-def register(channel, model=None):
-    registry.register(channel, model)
+def register(model, channel=None):
+    registry.register(model, channel)
