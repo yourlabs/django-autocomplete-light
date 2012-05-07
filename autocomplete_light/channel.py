@@ -1,4 +1,3 @@
-from django.utils import simplejson
 from django.core import urlresolvers
 from django import template
 from django.template import loader
@@ -66,16 +65,7 @@ class ChannelBase(object):
         return self.render_to_string(self.result_template, {
             'channel': self, 
             'result': result,
-            'result_dict_json': simplejson.dumps(self.result_as_dict(result)),
         })
-
-    def result_as_json(self, result):
-        return simplejson.dumps(self.result_as_dict(result))
-
-    def result_as_dict(self, result):
-        return {
-            'value': result.pk,
-        }
 
     def render_autocomplete(self):
         return self.render_to_string([

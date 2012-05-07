@@ -8,7 +8,7 @@ function AutocompleteDeck(el, options) {
         'deck': this.wrapper.find('.deck'),
         'maxItems': this.wrapper.data('maxitems'),
         'getValue': function(deck, result) {
-            return $.parseJSON(result.find('textarea').html()).value;
+            return result.data('value');
         },
         'selectOption': function(deck, result) {
             var value = deck.options.getValue(deck, result);
