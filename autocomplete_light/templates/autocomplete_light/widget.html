@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load autocomplete_light_tags %}
+
+<span class="autocompleteselectwidget_light" id="{{ widget.html_id }}_wrapper" data-maxitems="{{ widget.max_items }}" data-mincharacters="{{ widget.min_characters }}">
+    <input type="text" class="autocomplete" name="{{ name }}_autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
+    
+    <select style="display:none" class="valueSelect" name="{{ name }}" id="{{ widget.html_id }}" {% if widget.max_items != 1 %}multiple="multiple"{% endif %}>
+        {% for value in values %}
+            <option value="{{ value }}" selected="selected">{{ value }}</option>
+        {% endfor %}
+    </select>
+
+    <ul id="{{ html_id }}_deck" class="deck" >
+        {% for result in results %}
+            {{ result|autocomplete_light_result_as_html:channel }}
+        {% endfor %}
+    </ul>
+
+    {# javascript will populate the initial deck based on the contents of this textarea #}
+    <textarea class="json_value" style="display:none">
+        {{ json_value }}
+    </textarea>
+    <textarea class="json_channel" style="display:none">
+        {{ json_channel }}
+    </textarea>
+    
+    <div style="display:none" class="remove">
+        {# This will be appended to results on the deck, it's the remove button #}
+        XX
+    </div>
+</span>

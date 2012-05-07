@@ -1,0 +1,8 @@
+{% load autocomplete_light_tags %}
+
+<li class="result">
+    {{ result }} 
+    <textarea style="display: none">
+        {{ result|autocomplete_light_result_as_json:channel }}
+    </textarea>
+</li>
