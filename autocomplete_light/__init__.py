@@ -1,8 +1,10 @@
 from .channel import *
 
 registry = ChannelRegistry()
-register = lambda channel: registry.register(channel)
 autodiscover = lambda: _autodiscover(registry)
+
+def register(channel, model=None):
+    registry.register(channel, model)
 
 def _autodiscover(registry):
     import copy

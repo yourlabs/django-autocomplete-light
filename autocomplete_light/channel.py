@@ -6,7 +6,9 @@ from django.template import loader
 __all__ = ['ChannelRegistry', 'ChannelBase',]
 
 class ChannelRegistry(dict):
-    def register(self, channel):
+    def register(self, channel, model=None):
+        if model:
+            channel = type('%sChannel' % model.__name__, (ChannelBase,), {'model': model})
         self[channel.__name__] = channel
 
 class ChannelBase(object):
