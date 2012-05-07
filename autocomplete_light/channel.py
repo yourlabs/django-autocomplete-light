@@ -45,11 +45,16 @@ class ChannelBase(object):
 
     def get_results(self, pks=None):
         results = self.get_queryset()
-        if self.q: # used by the autocomplete
+
+        if pks is not None:
+            # used by the widget to prerender existing pks
+            results = results.filter(pk__in=pks)
+
+        elif self.q:
+            # used by the autocomplete
             kwargs = { "%s__icontains" % self.search_field: self.q }
             results = results.filter(**kwargs)
-        if pks: # used by the widget to prerender existing pks
-            results = results.filter(pk__in=pks)
+        
         return results.order_by(self.search_field).distinct()[0:self.max_results]
 
     def are_valid(self, pks):

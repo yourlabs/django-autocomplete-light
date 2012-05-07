@@ -79,7 +79,7 @@ AutocompleteDeck.prototype = {
         var results = this.options.deck.find('.result');
 
         results.append(this.wrapper.find('.remove:last').clone().show());
-        if (results.length == this.options.maxItems) {
+        if (this.options.maxItems > 0 && results.length == this.options.maxItems) {
             this.options.input.hide();
         }
 

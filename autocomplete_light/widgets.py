@@ -59,7 +59,7 @@ class AutocompleteWidget(forms.SelectMultiple):
                 'name': name,
                 'values': values,
                 'channel': self.channel,
-                'results': self.channel.get_results(values),
+                'results': self.channel.get_results(values or []),
                 'json_value': safestring.mark_safe(simplejson.dumps(value)),
                 'json_channel': safestring.mark_safe(simplejson.dumps(
                     self.channel.as_dict())),
