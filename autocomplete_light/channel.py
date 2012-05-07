@@ -3,13 +3,7 @@ from django.core import urlresolvers
 from django import template
 from django.template import loader
 
-__all__ = ['ChannelRegistry', 'ChannelBase',]
-
-class ChannelRegistry(dict):
-    def register(self, channel, model=None):
-        if model:
-            channel = type('%sChannel' % model.__name__, (ChannelBase,), {'model': model})
-        self[channel.__name__] = channel
+__all__ = ('ChannelBase',)
 
 class ChannelBase(object):
     model = None

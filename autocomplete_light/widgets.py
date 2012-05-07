@@ -4,7 +4,6 @@ from django.forms.util import flatatt
 from django.utils import safestring
 from django.template.loader import render_to_string
 
-from autocomplete_light import registry
 from .channel import *
 
 __all__ = ['AutocompleteWidget']
@@ -18,7 +17,10 @@ class AutocompleteWidget(forms.SelectMultiple):
 
     def __init__(self, channel_name, *args, **kwargs):
         self.channel_name = channel_name
+        
+        from autocomplete_light import registry
         self.channel = registry[channel_name]()
+        
         self.max_items = kwargs.pop('max_items', 0)
         self.min_characters = kwargs.pop('min_characters', 0)
 
