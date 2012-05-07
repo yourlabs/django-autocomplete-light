@@ -18,6 +18,7 @@ function AutocompleteDeck(el, options) {
 
             deck.options.valueSelect.append(
                 '<option selected="selected" value="'+ value +'"></option>');
+            deck.options.valueSelect.trigger('change');
 
             if (deck.options.maxItems && deck.options.valueSelect.find('option').length > deck.options.maxItems) {
                 deck.options.valueSelect.find('option:first').remove();
