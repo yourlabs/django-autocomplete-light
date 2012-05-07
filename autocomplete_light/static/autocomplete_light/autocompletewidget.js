@@ -6,23 +6,27 @@ function AutocompleteDeck(el, options) {
         'valueSelect': this.wrapper.find('select.valueSelect'),
         'channel': $.parseJSON(this.wrapper.find('.json_channel').html()),
         'deck': this.wrapper.find('.deck'),
+        'addTemplate': this.wrapper.find('.add_template .result'),
         'maxItems': this.wrapper.data('maxitems'),
         'getValue': function(deck, result) {
             return result.data('value');
         },
-        'selectOption': function(deck, result) {
+        'selectOption': function(deck, result, force) {
             var value = deck.options.getValue(deck, result);
 
-            if (deck.options.valueSelect.find('option[value='+value+']').length)
-                return; // value already selected
+            if (deck.options.valueSelect.find('option[value='+value+']').length && !force)
+                return; // value already selected and force is not on
 
             deck.options.valueSelect.append(
                 '<option selected="selected" value="'+ value +'"></option>');
-            deck.options.valueSelect.trigger('change');
 
             if (deck.options.maxItems && deck.options.valueSelect.find('option').length > deck.options.maxItems) {
-                deck.options.valueSelect.find('option:first').remove();
+                var remove_option = deck.options.valueSelect.find('option:first');
+                var remove_value = remove_option.attr('value');
+                deck.options.deck.find('.result[data-value='+remove_value+']').remove();
+                remove_option.remove();
             }
+            deck.options.valueSelect.trigger('change');
 
             if (deck.options.maxItems && deck.options.valueSelect.find('option').length == deck.options.maxItems) {
                 deck.options.input.hide();
@@ -38,6 +42,7 @@ function AutocompleteDeck(el, options) {
             var value = deck.options.getValue(deck, result);
 
             deck.options.valueSelect.find('option[value='+value+']').remove();
+            deck.options.valueSelect.trigger('change');
             result.remove();
 
             if (deck.options.deck.find('*').length == 0) {
@@ -112,4 +117,41 @@ $(document).ready(function() {
     $('.autocompleteselectwidget_light').each(function() {
         $(this).yourlabs_deck();
     });
+
+    // support values added directly in the select via js (ie. admin + sign)
+    // for this, we make one timer that regularely checks for values in the select
+    // that are not in the deck. The reason for that is that change is not triggered
+    // when options are added like this:
+    // $('select#id_dependencies').append(
+    //      '<option value="9999" selected="selected">blabla</option>')
+    function updateDecks() {
+        $('.autocompleteselectwidget_light').each(function() {
+            var deck = $(this).yourlabs_deck();
+            var value = deck.options.valueSelect.val();
+
+            function updateValueDisplay(value) {
+                if (!value) return;
+
+                var result = deck.options.deck.find('.result[data-value='+value+']');
+                if (!result.length) {
+                    console.log('didnt find, doing');
+                    var result = deck.options.addTemplate.clone();
+                    var html = deck.options.valueSelect.find('option[value='+value+']').html();
+                    result.html(html);
+                    result.attr('data-value', value);
+                    deck.options.selectOption(deck, result, true);
+                }
+            }
+
+            if (value instanceof Array) {
+                for(var i=0; i<value.length; i++) {
+                    updateValueDisplay(value[i]);
+                }
+            } else {
+                updateValueDisplay(value);
+            }
+        });
+        setTimeout(updateDecks, 2000);
+    }
+    setTimeout(updateDecks, 1000);
 });

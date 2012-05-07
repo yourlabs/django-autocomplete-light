@@ -24,4 +24,15 @@
         {# This will be appended to results on the deck, it's the remove button #}
         XX
     </div>
+
+    <ul style="display:none" class="add_template">
+        {% comment %}
+        the contained element will be used to render options that are added to the select 
+        via javascript, for example in django admin with the + sign
+
+        The text of the option will be inserted in the html of this tag
+        {% endcomment %}
+        <li class="result">
+        </li>
+    </ul>
 </span>
