@@ -59,19 +59,14 @@ BookChannel.
 We provide two base channels:
 
 channel.base.ChannelBase
-    This is the base channel class. It is in charge of:
-    - fetching the results for a query
-    - rendering the autocomplete with a template
-    - rendering results in the autocomplete with a template
-    - validating input
-    Only 62 SLOC.
+    This is the base channel class. It is in charge of: fetching the results
+    for a query, rendering the autocomplete with a template, rendering results
+    in the autocomplete with a template, validating input. Only 62 SLOC.
 
 channel.json.JSONChannelBase
-    This channel adds a couple of features:
-    - making a dict from a result, the dict can contain any data you
-    want, you'll be able to use it in your javascript
-    - returning the json from a result dict
-    17 SLOC.
+    This channel adds a couple of features: making a dict from a result, the
+    dict can contain any data you want, you'll be able to use it in your
+    javascript, returning the json from a result dict. 17 SLOC.
 
 Registry
 --------
