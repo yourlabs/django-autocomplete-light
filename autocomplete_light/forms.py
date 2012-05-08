@@ -26,7 +26,6 @@ def get_widgets_dict(model, autocomplete_exclude=None):
 
     for field in model._meta.many_to_many:
         if field.name in autocomplete_exclude:
-            print "Excluding", field.name
             continue
 
         channel = registry.channel_for_model(field.rel.to)

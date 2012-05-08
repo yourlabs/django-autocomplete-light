@@ -134,7 +134,6 @@ $(document).ready(function() {
 
                 var result = deck.options.deck.find('.result[data-value='+value+']');
                 if (!result.length) {
-                    console.log('didnt find, doing');
                     var result = deck.options.addTemplate.clone();
                     var html = deck.options.valueSelect.find('option[value='+value+']').html();
                     result.html(html);
