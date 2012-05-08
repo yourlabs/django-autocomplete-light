@@ -18,7 +18,7 @@ class ChannelBase(object):
             self.result_template = self.__class__.result_template
         else:
             self.result_template = [
-                'autocomplete_light/result_%s.html' % self.__class__.__name__,
+                'autocomplete_light/%s/result.html' % self.__class__.__name__.lower(),
                 'autocomplete_light/result.html',
             ]
 
@@ -75,7 +75,7 @@ class ChannelBase(object):
 
     def render_autocomplete(self):
         return self.render_to_string([
-            'autocomplete_light/autocomplete_%s.html' % self.__class__.__name__,
+            'autocomplete_light/%s/autocomplete.html' % self.__class__.__name__.lower(),
             'autocomplete_light/autocomplete.html',
         ], {
             'channel': self,

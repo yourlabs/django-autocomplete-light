@@ -39,8 +39,7 @@ class AutocompleteWidget(forms.SelectMultiple):
             raise forms.ValidationError('%s cannot find pk(s) %s' % (self.channel_name, values))
        
         return safestring.mark_safe(render_to_string([
-                'autocomplete_light/widget_%s.html' % self.channel_name,
-                'autocomplete_light/widget_%s.html' % self.channel_name.lower(),
+                'autocomplete_light/%s/widget.html' % self.channel_name.lower(),
                 'autocomplete_light/widget.html',
             ], {
                 'widget': self,
