@@ -103,8 +103,8 @@ Forms
 For convenience, a couple of helpers to enable autocomplete widgets eeasily in forms:
 
 forms.get_widgets_dict(model, autocomplete_exclude=None)
-    This method will return a dict of widget `usable by
-    Django<https://docs.djangoproject.com/en/dev/topics/forms/modelforms/#overriding-the-default-field-types-or-widgets>_`
+    This method will return a dict of widget `usable by Django
+    <https://docs.djangoproject.com/en/dev/topics/forms/modelforms/#overriding-the-default-field-types-or-widgets>`_
     for a given model class. Basically, it inspects the model class for
     foreign keys and many to many relations, and relies on the
     ChannelRegistry.channel_for_model() to instanciate an
