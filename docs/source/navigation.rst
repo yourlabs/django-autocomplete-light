@@ -23,7 +23,7 @@ Only two things matter:
 Actually, it's not totally true, you could do however you want, but that's the
 simple way i've found.
 
-Once this work, you can follow to the next step. For your inspiration, you may
+Once this works, you can follow to the next step. For your inspiration, you may
 also read the following example.
 
 Example

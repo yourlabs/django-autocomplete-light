@@ -52,8 +52,8 @@ Note that it was developed with jQuery 1.7.1.
 Load the scripts
 ~~~~~~~~~~~~~~~~
 
-If you're using
-`django.contrib.staticfiles<https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>_`
+If you're using `django.contrib.staticfiles
+<https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>`_
 or Pinax, this would work::
     
     <script src="{{ STATIC_URL }}autocomplete_light/autocomplete.js" type="text/javascript"></script>

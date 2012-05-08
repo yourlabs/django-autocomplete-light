@@ -36,6 +36,7 @@ Contents
    install
    navigation
    forms
+   templating
    admin
    funny
 
