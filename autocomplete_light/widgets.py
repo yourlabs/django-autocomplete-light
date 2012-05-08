@@ -48,8 +48,8 @@ class AutocompleteWidget(forms.SelectMultiple):
             values = value
        
         if values and not self.channel.are_valid(values):
-            raise Exception('%s cannot find pk(s) %s' % (self.channel_name, values))
-        
+            raise forms.ValidationError('%s cannot find pk(s) %s' % (self.channel_name, values))
+       
         return safestring.mark_safe(render_to_string([
                 'autocomplete_light/widget_%s.html' % self.channel_name,
                 'autocomplete_light/widget_%s.html' % self.channel_name.lower(),
