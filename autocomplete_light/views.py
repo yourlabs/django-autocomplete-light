@@ -3,9 +3,9 @@ from django.views import generic
 
 import autocomplete_light
 
-__all__ = ['JsonChannelView']
+__all__ = ['ChannelView']
 
-class JsonChannelView(generic.View):
+class ChannelView(generic.View):
     def get(self, request, *args, **kwargs):
         channel_class = autocomplete_light.registry[kwargs['channel']]
         channel = channel_class()
