@@ -96,26 +96,28 @@ AutocompleteDeck.prototype = {
             minCharacters: this.wrapper.data('mincharacters', 0),
         });
 
-        var deck = this;
-        $(document).bind('yourlabs_autocomplete.selectOption', function(e, autocomplete, result) {
-            if (autocomplete.options.id != deck.options.autocompletId) return;
-            deck.options.selectOption(deck, result);
-        });
-
-        $('.autocompleteselectwidget_light .deck .remove').live('click', function() {
-            var wrapper = $(this).parents('.autocompleteselectwidget_light');
-            if (!wrapper.length) return;
-            var deck = wrapper.yourlabs_deck();
-            var selector = deck.options.input.yourlabs_autocomplete().options.iterablesSelector;
-            var result = $(this).parents(selector);
-            deck.options.deselectOption(deck, result);
-        });
+        this.wrapper.attr('data-ready', '1');
     }
 }
 
 $(document).ready(function() {
     $('.autocompleteselectwidget_light[data-bootstrap=normal]').each(function() {
         $(this).yourlabs_deck();
+    });
+
+    $(document).bind('yourlabs_autocomplete.selectOption', function(e, autocomplete, result) {
+        var wrapper = autocomplete.el.parents('.autocompleteselectwidget_light');
+        var deck = wrapper.yourlabs_deck();
+        deck.options.selectOption(deck, result);
+    });
+
+    $('.autocompleteselectwidget_light .deck .remove').live('click', function() {
+        var wrapper = $(this).parents('.autocompleteselectwidget_light');
+        if (!wrapper.length) return;
+        var deck = wrapper.yourlabs_deck();
+        var selector = deck.options.input.yourlabs_autocomplete().options.iterablesSelector;
+        var result = $(this).parents(selector);
+        deck.options.deselectOption(deck, result);
     });
 
     // support values added directly in the select via js (ie. admin + sign)
@@ -125,7 +127,7 @@ $(document).ready(function() {
     // $('select#id_dependencies').append(
     //      '<option value="9999" selected="selected">blabla</option>')
     function updateDecks() {
-        $('.autocompleteselectwidget_light').each(function() {
+        $('.autocompleteselectwidget_light[data-ready=1]').each(function() {
             var deck = $(this).yourlabs_deck();
             var value = deck.options.valueSelect.val();
 
