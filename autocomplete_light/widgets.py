@@ -11,8 +11,8 @@ __all__ = ['AutocompleteWidget']
 class AutocompleteWidget(forms.SelectMultiple):
     class Media:
         js = (
-            'autocomplete_light/jquery-implementation.js',
-            'autocomplete_light/autocompletewidget.js',
+            'autocomplete_light/autocomplete.js',
+            'autocomplete_light/deck.js',
         )
 
     def __init__(self, channel_name, *args, **kwargs):
