@@ -26,18 +26,6 @@ class AutocompleteWidget(forms.SelectMultiple):
 
         super(AutocompleteWidget, self).__init__(*args, **kwargs)
     
-    def value_from_datadict(self, data, files, name):
-        if self.max_items == 1:
-            return forms.Select.value_from_datadict(self, data, files, name)
-        else:
-            return forms.SelectMultiple.value_from_datadict(self, data, files, name)
-
-    def _has_changed(self, initial, data):
-        if self.max_items == 1:
-            return forms.Select._has_changed(self, initial, data)
-        else:
-            return forms.SelectMultiple._has_changed(self, initial, data)
-
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs)
         self.html_id = final_attrs.pop('id', name)
@@ -66,3 +54,19 @@ class AutocompleteWidget(forms.SelectMultiple):
                 'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
             }
         ))
+    
+    # we might want to split up in two widgets for that ... is it necessary ?
+    # apparently not yet, but maybe at next django release
+    def value_from_datadict(self, data, files, name):
+        if self.max_items == 1:
+            return forms.Select.value_from_datadict(self, data, files, name)
+        else:
+            return forms.SelectMultiple.value_from_datadict(self, data, files, name)
+
+    def _has_changed(self, initial, data):
+        if self.max_items == 1:
+            return forms.Select._has_changed(self, initial, data)
+        else:
+            return forms.SelectMultiple._has_changed(self, initial, data)
+
+
