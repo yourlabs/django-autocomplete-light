@@ -11,6 +11,15 @@ function AutocompleteDeck(el, options) {
         'getValue': function(deck, result) {
             return result.data('value');
         },
+        'autocompleteOptions': {
+            url: this.options.channel.url,
+            id: this.options.autocompletId,
+            iterablesSelector: '.result',
+            minCharacters: this.wrapper.data('mincharacters', 0),
+        },
+        'initializeAutocomplete': function() {
+            this.options.input.yourlabs_autocomplete(this.options.autocompleteOptions);
+        },
         'selectOption': function(deck, result, force) {
             var value = deck.options.getValue(deck, result);
 
@@ -89,12 +98,7 @@ AutocompleteDeck.prototype = {
             this.options.input.hide();
         }
 
-        this.options.input.yourlabs_autocomplete({
-            url: this.options.channel.url,
-            id: this.options.autocompletId,
-            iterablesSelector: '.result',
-            minCharacters: this.wrapper.data('mincharacters', 0),
-        });
+        this.options.initializeAutocomplete();
 
         this.wrapper.attr('data-ready', '1');
     }
