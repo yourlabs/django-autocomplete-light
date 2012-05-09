@@ -44,7 +44,7 @@ that your channel class has a bootstrap attribute as such::
 
 Then, deck.js will not initialize the deck and autocomplete for widgets using
 this channel. Which means that you could safely initialize the deck with the
-options you want::
+overrides you want::
 
     $(document).ready(function() {
         $('.autocompleteselectwidget_light[data-bootstrap=funny]').each(function() {
@@ -59,6 +59,13 @@ options you want::
             });
         });
     });
+
+What happens in yourlabs_deck or yourlabs_autocomplete extensions, is that:
+
+- it will return the existing deck or autocomplete for the element if it already exists
+- otherwise, it will instanciate one, merge the array that was passed as
+  argument if any, and then call the initialize() method, which means that you
+  can override any attribute or method
 
 Funny example: autocompletes that depend on each others
 -------------------------------------------------------
