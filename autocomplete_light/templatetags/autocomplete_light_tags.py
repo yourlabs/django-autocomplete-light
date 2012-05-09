@@ -6,7 +6,13 @@ import autocomplete_light
 register = template.Library()
 
 @register.simple_tag
-def autocomplete_light_static(include_autocomplete=True, include_deck=False, include_style=True):
+def autocomplete_light_static(include_autocomplete=True, include_deck=True, 
+    include_style=True):
+    """
+    Render static_files that were autodiscovered, as well as javascript and
+    css dependencies (optionnal).
+    """
+
     static_list = []
 
     if include_autocomplete:
@@ -31,8 +37,15 @@ def autocomplete_light_static(include_autocomplete=True, include_deck=False, inc
 
 @register.filter
 def autocomplete_light_result_as_html(result, channel):
+    """Return channel.result_as_html for result and channel."""
     return channel.result_as_html(result)
 
 @register.filter
 def autocomplete_light_result_as_json(result, channel):
+    """
+    Return channel.result_as_json for result and channel.
+
+    Note that result_as_json is defined in JsonChannelBase, **not**
+    ChannelBase.
+    """
     return channel.result_as_json(result)

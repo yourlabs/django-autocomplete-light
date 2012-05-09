@@ -13,6 +13,9 @@ class AutocompleteWidget(forms.SelectMultiple):
     Widget suitable for ModelChoiceField and ModelMultipleChoiceField.
     """
 
+    class Media:
+        js = ('autocomplete_light/autocomplete.js',)
+
     def __init__(self, channel_name, *args, **kwargs):
         """
         Decorates SelectMultiple constructor 
