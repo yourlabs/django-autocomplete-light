@@ -15,7 +15,7 @@ function AutocompleteDeck(el) {
     };
     this.bindSelectOption = function() {
         this.input.bind('selectOption', function(e, option) {
-            var wrapper = $(this).parents('.autocompleteselectwidget_light');
+            var wrapper = $(this).parents('.autocomplete_light_widget');
             var deck = wrapper.yourlabs_deck();
             deck.selectOption(option);
         });
@@ -107,12 +107,12 @@ $.fn.yourlabs_deck = function(overrides) {
 }
 
 $(document).ready(function() {
-    $('.autocompleteselectwidget_light[data-bootstrap=normal]').each(function() {
+    $('.autocomplete_light_widget[data-bootstrap=normal]').each(function() {
         var deck = $(this).yourlabs_deck();
     });
 
-    $('.autocompleteselectwidget_light .deck .remove').live('click', function() {
-        var wrapper = $(this).parents('.autocompleteselectwidget_light');
+    $('.autocomplete_light_widget .deck .remove').live('click', function() {
+        var wrapper = $(this).parents('.autocomplete_light_widget');
         if (!wrapper.length) return;
         var deck = wrapper.yourlabs_deck();
         var selector = deck.input.yourlabs_autocomplete().iterablesSelector;
@@ -127,7 +127,7 @@ $(document).ready(function() {
     // $('select#id_dependencies').append(
     //      '<option value="9999" selected="selected">blabla</option>')
     function updateDecks() {
-        $('.autocompleteselectwidget_light[data-ready=1]').each(function() {
+        $('.autocomplete_light_widget[data-ready=1]').each(function() {
             var deck = $(this).yourlabs_deck();
             var value = deck.valueSelect.val();
 

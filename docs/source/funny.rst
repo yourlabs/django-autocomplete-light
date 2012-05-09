@@ -32,7 +32,7 @@ Remember when you've read that that deck.js initializes a deck for all autocompl
 
 In deck.js, you can see how it's bootstrapped with no custom options::
 
-    $('.autocompleteselectwidget_light[data-bootstrap=normal]').each(function() {
+    $('.autocomplete_light_widget[data-bootstrap=normal]').each(function() {
         $(this).yourlabs_deck();
     });
 
@@ -47,7 +47,7 @@ this channel. Which means that you could safely initialize the deck with the
 overrides you want::
 
     $(document).ready(function() {
-        $('.autocompleteselectwidget_light[data-bootstrap=funny]').each(function() {
+        $('.autocomplete_light_widget[data-bootstrap=funny]').each(function() {
             $(this).yourlabs_deck({
                 getValue: function(deck, result) {
                     // find funny ways to return the value (object pk in most cases)
