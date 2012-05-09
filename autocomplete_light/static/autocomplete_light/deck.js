@@ -68,6 +68,7 @@ function AutocompleteDeck(el) {
         id: this.autocompletId,
         iterablesSelector: '.result',
         minCharacters: this.wrapper.data('mincharacters', 0),
+        outerContainerClasses: 'autocomplete_light_widget',
     }
     this.initialize = function() {
         var results = this.deck.find('.result');

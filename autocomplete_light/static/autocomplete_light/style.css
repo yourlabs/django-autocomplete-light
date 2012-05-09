@@ -1,10 +1,10 @@
-.autocomplete {margin-bottom:5px;}
-.yourlabs_autocomplete { border: none; background: none; }
-.yourlabs_autocomplete.outer_container { position: relative; }
-.yourlabs_autocomplete.inner_container { position: absolute; left: -1px; top: 2px; border: 1px solid #E0EDF5; width: 260px; background: #fff; }
-.yourlabs_autocomplete ul { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; position: relative; list-style-type: none; max-height: 200px; }
-.yourlabs_autocomplete li { cursor: pointer; color: #000; padding: 5px 6px; }
-.yourlabs_autocomplete li:hover { color: #fff; background: #2e83db; }
+.autocomplete_light_widget .autocomplete {margin-bottom:5px;}
+.autocomplete_light_widget .yourlabs_autocomplete { border: none; background: none; }
+.autocomplete_light_widget .yourlabs_autocomplete.outer_container { position: relative; }
+.autocomplete_light_widget .yourlabs_autocomplete.inner_container { position: absolute; left: -1px; top: 2px; border: 1px solid #E0EDF5; width: 260px; background: #fff; }
+.autocomplete_light_widget .yourlabs_autocomplete ul { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; position: relative; list-style-type: none; max-height: 200px; }
+.autocomplete_light_widget .yourlabs_autocomplete li { cursor: pointer; color: #000; padding: 5px 6px; }
+.autocomplete_light_widget .yourlabs_autocomplete li:hover { color: #fff; background: #2e83db; }
 .autocomplete_light_widget .deck { padding-left: 165px; width: 262px; }
 .autocomplete_light_widget .deck li { font-size: 10px; margin-bottom: 5px; padding: 5px; background: -moz-linear-gradient(center top , #F4F7F9 0%, #EBF1F5 100%) repeat scroll 0 0 transparent; border-radius: 5px; }
 .autocomplete_light_widget .deck li span { display: inline-block; width: 210px; }

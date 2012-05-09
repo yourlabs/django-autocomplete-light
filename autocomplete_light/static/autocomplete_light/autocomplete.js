@@ -21,6 +21,7 @@
         this.queryVariable = 'q';
         this.blurTimeout = 500;
         this.appendTo = $('body');
+        this.outerContainerClasses = '';
         this.data = {};
 
         this.initialize = function() {
@@ -57,7 +58,7 @@
 
             this.el.keyup(function(e) { autocomplete.refresh(); });
 
-            $('<div id="id_'+this.id+'" class="yourlabs_autocomplete outer_container id_'+this.id+'" style="position:absolute;z-index:'+this.zindex+';"><div class="yourlabs_autocomplete id_'+this.id+'"><div class="yourlabs_autocomplete inner_container  id_'+this.id+'" style="display:none;"></div></div></div>').appendTo(this.appendTo);
+            $('<div id="id_'+this.id+'" class="'+this.outerContainerClasses+' yourlabs_autocomplete outer_container id_'+this.id+'" style="position:absolute;z-index:'+this.zindex+';"><div class="yourlabs_autocomplete id_'+this.id+'"><div class="yourlabs_autocomplete inner_container  id_'+this.id+'" style="display:none;"></div></div></div>').appendTo(this.appendTo);
             this.innerContainer = $('.yourlabs_autocomplete.inner_container.id_'+this.id);
             this.outerContainer = $('.yourlabs_autocomplete.outer_container.id_'+this.id);
 
