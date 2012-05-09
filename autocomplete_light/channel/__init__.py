@@ -1,2 +1,2 @@
-from .base import *
-from .json import *
+from .base import ChannelBase
+from .json import JSONChannelBase
