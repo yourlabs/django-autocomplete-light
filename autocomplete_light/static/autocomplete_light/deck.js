@@ -100,7 +100,8 @@ $.fn.yourlabs_deck = function(overrides) {
         $.fn.yourlabs_deck.registry[id] = new AutocompleteDeck(this);
         $.fn.yourlabs_deck.registry[id] = $.extend($.fn.yourlabs_deck.registry[id], overrides);
         $.fn.yourlabs_deck.registry[id].initialize();
-        $.fn.yourlabs_deck.registry[id].wrapper.trigger('deckReady', [this]);
+        $.fn.yourlabs_deck.registry[id].wrapper.attr('data-deckready', 1);
+        $.fn.yourlabs_deck.registry[id].wrapper.trigger('deckready');
     }
 
     return $.fn.yourlabs_deck.registry[id];
@@ -127,7 +128,7 @@ $(document).ready(function() {
     // $('select#id_dependencies').append(
     //      '<option value="9999" selected="selected">blabla</option>')
     function updateDecks() {
-        $('.autocomplete_light_widget[data-ready=1]').each(function() {
+        $('.autocomplete_light_widget[data-deckready=1]').each(function() {
             var deck = $(this).yourlabs_deck();
             var value = deck.valueSelect.val();
 
