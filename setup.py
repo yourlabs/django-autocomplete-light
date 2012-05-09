@@ -21,6 +21,9 @@ setup(
     long_description=read('README.rst'),
     license = 'MIT',
     keywords = 'django autocomplete',
+    requires=[
+        'django',
+    ],
     classifiers = [
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',

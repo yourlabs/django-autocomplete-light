@@ -37,6 +37,12 @@ Contents
    admin
    funny
 
+API
+---
+
+.. automodule:: autocomplete_light
+   :members:
+
 Indices and tables
 ==================
 
