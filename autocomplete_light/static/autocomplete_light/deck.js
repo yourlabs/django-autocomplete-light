@@ -92,6 +92,8 @@ $.fn.yourlabs_deck = function(options) {
     
     if ($.fn.yourlabs_deck.registry[id] == undefined) {
         $.fn.yourlabs_deck.registry[id] = new AutocompleteDeck(this, options);
+        $.fn.yourlabs_deck.registry[id].wrapper.trigger('yourlabs_deck.ready', [this]);
+        $.fn.yourlabs_deck.registry[id].wrapper.attr('data-ready', '1');
     }
 
     return $.fn.yourlabs_deck.registry[id];
