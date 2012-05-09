@@ -92,11 +92,11 @@ does.
 Check out the pieces used to achieve such a result:
 
 - `CityAutocompleteWidget multi widget, includes two AutocompleteWidget
-<https://github.com/yourlabs/django-cities-light/blob/master/cities_light/widgets.py>`_
+  <https://github.com/yourlabs/django-cities-light/blob/master/cities_light/widgets.py>`_,
 - `Custom bootstrap for that widget (countrycity)
-<https://github.com/yourlabs/django-cities-light/blob/master/cities_light/static/cities_light/autocomplete_light.js>`_
+  <https://github.com/yourlabs/django-cities-light/blob/master/cities_light/static/cities_light/autocomplete_light.js>`_,
 - `Custom query_filter for CityChannel
-https://github.com/yourlabs/django-cities-light/blob/master/cities_light/autocomplete_light_registry.py>`_
+  <https://github.com/yourlabs/django-cities-light/blob/master/cities_light/autocomplete_light_registry.py>`_,
 
 When things go wrong
 --------------------
