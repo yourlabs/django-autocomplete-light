@@ -17,12 +17,13 @@ class AutocompleteWidget(forms.SelectMultiple):
         
         from autocomplete_light import registry
         self.channel = registry[channel_name]()
-        
+
         self.max_items = kwargs.pop('max_items', 0)
         self.min_characters = kwargs.pop('min_characters', 0)
+        self.bootstrap = kwargs.pop('bootstrap', self.channel.bootstrap)
 
         super(AutocompleteWidget, self).__init__(*args, **kwargs)
-    
+
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs)
         self.html_id = final_attrs.pop('id', name)

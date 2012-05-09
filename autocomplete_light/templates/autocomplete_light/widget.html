@@ -1,7 +1,10 @@
 {% load i18n %}
 {% load autocomplete_light_tags %}
 
-<span class="autocompleteselectwidget_light" id="{{ widget.html_id }}_wrapper" data-maxitems="{{ widget.max_items }}" data-mincharacters="{{ widget.min_characters }}" data-bootstrap="{{ channel.bootstrap }}">
+<span class="autocompleteselectwidget_light {{ name }}" id="{{ widget.html_id }}_wrapper" 
+    data-maxitems="{{ widget.max_items }}" 
+    data-mincharacters="{{ widget.min_characters }}" 
+    data-bootstrap="{{ widget.bootstrap }}">
     <input type="text" class="autocomplete" name="{{ name }}_autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
     
     <select style="display:none" class="valueSelect" name="{{ name }}" id="{{ widget.html_id }}" {% if widget.max_items != 1 %}multiple="multiple"{% endif %}>
