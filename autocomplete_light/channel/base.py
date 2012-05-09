@@ -21,7 +21,7 @@ class ChannelBase(object):
             ]
 
     def get_absolute_url(self):
-        return urlresolvers.reverse('autocomplete_light_json_channel', args=(
+        return urlresolvers.reverse('autocomplete_light_channel', args=(
             self.__class__.__name__,))
     
     def as_dict(self):
