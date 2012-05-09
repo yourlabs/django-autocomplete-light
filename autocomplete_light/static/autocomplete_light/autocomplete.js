@@ -79,7 +79,7 @@
                 click: function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    $(document).trigger('yourlabs_autocomplete.selectOption', [autocomplete, $(this)]);
+                    autocomplete.el.trigger('yourlabs_autocomplete.selectOption', [$(this)]);
                 },
             });
 
@@ -117,7 +117,7 @@
                     if (option) {
                         e.preventDefault();
                         e.stopPropagation();
-                        $(document).trigger('yourlabs_autocomplete.selectOption', [this, option]);
+                        this.el.trigger('yourlabs_autocomplete.selectOption', [option]);
                     }
                     if(e.keyCode === 9){ return; }
                     break;

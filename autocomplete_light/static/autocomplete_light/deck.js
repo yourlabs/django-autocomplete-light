@@ -11,14 +11,15 @@ function AutocompleteDeck(el, options) {
         'getValue': function(deck, result) {
             return result.data('value');
         },
-        'autocompleteOptions': {
-            url: this.options.channel.url,
-            id: this.options.autocompletId,
-            iterablesSelector: '.result',
-            minCharacters: this.wrapper.data('mincharacters', 0),
-        },
         'initializeAutocomplete': function() {
-            this.options.input.yourlabs_autocomplete(this.options.autocompleteOptions);
+            this.input.yourlabs_autocomplete(this.autocompleteOptions);
+        },
+        'bindSelectOption': function() {
+            $(this.input).bind('yourlabs_autocomplete.selectOption', function(e, option) {
+                var wrapper = $(this).parents('.autocompleteselectwidget_light');
+                var deck = wrapper.yourlabs_deck();
+                deck.options.selectOption(deck, option);
+            });
         },
         'selectOption': function(deck, result, force) {
             var value = deck.options.getValue(deck, result);
@@ -64,7 +65,14 @@ function AutocompleteDeck(el, options) {
         },
     }
     this.options['autocompletId'] = this.options.input.attr('id');
+    this.options['autocompleteOptions'] = {
+        url: this.options.channel.url,
+        id: this.options.autocompletId,
+        iterablesSelector: '.result',
+        minCharacters: this.wrapper.data('mincharacters', 0),
+    }
     this.options = $.extend(this.options, options);
+    
     this.initialize();
 }
 
@@ -99,20 +107,13 @@ AutocompleteDeck.prototype = {
         }
 
         this.options.initializeAutocomplete();
-
-        this.wrapper.attr('data-ready', '1');
+        this.options.bindSelectOption();
     }
 }
 
 $(document).ready(function() {
     $('.autocompleteselectwidget_light[data-bootstrap=normal]').each(function() {
-        $(this).yourlabs_deck();
-    });
-
-    $(document).bind('yourlabs_autocomplete.selectOption', function(e, autocomplete, result) {
-        var wrapper = autocomplete.el.parents('.autocompleteselectwidget_light');
-        var deck = wrapper.yourlabs_deck();
-        deck.options.selectOption(deck, result);
+        var deck = $(this).yourlabs_deck();
     });
 
     $('.autocompleteselectwidget_light .deck .remove').live('click', function() {
