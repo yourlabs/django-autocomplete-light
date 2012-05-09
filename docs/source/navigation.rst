@@ -203,9 +203,8 @@ option by clicking on it for example::
 
     <script type="text/javascript">
     $(document).ready(function() {
-        $(document).bind('yourlabs_autocomplete.selectOption', function(e, autocomplete, option) {
-            // do nothing if selectOption does not come from the main autocomplete
-            if (autocomplete.options.id != 'main_autocomplete') return;
+        $('#search_bloc input[name=q]').bind('yourlabs_autocomplete.selectOption', function(e, option) {
+            var autocomplete = $(this).yourlabs_autocomplete();
 
             // hide the autocomplete
             autocomplete.hide();
