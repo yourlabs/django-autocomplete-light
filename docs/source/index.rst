@@ -23,9 +23,6 @@ This app fills all your ajax autocomplete needs:
 - **less sucking** code, no funny hacks, clean api, as few code as
   possible, that also means this is not for pushovers
 
-So, if you know django-ajax-selects, it does the same thing, and much
-more, with half the code of django-ajax-selects.
-
 Contents
 --------
 
