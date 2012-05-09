@@ -8,6 +8,6 @@
 .autocomplete_light_widget .deck { padding-left: 165px; width: 262px; }
 .autocomplete_light_widget .deck li { font-size: 10px; margin-bottom: 5px; padding: 5px; background: -moz-linear-gradient(center top , #F4F7F9 0%, #EBF1F5 100%) repeat scroll 0 0 transparent; border-radius: 5px; }
 .autocomplete_light_widget .deck li span { display: inline-block; width: 210px; }
-.autocomplete_light_widget .deck li .remove { float: right; color: #fff; text-indent: -999px; height: 15px; width: 15px; background: url('http://deva.maria.yourlabs.org/site_media/static/admin/img/admin/inline-delete.png'); margin-top: 2px; cursor: pointer; }
+.autocomplete_light_widget .deck li .remove { float: right; color: #fff; text-indent: -999px; height: 15px; width: 15px; background: url('../admin/img/admin/inline-delete.png'); margin-top: 2px; cursor: pointer; }
 .autocomplete_light_widget .deck li .remove:hover { background-position: -15px 0; }
 .autocomplete_light_widget .deck li:last-child { margin-bottom: 0; }
