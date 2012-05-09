@@ -26,6 +26,8 @@ What's the difference ?
 Status
 ------
 
-The API is not subject to many changes until the release. We've got pretty much
-everything we want except the design which is being worked on at the time of
-writing.
+The API is pretty stable, and it does everything we want. It has nice
+documentation and design.
+
+But I'll try to find time to write tests and revamp the documentation before
+uploading a release to pypi.
