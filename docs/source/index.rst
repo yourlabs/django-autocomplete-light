@@ -40,7 +40,19 @@ Contents
 API
 ---
 
-.. automodule:: autocomplete_light
+.. automodule:: autocomplete_light.forms
+   :members:
+.. automodule:: autocomplete_light.registry
+   :members:
+.. automodule:: autocomplete_light.views
+   :members:
+.. automodule:: autocomplete_light.widgets
+   :members:
+.. automodule:: autocomplete_light.templatetags.autocomplete_light_tags
+   :members:
+.. automodule:: autocomplete_light.channel.base
+   :members:
+.. automodule:: autocomplete_light.channel.json
    :members:
 
 Indices and tables
