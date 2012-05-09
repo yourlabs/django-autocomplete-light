@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name='django-autocomplete-light',
-    version='1.0',
+    version='0.1',
     description='Simple alternative to django-ajax-selects',
     author='James Pic (based on concepts and some code of django-ajax-selects)',
     author_email='jamespic@gmail.com',
