@@ -22,6 +22,7 @@
             queryVariable: 'q',
             blurTimeout: 500,
             appendTo: $('body'),
+            data: {},
         };
         this.setOptions(options);
         this.initialize();
@@ -213,7 +214,7 @@
             }
 
             autocomplete = this;
-            data = {}
+            data = this.options.data;
             data[this.options.queryVariable] = this.value;
             this.xhr = $.ajax(this.options.url, {
                 'data': data,
