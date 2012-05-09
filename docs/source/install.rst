@@ -64,7 +64,7 @@ has cities_light/static/cities_light/autocomplete_light.js.
 For your convenience, those are autodiscovered. To load all these scripts::
 
     {% load autocomplete_light_tags %}
-    {% autocomplete_light_js %}
+    {% autocomplete_light_static %}
 
 Note that this will also generate script tags for autocomplete.js and deck.js by default.
 
