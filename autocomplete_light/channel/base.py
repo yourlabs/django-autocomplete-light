@@ -12,8 +12,6 @@ class ChannelBase(object):
     bootstrap = 'normal'
 
     def __init__(self):
-        self.q = ''
-
         if hasattr(self.__class__, 'result_template'):
             self.result_template = self.__class__.result_template
         else:
@@ -36,10 +34,19 @@ class ChannelBase(object):
         self.request = request
         self.args = args
         self.kwargs = kwargs
-        self.q = self.parse_query()
 
-    def parse_query(self):
-        return self.request.GET.get('q', '')
+    def query_filter(self, results):
+        q = self.request.GET.get('q', None)
+
+        if q:
+            kwargs = { "%s__icontains" % self.search_field: q }
+            results = results.filter(**kwargs)
+
+        return results
+
+    def values_filter(self, results, pks):
+        results = results.filter(pk__in=pks)
+        return results
 
     def get_queryset(self):
         return self.model.objects.all()
@@ -49,13 +56,15 @@ class ChannelBase(object):
 
         if pks is not None:
             # used by the widget to prerender existing pks
-            results = results.filter(pk__in=pks)
+            results = self.values_filter(results, pks)
 
-        elif self.q:
+        elif self.request:
             # used by the autocomplete
-            kwargs = { "%s__icontains" % self.search_field: self.q }
-            results = results.filter(**kwargs)
+            results = self.query_filter(results)
         
+        return self.order_results(results)
+    
+    def order_results(self, results):
         return results.order_by(self.search_field).distinct()[0:self.max_results]
 
     def are_valid(self, pks):
