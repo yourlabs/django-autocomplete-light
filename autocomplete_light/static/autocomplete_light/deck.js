@@ -1,85 +1,91 @@
-function AutocompleteDeck(el, options) {
+function AutocompleteDeck(el) {
     this.wrapper = el;
     
-    this.options = {
-        'input': this.wrapper.find('input[type=text].autocomplete'),
-        'valueSelect': this.wrapper.find('select.valueSelect'),
-        'channel': $.parseJSON(this.wrapper.find('.json_channel').html()),
-        'deck': this.wrapper.find('.deck'),
-        'addTemplate': this.wrapper.find('.add_template .result'),
-        'maxItems': this.wrapper.data('maxitems'),
-        'getValue': function(deck, result) {
-            return result.data('value');
-        },
-        'initializeAutocomplete': function() {
-            this.input.yourlabs_autocomplete(this.autocompleteOptions);
-        },
-        'bindSelectOption': function() {
-            $(this.input).bind('yourlabs_autocomplete.selectOption', function(e, option) {
-                var wrapper = $(this).parents('.autocompleteselectwidget_light');
-                var deck = wrapper.yourlabs_deck();
-                deck.options.selectOption(deck, option);
-            });
-        },
-        'selectOption': function(deck, result, force) {
-            var value = deck.options.getValue(deck, result);
+    this.input = this.wrapper.find('input[type=text].autocomplete')
+    this.valueSelect = this.wrapper.find('select.valueSelect');
+    this.channel = $.parseJSON(this.wrapper.find('.json_channel').html());
+    this.deck = this.wrapper.find('.deck');
+    this.addTemplate = this.wrapper.find('.add_template .result');
+    this.maxItems = this.wrapper.data('maxitems');
+    this.getValue = function(result) {
+        return result.data('value');
+    };
+    this.initializeAutocomplete = function() {
+        this.input.yourlabs_autocomplete(this.autocompleteOptions);
+    };
+    this.bindSelectOption = function() {
+        this.input.bind('selectOption', function(e, option) {
+            var wrapper = $(this).parents('.autocompleteselectwidget_light');
+            var deck = wrapper.yourlabs_deck();
+            deck.selectOption(option);
+        });
+    };
+    this.selectOption = function(result, force) {
+        var value = this.getValue(result);
 
-            if (deck.options.valueSelect.find('option[value='+value+']').length && !force)
-                return; // value already selected and force is not on
+        if (this.valueSelect.find('option[value='+value+']').length && !force)
+            return; // value already selected and force is not on
 
-            deck.options.valueSelect.append(
-                '<option selected="selected" value="'+ value +'"></option>');
+        this.valueSelect.append(
+            '<option selected="selected" value="'+ value +'"></option>');
 
-            if (deck.options.maxItems && deck.options.valueSelect.find('option').length > deck.options.maxItems) {
-                var remove_option = deck.options.valueSelect.find('option:first');
-                var remove_value = remove_option.attr('value');
-                deck.options.deck.find('.result[data-value='+remove_value+']').remove();
-                remove_option.remove();
-            }
-            deck.options.valueSelect.trigger('change');
+        if (this.maxItems && this.valueSelect.find('option').length > this.maxItems) {
+            var remove_option = this.valueSelect.find('option:first');
+            var remove_value = remove_option.attr('value');
+            this.deck.find('.result[data-value='+remove_value+']').remove();
+            remove_option.remove();
+        }
+        this.valueSelect.trigger('change');
 
-            if (deck.options.maxItems && deck.options.valueSelect.find('option').length == deck.options.maxItems) {
-                deck.options.input.hide();
-                deck.options.input.val('');
-            }
+        if (this.maxItems && this.valueSelect.find('option').length == this.maxItems) {
+            this.input.hide();
+            this.input.val('');
+        }
 
-            var result = result.clone();
-            deck.options.deck.append(result);
-            result.append('<span class="remove">' + deck.wrapper.find('.remove').html() + '</span>');
-            deck.options.deck.show();
-        },
-        'deselectOption': function(deck, result) {
-            var value = deck.options.getValue(deck, result);
-
-            deck.options.valueSelect.find('option[value='+value+']').remove();
-            deck.options.valueSelect.trigger('change');
-            result.remove();
-
-            if (deck.options.deck.find('*').length == 0) {
-                deck.options.deck.hide();
-            }
-
-            if (deck.options.maxItems && deck.options.valueSelect.find('option').length < deck.options.maxItems) {
-                deck.options.input.show();
-            }
-        },
+        var result = result.clone();
+        this.deck.append(result);
+        result.append('<span class="remove">' + this.wrapper.find('.remove').html() + '</span>');
+        this.deck.show();
     }
-    this.options['autocompletId'] = this.options.input.attr('id');
-    this.options['autocompleteOptions'] = {
-        url: this.options.channel.url,
-        id: this.options.autocompletId,
+    this.deselectOption = function(deck, result) {
+        var value = this.getValue(deck, result);
+
+        this.valueSelect.find('option[value='+value+']').remove();
+        this.valueSelect.trigger('change');
+        result.remove();
+
+        if (this.deck.find('*').length == 0) {
+            this.deck.hide();
+        }
+
+        if (this.maxItems && this.valueSelect.find('option').length < this.maxItems) {
+            this.input.show();
+        }
+    };
+    this.autocompletId = this.input.attr('id');
+    this.autocompleteOptions = {
+        url: this.channel.url,
+        id: this.autocompletId,
         iterablesSelector: '.result',
         minCharacters: this.wrapper.data('mincharacters', 0),
     }
-    this.options = $.extend(this.options, options);
-    
-    this.initialize();
+    this.initialize = function() {
+        var results = this.deck.find('.result');
+
+        results.append(this.wrapper.find('.remove:last').clone().show());
+        if (this.maxItems > 0 && results.length == this.maxItems) {
+            this.input.hide();
+        }
+
+        this.initializeAutocomplete();
+        this.bindSelectOption();
+    }
 }
 
-$.fn.yourlabs_deck = function(options) {
+$.fn.yourlabs_deck = function(overrides) {
     var id;
-    options = options ? options : {};
-    id = options.id || this.attr('id');
+    overrides = overrides ? overrides : {};
+    id = overrides.id || this.attr('id');
 
     if (!(id && this)) {
         alert('failure: the element needs an id attribute, or an id option must be passed');
@@ -91,26 +97,13 @@ $.fn.yourlabs_deck = function(options) {
     }
     
     if ($.fn.yourlabs_deck.registry[id] == undefined) {
-        $.fn.yourlabs_deck.registry[id] = new AutocompleteDeck(this, options);
-        $.fn.yourlabs_deck.registry[id].wrapper.trigger('yourlabs_deck.ready', [this]);
-        $.fn.yourlabs_deck.registry[id].wrapper.attr('data-ready', '1');
+        $.fn.yourlabs_deck.registry[id] = new AutocompleteDeck(this);
+        $.fn.yourlabs_deck.registry[id] = $.extend($.fn.yourlabs_deck.registry[id], overrides);
+        $.fn.yourlabs_deck.registry[id].initialize();
+        $.fn.yourlabs_deck.registry[id].wrapper.trigger('deckReady', [this]);
     }
 
     return $.fn.yourlabs_deck.registry[id];
-}
-
-AutocompleteDeck.prototype = {
-    initialize: function() {
-        var results = this.options.deck.find('.result');
-
-        results.append(this.wrapper.find('.remove:last').clone().show());
-        if (this.options.maxItems > 0 && results.length == this.options.maxItems) {
-            this.options.input.hide();
-        }
-
-        this.options.initializeAutocomplete();
-        this.options.bindSelectOption();
-    }
 }
 
 $(document).ready(function() {
@@ -122,9 +115,9 @@ $(document).ready(function() {
         var wrapper = $(this).parents('.autocompleteselectwidget_light');
         if (!wrapper.length) return;
         var deck = wrapper.yourlabs_deck();
-        var selector = deck.options.input.yourlabs_autocomplete().options.iterablesSelector;
+        var selector = deck.input.yourlabs_autocomplete().iterablesSelector;
         var result = $(this).parents(selector);
-        deck.options.deselectOption(deck, result);
+        deck.deselectOption(result);
     });
 
     // support values added directly in the select via js (ie. admin + sign)
@@ -136,18 +129,18 @@ $(document).ready(function() {
     function updateDecks() {
         $('.autocompleteselectwidget_light[data-ready=1]').each(function() {
             var deck = $(this).yourlabs_deck();
-            var value = deck.options.valueSelect.val();
+            var value = deck.valueSelect.val();
 
             function updateValueDisplay(value) {
                 if (!value) return;
 
-                var result = deck.options.deck.find('.result[data-value='+value+']');
+                var result = deck.deck.find('.result[data-value='+value+']');
                 if (!result.length) {
-                    var result = deck.options.addTemplate.clone();
-                    var html = deck.options.valueSelect.find('option[value='+value+']').html();
+                    var result = deck.addTemplate.clone();
+                    var html = deck.valueSelect.find('option[value='+value+']').html();
                     result.html(html);
                     result.attr('data-value', value);
-                    deck.options.selectOption(deck, result, true);
+                    deck.selectOption(result, true);
                 }
             }
 
