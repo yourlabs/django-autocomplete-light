@@ -62,10 +62,10 @@ class ChannelBase(object):
             # used by the autocomplete
             results = self.query_filter(results)
         
-        return self.order_results(results)
+        return self.order_results(results)[0:self.max_results]
     
     def order_results(self, results):
-        return results.order_by(self.search_field).distinct()[0:self.max_results]
+        return results.order_by(self.search_field).distinct()
 
     def are_valid(self, pks):
         return self.get_queryset().filter(pk__in=pks).count() == len(pks)
