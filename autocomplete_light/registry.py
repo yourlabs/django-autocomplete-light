@@ -1,6 +1,8 @@
+import os.path
+
 from .channel import ChannelBase
 
-__all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover')
+__all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover', 'jslist')
 
 class ChannelRegistry(dict):
     _models = {} # warning: this variable may change structure, rely on channel_for_model
@@ -28,6 +30,11 @@ def _autodiscover(registry):
    
     for app in settings.INSTALLED_APPS:
         mod = import_module(app)
+        # check if the app has static/appname/autocomplete_light.js
+        bootstrap_path = 'static/%s/autocomplete_light.js' % mod.__name__
+        if os.path.exists(os.path.join(mod.__path__[0], bootstrap_path)):
+            jslist.append(bootstrap_path[7:])
+
         # Attempt to import the app's admin module.
         try:
             before_import_registry = copy.copy(registry)
@@ -45,6 +52,7 @@ def _autodiscover(registry):
             if module_has_submodule(mod, 'autocomplete_light_registry'):
                 raise
 
+jslist = []
 registry = ChannelRegistry()
 autodiscover = lambda: _autodiscover(registry)
 
