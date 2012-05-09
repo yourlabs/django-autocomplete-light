@@ -48,8 +48,6 @@ Add to your base template::
     {% load autocomplete_light_tags %}
     {% autocomplete_light_static %}
 
-Details in the `install`_ documentation.
-
 Quick admin integration
 -----------------------
 
@@ -74,8 +72,6 @@ In yourapp/admin.py::
         form = autocomplete_light.modelform_factory(Book)
     admin.site.register(Book, BookAdmin)
 
-Details in the `forms`_ and `admin`_ documentation.
-
 Full documentation
 ------------------
 
@@ -89,24 +85,6 @@ Full documentation
    templating
    admin
    funny
-
-API
----
-
-.. automodule:: autocomplete_light.forms
-   :members:
-.. automodule:: autocomplete_light.registry
-   :members:
-.. automodule:: autocomplete_light.views
-   :members:
-.. automodule:: autocomplete_light.widgets
-   :members:
-.. automodule:: autocomplete_light.templatetags.autocomplete_light_tags
-   :members:
-.. automodule:: autocomplete_light.channel.base
-   :members:
-.. automodule:: autocomplete_light.channel.json
-   :members:
 
 Indices and tables
 ==================

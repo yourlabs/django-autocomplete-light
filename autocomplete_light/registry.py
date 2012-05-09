@@ -7,6 +7,7 @@ register -- Shortcut to registry.register()
 autodiscover -- Find channels and javascript and css, fill registry and static_list
 static_list -- List of static files found in other apps, used by the templatetag
 """
+
 import os.path
 
 from .channel import ChannelBase
@@ -41,11 +42,11 @@ class ChannelRegistry(dict):
 
         Three cases are possible:
         - specify model class and ModelNameChannel will be generated extending
-          ChannelBase, with attribute model=model
+        ChannelBase, with attribute model=model
         - specify a model and a channel class that does not have a model attribute,
-          and a ModelNameChannel will be generated, with attribute model=model
+        and a ModelNameChannel will be generated, with attribute model=model
         - specify a model and a channel class with a model attribute, and the
-          channel is directly registered
+        channel is directly registered
 
         To keep things simple, the name of a channel is it's class name.
         """
@@ -100,7 +101,7 @@ def autodiscover():
 
     For each app, autodiscover:
     - imports app.autocomplete_light_registry if available, resulting in
-      execution of register() statements in that module, filling registry
+    execution of register() statements in that module, filling registry
     - checks for app/static/app/autocomplete_light.js, adds it to static_list
     - checks for app/static/app/autocomplete_light.css, adds it to static_list
 

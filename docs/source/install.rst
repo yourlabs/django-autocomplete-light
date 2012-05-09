@@ -66,7 +66,7 @@ For your convenience, those are autodiscovered. To load all these scripts::
     {% load autocomplete_light_tags %}
     {% autocomplete_light_static %}
 
-Note that this will also generate script tags for autocomplete.js and deck.js by default.
+.. autofunction:: autocomplete_light.templatetags.autocomplete_light_tags.autocomplete_light_static
 
 Obviously, you should put this after your script tag that loads jQuery.
 
