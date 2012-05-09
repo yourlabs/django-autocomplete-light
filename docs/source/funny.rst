@@ -60,145 +60,36 @@ options you want::
         });
     });
 
-Funny example: results with no pk
----------------------------------
+Funny example: autocompletes that depend on each others
+-------------------------------------------------------
 
-So, I had a very funny requirement: propose results in the autocomplete that
-are in a remote database, and import them as needed.
+Consider `django-cities-light models
+<https://github.com/yourlabs/django-cities-light/blob/master/cities_light/models.py>`_.
+There is a Country and a City model.
 
-For example, websiteInsane has the following authors:
+If you have an Address model with an FK to City, then there is no need for
+Address to have an FK to Country. Because you could get the country of an
+address with address.city.country.
 
-- Hunter S. Thompson
-- Daniel Montbars
+However, there are many cities called "Paris". So you could either make your
+city results display as 'Paris (France)', either have a multiwidget with two
+autocompletes:
 
-And websiteHumanist has authors:
+- one to select the country
+- one to select the city, that proposes cities filtered by the selected country
 
-- Giovanni Pico della Mirandola
-- Dante Alighieri
+That's exactly what `CityAutocompleteWidget
+<https://github.com/yourlabs/django-cities-light/blob/master/cities_light/widgets.py>`_
+does.
 
-Well in both websites, the autocomplete should propose all 4 authors. So
-websiteHumanist should propose two results which don't have a pk in its
-database and vice-versa.
+Check out the pieces used to achieve such a result:
 
-That's what RemoteChannel looks like::
-
-    class RemoteChannel(autocomplete_light.JSONChannelBase):
-        bootstrap = 'remote'
-
-        def get_results(self, pks=None):
-            # get the local results ...
-            results = super(RemoteChannel, self).get_results(pks)
-
-            if pks is None:
-                # if pks was something, then it would mean that this function is called
-                # by are_valid() rather than render_autocomplete
-
-                results += self.get_remote_results()
-            return results
-
-        def get_remote_results(self):
-            # use some api to return results
-            results = self.fetch_results()
-
-            # don't forget to clear the pk of the remote models as they don't
-            # exist in the local database !!
-            for result in results:
-                result._remote_pk = result.pk
-                result.pk = None
-
-            return results
-
-        def result_as_dict(self, result):
-            remote_pk = getattr(result, '_remote_pk', None)
-
-            if not remote_pk:
-                # result is local, it has a pk here
-                return super(RemoteChannel, self).result_as_dict(result)
-
-            # result comes from elsewhere, we need a url from our site, that is
-            # able to import it from the other site, and respond with the local
-            # pk
-            url = 'someurl' + '?' + urllib.urlencode({'pk': remote_pk})
-
-            return {
-                'import_url': url # local import url
-            }
-
-That's what the view of the import url looks like::
-
-    class ApiView(generic.View):
-        def post(self, request, *args, **kwargs):
-            # some security checks here ...
-            
-            # get the model class from the url
-            self.model_class = get_model(kwargs['app_label'],
-                kwargs['module_name'])
-
-            # make the remote url
-            url = '/api/%s/%s/%s/?format=json' % (
-                kwargs['app_label'],
-                kwargs['module_name'],
-                request.GET['pk'],
-            )
-            url = 'http://' + settings.DATA_MASTER + url
-
-            obj = self.fetch(url)
-
-            return http.HttpResponse(obj.pk)
-
-        def fetch(self, url):
-            # in case you're wondering, we're talking with djangorestframework here
-            app_name = url.split('/')[-4]
-            model_name = url.split('/')[-3]
-            model_class = get_model(app_name, model_name)
-
-            fh = urllib.urlopen(url)
-            data = simplejson.loads(fh.read())
-            fh.close()
-
-            for key, value in data.items():
-                if isinstance(value, str) and settings.DATA_MASTER in value:
-                    data[key] = self.fetch(value)
-            model, created = model_class.objects.get_or_create(**data)
-            return model
-
-And (a lot of fun later), that's what it's bootstrapping javascript code looks like::
-
-    $(document).ready(function() {
-        $('.autocompleteselectwidget_light[data-bootstrap=remote]').each(function() {
-            $(this).yourlabs_deck({
-                'getValue': function(deck, result) {
-                    // autocomplete_light/result_with_json.html stacks the json
-                    // in a hidden textarea by default, let's parse it
-                    data = $.parseJSON(result.find('textarea').html());
-                    
-                    // in the case of a local result, we already have a value
-                    if (data.value) {
-                        return data.value;
-                    }   
-                    
-                    // otherwise, we have an url that will import the model and return
-                    // the local pk
-                    if (data.import_url) {
-                        var value = false;
-                        $.ajax(data.import_url, {
-                            async: false, // important to block everything
-                            type: 'post',
-                            success: function(text, jqXHR, textStatus) {
-                                value = text;
-                            },  
-                        }); 
-                        return value;
-                    }   
-                }   
-            }); 
-        }); 
-    }); 
-
-Think of it as you want, it's far from as buggy and ugly as it was when I had
-ajax_selects all monkey patched to achieve the same result, in an horrible way.
-
-I hope you like it, and if you do: please read the code.
+- `CityAutocompleteWidget multi widget, includes two AutocompleteWidget
+<https://github.com/yourlabs/django-cities-light/blob/master/cities_light/widgets.py>`_
+- `Custom bootstrap for that widget (countrycity)
+<https://github.com/yourlabs/django-cities-light/blob/master/cities_light/static/cities_light/autocomplete_light.js>`_
+- `Custom query_filter for CityChannel
+https://github.com/yourlabs/django-cities-light/blob/master/cities_light/autocomplete_light_registry.py>`_
 
 When things go wrong
 --------------------
