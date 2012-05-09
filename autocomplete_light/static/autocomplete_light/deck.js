@@ -47,8 +47,8 @@ function AutocompleteDeck(el) {
         result.append('<span class="remove">' + this.wrapper.find('.remove').html() + '</span>');
         this.deck.show();
     }
-    this.deselectOption = function(deck, result) {
-        var value = this.getValue(deck, result);
+    this.deselectOption = function(result) {
+        var value = this.getValue(result);
 
         this.valueSelect.find('option[value='+value+']').remove();
         this.valueSelect.trigger('change');
