@@ -1,5 +1,5 @@
-Full documentation
-==================
+Integration with forms
+======================
 
 The purpose of this documentation is to describe every element in a
 chronological manner. Because you want to know everything about this app and
@@ -54,7 +54,7 @@ application specific javascript, it can look like this::
     {% load autocomplete_light_tags %}
     {% autocomplete_light_static %}
 
-.. autofunction:: autocomplete_light.templatetags.autocomplete_light_static
+.. autofunction:: autocomplete_light.templatetags.autocomplete_light_tags.autocomplete_light_static
 
 That said, if you only want to make a global navigation autocomplete, you only need::
     

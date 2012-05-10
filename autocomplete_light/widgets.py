@@ -11,6 +11,20 @@ __all__ = ['AutocompleteWidget']
 class AutocompleteWidget(forms.SelectMultiple):
     """
     Widget suitable for ModelChoiceField and ModelMultipleChoiceField.
+
+    Example usage::
+
+        from django import forms
+
+        import autocomplete_light
+
+        from models import Author
+
+        class AuthorsForm(forms.Form):
+            lead_author = forms.ModelChoiceField(Author.objects.all(), widget=
+                autocomplete_light.AutocompleteWidget('AuthorChannel', max_items=1))
+            contributors = forms.ModelMultipleChoiceField(Author.objects.all(), widget=
+                autocomplete_light.AutocompleteWidget('AuthorChannel'))
     """
 
     class Media:

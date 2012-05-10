@@ -55,16 +55,7 @@ In yourapp/admin.py::
 Quick form integration
 ----------------------
 
-AutocompleteWidget is usable on ModelChoiceField and ModelMultipleChoiceField::
+AutocompleteWidget is usable on ModelChoiceField and ModelMultipleChoiceField.
 
-    from django import forms
-
-    import autocomplete_light
-
-    from models import Author
-
-    class AuthorsForm(forms.ModelForm):
-        lead_author = forms.ModelChoiceField(Author.objects.all(), widget=
-            autocomplete_light.AutocompleteWidget('AuthorChannel', max_items=1))
-        contributors = forms.ModelMultipleChoiceField(Author.objects.all(), widget=
-            autocomplete_light.AutocompleteWidget('AuthorChannel'))
+.. autoclass:: autocomplete_light.widgets.AutocompleteWidget
+   :noindex:
