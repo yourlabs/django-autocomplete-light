@@ -130,6 +130,7 @@ class ChannelBase(object):
         Return an iterable of result to display in the autocomplete box.
 
         By default, it will:
+
         - call self.get_queryset(),
         - call values_filter() if values is not None,
         - call query_filter() if self.request is set,

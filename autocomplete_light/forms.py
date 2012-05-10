@@ -1,8 +1,11 @@
 """
 A couple of shortcut functions to enable AutocompleteWidget in ModelForms.
 
-get_widgets_dict -- Return a dict of field_name: widget_instance for model.
-modelform_factory -- Return a modelform with AutocompleteWidgets.
+get_widgets_dict
+    Return a dict of field_name: widget_instance for model.
+
+modelform_factory
+    Return a modelform with AutocompleteWidgets.
 """
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.db.models import ForeignKey, OneToOneField
@@ -17,8 +20,8 @@ def get_widgets_dict(model, autocomplete_exclude=None):
     Return a dict of field_name: widget_instance for model that is compatible
     with Django.
     
-    Keyword arguments:
-    autocomplete_exclude -- the list of model field names to ignore
+    autocomplete_exclude
+        the list of model field names to ignore
 
     Inspect the model's field and many to many fields, calls
     registry.channel_for_model to get the channel for the related model. If a

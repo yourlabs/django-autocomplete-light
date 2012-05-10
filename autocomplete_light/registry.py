@@ -41,8 +41,6 @@ class ChannelRegistry(dict):
         """
         Add a model to the registry, optionnaly with a given channel class.
 
-        Keyword arguments:
-
         model
             the model class to register
 
@@ -112,7 +110,7 @@ def autodiscover():
     For each app, autodiscover:
 
     - imports app.autocomplete_light_registry if available, resulting in
-    execution of register() statements in that module, filling registry
+      execution of register() statements in that module, filling registry
     - checks for app/static/app/autocomplete_light.js, adds it to static_list
     - checks for app/static/app/autocomplete_light.css, adds it to static_list
 
