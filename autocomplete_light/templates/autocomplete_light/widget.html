@@ -1,28 +1,39 @@
 {% load i18n %}
 {% load autocomplete_light_tags %}
 
+{% comment %}
+The outer element is called the 'widget wrapper'. It contains some data
+attributes to communicate between Python and JavaScript. And of course, it
+wraps around everything the widget needs.
+{% endcomment %}
 <span class="autocomplete_light_widget {{ name }}" id="{{ widget.html_id }}_wrapper" 
     data-maxitems="{{ widget.max_items }}" 
     data-mincharacters="{{ widget.min_characters }}" 
     data-bootstrap="{{ widget.bootstrap }}">
+    
+    {# a text input, that is the 'autocomplete input' #}
     <input type="text" class="autocomplete" name="{{ name }}_autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
     
+    {# a hidden select, that contains the actual selected values #}
     <select style="display:none" class="valueSelect" name="{{ name }}" id="{{ widget.html_id }}" {% if widget.max_items != 1 %}multiple="multiple"{% endif %}>
         {% for value in values %}
             <option value="{{ value }}" selected="selected">{{ value }}</option>
         {% endfor %}
     </select>
 
+    {# a deck that should contain the list of selected options #}
     <ul id="{{ html_id }}_deck" class="deck" >
         {% for result in results %}
             {{ result|autocomplete_light_result_as_html:channel }}
         {% endfor %}
     </ul>
 
+    {# a hidden textarea that contains some json about the channel #}
     <textarea class="json_channel" style="display:none">
         {{ json_channel }}
     </textarea>
     
+    {# a hidden div that serves as template for the 'remove from deck' button #}
     <div style="display:none" class="remove">
         {# This will be appended to results on the deck, it's the remove button #}
         X
