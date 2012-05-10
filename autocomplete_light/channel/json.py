@@ -8,9 +8,7 @@ class JSONChannelBase(ChannelBase):
     def __init__(self):
         super(JSONChannelBase, self).__init__()
 
-        if hasattr(self.__class__, 'result_template'):
-            self.result_template = self.__class__.result_template
-        else:
+        if not self.result_template:
             self.result_template = [
                 'autocomplete_light/result_%s.html' % self.__class__.__name__,
                 'autocomplete_light/result_with_json.html',
