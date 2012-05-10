@@ -44,6 +44,23 @@ To save you some boilerplate, a couple of helpers are provided:
 .. automodule:: autocomplete_light.forms
    :members:
 
+Page rendering
+--------------
+
+It is important to load jQuery first, and then autocomplete_light and
+application specific javascript, it can look like this::
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    {% load autocomplete_light_tags %}
+    {% autocomplete_light_static %}
+
+.. autofunction:: autocomplete_light.templatetags.autocomplete_light_static
+
+That said, if you only want to make a global navigation autocomplete, you only need::
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}autocomplete_light/autocomplete.js" type="text/javascript"></script>
+
 Widget in action
 ~~~~~~~~~~~~~~~~
 
