@@ -1,144 +1,142 @@
-Using autocompletes in forms
-============================
+Full documentation
+==================
 
-Before getting started, make sure you have read about channels, the channel
-registry, widgets and forms. It's okay if you don't understand it fully as
-we'll go into details in that chapter.
+The purpose of this documentation is to describe every element in a
+chronological manner. Because you want to know everything about this app and
+hack like crazy.
 
-Rather than demonstrating high level usage of this app, this chapter is written
-to teach you everything in this app from the ground up.
+It is complementary with the quick documentation.
 
-Register a channel
-------------------
+Django startup
+~~~~~~~~~~~~~~
 
-Consider a app, 'books', with a Book and an Author model, where Book.author is
-a ForeignKey to Author.
+Registry
+--------
 
-Django's ModelForm creates a ModelChoiceField for the author field of Book. By
-default, the widget for ModelChoiceField is a Select. If we want to override that to
-use an AutocompleteWidget, then we have to register a channel for the Author
-model.
+Autodiscovery is part of the `autocomplete_light.registry` module:
 
-In books/autocomplete_light_registry.py, you could do as little as::
+.. automodule:: autocomplete_light.registry
 
-    import autocomplete_light
+Autodiscovery is the first thing that happens as it is called early in urls.py:
 
-    from models import Author
+.. autofunction:: autocomplete_light.registry.autodiscover
 
-    autocomplete_light.register(Author)
+It fills `autocomplete_light.registry.registry`, which is an instance of
+ChannelRegistry:
 
-This will register a channel called AuthorChannel, that's simply a ChannelBase
-with model=Author. Like with ModelAdmins, you could register a particular
-channel for one or several particular models. Here's an example to filter
-objects based on the request user::
- 
-    import autocomplete_light
+.. autoclass:: autocomplete_light.registry.ChannelRegistry
+   :members:
 
-    from models import Author, Book
+Channels
+--------
 
-    class UserChannel(autocomplete_light.ChannelBase):
-        def get_queryset(self):
-            qs = self.model.objects.all()
+As you can see, registration creates a channel if it is only passed a model.
+You'll want to make your own channel class, this is what a channel looks like:
 
-            request = getattr(self, request, None)
-            if request:
-                qs = qs.filter(created_by=request.user)
+.. automodule:: autocomplete_light.channel.base
+   :members:
 
-            return qs
+Forms
+-----
 
-    autocomplete_light.register(Author, UserChannel)
-    autocomplete_light.register(Book, UserChannel)
+To save you some boilerplate, a couple of helpers are provided:
 
-Go ahead and read the code of channel.base.ChannelBase, it's simple and
-concise. You'll find what you can do. Here are a few things worth mentionning
-so that you don't end up pulling your hair off:
+.. automodule:: autocomplete_light.forms
+   :members:
 
-- channels are registered as class
-- channels are instanciated before they can be used
-- when ChannelView instanciates a channel to render the autocomplete, it calls
-  the channel method init_for_request
-- when the widget instanciates a channel to validate values (selected model
-  ids), it does not call init_for_request because it doesn't have the request
-  instance, however it does call are_valid()
-- the channel name is composed of the model name + the base channel class name
+Widget in action
+~~~~~~~~~~~~~~~~
 
-Discover channels
+Widget definition
 -----------------
 
-Of course, books.autocomplete_light_registry should be imported at some point,
-or we'll never know about your channels.
+The first thing that happens is the definition of an AutocompleteWidget in a
+form:
 
-And obviously, before books.admin as books.admin might use forms that have
-autocompletes.
+.. autoclass:: autocomplete_light.widgets.AutocompleteWidget
+   :members:
 
-In your root url configuration, likely project_root/urls.py, add
-autocomplete_light.autodiscover() as such::
+Widget rendering
+----------------
 
-    import autocomplete_light
-    autocomplete_light.autodiscover()
+This is what the default widget template looks like:
 
-    from django.contrib import admin
-    admin.autodiscover()
+.. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/widget.html
+   :language: html
 
-Using AutocompleteWidget
-------------------------
+Javascript initialization
+-------------------------
 
-As mentionned in the design documentation, two options are really important:
+deck.js initializes all widgets that have bootstrap='normal' (the default), as you can see::
 
-- channel_name: the name of the channel that the widget should use
-- max_items: the number of items the user can select
+    $('.autocomplete_light_widget[data-bootstrap=normal]').each(function() {
+        $(this).yourlabs_deck();
+    });
 
-Consider such a model::
+If you want to initialize the deck yourself, set the widget or channel
+bootstrap to something else, say 'yourinit'. Then, add to
+`yourapp/static/yourapp/autocomplete_light.js` something like::
 
-    class Task(models.Model):
-        name = models.CharField(max_length=200)
-        
-        parent = ForeignKey('Task', null=True, blank=False, related_name='sub_task_set')
-        dependencies = models.ManyToManyField('Task', related_name='blocked_tasks_set', blank=True)
+    $('.autocomplete_light_widget[data-bootstrap=yourinit]').each(function() {
+        $(this).yourlabs_deck({
+            getValue: function(result) {
+                // your own logic to get the value from an html result
+                return ...;
+            }
+        });
+    });
 
-Assuming you've registered a channel for Task as such::
+`yourapp/static/yourapp/autocomplete_light.js` will be automatically collected by
+by autodiscover, and the script tag generated by 
+`{% autocomplete_light_static %}`.
 
-    import autocomplete_light
+In `django-cities-light source
+<http://yourlabs.github.com/django-cities-light/>`_, you can see a `more interresting example
+<https://github.com/yourlabs/django-cities-light/blob/master/cities_light/static/cities_light/autocomplete_light.js>`_
+where two autocompletes depend on each other.
 
-    from models import Task
+You should take a look at the code of `autocomplete.js
+<https://github.com/yourlabs/django-autocomplete-light/blob/master/autocomplete_light/static/autocomplete_light/autocomplete.js>`_ 
+and `deck.js
+<https://github.com/yourlabs/django-autocomplete-light/blob/master/autocomplete_light/static/autocomplete_light/deck.js>`_,
+as it lets you override everything.
 
-    autocomplete_light.register(Task)
+One interresting note is that the plugins (yourlabs_autocomplete and
+yourlabs_deck) hold a registry. Which means that:
 
+- calling someElement.yourlabs_deck() will instanciate a deck with the passed
+  overrides
+- calling someElement.yourlabs_deck() again will return the deck instance for
+  someElement
 
-This model is interresting because it contains both a ForeignKey and a
-ManyToManyField. This is how you could make a ModelForm for this model in tasks/forms.py::
+Javascript cron
+---------------
 
-    from django import forms
+deck.js includes a javascript function that is executed every two seconds. It
+checks each widget's hidden select for a value that is not in the deck, and
+adds it to the deck if any.
 
-    import autocomplete_light
+This is useful for example, when an item was added to the hidden select via the
+'+' button in django admin. But if you create items yourself in javascript and
+add them to the select it would work too.
 
-    from models import Task
+Javascript events
+-----------------
 
-    class TaskForm(forms.ModelForm):
-        class Meta:
-            model = Task
-         
-        parent = forms.ModelChoiceField(Task.objects.all(),
-            widget=autocomplete_light.AutocompleteWidget(channel_name='TaskChannel', max_items=1))
-         
-        dependencies = forms.ModelMultipleChoiceField(Task.objects.all(),
-            widget=autocomplete_light.AutocompleteWidget(channel_name='TaskChannel'))
+When the autocomplete input is focused, autocomplete.js checks if there are
+enought caracters in the input to display an autocomplete box. If minCharacters
+is 0, then it would open even if the input is empty, like a normal select box.
 
-But in reality, you could just use autocomplete_light.modelform_factory and
-obtain the same result::
+If the autocomplete box is empty, it will fetch the channel view. The channel
+view will delegate the rendering of the autocomplete box to the actual channel.
+So that you can override anything you want directly in the channel.
 
-    import autocomplete_light
+Then, autocomplete.js recognizes options with a selector. By default, it is
+'.result'. This means that any element with the '.result' class in the
+autocomplete box is considered as an option.
 
-    from models import Task
+When an option is selected, deck.js calls it's method getValue() and adds this
+value to the hidden select. Also, it will copy the result html to the deck.
 
-    TaskForm = autocomplete_light.modelform_factory(Task)
-
-Which is the same as::
-
-    from django.forms.models import modelform_factory
-
-    import autocomplete_light
-
-    from models import Task
-
-    TaskForm = modelform_factory(Task, widgets=autocomplete_light.get_widgets_dict(Task))
+When an option is removed from the deck, deck.js also removes it from the
+hidden select.
