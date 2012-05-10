@@ -20,7 +20,7 @@ Only two things matter:
 - each option should contain an url of course, to redirect the user when he
   selects a option
 
-Actually, it's not totally true, you could do however you want, but that's the
+Actually, it's not totally true, you could do however you want, but that's a
 simple way i've found.
 
 Once this works, you can follow to the next step. For your inspiration, you may
@@ -34,15 +34,10 @@ project-specific, non-reusable, code. So in project_specific/autocomplete.py of
 a project I have this::
 
     from django import shortcuts
-    from django import template
     from django.db.models import Q
-    from django.contrib.auth.decorators import login_required
-    from django.contrib.auth.models import User
 
-    from crm.models import Contact
     from art.models import Artist, Artwork
 
-    @login_required
     def autocomplete(request,
         template_name='project_specific/autocomplete.html', extra_context=None):
         q = request.GET['q'] # crash if q is not in the url
@@ -56,22 +51,18 @@ a project I have this::
         queries['artists'] = Artist.objects.filter(
             Q(first_name__icontains=q)|Q(last_name__icontains=q)|Q(name__icontains=q)
             ).distinct()[:3]
-        queries['contacts'] = Contact.objects.filter(
-            Q(first_name__icontains=q)|Q(last_name__icontains=q)|Q(name__icontains=q)
-            ).distinct()[:3]
-        queries['users'] = User.objects.filter(
-            Q(first_name__icontains=q)|Q(last_name__icontains=q)|Q(username__icontains=q)
-            ).distinct()[:3]
+        # more ...
 
+        # install queries into the context
         context.update(queries)
 
+        # mix options
         options = 0
         for query in queries.values():
             options += len(query)
         context['options'] = options
 
-        return shortcuts.render_to_response(template_name, context,
-            context_instance=template.RequestContext(request))
+        return shortcuts.render(request, template_name, context)
 
 And in project_specific/autocomplete.html::
 
@@ -108,26 +99,7 @@ And in project_specific/autocomplete.html::
             </li>
         {% endfor %}
     {% endif %}
-    {% if contacts %}
-        <li><em>{% trans 'Contacts' %}</em></li>
-        {% for contact in contacts %}
-            <li class="contact">
-                <a href="{{ contact.get_absolute_url }}">
-                    {{ contact }}
-                </a>
-            </li>
-        {% endfor %}
-    {% endif %}
-    {% if users %}
-        <li><em>{% trans 'Users' %}</em></li>
-        {% for user in users %}
-            <li class="user">
-                <a href="{% url 'admin:auth_user_change' user.pk %}">
-                    {{ user }}
-                </a>
-            </li>
-        {% endfor %}
-    {% endif %}
+    {# more ...}
 
     {% if not options %}
         <li><em>{% trans 'No options' %}</em></li>
