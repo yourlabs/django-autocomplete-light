@@ -15,9 +15,9 @@ This app fills all your ajax autocomplete needs:
   unlimited design possibilities
 - **99%** of the python logic is encapsulated in "channel" classes, unlimited
   development possibilities
-- **99%** the javascript logic is encapsulated in an "options" array, 
-  unlimited development possibilities
-- **no** inline javascript, you can load the javascript just before </body> for
+- **99%** the javascript logic is encapsulated in a class, you can override any
+  attribute or method, unlimited development possibilities
+- **0 inline javascript** you can load the javascript just before </body> for
   best page loading performance
 - **simple** python, html and javascript, easy to hack
 - **less sucking** code, no funny hacks, clean api, as few code as

@@ -9,6 +9,8 @@ Quick install
 
 Install the package::
 
+    pip install django-autocomplete-light
+    # or the development version
     pip install -e git+git://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
 
 Add to INSTALLED_APPS: 'autocomplete_light'
