@@ -148,6 +148,15 @@ If the autocomplete box is empty, it will fetch the channel view. The channel
 view will delegate the rendering of the autocomplete box to the actual channel.
 So that you can override anything you want directly in the channel.
 
+.. autoclass:: autocomplete_light.views.ChannelView
+   :members:
+
+.. automethod:: autocomplete_light.channel.base.ChannelBase.render_autocomplete
+   :noindex:
+
+.. automethod:: autocomplete_light.channel.base.ChannelBase.result_as_html
+   :noindex:
+
 Then, autocomplete.js recognizes options with a selector. By default, it is
 '.result'. This means that any element with the '.result' class in the
 autocomplete box is considered as an option.
