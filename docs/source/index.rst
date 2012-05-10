@@ -30,8 +30,8 @@ Full documentation
    :maxdepth: 3
 
    quick
-   navigation
    forms
+   navigation
 
 When things go wrong
 --------------------
