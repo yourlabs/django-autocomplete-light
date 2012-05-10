@@ -21,6 +21,7 @@ sys.path.insert(0, os.path.abspath('../../../../lib/python2.7/site-packages/'))
 from django.conf import settings
 settings.configure()
 
+html_style = None
 html_theme = 'nature'
 
 # -- General configuration -----------------------------------------------------
