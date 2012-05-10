@@ -230,11 +230,11 @@ pre {
 tt {
     background-color: #ecf0f3;
     padding: 0 1px 0 1px;
-    font-size: 1.2em;
+    font-size: 1.05em;
 }
 
 tt.descname {
-    font-size: 1.8em;
+    font-size: 1.2em;
 }
 
 th {
@@ -261,5 +261,5 @@ div.viewcode-block:target {
 
 dt {
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
