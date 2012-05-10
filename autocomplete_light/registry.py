@@ -52,13 +52,11 @@ class ChannelRegistry(dict):
         Three cases are possible:
 
         - specify model class and ModelNameChannel will be generated extending
-        ChannelBase, with attribute model=model
-
+          ChannelBase, with attribute model=model
         - specify a model and a channel class that does not have a model attribute,
-        and a ModelNameChannel will be generated, with attribute model=model
-        
+          and a ModelNameChannel will be generated, with attribute model=model
         - specify a model and a channel class with a model attribute, and the
-        channel is directly registered
+          channel is directly registered
 
         To keep things simple, the name of a channel is it's class name.
         """
