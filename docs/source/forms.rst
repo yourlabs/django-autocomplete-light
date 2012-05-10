@@ -21,7 +21,8 @@ Autodiscovery is the first thing that happens as it is called early in urls.py:
 
 .. autofunction:: autocomplete_light.registry.autodiscover
 
-It fills `autocomplete_light.registry.registry`, which is an instance of
+autocomplete_light.registry.autodiscover fills
+`autocomplete_light.registry.registry`, which is an instance of
 ChannelRegistry:
 
 .. autoclass:: autocomplete_light.registry.ChannelRegistry
