@@ -23,8 +23,6 @@ This app fills all your ajax autocomplete needs:
 - **less sucking** code, no funny hacks, clean api, as few code as
   possible, that also means this is not for pushovers
 
-
-
 Full documentation
 ------------------
 
@@ -34,6 +32,20 @@ Full documentation
    quick
    navigation
    forms
+
+When things go wrong
+--------------------
+
+If you don't know how to debug, you should learn to use:
+
+Firebug javascript debugger
+    Open the script tab, select a script, click on the left of the code to
+    place a breakpoint
+
+Ipdb python debugger
+    Install ipdb with pip, and place in your python code: import ipdb; ipdb.set_trace()
+
+If you are able to do that, then you are a professional, enjoy autocomplete_light !!!
 
 Indices and tables
 ==================
