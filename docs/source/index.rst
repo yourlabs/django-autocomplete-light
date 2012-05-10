@@ -47,6 +47,10 @@ Ipdb python debugger
 
 If you are able to do that, then you are a professional, enjoy autocomplete_light !!!
 
+If you need help, open an issue on the `github issues page
+<https://github.com/yourlabs/django-autocomplete-light/issues>`_. Also, don't
+hesitate to do pull requests !
+
 Indices and tables
 ==================
 
