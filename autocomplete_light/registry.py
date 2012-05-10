@@ -1,11 +1,20 @@
 """
 Provide tools to maintain a registry of channels.
 
-ChannelRegistry -- Subclass of Python's dict type with specific methods
-registry -- Instance of ChannelRegistry
-register -- Shortcut to registry.register()
-autodiscover -- Find channels and javascript and css, fill registry and static_list
-static_list -- List of static files found in other apps, used by the templatetag
+ChannelRegistry
+    Subclass of Python's dict type with specific methods
+
+registry
+    Instance of ChannelRegistry
+
+register 
+    Shortcut to registry.register()
+
+autodiscover
+    Find channels and javascript and css, fill registry and static_list
+
+static_list 
+    List of static files found in other apps, used by the templatetag
 """
 
 import os.path
@@ -17,10 +26,6 @@ __all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover', 'static_li
 class ChannelRegistry(dict):
     """
     Dict with some shortcuts to handle a registry of channels.
-
-    Methods:
-    channel_for_model -- Return the default channel class for a model
-    register -- Register a model, optionnaly with a particular channel class
     """
 
     _models = {} # warning: this variable may change structure, rely on channel_for_model
@@ -37,14 +42,21 @@ class ChannelRegistry(dict):
         Add a model to the registry, optionnaly with a given channel class.
 
         Keyword arguments:
-        model -- the model class to register
-        channel -- the channel class to register the model with, default to ChannelBase
+
+        model
+            the model class to register
+
+        channel
+            the channel class to register the model with, default to ChannelBase
 
         Three cases are possible:
+
         - specify model class and ModelNameChannel will be generated extending
         ChannelBase, with attribute model=model
+
         - specify a model and a channel class that does not have a model attribute,
         and a ModelNameChannel will be generated, with attribute model=model
+        
         - specify a model and a channel class with a model attribute, and the
         channel is directly registered
 
@@ -100,6 +112,7 @@ def autodiscover():
     Check all apps in INSTALLED_APPS for stuff related to autocomplete_light.
 
     For each app, autodiscover:
+
     - imports app.autocomplete_light_registry if available, resulting in
     execution of register() statements in that module, filling registry
     - checks for app/static/app/autocomplete_light.js, adds it to static_list
