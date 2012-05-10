@@ -6,13 +6,13 @@ __all__ = ('JSONChannelBase', )
 
 class JSONChannelBase(ChannelBase):
     def __init__(self):
-        super(JSONChannelBase, self).__init__()
-
         if not self.result_template:
             self.result_template = [
                 'autocomplete_light/result_%s.html' % self.__class__.__name__,
                 'autocomplete_light/result_with_json.html',
             ]
+
+        super(JSONChannelBase, self).__init__()
 
     def result_as_dict(self, result):
         return { 'value': result.pk }
