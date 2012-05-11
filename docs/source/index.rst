@@ -40,9 +40,9 @@ Javascript API
 Work in progress:
 
 - `autocomplete.js
-<_static/autocomplete.html>`_,
+  <_static/autocomplete.html>`_
 - `deck.js
-<_static/deck.html>`_,
+  <_static/deck.html>`_
 
 When things go wrong
 --------------------

@@ -31,6 +31,7 @@ for script in ('autocomplete', 'deck'):
         os.path.join(project_root, 'autocomplete_light/static/autocomplete_light/%s.js' % script),
         static_root
     )
+    html = html.replace('../../../docs/source/_static/pycco.css', 'pycco.css')
     f = open(os.path.join(static_root, '%s.html' % script), 'w+')
     f.write(html)
     f.close()
