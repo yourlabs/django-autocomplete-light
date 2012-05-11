@@ -12,3 +12,5 @@ class AddressForm(forms.ModelForm):
         
     class Meta:
         model = Address
+        widgets = autocomplete_light.get_widgets_dict(Address, 
+            autocomplete_exclude='city')
