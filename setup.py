@@ -1,5 +1,6 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
 import os
+import sys
 
 # Utility function to read the README file.
 # Used for the long_description. It's nice, because now 1) we have a top level
@@ -7,6 +8,32 @@ import os
 # string in below ...
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+class RunTests(Command):
+    description = "Run the django test suite from the testproj dir."
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        this_dir = os.getcwd()
+        testproj_dir = os.path.join(this_dir, "test_project")
+        os.chdir(testproj_dir)
+        sys.path.append(testproj_dir)
+        from django.core.management import execute_manager
+        os.environ["DJANGO_SETTINGS_MODULE"] = 'test_project.settings'
+        #os.environ.get(
+                        #"DJANGO_SETTINGS_MODULE", "settings")
+        settings_file = os.environ["DJANGO_SETTINGS_MODULE"]
+        settings_mod = __import__(settings_file, {}, {}, [''])
+        execute_manager(settings_mod, argv=[
+            __file__, "test", "autocomplete_light"])
+        os.chdir(this_dir)
 
 setup(
     name='django-autocomplete-light',
@@ -21,6 +48,7 @@ setup(
     long_description=read('README.rst'),
     license = 'MIT',
     keywords = 'django autocomplete',
+    cmdclass = {"test": RunTests},
     requires=[
         'django',
     ],
