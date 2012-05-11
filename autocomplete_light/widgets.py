@@ -63,6 +63,11 @@ class AutocompleteWidget(forms.SelectMultiple):
             you want to implement your own bootstrapping logic in javascript,
             then you set bootstrap to anything that is not "normal". By
             default, its value is copied from channel.bootstrap.
+        
+        placeholder
+            The initial value of the autocomplete input field. It can be something
+            like 'type your search here'. By default, it is copied from 
+            channel.placeholder.
         """
         self.channel_name = channel_name
         
@@ -72,6 +77,7 @@ class AutocompleteWidget(forms.SelectMultiple):
         self.max_items = kwargs.pop('max_items', 0)
         self.min_characters = kwargs.pop('min_characters', 0)
         self.bootstrap = kwargs.pop('bootstrap', self.channel.bootstrap)
+        self.placeholder = kwargs.pop('placeholder', self.channel.placeholder)
 
         super(AutocompleteWidget, self).__init__(*args, **kwargs)
 

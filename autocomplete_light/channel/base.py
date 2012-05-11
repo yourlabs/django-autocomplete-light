@@ -1,6 +1,6 @@
 from django.core import urlresolvers
-from django import template
 from django.template import loader
+from django.utils.translation import ugettext_lazy as _
 
 __all__ = ('ChannelBase',)
 
@@ -43,12 +43,16 @@ class ChannelBase(object):
         you want to implement your own bootstrapping logic in javascript,
         then you set bootstrap to anything that is not "normal". Default is
         'normal'.
+    
+    placeholder
+        The initial text in the autocomplete text input.
     """
 
     model = None
     search_field = 'name'
     limit_results = 20
     bootstrap = 'normal'
+    placeholder = _(u'type some text to search in this autocomplete')
     result_template = None
     autocomplete_template = None
 

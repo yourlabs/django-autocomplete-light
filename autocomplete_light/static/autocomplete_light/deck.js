@@ -67,8 +67,9 @@ function AutocompleteDeck(el) {
         url: this.channel.url,
         id: this.autocompletId,
         iterablesSelector: '.result',
-        minCharacters: this.wrapper.data('mincharacters', 0),
+        minCharacters: this.wrapper.data('mincharacters'),
         outerContainerClasses: 'autocomplete_light_widget',
+        defaultValue: this.wrapper.data('defaultvalue'),
     }
     this.initialize = function() {
         var results = this.deck.find('.result');

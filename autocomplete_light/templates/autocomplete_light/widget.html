@@ -9,8 +9,16 @@ wraps around everything the widget needs.
 <span class="autocomplete_light_widget {{ name }}" id="{{ widget.html_id }}_wrapper" 
     data-maxitems="{{ widget.max_items }}" 
     data-mincharacters="{{ widget.min_characters }}" 
-    data-bootstrap="{{ widget.bootstrap }}">
+    data-bootstrap="{{ widget.bootstrap }}"
+    data-defaultvalue="{{ widget.placeholder }}">
     
+    {# a deck that should contain the list of selected options #}
+    <ul id="{{ html_id }}_deck" class="deck" >
+        {% for result in results %}
+            {{ result|autocomplete_light_result_as_html:channel }}
+        {% endfor %}
+    </ul>
+
     {# a text input, that is the 'autocomplete input' #}
     <input type="text" class="autocomplete" name="{{ name }}_autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
     
@@ -20,13 +28,6 @@ wraps around everything the widget needs.
             <option value="{{ value }}" selected="selected">{{ value }}</option>
         {% endfor %}
     </select>
-
-    {# a deck that should contain the list of selected options #}
-    <ul id="{{ html_id }}_deck" class="deck" >
-        {% for result in results %}
-            {{ result|autocomplete_light_result_as_html:channel }}
-        {% endfor %}
-    </ul>
 
     {# a hidden textarea that contains some json about the channel #}
     <textarea class="json_channel" style="display:none">
