@@ -1,21 +1,51 @@
+// The autocomplete class constructor. Basically it takes a takes a text input
+// element as argument, and sets attributes and methods for this instance.
 function Autocomplete(el) {
+    // The text input element that should have the suggestion box.
     this.el = el;
+    // Disable browser's autocomplete on that element.
     this.el.attr('autocomplete', 'off');
+    // Sets the initial value to an empty string.
     this.value = '';
+    // Current XMLHttpRequest that is kept so that when another request is
+    // started, a unfinished request is aborted. This avoids having several
+    // ajax requests at the time.
     this.xhr = false;
+    // Url of the autocomplete view, that should parse the queryVariable and
+    // return a rendered autocomplete box.
     this.url = false;
+    // Time to wait after a key was pressed in the text input before firing an
+    // ajax request.
     this.timeout = 100;
+    // The id of this autocomplete instance. It should be unique as it is used
+    // as key by the plugin registry of Autocomplete instances.
     this.id = false;
+    // Fire the autocomplete after that number of characters is in the
+    // autocomplete.
     this.minCharacters = 2;
+    // Text input default text, used as a placeholder.
     this.defaultValue = 'type your search here';
+    // Class of the currently hovered element.
     this.activeClass = 'active';
+    // A selector that matches all options of the autocomplete.
     this.iterablesSelector = 'li:has(a)';
+    // Name of the variable to pass to the Autocomplete url. For example, if
+    // the text input contains 'abc' then it will fetch the autocomplete box
+    // from this url
+    // this.url + '?' + this.queryVariable + '=abc'.
     this.queryVariable = 'q';
+    // Milliseconds after which the script should check if the autocomplete box
+    // should be hidden
     this.blurTimeout = 500;
+    // Where to append the autocomplete suggestion box, note that it's placed
+    // absolutely.
     this.appendTo = $('body');
+    // Extra classes to add to the autocomplete box container.
     this.outerContainerClasses = '';
+    // Extra data to pass to the autocomplete url.
     this.data = {};
 
+    // Called after an Autocomplete was instanciated *and* overridden.
     this.initialize = function() {
         var autocomplete = this;
 
