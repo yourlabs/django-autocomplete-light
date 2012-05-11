@@ -15,11 +15,12 @@ from .registry  import registry
 
 __all__ = ['get_widgets_dict', 'modelform_factory']
 
+
 def get_widgets_dict(model, autocomplete_exclude=None):
     """
     Return a dict of field_name: widget_instance for model that is compatible
     with Django.
-    
+
     autocomplete_exclude
         the list of model field names to ignore
 
@@ -46,8 +47,8 @@ def get_widgets_dict(model, autocomplete_exclude=None):
         channel = registry.channel_for_model(field.rel.to)
         if not channel:
             continue
-        
-        widgets[field.name] = AutocompleteWidget(channel_name=channel.__name__, 
+
+        widgets[field.name] = AutocompleteWidget(channel_name=channel.__name__,
             max_items=1)
 
     for field in model._meta.many_to_many:
@@ -61,6 +62,7 @@ def get_widgets_dict(model, autocomplete_exclude=None):
         widgets[field.name] = AutocompleteWidget(channel_name=channel.__name__)
 
     return widgets
+
 
 def modelform_factory(model, autocomplete_exclude=None,
     **kwargs):

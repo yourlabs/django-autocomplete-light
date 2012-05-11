@@ -8,4 +8,3 @@ urlpatterns = patterns('',
         name='autocomplete_light_channel'
     ),
 )
-

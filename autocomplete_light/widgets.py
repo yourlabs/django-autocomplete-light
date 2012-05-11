@@ -8,6 +8,7 @@ from .channel import *
 
 __all__ = ['AutocompleteWidget']
 
+
 class AutocompleteWidget(forms.SelectMultiple):
     """
     Widget suitable for ModelChoiceField and ModelMultipleChoiceField.
@@ -32,7 +33,7 @@ class AutocompleteWidget(forms.SelectMultiple):
 
     def __init__(self, channel_name, *args, **kwargs):
         """
-        Decorates SelectMultiple constructor 
+        Decorates SelectMultiple constructor
 
         Arguments:
         channel_name -- the name of the channel that this widget should use.
@@ -48,7 +49,7 @@ class AutocompleteWidget(forms.SelectMultiple):
             only allow 3 selected items. It should be set to 1 if the widget is
             for a ModelChoiceField or ForeignKey, in that case it would be like
             a normal select. Default is 0.
-        
+
         min_characters
             The minimum number of characters before the autocomplete box shows
             up. If set to 2 for example, then the autocomplete box will show up
@@ -63,14 +64,14 @@ class AutocompleteWidget(forms.SelectMultiple):
             you want to implement your own bootstrapping logic in javascript,
             then you set bootstrap to anything that is not "normal". By
             default, its value is copied from channel.bootstrap.
-        
+
         placeholder
             The initial value of the autocomplete input field. It can be something
-            like 'type your search here'. By default, it is copied from 
+            like 'type your search here'. By default, it is copied from
             channel.placeholder.
         """
         self.channel_name = channel_name
-        
+
         from autocomplete_light import registry
         self.channel = registry[channel_name]()
 
@@ -101,10 +102,10 @@ class AutocompleteWidget(forms.SelectMultiple):
             values = [value]
         else:
             values = value
-       
+
         if values and not self.channel.are_valid(values):
             raise forms.ValidationError('%s cannot find pk(s) %s' % (self.channel_name, values))
-       
+
         return safestring.mark_safe(render_to_string([
                 'autocomplete_light/%s/widget.html' % self.channel_name.lower(),
                 'autocomplete_light/widget.html',
@@ -120,7 +121,7 @@ class AutocompleteWidget(forms.SelectMultiple):
                 'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
             }
         ))
-    
+
     # we might want to split up in two widgets for that ... is it necessary ?
     # apparently not yet, but maybe at next django release
     def value_from_datadict(self, data, files, name):

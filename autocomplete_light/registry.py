@@ -7,13 +7,13 @@ ChannelRegistry
 registry
     Instance of ChannelRegistry
 
-register 
+register
     Shortcut to registry.register()
 
 autodiscover
     Find channels and javascript and css, fill registry and static_list
 
-static_list 
+static_list
     List of static files found in other apps, used by the templatetag
 """
 
@@ -23,12 +23,14 @@ from .channel import ChannelBase
 
 __all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover', 'static_list')
 
+
 class ChannelRegistry(dict):
     """
     Dict with some shortcuts to handle a registry of channels.
     """
 
-    _models = {} # warning: this variable may change structure, rely on channel_for_model
+    # warning: this variable may change structure, rely on channel_for_model
+    _models = {}
 
     def channel_for_model(self, model):
         """Return the channel class for a given model."""
@@ -66,13 +68,14 @@ class ChannelRegistry(dict):
         self[channel.__name__] = channel
         self._models[channel.model] = channel
 
+
 def _autodiscover(registry):
     """See documentation for autodiscover (without the underscore)"""
     import copy
     from django.conf import settings
     from django.utils.importlib import import_module
     from django.utils.module_loading import module_has_submodule
-   
+
     for app in settings.INSTALLED_APPS:
         mod = import_module(app)
         # check if the app has static/appname/autocomplete_light.js
@@ -103,6 +106,7 @@ def _autodiscover(registry):
 static_list = []
 registry = ChannelRegistry()
 
+
 def autodiscover():
     """
     Check all apps in INSTALLED_APPS for stuff related to autocomplete_light.
@@ -126,9 +130,9 @@ def autodiscover():
                 cities_light/
                     autocomplete_light.js
                     autocomplete_light.css
-    
+
     With such a autocomplete_light_registry.py::
-    
+
         from models import City, Country
         import autocomplete_light
         autocomplete_light.register(City)
@@ -144,6 +148,7 @@ def autodiscover():
     templatetag, read it's documentation for details.
     """
     _autodiscover(registry)
+
 
 def register(model, channel=None):
     """Pass arguments to registry.register"""

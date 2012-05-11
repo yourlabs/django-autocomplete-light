@@ -2,6 +2,7 @@ import unittest
 
 from autocomplete_light.templatetags import autocomplete_light_tags
 
+
 class StaticTagTestCase(unittest.TestCase):
     def test_output(self):
         expected = ''.join([

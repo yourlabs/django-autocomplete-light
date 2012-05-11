@@ -5,6 +5,7 @@ import autocomplete_light
 
 __all__ = ['ChannelView']
 
+
 class ChannelView(generic.View):
     """Simple view that routes the request to the appropriate channel."""
 
@@ -30,4 +31,3 @@ class ChannelView(generic.View):
         channel = channel_class()
         channel.init_for_request(request, *args, **kwargs)
         return http.HttpResponse(channel.render_autocomplete())
-

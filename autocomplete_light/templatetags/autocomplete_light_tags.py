@@ -5,8 +5,9 @@ import autocomplete_light
 
 register = template.Library()
 
+
 @register.simple_tag
-def autocomplete_light_static(include_autocomplete=True, include_deck=True, 
+def autocomplete_light_static(include_autocomplete=True, include_deck=True,
     include_style=True):
     """
     Render static_files that were autodiscovered, as well as javascript and
@@ -35,10 +36,12 @@ def autocomplete_light_static(include_autocomplete=True, include_deck=True,
 
     return output
 
+
 @register.filter
 def autocomplete_light_result_as_html(result, channel):
     """Return channel.result_as_html for result and channel."""
     return channel.result_as_html(result)
+
 
 @register.filter
 def autocomplete_light_result_as_json(result, channel):
