@@ -1,3 +1,5 @@
+.. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
+
 This is a simple alternative to django-ajax-selects.
 
 Resources
