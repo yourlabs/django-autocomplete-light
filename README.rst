@@ -14,6 +14,9 @@ http://travis-ci.org/yourlabs/django-autocomplete-light
 Git graciously hosted by GitHub:
 https://github.com/yourlabs/django-autocomplete-light/
 
+Package graciously hosted by PyPi:
+http://pypi.python.org/pypi/django-autocomplete-light/
+
 Demo
 ----
 
