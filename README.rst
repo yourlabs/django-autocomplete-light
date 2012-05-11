@@ -1,7 +1,7 @@
 This is a simple alternative to django-ajax-selects.
 
 Documentation graciously hosted by RTFD:
-http://readthedocs.org/docs/django-autocomplete-light/en/latest/
+http://django-autocomplete-light.rtfd.org
 
 Continuous integration graciously hosted by Travis:
 http://travis-ci.org/yourlabs/django-autocomplete-light
