@@ -27,8 +27,6 @@ class RunTests(Command):
         sys.path.append(testproj_dir)
         from django.core.management import execute_manager
         os.environ["DJANGO_SETTINGS_MODULE"] = 'test_project.settings'
-        #os.environ.get(
-                        #"DJANGO_SETTINGS_MODULE", "settings")
         settings_file = os.environ["DJANGO_SETTINGS_MODULE"]
         settings_mod = __import__(settings_file, {}, {}, [''])
         execute_manager(settings_mod, argv=[
@@ -49,7 +47,7 @@ setup(
     license = 'MIT',
     keywords = 'django autocomplete',
     cmdclass = {"test": RunTests},
-    requires=[
+    install_requires=[
         'django',
     ],
     classifiers = [
