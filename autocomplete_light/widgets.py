@@ -28,9 +28,6 @@ class AutocompleteWidget(forms.SelectMultiple):
                 autocomplete_light.AutocompleteWidget('AuthorChannel'))
     """
 
-    class Media:
-        js = ('autocomplete_light/autocomplete.js',)
-
     def __init__(self, channel_name, *args, **kwargs):
         """
         Decorates SelectMultiple constructor
