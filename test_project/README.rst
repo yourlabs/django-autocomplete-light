@@ -1,12 +1,3 @@
-Just open http://127.0.0.1:8000/admin (user: test, pass: test) after doing::
-
-    virtualenv autocomplete_light_env
-    source autocomplete_light_env/bin/activate
-    pip install -e git+git://github.com/yourlabs/django-autocomplete-light.git#egg=autocomplete_light
-    cd autocomplete_light_env/src/autocomplete-light/test_project
-    pip install -r requirements.txt
-    ./manage.py runserver
-
 Once you have the test_project server running (see INSTALL if you don't), open
 `the first contact
 <http://localhost:8000/admin/project_specific/contact/1/>`_.
