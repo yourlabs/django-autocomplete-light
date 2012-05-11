@@ -19,7 +19,7 @@ This app fills all your ajax autocomplete needs:
   attribute or method, unlimited development possibilities
 - **0 inline javascript** you can load the javascript just before </body> for
   best page loading performance
-- **simple** python, html and javascript, easy to hack
+- **simple** python, html and javascript, easy to hack, PEP8 compliant
 - **less sucking** code, no funny hacks, clean api, as few code as
   possible, that also means this is not for pushovers
 
