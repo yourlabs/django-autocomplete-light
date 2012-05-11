@@ -1,5 +1,5 @@
 """
-Provide tools to maintain a registry of channels.
+The registry module provides tools to maintain a registry of channels.
 
 ChannelRegistry
     Subclass of Python's dict type with specific methods

@@ -3,12 +3,15 @@ Just open http://127.0.0.1:8000/admin (user: test, pass: test) after doing::
     virtualenv autocomplete_light_env
     source autocomplete_light_env/bin/activate
     pip install -e git+git://github.com/yourlabs/django-autocomplete-light.git#egg=autocomplete_light
-    cd autocomplete_light_env/src/autocomplete_light/test_project
+    cd autocomplete_light_env/src/autocomplete-light/test_project
     pip install -r requirements.txt
     ./manage.py runserver
 
-Now, open this contact: http://localhost:8000/admin/project_specific/contact/1/
-You will note two addresses:
+Once you have the test_project server running (see INSTALL if you don't), open
+`the first contact
+<http://localhost:8000/admin/project_specific/contact/1/>`_.
+
+You will see two addresses:
 
 - one at Paris, France
 - one at Paris, United States
@@ -18,9 +21,3 @@ The reason for that is that there are several cities in the world with the name
 it filters the cities based on the selected country.
 
 Note that only cities from France, USA and Belgium are in the demo database.
-
-If you want to redo the database::
-
-    rm db.sqlite
-    ./manage.py syncdb
-    ./manage.py cities_light

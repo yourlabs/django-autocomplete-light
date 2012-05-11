@@ -29,6 +29,7 @@ Full documentation
 .. toctree::
    :maxdepth: 3
 
+   demo
    quick
    forms
    navigation

@@ -24,6 +24,8 @@ settings.configure()
 html_style = None
 html_theme = 'nature'
 
+autoclass_content = "both"
+
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

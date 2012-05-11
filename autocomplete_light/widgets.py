@@ -30,7 +30,7 @@ class AutocompleteWidget(forms.SelectMultiple):
 
     def __init__(self, channel_name, *args, **kwargs):
         """
-        Decorates SelectMultiple constructor
+        AutocompleteWidget constructor decorates SelectMultiple constructor
 
         Arguments:
         channel_name -- the name of the channel that this widget should use.

@@ -35,11 +35,11 @@ class RunTests(Command):
 
 setup(
     name='django-autocomplete-light',
-    version='0.1',
+    version='0.2',
     description='Simple alternative to django-ajax-selects',
     author='James Pic (based on concepts and some code of django-ajax-selects)',
     author_email='jamespic@gmail.com',
-    url='https://github.com/yourlabs/django-autocomplete-light',
+    url='http://django-autocomplete-light.rtfd.org',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,

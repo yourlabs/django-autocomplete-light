@@ -1,3 +1,8 @@
+"""
+The channel.base module provides a channel class which you can extend to make
+your own channel. It also serves as default channel class.
+"""
+
 from django.core import urlresolvers
 from django.template import loader
 from django.utils.translation import ugettext_lazy as _

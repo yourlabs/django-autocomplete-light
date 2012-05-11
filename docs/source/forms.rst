@@ -13,34 +13,17 @@ Django startup
 Registry
 --------
 
-Autodiscovery is part of the `autocomplete_light.registry` module:
-
 .. automodule:: autocomplete_light.registry
-
-Autodiscovery is the first thing that happens as it is called early in urls.py:
-
-.. autofunction:: autocomplete_light.registry.autodiscover
-
-autocomplete_light.registry.autodiscover fills
-`autocomplete_light.registry.registry`, which is an instance of
-ChannelRegistry:
-
-.. autoclass:: autocomplete_light.registry.ChannelRegistry
    :members:
 
 Channels
 --------
-
-As you can see, registration creates a channel if it is only passed a model.
-You'll want to make your own channel class, this is what a channel looks like:
 
 .. automodule:: autocomplete_light.channel.base
    :members:
 
 Forms
 -----
-
-To save you some boilerplate, a couple of helpers are provided:
 
 .. automodule:: autocomplete_light.forms
    :members:
@@ -62,6 +45,8 @@ That said, if you only want to make a global navigation autocomplete, you only n
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script src="{{ STATIC_URL }}autocomplete_light/autocomplete.js" type="text/javascript"></script>
 
+.. include:: _admin_template.rst
+
 Widget in action
 ~~~~~~~~~~~~~~~~
 
@@ -69,9 +54,9 @@ Widget definition
 -----------------
 
 The first thing that happens is the definition of an AutocompleteWidget in a
-form:
+form.
 
-.. autoclass:: autocomplete_light.widgets.AutocompleteWidget
+.. automodule:: autocomplete_light.widgets
    :members:
 
 Widget rendering

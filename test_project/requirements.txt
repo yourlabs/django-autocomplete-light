@@ -1,1 +1,1 @@
-django-cities-light
+-e git+git://github.com/yourlabs/django-cities-light.git@test_project#egg=cities_light

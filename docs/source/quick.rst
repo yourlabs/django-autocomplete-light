@@ -33,6 +33,8 @@ Add to your base template::
 Quick admin integration
 -----------------------
 
+.. include:: _admin_template.rst
+
 Create yourapp/autocomplete_light_registry.py::
 
     import autocomplete_light
