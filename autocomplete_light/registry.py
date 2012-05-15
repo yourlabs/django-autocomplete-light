@@ -45,7 +45,7 @@ class ChannelRegistry(dict):
         """
         Unregister a channel or the channel for a model. Return True on
         success.
-        
+
         arg
             May be a model, or channel class.
         """
