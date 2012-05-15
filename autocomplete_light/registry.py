@@ -100,10 +100,12 @@ def _autodiscover(registry):
         mod = import_module(app)
         # check if the app has static/appname/autocomplete_light.js
         css_path = 'static/%s/autocomplete_light.css' % mod.__name__
-        if os.path.exists(os.path.join(mod.__path__[0], css_path)):
+        if os.path.exists(os.path.join(mod.__path__[0], css_path)) and \
+            css_path[7:] not in static_list:
             static_list.append(css_path[7:])
         js_path = 'static/%s/autocomplete_light.js' % mod.__name__
-        if os.path.exists(os.path.join(mod.__path__[0], js_path)):
+        if os.path.exists(os.path.join(mod.__path__[0], js_path)) and \
+            js_path[7:] not in static_list:
             static_list.append(js_path[7:])
 
         # Attempt to import the app's admin module.
