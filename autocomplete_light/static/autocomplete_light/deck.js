@@ -15,6 +15,9 @@ function AutocompleteDeck(el) {
     };
     this.bindSelectOption = function() {
         this.input.bind('selectOption', function(e, option) {
+            if (!option.length)
+                return // placeholder: create option here
+
             var wrapper = $(this).parents('.autocomplete_light_widget');
             var deck = wrapper.yourlabs_deck();
             deck.selectOption(option);
