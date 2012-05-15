@@ -94,8 +94,10 @@ function Autocomplete(el) {
                 autocomplete.hide(); 
             }, autocomplete.blurTimeout);
         });
-        //this.el.dblclick(function(e) { autocomplete.show(); });
-        this.el.focus(function(e) { autocomplete.show(); });
+        this.el.focus(function(e) { 
+            if ($(this).val().length >= autocomplete.minCharacters)
+                autocomplete.show(); 
+        });
     }
     
     this.onKeyPress = function(e) {
