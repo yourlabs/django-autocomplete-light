@@ -19,6 +19,8 @@ static_list
 
 import os.path
 
+from django.db import models
+
 from .channel import ChannelBase
 
 __all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover', 'static_list')
@@ -38,6 +40,24 @@ class ChannelRegistry(dict):
             return self._models[model]
         except KeyError:
             return
+
+    def unregister(self, arg):
+        """
+        Unregister a channel or the channel for a model. Return True on
+        success.
+        
+        arg
+            May be a model, or channel class.
+        """
+        if issubclass(arg, models.Model):
+            if arg in self._models.keys():
+                del self._models[arg]
+                return True
+        else:
+            for key, value in self._models.items():
+                if value == arg:
+                    del self._models[key]
+                    return True
 
     def register(self, model, channel=None):
         """
