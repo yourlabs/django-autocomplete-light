@@ -131,6 +131,7 @@ function Autocomplete(el) {
     }
     
     this.show = function(html) {
+        this.fixPosition();
         if ($.trim(this.innerContainer.html()).length == 0 && !this.xhr) {
             this.fetchAutocomplete();
             return;
