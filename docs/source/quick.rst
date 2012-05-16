@@ -45,7 +45,8 @@ Create yourapp/autocomplete_light_registry.py, assuming "Author" has a "name" Ch
 
 See more about the channel registry in :ref:`registry-reference`.
 
-If Author doesn't has another CharField, like full_name, then you could change the name of the search field::
+If Author doesn't has another CharField, like full_name, then you could change
+the name of the search field::
 
     import autocomplete_light
 
@@ -57,8 +58,9 @@ If Author doesn't has another CharField, like full_name, then you could change t
     # register Author with AuthorChannel !
     autocomplete_light.register(Author, AuthorChannel)
 
-But still, the default implementation of query_filter() is pretty
-trivial, you might want to customize how it will filter the queryset::
+But still, the `default implementation of query_filter()
+<forms.html#autocomplete_light.channel.base.ChannelBase.get_results>`_ is
+pretty trivial, you might want to customize how it will filter the queryset::
 
     from django.db.models import Q
 
