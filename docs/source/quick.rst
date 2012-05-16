@@ -24,6 +24,15 @@ Add before admin.autodiscover()::
     import autocomplete_light
     autocomplete_light.autodiscover()
 
+At this point, we're going to assume that you have `django.contrib.staticfiles
+<https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>`_ working.
+This means that `static files are automatically served with runserver
+<https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#runserver>`_,
+and that you have to run `collectstatic when using another server
+<https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#collectstatic>`_
+(fastcgi, uwsgi, and whatnot). If you don't use django.contrib.staticfiles,
+then you're on your own to manage staticfiles.
+
 Add to your base template::
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
