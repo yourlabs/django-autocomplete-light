@@ -38,6 +38,7 @@ Full documentation
    quick
    forms
    navigation
+   django13
 
 Javascript API
 --------------
