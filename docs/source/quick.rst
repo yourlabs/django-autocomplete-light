@@ -43,8 +43,9 @@ Create yourapp/autocomplete_light_registry.py, assuming "Author" has a "name" Ch
 
     autocomplete_light.register(Author)
 
-If Author doesn't has another CharField, like full_name, then you could set it
-up as such::
+See more about the channel registry in :ref:`registry-reference`.
+
+If Author doesn't has another CharField, like full_name, then you could change the name of the search field::
 
     import autocomplete_light
 
@@ -53,6 +54,7 @@ up as such::
     class AuthorChannel(autocomplete_light.ChannelBase):
         search_field = 'full_name'
 
+    # register Author with AuthorChannel !
     autocomplete_light.register(Author, AuthorChannel)
 
 But still, the default implementation of query_filter() is pretty

@@ -10,6 +10,8 @@ It is complementary with the quick documentation.
 Django startup
 ~~~~~~~~~~~~~~
 
+.. _registry-reference:
+
 Registry
 --------
 
