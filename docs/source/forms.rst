@@ -16,6 +16,8 @@ Registry
 .. automodule:: autocomplete_light.registry
    :members:
 
+.. _channel-reference:
+
 Channels
 --------
 

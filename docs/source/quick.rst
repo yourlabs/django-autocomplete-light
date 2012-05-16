@@ -35,7 +35,7 @@ Quick admin integration
 
 .. include:: _admin_template.rst
 
-Create yourapp/autocomplete_light_registry.py::
+Create yourapp/autocomplete_light_registry.py, assuming "Author" has a "name" CharField::
 
     import autocomplete_light
 
@@ -43,7 +43,42 @@ Create yourapp/autocomplete_light_registry.py::
 
     autocomplete_light.register(Author)
 
-In yourapp/admin.py::
+If Author doesn't has another CharField, like full_name, then you could set it
+up as such::
+
+    import autocomplete_light
+
+    from models import Author
+
+    class AuthorChannel(autocomplete_light.ChannelBase):
+        search_field = 'full_name'
+
+    autocomplete_light.register(Author)
+
+But still, the default implementation of query_filter() is pretty
+trivial, you might want to customize how it will filter the queryset::
+
+    from django.db.models import Q
+
+    import autocomplete_light
+
+    from models import Author
+
+    class AuthorChannel(autocomplete_light.ChannelBase):
+        def query_filter(self, results):
+            q = self.request.GET.get('q', None)
+
+            if q:
+                results = results.filter(
+                    Q(first_name__icontains=q)|Q(last_name__icontains=q))
+
+            return results
+
+    autocomplete_light.register(Author)
+
+See more about customizing channels in :ref:`channel-reference`.
+
+Finnaly in yourapp/admin.py::
 
     from django.contrib import admin
 
