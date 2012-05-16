@@ -53,7 +53,7 @@ up as such::
     class AuthorChannel(autocomplete_light.ChannelBase):
         search_field = 'full_name'
 
-    autocomplete_light.register(Author)
+    autocomplete_light.register(Author, AuthorChannel)
 
 But still, the default implementation of query_filter() is pretty
 trivial, you might want to customize how it will filter the queryset::
@@ -74,7 +74,7 @@ trivial, you might want to customize how it will filter the queryset::
 
             return results
 
-    autocomplete_light.register(Author)
+    autocomplete_light.register(Author, AuthorChannel)
 
 See more about customizing channels in :ref:`channel-reference`.
 
