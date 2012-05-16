@@ -7,9 +7,9 @@ django-autocomplete-light's repository.
 INSTALL
 -------
 
-.. include:: ../../test_project/INSTALL
+.. include:: ../../test_project/INSTALL.rst
 
 README
 ------
 
-.. include:: ../../test_project/README
+.. include:: ../../test_project/README.rst
