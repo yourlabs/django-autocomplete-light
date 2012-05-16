@@ -59,7 +59,7 @@ the name of the search field::
     autocomplete_light.register(Author, AuthorChannel)
 
 But still, the `default implementation of query_filter()
-<forms.html#autocomplete_light.channel.base.ChannelBase.get_results>`_ is
+<forms.html#autocomplete_light.channel.base.ChannelBase.query_filter>`_ is
 pretty trivial, you might want to customize how it will filter the queryset::
 
     from django.db.models import Q
