@@ -2,6 +2,13 @@
 
 This is a simple alternative to django-ajax-selects.
 
+Requirements
+------------
+
+jQuery 1.7+
+Django 1.4+
+Python 2.7
+
 Resources
 ---------
 

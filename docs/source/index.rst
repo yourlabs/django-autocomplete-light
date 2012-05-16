@@ -23,6 +23,11 @@ This app fills all your ajax autocomplete needs:
 - **less sucking** code, no funny hacks, clean api, as few code as
   possible, that also means this is not for pushovers
 
+README
+------
+
+.. include:: ../../README.rst
+
 Full documentation
 ------------------
 
