@@ -4,6 +4,7 @@ function AutocompleteDeck(el) {
     this.input = this.wrapper.find('input[type=text].autocomplete')
     this.valueSelect = this.wrapper.find('select.valueSelect');
     this.channel = $.parseJSON(this.wrapper.find('.json_channel').html());
+    this.bootstrap = this.wrapper.attr('data-bootstrap');
     this.deck = this.wrapper.find('.deck');
     this.addTemplate = this.wrapper.find('.add_template .result');
     this.maxItems = this.wrapper.data('maxitems');
