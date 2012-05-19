@@ -20,8 +20,8 @@ Registry
 
 .. _channel-reference:
 
-Channels
---------
+Channels basics
+---------------
 
 .. automodule:: autocomplete_light.channel.base
    :members:
@@ -69,7 +69,7 @@ Widget rendering
 This is what the default widget template looks like:
 
 .. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/widget.html
-   :language: html
+   :language: django
 
 Javascript initialization
 -------------------------
