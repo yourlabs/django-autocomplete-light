@@ -2,7 +2,7 @@ from django import forms
 
 import autocomplete_light
 from cities_light.models import City
-from cities_light.autocomplete_light_widgets import CityAutocompleteWidget
+from cities_light.contrib.autocomplete_light_widgets import CityAutocompleteWidget
 
 from models import Address
 
