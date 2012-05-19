@@ -11,8 +11,16 @@ In another::
     cd test_api_project
     ./manage.py runserver 127.0.0.1:8001
 
+If you're not going to use localhost:8000 for test_project, then you should
+update source urls in
+`test_api_project/test_api_project/autocomplete_light_registry.py`.
+
 Now, note that there are `no or few countries in test_api_project database
 <http://localhost:8001/admin/cities_light/country/>`_.
+
+Again, test_project's database only includes countries France, Belgium and
+America so there's no need to try the other one unless you know what you're
+doing.
 
 Also note that, city and country autocomplete `work the same
 <http://localhost:8001/admin/project_specific/contact/add/>`_. The reason for
