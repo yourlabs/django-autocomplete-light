@@ -31,3 +31,8 @@ class ChannelView(generic.View):
         channel = channel_class()
         channel.init_for_request(request, *args, **kwargs)
         return http.HttpResponse(channel.render_autocomplete())
+    
+    def post(self, request, *args, **kwargs):
+        channel_class = autocomplete_light.registry[kwargs['channel']]
+        channel = channel_class()
+        return channel.post(request, *args, **kwargs)
