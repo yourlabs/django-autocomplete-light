@@ -78,6 +78,8 @@ class ChannelBase(object):
                 'autocomplete_light/autocomplete.html',
             ]
 
+        self.request = None
+
     def get_absolute_url(self):
         """
         Return the absolute url for this channel, using
