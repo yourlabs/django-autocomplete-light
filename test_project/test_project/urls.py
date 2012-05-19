@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 
 import autocomplete_light
 autocomplete_light.autodiscover()
+import autocomplete_light_registry
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
