@@ -119,13 +119,20 @@ class RemoteChannelBase(JSONChannelBase):
         from get_remote_results().
         """
         results = super(RemoteChannelBase, self).get_results(values)
+        unicodes = [unicode(result) for result in results]
 
         if self.request:
             room = self.limit_results - len(results)
 
             if room > 0:
                 results = list(results)
-                results += [result for result in self.get_remote_results(room)]
+                
+                for result in self.get_remote_results(room):
+                    # avoid data that's already in local
+                    if unicode(result) in unicodes:
+                        continue
+                
+                    results.append(result)
         
         return results
 
