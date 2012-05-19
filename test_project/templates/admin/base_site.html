@@ -5,6 +5,6 @@
 {% block footer %}
     {{ block.super }}
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}jquery.js" type="text/javascript"></script>
     {% autocomplete_light_static %}
 {% endblock %}
