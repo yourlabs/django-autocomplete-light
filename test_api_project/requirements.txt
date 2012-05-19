@@ -1,0 +1,2 @@
+-e git+git://github.com/yourlabs/django-cities-light.git@test_api_project#egg=cities_light
+-e git+https://github.com/tomchristie/django-rest-framework.git@0c82e4b57#egg=djangorestframework
