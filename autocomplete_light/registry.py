@@ -25,6 +25,7 @@ from .channel import ChannelBase
 
 __all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover', 'static_list')
 
+static_list = []
 
 class ChannelRegistry(dict):
     """
@@ -85,6 +86,10 @@ class ChannelRegistry(dict):
         elif channel.model is None:
             channel = type('%sChannel' % model.__name__, (channel,), {'model': model})
 
+        for path in getattr(channel, 'static_list', []):
+            if path not in static_list:
+                static_list.append(path)
+
         self[channel.__name__] = channel
         self._models[channel.model] = channel
 
@@ -125,7 +130,6 @@ def _autodiscover(registry):
             if module_has_submodule(mod, 'autocomplete_light_registry'):
                 raise
 
-static_list = []
 registry = ChannelRegistry()
 
 
