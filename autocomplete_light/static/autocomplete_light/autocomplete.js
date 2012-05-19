@@ -116,6 +116,7 @@ function Autocomplete(el) {
                     e.preventDefault();
                     e.stopPropagation();
                     this.el.trigger('selectOption', [option]);
+                    this.hide();
                 }
                 if(e.keyCode === 9){ return; }
                 break;
