@@ -1,15 +1,15 @@
-      19 text files.
-classified 19 files      19 unique files.                              
-       1 file ignored.
+      22 text files.
+classified 22 files      22 unique files.                              
+       2 files ignored.
 
-http://cloc.sourceforge.net v 1.55  T=0.5 s (36.0 files/s, 2488.0 lines/s)
+http://cloc.sourceforge.net v 1.53  T=0.5 s (40.0 files/s, 3038.0 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-Javascript                       2             49             36            344
-Python                          11            162            283            286
+Javascript                       3             57             48            375
+Python                          12            212            370            373
 HTML                             4             10              0             61
 CSS                              1              0              0             13
 -------------------------------------------------------------------------------
-SUM:                            18            221            319            704
+SUM:                            20            279            418            822
 -------------------------------------------------------------------------------
