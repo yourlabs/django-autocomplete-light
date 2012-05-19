@@ -1,6 +1,6 @@
 import autocomplete_light
 
-from cities_light.contrib.autocomplete_light_channels import RemoteCountryChannel, RemoteCityChannel
+from cities_light.contrib.autocomplete_light_restframework import RemoteCountryChannel, RemoteCityChannel
 from cities_light.models import City, Country
 
 class RemoteCountryChannel(RemoteCountryChannel):
