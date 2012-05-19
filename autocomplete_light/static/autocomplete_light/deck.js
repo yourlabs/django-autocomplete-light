@@ -24,21 +24,41 @@ function AutocompleteDeck(el) {
             deck.selectOption(option);
         });
     };
-    this.selectOption = function(result, force) {
+    this.selectOption = function(result) {
+        // Get the value for this result.
         var value = this.getValue(result);
 
-        if (this.valueSelect.find('option[value='+value+']').length && !force)
-            return; // value already selected and force is not on
-
-        this.valueSelect.append(
-            '<option selected="selected" value="'+ value +'"></option>');
-
-        if (this.maxItems && this.valueSelect.find('option').length > this.maxItems) {
-            var remove_option = this.valueSelect.find('option:first');
-            var remove_value = remove_option.attr('value');
-            this.deck.find('.result[data-value='+remove_value+']').remove();
-            remove_option.remove();
+        // Remove an item if the deck is already full
+        if (this.maxItems && this.deck.children().length >= this.maxItems) {
+            var remove = $(this.deck.children()[0]);
+            this.valueSelect.find('option[value='+remove.attr('data-value')+']').attr(
+                'selected', '').remove();
+            remove.remove();
         }
+
+        // Create and select the option if necessary
+        var option = this.valueSelect.find('option[value='+value+']');
+        if (! option.length) {
+            this.valueSelect.append(
+                '<option selected="selected" value="'+ value +'"></option>');
+            option = this.valueSelect.find('option[value='+value+']');
+        }
+        option.attr('selected', 'selected');
+
+        var item = this.deck.find('[data-value='+value+']');
+        if (!item.length) {
+            var result = result.clone();
+
+            // Might be necessary for created values.
+            if (!result.attr('data-value')) {
+                result.attr('data-value', value);
+            }
+
+            this.deck.append(result);
+            result.append('<span class="remove">' + this.wrapper.find('.remove').html() + '</span>');
+        }
+
+        
         this.valueSelect.trigger('change');
 
         if (this.maxItems && this.valueSelect.find('option').length == this.maxItems) {
@@ -46,9 +66,6 @@ function AutocompleteDeck(el) {
             this.input.val('');
         }
 
-        var result = result.clone();
-        this.deck.append(result);
-        result.append('<span class="remove">' + this.wrapper.find('.remove').html() + '</span>');
         this.deck.show();
     }
     this.deselectOption = function(result) {
@@ -141,13 +158,13 @@ $(document).ready(function() {
             function updateValueDisplay(value) {
                 if (!value) return;
 
-                var result = deck.deck.find('.result[data-value='+value+']');
+                var result = deck.deck.find('[data-value='+value+']');
                 if (!result.length) {
                     var result = deck.addTemplate.clone();
                     var html = deck.valueSelect.find('option[value='+value+']').html();
                     result.html(html);
                     result.attr('data-value', value);
-                    deck.selectOption(result, true);
+                    deck.selectOption(result);
                 }
             }
 
