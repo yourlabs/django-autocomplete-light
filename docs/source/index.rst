@@ -36,8 +36,9 @@ Full documentation
 
    demo
    quick
-   forms
    navigation
+   forms
+   remote
    django13
 
 Javascript API
