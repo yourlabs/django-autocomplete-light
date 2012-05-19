@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^autocomplete/', include('autocomplete_light.urls')),
+    url(r'^cities_light/', include('cities_light.contrib.restframework')),
 )

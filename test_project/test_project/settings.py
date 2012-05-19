@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'cities_light',
+    'djangorestframework',
     'autocomplete_light',
     'project_specific',
     # Uncomment the next line to enable admin documentation:
