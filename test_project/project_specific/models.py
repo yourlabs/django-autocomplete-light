@@ -27,12 +27,13 @@ class Address(models.Model):
 
     def __unicode__(self):
         return u'%s %s %s' % (self.contact, self.city, self.street)
-        
+
     class Meta:
         ordering = ('contact', 'city')
 
 class TaggedItem(models.Model):
     tag = models.SlugField()
+    contact = models.ForeignKey('Contact', help_text='just here to test GFK in inline', null=True, blank=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
