@@ -25,7 +25,8 @@ class GenericChannelBase(ChannelBase):
         Because this channel is made for that field, and to avoid code
         duplication.
         """
-        return GenericForeignKeyField.prepare_value(None, result)
+        field = GenericForeignKeyField()
+        return field.prepare_value(result)
 
     def order_results(self, results):
         """
