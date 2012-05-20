@@ -2,6 +2,7 @@ import urllib
 
 from django import http
 from django.utils import simplejson
+from django.template import defaultfilters
 
 from json import JSONChannelBase
 
@@ -173,7 +174,7 @@ class RemoteChannelBase(JSONChannelBase):
         result_url = getattr(result, '_source_url', None)
 
         if result_url:
-            return result_url
+            return defaultfilters.slugify(result_url)
         else:
             return result.pk
 
