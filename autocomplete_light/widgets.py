@@ -28,6 +28,8 @@ class AutocompleteWidget(forms.SelectMultiple):
                 autocomplete_light.AutocompleteWidget('AuthorChannel'))
     """
 
+    payload = {}
+
     def __init__(self, channel_name, *args, **kwargs):
         """
         AutocompleteWidget constructor decorates SelectMultiple constructor
@@ -72,6 +74,7 @@ class AutocompleteWidget(forms.SelectMultiple):
         from autocomplete_light import registry
         self.channel = registry[channel_name]()
 
+        self.payload.update(kwargs.pop('payload', {}))
         self.max_items = kwargs.pop('max_items', 0)
         self.min_characters = kwargs.pop('min_characters', 0)
         self.bootstrap = kwargs.pop('bootstrap', self.channel.bootstrap)
@@ -103,6 +106,8 @@ class AutocompleteWidget(forms.SelectMultiple):
         if values and not self.channel.are_valid(values):
             raise forms.ValidationError('%s cannot find pk(s) %s' % (self.channel_name, values))
 
+        self.payload.update(self.as_dict())
+        self.payload['channel'] = self.channel.as_dict()
         return safestring.mark_safe(render_to_string([
                 'autocomplete_light/%s/widget.html' % self.channel_name.lower(),
                 'autocomplete_light/widget.html',
@@ -112,12 +117,20 @@ class AutocompleteWidget(forms.SelectMultiple):
                 'values': values,
                 'channel': self.channel,
                 'results': self.channel.get_results(values or []),
-                'json_value': safestring.mark_safe(simplejson.dumps(value)),
-                'json_channel': safestring.mark_safe(simplejson.dumps(
-                    self.channel.as_dict())),
+                'json_payload': safestring.mark_safe(simplejson.dumps(
+                    self.payload)),
                 'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
             }
         ))
+
+    def as_dict(self):
+        return {
+            'max_items': self.max_items,
+            'min_characters': self.min_characters,
+            'bootstrap': self.bootstrap,
+            # cast to unicode as it might be a gettext proxy
+            'placeholder': unicode(self.placeholder),
+        }
 
     # we might want to split up in two widgets for that ... is it necessary ?
     # apparently not yet, but maybe at next django release

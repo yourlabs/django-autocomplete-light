@@ -3,11 +3,10 @@ function AutocompleteDeck(el) {
     
     this.input = this.wrapper.find('input[type=text].autocomplete')
     this.valueSelect = this.wrapper.find('select.valueSelect');
-    this.channel = $.parseJSON(this.wrapper.find('.json_channel').html());
-    this.bootstrap = this.wrapper.attr('data-bootstrap');
+    this.payload = $.parseJSON(this.wrapper.find('.json_payload').html());
     this.deck = this.wrapper.find('.deck');
     this.addTemplate = this.wrapper.find('.add_template .result');
-    this.maxItems = this.wrapper.data('maxitems');
+    
     this.getValue = function(result) {
         return result.data('value');
     };
@@ -29,7 +28,7 @@ function AutocompleteDeck(el) {
         var value = this.getValue(result);
 
         // Remove an item if the deck is already full
-        if (this.maxItems && this.deck.children().length >= this.maxItems) {
+        if (this.payload.max_items && this.deck.children().length >= this.payload.max_items) {
             var remove = $(this.deck.children()[0]);
             this.valueSelect.find('option[value='+remove.attr('data-value')+']').attr(
                 'selected', '').remove();
@@ -61,7 +60,7 @@ function AutocompleteDeck(el) {
         
         this.valueSelect.trigger('change');
 
-        if (this.maxItems && this.valueSelect.find('option').length == this.maxItems) {
+        if (this.payload.max_items && this.valueSelect.find('option').length == this.payload.max_items) {
             this.input.hide();
             this.input.val('');
         }
@@ -79,24 +78,24 @@ function AutocompleteDeck(el) {
             this.deck.hide();
         }
 
-        if (this.maxItems && this.valueSelect.find('option').length < this.maxItems) {
+        if (this.payload.max_items && this.valueSelect.find('option').length < this.payload.max_items) {
             this.input.show();
         }
     };
     this.autocompletId = this.input.attr('id');
     this.autocompleteOptions = {
-        url: this.channel.url,
+        url: this.payload.channel.url,
         id: this.autocompletId,
         iterablesSelector: '.result',
-        minCharacters: this.wrapper.data('mincharacters'),
+        minCharacters: this.payload.min_characters,
         outerContainerClasses: 'autocomplete_light_widget',
-        defaultValue: this.wrapper.data('defaultvalue'),
+        defaultValue: this.payload.placeholder,
     }
     this.initialize = function() {
         var results = this.deck.find('.result');
 
         results.append(this.wrapper.find('.remove:last').clone().show());
-        if (this.maxItems > 0 && results.length == this.maxItems) {
+        if (this.payload.max_items > 0 && results.length == this.payload.max_items) {
             this.input.hide();
         }
 
