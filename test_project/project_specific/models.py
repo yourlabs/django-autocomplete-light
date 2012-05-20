@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 import cities_light
 
@@ -27,3 +29,12 @@ class Address(models.Model):
         
     class Meta:
         ordering = ('contact', 'city')
+
+class TaggedItem(models.Model):
+    tag = models.SlugField()
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+
+    def __unicode__(self):
+        return self.tag

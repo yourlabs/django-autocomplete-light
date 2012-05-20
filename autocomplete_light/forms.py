@@ -23,8 +23,8 @@ def get_widgets_dict(model, autocomplete_exclude=None):
     channel is returned, then an AutocompleteWidget will be spawned using this
     channel.
 
-    More information:
-    https://docs.djangoproject.com/en/dev/topics/forms/modelforms/#overriding-the-default-field-types-or-widgets
+    The dict is usable by ModelForm.Meta.widgets. In django 1.4, with
+    modelform_factory too.
     """
     if autocomplete_exclude is None:
         autocomplete_exclude = []
@@ -67,7 +67,8 @@ def modelform_factory(model, autocomplete_exclude=None,
     pass it to django's modelform_factory, and return the resulting modelform.
     """
 
-    widgets = get_widgets_dict(model, autocomplete_exclude=autocomplete_exclude)
+    widgets = get_widgets_dict(model,
+        autocomplete_exclude=autocomplete_exclude)
     widgets.update(kwargs.pop('widgets', {}))
     kwargs['widgets'] = widgets
 
