@@ -4,8 +4,6 @@ from django.forms.util import flatatt
 from django.utils import safestring
 from django.template.loader import render_to_string
 
-from .channel import *
-
 __all__ = ['AutocompleteWidget']
 
 
@@ -23,9 +21,11 @@ class AutocompleteWidget(forms.SelectMultiple):
 
         class AuthorsForm(forms.Form):
             lead_author = forms.ModelChoiceField(Author.objects.all(), widget=
-                autocomplete_light.AutocompleteWidget('AuthorChannel', max_items=1))
-            contributors = forms.ModelMultipleChoiceField(Author.objects.all(), widget=
-                autocomplete_light.AutocompleteWidget('AuthorChannel'))
+                autocomplete_light.AutocompleteWidget(
+                    'AuthorChannel', max_items=1))
+
+            contributors = forms.ModelMultipleChoiceField(Author.objects.all(),
+                widget=autocomplete_light.AutocompleteWidget('AuthorChannel'))
     """
 
     payload = {}
@@ -65,9 +65,14 @@ class AutocompleteWidget(forms.SelectMultiple):
             default, its value is copied from channel.bootstrap.
 
         placeholder
-            The initial value of the autocomplete input field. It can be something
-            like 'type your search here'. By default, it is copied from
-            channel.placeholder.
+            The initial value of the autocomplete input field. It can be
+            something like 'type your search here'. By default, it is copied
+            from channel.placeholder.
+
+        payload
+            A dict of data that will be exported to JSON, and parsed into the
+            Deck instance in javascript. It allows to pass variables from
+            Python to Javascript.
         """
         self.channel_name = channel_name
 
@@ -104,12 +109,15 @@ class AutocompleteWidget(forms.SelectMultiple):
             values = value
 
         if values and not self.channel.are_valid(values):
-            raise forms.ValidationError('%s cannot find pk(s) %s' % (self.channel_name, values))
+            raise forms.ValidationError('%s cannot validate %s' % (
+                self.channel_name, values))
 
         self.payload.update(self.as_dict())
         self.payload['channel'] = self.channel.as_dict()
+
+        name = self.channel_name.lower()
         return safestring.mark_safe(render_to_string([
-                'autocomplete_light/%s/widget.html' % self.channel_name.lower(),
+                'autocomplete_light/%s/widget.html' % name,
                 'autocomplete_light/widget.html',
             ], {
                 'widget': self,
@@ -139,7 +147,8 @@ class AutocompleteWidget(forms.SelectMultiple):
         if self.max_items == 1:
             return forms.Select.value_from_datadict(self, data, files, name)
         else:
-            return forms.SelectMultiple.value_from_datadict(self, data, files, name)
+            return forms.SelectMultiple.value_from_datadict(self, data, files,
+                name)
 
     def _has_changed(self, initial, data):
         """Route to Select if max_items is 1, else route to SelectMultiple"""

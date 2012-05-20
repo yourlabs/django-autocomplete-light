@@ -52,7 +52,7 @@ class ChannelBase(object):
 
     placeholder
         The initial text in the autocomplete text input.
-    
+
     static_list
         A list of static files which are necessary for this channel. It is an
         empty list by default.
@@ -71,15 +71,16 @@ class ChannelBase(object):
         """
         Set result_template and autocomplete_template if necessary.
         """
+        name = self.__class__.__name__.lower()
         if not self.result_template:
             self.result_template = [
-                'autocomplete_light/%s/result.html' % self.__class__.__name__.lower(),
+                'autocomplete_light/%s/result.html' % name,
                 'autocomplete_light/result.html',
             ]
 
         if not self.autocomplete_template:
             self.autocomplete_template = [
-                'autocomplete_light/%s/autocomplete.html' % self.__class__.__name__.lower(),
+                'autocomplete_light/%s/autocomplete.html' % name,
                 'autocomplete_light/autocomplete.html',
             ]
 

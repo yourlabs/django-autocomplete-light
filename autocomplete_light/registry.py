@@ -23,9 +23,11 @@ from django.db import models
 
 from .channel import ChannelBase
 
-__all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover', 'static_list')
+__all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover',
+    'static_list')
 
 static_list = []
+
 
 class ChannelRegistry(dict):
     """

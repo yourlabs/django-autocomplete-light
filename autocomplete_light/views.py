@@ -31,8 +31,14 @@ class ChannelView(generic.View):
         channel = channel_class()
         channel.init_for_request(request, *args, **kwargs)
         return http.HttpResponse(channel.render_autocomplete())
-    
+
     def post(self, request, *args, **kwargs):
+        """
+        Just proxy channel.post().
+
+        This is the key to communication between the channel and the widget in
+        javascript. You can use it to create results and such.
+        """
         channel_class = autocomplete_light.registry[kwargs['channel']]
         channel = channel_class()
         return channel.post(request, *args, **kwargs)

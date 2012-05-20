@@ -1,4 +1,12 @@
-from django.conf.urls.defaults import *
+"""
+An url to ChannelView.
+
+autocomplete_light_channel
+    Given a 'channel' argument with the name of the channel, this url routes to
+    ChannelView.
+"""
+
+from django.conf.urls.defaults import patterns, url
 from django.views.decorators.csrf import csrf_exempt
 
 from views import ChannelView

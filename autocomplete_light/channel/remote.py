@@ -33,7 +33,7 @@ class RemoteChannelBase(JSONChannelBase):
     - the remote results are rendered after the local results in widget.html.
       It includes some JSON in a hidden textarea, like the API's url for each
       result.
-    
+
     Remote result selection chronology:
 
     - deck.js calls remoteGetValue() instead of the default getValue(),
@@ -104,9 +104,12 @@ class RemoteChannelBase(JSONChannelBase):
         fh.close()
 
         for key, value in data.items():
+            is_string = isinstance(value, (unicode, str))
             field = model_class._meta.get_field_by_name(key)[0]
-            if getattr(field, 'rel', None) and isinstance(value, (unicode, str)):
+
+            if getattr(field, 'rel', None) and is_string:
                 data[key] = self.fetch(value)
+
         model, created = model_class.objects.get_or_create(**data)
         return model
 
@@ -126,14 +129,14 @@ class RemoteChannelBase(JSONChannelBase):
 
             if room > 0:
                 results = list(results)
-                
+
                 for result in self.get_remote_results(room):
                     # avoid data that's already in local
                     if unicode(result) in unicodes:
                         continue
-                
+
                     results.append(result)
-        
+
         return results
 
     def get_remote_results(self, max):
@@ -194,7 +197,6 @@ class RemoteChannelBase(JSONChannelBase):
         """
         return '%s?%s' % (self.source_url, urllib.urlencode(
             self.get_source_url_data(limit)))
-
 
     def get_source_url_data(self, limit):
         """
