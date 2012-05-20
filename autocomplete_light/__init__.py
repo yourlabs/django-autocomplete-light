@@ -1,8 +1,7 @@
 """
 Provide tools to enable nice autocompletes in your Django project.
 """
-from .registry import ChannelRegistry, registry, register, autodiscover, \
-    static_list
+from .registry import ChannelRegistry, registry, register, autodiscover
 from .channel import ChannelBase, JSONChannelBase, RemoteChannelBase, \
     GenericChannelBase
 from .widgets import AutocompleteWidget

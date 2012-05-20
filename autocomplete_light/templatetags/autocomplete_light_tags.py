@@ -23,18 +23,18 @@ def autocomplete_light_static(include_autocomplete=True, include_deck=True,
     if include_style:
         static_list.append('autocomplete_light/style.css')
 
-    static_list += autocomplete_light.static_list
+    static_list += autocomplete_light.registry.static_list
 
     output = ''
     for file in static_list:
         if file[-3:] == '.js':
             output += '''
                 <script src="%s%s" type="text/javascript"></script>
-                ''' % (settings.STATIC_URL, file)
+                '''.strip() % (settings.STATIC_URL, file)
         elif file[-4:] == '.css':
             output += '''
                 <link rel="stylesheet" type="text/css" href="%s%s"/>
-                ''' % (settings.STATIC_URL, file)
+                '''.strip() % (settings.STATIC_URL, file)
 
     return output
 

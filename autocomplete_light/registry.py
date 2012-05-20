@@ -1,20 +1,18 @@
 """
-The registry module provides tools to maintain a registry of channels.
+The registry module provides tools to maintain a registry of channels and
+static file dependencies.
 
 ChannelRegistry
-    Subclass of Python's dict type with specific methods
+    Subclass of Python's dict type with registration/unregistration methods.
 
 registry
-    Instance of ChannelRegistry
+    Instance of ChannelRegistry.
 
 register
-    Shortcut to registry.register()
+    Proxy registry.register.
 
 autodiscover
-    Find channels and javascript and css, fill registry and static_list
-
-static_list
-    List of static files found in other apps, used by the templatetag
+    Find channels and javascript and css, fill registry and static_list.
 """
 
 import os.path
@@ -23,10 +21,7 @@ from django.db import models
 
 from .channel import ChannelBase
 
-__all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover',
-    'static_list')
-
-static_list = []
+__all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover')
 
 
 class ChannelRegistry(dict):
@@ -34,8 +29,10 @@ class ChannelRegistry(dict):
     Dict with some shortcuts to handle a registry of channels.
     """
 
-    # warning: this variable may change structure, rely on channel_for_model
-    _models = {}
+    def __init__(self):
+        self.static_list = []
+        self._models = {}
+        self._static = {}
 
     def channel_for_model(self, model):
         """Return the channel class for a given model."""
@@ -44,23 +41,56 @@ class ChannelRegistry(dict):
         except KeyError:
             return
 
-    def unregister(self, arg):
+    def unregister(self, name):
         """
-        Unregister a channel or the channel for a model. Return True on
-        success.
+        Unregister a channel.
+        """
+        channel = self[name]
+        del self[name]
 
-        arg
-            May be a model, or channel class.
+        if channel.model:
+            del self._models[channel.model]
+
+        for path in channel.static_list:
+            del self._static[path][self._static[path].index(name)]
+            if len(self._static[path]) == 0:
+                del self.static_list[self.static_list.index(path)]
+
+    def register(self, *args):
+        """ Proxy registry.register_model_channel() or
+        registry.register_channel() if there is no apparent model for the
+        channel.
+
+        Example usages::
+
+            # Will create and register SomeModelChannel, if SomeChannel.model
+            # is None (which is the case by default):
+            autocomplete_light.register(SomeModel)
+
+            # Same but using SomeChannel as base:
+            autocomplete_light.register(SomeModel, SomeChannel)
+
+            # Register a channel without model, ensure that SomeChannel.model
+            # is None (which is the default):
+            autocomplete_light.register(SomeChannel)
         """
-        if issubclass(arg, models.Model):
-            if arg in self._models.keys():
-                del self._models[arg]
-                return True
+
+        channel = None
+        model = None
+
+        for arg in args:
+            if issubclass(arg, models.Model):
+                model = arg
+            elif issubclass(arg, ChannelBase):
+                channel = arg
+
+        if channel and getattr(channel, 'model'):
+            model = channel.model
+
+        if model:
+            self.register_model_channel(model, channel)
         else:
-            for key, value in self._models.items():
-                if value == arg:
-                    del self._models[key]
-                    return True
+            self.register_channel(channel)
 
     def register_model_channel(self, model, channel=None):
         """
@@ -99,12 +129,15 @@ class ChannelRegistry(dict):
         """
         Register a channel without model, like a generic channel.
         """
-
         self[channel.__name__] = channel
 
         for path in getattr(channel, 'static_list', []):
-            if path not in static_list:
-                static_list.append(path)
+            if path not in self.static_list:
+                self.static_list.append(path)
+
+            if path not in self._static:
+                self._static[path] = []
+            self._static[path].append(channel.__name__)
 
 
 def _autodiscover(registry):
@@ -118,13 +151,14 @@ def _autodiscover(registry):
         mod = import_module(app)
         # check if the app has static/appname/autocomplete_light.js
         css_path = 'static/%s/autocomplete_light.css' % mod.__name__
-        if os.path.exists(os.path.join(mod.__path__[0], css_path)) and \
-            css_path[7:] not in static_list:
-            static_list.append(css_path[7:])
+        if os.path.exists(os.path.join(mod.__path__[0], css_path)):
+            if css_path[7:] not in registry.static_list:
+                registry.static_list.append(css_path[7:])
+
         js_path = 'static/%s/autocomplete_light.js' % mod.__name__
-        if os.path.exists(os.path.join(mod.__path__[0], js_path)) and \
-            js_path[7:] not in static_list:
-            static_list.append(js_path[7:])
+        if os.path.exists(os.path.join(mod.__path__[0], js_path)):
+            if js_path[7:] not in registry.static_list:
+                registry.static_list.append(js_path[7:])
 
         # Attempt to import the app's admin module.
         try:
@@ -191,36 +225,5 @@ def autodiscover():
 
 
 def register(*args):
-    """
-    Proxy registry.register_model_channel() or registry.register_channel() if
-    there is no apparent model for the channel.
-
-    Example usages::
-
-        # Will create and register SomeModelChannel, if SomeChannel.model is
-        # None (which is the case by default):
-        autocomplete_light.register(SomeModel)
-
-        # Same but using SomeChannel as base:
-        autocomplete_light.register(SomeModel, SomeChannel)
-
-        # Register a channel without model, ensure that SomeChannel.model is
-        # None (which is the default):
-        autocomplete_light.registry(SomeChannel)
-    """
-    channel = None
-    model = None
-
-    for arg in args:
-        if issubclass(arg, models.Model):
-            model = arg
-        elif issubclass(arg, ChannelBase):
-            channel = arg
-
-    if channel and hasattr(channel, 'model'):
-        model = channel.model
-
-    if channel and model:
-        registry.register_model_channel(model, channel)
-    else:
-        registry.register_channel(channel)
+    """Proxy registry.register"""
+    return registry.register(*args)
