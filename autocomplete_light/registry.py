@@ -62,38 +62,49 @@ class ChannelRegistry(dict):
                     del self._models[key]
                     return True
 
-    def register(self, model, channel=None):
+    def register_model_channel(self, model, channel=None):
         """
         Add a model to the registry, optionnaly with a given channel class.
 
         model
-            the model class to register
+            The model class to register.
 
         channel
-            the channel class to register the model with, default to ChannelBase
+            The channel class to register the model with, default to
+            ChannelBase.
 
         Three cases are possible:
 
         - specify model class and ModelNameChannel will be generated extending
           ChannelBase, with attribute model=model
-        - specify a model and a channel class that does not have a model attribute,
-          and a ModelNameChannel will be generated, with attribute model=model
+        - specify a model and a channel class that does not have a model
+          attribute, and a ModelNameChannel will be generated, with attribute
+          model=model
         - specify a model and a channel class with a model attribute, and the
           channel is directly registered
 
         To keep things simple, the name of a channel is it's class name.
         """
         if channel is None:
-            channel = type('%sChannel' % model.__name__, (ChannelBase,), {'model': model})
+            channel = type('%sChannel' % model.__name__, (ChannelBase,),
+                {'model': model})
         elif channel.model is None:
-            channel = type('%sChannel' % model.__name__, (channel,), {'model': model})
+            channel = type('%sChannel' % model.__name__, (channel,),
+                {'model': model})
+
+        self.register_channel(channel)
+        self._models[channel.model] = channel
+
+    def register_channel(self, channel):
+        """
+        Register a channel without model, like a generic channel.
+        """
+
+        self[channel.__name__] = channel
 
         for path in getattr(channel, 'static_list', []):
             if path not in static_list:
                 static_list.append(path)
-
-        self[channel.__name__] = channel
-        self._models[channel.model] = channel
 
 
 def _autodiscover(registry):
@@ -171,13 +182,45 @@ def autodiscover():
     channel classes are generated, read the documentation of
     ChannelRegistry.register.
 
-    Also, 'cities_light/autocomplete_light.js' and 'cities_light/autocomplete_light.css'
-    will be appended to static_list. This list is used by the autocomplete_light_static
-    templatetag, read it's documentation for details.
+    Also, 'cities_light/autocomplete_light.js' and
+    'cities_light/autocomplete_light.css' will be appended to static_list. This
+    list is used by the autocomplete_light_static templatetag, read it's
+    documentation for details.
     """
     _autodiscover(registry)
 
 
-def register(model, channel=None):
-    """Pass arguments to registry.register"""
-    registry.register(model, channel)
+def register(*args):
+    """
+    Proxy registry.register_model_channel() or registry.register_channel() if
+    there is no apparent model for the channel.
+
+    Example usages::
+
+        # Will create and register SomeModelChannel, if SomeChannel.model is
+        # None (which is the case by default):
+        autocomplete_light.register(SomeModel)
+
+        # Same but using SomeChannel as base:
+        autocomplete_light.register(SomeModel, SomeChannel)
+
+        # Register a channel without model, ensure that SomeChannel.model is
+        # None (which is the default):
+        autocomplete_light.registry(SomeChannel)
+    """
+    channel = None
+    model = None
+
+    for arg in args:
+        if issubclass(arg, models.Model):
+            model = arg
+        elif issubclass(arg, ChannelBase):
+            channel = arg
+
+    if channel and hasattr(channel, 'model'):
+        model = channel.model
+
+    if channel and model:
+        registry.register_model_channel(model, channel)
+    else:
+        registry.register_channel(channel)
