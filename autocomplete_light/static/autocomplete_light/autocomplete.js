@@ -89,17 +89,17 @@ function Autocomplete(el) {
         } else {
             this.el.keydown(function(e) { autocomplete.onKeyPress(e); });
         }
-        this.el.blur(function(e) { 
+        this.el.blur(function(e) {
             window.setTimeout(function() {
-                autocomplete.hide(); 
+                autocomplete.hide();
             }, autocomplete.blurTimeout);
         });
-        this.el.focus(function(e) { 
+        this.el.click(function(e) {
             if ($(this).val().length >= autocomplete.minCharacters)
-                autocomplete.show(); 
+                autocomplete.show();
         });
     }
-    
+
     this.onKeyPress = function(e) {
         var option;
 
