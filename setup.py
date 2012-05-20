@@ -35,7 +35,7 @@ class RunTests(Command):
 
 setup(
     name='django-autocomplete-light',
-    version='0.2',
+    version='0.3',
     description='Simple alternative to django-ajax-selects',
     author='James Pic (based on concepts and some code of django-ajax-selects)',
     author_email='jamespic@gmail.com',
