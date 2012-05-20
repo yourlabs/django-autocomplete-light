@@ -1,28 +1,25 @@
 var GenericChannelDeck = {
-    // The default deck getValue() implementation just returns the PK from the
-    // result HTML. GenericChannelDeck's implementation checks for a textarea
-    // that would contain a JSON dict in the result's HTML. If the dict has a
-    // 'value' key, then return this value. Otherwise, make a blocking ajax
-    // request: POST the json dict to the channel url. It expects that the
-    // response will contain the value.
     getValue: function(result) {
-        data = $.parseJSON(result.find('textarea').html());
+        var data = $.parseJSON(result.find('textarea').html());
+        return data.content_type + ';' + data.object_id;
+    },
+    selectOption: function(result) {
+        // Get the unique value for this result.
+        var value = this.getValue(result);
 
-        if (data.value) return data.value;
-        
-        var value = false;
-        $.ajax(this.channel.url, {
-            async: false,
-            type: 'post',
-            data: {
-                'result': result.find('textarea').html(),
-            }, 
-            success: function(text, jqXHR, textStatus) {
-                value = text;
-            }  
-        });
+        // Parse data for this result.
+        var data = $.parseJSON(result.find('textarea').html());
 
-        return value;
+        // Find the content type field for this generic relation.
+        var content_type_field = $('#id_' +
+            this.payload.content_type_field_name);
+        // Set the value of this field.
+        content_type_field.val(data.content_type);
+        content_type_field.trigger('change');
+
+        // Set the object_id field value.
+        this.valueSelect.val(data.object_id);
+        this.valueSelect.trigger('change');
     }
 }
 

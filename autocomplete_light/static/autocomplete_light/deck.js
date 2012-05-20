@@ -20,13 +20,11 @@ function AutocompleteDeck(el) {
 
             var wrapper = $(this).parents('.autocomplete_light_widget');
             var deck = wrapper.yourlabs_deck();
+
             deck.selectOption(option);
         });
     };
-    this.selectOption = function(result) {
-        // Get the value for this result.
-        var value = this.getValue(result);
-
+    this.freeDeck = function() {
         // Remove an item if the deck is already full
         if (this.payload.max_items && this.deck.children().length >= this.payload.max_items) {
             var remove = $(this.deck.children()[0]);
@@ -34,16 +32,16 @@ function AutocompleteDeck(el) {
                 'selected', '').remove();
             remove.remove();
         }
-
-        // Create and select the option if necessary
-        var option = this.valueSelect.find('option[value='+value+']');
-        if (! option.length) {
-            this.valueSelect.append(
-                '<option selected="selected" value="'+ value +'"></option>');
-            option = this.valueSelect.find('option[value='+value+']');
+    }
+    this.updateDisplay = function() {
+        if (this.payload.max_items && this.valueSelect.find('option').length == this.payload.max_items) {
+            this.input.hide();
+            this.input.val('');
         }
-        option.attr('selected', 'selected');
 
+        this.deck.show();
+    }
+    this.addToDeck = function(result, value) {
         var item = this.deck.find('[data-value='+value+']');
         if (!item.length) {
             var result = result.clone();
@@ -56,16 +54,25 @@ function AutocompleteDeck(el) {
             this.deck.append(result);
             result.append('<span class="remove">' + this.wrapper.find('.remove').html() + '</span>');
         }
-
-        
-        this.valueSelect.trigger('change');
-
-        if (this.payload.max_items && this.valueSelect.find('option').length == this.payload.max_items) {
-            this.input.hide();
-            this.input.val('');
+    }
+    this.addToSelect = function(result, value) {
+        var option = this.valueSelect.find('option[value='+value+']');
+        if (! option.length) {
+            this.valueSelect.append(
+                '<option selected="selected" value="'+ value +'"></option>');
+            option = this.valueSelect.find('option[value='+value+']');
         }
+        option.attr('selected', 'selected');
+        this.valueSelect.trigger('change');
+    }
+    this.selectOption = function(result) {
+        // Get the value for this result.
+        var value = this.getValue(result);
 
-        this.deck.show();
+        this.freeDeck();
+        this.addToDeck(result, value);
+        this.addToSelect(result, value);
+        this.updateDisplay();
     }
     this.deselectOption = function(result) {
         var value = this.getValue(result);
