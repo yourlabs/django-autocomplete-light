@@ -5,10 +5,10 @@ This is a simple alternative to django-ajax-selects.
 Requirements
 ------------
 
-Python 2.7
-jQuery 1.7+
-Django 1.4+ (at least for autocomplete_light.forms helpers)
-django.contrib.staticfiles or you're on your own
+- Python 2.7
+- jQuery 1.7+
+- Django 1.4+ (at least for autocomplete_light.forms helpers)
+- django.contrib.staticfiles or you're on your own
 
 Resources
 ---------
