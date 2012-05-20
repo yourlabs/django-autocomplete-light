@@ -1,12 +1,12 @@
 function AutocompleteDeck(el) {
     this.wrapper = el;
-    
+
     this.input = this.wrapper.find('input[type=text].autocomplete')
     this.valueSelect = this.wrapper.find('select.valueSelect');
     this.payload = $.parseJSON(this.wrapper.find('.json_payload').html());
     this.deck = this.wrapper.find('.deck');
     this.addTemplate = this.wrapper.find('.add_template .result');
-    
+
     this.getValue = function(result) {
         return result.data('value');
     };
@@ -28,7 +28,7 @@ function AutocompleteDeck(el) {
         // Remove an item if the deck is already full
         if (this.payload.max_items && this.deck.children().length >= this.payload.max_items) {
             var remove = $(this.deck.children()[0]);
-            this.valueSelect.find('option[value='+remove.attr('data-value')+']').attr(
+            this.valueSelect.find('option[data-value='+remove.attr('data-value')+']').attr(
                 'selected', '').remove();
             remove.remove();
         }
@@ -124,7 +124,7 @@ $.fn.yourlabs_deck = function(overrides) {
     if ($.fn.yourlabs_deck.registry == undefined) {
         $.fn.yourlabs_deck.registry = {};
     }
-    
+
     if ($.fn.yourlabs_deck.registry[id] == undefined) {
         $.fn.yourlabs_deck.registry[id] = new AutocompleteDeck(this);
         $.fn.yourlabs_deck.registry[id] = $.extend($.fn.yourlabs_deck.registry[id], overrides);
