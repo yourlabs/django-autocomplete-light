@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import signals
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
@@ -38,3 +39,11 @@ class TaggedItem(models.Model):
 
     def __unicode__(self):
         return self.tag
+
+def use_content_object(sender, instance, **kwargs):
+    if instance.content_object:
+        instance.content_type = ContentType.objects.get_for_model(
+            instance.content_object)
+        instance.object_id = instance.content_object.pk
+
+signals.pre_save.connect(use_content_object, sender=TaggedItem)

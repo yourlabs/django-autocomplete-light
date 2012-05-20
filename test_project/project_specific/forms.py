@@ -16,14 +16,14 @@ class AddressForm(forms.ModelForm):
             autocomplete_exclude='city')
 
 
-from django.forms import widgets
-
-class TaggedItemForm(forms.ModelForm):
-    content_object = forms.CharField()
+class TaggedItemForm(autocomplete_light.GenericModelForm):
+    content_object = autocomplete_light.GenericForeignKeyField(
+        widget=autocomplete_light.AutocompleteWidget(
+            'MyGenericChannel', max_items=1))
 
     class Meta:
         model = TaggedItem
-        widgets = {
-            'content_type': widgets.Select(),
-            'object_id': autocomplete_light.AutocompleteWidget('GenericChannel', bootstrap='generic')
-        }
+        exclude = (
+            'content_type',
+            'object_id',
+        )

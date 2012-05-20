@@ -1,5 +1,6 @@
 from django import template
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 
 import autocomplete_light
 
@@ -41,6 +42,12 @@ def autocomplete_light_static(include_autocomplete=True, include_deck=True,
 def autocomplete_light_result_as_html(result, channel):
     """Return channel.result_as_html for result and channel."""
     return channel.result_as_html(result)
+
+
+@register.filter
+def content_type_id(model):
+    """Given a model, return the corresponding content type id"""
+    return ContentType.objects.get_for_model(model).pk
 
 
 @register.filter

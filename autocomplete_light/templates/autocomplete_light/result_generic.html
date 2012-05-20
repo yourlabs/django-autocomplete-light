@@ -1,0 +1,5 @@
+{% load autocomplete_light_tags %}
+
+<li class="result" data-value="{{ result|content_type_id }}-{{ result.pk }}">
+    <span>{{ result }}</span>
+</li>
