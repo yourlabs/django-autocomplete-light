@@ -11,6 +11,8 @@ This commands should run the test project server::
     pip install -r requirements.txt
     ./manage.py runserver
 
+Login with user "test" and password "test".
+
 If you want to redo the database, but make sure you read README first::
 
     rm db.sqlite
