@@ -14,6 +14,19 @@ The purpose of this documentation is to describe every elements involved. Note
 that a living demonstration is available in `test_api_project`, where one
 project serves a full database of cities via an API to another.
 
+
+Example
+-------
+
+In test_api_project, of course you should not hardcode urls like that in actual projects:
+
+.. literalinclude:: ../../test_api_project/test_api_project/autocomplete_light_registry.py
+   :language: python
+
+For details on how these channels are created, have a look at
+`autocomplete stuff in django-cities-light contrib folder
+<https://github.com/yourlabs/django-cities-light/tree/master/cities_light/contrib>`_.
+
 RemoteChannel
 -------------
 
@@ -28,12 +41,3 @@ than the default `getValue()` function.
 
 .. literalinclude:: ../../autocomplete_light/static/autocomplete_light/remote.js
    :language: javascript
-
-Result template
----------------
-
-As `RemoteChannelBase` extends `JSONChannelBase`, it uses
-`autocomplete_light/result_with_json.html` by default:
-
-.. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/result_with_json.html
-   :language: django

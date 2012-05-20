@@ -12,3 +12,6 @@ The reason for that is that there are several cities in the world with the name
 it filters the cities based on the selected country.
 
 Note that only cities from France, USA and Belgium are in the demo database.
+
+Note that you can test autocompletes for generic foreign keys in this project
+too.
