@@ -115,9 +115,9 @@ class AutocompleteWidget(forms.SelectMultiple):
         self.payload.update(self.as_dict())
         self.payload['channel'] = self.channel.as_dict()
 
-        name = self.channel_name.lower()
+        channel_name = self.channel_name.lower()
         return safestring.mark_safe(render_to_string([
-                'autocomplete_light/%s/widget.html' % name,
+                'autocomplete_light/%s/widget.html' % channel_name,
                 'autocomplete_light/widget.html',
             ], {
                 'widget': self,
