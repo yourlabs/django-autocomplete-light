@@ -9,17 +9,17 @@ var RemoteChannelDeck = {
         data = $.parseJSON(result.find('textarea').html());
 
         if (data.value) return data.value;
-        
+
         var value = false;
-        $.ajax(this.channel.url, {
+        $.ajax(this.payload.channel.url, {
             async: false,
             type: 'post',
             data: {
                 'result': result.find('textarea').html(),
-            }, 
+            },
             success: function(text, jqXHR, textStatus) {
                 value = text;
-            }  
+            }
         });
 
         return value;
