@@ -184,7 +184,7 @@ class ChannelBase(object):
         """
         return self.get_queryset().filter(pk__in=values).count() == len(values)
 
-    def result_as_html(self, result):
+    def result_as_html(self, result, extra_context=None):
         """
         Return the html representation of a result for display in the deck
         and autocomplete box.
@@ -192,10 +192,21 @@ class ChannelBase(object):
         By default, render result_template with channel and result in the
         context.
         """
-        return loader.render_to_string(self.result_template, {
+        context = {
             'channel': self,
             'result': result,
-        })
+            'value': self.result_as_value(result),
+        }
+        context.update(extra_context or {})
+        return loader.render_to_string(self.result_template, context)
+
+    def result_as_value(self, result):
+        """
+        Return the value that should be set to the widget field for a result.
+
+        By default, return result.pk.
+        """
+        return result.pk
 
     def render_autocomplete(self):
         """

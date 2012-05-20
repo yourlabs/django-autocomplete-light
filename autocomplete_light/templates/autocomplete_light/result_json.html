@@ -1,8 +1,0 @@
-{% load autocomplete_light_tags %}
-
-<li class="result" data-value="{{ result.pk }}">
-    <span>{{ result }}</span>
-    <textarea style="display:none">
-        {{ result|autocomplete_light_result_as_json:channel|safe }}
-    </textarea>
-</li>

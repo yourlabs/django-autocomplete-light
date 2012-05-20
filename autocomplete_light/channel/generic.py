@@ -5,15 +5,16 @@ from .base import ChannelBase
 __all__ = ['GenericChannelBase',]
 
 class GenericChannelBase(ChannelBase):
-    def __init__(self):
-        if not self.result_template:
-            self.result_template = [
-                'autocomplete_light/result_%s.html' % self.__class__.__name__,
-                'autocomplete_light/result_generic.html',
-            ]
 
-        super(GenericChannelBase, self).__init__()
+    def result_as_value(self, result):
+        """
+        Rely on GenericForeignKeyField to return a string containing the
+        content type id and object id of the result.
 
+        Because this channel is made for that field, and to avoid code
+        duplication.
+        """
+        return GenericForeignKeyField.prepare_value(None, result)
 
     def order_results(self):
         return results # can't order

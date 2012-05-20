@@ -163,6 +163,16 @@ class RemoteChannelBase(JSONChannelBase):
                 model._source_url = url
                 yield model
 
+    def result_as_value(self, result):
+        """
+        Return the result pk or source url.
+        """
+        result_url = getattr(result, '_source_url', None)
+
+        if result_url:
+            return result_url
+        else:
+            return result.pk
 
     def result_as_dict(self, result):
         """
