@@ -132,14 +132,14 @@ function Autocomplete(el) {
         e.stopImmediatePropagation();
         e.preventDefault();
     }
-    
+
     this.show = function(html) {
         this.fixPosition();
         if ($.trim(this.innerContainer.html()).length == 0 && !this.xhr) {
             this.fetchAutocomplete();
             return;
         }
-        
+
         if (html) {
             this.innerContainer.html(html);
         }
@@ -148,12 +148,12 @@ function Autocomplete(el) {
             this.innerContainer.show();
         }
     }
-    
+
     this.hide = function() {
         this.outerContainer.hide();
         this.innerContainer.hide();
     }
-    
+
     this.move = function(way) {
         var current, target, first, last;
         current = this.innerContainer.find(this.iterablesSelector + '.' + this.activeClass);
@@ -184,7 +184,7 @@ function Autocomplete(el) {
         }
         this.el.trigger('activateOption', [this, target]);
     }
-    
+
     this.fixPosition = function() {
         var css = {
             'top': Math.floor(this.el.offset()['top']),
@@ -195,7 +195,7 @@ function Autocomplete(el) {
 
         this.outerContainer.css(css);
     }
-    
+
     this.refresh = function() {
         var newValue;
         newValue = this.el.val();
@@ -211,7 +211,7 @@ function Autocomplete(el) {
         this.value = newValue;
         this.fetchAutocomplete();
     }
-    
+
     this.fetchAutocomplete = function() {
         var autocomplete, data;
 
@@ -241,11 +241,11 @@ $.fn.yourlabs_autocomplete = function(overrides) {
         alert('failure: the element needs an id attribute, or an id option must be passed');
         return false;
     }
-    
+
     if ($.fn.yourlabs_autocomplete.registry == undefined) {
         $.fn.yourlabs_autocomplete.registry = {};
     }
-    
+
     if ($.fn.yourlabs_autocomplete.registry[id] == undefined) {
         $.fn.yourlabs_autocomplete.registry[id] = new Autocomplete(this);
         $.fn.yourlabs_autocomplete.registry[id] = $.extend($.fn.yourlabs_autocomplete.registry[id], overrides);
