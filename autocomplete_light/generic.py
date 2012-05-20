@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import fields
+from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 class GenericModelForm(forms.ModelForm):
@@ -22,6 +23,22 @@ class GenericModelForm(forms.ModelForm):
         for field in self._meta.model._meta.virtual_fields:
             setattr(self.instance, field.name, 
                 self.cleaned_data.get(field.name, None))
+
+    def save(self, commit=True):
+        # do not require the pre_save signal that converts content_object to
+        # content_type and object_id values
+        for field in self._meta.model._meta.virtual_fields:
+            if isinstance(field, GenericForeignKey):
+                value = self.cleaned_data.get(field.name, None)
+                
+                if not value:
+                    continue
+
+                setattr(self.instance, field.ct_field, 
+                    ContentType.objects.get_for_model(value))
+                setattr(self.instance, field.fk_field, value.pk)
+
+        return super(GenericModelForm, self).save(commit)
 
 class GenericForeignKeyField(fields.Field):
     def prepare_value(self, value):
