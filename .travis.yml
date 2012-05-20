@@ -11,7 +11,7 @@ install:
   - pip install -r test_project/requirements.txt
   - pip install -q -e . --use-mirrors
 before_script:
-  - "pep8 --exclude=migrations --ignore=E501,E225 autocomplete_light"
+  - "pep8 --exclude=tests.py,migrations autocomplete_light"
   - pyflakes -x W src
 script:
   - python setup.py test
