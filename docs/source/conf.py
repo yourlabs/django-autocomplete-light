@@ -40,7 +40,7 @@ import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
     intersphinx_mapping = {
-        'citieslight': ('http://django-autocomplete-light.readthedocs.org/en/latest/', None),
+        'citieslight': ('http://django-cities-light.readthedocs.org/en/latest/', None),
     }
 else:
     intersphinx_mapping = {
