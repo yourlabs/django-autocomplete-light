@@ -14,6 +14,7 @@ The purpose of this documentation is to describe every elements involved. Note
 that a living demonstration is available in `test_api_project`, where one
 project serves a full database of cities via an API to another.
 
+.. _remote-example:
 
 Example
 -------
@@ -23,9 +24,8 @@ In test_api_project, of course you should not hardcode urls like that in actual 
 .. literalinclude:: ../../test_api_project/test_api_project/autocomplete_light_registry.py
    :language: python
 
-For details on how these channels are created, have a look at
-`autocomplete stuff in django-cities-light contrib folder
-<https://github.com/yourlabs/django-cities-light/tree/master/cities_light/contrib>`_.
+Check out the documentation of :ref:`RemoteCountryChannel and
+RemoteCityChannel<citieslight:remote-channel>` for more.
 
 API
 ---
@@ -33,11 +33,11 @@ API
 .. automodule:: autocomplete_light.channel.remote
    :members:
 
-Gory details
-------------
+Javascript fun
+--------------
 
-Channels with `bootstrap='remote'` get a deck using `remoteGetValue()` rather
-than the default `getValue()` function.
+Channels with `bootstrap='remote'` get a deck using `RemoteChannelDeck's
+getValue()` rather than the default `getValue()` function.
 
 .. literalinclude:: ../../autocomplete_light/static/autocomplete_light/remote.js
    :language: javascript

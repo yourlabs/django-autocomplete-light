@@ -36,6 +36,17 @@ for script in ('autocomplete', 'deck'):
     f.write(html)
     f.close()
 
+import os
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if on_rtd:
+    intersphinx_mapping = {
+        'autocompletelight': ('http://django-autocomplete-light.readthedocs.org/en/latest/', None),
+    }
+else:
+    intersphinx_mapping = {
+        'citieslight': ('file:///home/jpic/env/src/cities-light/docs/build/html/', None),
+    }
+
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -43,7 +54,7 @@ for script in ('autocomplete', 'deck'):
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.intersphinx']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
