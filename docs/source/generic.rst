@@ -6,20 +6,20 @@ Generic foreign keys are supported since 0.4.
 GenericChannelBase
 ------------------
 
-.. automodule:: autocomplete_light.channel.generic
-   :members:
-
 Example
 ~~~~~~~
 
 .. literalinclude:: ../../test_api_project/project_specific/generic_channel_example.py
    :language: python
 
+API
+~~~
+
+.. automodule:: autocomplete_light.channel.generic
+   :members:
+
 GenericForeignKeyField
 ----------------------
-
-.. automodule:: autocomplete_light.generic
-   :members:
 
 Example
 ~~~~~~~
@@ -27,11 +27,14 @@ Example
 .. literalinclude:: ../../test_api_project/project_specific/generic_form_example.py
    :language: python
 
+API
+~~~
+
+.. automodule:: autocomplete_light.generic
+   :members:
+
 GenericManyToMany
 -----------------
-
-.. automodule:: autocomplete_light.contrib.generic_m2m
-   :members:
 
 Example
 ~~~~~~~
@@ -50,3 +53,9 @@ Example ``ModelAdmin``:
 
 .. literalinclude:: ../../test_project/generic_m2m_example/admin.py
    :language: python
+
+API
+~~~
+
+.. automodule:: autocomplete_light.contrib.generic_m2m
+   :members:

@@ -27,14 +27,14 @@ For details on how these channels are created, have a look at
 `autocomplete stuff in django-cities-light contrib folder
 <https://github.com/yourlabs/django-cities-light/tree/master/cities_light/contrib>`_.
 
-RemoteChannel
--------------
+API
+---
 
 .. automodule:: autocomplete_light.channel.remote
    :members:
 
-Widget deck
------------
+Gory details
+------------
 
 Channels with `bootstrap='remote'` get a deck using `remoteGetValue()` rather
 than the default `getValue()` function.
