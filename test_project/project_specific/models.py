@@ -3,6 +3,8 @@ from django.db.models import signals
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
+from genericm2m.models import RelatedObjectsDescriptor
+
 import cities_light
 
 
@@ -37,6 +39,8 @@ class TaggedItem(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
+
+    related = RelatedObjectsDescriptor()
 
     def __unicode__(self):
         return self.tag

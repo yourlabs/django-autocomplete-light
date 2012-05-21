@@ -6,4 +6,4 @@ from .channel import ChannelBase, JSONChannelBase, RemoteChannelBase, \
     GenericChannelBase
 from .widgets import AutocompleteWidget
 from .forms import get_widgets_dict, modelform_factory
-from .generic import GenericForeignKeyField, GenericModelForm
+from .generic import GenericModelForm, GenericForeignKeyField

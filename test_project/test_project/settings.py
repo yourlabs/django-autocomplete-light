@@ -131,6 +131,8 @@ INSTALLED_APPS = (
     'south',
     'autocomplete_light',
     'project_specific',
+    'genericm2m',
+    'generic_m2m_example',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

@@ -4,6 +4,8 @@ from django.forms import fields
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
+__all__ = ('GenericModelForm', 'GenericForeignKeyField')
+
 
 class GenericModelForm(forms.ModelForm):
     """
