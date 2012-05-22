@@ -9,7 +9,7 @@ This app fills all your ajax autocomplete needs:
 - **global navigation** autocomplete like on http://betspire.com
 - **autocomplete widget** for :ref:`ModelChoiceField
   and ModelMultipleChoiceField<widget>`
-- **autocompletes that depend on each other**, `working
+- **autocompletes that depend on each other**, :ref:`working
   example<citieslight:double-widget>` provided
 - **GenericForeignKey** fully :ref:`supported<generic-fk>`
 - **django-generic-m2m** support, yes that's a :ref:`generic M2M relation
