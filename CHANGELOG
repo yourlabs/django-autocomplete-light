@@ -1,0 +1,13 @@
+0.5
+
+    No backward compatibility break.
+
+    - Bugfix in generic channel example: demonstrate how to query_filter on
+      multiple queryset types.
+    - Bugfix in GenericForeignKeyField: allow none value.
+    - Enhancement: autocomplete_light.contrib.generic_m2m supports generic many
+      to many relations.
+    - Enhancement: allow registration of model with custom channel attributes,
+      this allows to register a model with another "search_name" than "name"
+      without subclassing.
+    - Documentation improvements.
