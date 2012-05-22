@@ -36,8 +36,10 @@ class GenericModelForm(forms.ModelForm):
 
         # take care of virtual fields since django doesn't
         for field in self._meta.model._meta.virtual_fields:
-            setattr(self.instance, field.name,
-                self.cleaned_data.get(field.name, None))
+            value = self.cleaned_data.get(field.name, None)
+
+            if value:
+                setattr(self.instance, field.name, value)
 
     def save(self, commit=True):
         """
