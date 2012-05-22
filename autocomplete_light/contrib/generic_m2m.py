@@ -49,12 +49,30 @@ class GenericModelForm(GenericModelForm):
 
     def save(self, commit=True):
         """
+        Sorry guys, but we have to force commit=True and call save_m2m() right
+        after.
+
+        The reason for that is that Django 1.4 kind of left over cases where we
+        wanted to override save_m2m: it enforces its own, which does not care
+        of generic_m2m of course.
+        """
+        model = super(GenericModelForm, self).save(True)
+        self.save_m2m()
+        return model
+
+    def save_m2m(self):
+        """
         Save selected generic m2m relations after saving the model.
         """
-        model = super(GenericModelForm, self).save(commit)
+        if hasattr(super(GenericModelForm, self), 'save_m2m'):
+            # forward compatibility:
+            # Django's ModelForm **should** allow a user to overload the
+            # save_m2m method. As of Django 1.4, it still enforces it's own
+            # save_m2m function...
+            super(GenericModelForm, self).save_m2m()
 
         for name, field in self.generic_m2m_fields():
-            model_attr = getattr(model, name)
+            model_attr = getattr(self.instance, name)
             selected_relations = self.cleaned_data.get(name, [])
 
             for related in model_attr.all():
@@ -63,8 +81,6 @@ class GenericModelForm(GenericModelForm):
 
             for related in selected_relations:
                 model_attr.connect(related)
-
-        return model
 
 
 class GenericManyToMany(GenericForeignKeyField):
