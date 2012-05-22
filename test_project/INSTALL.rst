@@ -1,3 +1,10 @@
+We're going to use virtualenv, so that we don't pollute your system when
+installing dependencies. If you don't already have virtualenv, you can install
+it either via your package manager, either via python's package manager with
+something like::
+
+    sudo easy_install virtualenv
+
 Install last release::
 
     rm -rf django-autocomplete-light autocomplete_light_env/
