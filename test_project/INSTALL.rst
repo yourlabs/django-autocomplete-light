@@ -1,7 +1,16 @@
-This commands should run the test project server::
+Install last release::
 
-    AUTOCOMPLETE_LIGHT_VERSION="test_project"
-    CITIES_LIGHT_VERSION="test_project"
+    virtualenv autocomplete_light_env
+    source autocomplete_light_env/bin/activate
+    git clone https://jpic@github.com/yourlabs/django-autocomplete-light.git
+    cd django-autocomplete-light/test_project
+    pip install -r requirements.txt
+    ./manage.py runserver
+
+Install development versions, if you want to contribute hehehe::
+
+    AUTOCOMPLETE_LIGHT_VERSION="master"
+    CITIES_LIGHT_VERSION="master"
 
     virtualenv autocomplete_light_env
     source autocomplete_light_env/bin/activate
