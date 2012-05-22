@@ -253,6 +253,6 @@ def autodiscover():
     _autodiscover(registry)
 
 
-def register(*args):
+def register(*args, **kwargs):
     """Proxy registry.register"""
-    return registry.register(*args)
+    return registry.register(*args, **kwargs)
