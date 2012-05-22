@@ -23,11 +23,30 @@ Registry
 Channels basics
 ---------------
 
+Example
+~~~~~~~
+
+:ref:`django-cities-light<citieslight:basic-channel>` ships the working example.
+
+API
+~~~
+
 .. automodule:: autocomplete_light.channel.base
    :members:
 
 Forms
 -----
+
+Example
+~~~~~~~
+
+A simple example from test_project:
+
+.. literalinclude:: ../../test_project/project_specific/forms.py
+   :language: python
+
+API
+~~~
 
 .. automodule:: autocomplete_light.forms
    :members:
