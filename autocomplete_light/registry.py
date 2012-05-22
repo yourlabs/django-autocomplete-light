@@ -2,6 +2,18 @@
 The registry module provides tools to maintain a registry of channels and
 static file dependencies.
 
+The first thing that should happen when django starts is registration of
+channels. It should happen first, because channels are required for
+autocomplete widgets. And autocomplete widgets are required for forms. And
+forms are required for ModelAdmin.
+
+It looks like this:
+
+- in ``yourapp/autocomplete_light_registry.py``, register your channels with
+  ``autocomplete_light.register()``,
+- in ``urls.py``, do ``autocomplete_light.autodiscover()`` **before**
+  ``admin.autodiscover()``.
+
 ChannelRegistry
     Subclass of Python's dict type with registration/unregistration methods.
 
