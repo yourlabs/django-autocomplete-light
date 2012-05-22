@@ -2,10 +2,12 @@ from django import forms
 
 import autocomplete_light
 from cities_light.models import City
-from cities_light.contrib.autocomplete_light_widgets import CityAutocompleteWidget
+from cities_light.contrib.autocomplete_light_widgets import \
+    CityAutocompleteWidget
 
-from models import Address, TaggedItem
+from models import Address
 from generic_form_example import TaggedItemForm
+
 
 class AddressForm(forms.ModelForm):
     city = forms.ModelChoiceField(City.objects.all(),
