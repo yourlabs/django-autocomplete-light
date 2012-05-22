@@ -1,1 +1,2 @@
 v0.1, 2012-05-10 -- Initial release
+v0.5, 2012-05-22 -- Generic many to many release
