@@ -56,10 +56,10 @@ class ChannelRegistry(dict):
             if len(self._static[path]) == 0:
                 del self.static_list[self.static_list.index(path)]
 
-    def register(self, *args):
-        """ Proxy registry.register_model_channel() or
-        registry.register_channel() if there is no apparent model for the
-        channel.
+    def register(self, *args, **kwargs):
+        """
+        Proxy registry.register_model_channel() or registry.register_channel()
+        if there is no apparent model for the channel.
 
         Example usages::
 
@@ -73,6 +73,17 @@ class ChannelRegistry(dict):
             # Register a channel without model, ensure that SomeChannel.model
             # is None (which is the default):
             autocomplete_light.register(SomeChannel)
+
+            # As of 0.5, you may also pass attributes*, ie.:
+            autocomplete_light.register(SomeModel, search_field='search_names',
+                result_template='somemodel_result.html')
+
+        You may pass attributes via kwargs, only if the registry creates a
+        type:
+
+        - if no channel class is passed,
+        - or if the channel class has no model attribute,
+        - and if the channel classs is not generic
         """
 
         channel = None
@@ -88,11 +99,11 @@ class ChannelRegistry(dict):
             model = channel.model
 
         if model:
-            self.register_model_channel(model, channel)
+            self.register_model_channel(model, channel, **kwargs)
         else:
             self.register_channel(channel)
 
-    def register_model_channel(self, model, channel=None):
+    def register_model_channel(self, model, channel=None, **kwargs):
         """
         Add a model to the registry, optionnaly with a given channel class.
 
@@ -102,6 +113,10 @@ class ChannelRegistry(dict):
         channel
             The channel class to register the model with, default to
             ChannelBase.
+
+        kwargs
+            Extra attributes to set to the channel class, if created by this
+            method.
 
         Three cases are possible:
 
@@ -115,12 +130,14 @@ class ChannelRegistry(dict):
 
         To keep things simple, the name of a channel is it's class name.
         """
+        kwargs.update({'model': model})
+
         if channel is None:
             channel = type('%sChannel' % model.__name__, (ChannelBase,),
-                {'model': model})
+                kwargs)
         elif channel.model is None:
             channel = type('%sChannel' % model.__name__, (channel,),
-                {'model': model})
+                kwargs)
 
         self.register_channel(channel)
         self._models[channel.model] = channel

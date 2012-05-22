@@ -40,6 +40,16 @@ class RegistryTestCase(unittest.TestCase):
         self.assertEqual(self.registry.keys(), [])
         self.assertEqual(self.registry.static_list, [])
 
+    def test_register_with_kwargs(self):
+        self.registry.register(Foo, search_name='search_name')
+        self.assertEqual(self.registry['FooChannel'].search_name,
+            'search_name')
+
+    def test_register_with_channel_and_kwargs(self):
+        self.registry.register(Foo, Bar, search_name='search_name')
+        self.assertEqual(self.registry['FooChannel'].search_name,
+            'search_name')
+
 
 class StaticTagTestCase(unittest.TestCase):
     def test_output(self):
