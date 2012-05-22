@@ -84,6 +84,9 @@ class GenericForeignKeyField(fields.Field):
         Given a string like '3-5', return the model of content type id 3 and pk
         5.
         """
+        if not value:
+            return value
+
         content_type_id, object_id = value.split('-')
         model = ContentType.objects.get_for_id(content_type_id).model_class()
         return model.objects.get(pk=object_id)
