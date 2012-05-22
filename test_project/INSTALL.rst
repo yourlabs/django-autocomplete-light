@@ -1,5 +1,7 @@
 Install last release::
 
+    rm -rf django-autocomplete-light autocomplete_light_env/
+
     virtualenv autocomplete_light_env
     source autocomplete_light_env/bin/activate
     git clone https://jpic@github.com/yourlabs/django-autocomplete-light.git
@@ -11,6 +13,8 @@ Install development versions, if you want to contribute hehehe::
 
     AUTOCOMPLETE_LIGHT_VERSION="master"
     CITIES_LIGHT_VERSION="master"
+
+    rm -rf autocomplete_light_env/
 
     virtualenv autocomplete_light_env
     source autocomplete_light_env/bin/activate
