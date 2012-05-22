@@ -1,3 +1,5 @@
+.. _remote:
+
 Proposing results from a remote API
 ===================================
 
@@ -32,6 +34,8 @@ API
 
 .. automodule:: autocomplete_light.channel.remote
    :members:
+
+.. _javascript-fun:
 
 Javascript fun
 --------------

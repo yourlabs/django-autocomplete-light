@@ -18,6 +18,8 @@ API
 .. automodule:: autocomplete_light.channel.generic
    :members:
 
+.. _generic-fk:
+
 GenericForeignKeyField
 ----------------------
 
@@ -32,6 +34,8 @@ API
 
 .. automodule:: autocomplete_light.generic
    :members:
+
+.. _generic-m2m:
 
 GenericManyToMany
 -----------------

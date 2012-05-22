@@ -8,12 +8,12 @@ hack like crazy.
 It is complementary with the quick documentation.
 
 Django startup
-~~~~~~~~~~~~~~
+--------------
 
 .. _registry-reference:
 
 Registry
---------
+~~~~~~~~
 
 .. automodule:: autocomplete_light.registry
    :members:
@@ -21,24 +21,24 @@ Registry
 .. _channel-reference:
 
 Channels basics
----------------
+~~~~~~~~~~~~~~~
 
 Example
-~~~~~~~
+>>>>>>>
 
 :ref:`django-cities-light<citieslight:basic-channel>` ships the working example.
 
 API
-~~~
+>>>
 
 .. automodule:: autocomplete_light.channel.base
    :members:
 
 Forms
------
+~~~~~
 
 Example
-~~~~~~~
+>>>>>>>
 
 A simple example from test_project:
 
@@ -46,13 +46,13 @@ A simple example from test_project:
    :language: python
 
 API
-~~~
+>>>
 
 .. automodule:: autocomplete_light.forms
    :members:
 
 Page rendering
---------------
+~~~~~~~~~~~~~~
 
 It is important to load jQuery first, and then autocomplete_light and
 application specific javascript, it can look like this::
@@ -70,11 +70,13 @@ That said, if you only want to make a global navigation autocomplete, you only n
 
 .. include:: _admin_template.rst
 
+.. _widget:
+
 Widget in action
-~~~~~~~~~~~~~~~~
+----------------
 
 Widget definition
------------------
+~~~~~~~~~~~~~~~~~
 
 The first thing that happens is the definition of an AutocompleteWidget in a
 form.
@@ -83,7 +85,7 @@ form.
    :members:
 
 Widget rendering
-----------------
+~~~~~~~~~~~~~~~~
 
 This is what the default widget template looks like:
 
@@ -136,7 +138,7 @@ yourlabs_deck) hold a registry. Which means that:
   someElement
 
 Javascript cron
----------------
+~~~~~~~~~~~~~~~
 
 deck.js includes a javascript function that is executed every two seconds. It
 checks each widget's hidden select for a value that is not in the deck, and
@@ -146,8 +148,10 @@ This is useful for example, when an item was added to the hidden select via the
 '+' button in django admin. But if you create items yourself in javascript and
 add them to the select it would work too.
 
+.. _channel-view:
+
 Javascript events
------------------
+~~~~~~~~~~~~~~~~~
 
 When the autocomplete input is focused, autocomplete.js checks if there are
 enought caracters in the input to display an autocomplete box. If minCharacters
@@ -175,3 +179,15 @@ value to the hidden select. Also, it will copy the result html to the deck.
 
 When an option is removed from the deck, deck.js also removes it from the
 hidden select.
+
+.. _templates:
+
+This is the default HTML template for the autocomplete:
+
+.. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/autocomplete.html
+   :language: django
+
+This is the default HTML template for results:
+
+.. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/result.html
+   :language: django
