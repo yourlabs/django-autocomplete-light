@@ -62,7 +62,7 @@ class GenericModelForm(GenericModelForm):
 
     def save_m2m(self):
         """
-        Save selected generic m2m relations after saving the model.
+        Save selected generic m2m relations.
         """
         if hasattr(super(GenericModelForm, self), 'save_m2m'):
             # forward compatibility:
