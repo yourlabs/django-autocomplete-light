@@ -5,7 +5,7 @@ from django.forms.models import modelform_factory as django_modelform_factory
 from django.db.models import ForeignKey, OneToOneField
 
 from .widgets import AutocompleteWidget
-from .registry  import registry
+from .registry import registry
 
 __all__ = ['get_widgets_dict', 'modelform_factory']
 
