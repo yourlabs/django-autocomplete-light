@@ -1,8 +1,6 @@
-import cmd
 import os
 import sys
 
-from distutils.command.build import build as _build
 from setuptools import setup, find_packages, Command
 
 
@@ -38,22 +36,10 @@ class RunTests(Command):
             __file__, "test", "autocomplete_light"])
         os.chdir(this_dir)
 
-class BuildTranslation(Command):
-    description = 'Compile .po files into .mo files'
-
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        dir = os.getcwd()
-        os.chdir(os.path.join(dir, 'autocomplete_light'))
-        os.system('django-admin.py compilemessages')
-        os.chdir(dir)
+dir = os.getcwd()
+os.chdir(os.path.join(dir, 'autocomplete_light'))
+os.system('django-admin.py compilemessages')
+os.chdir(dir)
 
 setup(
     name='django-autocomplete-light',
@@ -68,7 +54,7 @@ setup(
     long_description=read('README.rst'),
     license='MIT',
     keywords='django autocomplete',
-    cmdclass={'test': RunTests, 'build_trans': BuildTranslation},
+    cmdclass={'test': RunTests},
     install_requires=[
         'django',
     ],
