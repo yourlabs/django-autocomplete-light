@@ -1,6 +1,9 @@
-from setuptools import setup, find_packages, Command
+import cmd
 import os
 import sys
+
+from distutils.command.build import build as _build
+from setuptools import setup, find_packages, Command
 
 
 # Utility function to read the README file.
@@ -35,9 +38,26 @@ class RunTests(Command):
             __file__, "test", "autocomplete_light"])
         os.chdir(this_dir)
 
+class BuildTranslation(Command):
+    description = 'Compile .po files into .mo files'
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        dir = os.getcwd()
+        os.chdir(os.path.join(dir, 'autocomplete_light'))
+        os.system('django-admin.py compilemessages')
+        os.chdir(dir)
+
 setup(
     name='django-autocomplete-light',
-    version='0.5',
+    version='0.5.2',
     description='Simple alternative to django-ajax-selects',
     author='James Pic',
     author_email='jamespic@gmail.com',
@@ -48,7 +68,7 @@ setup(
     long_description=read('README.rst'),
     license='MIT',
     keywords='django autocomplete',
-    cmdclass={"test": RunTests},
+    cmdclass={'test': RunTests, 'build_trans': BuildTranslation},
     install_requires=[
         'django',
     ],
