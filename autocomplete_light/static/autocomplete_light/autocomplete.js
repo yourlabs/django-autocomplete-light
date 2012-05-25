@@ -227,6 +227,7 @@ function Autocomplete(el) {
             'complete': function(jqXHR, textStatus) {
                 autocomplete.fixPosition();
                 autocomplete.show(jqXHR.responseText);
+                autocomplete.xhr = false;
             },
         });
     }
