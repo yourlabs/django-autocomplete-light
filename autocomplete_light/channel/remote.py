@@ -48,7 +48,6 @@ class RemoteChannelBase(JSONChannelBase):
     """
 
     bootstrap = 'remote'
-    static_list = ('autocomplete_light/remote.js', )
 
     def post(self, request, *args, **kwargs):
         """

@@ -1,6 +1,5 @@
 """
-The registry module provides tools to maintain a registry of channels and
-static file dependencies.
+The registry module provides tools to maintain a registry of channels.
 
 The first thing that should happen when django starts is registration of
 channels. It should happen first, because channels are required for
@@ -24,10 +23,8 @@ register
     Proxy registry.register.
 
 autodiscover
-    Find channels and javascript and css, fill registry and static_list.
+    Find channels and fill registry.
 """
-
-import os.path
 
 from django.db import models
 
@@ -42,9 +39,7 @@ class ChannelRegistry(dict):
     """
 
     def __init__(self):
-        self.static_list = []
         self._models = {}
-        self._static = {}
 
     def channel_for_model(self, model):
         """Return the channel class for a given model."""
@@ -62,11 +57,6 @@ class ChannelRegistry(dict):
 
         if channel.model:
             del self._models[channel.model]
-
-        for path in channel.static_list:
-            del self._static[path][self._static[path].index(name)]
-            if len(self._static[path]) == 0:
-                del self.static_list[self.static_list.index(path)]
 
     def register(self, *args, **kwargs):
         """
@@ -160,14 +150,6 @@ class ChannelRegistry(dict):
         """
         self[channel.__name__] = channel
 
-        for path in getattr(channel, 'static_list', []):
-            if path not in self.static_list:
-                self.static_list.append(path)
-
-            if path not in self._static:
-                self._static[path] = []
-            self._static[path].append(channel.__name__)
-
 
 def _autodiscover(registry):
     """See documentation for autodiscover (without the underscore)"""
@@ -178,17 +160,6 @@ def _autodiscover(registry):
 
     for app in settings.INSTALLED_APPS:
         mod = import_module(app)
-        # check if the app has static/appname/autocomplete_light.js
-        css_path = 'static/%s/autocomplete_light.css' % mod.__name__
-        if os.path.exists(os.path.join(mod.__path__[0], css_path)):
-            if css_path[7:] not in registry.static_list:
-                registry.static_list.append(css_path[7:])
-
-        js_path = 'static/%s/autocomplete_light.js' % mod.__name__
-        if os.path.exists(os.path.join(mod.__path__[0], js_path)):
-            if js_path[7:] not in registry.static_list:
-                registry.static_list.append(js_path[7:])
-
         # Attempt to import the app's admin module.
         try:
             before_import_registry = copy.copy(registry)
@@ -213,12 +184,9 @@ def autodiscover():
     """
     Check all apps in INSTALLED_APPS for stuff related to autocomplete_light.
 
-    For each app, autodiscover:
-
-    - imports app.autocomplete_light_registry if available, resulting in
-      execution of register() statements in that module, filling registry
-    - checks for app/static/app/autocomplete_light.js, adds it to static_list
-    - checks for app/static/app/autocomplete_light.css, adds it to static_list
+    For each app, autodiscover imports app.autocomplete_light_registry if
+    available, resulting in execution of register() statements in that module,
+    filling registry.
 
     Consider a standard app called 'cities_light' with such a structure::
 
@@ -228,10 +196,6 @@ def autodiscover():
             urls.py
             views.py
             autocomplete_light_registry.py
-            static/
-                cities_light/
-                    autocomplete_light.js
-                    autocomplete_light.css
 
     With such a autocomplete_light_registry.py::
 
@@ -244,11 +208,6 @@ def autodiscover():
     CityChannel and CountryChannel will be registered. For details on how these
     channel classes are generated, read the documentation of
     ChannelRegistry.register.
-
-    Also, 'cities_light/autocomplete_light.js' and
-    'cities_light/autocomplete_light.css' will be appended to static_list. This
-    list is used by the autocomplete_light_static templatetag, read it's
-    documentation for details.
     """
     _autodiscover(registry)
 

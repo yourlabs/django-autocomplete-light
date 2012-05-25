@@ -1,3 +1,12 @@
+0.6 No pity for insane bloat removal
+
+    Backward compatibility break: {% autocomplete_light_static %} was removed.
+    Instead, use {% include 'autocomplete_light/static.html' %} as demonstrated
+    in the "Quick start" documentation.
+
+    Note that autocomplete_light/static.html does not include
+    cities_light/autocomplete.js, so you have to load it yourself now.
+
 0.5
 
     No backward compatibility break.
