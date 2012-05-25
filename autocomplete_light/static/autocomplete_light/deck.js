@@ -11,7 +11,7 @@ function AutocompleteDeck(el) {
         return result.data('value');
     };
     this.initializeAutocomplete = function() {
-        this.input.yourlabs_autocomplete(this.autocompleteOptions);
+        this.autocomplete = this.input.yourlabs_autocomplete(this.autocompleteOptions);
     };
     this.bindSelectOption = function() {
         this.input.bind('selectOption', function(e, option) {
