@@ -48,7 +48,8 @@ Quick admin integration
 
 .. include:: _admin_template.rst
 
-Create yourapp/autocomplete_light_registry.py, assuming "Author" has a "full_name" CharField::
+Create ``yourapp/autocomplete_light_registry.py``, assuming "Author" has a
+"full_name" CharField::
 
     import autocomplete_light
 
