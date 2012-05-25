@@ -11,8 +11,7 @@ class Foo(models.Model):
 
 
 class Bar(autocomplete_light.ChannelBase):
-    static_list = ('foo.js',)
-
+    pass
 
 class RegistryTestCase(unittest.TestCase):
     def setUp(self):
@@ -30,15 +29,10 @@ class RegistryTestCase(unittest.TestCase):
         self.registry.register(Bar)
         self.assertIn('Bar', self.registry.keys())
 
-    def test_register_channel_with_static(self):
-        self.registry.register(Bar)
-        self.assertIn('foo.js', self.registry.static_list)
-
     def test_unregister(self):
         self.registry.register(Bar)
         self.registry.unregister('Bar')
         self.assertEqual(self.registry.keys(), [])
-        self.assertEqual(self.registry.static_list, [])
 
     def test_register_with_kwargs(self):
         self.registry.register(Foo, search_name='search_name')
@@ -51,12 +45,3 @@ class RegistryTestCase(unittest.TestCase):
             'search_name')
 
 
-class StaticTagTestCase(unittest.TestCase):
-    def test_output(self):
-        expected = ''.join([
-            '<script src="/static/autocomplete_light/autocomplete.js" type="text/javascript"></script>',
-            '<script src="/static/autocomplete_light/deck.js" type="text/javascript"></script>',
-            '<link rel="stylesheet" type="text/css" href="/static/autocomplete_light/style.css"/>',
-        ])
-        output = autocomplete_light_tags.autocomplete_light_static()
-        self.assertEqual(output, expected)

@@ -52,10 +52,6 @@ class ChannelBase(object):
 
     placeholder
         The initial text in the autocomplete text input.
-
-    static_list
-        A list of static files which are necessary for this channel. It is an
-        empty list by default.
     """
 
     model = None
@@ -65,7 +61,6 @@ class ChannelBase(object):
     placeholder = _(u'type some text to search in this autocomplete')
     result_template = None
     autocomplete_template = None
-    static_list = []
 
     def __init__(self):
         """

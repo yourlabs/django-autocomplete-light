@@ -58,12 +58,17 @@ It is important to load jQuery first, and then autocomplete_light and
 application specific javascript, it can look like this::
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-    {% load autocomplete_light_tags %}
-    {% autocomplete_light_static %}
+    {% include 'autocomplete_light/static.html' %}
 
-.. autofunction:: autocomplete_light.templatetags.autocomplete_light_tags.autocomplete_light_static
+However, ``autocomplete_light/static.html`` also includes "remote.js" which is
+required only by remote channels. If you don't need it, you could either load
+the static dependencies directly in your template, or override
+``autocomplete_light/static.html``:
 
-That said, if you only want to make a global navigation autocomplete, you only need::
+.. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/static.html
+   :language: django
+
+Or, if you only want to make a global navigation autocomplete, you only need::
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script src="{{ STATIC_URL }}autocomplete_light/autocomplete.js" type="text/javascript"></script>

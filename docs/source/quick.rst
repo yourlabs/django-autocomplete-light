@@ -35,11 +35,10 @@ then you're on your own to manage staticfiles.
 
 .. _javascript-setup:
 
-Add to your base template::
+This is an example of how you could load the javascript::
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-    {% load autocomplete_light_tags %}
-    {% autocomplete_light_static %}
+    {% include 'autocomplete_light/static.html' %}
 
 .. _quick-admin:
 
