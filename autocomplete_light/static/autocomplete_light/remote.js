@@ -26,8 +26,10 @@ var RemoteChannelDeck = {
     }
 }
 
-// Instanciate decks with RemoteChannelDeck as override for all widgets with
-// channel 'remote'.
-$('.autocomplete_light_widget[data-bootstrap=remote]').each(function() {
-    $(this).yourlabs_deck(RemoteChannelDeck);
+$(document).ready(function() {
+    // Instanciate decks with RemoteChannelDeck as override for all widgets with
+    // channel 'remote'.
+    $('.autocomplete_light_widget[data-bootstrap=remote]').each(function() {
+        $(this).yourlabs_deck(RemoteChannelDeck);
+    });
 });
