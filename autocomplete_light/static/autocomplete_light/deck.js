@@ -36,7 +36,7 @@ function AutocompleteDeck(el) {
     this.updateDisplay = function() {
         this.input.val('');
 
-        if (this.payload.max_items && this.valueSelect.find('option').length == this.payload.max_items) {
+        if (this.payload.max_items && this.valueSelect.find('option:selected').length == this.payload.max_items) {
             this.input.hide();
         } else {
             this.input.show();
