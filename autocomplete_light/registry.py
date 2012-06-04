@@ -105,7 +105,8 @@ class ChannelRegistry(dict):
         else:
             self.register_channel(channel)
 
-    def register_model_channel(self, model, channel=None, **kwargs):
+    def register_model_channel(self, model, channel=None, channel_name=None,
+        **kwargs):
         """
         Add a model to the registry, optionnaly with a given channel class.
 
@@ -115,6 +116,9 @@ class ChannelRegistry(dict):
         channel
             The channel class to register the model with, default to
             ChannelBase.
+
+        channel_name
+            Register channel under channel_name, default is ModelNameChannel.
 
         kwargs
             Extra attributes to set to the channel class, if created by this
@@ -133,7 +137,8 @@ class ChannelRegistry(dict):
         To keep things simple, the name of a channel is it's class name.
         """
         kwargs.update({'model': model})
-        channel_name = kwargs.pop('channel_name', '%sChannel' % model.__name__)
+        if channel_name is None:
+            channel_name = '%sChannel' % model.__name__
 
         if channel is None:
             channel = type(channel_name, (ChannelBase,), kwargs)
