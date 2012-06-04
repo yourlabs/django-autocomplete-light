@@ -134,7 +134,9 @@ class ChannelRegistry(dict):
         - specify a model and a channel class with a model attribute, and the
           channel is directly registered
 
-        To keep things simple, the name of a channel is it's class name.
+        To keep things simple, the name of a channel is it's class name, which
+        is usually generated. In case of conflicts, you may override the
+        default channel name with the channel_name keyword argument.
         """
         kwargs.update({'model': model})
         if channel_name is None:
