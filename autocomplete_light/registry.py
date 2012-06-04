@@ -131,8 +131,8 @@ class ChannelRegistry(dict):
         - specify a model and a channel class that does not have a model
           attribute, and a ModelNameChannel will be generated, with attribute
           model=model
-        - specify a model and a channel class with a model attribute, and the
-          channel is directly registered
+        - specify a channel class with a model attribute, and the channel is
+          directly registered
 
         To keep things simple, the name of a channel is it's class name, which
         is usually generated. In case of conflicts, you may override the
