@@ -89,7 +89,7 @@ class GenericManyToMany(GenericForeignKeyField):
     """
     def prepare_value(self, value):
         if hasattr(value, '__iter__'):
-            return [super(GenericManyToMany, self).prepare_value(v) \
+            return [super(GenericManyToMany, self).prepare_value(v)
                 for v in value]
         return super(GenericManyToMany, self).prepare_value(value)
 

@@ -75,6 +75,6 @@ class GenericChannelBase(ChannelBase):
         Filter out any result from results that is not refered to by values.
         """
         ctype = ContentType.objects.get_for_model(results.model).pk
-        ids = [x.split('-')[1] for x in values \
+        ids = [x.split('-')[1] for x in values
             if int(x.split('-')[0]) == ctype]
         return results.filter(pk__in=ids)
