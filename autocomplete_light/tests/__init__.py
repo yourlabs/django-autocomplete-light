@@ -3,7 +3,6 @@ import unittest
 from django.db import models
 
 import autocomplete_light
-from autocomplete_light.templatetags import autocomplete_light_tags
 
 
 class Foo(models.Model):
@@ -12,6 +11,7 @@ class Foo(models.Model):
 
 class Bar(autocomplete_light.ChannelBase):
     pass
+
 
 class RegistryTestCase(unittest.TestCase):
     def setUp(self):
@@ -44,4 +44,6 @@ class RegistryTestCase(unittest.TestCase):
         self.assertEqual(self.registry['FooChannel'].search_name,
             'search_name')
 
-
+    def test_register_with_custom_name(self):
+        self.registry.register(Foo, Bar, channel_name='BarFoo')
+        self.assertIn('BarFoo', self.registry.keys())

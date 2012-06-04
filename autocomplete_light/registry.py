@@ -133,13 +133,12 @@ class ChannelRegistry(dict):
         To keep things simple, the name of a channel is it's class name.
         """
         kwargs.update({'model': model})
+        channel_name = kwargs.pop('channel_name', '%sChannel' % model.__name__)
 
         if channel is None:
-            channel = type('%sChannel' % model.__name__, (ChannelBase,),
-                kwargs)
+            channel = type(channel_name, (ChannelBase,), kwargs)
         elif channel.model is None:
-            channel = type('%sChannel' % model.__name__, (channel,),
-                kwargs)
+            channel = type(channel_name, (channel,), kwargs)
 
         self.register_channel(channel)
         self._models[channel.model] = channel
