@@ -47,3 +47,4 @@ class RegistryTestCase(unittest.TestCase):
     def test_register_with_custom_name(self):
         self.registry.register(Foo, Bar, channel_name='BarFoo')
         self.assertIn('BarFoo', self.registry.keys())
+        self.assertEqual(self.registry['BarFoo'].__name__, 'BarFoo')
