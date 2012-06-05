@@ -67,6 +67,7 @@ class GenericModelForm(GenericModelForm):
 
         if hasattr(self, 'save_m2m'):
             old_m2m = self.save_m2m
+
             def _():
                 save_m2m()
                 old_m2m()
