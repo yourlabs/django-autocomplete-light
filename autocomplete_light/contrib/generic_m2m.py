@@ -49,38 +49,32 @@ class GenericModelForm(GenericModelForm):
 
     def save(self, commit=True):
         """
-        Sorry guys, but we have to force commit=True and call save_m2m() right
-        after.
-
-        The reason for that is that Django 1.4 kind of left over cases where we
-        wanted to override save_m2m: it enforces its own, which does not care
-        of generic_m2m of course.
+        Save the form and particularely the generic many to many relations.
         """
-        model = super(GenericModelForm, self).save(True)
-        self.save_m2m()
-        return model
+        instance = super(GenericModelForm, self).save(commit=commit)
 
-    def save_m2m(self):
-        """
-        Save selected generic m2m relations.
-        """
-        if hasattr(super(GenericModelForm, self), 'save_m2m'):
-            # forward compatibility:
-            # Django's ModelForm **should** allow a user to overload the
-            # save_m2m method. As of Django 1.4, it still enforces it's own
-            # save_m2m function...
-            super(GenericModelForm, self).save_m2m()
+        def save_m2m():
+            for name, field in self.generic_m2m_fields():
+                model_attr = getattr(instance, name)
+                selected_relations = self.cleaned_data.get(name, [])
 
-        for name, field in self.generic_m2m_fields():
-            model_attr = getattr(self.instance, name)
-            selected_relations = self.cleaned_data.get(name, [])
+                for related in model_attr.all():
+                    if related.object not in selected_relations:
+                        model_attr.remove(related)
 
-            for related in model_attr.all():
-                if related.object not in selected_relations:
-                    model_attr.remove(related)
+                for related in selected_relations:
+                    model_attr.connect(related)
 
-            for related in selected_relations:
-                model_attr.connect(related)
+        if hasattr(self, 'save_m2m'):
+            old_m2m = self.save_m2m
+            def _():
+                save_m2m()
+                old_m2m()
+            self.save_m2m = _
+        else:
+            save_m2m()
+
+        return instance
 
 
 class GenericManyToMany(GenericForeignKeyField):
