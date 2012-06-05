@@ -17,4 +17,6 @@ Try basic features
 Try advanced features
 ---------------------
 
+.. include:: ../../test_api_project/INSTALL.rst
+
 .. include:: ../../test_api_project/README.rst
