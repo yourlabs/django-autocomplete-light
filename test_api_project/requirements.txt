@@ -1,2 +1,2 @@
--e git+git://github.com/yourlabs/django-cities-light.git@test_api_project#egg=cities_light
--e git+https://github.com/tomchristie/django-rest-framework.git@0c82e4b57#egg=djangorestframework
+django-admin-tools==0.4.1
+-e hg+https://bitbucket.org/salvator/django-admintools-bootstrap@ed02c7a7391a5ba82c44f191185ddceea2c83c4d#egg=django_admintools_bootstrap-dev

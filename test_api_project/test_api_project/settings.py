@@ -105,6 +105,18 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+ 'django.contrib.auth.context_processors.auth',
+ 'django.core.context_processors.debug',
+ 'django.core.context_processors.i18n',
+ 'django.core.context_processors.media',
+ 'django.core.context_processors.static',
+ 'django.core.context_processors.tz',
+ 'django.core.context_processors.request',
+ 'django.contrib.messages.context_processors.messages',
+)
+
+
 ROOT_URLCONF = 'test_api_project.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -118,6 +130,9 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'admintools_bootstrap',
+    'genericm2m',
+    'generic_m2m_example',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -131,6 +146,10 @@ INSTALLED_APPS = (
     'south',
     'autocomplete_light',
     'project_specific',
+    'admin_tools',
+    'admin_tools.theming',
+    'admin_tools.menu',
+    'admin_tools.dashboard',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
