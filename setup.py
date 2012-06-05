@@ -60,7 +60,7 @@ else:
 
 setup(
     name='django-autocomplete-light',
-    version='0.7rc3',
+    version='0.8',
     description='Simple alternative to django-ajax-selects',
     author='James Pic',
     author_email='jamespic@gmail.com',
