@@ -35,6 +35,8 @@ Login with user "test" and password "test".
 
 If you want to redo the database, but make sure you read README first::
 
-    rm db.sqlite
-    ./manage.py syncdb
+    cd test_project
+    rm -rf db.sqlite
+    ./manage.py syncdb --noinput
+    ./manage.py migrate
     ./manage.py cities_light
