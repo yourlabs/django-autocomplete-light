@@ -12,6 +12,10 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+FIXTURE_DIRS = [
+    os.path.join(PROJECT_ROOT, 'fixtures'),
+]
+
 MANAGERS = ADMINS
 
 DATABASES = {
