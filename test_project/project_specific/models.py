@@ -8,7 +8,7 @@ from genericm2m.models import RelatedObjectsDescriptor
 import cities_light
 
 
-COUNTRIES = ('FR', 'US', 'BE', 'UK', 'ES', 'PT', 'DE', 'NL')
+COUNTRIES = ('FR', 'US', 'BE', 'GB', 'ES', 'PT', 'DE', 'NL')
 
 def filter_city_import(sender, items, **kwargs):
     if items[8] not in COUNTRIES:
