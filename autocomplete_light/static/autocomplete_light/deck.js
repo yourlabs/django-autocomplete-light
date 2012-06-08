@@ -72,6 +72,10 @@ function AutocompleteDeck(el) {
         // Get the value for this result.
         var value = this.getValue(result);
 
+        if (!value) {
+            return;
+        }
+
         this.freeDeck();
         this.addToDeck(result, value);
         this.addToSelect(result, value);
