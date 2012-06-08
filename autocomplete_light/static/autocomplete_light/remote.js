@@ -6,21 +6,25 @@ var RemoteChannelDeck = {
     // request: POST the json dict to the channel url. It expects that the
     // response will contain the value.
     getValue: function(result) {
-        data = $.parseJSON(result.find('textarea').html());
-
-        if (data.value) return data.value;
+        var json = result.find('textarea').html();
+        var data = $.parseJSON(json);
 
         var value = false;
-        $.ajax(this.payload.channel.url, {
-            async: false,
-            type: 'post',
-            data: {
-                'result': result.find('textarea').html(),
-            },
-            success: function(text, jqXHR, textStatus) {
-                value = text;
-            }
-        });
+
+        if (data.value) {
+            value = data.value;
+        } else {
+            $.ajax(this.payload.channel.url, {
+                async: false,
+                type: 'post',
+                data: {
+                    'result': json,
+                },
+                success: function(text, jqXHR, textStatus) {
+                    value = text;
+                }
+            });
+        }
 
         return value;
     }
