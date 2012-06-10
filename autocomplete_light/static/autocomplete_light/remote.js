@@ -1,10 +1,12 @@
 var RemoteChannelWidget = {
-    // The default deck getValue() implementation just returns the PK from the
-    // result HTML. RemoteChannelWidget's implementation checks for a textarea
-    // that would contain a JSON dict in the result's HTML. If the dict has a
-    // 'value' key, then return this value. Otherwise, make a blocking ajax
-    // request: POST the json dict to the channel url. It expects that the
-    // response will contain the value.
+    /*
+    The default deck getValue() implementation just returns the PK from the
+    result HTML. RemoteChannelWidget's implementation checks for a textarea
+    that would contain a JSON dict in the result's HTML. If the dict has a
+    'value' key, then return this value. Otherwise, make a blocking ajax
+    request: POST the json dict to the channel url. It expects that the
+    response will contain the value.
+    */
     getValue: function(result) {
         var json = result.find('textarea').html();
         var data = $.parseJSON(json);

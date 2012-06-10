@@ -1,50 +1,50 @@
 /*
- * Widget complements Autocomplete by enabling autocompletes to be used as
- * value holders. It looks very much like Autocomplete in its design. Thus, it
- * is recommended to read the source of Autocomplete first.
- *
- * Widget behaves like the autocomplete in facebook profile page, which all
- * users should be able to use.
- *
- * Behind the scenes, Widget maintains a normal hidden select which makes it
- * simple to play with on the server side like on the client side. If a value
- * is added and selected in the select element, then it is added to the deck,
- * and vice-versa.
- *
- * It needs some elements, and established vocabulary:
- *
- * - ".autocomplete-light-widget" element wraps all the HTML necessary for the
- *   widget,
- * - ".deck" contains the list of selected item(s) as HTML,
- * - "input" should be the text input that has the Autocomplete,
- * - "select" a (optionnaly multiple) select
- * - ".remove" a (preferabely hidden) element that contains a value removal
- *   indicator, like an "X" sign or a trashcan icon, it is used to prefix every
- *   children of the deck
- * - ".item-template" a (preferabely hidden) element that contains the template
- *   for items which are added directly in the select, as they should be
- *   copied in the deck,
- *
- * To avoid complexity, this script relies on extra HTML attributes, and
- * particularely one called 'data-value'. Learn more about data attributes:
- * http://dev.w3.org/html5/spec/global-attributes.html#embedding-custom-non-visible-data-with-the-data-attributes
- *
- * When a suggestion is selected from the Autocomplete, its element is cloned
- * and appended to the deck - "deck" contains "items". It is important that the
- * suggestion elements of the autocomplete all contain a data-value attribute.
- * The value of data-value is used to fill the selected options in the hidden
- * select field.
- *
- * If suggestions may not all have a data-value attribute, then you can
- * override Widget.getValue() to implement your own logic.
- */
+Widget complements Autocomplete by enabling autocompletes to be used as
+value holders. It looks very much like Autocomplete in its design. Thus, it
+is recommended to read the source of Autocomplete first.
+
+Widget behaves like the autocomplete in facebook profile page, which all
+users should be able to use.
+
+Behind the scenes, Widget maintains a normal hidden select which makes it
+simple to play with on the server side like on the client side. If a value
+is added and selected in the select element, then it is added to the deck,
+and vice-versa.
+
+It needs some elements, and established vocabulary:
+
+- ".autocomplete-light-widget" element wraps all the HTML necessary for the
+ widget,
+- ".deck" contains the list of selected item(s) as HTML,
+- "input" should be the text input that has the Autocomplete,
+- "select" a (optionnaly multiple) select
+- ".remove" a (preferabely hidden) element that contains a value removal
+ indicator, like an "X" sign or a trashcan icon, it is used to prefix every
+ children of the deck
+- ".item-template" a (preferabely hidden) element that contains the template
+ for items which are added directly in the select, as they should be
+ copied in the deck,
+
+To avoid complexity, this script relies on extra HTML attributes, and
+particularely one called 'data-value'. Learn more about data attributes:
+http://dev.w3.org/html5/spec/global-attributes.html#embedding-custom-non-visible-data-with-the-data-attributes
+
+When a suggestion is selected from the Autocomplete, its element is cloned
+and appended to the deck - "deck" contains "items". It is important that the
+suggestion elements of the autocomplete all contain a data-value attribute.
+The value of data-value is used to fill the selected options in the hidden
+select field.
+
+If suggestions may not all have a data-value attribute, then you can
+override Widget.getValue() to implement your own logic.
+*/
 
 // Our class will live in the yourlabs global namespace.
 if (window.yourlabs == undefined) window.yourlabs = {};
 
 /*
- * Instanciate a Widget.
- */
+Instanciate a Widget.
+*/
 yourlabs.Widget = function(widget) {
     // These attributes where described above.
     this.widget = widget;
@@ -245,10 +245,10 @@ $.fn.yourlabsWidget = function(overrides) {
 $(document).ready(function() {
     $('.autocomplete-light-widget[data-bootstrap=normal]').each(function() {
         /*
-         * Only setup widgets which have data-bootstrap=normal, if you want to
-         * initialize some Widgets with custom code, then set
-         * data-boostrap=yourbootstrap or something like that.
-         */
+        Only setup widgets which have data-bootstrap=normal, if you want to
+        initialize some Widgets with custom code, then set
+        data-boostrap=yourbootstrap or something like that.
+        */
         var deck = $(this).yourlabsWidget();
     });
 
@@ -268,17 +268,19 @@ $(document).ready(function() {
         widget.deselectItem(suggestion);
     });
 
-    // Support values added directly in the select via js (ie. items created in
-    // modal or popup).
-    //
-    // For this, we make one timer that regularely checks for values in the select
-    // that are not in the deck. The reason for that is that change is not triggered
-    // when options are added like this:
-    //
-    //     $('select#id-dependencies').append(
-    //         '<option value="9999" selected="selected">blabla</option>')
-    //
-    // Sorry for the hack but I see no other way, this is HTML's fault.
+    /*
+    Support values added directly in the select via js (ie. items created in
+    modal or popup).
+
+    For this, we make one timer that regularely checks for values in the select
+    that are not in the deck. The reason for that is that change is not triggered
+    when options are added like this:
+
+        $('select#id-dependencies').append(
+            '<option value="9999" selected="selected">blabla</option>')
+
+    Sorry for the hack but I see no other way, this is HTML's fault.
+    */
     function updateWidgets() {
         $('.autocomplete-light-widget[data-widget-ready=1]').each(function() {
             var widget = $(this).yourlabsWidget();
