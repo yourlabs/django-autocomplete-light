@@ -1,6 +1,6 @@
-var RemoteChannelDeck = {
+var RemoteChannelWidget = {
     // The default deck getValue() implementation just returns the PK from the
-    // result HTML. RemoteChannelDeck's implementation checks for a textarea
+    // result HTML. RemoteChannelWidget's implementation checks for a textarea
     // that would contain a JSON dict in the result's HTML. If the dict has a
     // 'value' key, then return this value. Otherwise, make a blocking ajax
     // request: POST the json dict to the channel url. It expects that the
@@ -14,7 +14,7 @@ var RemoteChannelDeck = {
         if (data.value) {
             value = data.value;
         } else {
-            $.ajax(this.payload.channel.url, {
+            $.ajax(this.autocompleteOptions.url, {
                 async: false,
                 type: 'post',
                 data: {
@@ -31,9 +31,9 @@ var RemoteChannelDeck = {
 }
 
 $(document).ready(function() {
-    // Instanciate decks with RemoteChannelDeck as override for all widgets with
+    // Instanciate decks with RemoteChannelWidget as override for all widgets with
     // channel 'remote'.
-    $('.autocomplete_light_widget[data-bootstrap=remote]').each(function() {
-        $(this).yourlabs_deck(RemoteChannelDeck);
+    $('.autocomplete-light-widget[data-bootstrap=remote]').each(function() {
+        $(this).yourlabsWidget(RemoteChannelWidget);
     });
 });
