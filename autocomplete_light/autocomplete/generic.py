@@ -1,0 +1,102 @@
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
+
+from autocomplete_light.generic import GenericForeignKeyField
+
+from .model import AutocompleteModel
+
+__all__ = ['AutocompleteGeneric']
+
+
+class AutocompleteGeneric(AutocompleteModel):
+    choices = None
+    search_fields = None
+
+    def choice_value(self, choice):
+        """
+        Rely on GenericForeignKeyField to return a string containing the
+        content type id and object id of the result.
+
+        Because this channel is made for that field, and to avoid code
+        duplication.
+        """
+        field = GenericForeignKeyField()
+        return field.prepare_value(choice)
+
+    def validate_values(self):
+        assert self.choices, 'autocomplete.choices should be a queryset list'
+
+        for value in self.values:
+            try:
+                content_type_id, object_id = value.split('-')
+            except ValueError:
+                return False
+
+            try:
+                content_type = ContentType.objects.get_for_id(content_type_id)
+            except ContentType.DoesNotExist:
+                return False
+
+            model_class = content_type.model_class()
+
+            found = False
+            for queryset in self.choices:
+                if queryset.model != model_class:
+                    continue
+
+                if queryset.filter(pk=object_id).count() == 1:
+                    found = True
+                else:
+                    return False
+
+            if not found:
+                # maybe a user would cheat by using a forbidden ctype id !
+                return False
+
+        return True
+
+    def choices_for_request(self):
+        assert self.choices, 'autocomplete.choices should be a queryset list'
+
+        q = self.request.GET.get('q', '')
+
+        request_choices = []
+        querysets_left = len(self.choices)
+
+        i = 0
+        for queryset in self.choices:
+            conditions = Q()
+
+            if q:
+                for search_field in self.search_fields[i]:
+                    conditions |= Q(**{search_field + '__icontains': q})
+
+            limit = ((self.limit_choices - len(request_choices)) /
+                querysets_left)
+            for choice in queryset.filter(conditions)[:limit]:
+                request_choices.append(choice)
+
+            querysets_left -= 1
+            i += 1
+
+        return request_choices
+
+    def choices_for_values(self):
+        """
+        Values which are not found in the querysets are ignored.
+        """
+        values_choices = []
+
+        for queryset in self.choices:
+            ctype = ContentType.objects.get_for_model(queryset.model).pk
+
+            try:
+                ids = [x.split('-')[1] for x in self.values
+                    if int(x.split('-')[0]) == ctype]
+            except ValueError:
+                continue
+
+            for choice in queryset.filter(pk__in=ids):
+                values_choices.append(choice)
+
+        return values_choices
