@@ -15,6 +15,18 @@ class AutocompleteChoiceListMock(
     )
 
 
+class FormMock(forms.Form):
+    x = forms.ChoiceField(choices=AutocompleteChoiceListMock.choices,
+        widget=autocomplete_light.ChoiceWidget(
+            autocomplete=AutocompleteChoiceListMock))
+
+
+class MultipleFormMock(forms.Form):
+    x = forms.MultipleChoiceField(choices=AutocompleteChoiceListMock.choices,
+        widget=autocomplete_light.MultipleChoiceWidget(
+            autocomplete=AutocompleteChoiceListMock))
+
+
 class AutocompleteChoiceListTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteChoiceListMock
 
@@ -80,5 +92,33 @@ class AutocompleteChoiceListTestCase(AutocompleteTestCase):
                     '<div data-value="4">Four</div>',
                     '<div data-value="1">One</div>',
                 ])
+            },
+        )
+
+    def get_widget_tests(self):
+        return (
+            {
+                'form_class': FormMock,
+                'fixture': 'x=4',
+                'expected_valid': True,
+                'expected_data': 4,
+            },
+            {
+                'fixture': 'x=abc',
+                'expected_valid': False,
+            },
+            {
+                'form_class': MultipleFormMock,
+                'fixture': 'x=4&x=6',
+                'expected_valid': False,
+            },
+            {
+                'fixture': 'x=4&x=10',
+                'expected_valid': True,
+                'expected_data': [u'4', u'10'],
+            },
+            {
+                'fixture': 'x=abc&x=2',
+                'expected_valid': False,
             },
         )

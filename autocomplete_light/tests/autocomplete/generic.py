@@ -16,6 +16,18 @@ class AutocompleteGenericMock(autocomplete_light.AutocompleteGenericBase):
     limit_choices = 3
 
 
+class FormMock(forms.Form):
+    x = autocomplete_light.GenericModelChoiceField(
+        widget=autocomplete_light.ChoiceWidget(
+            autocomplete=AutocompleteGenericMock))
+
+
+class MultipleFormMock(forms.Form):
+    x = forms.ModelMultipleChoiceField(queryset=AutocompleteGenericMock.choices,
+        widget=autocomplete_light.MultipleChoiceWidget(
+            autocomplete=AutocompleteGenericMock))
+
+
 class AutocompleteGenericTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteGenericMock
 
@@ -126,3 +138,22 @@ class AutocompleteGenericTestCase(AutocompleteTestCase):
 
     def get_autocomplete_html_tests(self):
         return []
+
+    def get_widget_tests(self):
+        return (
+            {
+                'form_class': FormMock,
+                'fixture': 'x=%s-%s' % (
+                    self.group_ctype.pk, self.bluesmen.pk),
+                'expected_valid': True,
+                'expected_data': self.bluesmen,
+            },
+            {
+                'form_class': FormMock,
+                'fixture': 'x=%s-%s&x=%s-%s' % (
+                    self.group_ctype.pk, self.bluesmen.pk,
+                    self.group_ctype.pk, self.emos.pk),
+                'expected_valid': True,
+                'expected_data': self.bluesmen,
+            },
+        )

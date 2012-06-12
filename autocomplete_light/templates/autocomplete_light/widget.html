@@ -1,49 +1,43 @@
 {% load i18n %}
 {% load autocomplete_light_tags %}
 
-{% comment %}
-The outer element is called the 'widget wrapper'. It contains some data
-attributes to communicate between Python and JavaScript. And of course, it
-wraps around everything the widget needs.
-{% endcomment %}
-<span class="autocomplete_light_widget {{ name }}" id="{{ widget.html_id }}_wrapper" data-bootstrap="{{ widget.bootstrap }}">
-    
+<span class="autocomplete-light-widget {{ name }}" id="{{ widget.html_id }}-wrapper"
+    {{ widget.widget_js_attributes|autocomplete_light_data_attributes }}
+    {{ widget.autocomplete_js_attributes|autocomplete_light_data_attributes:'autocomplete-' }}
+    >
+
     {# a deck that should contain the list of selected options #}
-    <ul id="{{ html_id }}_deck" class="deck" >
-        {% for result in results %}
-            {{ result|autocomplete_light_result_as_html:channel }}
+    {{ choices }}
+    <ul id="{{ html_id }}-deck" class="deck" >
+        {% for choice in autocomplete.choices_for_values %}
+            {{ choice|autocomplete_light_choice_html:autocomplete }}
         {% endfor %}
     </ul>
 
     {# a text input, that is the 'autocomplete input' #}
-    <input type="text" class="autocomplete" name="{{ name }}_autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
-    
+    <input type="text" class="autocomplete" name="{{ name }}-autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
+
     {# a hidden select, that contains the actual selected values #}
-    <select style="display:none" class="valueSelect" name="{{ name }}" id="{{ widget.html_id }}" {% if widget.max_items != 1 %}multiple="multiple"{% endif %}>
+    <select style="display:none" class="value-select" name="{{ name }}" id="{{ widget.html_id }}" {% if widget.max_items != 1 %}multiple="multiple"{% endif %}>
         {% for value in values %}
             <option value="{{ value }}" selected="selected">{{ value }}</option>
         {% endfor %}
     </select>
 
-    {# a hidden textarea that contains some json about the widget #}
-    <textarea class="json_payload" style="display:none">
-        {{ json_payload }}
-    </textarea>
-    
     {# a hidden div that serves as template for the 'remove from deck' button #}
     <div style="display:none" class="remove">
-        {# This will be appended to results on the deck, it's the remove button #}
+        {# This will be appended to choices on the deck, it's the remove button #}
         X
     </div>
 
-    <ul style="display:none" class="add_template">
+    <ul style="display:none" class="choice-template">
         {% comment %}
-        the contained element will be used to render options that are added to the select 
+        the contained element will be used to render options that are added to the select
         via javascript, for example in django admin with the + sign
 
         The text of the option will be inserted in the html of this tag
         {% endcomment %}
-        <li class="result">
+        <li class="choice">
         </li>
     </ul>
 </span>

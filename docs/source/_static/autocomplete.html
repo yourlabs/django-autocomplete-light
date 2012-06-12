@@ -417,6 +417,7 @@ absolutely.</p>
             <span class="s1">&#39;complete&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">jqXHR</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">autocomplete</span><span class="p">.</span><span class="nx">fixPosition</span><span class="p">();</span>
                 <span class="nx">autocomplete</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span><span class="nx">jqXHR</span><span class="p">.</span><span class="nx">responseText</span><span class="p">);</span>
+                <span class="nx">autocomplete</span><span class="p">.</span><span class="nx">xhr</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
             <span class="p">},</span>
         <span class="p">});</span>
     <span class="p">}</span>

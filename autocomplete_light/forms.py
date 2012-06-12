@@ -1,10 +1,10 @@
 """
-A couple of helper functions to help enabling AutocompleteWidget in ModelForms.
+A couple of helper functions to help enabling Widget in ModelForms.
 """
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.db.models import ForeignKey, OneToOneField
 
-from .widgets import AutocompleteWidget
+from .widgets import ChoiceWidget, MultipleChoiceWidget
 from .registry import registry
 
 __all__ = ['get_widgets_dict', 'modelform_factory']
@@ -19,9 +19,9 @@ def get_widgets_dict(model, autocomplete_exclude=None):
         the list of model field names to ignore
 
     Inspect the model's field and many to many fields, calls
-    registry.channel_for_model to get the channel for the related model. If a
-    channel is returned, then an AutocompleteWidget will be spawned using this
-    channel.
+    registry.autocomplete_for_model to get the autocomplete for the related model. If a
+    autocomplete is returned, then an Widget will be spawned using this
+    autocomplete.
 
     The dict is usable by ModelForm.Meta.widgets. In django 1.4, with
     modelform_factory too.
@@ -38,22 +38,21 @@ def get_widgets_dict(model, autocomplete_exclude=None):
         if not isinstance(field, (ForeignKey, OneToOneField)):
             continue
 
-        channel = registry.channel_for_model(field.rel.to)
-        if not channel:
+        autocomplete = registry.autocomplete_for_model(field.rel.to)
+        if not autocomplete:
             continue
 
-        widgets[field.name] = AutocompleteWidget(channel_name=channel.__name__,
-            max_items=1)
+        widgets[field.name] = ChoiceWidget(autocomplete=autocomplete)
 
     for field in model._meta.many_to_many:
         if field.name in autocomplete_exclude:
             continue
 
-        channel = registry.channel_for_model(field.rel.to)
-        if not channel:
+        autocomplete = registry.autocomplete_for_model(field.rel.to)
+        if not autocomplete:
             continue
 
-        widgets[field.name] = AutocompleteWidget(channel_name=channel.__name__)
+        widgets[field.name] = MultipleChoiceWidget(autocomplete=autocomplete)
 
     return widgets
 

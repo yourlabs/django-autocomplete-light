@@ -1,6 +1,7 @@
 import unittest
 
 from django import http
+from django import forms
 
 import autocomplete_light
 
@@ -50,3 +51,30 @@ class AutocompleteTestCase(unittest.TestCase):
         self.assertEqual(result, test['expected'],
             u'Got %s for test %s %s' % (result, self.__class__.__name__,
                 test))
+
+    def test_widget(self):
+        form_class = None
+
+        for test in self.get_widget_tests():
+            if 'form_class' in test.keys():
+                form_class = test['form_class']
+            # for display
+            test['form_class'] = form_class.__name__
+
+            form = form_class(http.QueryDict(test['fixture']))
+            valid = form.is_valid()
+
+            self.assertEqual(
+                valid, test['expected_valid'],
+                u'Unexepected valid: %s for test %s %s' % (
+                    valid, self.__class__.__name__, test)
+            )
+
+            if valid:
+                data = form.cleaned_data['x']
+
+                self.assertEqual(
+                    str(data), str(test['expected_data']),
+                    u'Unexepected data: %s for test %s %s' % (
+                        data, self.__class__.__name__, test)
+                )

@@ -9,6 +9,18 @@ class AutocompleteModelMock(autocomplete_light.AutocompleteModelBase):
     search_fields = ('username', 'email')
 
 
+class FormMock(forms.Form):
+    x = forms.ModelChoiceField(queryset=AutocompleteModelMock.choices,
+        widget=autocomplete_light.ChoiceWidget(
+            autocomplete=AutocompleteModelMock))
+
+
+class MultipleFormMock(forms.Form):
+    x = forms.ModelMultipleChoiceField(queryset=AutocompleteModelMock.choices,
+        widget=autocomplete_light.MultipleChoiceWidget(
+            autocomplete=AutocompleteModelMock))
+
+
 class AutocompleteModelTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteModelMock
 
@@ -98,5 +110,35 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
                     '<div data-value="%s">%s</div>' % (
                         self.jack.pk, unicode(self.jack)),
                 ])
+            },
+        )
+
+    def get_widget_tests(self):
+        return (
+            {
+                'form_class': FormMock,
+                'fixture': 'x=4',
+                'expected_valid': True,
+                'expected_data': self.john,
+            },
+            {
+                'form_class': FormMock,
+                'fixture': 'x=3&x=4',
+                'expected_valid': True,
+                'expected_data': self.john,
+            },
+            {
+                'fixture': 'x=abc',
+                'expected_valid': False,
+            },
+            {
+                'form_class': MultipleFormMock,
+                'fixture': 'x=4&x=2',
+                'expected_valid': True,
+                'expected_data': [self.jack, self.john],
+            },
+            {
+                'fixture': 'x=abc&x=2',
+                'expected_valid': False,
             },
         )

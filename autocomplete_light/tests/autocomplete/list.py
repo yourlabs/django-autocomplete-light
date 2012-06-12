@@ -76,3 +76,6 @@ class AutocompleteListTestCase(AutocompleteTestCase):
                 ])
             },
         )
+
+    def get_widget_tests(self):
+        return []

@@ -1,105 +1,55 @@
-from django.utils import simplejson
 from django import forms
 from django.forms.util import flatatt
 from django.utils import safestring
 from django.template.loader import render_to_string
 
-__all__ = ['AutocompleteWidget']
+__all__ = ['ChoiceWidget', 'MultipleChoiceWidget']
 
 
-class AutocompleteWidget(forms.SelectMultiple):
+class WidgetBase(object):
     """
     Widget suitable for ModelChoiceField and ModelMultipleChoiceField.
-
-    Example usage::
-
-        from django import forms
-
-        import autocomplete_light
-
-        from models import Author
-
-        class AuthorsForm(forms.Form):
-            lead_author = forms.ModelChoiceField(Author.objects.all(), widget=
-                autocomplete_light.AutocompleteWidget(
-                    'AuthorChannel', max_items=1))
-
-            contributors = forms.ModelMultipleChoiceField(Author.objects.all(),
-                widget=autocomplete_light.AutocompleteWidget('AuthorChannel'))
     """
 
-    payload = {}
+    def __init__(self, autocomplete_name=None, autocomplete=None,
+        widget_js_attributes={}, autocomplete_js_attributes={}):
 
-    def __init__(self, channel_name, *args, **kwargs):
-        """
-        AutocompleteWidget constructor decorates SelectMultiple constructor
+        assert autocomplete_name or autocomplete, \
+            'widget needs autocomplete_name or autocomplete'
 
-        Arguments:
-        channel_name -- the name of the channel that this widget should use.
+        if autocomplete_name is not None:
+            self.autocomplete_name = autocomplete_name
+            from autocomplete_light import registry
+            self.autocomplete = registry[autocomplete_name]
+        elif autocomplete is not None:
+            self.autocomplete = autocomplete
+            self.autocomplete_name = autocomplete.__class__.__name__
 
-        Keyword arguments are passed to javascript via data attributes of the
-        autocomplete wrapper element:
+        self.widget_js_attributes = widget_js_attributes
+        self.autocomplete_js_attributes = autocomplete_js_attributes
 
-        max_items
-            The number of items that this autocomplete allows. If set to 0,
-            then it allows any number of selected items like a multiple select,
-            well suited for ManyToMany relations or any kind of
-            ModelMultipleChoiceField. If set to 3 for example, then it will
-            only allow 3 selected items. It should be set to 1 if the widget is
-            for a ModelChoiceField or ForeignKey, in that case it would be like
-            a normal select. Default is 0.
+    def process_js_attributes(self):
+        more_autocomplete_js_attributes = getattr(self.autocomplete,
+            'autocomplete_js_attributes', {})
+        self.autocomplete_js_attributes.update(
+            more_autocomplete_js_attributes)
 
-        min_characters
-            The minimum number of characters before the autocomplete box shows
-            up. If set to 2 for example, then the autocomplete box will show up
-            when the input receives the second character, for example 'ae'. If
-            set to 0, then the autocomplete box will show up as soon as the
-            input is focused, even if it's empty, behaving like a normal
-            select. Default is 0.
+        more_widget_js_attributes = getattr(self.autocomplete,
+            'widget_js_attributes', {})
+        self.widget_js_attributes.update(
+            more_widget_js_attributes)
 
-        bootstrap
-            The name of the bootstrap kind. By default, deck.js will only
-            initialize decks for wrappers that have data-bootstrap="normal". If
-            you want to implement your own bootstrapping logic in javascript,
-            then you set bootstrap to anything that is not "normal". By
-            default, its value is copied from channel.bootstrap.
+        if 'bootstrap' not in self.widget_js_attributes.keys():
+            self.widget_js_attributes['bootstrap'] = 'normal'
 
-        placeholder
-            The initial value of the autocomplete input field. It can be
-            something like 'type your search here'. By default, it is copied
-            from channel.placeholder.
+        if 'choice_selector' not in self.autocomplete_js_attributes.keys():
+            self.autocomplete_js_attributes['choice_selector'] = '[data-value]'
 
-        payload
-            A dict of data that will be exported to JSON, and parsed into the
-            Deck instance in javascript. It allows to pass variables from
-            Python to Javascript.
-        """
-        self.channel_name = channel_name
-
-        from autocomplete_light import registry
-        self.channel = registry[channel_name]()
-
-        self.payload.update(kwargs.pop('payload', {}))
-        self.max_items = kwargs.pop('max_items', 0)
-        self.min_characters = kwargs.pop('min_characters', 0)
-        self.bootstrap = kwargs.pop('bootstrap', self.channel.bootstrap)
-        self.placeholder = kwargs.pop('placeholder', self.channel.placeholder)
-
-        super(AutocompleteWidget, self).__init__(*args, **kwargs)
+        if 'url' not in self.autocomplete_js_attributes.keys():
+            url = self.autocomplete().get_absolute_url()
+            self.autocomplete_js_attributes['url'] = url
 
     def render(self, name, value, attrs=None):
-        """
-        Render the autocomplete widget.
-
-        It will try two templates, like django admin:
-        - autocomplete_light/channelname/widget.html
-        - autocomplete_light/widget.html
-
-        Note that it will not pass 'value' to the template, because 'value'
-        might be a list of model ids in the case of ModelMultipleChoiceField,
-        or a model id in the case of ModelChoiceField. To keep things simple,
-        it will just pass a list, 'values', to the template context.
-        """
         final_attrs = self.build_attrs(attrs)
         self.html_id = final_attrs.pop('id', name)
 
@@ -108,51 +58,56 @@ class AutocompleteWidget(forms.SelectMultiple):
         else:
             values = value
 
-        if values and not self.channel.are_valid(values):
+        autocomplete = self.autocomplete(values=values)
+
+        if values and not autocomplete.validate_values():
             raise forms.ValidationError('%s cannot validate %s' % (
-                self.channel_name, values))
+                self.autocomplete_name, values))
 
-        self.payload.update(self.as_dict())
-        self.payload['channel'] = self.channel.as_dict()
+        self.process_js_attributes()
 
-        channel_name = self.channel_name.lower()
+        autocomplete_name = self.autocomplete_name.lower()
         return safestring.mark_safe(render_to_string([
-                'autocomplete_light/%s/widget.html' % channel_name,
+                'autocomplete_light/%s/widget.html' % autocomplete_name,
                 'autocomplete_light/widget.html',
             ], {
-                'widget': self,
                 'name': name,
                 'values': values,
-                'channel': self.channel,
-                'results': self.channel.get_results(values or []),
-                'json_payload': safestring.mark_safe(simplejson.dumps(
-                    self.payload)),
+                'widget': self,
                 'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
+                'autocomplete': autocomplete,
             }
         ))
 
     def as_dict(self):
         return {
-            'max_items': self.max_items,
+            'max_values': self.max_values,
             'min_characters': self.min_characters,
             'bootstrap': self.bootstrap,
             # cast to unicode as it might be a gettext proxy
             'placeholder': unicode(self.placeholder),
         }
 
-    # we might want to split up in two widgets for that ... is it necessary ?
-    # apparently not yet, but maybe at next django release
-    def value_from_datadict(self, data, files, name):
-        """Route to Select if max_items is 1, else route to SelectMultiple"""
-        if self.max_items == 1:
-            return forms.Select.value_from_datadict(self, data, files, name)
-        else:
-            return forms.SelectMultiple.value_from_datadict(self, data, files,
-                name)
 
-    def _has_changed(self, initial, data):
-        """Route to Select if max_items is 1, else route to SelectMultiple"""
-        if self.max_items == 1:
-            return forms.Select._has_changed(self, initial, data)
-        else:
-            return forms.SelectMultiple._has_changed(self, initial, data)
+class ChoiceWidget(WidgetBase, forms.Select):
+    def __init__(self, autocomplete_name=None, autocomplete=None,
+       widget_js_attributes={}, autocomplete_js_attributes={},
+       *args, **kwargs):
+
+        forms.Select.__init__(self, *args, **kwargs)
+
+        WidgetBase.__init__(self, autocomplete_name, autocomplete,
+            widget_js_attributes, autocomplete_js_attributes)
+
+        self.widget_js_attributes['max_values'] = 1
+
+
+class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
+    def __init__(self, autocomplete_name=None, autocomplete=None,
+       widget_js_attributes={}, autocomplete_js_attributes={},
+       *args, **kwargs):
+
+        forms.SelectMultiple.__init__(self, *args, **kwargs)
+
+        WidgetBase.__init__(self, autocomplete_name, autocomplete,
+            widget_js_attributes, autocomplete_js_attributes)

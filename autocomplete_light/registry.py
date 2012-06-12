@@ -1,160 +1,116 @@
 """
-The registry module provides tools to maintain a registry of channels.
+The registry module provides tools to maintain a registry of autocompletes.
 
 The first thing that should happen when django starts is registration of
-channels. It should happen first, because channels are required for
+autocompletes. It should happen first, because autocompletes are required for
 autocomplete widgets. And autocomplete widgets are required for forms. And
 forms are required for ModelAdmin.
 
 It looks like this:
 
-- in ``yourapp/autocomplete_light_registry.py``, register your channels with
+- in ``yourapp/autocomplete_light_registry.py``, register your autocompletes with
   ``autocomplete_light.register()``,
 - in ``urls.py``, do ``autocomplete_light.autodiscover()`` **before**
   ``admin.autodiscover()``.
 
-ChannelRegistry
+AutocompleteRegistry
     Subclass of Python's dict type with registration/unregistration methods.
 
 registry
-    Instance of ChannelRegistry.
+    Instance of AutocompleteRegistry.
 
 register
     Proxy registry.register.
 
 autodiscover
-    Find channels and fill registry.
+    Find autocompletes and fill registry.
 """
 
 from django.db import models
 
-from .channel import ChannelBase
+from .autocomplete import AutocompleteModelBase
 
-__all__ = ('ChannelRegistry', 'registry', 'register', 'autodiscover')
+__all__ = ('AutocompleteRegistry', 'registry', 'register', 'autodiscover')
 
 
-class ChannelRegistry(dict):
+class AutocompleteRegistry(dict):
     """
-    Dict with some shortcuts to handle a registry of channels.
+    Dict with some shortcuts to handle a registry of autocompletes.
     """
 
     def __init__(self):
         self._models = {}
 
-    def channel_for_model(self, model):
-        """Return the channel class for a given model."""
+    def autocomplete_for_model(self, model):
+        """ Return the autocomplete class for a given model. """
         try:
             return self._models[model]
         except KeyError:
             return
 
     def unregister(self, name):
-        """
-        Unregister a channel.
-        """
-        channel = self[name]
+        """ Unregister a autocomplete. """
+        autocomplete = self[name]
         del self[name]
 
-        if channel.model:
-            del self._models[channel.model]
+        try:
+            if autocomplete.choices.model:
+                del self._models[autocomplete.choices.model]
+        except AttributeError:
+            pass
 
     def register(self, *args, **kwargs):
-        """
-        Proxy registry.register_model_channel() or registry.register_channel()
-        if there is no apparent model for the channel.
-
-        Example usages::
-
-            # Will create and register SomeModelChannel, if SomeChannel.model
-            # is None (which is the case by default):
-            autocomplete_light.register(SomeModel)
-
-            # Same but using SomeChannel as base:
-            autocomplete_light.register(SomeModel, SomeChannel)
-
-            # Register a channel without model, ensure that SomeChannel.model
-            # is None (which is the default):
-            autocomplete_light.register(SomeChannel)
-
-            # As of 0.5, you may also pass attributes*, ie.:
-            autocomplete_light.register(SomeModel, search_field='search_names',
-                result_template='somemodel_result.html')
-
-        You may pass attributes via kwargs, only if the registry creates a
-        type:
-
-        - if no channel class is passed,
-        - or if the channel class has no model attribute,
-        - and if the channel classs is not generic
-        """
-
-        channel = None
+        autocomplete = None
         model = None
+
+        assert len(args) <= 2, 'register takes at most 2 args'
+        assert len(args) > 0, 'register takes at least 1 arg'
 
         for arg in args:
             if issubclass(arg, models.Model):
                 model = arg
-            elif issubclass(arg, ChannelBase):
-                channel = arg
+            else:
+                autocomplete = arg
 
-        if channel and getattr(channel, 'model'):
-            model = channel.model
+        if not model:
+            try:
+                model = autocomplete.choices.model
+            except AttributeError:
+                pass
 
         if model:
-            self.register_model_channel(model, channel, **kwargs)
+            self.register_model_autocomplete(model, autocomplete, **kwargs)
         else:
-            self.register_channel(channel)
+            self.register_autocomplete(autocomplete)
 
-    def register_model_channel(self, model, channel=None, channel_name=None,
+    def register_model_autocomplete(self, model, autocomplete=None, name=None,
         **kwargs):
+
+        if name is not None:
+            pass
+        elif autocomplete is not None:
+            name = '%s%s' % (model.__name__, autocomplete.__name__)
+        else:
+            name = '%sAutocomplete' % model.__name__
+
+        if autocomplete is None:
+            base = AutocompleteModelBase
+        else:
+            base = autocomplete
+
+        if base.choices is None:
+            kwargs['choices'] = model.objects.all()
+
+        autocomplete = type(name, (base,), kwargs)
+
+        self.register_autocomplete(autocomplete)
+        self._models[model] = autocomplete
+
+    def register_autocomplete(self, autocomplete):
         """
-        Add a model to the registry, optionnaly with a given channel class.
-
-        model
-            The model class to register.
-
-        channel
-            The channel class to register the model with, default to
-            ChannelBase.
-
-        channel_name
-            Register channel under channel_name, default is ModelNameChannel.
-
-        kwargs
-            Extra attributes to set to the channel class, if created by this
-            method.
-
-        Three cases are possible:
-
-        - specify model class and ModelNameChannel will be generated extending
-          ChannelBase, with attribute model=model
-        - specify a model and a channel class that does not have a model
-          attribute, and a ModelNameChannel will be generated, with attribute
-          model=model
-        - specify a channel class with a model attribute, and the channel is
-          directly registered
-
-        To keep things simple, the name of a channel is it's class name, which
-        is usually generated. In case of conflicts, you may override the
-        default channel name with the channel_name keyword argument.
+        Register a autocomplete without model, like a generic autocomplete.
         """
-        kwargs.update({'model': model})
-        if channel_name is None:
-            channel_name = '%sChannel' % model.__name__
-
-        if channel is None:
-            channel = type(channel_name, (ChannelBase,), kwargs)
-        elif channel.model is None:
-            channel = type(channel_name, (channel,), kwargs)
-
-        self.register_channel(channel)
-        self._models[channel.model] = channel
-
-    def register_channel(self, channel):
-        """
-        Register a channel without model, like a generic channel.
-        """
-        self[channel.__name__] = channel
+        self[autocomplete.__name__] = autocomplete
 
 
 def _autodiscover(registry):
@@ -183,7 +139,7 @@ def _autodiscover(registry):
             if module_has_submodule(mod, 'autocomplete_light_registry'):
                 raise
 
-registry = ChannelRegistry()
+registry = AutocompleteRegistry()
 
 
 def autodiscover():
@@ -211,9 +167,9 @@ def autodiscover():
         autocomplete_light.register(Country)
 
     When autodiscover() imports cities_light.autocomplete_light_registry, both
-    CityChannel and CountryChannel will be registered. For details on how these
-    channel classes are generated, read the documentation of
-    ChannelRegistry.register.
+    CityAutocomplete and CountryAutocomplete will be registered. For details on how these
+    autocomplete classes are generated, read the documentation of
+    AutocompleteRegistry.register.
     """
     _autodiscover(registry)
 

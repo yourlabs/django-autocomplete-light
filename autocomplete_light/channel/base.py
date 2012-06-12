@@ -1,23 +1,24 @@
 """
-The channel.base module provides a channel class which you can extend to make
-your own channel. It also serves as default channel class.
+The autocomplete.base module provides a autocomplete class which you can extend to make
+your own autocomplete. It also serves as default autocomplete class.
 """
 
+from django.db.models import Q
 from django.core import urlresolvers
 from django.template import loader
 from django.utils.translation import ugettext_lazy as _
 
-__all__ = ('ChannelBase',)
+__all__ = ('AutocompleteBase',)
 
 
-class ChannelBase(object):
+class AutocompleteBase(object):
     """
-    A basic implementation of a channel, which should fit most use cases.
+    A basic implementation of a autocomplete, which should fit most use cases.
 
     Attributes:
 
     model
-        The model class this channel serves. If None, a new class will be
+        The model class this autocomplete serves. If None, a new class will be
         created in registry.register, and the model attribute will be set in
         that subclass. So you probably don't need to worry about it, just know
         that it's there for you to use.
@@ -25,21 +26,21 @@ class ChannelBase(object):
     result_template
         The template to use in result_as_html method, to render a single
         autocomplete suggestion. By default, it is
-        autocomplete_light/channelname/result.html or
+        autocomplete_light/autocompletename/result.html or
         autocomplete_light/result.html.
 
     autocomplete_template
         The template to use in render_autocomplete method, to render the
         autocomplete box. By default, it is
-        autocomplete_light/channelname/autocomplete.html or
+        autocomplete_light/autocompletename/autocomplete.html or
         autocomplete_light/autocomplete.html.
 
-    search_field
-        The name of the field that the default implementation of query_filter
-        uses. Default is 'name'.
+    search_fields
+        List of field names that the default implementation of query_filter
+        uses. Default is ('name',)
 
     limit_results
-        The number of results that this channel should return. For example, if
+        The number of results that this autocomplete should return. For example, if
         query_filter returns 50 results and that limit_results is 20, then the
         first 20 of 50 results will be rendered. Default is 20.
 
@@ -55,7 +56,7 @@ class ChannelBase(object):
     """
 
     model = None
-    search_field = 'name'
+    search_fields = ('name',)
     limit_results = 20
     bootstrap = 'normal'
     placeholder = _(u'type some text to search in this autocomplete')
@@ -83,15 +84,15 @@ class ChannelBase(object):
 
     def get_absolute_url(self):
         """
-        Return the absolute url for this channel, using
-        autocomplete_light_channel url
+        Return the absolute url for this autocomplete, using
+        autocomplete_light_autocomplete url
         """
-        return urlresolvers.reverse('autocomplete_light_channel', args=(
+        return urlresolvers.reverse('autocomplete_light_autocomplete', args=(
             self.__class__.__name__,))
 
     def as_dict(self):
         """
-        Return a dict of variables for this channel, it is used by javascript.
+        Return a dict of variables for this autocomplete, it is used by javascript.
         """
         return {
             'url': self.get_absolute_url(),
@@ -116,8 +117,10 @@ class ChannelBase(object):
         q = self.request.GET.get('q', None)
 
         if q:
-            kwargs = {"%s__icontains" % self.search_field: q}
-            results = results.filter(**kwargs)
+            qs = Q()
+            for field in self.search_fields:
+                qs |= Q(**{'%s__icontains' % field: q})
+            results = results.filter(qs)
 
         return results
 
@@ -134,7 +137,7 @@ class ChannelBase(object):
 
     def get_queryset(self):
         """
-        Return a queryset for the channel model.
+        Return a queryset for the autocomplete model.
         """
         return self.model.objects.all()
 
@@ -185,11 +188,11 @@ class ChannelBase(object):
         Return the html representation of a result for display in the deck
         and autocomplete box.
 
-        By default, render result_template with channel and result in the
+        By default, render result_template with autocomplete and result in the
         context.
         """
         context = {
-            'channel': self,
+            'autocomplete': self,
             'result': result,
             'value': self.result_as_value(result),
         }
@@ -208,9 +211,9 @@ class ChannelBase(object):
         """
         Render the autocomplete suggestion box.
 
-        By default, render self.autocomplete_template with the channel in the
+        By default, render self.autocomplete_template with the autocomplete in the
         context.
         """
         return loader.render_to_string(self.autocomplete_template, {
-            'channel': self,
+            'autocomplete': self,
         })

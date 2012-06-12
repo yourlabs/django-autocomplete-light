@@ -1,7 +1,0 @@
-{% load autocomplete_light_tags %}
-
-<ul>
-{% for result in channel.get_results %}
-    {{ result|autocomplete_light_result_as_html:channel }}
-{% endfor %}
-</ul>

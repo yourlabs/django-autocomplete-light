@@ -1,31 +1,31 @@
 from django.contrib.contenttypes.models import ContentType
 
-from autocomplete_light.generic import GenericForeignKeyField
-from .base import ChannelBase
+from autocomplete_light.generic import GenericModelChoiceField
+from .base import AutocompleteBase
 
-__all__ = ['GenericChannelBase']
+__all__ = ['GenericAutocompleteBase']
 
 
-class GenericChannelBase(ChannelBase):
+class GenericAutocompleteBase(AutocompleteBase):
     """
     Wraps around multiple querysets, from multiple model classes, rather than
     just one.
 
     This is also interresting as it overrides **all** the default model logic
-    from ChannelBase. Hell, you could even copy it and make your
-    CSVChannelBase, a channel that uses a CSV file as backend. But only if
+    from AutocompleteBase. Hell, you could even copy it and make your
+    CSVAutocompleteBase, a autocomplete that uses a CSV file as backend. But only if
     you're really bored or for a milion dollars.
     """
 
     def result_as_value(self, result):
         """
-        Rely on GenericForeignKeyField to return a string containing the
+        Rely on GenericModelChoiceField to return a string containing the
         content type id and object id of the result.
 
-        Because this channel is made for that field, and to avoid code
+        Because this autocomplete is made for that field, and to avoid code
         duplication.
         """
-        field = GenericForeignKeyField()
+        field = GenericModelChoiceField()
         return field.prepare_value(result)
 
     def order_results(self, results):

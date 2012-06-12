@@ -1,9 +1,20 @@
 from django import template
+from django.utils import safestring
 
 register = template.Library()
 
 
 @register.filter
-def autocomplete_light_result_as_html(result, channel):
-    """Return channel.result_as_html for result and channel."""
-    return channel.result_as_html(result)
+def autocomplete_light_data_attributes(attributes, prefix=''):
+    html = []
+
+    for key, value in attributes.items():
+        html.append('data-%s%s="%s"' % (prefix, key.replace('_', '-'), value))
+
+    return safestring.mark_safe(u' '.join(html))
+
+
+@register.filter
+def autocomplete_light_choice_html(choice,  autocomplete):
+    """Return autocomplete.choice_html(choice)"""
+    return safestring.mark_safe(autocomplete.choice_html(choice))

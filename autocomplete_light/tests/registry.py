@@ -9,23 +9,23 @@ class Foo(models.Model):
     pass
 
 
-class Bar(autocomplete_light.ChannelBase):
+class Bar(autocomplete_light.AutocompleteModelBase):
     pass
 
 
 class RegistryTestCase(unittest.TestCase):
     def setUp(self):
-        self.registry = autocomplete_light.ChannelRegistry()
+        self.registry = autocomplete_light.AutocompleteRegistry()
 
     def test_register_model(self):
         self.registry.register(Foo)
-        self.assertIn('FooChannel', self.registry.keys())
+        self.assertIn('FooAutocomplete', self.registry.keys())
 
-    def test_register_model_and_channel(self):
+    def test_register_model_and_autocomplete(self):
         self.registry.register(Foo, Bar)
-        self.assertIn('FooChannel', self.registry.keys())
+        self.assertIn('FooBar', self.registry.keys())
 
-    def test_register_channel(self):
+    def test_register_autocomplete(self):
         self.registry.register(Bar)
         self.assertIn('Bar', self.registry.keys())
 
@@ -36,15 +36,15 @@ class RegistryTestCase(unittest.TestCase):
 
     def test_register_with_kwargs(self):
         self.registry.register(Foo, search_name='search_name')
-        self.assertEqual(self.registry['FooChannel'].search_name,
+        self.assertEqual(self.registry['FooAutocomplete'].search_name,
             'search_name')
 
-    def test_register_with_channel_and_kwargs(self):
+    def test_register_with_autocomplete_and_kwargs(self):
         self.registry.register(Foo, Bar, search_name='search_name')
-        self.assertEqual(self.registry['FooChannel'].search_name,
+        self.assertEqual(self.registry['FooBar'].search_name,
             'search_name')
 
     def test_register_with_custom_name(self):
-        self.registry.register(Foo, Bar, channel_name='BarFoo')
+        self.registry.register(Foo, Bar, name='BarFoo')
         self.assertIn('BarFoo', self.registry.keys())
         self.assertEqual(self.registry['BarFoo'].__name__, 'BarFoo')

@@ -4,12 +4,12 @@ from django import http
 from django.utils import simplejson
 from django.template import defaultfilters
 
-from json import JSONChannelBase
+from json import JSONAutocompleteBase
 
-__all__ = ['RemoteChannelBase', ]
+__all__ = ['RemoteAutocompleteBase', ]
 
 
-class RemoteChannelBase(JSONChannelBase):
+class RemoteAutocompleteBase(JSONAutocompleteBase):
     """
     Uses an API to propose suggestions from an HTTP API, tested with
     djangorestframework.
@@ -38,9 +38,9 @@ class RemoteChannelBase(JSONChannelBase):
     Remote result selection chronology:
 
     - deck.js calls remoteGetValue() instead of the default getValue(),
-    - remoteGetValue() posts the json from the result to ChannelView,
-    - ChannelView.post() does its job of proxying RemoteChannelBase.post(),
-    - RemoteChannelBase.post() returns an http response which body is just the
+    - remoteGetValue() posts the json from the result to AutocompleteView,
+    - AutocompleteView.post() does its job of proxying RemoteAutocompleteBase.post(),
+    - RemoteAutocompleteBase.post() returns an http response which body is just the
       pk of the result in the local database, using self.fetch_result(),
     - self.fetch_result() passes the API url of the result and recursively
       saves the remote models into the local database, returning the id of the
@@ -62,7 +62,7 @@ class RemoteChannelBase(JSONChannelBase):
 
     def model_for_source_url(self, url):
         """
-        Take an URL from the API this remote channel is supposed to work with,
+        Take an URL from the API this remote autocomplete is supposed to work with,
         return the model class to use for that url.
 
         It is only needed for the default implementation of fetch(), because it
@@ -75,9 +75,9 @@ class RemoteChannelBase(JSONChannelBase):
         Take a result's dict representation, return it's local pk which might
         have been just created.
 
-        If your channel works with 0 to 1 API call, consider overriding this
+        If your autocomplete works with 0 to 1 API call, consider overriding this
         method.
-        If your channel is susceptible of using several different API calls,
+        If your autocomplete is susceptible of using several different API calls,
         consider overriding fetch().
         """
         return self.fetch(result['source_url']).pk
@@ -121,7 +121,7 @@ class RemoteChannelBase(JSONChannelBase):
         Using self.limit_results and the number of local results, adds results
         from get_remote_results().
         """
-        results = super(RemoteChannelBase, self).get_results(values)
+        results = super(RemoteAutocompleteBase, self).get_results(values)
         unicodes = [unicode(result) for result in results]
 
         if self.request:

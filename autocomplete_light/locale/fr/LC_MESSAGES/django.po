@@ -18,6 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: channel/base.py:55
+#: autocomplete/base.py:55
 msgid "type some text to search in this autocomplete"
 msgstr ""

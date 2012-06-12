@@ -12,9 +12,10 @@ class AutocompleteMock(autocomplete_light.AutocompleteModelTemplate):
 
     choice_template = u'<li data-value="{{ choice.pk }}">{{ choice }}</li>'
     autocomplete_template = u''.join([
+        u'{% load autocomplete_light_tags %}',
         u'<ul>',
         u'{% for choice in choices %}',
-        u'{{ choice.autocomplete_light_render }}',
+        u'{{ choice|autocomplete_light_choice_html:autocomplete }}',
         u'{% endfor %}',
         u'</ul>',
     ])
@@ -76,3 +77,6 @@ class AutocompleteModelTemplateTestCase(AutocompleteTestCase):
                 ])
             },
         )
+
+    def get_widget_tests(self):
+        return []

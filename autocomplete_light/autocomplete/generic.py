@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
-from autocomplete_light.generic import GenericForeignKeyField
+from autocomplete_light.generic import GenericModelChoiceField
 
 from .model import AutocompleteModel
 
@@ -14,13 +14,13 @@ class AutocompleteGeneric(AutocompleteModel):
 
     def choice_value(self, choice):
         """
-        Rely on GenericForeignKeyField to return a string containing the
+        Rely on GenericModelChoiceField to return a string containing the
         content type id and object id of the result.
 
-        Because this channel is made for that field, and to avoid code
+        Because this autocomplete is made for that field, and to avoid code
         duplication.
         """
-        field = GenericForeignKeyField()
+        field = GenericModelChoiceField()
         return field.prepare_value(choice)
 
     def validate_values(self):

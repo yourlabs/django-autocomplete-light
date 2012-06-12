@@ -2,7 +2,7 @@ import autocomplete_light
 
 from models import Contact, Address
 
-class MyGenericChannel(autocomplete_light.GenericChannelBase):
+class MyGenericAutocomplete(autocomplete_light.AutocompleteGenericBase):
     def get_querysets(self):
         return {
             Contact: Contact.objects.all(),

@@ -1,9 +1,13 @@
 """
 Provide tools to enable nice autocompletes in your Django project.
 """
-from .registry import ChannelRegistry, registry, register, autodiscover
-from .channel import ChannelBase, JSONChannelBase, RemoteChannelBase, \
-    GenericChannelBase
-from .widgets import AutocompleteWidget
+from .registry import AutocompleteRegistry, registry, register, autodiscover
+from .autocomplete import AutocompleteBase, \
+    AutocompleteList, AutocompleteListBase, \
+    AutocompleteChoiceList, AutocompleteChoiceListBase, \
+    AutocompleteModel, AutocompleteModelBase, \
+    AutocompleteTemplate, AutocompleteModelTemplate, \
+    AutocompleteGeneric, AutocompleteGenericBase, AutocompleteGenericTemplate
+from .widgets import ChoiceWidget, MultipleChoiceWidget
 from .forms import get_widgets_dict, modelform_factory
-from .generic import GenericModelForm, GenericForeignKeyField
+from .generic import GenericModelForm, GenericModelChoiceField

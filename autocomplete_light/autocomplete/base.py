@@ -1,3 +1,6 @@
+from django.core import urlresolvers
+
+
 class AutocompleteInterface(object):
     def __init__(self, request=None, values=None):
         self.request = request
@@ -14,6 +17,14 @@ class AutocompleteInterface(object):
 
     def choices_for_values(self):
         raise NotImplemented()
+
+    def get_absolute_url(self):
+        """
+        Return the absolute url for this autocomplete, using
+        autocomplete_light_autocomplete url
+        """
+        return urlresolvers.reverse('autocomplete_light_autocomplete', args=(
+            self.__class__.__name__,))
 
 
 class AutocompleteBase(AutocompleteInterface):

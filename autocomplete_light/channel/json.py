@@ -1,13 +1,13 @@
 from django.utils import simplejson
 
-from base import ChannelBase
+from base import AutocompleteBase
 
-__all__ = ('JSONChannelBase', )
+__all__ = ('JSONAutocompleteBase', )
 
 
-class JSONChannelBase(ChannelBase):
+class JSONAutocompleteBase(AutocompleteBase):
     """
-    Example channel that attaches JSON to results.
+    Example autocomplete that attaches JSON to results.
     """
     textarea = u'<textarea style="display:none">%s</textarea>'
 
@@ -15,7 +15,7 @@ class JSONChannelBase(ChannelBase):
         """
         Adds the return value of result_as_json() to the context.
         """
-        return super(JSONChannelBase, self).result_as_html(result, {
+        return super(JSONAutocompleteBase, self).result_as_html(result, {
             'extra_html': self.textarea % self.result_as_json(result)})
 
     def result_as_dict(self, result):

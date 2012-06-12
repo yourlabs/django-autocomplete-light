@@ -13,7 +13,7 @@ See examples in ``test_project/generic_m2m_example``.
 """
 from genericm2m.models import RelatedObjectsDescriptor
 
-from ..generic import GenericForeignKeyField, GenericModelForm
+from ..generic import GenericModelChoiceField, GenericModelForm
 
 
 class GenericModelForm(GenericModelForm):
@@ -78,7 +78,7 @@ class GenericModelForm(GenericModelForm):
         return instance
 
 
-class GenericManyToMany(GenericForeignKeyField):
+class GenericManyToMany(GenericModelChoiceField):
     """
     Simple form field that converts strings to models.
     """

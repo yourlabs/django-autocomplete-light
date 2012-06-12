@@ -4,7 +4,7 @@ from django.forms import fields
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-__all__ = ('GenericModelForm', 'GenericForeignKeyField')
+__all__ = ('GenericModelForm', 'GenericModelChoiceField')
 
 
 class GenericModelForm(forms.ModelForm):
@@ -63,10 +63,12 @@ class GenericModelForm(forms.ModelForm):
         return super(GenericModelForm, self).save(commit)
 
 
-class GenericForeignKeyField(fields.Field):
+class GenericModelChoiceField(fields.Field):
     """
     Simple form field that converts strings to models.
     """
+    def validate(self, value):
+        return self.widget.autocomplete(values=[value]).validate_values()
 
     def prepare_value(self, value):
         """
