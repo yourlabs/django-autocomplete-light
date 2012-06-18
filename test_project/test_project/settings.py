@@ -131,9 +131,12 @@ INSTALLED_APPS = (
     'cities_light',
     'djangorestframework',
     'south',
+    'project_specific',
     'autocomplete_light',
     'charfield_autocomplete',
     'fk_autocomplete',
+    'gfk_autocomplete',
+    'optionnal_gfk_autocomplete',
     #'project_specific',
     #'genericm2m',
     #'generic_m2m_example',
@@ -166,6 +169,11 @@ LOGGING = {
         },
     },
     'loggers': {
+        'django.request': {
+            'handlers':['console'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
         'cities_light': {
             'handlers':['console'],
             'propagate': True,

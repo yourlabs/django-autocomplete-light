@@ -123,7 +123,8 @@ window.yourlabs.Autocomplete = function (input) {
     this.autocompleteContainerHtml = [
         '<div id="id-'+this.id+'"',
         'class="yourlabs-autocomplete outer-container id-'+this.id+'"',
-        'style="position:absolute;z-index:'+this.autocompleteZIndex+';">',
+        'style="display:none; position:absolute;z-index:',
+        this.autocompleteZIndex+';">',
         '   <div class="yourlabs-autocomplete id-'+this.id+'">',
                 '<div class="',
                 'yourlabs-autocomplete inner-container  id-'+this.id,

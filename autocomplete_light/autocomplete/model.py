@@ -22,7 +22,7 @@ class AutocompleteModel(object):
 
     def choices_for_values(self):
         assert self.choices, 'autocomplete.choices should be a queryset'
-        return self.order_choices(self.choices.filter(pk__in=self.values)
+        return self.order_choices(self.choices.filter(pk__in=self.values or [])
             )[0:self.limit_choices]
 
     def choices_for_request(self):

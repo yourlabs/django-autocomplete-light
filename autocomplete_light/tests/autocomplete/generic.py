@@ -1,7 +1,7 @@
 from .case import *
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 
 
 class AutocompleteGenericMock(autocomplete_light.AutocompleteGenericBase):
@@ -19,12 +19,6 @@ class AutocompleteGenericMock(autocomplete_light.AutocompleteGenericBase):
 class FormMock(forms.Form):
     x = autocomplete_light.GenericModelChoiceField(
         widget=autocomplete_light.ChoiceWidget(
-            autocomplete=AutocompleteGenericMock))
-
-
-class MultipleFormMock(forms.Form):
-    x = forms.ModelMultipleChoiceField(queryset=AutocompleteGenericMock.choices,
-        widget=autocomplete_light.MultipleChoiceWidget(
             autocomplete=AutocompleteGenericMock))
 
 
@@ -150,10 +144,19 @@ class AutocompleteGenericTestCase(AutocompleteTestCase):
             },
             {
                 'form_class': FormMock,
-                'fixture': 'x=%s-%s&x=%s-%s' % (
-                    self.group_ctype.pk, self.bluesmen.pk,
+                'fixture': 'x=%s-%s' % (
                     self.group_ctype.pk, self.emos.pk),
-                'expected_valid': True,
-                'expected_data': self.bluesmen,
+                'expected_valid': False,
+            },
+            {
+                'form_class': FormMock,
+                'fixture': 'x=12343-2',
+                'expected_valid': False,
+            },
+            {
+                'form_class': FormMock,
+                'fixture': 'x=%s-2' % ContentType.objects.get_for_model(
+                    Permission).pk,
+                'expected_valid': False,
             },
         )

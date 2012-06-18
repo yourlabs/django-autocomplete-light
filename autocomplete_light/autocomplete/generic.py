@@ -27,6 +27,9 @@ class AutocompleteGeneric(AutocompleteModel):
         assert self.choices, 'autocomplete.choices should be a queryset list'
 
         for value in self.values:
+            if not isinstance(value, str):
+                return False
+
             try:
                 content_type_id, object_id = value.split('-')
             except ValueError:
