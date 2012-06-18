@@ -22,10 +22,15 @@ class AutocompleteInterface(object):
 
     def __init__(self, request=None, values=None):
         """
-        Set the given request and values as instance attributes.
+        Set the given request and values as instance attributes, casting values
+        to list if necessary.
         """
         self.request = request
-        self.values = values
+
+        if hasattr(values, '__iter__'):
+            self.values = values
+        else:
+            self.values = [values]
 
     def autocomplete_html(self):
         """

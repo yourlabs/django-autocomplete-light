@@ -72,7 +72,7 @@ class GenericModelChoiceField(fields.Field):
             return True
 
         value = self.prepare_value(value)
-        valid = self.widget.autocomplete(values=[value]).validate_values()
+        valid = self.widget.autocomplete(values=value).validate_values()
 
         if not valid:
             raise forms.ValidationError(u'%s cannot validate %s' % (

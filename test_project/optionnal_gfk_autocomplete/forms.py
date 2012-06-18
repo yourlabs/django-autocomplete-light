@@ -6,9 +6,13 @@ from models import OptionnalTaggedItem
 
 
 class OptionnalTaggedItemForm(autocomplete_light.GenericModelForm):
+    """
+    Use AutocompleteTaggableItems defined in
+    gfk_autocomplete.autocomplete_light_registry.
+    """
     content_object = autocomplete_light.GenericModelChoiceField(
         required=False, widget=autocomplete_light.ChoiceWidget(
-            autocomplete_name='AutocompleteTaggableItems'))
+            autocomplete='AutocompleteTaggableItems'))
 
     class Meta:
         model = OptionnalTaggedItem

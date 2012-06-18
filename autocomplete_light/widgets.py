@@ -11,17 +11,14 @@ class WidgetBase(object):
     Widget suitable for ModelChoiceField and ModelMultipleChoiceField.
     """
 
-    def __init__(self, autocomplete_name=None, autocomplete=None,
+    def __init__(self, autocomplete,
         widget_js_attributes={}, autocomplete_js_attributes={}):
 
-        assert autocomplete_name or autocomplete, \
-            'widget needs autocomplete_name or autocomplete'
-
-        if autocomplete_name is not None:
-            self.autocomplete_name = autocomplete_name
+        if isinstance(autocomplete, str):
+            self.autocomplete_name = autocomplete
             from autocomplete_light import registry
-            self.autocomplete = registry[autocomplete_name]
-        elif autocomplete is not None:
+            self.autocomplete = registry[self.autocomplete_name]
+        else:
             self.autocomplete = autocomplete
             self.autocomplete_name = autocomplete.__class__.__name__
 
@@ -79,35 +76,26 @@ class WidgetBase(object):
             }
         ))
 
-    def as_dict(self):
-        return {
-            'max_values': self.max_values,
-            'min_characters': self.min_characters,
-            'bootstrap': self.bootstrap,
-            # cast to unicode as it might be a gettext proxy
-            'placeholder': unicode(self.placeholder),
-        }
-
 
 class ChoiceWidget(WidgetBase, forms.Select):
-    def __init__(self, autocomplete_name=None, autocomplete=None,
-       widget_js_attributes={}, autocomplete_js_attributes={},
-       *args, **kwargs):
+    def __init__(self, autocomplete,
+        widget_js_attributes={}, autocomplete_js_attributes={},
+        *args, **kwargs):
 
         forms.Select.__init__(self, *args, **kwargs)
 
-        WidgetBase.__init__(self, autocomplete_name, autocomplete,
+        WidgetBase.__init__(self, autocomplete,
             widget_js_attributes, autocomplete_js_attributes)
 
         self.widget_js_attributes['max_values'] = 1
 
 
 class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
-    def __init__(self, autocomplete_name=None, autocomplete=None,
-       widget_js_attributes={}, autocomplete_js_attributes={},
-       *args, **kwargs):
+    def __init__(self, autocomplete=None,
+        widget_js_attributes={}, autocomplete_js_attributes={},
+        *args, **kwargs):
 
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
-        WidgetBase.__init__(self, autocomplete_name, autocomplete,
+        WidgetBase.__init__(self, autocomplete,
             widget_js_attributes, autocomplete_js_attributes)

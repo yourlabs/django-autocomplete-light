@@ -26,31 +26,7 @@ class AutocompleteGenericTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteGenericMock
 
     def setUp(self):
-        self.user_ctype = ContentType.objects.get_for_model(User)
-        self.group_ctype = ContentType.objects.get_for_model(Group)
-
-        User.objects.all().delete()
-        self.abe = User(username='Abe', email='sales@example.com')
-        self.jack = User(username='Jack', email='jack@example.com')
-        self.james = User(username='James', email='sales@example.com')
-        self.john = User(username='John', email='sales@example.com')
-        self.elton = User(username='Elton', email='elton@example.com', pk=10)
-
-        self.abe.save()
-        self.jack.save()
-        self.james.save()
-        self.john.save()
-
-        Group.objects.all().delete()
-        self.rockers = Group(name='rockers')
-        self.bluesmen = Group(name='bluesmen')
-        self.jazzmen = Group(name='jazzmen')
-        self.emos = Group(name='emos', pk=10)
-
-        self.rockers.save()
-        self.bluesmen.save()
-        self.jazzmen.save()
-        self.emos.save()
+        self.setUpAuth()
 
     def assert_choices_equal(self, result, test):
         self.assertEqual(list(result), test['expected'])

@@ -5,18 +5,20 @@ from django.forms.models import modelform_factory as django_modelform_factory
 from django.db.models import ForeignKey, OneToOneField
 
 from .widgets import ChoiceWidget, MultipleChoiceWidget
-from .registry import registry
 
 __all__ = ['get_widgets_dict', 'modelform_factory']
 
 
-def get_widgets_dict(model, autocomplete_exclude=None):
+def get_widgets_dict(model, autocomplete_exclude=None, registry=None):
     """
     Return a dict of field_name: widget_instance for model that is compatible
     with Django.
 
     autocomplete_exclude
-        the list of model field names to ignore
+        List of model field names to ignore
+
+    registry
+        Registry to use.
 
     Inspect the model's field and many to many fields, calls
     registry.autocomplete_for_model to get the autocomplete for the related model. If a
@@ -28,6 +30,9 @@ def get_widgets_dict(model, autocomplete_exclude=None):
     """
     if autocomplete_exclude is None:
         autocomplete_exclude = []
+
+    if registry is None:
+        from .registry import registry
 
     widgets = {}
 
@@ -57,16 +62,25 @@ def get_widgets_dict(model, autocomplete_exclude=None):
     return widgets
 
 
-def modelform_factory(model, autocomplete_exclude=None,
+def modelform_factory(model, autocomplete_exclude=None, registry=None,
     **kwargs):
     """
     Wraps around Django's django_modelform_factory, using get_widgets_dict.
+
+    autocomplete_exclude
+        List of model field names to ignore
+
+    registry
+        Registry to use.
 
     Basically, it will use the dict returned by get_widgets_dict in order and
     pass it to django's modelform_factory, and return the resulting modelform.
     """
 
-    widgets = get_widgets_dict(model,
+    if registry is None:
+        from .registry import registry
+
+    widgets = get_widgets_dict(model, registry=registry,
         autocomplete_exclude=autocomplete_exclude)
     widgets.update(kwargs.pop('widgets', {}))
     kwargs['widgets'] = widgets

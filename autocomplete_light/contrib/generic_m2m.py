@@ -38,7 +38,7 @@ class GenericModelForm(GenericModelForm):
         this ModelForm.
         """
         for name, field in self.fields.items():
-            if not isinstance(field, GenericManyToMany):
+            if not isinstance(field, GenericModelMultipleChoiceField):
                 continue
 
             model_class_attr = getattr(self._meta.model, name, None)
@@ -78,17 +78,14 @@ class GenericModelForm(GenericModelForm):
         return instance
 
 
-class GenericManyToMany(GenericModelChoiceField):
+class GenericModelMultipleChoiceField(GenericModelChoiceField):
     """
     Simple form field that converts strings to models.
     """
     def prepare_value(self, value):
-        if hasattr(value, '__iter__'):
-            return [super(GenericManyToMany, self).prepare_value(v)
-                for v in value]
-        return super(GenericManyToMany, self).prepare_value(value)
+        return [super(GenericModelMultipleChoiceField, self
+            ).prepare_value(v) for v in value]
 
     def to_python(self, value):
-        if hasattr(value, '__iter__'):
-            return [super(GenericManyToMany, self).to_python(v) for v in value]
-        return super(GenericManyToMany, self).to_python(value)
+        return [super(GenericModelMultipleChoiceField, self).to_python(v)
+            for v in value]
