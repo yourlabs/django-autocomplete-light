@@ -15,6 +15,6 @@ def autocomplete_light_data_attributes(attributes, prefix=''):
 
 
 @register.filter
-def autocomplete_light_choice_html(choice,  autocomplete):
+def autocomplete_light_choice_html(choice, autocomplete):
     """Return autocomplete.choice_html(choice)"""
     return safestring.mark_safe(autocomplete.choice_html(choice))

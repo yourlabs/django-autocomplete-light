@@ -49,5 +49,5 @@ class AutocompleteProxyBase(AutocompleteProxy, AutocompleteBase):
 
 
 class AutocompleteModelProxyBase(AutocompleteModel, AutocompleteModelProxy,
-    AutocompleteProxyBase):
+                                 AutocompleteProxyBase):
     pass

@@ -63,7 +63,7 @@ def get_widgets_dict(model, autocomplete_exclude=None, registry=None):
 
 
 def modelform_factory(model, autocomplete_exclude=None, registry=None,
-    **kwargs):
+                      **kwargs):
     """
     Wraps around Django's django_modelform_factory, using get_widgets_dict.
 
@@ -81,7 +81,7 @@ def modelform_factory(model, autocomplete_exclude=None, registry=None,
         from .registry import registry
 
     widgets = get_widgets_dict(model, registry=registry,
-        autocomplete_exclude=autocomplete_exclude)
+                               autocomplete_exclude=autocomplete_exclude)
     widgets.update(kwargs.pop('widgets', {}))
     kwargs['widgets'] = widgets
 

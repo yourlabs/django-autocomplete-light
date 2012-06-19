@@ -57,7 +57,7 @@ class GenericModelForm(forms.ModelForm):
                     continue
 
                 setattr(self.instance, field.ct_field,
-                    ContentType.objects.get_for_model(value))
+                        ContentType.objects.get_for_model(value))
                 setattr(self.instance, field.fk_field, value.pk)
 
         return super(GenericModelForm, self).save(commit)
@@ -89,7 +89,7 @@ class GenericModelChoiceField(fields.Field):
             return value
         elif isinstance(value, models.Model):
             return '%s-%s' % (ContentType.objects.get_for_model(value).pk,
-                value.pk)
+                              value.pk)
 
     def to_python(self, value):
         """
@@ -101,9 +101,10 @@ class GenericModelChoiceField(fields.Field):
 
         content_type_id, object_id = value.split('-')
         try:
-            model = ContentType.objects.get_for_id(content_type_id
-                ).model_class()
+            content_type = ContentType.objects.get_for_id(content_type_id)
         except ContentType.DoesNotExist:
             raise forms.ValidationError(u'Wrong content type')
+        else:
+            model = content_type.model_class()
 
         return model.objects.get(pk=object_id)

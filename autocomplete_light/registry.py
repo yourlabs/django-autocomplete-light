@@ -84,7 +84,7 @@ class AutocompleteRegistry(dict):
             self.register_autocomplete(autocomplete)
 
     def register_model_autocomplete(self, model, autocomplete=None,
-        name=None, **kwargs):
+                                    name=None, **kwargs):
 
         if name is not None:
             pass

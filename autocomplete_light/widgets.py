@@ -12,7 +12,7 @@ class WidgetBase(object):
     """
 
     def __init__(self, autocomplete,
-        widget_js_attributes={}, autocomplete_js_attributes={}):
+                 widget_js_attributes={}, autocomplete_js_attributes={}):
 
         if isinstance(autocomplete, str):
             self.autocomplete_name = autocomplete
@@ -65,22 +65,21 @@ class WidgetBase(object):
 
         autocomplete_name = self.autocomplete_name.lower()
         return safestring.mark_safe(render_to_string([
-                'autocomplete_light/%s/widget.html' % autocomplete_name,
-                'autocomplete_light/widget.html',
-            ], {
-                'name': name,
-                'values': values,
-                'widget': self,
-                'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
-                'autocomplete': autocomplete,
-            }
-        ))
+            'autocomplete_light/%s/widget.html' % autocomplete_name,
+            'autocomplete_light/widget.html',
+        ], {
+            'name': name,
+            'values': values,
+            'widget': self,
+            'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
+            'autocomplete': autocomplete,
+        }))
 
 
 class ChoiceWidget(WidgetBase, forms.Select):
     def __init__(self, autocomplete,
-        widget_js_attributes={}, autocomplete_js_attributes={},
-        *args, **kwargs):
+                 widget_js_attributes={}, autocomplete_js_attributes={},
+                 *args, **kwargs):
 
         forms.Select.__init__(self, *args, **kwargs)
 
@@ -92,8 +91,8 @@ class ChoiceWidget(WidgetBase, forms.Select):
 
 class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
     def __init__(self, autocomplete=None,
-        widget_js_attributes={}, autocomplete_js_attributes={},
-        *args, **kwargs):
+                 widget_js_attributes={}, autocomplete_js_attributes={},
+                 *args, **kwargs):
 
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
