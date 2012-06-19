@@ -2,8 +2,8 @@
 An url to AutocompleteView.
 
 autocomplete_light_autocomplete
-    Given a 'autocomplete' argument with the name of the autocomplete, this url routes to
-    AutocompleteView.
+    Given a 'autocomplete' argument with the name of the autocomplete, this url
+    routes to AutocompleteView.
 """
 
 from django.conf.urls.defaults import patterns, url

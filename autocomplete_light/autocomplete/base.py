@@ -69,6 +69,13 @@ class AutocompleteBase(AutocompleteInterface):
     choice_html_format = u'<div data-value="%s">%s</div>'
     autocomplete_html_format = u'%s'
 
+    def choices_for_request(self):
+        """
+        Return the list of choices that are available. Uses self.request if
+        set. Use self.request if set, may be used by autocomplete_html().
+        """
+        raise NotImplemented()
+
     def validate_values(self):
         """
         Return True if all the values are available in choices_for_values().
@@ -104,10 +111,3 @@ class AutocompleteBase(AutocompleteInterface):
         Convert a choice to a label.
         """
         return unicode(choice)
-
-    def choices_for_request(self):
-        """
-        Return the list of choices that are available. Uses self.request if
-        set. Use self.request if set, may be used by autocomplete_html().
-        """
-        raise NotImplemented()

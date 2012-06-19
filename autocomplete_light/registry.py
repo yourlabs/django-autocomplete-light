@@ -8,8 +8,8 @@ forms are required for ModelAdmin.
 
 It looks like this:
 
-- in ``yourapp/autocomplete_light_registry.py``, register your autocompletes with
-  ``autocomplete_light.register()``,
+- in ``yourapp/autocomplete_light_registry.py``, register your autocompletes
+  with ``autocomplete_light.register()``,
 - in ``urls.py``, do ``autocomplete_light.autodiscover()`` **before**
   ``admin.autodiscover()``.
 
@@ -83,8 +83,8 @@ class AutocompleteRegistry(dict):
         else:
             self.register_autocomplete(autocomplete)
 
-    def register_model_autocomplete(self, model, autocomplete=None, name=None,
-        **kwargs):
+    def register_model_autocomplete(self, model, autocomplete=None,
+        name=None, **kwargs):
 
         if name is not None:
             pass
@@ -167,8 +167,8 @@ def autodiscover():
         autocomplete_light.register(Country)
 
     When autodiscover() imports cities_light.autocomplete_light_registry, both
-    CityAutocomplete and CountryAutocomplete will be registered. For details on how these
-    autocomplete classes are generated, read the documentation of
+    CityAutocomplete and CountryAutocomplete will be registered. For details on
+    how these autocomplete classes are generated, read the documentation of
     AutocompleteRegistry.register.
     """
     _autodiscover(registry)

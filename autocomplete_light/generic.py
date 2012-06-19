@@ -101,7 +101,8 @@ class GenericModelChoiceField(fields.Field):
 
         content_type_id, object_id = value.split('-')
         try:
-            model = ContentType.objects.get_for_id(content_type_id).model_class()
+            model = ContentType.objects.get_for_id(content_type_id
+                ).model_class()
         except ContentType.DoesNotExist:
             raise forms.ValidationError(u'Wrong content type')
 

@@ -20,6 +20,7 @@ class RegistryView(base.TemplateView):
             'registry': autocomplete_light.registry,
         }
 
+
 class AutocompleteView(generic.View):
     """Simple view that routes the request to the appropriate autocomplete."""
 
@@ -31,18 +32,20 @@ class AutocompleteView(generic.View):
         This view is called by the autocomplete script, it is expected to
         return the rendered autocomplete box contents.
 
-        To do so, it gets the autocomplete class from the registry, given the url
-        keyword argument autocomplete, that should be the autocomplete name.
+        To do so, it gets the autocomplete class from the registry, given the
+        url keyword argument autocomplete, that should be the autocomplete
+        name.
 
-        Then, it instanciates the autocomplete with no argument as usual, and calls
-        autocomplete.init_for_request, passing all arguments it recieved.
+        Then, it instanciates the autocomplete with no argument as usual, and
+        calls autocomplete.init_for_request, passing all arguments it recieved.
 
         Finnaly, it makes an HttpResponse with the result of
-        autocomplete.render_autocomplete(). The javascript will use that to fill the
-        autocomplete suggestion box.
+        autocomplete.render_autocomplete(). The javascript will use that to
+        fill the autocomplete suggestion box.
         """
         try:
-            autocomplete_class = autocomplete_light.registry[kwargs['autocomplete']]
+            autocomplete_class = autocomplete_light.registry[
+                kwargs['autocomplete']]
         except KeyError:
             return http.HttpResponse404()
         autocomplete = autocomplete_class(request=request)
@@ -52,9 +55,10 @@ class AutocompleteView(generic.View):
         """
         Just proxy autocomplete.post().
 
-        This is the key to communication between the autocomplete and the widget in
-        javascript. You can use it to create results and such.
+        This is the key to communication between the autocomplete and the
+        widget in javascript. You can use it to create results and such.
         """
-        autocomplete_class = autocomplete_light.registry[kwargs['autocomplete']]
+        autocomplete_class = autocomplete_light.registry[
+            kwargs['autocomplete']]
         autocomplete = autocomplete_class()
         return autocomplete.post(request, *args, **kwargs)

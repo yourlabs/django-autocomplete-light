@@ -1,6 +1,6 @@
 from django.db.models import Q
 
-__all__ = ('AutocompleteModel',)
+__all__ = ('AutocompleteModel', )
 
 
 class AutocompleteModel(object):
@@ -42,6 +42,6 @@ class AutocompleteModel(object):
         for value in self.values:
             try:
                 value = float(value)
-            except ValueError, TypeError:
+            except (ValueError, TypeError):
                 return False
         return len(self.choices_for_values()) == len(self.values)

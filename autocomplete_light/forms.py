@@ -21,9 +21,9 @@ def get_widgets_dict(model, autocomplete_exclude=None, registry=None):
         Registry to use.
 
     Inspect the model's field and many to many fields, calls
-    registry.autocomplete_for_model to get the autocomplete for the related model. If a
-    autocomplete is returned, then an Widget will be spawned using this
-    autocomplete.
+    registry.autocomplete_for_model to get the autocomplete for the related
+    model. If a autocomplete is returned, then an Widget will be spawned using
+    this autocomplete.
 
     The dict is usable by ModelForm.Meta.widgets. In django 1.4, with
     modelform_factory too.
