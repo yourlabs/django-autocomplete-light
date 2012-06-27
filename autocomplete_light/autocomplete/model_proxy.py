@@ -37,6 +37,40 @@ class AutocompleteModelProxy(object):
 
         return data
 
+    def _get_or_create_model_from_dict(self, model_dict):
+        module_name = model_dict.pop('module_name').lower()
+        app_label = model_dict.pop('app_label').lower()
+        model_class = models.get_model(app_label, module_name)
+        model_code = u'%s.%s' % (app_label, module_name)
+        get_or_create_fields = self.get_or_create_fields.get(model_code, None)
+
+        kwargs = {}
+        for field in get_or_create_fields:
+            if field.name not in model_dict.keys():
+                continue
+
+            if isinstance(field, models.DateTimeField):
+                # skews caused by precision diference between the database
+                # and the serializer make datetime fields a bad choice for
+                # get_or_create.
+                continue
+
+            kwargs[field.name] = model_dict[field.name]
+
+        model, created = model_class.objects.get_or_create(**kwargs)
+
+        #for key, value in model_dict.items():
+            #if isinstance(value, dict):
+                #related = self._get_or_create_model_from_dict(value)
+                #model_dict[key] = related
+
+        return model
+
+    def dicts_to_model(self, model_dict):
+        for key, value in model_dict.items():
+            if isinstance(value, dict):
+                model_dict[key] = self._get_or_create_model_from_dict(value)
+
     def model_dict_value(self, model_dict):
         module_name = model_dict.pop('module_name').lower()
         app_label = model_dict.pop('app_label').lower()
@@ -44,28 +78,11 @@ class AutocompleteModelProxy(object):
         model_code = u'%s.%s' % (app_label, module_name)
         get_or_create_fields = self.get_or_create_fields.get(model_code, None)
 
-        # first pass, get or create the model
+        # first pass, get or create each
         kwargs = {}
-        for key, value in model_dict.items():
-            if get_or_create_fields and key not in get_or_create_fields:
-                continue
+        #for key, value in model_dict.items():
 
-            if isinstance(value, dict):
-                continue
-
-            try:
-                field = model_class._meta.get_field(key)
-            except models.FieldDoesNotExist:
-                continue
-            else:
-                if isinstance(field, models.DateTimeField):
-                    # skews caused by precision diference between the database
-                    # and the serializer make datetime fields a bad choice for
-                    # get_or_create.
-                    continue
-                kwargs[key] = value
-
-        model, c = model_class.objects.get_or_create(**kwargs)
+        #model, c = model_class.objects.get_or_create(**kwargs)
 
         # second pass, finish the model
         for key, value in kwargs.items():
