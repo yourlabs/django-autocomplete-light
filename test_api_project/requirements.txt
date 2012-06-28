@@ -1,2 +1,0 @@
-django-admin-tools==0.4.1
--e hg+https://bitbucket.org/salvator/django-admintools-bootstrap@ed02c7a7391a5ba82c44f191185ddceea2c83c4d#egg=django_admintools_bootstrap-dev

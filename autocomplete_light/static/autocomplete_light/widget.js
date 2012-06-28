@@ -149,7 +149,7 @@ yourlabs.Widget = function(widget) {
             this.deck.append(choice);
 
             // Append a clone of the .remove element.
-            choice.append(this.widget.find('.remove').clone().show());
+            choice.append(this.widget.find('.remove:not(:visible)').clone().show());
         }
     }
 
