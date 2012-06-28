@@ -12,7 +12,7 @@ class WidgetBase(object):
     """
 
     def __init__(self, autocomplete,
-                 widget_js_attributes={}, autocomplete_js_attributes={}):
+                 widget_js_attributes=None, autocomplete_js_attributes=None):
 
         if isinstance(autocomplete, str):
             self.autocomplete_name = autocomplete
@@ -22,19 +22,26 @@ class WidgetBase(object):
             self.autocomplete = autocomplete
             self.autocomplete_name = autocomplete.__class__.__name__
 
-        self.widget_js_attributes = widget_js_attributes
-        self.autocomplete_js_attributes = autocomplete_js_attributes
+        if widget_js_attributes is None:
+            self.widget_js_attributes = {}
+        else:
+            self.widget_js_attributes = widget_js_attributes
+
+        if autocomplete_js_attributes is None:
+            self.autocomplete_js_attributes = {}
+        else:
+            self.autocomplete_js_attributes = autocomplete_js_attributes
 
     def process_js_attributes(self):
-        more_autocomplete_js_attributes = getattr(self.autocomplete,
+        extra_autocomplete_js_attributes = getattr(self.autocomplete,
             'autocomplete_js_attributes', {})
         self.autocomplete_js_attributes.update(
-            more_autocomplete_js_attributes)
+            extra_autocomplete_js_attributes)
 
-        more_widget_js_attributes = getattr(self.autocomplete,
+        extra_widget_js_attributes = getattr(self.autocomplete,
             'widget_js_attributes', {})
         self.widget_js_attributes.update(
-            more_widget_js_attributes)
+            extra_widget_js_attributes)
 
         if 'bootstrap' not in self.widget_js_attributes.keys():
             self.widget_js_attributes['bootstrap'] = 'normal'
@@ -44,6 +51,7 @@ class WidgetBase(object):
 
         if 'url' not in self.autocomplete_js_attributes.keys():
             url = self.autocomplete().get_absolute_url()
+            print url
             self.autocomplete_js_attributes['url'] = url
 
     def render(self, name, value, attrs=None):
@@ -78,7 +86,7 @@ class WidgetBase(object):
 
 class ChoiceWidget(WidgetBase, forms.Select):
     def __init__(self, autocomplete,
-                 widget_js_attributes={}, autocomplete_js_attributes={},
+                 widget_js_attributes=None, autocomplete_js_attributes=None,
                  *args, **kwargs):
 
         forms.Select.__init__(self, *args, **kwargs)
@@ -91,7 +99,7 @@ class ChoiceWidget(WidgetBase, forms.Select):
 
 class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
     def __init__(self, autocomplete=None,
-                 widget_js_attributes={}, autocomplete_js_attributes={},
+                 widget_js_attributes=None, autocomplete_js_attributes=None,
                  *args, **kwargs):
 
         forms.SelectMultiple.__init__(self, *args, **kwargs)
