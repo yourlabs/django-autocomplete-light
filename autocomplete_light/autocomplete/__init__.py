@@ -4,8 +4,6 @@ from .model import AutocompleteModel
 from .choice_list import AutocompleteChoiceList
 from .template import AutocompleteTemplate
 from .generic import AutocompleteGeneric
-from .proxy import AutocompleteProxyInterface, AutocompleteProxy
-from .model_proxy import AutocompleteModelProxy
 
 
 class AutocompleteListBase(AutocompleteList, AutocompleteBase):

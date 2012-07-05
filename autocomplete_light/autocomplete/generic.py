@@ -95,7 +95,7 @@ class AutocompleteGeneric(AutocompleteModel):
 
             try:
                 ids = [x.split('-')[1] for x in self.values
-                    if int(x.split('-')[0]) == ctype]
+                    if x is not None and int(x.split('-')[0]) == ctype]
             except ValueError:
                 continue
 
