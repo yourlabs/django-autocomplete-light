@@ -111,7 +111,7 @@ yourlabs.Widget = function(widget) {
 
             // Unselect and remove the choice's value from the select
             this.select.find(
-                'option[data-value=' + choice.attr('data-value') + ']'
+                'option[data-value="' + choice.attr('data-value') + '"]'
             ).attr('selected', '').remove();
 
             // Actually remove the value from the deck
@@ -134,7 +134,7 @@ yourlabs.Widget = function(widget) {
 
     // Add a selected choice of a given value to the deck.
     this.addToDeck = function(choice, value) {
-        var existing_choice = this.deck.find('[data-value='+value+']');
+        var existing_choice = this.deck.find('[data-value="'+value+'"]');
 
         // Avoid duplicating choices in the deck.
         if (!existing_choice.length) {
@@ -299,7 +299,7 @@ $(document).ready(function() {
                 // is this necessary ?
                 // if (!value) return;
 
-                var choice = widget.deck.find('[data-value='+value+']');
+                var choice = widget.deck.find('[data-value="'+value+'"]');
 
                 if (!choice.length) {
                     var choice = widget.choiceTemplate.clone();

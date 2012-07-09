@@ -15,7 +15,7 @@ class AutocompleteTaggableItems(autocomplete_light.AutocompleteGenericBase):
         ('username', 'email'),
         ('name',),
         ('search_names',),
-        ('name_ascii'),
+        ('name_ascii',),
     )
 
 

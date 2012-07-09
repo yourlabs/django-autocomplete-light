@@ -81,6 +81,7 @@ class AutocompleteRegistry(dict):
         if model:
             self.register_model_autocomplete(model, autocomplete, **kwargs)
         else:
+            autocomplete = type(autocomplete.__name__, (autocomplete,), kwargs)
             self.register_autocomplete(autocomplete)
 
     def register_model_autocomplete(self, model, autocomplete=None,
@@ -89,7 +90,10 @@ class AutocompleteRegistry(dict):
         if name is not None:
             pass
         elif autocomplete is not None:
-            name = '%s%s' % (model.__name__, autocomplete.__name__)
+            if autocomplete.__name__.find(model.__name__) == 0:
+                name = autocomplete.__name__
+            else:
+                name = '%s%s' % (model.__name__, autocomplete.__name__)
         else:
             name = '%sAutocomplete' % model.__name__
 

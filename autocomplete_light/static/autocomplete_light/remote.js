@@ -8,14 +8,9 @@ var RemoteAutocompleteWidget = {
     response will contain the value.
     */
     getValue: function(result) {
-        var json = result.find('textarea').html();
-        var data = $.parseJSON(json);
+        var value = result.data('value');
 
-        var value = false;
-
-        if (data.value) {
-            value = data.value;
-        } else {
+        if (value.match(/^http:/)) {
             $.ajax(this.autocompleteOptions.url, {
                 async: false,
                 type: 'post',
@@ -35,7 +30,7 @@ var RemoteAutocompleteWidget = {
 $(document).ready(function() {
     // Instanciate decks with RemoteAutocompleteWidget as override for all widgets with
     // autocomplete 'remote'.
-    $('.autocomplete-light-widget[data-bootstrap=remote]').each(function() {
+    $('.autocomplete-light-widget[data-bootstrap=rest_model]').each(function() {
         $(this).yourlabsWidget(RemoteAutocompleteWidget);
     });
 });
