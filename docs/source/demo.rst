@@ -1,22 +1,11 @@
 django-autocomplete-light demo
 ==============================
 
-The test_project lives in the test_project subdirectory of
-django-autocomplete-light's repository.
+Test projects live in django-autocomplete-light root, they are:
 
-Install
--------
-
-.. include:: ../../test_project/INSTALL.rst
-
-Try basic features
-------------------
+- test_project: demonstrates basic autocomplete features
+- test_remote_project: demonstrates advanced features
 
 .. include:: ../../test_project/README.rst
 
-Try advanced features
----------------------
-
-.. include:: ../../test_api_project/INSTALL.rst
-
-.. include:: ../../test_api_project/README.rst
+.. include:: ../../test_remote_project/README.rst

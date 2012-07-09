@@ -140,11 +140,7 @@ INSTALLED_APPS = (
     'genericm2m',
     'generic_m2m_autocomplete',
     'm2m_autocomplete',
-    #'project_specific',
-    #'genericm2m',
-    #'generic_m2m_example',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'docs_autocomplete',
 )
 
 # A sample logging configuration. The only tangible logging

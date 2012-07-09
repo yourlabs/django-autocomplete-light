@@ -1,3 +1,13 @@
+"""
+ChoiceWidget is intended to work as a replacement for django's Select widget,
+and MultipleChoiceWidget for django's SelectMultiple.
+
+Constructing a widget needs an Autocomplete class or registered autocomplete
+name.
+
+The widget renders from autocomplete_light/widget.html template.
+"""
+
 from django import forms
 from django.forms.util import flatatt
 from django.utils import safestring
@@ -8,7 +18,7 @@ __all__ = ['ChoiceWidget', 'MultipleChoiceWidget']
 
 class WidgetBase(object):
     """
-    Widget suitable for ModelChoiceField and ModelMultipleChoiceField.
+    Base widget for autocompletes.
     """
 
     def __init__(self, autocomplete,
@@ -85,6 +95,10 @@ class WidgetBase(object):
 
 
 class ChoiceWidget(WidgetBase, forms.Select):
+    """
+    Widget that provides an autocomplete for zero to one choice.
+    """
+
     def __init__(self, autocomplete,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
                  *args, **kwargs):
@@ -98,6 +112,9 @@ class ChoiceWidget(WidgetBase, forms.Select):
 
 
 class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
+    """
+    Widget that provides an autocomplete for zero to n choices.
+    """
     def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
                  *args, **kwargs):

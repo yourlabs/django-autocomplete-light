@@ -24,6 +24,9 @@ class AutocompleteGeneric(AutocompleteModel):
         return field.prepare_value(choice)
 
     def validate_values(self):
+        """
+        Ensure that every choice is part of a queryset.
+        """
         assert self.choices, 'autocomplete.choices should be a queryset list'
 
         for value in self.values:
@@ -59,6 +62,10 @@ class AutocompleteGeneric(AutocompleteModel):
         return True
 
     def choices_for_request(self):
+        """
+        Propose local results and fill the autocomplete with remote
+        suggestions.
+        """
         assert self.choices, 'autocomplete.choices should be a queryset list'
 
         q = self.request.GET.get('q', '')

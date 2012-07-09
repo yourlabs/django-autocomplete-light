@@ -13,7 +13,7 @@ world in its autocomplete, it should either:
 - use a simple REST API to query a database with all songs world
 
 The purpose of this documentation is to describe every elements involved. Note
-that a living demonstration is available in `test_api_project`, where one
+that a living demonstration is available in `test_remote_project`, where one
 project serves a full database of cities via an API to another.
 
 .. _remote-example:
@@ -21,9 +21,10 @@ project serves a full database of cities via an API to another.
 Example
 -------
 
-In test_api_project, of course you should not hardcode urls like that in actual projects:
+In test_remote_project/remote_autocomplete, of course you should not hardcode
+urls like that in actual projects:
 
-.. literalinclude:: ../../test_api_project/test_api_project/autocomplete_light_registry.py
+.. literalinclude:: ../../test_remote_project/remote_autocomplete/autocomplete_light_registry.py
    :language: python
 
 Check out the documentation of :ref:`RemoteCountryChannel and
@@ -32,7 +33,7 @@ RemoteCityChannel<citieslight:remote-channel>` for more.
 API
 ---
 
-.. automodule:: autocomplete_light.channel.remote
+.. autoclass:: autocomplete_light.autocomplete.rest_model.AutocompleteRestModel
    :members:
 
 .. _javascript-fun:

@@ -3,8 +3,8 @@ The registry module provides tools to maintain a registry of autocompletes.
 
 The first thing that should happen when django starts is registration of
 autocompletes. It should happen first, because autocompletes are required for
-autocomplete widgets. And autocomplete widgets are required for forms. And
-forms are required for ModelAdmin.
+widgets. And autocomplete widgets are required for forms. And forms are
+required for ModelAdmin.
 
 It looks like this:
 
@@ -60,6 +60,21 @@ class AutocompleteRegistry(dict):
             pass
 
     def register(self, *args, **kwargs):
+        """
+        Register an autocomplete.
+
+        Two unordered arguments are accepted, at least one should be passed:
+
+        - a model if not a generic autocomplete,
+        - an autocomplete class if necessary, else one will be generated.
+
+        'name' is also an acceptable keyword argument, that can be used to
+        override the default autocomplete name (which is its class name).
+
+        In addition, keyword arguments will be set as class attributes. For
+        thread safety reasons, a copy of the autocomplete class is stored in
+        the registry.
+        """
         autocomplete = None
         model = None
 
@@ -79,12 +94,12 @@ class AutocompleteRegistry(dict):
                 pass
 
         if model:
-            self.register_model_autocomplete(model, autocomplete, **kwargs)
+            self._register_model_autocomplete(model, autocomplete, **kwargs)
         else:
             autocomplete = type(autocomplete.__name__, (autocomplete,), kwargs)
-            self.register_autocomplete(autocomplete)
+            self._register_autocomplete(autocomplete)
 
-    def register_model_autocomplete(self, model, autocomplete=None,
+    def _register_model_autocomplete(self, model, autocomplete=None,
                                     name=None, **kwargs):
 
         if name is not None:
@@ -107,10 +122,10 @@ class AutocompleteRegistry(dict):
 
         autocomplete = type(name, (base,), kwargs)
 
-        self.register_autocomplete(autocomplete)
+        self._register_autocomplete(autocomplete)
         self._models[model] = autocomplete
 
-    def register_autocomplete(self, autocomplete):
+    def _register_autocomplete(self, autocomplete):
         """
         Register a autocomplete without model, like a generic autocomplete.
         """

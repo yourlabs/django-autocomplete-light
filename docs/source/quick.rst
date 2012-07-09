@@ -40,6 +40,10 @@ This is an example of how you could load the javascript::
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     {% include 'autocomplete_light/static.html' %}
 
+Note that you should adapt the static.html template to your needs at some
+point, because its purpose is to work for all projects, not to be optimal for
+your project.
+
 .. _quick-admin:
 
 Quick admin integration
@@ -47,39 +51,22 @@ Quick admin integration
 
 .. include:: _admin_template.rst
 
-Create ``yourapp/autocomplete_light_registry.py``, assuming "Author" has a
-"full_name" CharField::
+Create ``yourapp/autocomplete_light_registry.py``, you can copy this example autocomplete :ref:`registry-reference`:
 
-    import autocomplete_light
+.. literalinclude:: ../../test_project/fk_autocomplete/autocomplete_light_registry.py
+   :language: python
 
-    from models import Author
+At this point, the easiest is to use autocomplete-light's modelform_factory
+shortcut directly in ``yourapp/admin.py``, ie.:
 
-    autocomplete_light.register(Author, search_field='full_name')
-
-See more about the channel registry in :ref:`registry-reference`.
-
-But still, the `default implementation of query_filter()
-<forms.html#autocomplete_light.channel.base.ChannelBase.query_filter>`_ is
-pretty trivial, you might want to customize how it will filter the queryset.
-See more about customizing channels in :ref:`channel-reference`.
-
-Anyway, finish by setting ``BookAdmin.form`` in yourapp/admin.py::
-
-    from django.contrib import admin
-
-    import autocomplete_light
-
-    from models import Book
-
-    class BookAdmin(admin.ModelAdmin):
-        # use an autocomplete for Author
-        form = autocomplete_light.modelform_factory(Book)
-    admin.site.register(Book, BookAdmin)
+.. literalinclude:: ../../test_project/fk_autocomplete/admin.py
+   :language: python
 
 Quick form integration
 ----------------------
 
-AutocompleteWidget is usable on ModelChoiceField and ModelMultipleChoiceField.
+Use autocomplete_light.ChoiceWidget or autocomplete_light.MultipleChoiceWidget
+for django's ModelChoiceField and ModelMultipleChoiceField respectively.
 
-.. autoclass:: autocomplete_light.widgets.AutocompleteWidget
+.. automodule:: autocomplete_light.widgets
    :noindex:

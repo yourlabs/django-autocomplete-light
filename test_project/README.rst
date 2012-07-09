@@ -1,17 +1,62 @@
-Once you have the test_project server running (see INSTALL if you don't), open
-`the first contact
-<http://localhost:8000/admin/project_specific/contact/1/>`_.
+test_project: basic features and examples
+=========================================
 
-You will see two addresses:
+Virtualenv is a great solution to isolate python environments. If necessary,
+you can install it from your package manager or the python package manager,
+ie.::
 
-- one at Paris, France
-- one at Paris, United States
+    sudo easy_install virtualenv
 
-The reason for that is that there are several cities in the world with the name
-"Paris". This is the reason why the double autocomplete widget is interresting:
-it filters the cities based on the selected country.
+Install last release
+--------------------
 
-Note that only cities from France, USA and Belgium are in the demo database.
+Install packages from PyPi and the test project from Github::
 
-Note that you can test autocompletes for generic foreign keys in this project
-too.
+    rm -rf django-autocomplete-light autocomplete_light_env/
+
+    virtualenv autocomplete_light_env
+    source autocomplete_light_env/bin/activate
+    git clone https://jpic@github.com/yourlabs/django-autocomplete-light.git
+    cd django-autocomplete-light/test_project
+    pip install -r requirements.txt
+    ./manage.py runserver
+
+Or install the development version
+----------------------------------
+
+Install directly from github::
+
+    AUTOCOMPLETE_LIGHT_VERSION="master"
+    CITIES_LIGHT_VERSION="master"
+
+    rm -rf autocomplete_light_env/
+
+    virtualenv autocomplete_light_env
+    source autocomplete_light_env/bin/activate
+    pip install -e git+git://github.com/yourlabs/django-cities-light.git@$CITIES_LIGHT_VERSION#egg=cities_light
+    pip install -e git+git://github.com/yourlabs/django-autocomplete-light.git@$AUTOCOMPLETE_LIGHT_VERSION#egg=autocomplete_light
+    cd autocomplete_light_env/src/autocomplete-light/test_project
+    pip install -r requirements.txt
+    ./manage.py runserver
+
+Usage
+-----
+
+- Run the server,
+- Connect to `/admin/`, ie. http://localhost:8000/admin/,
+- Login with user "test" and password "test",
+- Try the many example applications,
+
+Database
+--------
+
+A working SQLite database is shipped, but you can make your own ie.::
+
+    cd test_project
+    rm -rf db.sqlite
+    ./manage.py syncdb --noinput
+    ./manage.py migrate
+    ./manage.py cities_light
+
+Note that `test_project/project_specific/models.py` filters cities from certain
+countries.

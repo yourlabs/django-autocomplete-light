@@ -6,6 +6,7 @@ from .template import AutocompleteTemplate
 from .generic import AutocompleteGeneric
 from .rest_model import AutocompleteRestModel
 
+
 class AutocompleteListBase(AutocompleteList, AutocompleteBase):
     pass
 
