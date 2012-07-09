@@ -1,7 +1,6 @@
 # django-autocomplete-light
 # Copyright (C) 2008-2011 James Pic and contributors.
 # This file is distributed under the same license as the django-autocomplete-light package.
-# Riccardo Magliocchetti <riccardo.magliocchetti@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
