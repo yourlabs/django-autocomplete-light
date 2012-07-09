@@ -1,0 +1,24 @@
+# django-autocomplete-light
+# Copyright (C) 2008-2011 James Pic and contributors.
+# This file is distributed under the same license as the django-autocomplete-light package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-11 08:11+0200\n"
+"PO-Revision-Date: 2012-07-09 14:46+0100\n"
+"Last-Translator: Michał Pasternak <michal.dtz@gmail.com>\n"
+"Language-Team: pl <michal.dtz@gmail.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: Poland\n"
+
+#: channel/base.py:55
+msgid "type some text to search in this autocomplete"
+msgstr "wpisz tekst, aby wyszukać..."
+
