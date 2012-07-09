@@ -11,6 +11,7 @@ install:
   - pip install -q -e . --use-mirrors
 before_script:
   - "pep8 --exclude=tests,migrations --ignore=E124,E128 autocomplete_light"
-  - pyflakes -x W src
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 script:
   - python setup.py test
