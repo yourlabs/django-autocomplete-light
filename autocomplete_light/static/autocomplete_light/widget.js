@@ -147,7 +147,7 @@ yourlabs.Widget = function(widget) {
             this.deck.append(choice);
 
             // Append a clone of the .remove element.
-            choice.append(this.widget.find('.remove:not(:visible)').clone().show());
+            choice.prepend(this.widget.find('.remove:not(:visible)').clone().show());
         }
     }
 
@@ -188,7 +188,7 @@ yourlabs.Widget = function(widget) {
         var choices = this.deck.find(
             this.input.yourlabsAutocomplete().choiceSelector);
 
-        choices.append(this.widget.find('.remove:last').clone().show());
+        choices.prepend(this.widget.find('.remove:last').clone().show());
         this.resetDisplay();
 
         this.bindSelectChoice();
