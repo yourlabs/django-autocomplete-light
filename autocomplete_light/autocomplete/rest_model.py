@@ -47,14 +47,13 @@ class AutocompleteRestModel(AutocompleteModel):
 
         return data
 
-
     def model_for_source_url(self, url):
         """
         Take an URL from the API this remote channel is supposed to work with,
         return the model class to use for that url.
 
-        It is only needed for the default implementation of download(), because it
-        has to follow relations recursively.
+        It is only needed for the default implementation of download(), because
+        it has to follow relations recursively.
         """
         raise NotImplemented()
 

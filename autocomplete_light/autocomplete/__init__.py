@@ -36,5 +36,5 @@ class AutocompleteRestModelBase(AutocompleteRestModel, AutocompleteBase):
 
 
 class AutocompleteRestModelTemplate(AutocompleteRestModel,
-    AutocompleteTemplate):
+                                    AutocompleteTemplate):
     pass
