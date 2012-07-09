@@ -10,12 +10,12 @@ var RemoteAutocompleteWidget = {
     getValue: function(result) {
         var value = result.data('value');
 
-        if (value.match(/^http:/)) {
+        if (typeof(value)=='string' && isNaN(value) && value.match(/^http:/)) {
             $.ajax(this.autocompleteOptions.url, {
                 async: false,
                 type: 'post',
                 data: {
-                    'result': json,
+                    'value': value,
                 },
                 success: function(text, jqXHR, textStatus) {
                     value = text;

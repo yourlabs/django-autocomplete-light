@@ -142,9 +142,7 @@ yourlabs.Widget = function(widget) {
 
             // In case getValue() actually **created** the value, for example
             // with a post request.
-            if (! choice.attr('data-value')) {
-                choice.attr('data-value', value);
-            }
+            choice.attr('data-value', value);
 
             this.deck.append(choice);
 
@@ -155,12 +153,12 @@ yourlabs.Widget = function(widget) {
 
     // Add a selected choice of a given value to the deck.
     this.addToSelect = function(choice, value) {
-        var option = this.select.find('option[value='+value+']');
+        var option = this.select.find('option[value="'+value+'"]');
 
         if (! option.length) {
             this.select.append(
                 '<option selected="selected" value="'+ value +'"></option>');
-            option = this.select.find('option[value='+value+']');
+            option = this.select.find('option[value="'+value+'"]');
         }
 
         option.attr('selected', 'selected');
@@ -172,7 +170,7 @@ yourlabs.Widget = function(widget) {
     this.deselectItem = function(choice) {
         var value = this.getValue(choice);
 
-        this.select.find('option[value='+value+']').remove();
+        this.select.find('option[value="'+value+'"]').remove();
         this.select.trigger('change');
 
         choice.remove();
@@ -303,7 +301,7 @@ $(document).ready(function() {
 
                 if (!choice.length) {
                     var choice = widget.choiceTemplate.clone();
-                    var html = widget.select.find('option[value='+value+']').html();
+                    var html = widget.select.find('option[value="'+value+'"]').html();
 
                     choice.html(html);
                     choice.attr('data-value', value);

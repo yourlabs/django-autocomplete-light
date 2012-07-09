@@ -33,7 +33,6 @@ class WidgetBase(object):
             self.autocomplete_js_attributes = autocomplete_js_attributes
 
     def process_js_attributes(self):
-        import ipdb; ipdb.set_trace()
         extra_autocomplete_js_attributes = getattr(self.autocomplete,
             'autocomplete_js_attributes', {})
         self.autocomplete_js_attributes.update(
