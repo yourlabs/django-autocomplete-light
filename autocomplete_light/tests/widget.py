@@ -119,7 +119,7 @@ class WidgetTestCase(LiveServerTestCase):
 
         self.keyboard_test()
 
-        self.assertEqual(placeholder,
+        self.assertEqual('',
             self.input_element().get_attribute('value'))
 
     def keyboard_test(self):
