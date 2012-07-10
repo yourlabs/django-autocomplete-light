@@ -120,7 +120,7 @@ class AutocompleteRegistry(dict):
         if base.choices is None:
             kwargs['choices'] = model.objects.all()
 
-        if base.search_fields is None:
+        if base.search_fields is None and 'search_fields' not in kwargs:
             try:
                 model._meta.get_field('name')
             except:

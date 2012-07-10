@@ -5,8 +5,12 @@ from django.db import models
 import autocomplete_light
 
 
+class Noname(models.Model):
+    number = models.CharField(max_length=100)
+
+
 class Foo(models.Model):
-    pass
+    name = models.CharField(max_length=100)
 
 
 class Bar(autocomplete_light.AutocompleteModelBase):
@@ -48,3 +52,13 @@ class RegistryTestCase(unittest.TestCase):
         self.registry.register(Foo, Bar, name='BarFoo')
         self.assertIn('BarFoo', self.registry.keys())
         self.assertEqual(self.registry['BarFoo'].__name__, 'BarFoo')
+
+    def test_register_no_name_fail(self):
+        try:
+            self.registry.register(Noname)
+            self.fail('Should raise an exception when registering noname')
+        except:
+            pass
+
+    def test_register_no_name_pass(self):
+        self.registry.register(Noname, search_fields=('number',))
