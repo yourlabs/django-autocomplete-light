@@ -125,7 +125,7 @@ class AutocompleteRegistry(dict):
                 model._meta.get_field('name')
             except:
                 raise Exception(u'Add search_fields kwargs to .register(%s)'
-                    % model.__class__.__name__)
+                    % model.__name__)
             else:
                 kwargs['search_fields'] = ['name']
 
