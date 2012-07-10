@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'optionnal_gfk_autocomplete',
     'genericm2m',
     'generic_m2m_autocomplete',
+    'admin_test_autocomplete',
     'm2m_autocomplete',
     'docs_autocomplete',
 )
