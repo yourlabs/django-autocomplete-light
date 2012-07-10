@@ -1,3 +1,14 @@
+1.0.2 Bugfix & refactor django admin + popup
+
+1.0.1 Slight ergonomy improvement
+
+1.0.0 (Almost) full rewrite
+
+    - "Channel" is gone in favor of "Autocomplete"
+    - More unit tests and new selenium tests
+    - Javascript rewrite, for consistency and documentation
+    - New view on /autocomplete_light/ allows admins to view the registry
+
 0.6 No pity for insane bloat removal
 
     Backward compatibility break: {% autocomplete_light_static %} was removed.
