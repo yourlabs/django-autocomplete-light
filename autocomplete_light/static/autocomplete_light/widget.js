@@ -51,7 +51,7 @@ yourlabs.Widget = function(widget) {
     this.input = this.widget.find('input');
     this.select = this.widget.find('select');
     this.deck = this.widget.find('.deck');
-    this.choiceTemplate = this.widget.find('.choice-template li');
+    this.choiceTemplate = this.widget.find('.choice-template .choice');
 
     // The number of choices that the user may select with this widget. Set 0
     // for no limit. In the case of a foreign key you want to set it to 1.
