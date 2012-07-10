@@ -113,13 +113,7 @@ yourlabs.Widget = function(widget) {
             // We'll remove the first choice which is supposed to be the oldest
             var choice = $(this.deck.children()[0]);
 
-            // Unselect and remove the choice's value from the select
-            this.select.find(
-                'option[data-value="' + choice.attr('data-value') + '"]'
-            ).attr('selected', '').remove();
-
-            // Actually remove the value from the deck
-            choice.remove();
+            this.deselectChoice(choice);
         }
     }
 
@@ -171,7 +165,7 @@ yourlabs.Widget = function(widget) {
     }
 
     // Called when the user clicks .remove in a deck choice.
-    this.deselectItem = function(choice) {
+    this.deselectChoice = function(choice) {
         var value = this.getValue(choice);
 
         this.select.find('option[value="'+value+'"]').remove();
@@ -261,7 +255,7 @@ $(document).ready(function() {
         var deck = $(this).yourlabsWidget();
     });
 
-    // Call Widget.deselectItem when .remove is clicked
+    // Call Widget.deselectChoice when .remove is clicked
     $('.autocomplete-light-widget .deck .remove').live('click', function() {
         var widget = $(this).parents('.autocomplete-light-widget');
 
@@ -274,7 +268,7 @@ $(document).ready(function() {
         var selector = widget.input.yourlabsAutocomplete().choiceSelector;
         var choice = $(this).parents(selector);
 
-        widget.deselectItem(choice);
+        widget.deselectChoice(choice);
     });
 
     /*
