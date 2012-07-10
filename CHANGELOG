@@ -1,3 +1,5 @@
+1.0.3 Default search_names to 'name' if the model has a name field
+
 1.0.2 Bugfix & refactor django admin + popup
 
 1.0.1 Slight ergonomy improvement

@@ -120,6 +120,15 @@ class AutocompleteRegistry(dict):
         if base.choices is None:
             kwargs['choices'] = model.objects.all()
 
+        if base.search_fields is None:
+            try:
+                model._meta.get_field('name')
+            except:
+                raise Exception(u'Add search_fields kwargs to .register(%s)'
+                    % model.__class__.__name__)
+            else:
+                kwargs['search_fields'] = ['name']
+
         autocomplete = type(name, (base,), kwargs)
 
         self._register_autocomplete(autocomplete)
