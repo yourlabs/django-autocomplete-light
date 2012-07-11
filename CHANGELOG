@@ -1,3 +1,6 @@
+1.0.5 Enhancement: made rest model local object fetcher less harsh when trying
+                   to find a local object
+
 1.0.4 Bugfix: registering a generic autocomplete with a custom name did not
               use the custom name
 
