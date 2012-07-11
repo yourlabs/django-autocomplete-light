@@ -135,12 +135,33 @@ class AutocompleteRestModel(AutocompleteModel):
         data.pop('url')
         fh.close()
 
+        uniques = [f.name for f in model_class._meta.fields if f.unique]
+        unique_data = {}
+
+        for key, value in data.items():
+            if key not in uniques:
+                continue
+
+            field = model_class._meta.get_field_by_name(key)[0]
+            if getattr(field, 'rel', False):
+                continue
+
+            unique_data[key] = value
+
+        try:
+            model = model_class.objects.get(**unique_data)
+        except model_class.DoesNotExist:
+            model = model_class(**unique_data)
+
         for key, value in data.items():
             is_string = isinstance(value, (unicode, str))
             field = model_class._meta.get_field_by_name(key)[0]
 
             if getattr(field, 'rel', None) and is_string:
-                data[key] = self.download(value)
+                setattr(model, key, self.download(value))
+            else:
+                setattr(model, key, value)
 
-        model, created = model_class.objects.get_or_create(**data)
+        model.save()
+
         return model
