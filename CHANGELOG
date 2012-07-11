@@ -1,3 +1,6 @@
+1.0.4 Bugfix: registering a generic autocomplete with a custom name did not
+              use the custom name
+
 1.0.3 Default search_names to 'name' if the model has a name field
 
 1.0.2 Bugfix & refactor django admin + popup

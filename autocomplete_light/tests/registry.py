@@ -1,5 +1,6 @@
 import unittest
 
+from django.contrib.auth.models import User
 from django.db import models
 
 import autocomplete_light
@@ -15,6 +16,15 @@ class Foo(models.Model):
 
 class Bar(autocomplete_light.AutocompleteModelBase):
     pass
+
+
+class Generic(autocomplete_light.AutocompleteGenericBase):
+    choices = (
+        User.objects.all(),
+    )
+    search_fields = (
+        ('username',),
+    )
 
 
 class RegistryTestCase(unittest.TestCase):
@@ -62,3 +72,7 @@ class RegistryTestCase(unittest.TestCase):
 
     def test_register_no_name_pass(self):
         self.registry.register(Noname, search_fields=('number',))
+
+    def test_register_generic_with_custom_name(self):
+        self.registry.register(Generic, name='foo')
+        self.assertTrue('foo' in self.registry.keys())
