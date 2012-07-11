@@ -17,7 +17,7 @@ You could subscribe to the mailing list ask questions or just be informed of
 package updates.
 
 - `Video demo graciously hosted
-  <http://www.youtube.com/watch?v=60-3NoEDHNY>`_ by `Youtube
+  <http://youtu.be/QTGm0qL6CH4>`_ by `Youtube
   <http://youtube.com>`_,
 - `Mailing list graciously hosted
   <http://groups.google.com/group/yourlabs>`_ by `Google
