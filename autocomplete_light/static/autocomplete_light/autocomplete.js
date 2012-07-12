@@ -425,8 +425,6 @@ window.yourlabs.Autocomplete = function (input) {
                 // The target choice becomes the first  next** choice.
                 target = current.nextAll(this.choiceSelector + ':first');
 
-                console.log('new target', target)
-
                 // If none, then the first choice becomes the target.
                 if (!target.length) target = first;
             }
@@ -570,7 +568,6 @@ $.fn.yourlabsAutocomplete = function(overrides) {
 // Serves as both an example to set a signal, and to set or unset the hilight class.
 $(document).ready(function() {
     $(document).bind('hilightChoice', function(e, choice, autocomplete) {
-        console.log(choice, autocomplete.hilightClass)
         choice.addClass(autocomplete.hilightClass);
     });
     $(document).bind('dehilightChoice', function(e, choice, autocomplete) {

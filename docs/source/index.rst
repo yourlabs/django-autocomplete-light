@@ -67,6 +67,9 @@ Work in progress:
 When things go wrong
 --------------------
 
+There is a convenience view to visualize the registry, login as staff, and open
+the autocomplete url, for example: /autocomplete_light/.
+
 If you don't know how to debug, you should learn to use:
 
 Firebug javascript debugger

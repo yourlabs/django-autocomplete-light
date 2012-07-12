@@ -224,7 +224,6 @@ $.fn.yourlabsWidget = function(overrides) {
                 dataOverrides[key] = data[key];
             }
         }
-        console.log(dataOverrides);
 
         // Allow attribute overrides
         $.fn.yourlabsWidget.registry[id] = $.extend(
