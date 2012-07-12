@@ -25,7 +25,7 @@ And a trivial template:
 
 And of course a url:
 
-.. literalinclude:: ../../test_project/navigation_autocomplete/url.py
+.. literalinclude:: ../../test_project/navigation_autocomplete/urls.py
 
 A basic autocomplete configuration
 ----------------------------------
