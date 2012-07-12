@@ -67,6 +67,10 @@ yourlabs.Widget = function(widget) {
     this.initializeAutocomplete = function() {
         this.autocomplete = this.input.yourlabsAutocomplete(
             this.autocompleteOptions);
+
+        // Add a class to ease css selection of autocompletes for widgets
+        this.autocomplete.outerContainer.addClass(
+            'autocomplete-light-widget');
     };
 
     // Bind Autocomplete.selectChoice signal to Widget.selectChoice()

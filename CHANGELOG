@@ -1,3 +1,6 @@
+1.0.6 Enhancement: set class 'autocomplete-light-widget' to autocomplete outer
+                   containers created by widget.js
+
 1.0.5 Enhancement: made rest model local object fetcher less harsh when trying
                    to find a local object
 
