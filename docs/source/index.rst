@@ -50,6 +50,7 @@ Full documentation
    forms
    generic
    remote
+   dependant
    django13
 
 Javascript API
