@@ -1,2 +1,10 @@
 *pyc
 docs/build
+docs/source/_static
+test_project/htmlcov/
+test_project/.coverage
+build
+dist
+django_autocomplete_light.egg-info/
+*swp
+docs/docs
