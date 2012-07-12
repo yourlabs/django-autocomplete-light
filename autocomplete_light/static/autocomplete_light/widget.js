@@ -255,7 +255,7 @@ $(document).ready(function() {
         initialize some Widgets with custom code, then set
         data-boostrap=yourbootstrap or something like that.
         */
-        var deck = $(this).yourlabsWidget();
+        $(this).yourlabsWidget();
     });
 
     // Call Widget.deselectChoice when .remove is clicked
