@@ -4,7 +4,7 @@
 .yourlabs-autocomplete.inner-container { position: absolute; left: -1px; top: 2px; border: 1px solid #E0EDF5; width: 260px; background: #fff; }
 .yourlabs-autocomplete.inner-container { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; position: relative; list-style-type: none; }
 .yourlabs-autocomplete [data-value] { cursor: pointer; color: #000; padding: 5px 6px; }
-.yourlabs-autocomplete [data-value].hilight { color: #fff; background: #2e83db; }
+.yourlabs-autocomplete .hilight { color: #fff; background: #2e83db; }
 .autocomplete-light-widget .deck { padding-left: 165px; width: 262px; }
 .autocomplete-light-widget .deck [data-value] { font-size: 10px; margin-bottom: 5px; padding: 5px; background: -moz-linear-gradient(center top , #F4F7F9 0%, #EBF1F5 100%) repeat scroll 0 0 transparent; border-radius: 5px; list-style-type: none; }
 .autocomplete-light-widget .deck [data-value] span { display: inline-block; width: 210px; }

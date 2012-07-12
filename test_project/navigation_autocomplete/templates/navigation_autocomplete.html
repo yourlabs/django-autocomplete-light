@@ -1,0 +1,15 @@
+{% for country in countrys %}
+<a style="display:block" href="{% url admin:cities_light_country_change country.pk %}">{{ country }}</a>
+{% endfor %}
+{% for region in regions %}
+<a style="display:block" href="{% url admin:cities_light_region_change region.pk %}">{{ region }}</a>
+{% endfor %}
+{% for city in cities %}
+<a style="display:block" href="{% url admin:cities_light_city_change city.pk %}">{{ city }}</a>
+{% endfor %}
+{% for group in groups %}
+<a style="display:block" href="{% url admin:auth_group_change group.pk %}">{{ group }}</a>
+{% endfor %}
+{% for user in users %}
+<a style="display:block" href="{% url admin:auth_user_change user.pk %}">{{ user }}</a>
+{% endfor %}

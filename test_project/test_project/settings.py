@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'generic_m2m_autocomplete',
     'admin_test_autocomplete',
     'm2m_autocomplete',
+    'navigation_autocomplete',
     'docs_autocomplete',
 )
 
