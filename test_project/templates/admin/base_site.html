@@ -1,9 +1,7 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
-{% block footer %}
-    {{ block.super }}
-
+{% block extrahead %}
     <script src="{{ STATIC_URL }}jquery.js" type="text/javascript"></script>
     {% include 'autocomplete_light/static.html' %}
 
