@@ -1,3 +1,6 @@
+1.0.11 Fugbix AutocompleteRestModel could not rely only on uniques, so it
+       relies on get_or_create_by in that case
+
 1.0.10 Fugbix models with a non numerical pk where not accepted anymore by a
        spec, the spec was removed from tests and this case is fixed.
 
