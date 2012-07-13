@@ -39,9 +39,4 @@ class AutocompleteModel(object):
             conditions))[0:self.limit_choices]
 
     def validate_values(self):
-        for value in self.values:
-            try:
-                value = float(value)
-            except (ValueError, TypeError):
-                return False
         return len(self.choices_for_values()) == len(self.values)

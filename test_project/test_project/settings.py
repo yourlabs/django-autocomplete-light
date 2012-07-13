@@ -133,7 +133,7 @@ INSTALLED_APPS = (
     'south',
     'project_specific',
     'autocomplete_light',
-    'charfield_autocomplete',
+    'charfield_pk_autocomplete',
     'fk_autocomplete',
     'gfk_autocomplete',
     'optionnal_gfk_autocomplete',

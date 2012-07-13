@@ -85,10 +85,6 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
                 'fixture': [1, 4, 123],
                 'expected': False,
             },
-            {
-                'fixture': ['bla'],
-                'expected': False,
-            },
         )
 
     def get_autocomplete_html_tests(self):
