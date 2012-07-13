@@ -150,6 +150,16 @@ class AutocompleteRestModel(AutocompleteModel):
 
             unique_data[key] = value
 
+        if not unique_data:
+            assert self.get_or_create_by, 'get_or_create_by needed'
+
+            for key in self.get_or_create_by:
+                if key in data.keys() and data[key]:
+                    unique_data[key] = data[key]
+
+            if not len(unique_data.keys()):
+                raise Exception('cannot check if this model exists locally')
+
         try:
             model = model_class.objects.get(**unique_data)
         except model_class.DoesNotExist:
