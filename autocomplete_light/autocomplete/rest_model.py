@@ -54,8 +54,10 @@ class AutocompleteRestModel(AutocompleteModel):
 
         It is only needed for the default implementation of download(), because
         it has to follow relations recursively.
+
+        By default, it will return the model of self.choices.
         """
-        raise NotImplemented()
+        return self.choices.model
 
     def choices_for_request(self):
         choices = super(AutocompleteRestModel, self).choices_for_request()
