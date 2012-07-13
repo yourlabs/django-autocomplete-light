@@ -1,3 +1,6 @@
+1.0.10 Fugbix models with a non numerical pk where not accepted anymore by a
+       spec, the spec was removed from tests and this case is fixed.
+
 1.0.9 Bugfix in remote autocomplete
 
 1.0.8 Fixed keyboard navigation, 1.0.7 broke tests
