@@ -544,6 +544,11 @@ Also, it implements a simple identity map, which means that:
   }
 */
 $.fn.yourlabsAutocomplete = function(overrides) {
+    if (this.length < 1) {
+        // avoid crashing when called on a non existing element
+        return;
+    }
+
     var overrides = overrides ? overrides : {};
     var id = overrides.id || this.attr('id');
 
