@@ -61,7 +61,6 @@ class WidgetBase(object):
 
         if 'url' not in self.autocomplete_js_attributes.keys():
             url = self.autocomplete().get_absolute_url()
-            print url
             self.autocomplete_js_attributes['url'] = url
 
     def render(self, name, value, attrs=None):
