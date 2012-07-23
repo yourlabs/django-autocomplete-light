@@ -263,7 +263,7 @@ $(document).ready(function() {
         var widget = $(this).parents('.autocomplete-light-widget');
 
         // I'd like to reproduce this and make sure it's necessary
-        // if (!widget.length) return;
+        if (!widget.length) return;
 
         var widget = $(this).parents('.autocomplete-light-widget'
             ).yourlabsWidget();

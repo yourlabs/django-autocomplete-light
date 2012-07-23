@@ -8,7 +8,7 @@
 
     {# a deck that should contain the list of selected options #}
     {{ choices }}
-    <div id="{{ html_id }}-deck" class="deck" >
+    <div id="{{ widget.html_id }}-deck" class="deck" >
         {% for choice in autocomplete.choices_for_values %}
             {{ choice|autocomplete_light_choice_html:autocomplete }}
         {% endfor %}
