@@ -250,14 +250,6 @@ $(document).ready(function() {
 
     // Call Widget.deselectChoice when .remove is clicked
     $('.autocomplete-light-widget .deck .remove').live('click', function() {
-        var widget = $(this).parents('.autocomplete-light-widget');
-
-        // I'd like to reproduce this and make sure it's necessary, I can't
-        // remember why I put that line of code and it doesn't make so much
-        // sense to me now. Discussion about it on:
-        // https://github.com/yourlabs/django-autocomplete-light/issues/21
-        // if (!widget.length) return;
-
         var widget = $(this).parents('.autocomplete-light-widget'
             ).yourlabsWidget();
 
