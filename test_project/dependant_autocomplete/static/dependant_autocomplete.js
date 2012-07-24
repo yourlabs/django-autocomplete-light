@@ -1,7 +1,6 @@
 $(document).ready(function() {
     $('.autocomplete-light-widget select[name$=country]').live('change', function() {
         var countrySelectElement = $(this);
-        var countryWidgetElement = $(this).parents('.autocomplete-light-widget');
         var regionSelectElement = $('#' + $(this).attr('id').replace('country', 'region'));
         var regionWidgetElement = regionSelectElement.parents('.autocomplete-light-widget');
 
