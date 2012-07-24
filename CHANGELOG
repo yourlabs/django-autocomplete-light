@@ -1,3 +1,8 @@
+1.0.13 Use HTML5 placeholder, javascript API support for cloned widgets.
+
+1.0.12 Fixed a crash when yourlabsAutocomplete was called on no element, fixed
+       div id and removed debug statement.
+
 1.0.11 Fugbix AutocompleteRestModel could not rely only on uniques, so it
        relies on get_or_create_by in that case
 
