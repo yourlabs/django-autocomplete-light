@@ -253,24 +253,11 @@ window.yourlabs.Autocomplete = function (input) {
         this.innerContainer = $('.yourlabs-autocomplete.inner-container.id-'+this.id);
         this.outerContainer = $('.yourlabs-autocomplete.outer-container.id-'+this.id);
 
-        // Set the initial input value using the placeholder string.
-        this.input.val(this.placeholder);
+        // Set the HTML placeholder attribute on the input.
+        this.input.attr('placeholder', this.placeholder);
 
         this.input.live({
-            // Empty the input if it contains the placeholder string so that
-            // the user can type his stuff.
-            focus: function() {
-                if ($(this).val() == autocomplete.placeholder) {
-                    $(this).val('');
-                }
-            },
             blur: function() {
-                // Put the placeholder back in the input when the user leaves the
-                // input empty.
-                if ($(this).val() == '') {
-                    $(this).val(autocomplete.placeholder);
-                }
-
                 // And hide the autocomplete after a short while.
                 window.setTimeout(function() { autocomplete.hide(); },
                     autocomplete.hideAfter);
@@ -464,9 +451,6 @@ window.yourlabs.Autocomplete = function (input) {
     this.refresh = function() {
         // Set the new current value.
         this.value = this.input.val();
-
-        // If the input contains the placehold then abort.
-        if (this.value == this.placeholder) return false;
 
         // If the input doesn't contain enought characters then abort.
         if (this.value.length < this.minimumCharacters) return false;
