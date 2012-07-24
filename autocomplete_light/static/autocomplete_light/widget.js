@@ -199,20 +199,10 @@ yourlabs.Widget = function(widget) {
 
 $.fn.yourlabsWidget = function(overrides) {
     var overrides = overrides ? overrides : {};
-    var id = overrides.id || this.attr('id');
 
-    if (id == undefined) {
-        alert('Widget must have an id !');
-        return;
-    }
-
-    if ($.fn.yourlabsWidget.registry == undefined) {
-        $.fn.yourlabsWidget.registry = {};
-    }
-
-    if ($.fn.yourlabsWidget.registry[id] == undefined) {
+    if (this.data('widget') == undefined) {
         // Instanciate the widget
-        $.fn.yourlabsWidget.registry[id] = new yourlabs.Widget(this);
+        var widget = new yourlabs.Widget(this);
 
         // Pares data-*
         var data = this.data();
@@ -230,22 +220,22 @@ $.fn.yourlabsWidget = function(overrides) {
         }
 
         // Allow attribute overrides
-        $.fn.yourlabsWidget.registry[id] = $.extend(
-            $.fn.yourlabsWidget.registry[id], dataOverrides);
+        widget = $.extend(widget, dataOverrides);
 
         // Allow javascript object overrides
-        $.fn.yourlabsWidget.registry[id] = $.extend(
-            $.fn.yourlabsWidget.registry[id], overrides);
+        widget = $.extend(widget, overrides);
+
+        this.data('widget', widget);
 
         // Setup for usage
-        $.fn.yourlabsWidget.registry[id].initialize();
+        widget.initialize();
 
         // Set
-        $.fn.yourlabsWidget.registry[id].widget.attr('data-widget-ready', 1);
-        $.fn.yourlabsWidget.registry[id].widget.trigger('widget-ready');
+        widget.widget.attr('data-widget-ready', 1);
+        widget.widget.trigger('widget-ready');
     }
 
-    return $.fn.yourlabsWidget.registry[id];
+    return this.data('widget');
 }
 
 $(document).ready(function() {

@@ -550,41 +550,31 @@ $.fn.yourlabsAutocomplete = function(overrides) {
     }
 
     var overrides = overrides ? overrides : {};
-    var id = overrides.id || this.attr('id');
-
-    if (id == undefined) {
-        alert('Autocomplete must have an id !');
-        return;
-    }
 
     // Disable the browser's autocomplete features on that input.
     this.attr('autocomplete', 'off');
 
-    if ($.fn.yourlabsAutocomplete.registry == undefined) {
-        // Instanciate a registry for {id: Autocomplete instance}
-        $.fn.yourlabsAutocomplete.registry = {};
-    }
-
     // If no Autocomplete instance is defined for this id, make one.
-    if ($.fn.yourlabsAutocomplete.registry[id] == undefined) {
+    if (this.data('autocomplete') == undefined) {
         if (overrides.url == undefined) {
             alert('Autocomplete needs a url !');
             return;
         }
 
         // Instanciate Autocomplete.
-        $.fn.yourlabsAutocomplete.registry[id] = new yourlabs.Autocomplete(this);
+        var autocomplete = new yourlabs.Autocomplete(this);
 
         // Extend the instance with overrides.
-        $.fn.yourlabsAutocomplete.registry[id] = $.extend(
-            $.fn.yourlabsAutocomplete.registry[id], overrides);
+        autocomplete = $.extend(autocomplete, overrides);
+
+        this.data('autocomplete', autocomplete);
 
         // All set, call initialize().
-        $.fn.yourlabsAutocomplete.registry[id].initialize();
+        autocomplete.initialize();
     }
 
     // Return the Autocomplete instance for this id from the registry.
-    return $.fn.yourlabsAutocomplete.registry[id];
+    return this.data('autocomplete');
 };
 
 // Serves as both an example to set a signal, and to set or unset the hilight class.
