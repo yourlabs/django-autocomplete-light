@@ -73,10 +73,6 @@ class WidgetTestCase(LiveServerTestCase):
 
         self.default_id = 'id_city_text'
         time.sleep(1)
-        placeholder = self.widget_element().get_attribute(
-                'data-autocomplete-placeholder')
-        self.assertEqual(placeholder,
-            self.input_element().get_attribute('value'))
 
         self.input_element().send_keys('par')
         time.sleep(1)
@@ -111,8 +107,6 @@ class WidgetTestCase(LiveServerTestCase):
 
         self.assertFalse(self.autocomplete_visible())
         self.assertTrue(self.input_visible())
-        self.assertEqual(placeholder,
-            self.input_element().get_attribute('value'))
 
         self.input_element().send_keys('par')
         time.sleep(1)
