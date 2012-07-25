@@ -30,17 +30,19 @@ And of course a url:
 A basic autocomplete configuration
 ----------------------------------
 
-That's a pretty basic usage of autocomplete.js:
+That's a pretty basic usage of autocomplete.js
+(``test_project/navigation_autocomplete/templates/navigation_autocomplete_script.html``):
 
 .. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete_script.html
    :language: django
 
-Which works on such a simple input:
+Which works on such a simple input
+(``test_project/navigation_autocomplete/templates/navigation_autocomplete_input.html``):
 
 .. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete_input.html
    :language: django
 
-See how admin/base_site.html includes them:
+See how ``admin/base_site.html`` includes them:
 
 .. literalinclude:: ../../test_project/templates/admin/base_site.html
    :language: django
