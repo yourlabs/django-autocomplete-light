@@ -15,6 +15,6 @@ A quick way to enable all this in the admin, is to replace template
     {% extends "admin/base.html" %}
 
     {% block extrahead %}
-        <script src="{{ STATIC_URL }}jquery.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
         {% include 'autocomplete_light/static.html' %}
     {% endblock %}
