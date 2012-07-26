@@ -2,13 +2,14 @@
 {% load i18n %}
 
 {% block extrahead %}
-    {# this is all you need for autocomplete in forms #}
+    {# These are needed to enable autocompletes in forms #}
     <script src="{{ STATIC_URL }}jquery.js" type="text/javascript"></script>
     {% include 'autocomplete_light/static.html' %}
 
     {% if user.is_authenticated %}
-        {# this is for the global navigation autocomplete only #}
-        {% include 'navigation_autocomplete_script.html' %}
+        {# This script enables global navigation autocomplete #}
+        {# refer to the docs about global navigation autocomplete for more information #}
+        {% include 'navigation_autocomplete/script.html' %}
     {% endif %}
 {% endblock %}
 
@@ -16,8 +17,14 @@
     <h1 style="display: inline-block" id="site-name">{% trans 'Autocomplete-light demo' %}</h1>
 
     {% if user.is_authenticated %}
-        {# this is for the global navigation autocomplete only #}
-        {% include 'navigation_autocomplete_input.html' %}
+        {% comment %}
+        This is a simple input, used for global navigation autocomplete. It
+        serves as an example, refer to the documentation to make a navigation
+        autocomplete.
+
+        FYI It leaves in test_project/navigation_autocomplete/templates
+        {% endcomment %}
+        {% include 'navigation_autocomplete/input.html' %}
     {% endif %}
 {% endblock %}
 

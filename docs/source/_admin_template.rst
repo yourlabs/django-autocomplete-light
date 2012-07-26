@@ -1,6 +1,20 @@
-For AutocompleteWidget to be enabled in the admin, you should create your own
-``admin/base_site.html`` template as demonstrated in
-``test_project/templates/admin/base_site.html``:
+To enable autocomplete form widgets, you need to load:
 
-.. literalinclude:: ../../test_project/templates/admin/base_site.html
-   :language: html
+- jQuery
+- autocomplete_light/autocomplete.js
+- autocomplete_light/widget.js
+
+Optionally:
+
+- autocomplete_light/style.css
+- autocomplete_light/remote.js
+
+A quick way to enable all this in the admin, is to replace template
+``admin/base_site.html``, ie.::
+
+    {% extends "admin/base.html" %}
+
+    {% block extrahead %}
+        <script src="{{ STATIC_URL }}jquery.js" type="text/javascript"></script>
+        {% include 'autocomplete_light/static.html' %}
+    {% endblock %}

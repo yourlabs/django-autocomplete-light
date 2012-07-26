@@ -6,7 +6,7 @@ from cities_light.models import Country, Region, City
 
 
 def navigation_autocomplete(request,
-    template_name='navigation_autocomplete.html'):
+    template_name='navigation_autocomplete/autocomplete.html'):
 
     q = request.GET.get('q', '')
     context = {'q': q}

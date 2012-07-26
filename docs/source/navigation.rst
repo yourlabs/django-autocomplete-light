@@ -18,9 +18,10 @@ render the autocomplete:
 
 .. literalinclude:: ../../test_project/navigation_autocomplete/views.py
 
-And a trivial template:
+And a trivial template
+(``test_project/navigation_autocomplete/templates/navigation_autocomplete/autocomplete.html``):
 
-.. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete.html
+.. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete/autocomplete.html
    :language: django
 
 And of course a url:
@@ -31,15 +32,15 @@ A basic autocomplete configuration
 ----------------------------------
 
 That's a pretty basic usage of autocomplete.js
-(``test_project/navigation_autocomplete/templates/navigation_autocomplete_script.html``):
+(``test_project/navigation_autocomplete/templates/navigation_autocomplete/script.html``):
 
-.. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete_script.html
+.. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete/script.html
    :language: django
 
 Which works on such a simple input
-(``test_project/navigation_autocomplete/templates/navigation_autocomplete_input.html``):
+(``test_project/navigation_autocomplete/templates/navigation_autocomplete/input.html``):
 
-.. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete_input.html
+.. literalinclude:: ../../test_project/navigation_autocomplete/templates/navigation_autocomplete/input.html
    :language: django
 
 See how ``admin/base_site.html`` includes them:
