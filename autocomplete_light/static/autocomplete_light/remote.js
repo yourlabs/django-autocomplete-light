@@ -29,10 +29,10 @@ var RemoteAutocompleteWidget = {
     }
 }
 
-$(document).ready(function() {
+$(document).bind('yourlabsWidgetReady', function() {
     // Instanciate decks with RemoteAutocompleteWidget as override for all widgets with
     // autocomplete 'remote'.
-    $('.autocomplete-light-widget[data-bootstrap=rest_model]').each(function() {
+    $('.autocomplete-light-widget[data-bootstrap=rest_model]').live('initialize', function() {
         $(this).yourlabsWidget(RemoteAutocompleteWidget);
     });
 });

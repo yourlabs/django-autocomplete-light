@@ -239,7 +239,7 @@ $.fn.yourlabsWidget = function(overrides) {
 }
 
 $(document).ready(function() {
-    $('.autocomplete-light-widget[data-bootstrap=normal]').each(function() {
+    $('.autocomplete-light-widget[data-bootstrap=normal]').live('initialize', function() {
         /*
         Only setup widgets which have data-bootstrap=normal, if you want to
         initialize some Widgets with custom code, then set
@@ -307,4 +307,27 @@ $(document).ready(function() {
         setTimeout(updateWidgets, 2000);
     }
     setTimeout(updateWidgets, 1000);
+
+    // Solid initialization, usage:
+    //
+    //      $(document).bind('yourlabsWidgetReady', function() {
+    //          $('.your.autocomplete-light-widget').live('initialize', function() {
+    //              $(this).yourlabsWidget({
+    //                  yourCustomArgs: // ...
+    //              })
+    //          });
+    //      });
+    $(document).trigger('yourlabsWidgetReady');
+
+    $('.autocomplete-light-widget:not([id*="__prefix__"])').each(function() {
+        $(this).trigger('initialize');
+    });
+
+    $(document).bind('DOMNodeInserted', function(e) {
+        var widget = $(e.target).find('.autocomplete-light-widget');
+
+        if (!widget.length) return;
+
+        widget.trigger('initialize');
+    });
 });
