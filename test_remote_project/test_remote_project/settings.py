@@ -133,6 +133,8 @@ INSTALLED_APPS = (
     'south',
     'autocomplete_light',
     'remote_autocomplete',
+    'remote_autocomplete_inline',
+    'navigation_autocomplete',
 )
 
 # A sample logging configuration. The only tangible logging
