@@ -1,3 +1,18 @@
+1.0.14 Added support for custom javascript initialization on autocomplete
+       creation, ie. inlines.
+
+       It is backward compatible, but you should migrate your custom javascript
+       to:
+
+       0) Use $(document).bind('yourlabsWidgetReady', ...) instead of
+          $(document).ready(...) to initialize autocomplete widgets
+       1) Use
+          $('.autocomplete-light-widget[data-bootstrap=...]').live('initialize', ...)
+          to instanciate autocomplete widgets instead of
+          $('.autocomplete-light-widget[data-bootstrap=...]').each(...)
+
+       See docs or remote.js for an example.
+
 1.0.13 Use HTML5 placeholder, javascript API support for cloned widgets.
 
 1.0.12 Fixed a crash when yourlabsAutocomplete was called on no element, fixed
