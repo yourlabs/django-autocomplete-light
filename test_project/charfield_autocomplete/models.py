@@ -8,3 +8,13 @@ class Address(models.Model):
 
     def __unicode__(self):
         return "Address for city: " + self.city
+
+
+class CityOrSomethingElse(models.Model):
+    city_or_something_else = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = 'city or something else'
+
+    def __unicode__(self):
+        return self.city_or_something_else
