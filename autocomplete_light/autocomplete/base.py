@@ -66,7 +66,7 @@ class AutocompleteBase(AutocompleteInterface):
     should fit most cases. However, it requires to overload
     choices_for_request().
     """
-    choice_html_format = u'<div data-value="%s">%s</div>'
+    choice_html_format = u'<div data-value="%(value)s">%(label)s</div>'
     autocomplete_html_format = u'%s'
 
     def choices_for_request(self):
@@ -97,8 +97,9 @@ class AutocompleteBase(AutocompleteInterface):
         """
         Return a choice formated according to self.choice_html_format.
         """
-        return self.choice_html_format % (
-            self.choice_value(choice), self.choice_label(choice))
+        return self.choice_html_format % dict(
+            value=self.choice_value(choice),
+            label=self.choice_label(choice))
 
     def choice_value(self, choice):
         """
