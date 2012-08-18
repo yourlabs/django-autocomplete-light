@@ -15,4 +15,10 @@ class CityListAutocomplete(autocomplete_light.AutocompleteListBase):
         'Olso',
     )
 
+    def choices_for_request(self):
+        return [x for x in self.choices if x.find(
+            self.request.GET.get('q', '')
+        ) > -1]
+
+
 autocomplete_light.register(CityListAutocomplete)
