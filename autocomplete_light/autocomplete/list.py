@@ -18,7 +18,7 @@ class AutocompleteList(object):
         assert self.choices, 'autocomplete.choices is not set'
 
         requests_choices = []
-        q = self.request.GET.get('q', '')
+        q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
             if q in unicode(choice).lower():

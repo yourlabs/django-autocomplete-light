@@ -17,7 +17,7 @@ class AutocompleteChoiceList(AutocompleteList):
 
     def choices_for_request(self):
         requests_choices = []
-        q = self.request.GET.get('q', '')
+        q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
             if q in unicode(choice[0]).lower() + unicode(choice[1]).lower():
