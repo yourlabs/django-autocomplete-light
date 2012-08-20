@@ -101,11 +101,7 @@ yourlabs.Widget = function(widget) {
         this.addToSelect(choice, value);
         this.resetDisplay();
 
-        if (!this.input.is(":focus")) {
-            this.input.val(this.input.yourlabsAutocomplete().placeholder);
-        } else {
-            this.input.val('');
-        }
+        this.input.val('');
     }
 
     // Unselect a value if the maximum number of selected values has been
