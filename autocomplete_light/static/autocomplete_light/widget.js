@@ -183,9 +183,18 @@ yourlabs.Widget = function(widget) {
     this.initialize = function() {
         this.initializeAutocomplete();
 
+        // Working around firefox tempering form values after reload
+        var widget = this;
+        this.deck.find(this.autocomplete.choiceSelector).each(function() {
+            var value = widget.getValue($(this));
+            var option = widget.select.find('option[value="'+value+'"]');
+            if (!option.attr('selected')) option.attr('selected', true);
+        });
+
         var choices = this.deck.find(
             this.input.yourlabsAutocomplete().choiceSelector);
 
+        // Add the remove icon to each choice
         choices.prepend(this.widget.find('.remove:last').clone().show());
         this.resetDisplay();
 
@@ -226,7 +235,7 @@ $.fn.yourlabsWidget = function(overrides) {
         // Setup for usage
         widget.initialize();
 
-        // Set
+        // Widget is ready
         widget.widget.attr('data-widget-ready', 1);
         widget.widget.trigger('widget-ready');
     }
