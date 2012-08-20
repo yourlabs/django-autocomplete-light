@@ -326,7 +326,13 @@ $(document).ready(function() {
     $(document).bind('DOMNodeInserted', function(e) {
         var widget = $(e.target).find('.autocomplete-light-widget');
 
-        if (!widget.length) return;
+        if (!widget.length) {
+            widget = $(e.target).is('.autocomplete-light-widget') ? $(e.target) : false;
+
+            if (!widget) {
+                return;
+            }
+        }
 
         widget.trigger('initialize');
     });

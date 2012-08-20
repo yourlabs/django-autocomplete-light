@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'project_specific',
     'autocomplete_light',
     'charfield_pk_autocomplete',
+    'charfield_autocomplete',
     'fk_autocomplete',
     'gfk_autocomplete',
     'optionnal_gfk_autocomplete',

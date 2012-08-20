@@ -313,6 +313,12 @@ window.yourlabs.Autocomplete = function (input) {
         }
     }
 
+    // Return the value to pass to this.queryVariable.
+    this.getQuery = function() {
+        // Return the input's value by default.
+        return this.input.val();
+    }
+
     // This function is in charge of keyboard usage.
     this.keypress = function(e) {
         var choice;
@@ -450,7 +456,7 @@ window.yourlabs.Autocomplete = function (input) {
     // Proxy fetch(), with some sanity checks.
     this.refresh = function() {
         // Set the new current value.
-        this.value = this.input.val();
+        this.value = this.getQuery();
 
         // If the input doesn't contain enought characters then abort.
         if (this.value.length < this.minimumCharacters) return false;

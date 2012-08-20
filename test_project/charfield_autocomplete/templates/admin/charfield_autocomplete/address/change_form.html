@@ -1,0 +1,24 @@
+{% extends 'admin/change_form.html' %}
+
+{% block footer %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#id_city').yourlabsAutocomplete({
+		url: '{% url autocomplete_light_autocomplete 'CityListAutocomplete' %}',
+		choiceSelector: '[data-value]',
+		getQuery: function() {
+			return $.trim(this.input.val()).split(',')[-1];
+		}
+	}).input.bind('selectChoice', function(e, choice, autocomplete) {
+		var value = $.trim($(this).val());
+		var values = value.split(',');
+		value = values.splice(0, -1).join(', ');
+
+		value += value.length ? ', ' : '';
+		value += choice.html();
+
+		$(this).val(value);
+	})
+})
+</script>
+{% endblock %}
