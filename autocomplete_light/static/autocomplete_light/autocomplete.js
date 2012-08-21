@@ -378,7 +378,7 @@ window.yourlabs.Autocomplete = function (input) {
 
         // And actually, fetch() will call show() with the response
         // body as argument.
-        if (html) {
+        if (html != undefined) {
             this.innerContainer.html(html);
         }
 

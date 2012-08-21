@@ -1,3 +1,17 @@
+1.0.15 Holliday release
+
+       - Fix #31: Workaround firefox form tempering attitude on reload
+       - Fix #33: Rename LICENSE.txt to LICENSE
+       - Fix #34: STATIC_PREFIX changed to {% static %} in templates
+       - Fix #34: Added readme in russian
+       - Fix #36: Removed old javascript-placeholder code from widget.js
+       - Fix #38: Invalid CSS background property
+       - Added to AUTHORS: @balmaster, @vosi, Brant Young (I hope i didn't
+         forget anyone, if so please let me know)
+
+       Note that except for #31, fixes were provided by the community, thanks a
+       lot !
+
 1.0.14 Added support for custom javascript initialization on autocomplete
        creation, ie. inlines.
 
