@@ -265,7 +265,7 @@ window.yourlabs.Autocomplete = function (input) {
             click: function() {
                 // Show the autocomplete when the user clicks on the input,
                 // assuming it contains enought characters.
-                if ($(this).val().length >= autocomplete.minimumCharacters)
+                if (autocomplete.getQuery().length >= autocomplete.minimumCharacters)
                     autocomplete.show();
             }
         });
