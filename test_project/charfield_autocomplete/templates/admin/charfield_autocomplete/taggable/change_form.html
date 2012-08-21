@@ -60,7 +60,8 @@ $(document).ready(function() {
 		choiceSelector: '[data-value]',
 		getQuery: function() {
 			return this.input.getCursorWord();
-		}
+		},
+		minimumCharacters: 0,
 	}).input.bind('selectChoice', function(e, choice, autocomplete) {
 		var value = $(this).val();
 		var positions = $(this).getCursorWordPositions();
