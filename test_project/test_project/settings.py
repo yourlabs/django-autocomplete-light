@@ -145,7 +145,8 @@ INSTALLED_APPS = (
     'm2m_autocomplete',
     'navigation_autocomplete',
     'docs_autocomplete',
-    'inline_autocomplete'
+    'inline_autocomplete',
+    'tagging',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -3,3 +3,4 @@ django-autocomplete-light
 djangorestframework==0.3.3
 south
 django-generic-m2m
+django-tagging-ng

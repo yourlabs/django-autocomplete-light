@@ -55,8 +55,8 @@ jQuery.fn.getCursorWordPositions = function() {
 }
 
 $(document).ready(function() {
-	$('#id_city').yourlabsAutocomplete({
-		url: '{% url autocomplete_light_autocomplete 'CityListAutocomplete' %}',
+	$('#id_tags').yourlabsAutocomplete({
+		url: '{% url autocomplete_light_autocomplete 'TagAutocomplete' %}',
 		choiceSelector: '[data-value]',
 		getQuery: function() {
 			return this.input.getCursorWord();
