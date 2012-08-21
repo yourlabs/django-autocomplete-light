@@ -2,21 +2,69 @@
 
 {% block footer %}
 <script type="text/javascript">
+jQuery.fn.getSelectionStart = function(){
+    if(this.lengh == 0) return -1;
+    input = this[0];
+ 
+    var pos = input.value.length;
+ 
+    if (input.createTextRange) {
+        var r = document.selection.createRange().duplicate();
+        r.moveEnd('character', input.value.length);
+        if (r.text == '') 
+        pos = input.value.length;
+        pos = input.value.lastIndexOf(r.text);
+    } else if(typeof(input.selectionStart)!="undefined")
+    pos = input.selectionStart;
+ 
+    return pos;
+}
+jQuery.fn.getCursorPosition = function(){
+    if(this.lengh == 0) return -1;
+    return $(this).getSelectionStart();
+}
+jQuery.fn.getCursorWord = function() {
+	var value = $(this).val();
+	var positions = $(this).getCursorWordPositions();
+	return value.substring(positions[0], positions[1]);
+}
+jQuery.fn.getCursorWordPositions = function() {
+	var position = $(this).getCursorPosition();
+	var value = $(this).val();
+	var word = '';
+
+	// find start of word
+	for(var start=position - 1; start >= 0; start--) {
+		if (value[start] == ',') {
+			break;
+		}
+	}
+	start = start < 0 ? 0 : start;
+
+	// find end of word
+	for(var end=position; end <= value.length - 1; end++) {
+		if (value[end] == ',') {
+			break;
+		}
+	}
+
+	while(value[start] == ',' || value[start] == ' ') start++;
+	while(value[end] == ',' || value[end] == ' ') end--;
+
+	return [start, end + 1];
+}
+
 $(document).ready(function() {
 	$('#id_city').yourlabsAutocomplete({
 		url: '{% url autocomplete_light_autocomplete 'CityListAutocomplete' %}',
 		choiceSelector: '[data-value]',
 		getQuery: function() {
-			return $.trim(this.input.val()).split(',')[-1];
+			return this.input.getCursorWord();
 		}
 	}).input.bind('selectChoice', function(e, choice, autocomplete) {
-		var value = $.trim($(this).val());
-		var values = value.split(',');
-		value = values.splice(0, -1).join(', ');
-
-		value += value.length ? ', ' : '';
-		value += choice.html();
-
+		var value = $(this).val();
+		var positions = $(this).getCursorWordPositions();
+		var value = value.substring(0, positions[0]) + choice.html() + value.substring(positions[1]);
 		$(this).val(value);
 	})
 })
