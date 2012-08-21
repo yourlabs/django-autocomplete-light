@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'south',
     'project_specific',
     'autocomplete_light',
+    'charfield_autocomplete',
     'charfield_pk_autocomplete',
     'fk_autocomplete',
     'gfk_autocomplete',
@@ -144,7 +145,8 @@ INSTALLED_APPS = (
     'm2m_autocomplete',
     'navigation_autocomplete',
     'docs_autocomplete',
-    'inline_autocomplete'
+    'inline_autocomplete',
+    'clickable'
 )
 
 # A sample logging configuration. The only tangible logging

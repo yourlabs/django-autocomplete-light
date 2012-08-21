@@ -11,6 +11,12 @@ class Media(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'media'
+
 
 class MediaFilter(models.Model):
     media = models.ForeignKey(Media, verbose_name=_("Media"))
+
+    def __unicode__(self):
+        return u"Filter for media %s" % self.media.name
