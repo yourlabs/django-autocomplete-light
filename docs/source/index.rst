@@ -21,7 +21,7 @@ This app fills all your ajax autocomplete needs:
   <_static/autocomplete.html>`_
   `as possible
   <_static/widget.html>`_,
-- **optionnal** usage of templates for autocompletes with AutocompleteTemplate mixin,
+- **optionnal** autocomplete :ref:`templating<template>`,
 - **99%** of the python logic is encapsulated in "autocomplete" classes,
   :ref:`unlimited server side development possibilities
   <channel-view>`
