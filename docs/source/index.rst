@@ -12,6 +12,8 @@ This app fills all your ajax autocomplete needs:
 - **GenericForeignKey** fully :ref:`supported<generic-fk>`
 - **django-generic-m2m** support, yes that's a :ref:`generic M2M relation
   <generic-m2m>`!
+- **CharField autocomplete** support, :ref:`comma separated values
+  <charfield>`, useful for tags field,
 - **APIs** powered autocomplete support, proposing :ref:`results that are not
   (yet) in the database<remote>`
 - **0 hack** required for :ref:`admin integration<quick-admin>`, just use a
@@ -49,6 +51,7 @@ Full documentation
    navigation
    forms
    template
+   charfield
    generic
    remote
    dependant
