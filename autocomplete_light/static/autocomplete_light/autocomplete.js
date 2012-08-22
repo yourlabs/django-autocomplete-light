@@ -368,10 +368,13 @@ window.yourlabs.Autocomplete = function (input) {
         // have changed position.
         this.fixPosition();
 
-        // If the inner container is empty and there is no current pending
-        // request, rely on fetch(), which should show the
+        // Is autocomplete empty ?
+        var empty = $.trim(this.innerContainer.html()).length == 0;
+
+        // If the inner container is empty or data has changed and there is no
+        // current pending request, rely on fetch(), which should show the
         // autocomplete as soon as it's done fetching.
-        if ($.trim(this.innerContainer.html()).length == 0 && !this.xhr) {
+        if ((this.hasChanged() || empty) && !this.xhr) {
             this.fetch();
             return;
         }
@@ -465,6 +468,16 @@ window.yourlabs.Autocomplete = function (input) {
         this.fetch();
     }
 
+    // Return true if the data for this query has changed from last query.
+    this.hasChanged = function() {
+        for(var key in this.data) {
+            if (!key in this.lastData || this.data[key] != this.lastData[key]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Manage requests to this.url.
     this.fetch = function() {
         // Abort any current request.
@@ -477,15 +490,9 @@ window.yourlabs.Autocomplete = function (input) {
         this.data[this.queryVariable] = this.value;
 
         // Ensure that this request is different from the previous one
-        changed = false;
-        for(var key in this.data) {
-            if (!key in this.lastData || this.data[key] != this.lastData[key]) {
-                changed = true;
-                break;
-            }
+        if (!this.hasChanged()) {
+            return;
         }
-
-        if (!changed) return true;
 
         this.lastData = {};
         for(var key in this.data) {
