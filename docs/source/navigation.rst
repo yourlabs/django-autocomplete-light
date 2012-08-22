@@ -1,3 +1,5 @@
+.. _navigation:
+
 Making a global navigation autocomplete
 =======================================
 

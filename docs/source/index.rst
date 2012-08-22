@@ -6,7 +6,8 @@ Features
 
 This app fills all your ajax autocomplete needs:
 
-- **global navigation** autocomplete like on http://betspire.com or facebook
+- **global navigation** autocomplete :ref:`like on facebook
+  <navigation>`
 - **autocomplete widget** for :ref:`ModelChoiceField
   and ModelMultipleChoiceField<widget>`
 - **GenericForeignKey** fully :ref:`supported<generic-fk>`
