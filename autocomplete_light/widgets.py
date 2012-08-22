@@ -140,7 +140,7 @@ class TextWidget(forms.TextInput, WidgetBase):
         WidgetBase.__init__(self, autocomplete,
             widget_js_attributes, autocomplete_js_attributes)
 
-    def build_attrs(self, extra_attrs=None, **kwargs):        
+    def build_attrs(self, extra_attrs=None, **kwargs):
         attrs = forms.TextInput.build_attrs(self, extra_attrs, **kwargs)
 
         def update_attrs(source, prefix=''):
