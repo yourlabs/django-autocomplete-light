@@ -48,6 +48,7 @@ Full documentation
    quick
    navigation
    forms
+   template
    generic
    remote
    dependant

@@ -1,5 +1,3 @@
-{% load admin_urls %}
-
 <div data-value="{{ choice.pk }}">
 	<a href="{% url admin:template_autocomplete_templatedchoice_change choice.pk %}?_popup=1" target="_blank">
 		{{ choice }}
