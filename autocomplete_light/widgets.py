@@ -19,6 +19,12 @@ __all__ = ['ChoiceWidget', 'MultipleChoiceWidget']
 class WidgetBase(object):
     """
     Base widget for autocompletes.
+
+    Mainly handles passing arguments from Python to HTML data-* attributes,
+    via widget_js_attributes and autocomplete_js_attributes. Javascript will
+    parse these data-* attributes.
+
+    This widget also renders the widget template.
     """
 
     def __init__(self, autocomplete,
