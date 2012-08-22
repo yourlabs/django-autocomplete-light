@@ -44,8 +44,9 @@ class AutocompleteTemplate(AutocompleteBase):
 
     def autocomplete_html(self):
         """
-        Render ``autocomplete_template`` with base context and ``{{ choices }}``. If
-        ``autocomplete_template`` is none then fall back on ``AutocompleteBase``.
+        Render ``autocomplete_template`` with base context and ``{{ choices
+        }}``. If ``autocomplete_template`` is none then fall back on
+        ``AutocompleteBase``.
         """
         if self.autocomplete_template:
             choices = self.choices_for_request()
