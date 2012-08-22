@@ -22,8 +22,8 @@ class AutocompleteInterface(object):
 
     def __init__(self, request=None, values=None):
         """
-        Set the given request and values as instance attributes, casting values
-        to list if necessary.
+        Class constructor sets the given request and values as instance
+        attributes, casting values to list if necessary.
         """
         self.request = request
 
