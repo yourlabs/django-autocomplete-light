@@ -122,3 +122,32 @@ class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
 
         WidgetBase.__init__(self, autocomplete,
             widget_js_attributes, autocomplete_js_attributes)
+
+
+class TextWidget(forms.TextInput, WidgetBase):
+    def __init__(self, autocomplete,
+                 widget_js_attributes=None, autocomplete_js_attributes=None,
+                 *args, **kwargs):
+
+        forms.TextInput.__init__(self, *args, **kwargs)
+
+        WidgetBase.__init__(self, autocomplete,
+            widget_js_attributes, autocomplete_js_attributes)
+
+    def build_attrs(self, extra_attrs=None, **kwargs):        
+        attrs = forms.TextInput.build_attrs(self, extra_attrs, **kwargs)
+
+        def update_attrs(source, prefix=''):
+            for key, value in source.items():
+                key = u'data-%s%s' % (prefix, key.replace('_', '-'))
+                attrs[key] = value
+
+        self.process_js_attributes()
+        update_attrs(self.widget_js_attributes)
+        update_attrs(self.autocomplete_js_attributes, 'autocomplete-')
+
+        if 'class' not in attrs.keys():
+            attrs['class'] = ''
+        attrs['class'] += 'autocomplete-light-text-widget'
+
+        return attrs
