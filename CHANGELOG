@@ -1,3 +1,6 @@
+1.0.17 Fixed a bug with cache concerning keyboard navigation and dependent
+       autocompletes.
+
 1.0.16 Added CharField autocompletion for comma separated values.
 
 1.0.15 Holliday release
