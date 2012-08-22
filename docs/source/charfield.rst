@@ -44,6 +44,8 @@ So is registering an Autocomplete for Tag:
 Upgrading from previous versions
 --------------------------------
 
+This feature is available since version 1.0.16.
+
 Note that if you have customized ``autocomplete_light/static.html``, you have
 to update it to include ``text_widget.js``. FTR, this is what it looks like:
 
