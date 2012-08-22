@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'docs_autocomplete',
     'inline_autocomplete',
     'tagging',
+    'template_autocomplete',
 )
 
 # A sample logging configuration. The only tangible logging
