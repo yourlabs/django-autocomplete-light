@@ -17,11 +17,14 @@
 .yourlabs-autocomplete.inner-container
 {
 	background: #fff;
-	border: 1px solid #E0EDF5;
 	left: -1px;
 	position: absolute;
 	top: 2px;
 	width: 260px;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 0 6px #999999;
+	border: 1px solid #AAAAAA;
+	outline: 0 none;
 }
 
 .yourlabs-autocomplete.inner-container
