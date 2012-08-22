@@ -173,7 +173,6 @@ $.fn.yourlabsTextWidget = function(overrides) {
 
             if (key.substr(0, 12) == 'autocomplete') {
                 var newKey = key.replace('autocomplete', '');
-                console.log(newKey)
                 newKey = newKey.replace(newKey[0], newKey[0].toLowerCase())
                 dataOverrides['autocompleteOptions'][newKey] = data[key];
             } else {
