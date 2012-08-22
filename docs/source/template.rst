@@ -7,7 +7,7 @@ This documentation drives through the example app ``template_autocomplete``,
 which is available in ``test_project``.
 
 API
-===
+---
 
 .. autoclass:: autocomplete_light.autocomplete.template.AutocompleteTemplate
    :members:
@@ -22,7 +22,7 @@ In ``autocomplete_light/autocomplete/__init__.py``, it is used as a mixin::
         pass
 
 Example
-=======
+-------
 
 In this case, all you have to do, is use ``AutocompleteModelTemplate`` instead
 of ``AutocompleteModelBase``. For example, in
