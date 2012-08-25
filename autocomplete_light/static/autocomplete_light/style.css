@@ -1,92 +1,102 @@
 .autocomplete
 {
-	margin-bottom: 5px;
 }
 
 .yourlabs-autocomplete
 {
-	background: none;
-	border: none;
+    background: none;
+    border: none;
 }
 
 .yourlabs-autocomplete.outer-container
 {
-	position: relative;
+    position: relative;
 }
 
 .yourlabs-autocomplete.inner-container
 {
-	background: #fff;
-	left: -1px;
-	position: absolute;
-	top: 2px;
-	width: 260px;
-	border-radius: 3px 3px 3px 3px;
-	box-shadow: 0 0 6px #999999;
-	border: 1px solid #AAAAAA;
-	outline: 0 none;
+    background: #fff;
+    left: -1px;
+    position: absolute;
+    top: 2px;
+    width: 260px;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 6px #999999;
+    border: 1px solid #AAAAAA;
+    outline: 0 none;
 }
 
 .yourlabs-autocomplete.inner-container
 {
-	list-style-type: none;
-	margin: 0;
-	overflow-x: hidden;
-	overflow-y: auto;
-	padding: 0;
-	position: relative;
+    list-style-type: none;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0;
+    position: relative;
 }
 
 .yourlabs-autocomplete [data-value]
 {
-	color: #000;
-	cursor: pointer;
-	padding: 5px 6px;
+    color: #000;
+    cursor: pointer;
+    padding: 5px 6px;
 }
 
 .yourlabs-autocomplete .hilight
 {
-	background: #2e83db;
-	color: #fff;
-}
-
-.autocomplete-light-widget .deck
-{
-	display: inline;
+    background: #2e83db;
+    color: #fff;
 }
 
 .autocomplete-light-widget .deck [data-value]
 {
-	list-style-type: none;
-	margin-bottom: 5px;
-	padding: 5px;
+    list-style-type: none;
+    margin-bottom: 5px;
+    padding-right: 8px;
+    padding-bottom: 5px;
+}
+
+.multiple .deck [data-value] {
+    display: block;
+    padding-left: 110px;
+}
+
+.single .deck [data-value] {
+    display: inline;
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.multiple .deck {
+    display: block;
+    margin-left: 0px;
+}
+
+.multiple input {
+    margin-left: 100px;
 }
 
 .autocomplete-light-widget .deck [data-value] span
 {
-	display: inline-block;
-	width: 210px;
+    display: inline-block;
+    width: 210px;
 }
 
 .autocomplete-light-widget .deck [data-value] .remove
 {
-	background-image: url('../admin/img/inline-delete.png');
-	color: #fff;
-	cursor: pointer;
-	float: left;
-	height: 15px;
-	margin-right: 10px;
-	text-indent: -999px;
-	width: 15px;
+    background-image: url('../admin/img/inline-delete.png');
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    height: 15px;
+    margin-right: 10px;
+    text-indent: -999px;
+    width: 15px;
 }
 
 .autocomplete-light-widget .deck [data-value] .remove:hover
 {
-	background-position: -15px 0;
-}
-
-.autocomplete-light-widget .deck [data-value]:last-child
-{
-	display: inline;
-	margin-bottom: 0;
+    background-position: -15px 0;
 }
