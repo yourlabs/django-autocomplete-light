@@ -1,0 +1,2 @@
+django-autocomplete-light
+django-grappelli
