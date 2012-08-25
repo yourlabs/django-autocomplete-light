@@ -124,7 +124,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'autocomplete_light',
     'admin_test_autocomplete',
-    'cities_light',
     'inline_autocomplete'
 )
 

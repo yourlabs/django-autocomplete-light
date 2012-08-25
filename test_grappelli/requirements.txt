@@ -1,3 +1,2 @@
-django-cities-light
 django-autocomplete-light
 django-grappelli
