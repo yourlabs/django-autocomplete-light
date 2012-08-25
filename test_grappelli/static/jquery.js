@@ -1,0 +1,1 @@
+../../test_project/static/jquery.js
