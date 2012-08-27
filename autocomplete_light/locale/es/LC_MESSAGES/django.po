@@ -1,0 +1,27 @@
+# Spanish translation file for django-autocomplete-light
+# Copyright (C) 2012 Gabriel Rodríguez Alberich
+# This file is distributed under the same license as the django-autocomplete-light package.
+# Gabriel Rodríguez Alberich <chewie@gmail.com>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-27 13:29+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: widgets.py:75
+msgid "type some text to search in this autocomplete"
+msgstr "escriba algo para buscar y autocompletar"
+
+#: autocomplete/base.py:96
+msgid "no matches found"
+msgstr "no hay resultados"

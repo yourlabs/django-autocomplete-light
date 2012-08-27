@@ -36,11 +36,15 @@
     position: relative;
 }
 
-.yourlabs-autocomplete [data-value]
+.yourlabs-autocomplete.inner-container div
 {
     color: #000;
-    cursor: pointer;
     padding: 5px 6px;
+}
+
+.yourlabs-autocomplete [data-value]
+{
+    cursor: pointer;
 }
 
 .yourlabs-autocomplete .hilight
