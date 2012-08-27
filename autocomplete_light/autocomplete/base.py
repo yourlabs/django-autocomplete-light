@@ -1,4 +1,5 @@
 from django.core import urlresolvers
+from django.utils.translation import ugettext_lazy as _
 
 __all__ = ('AutocompleteInterface', 'AutocompleteBase')
 
@@ -90,6 +91,9 @@ class AutocompleteBase(AutocompleteInterface):
 
         for choice in self.choices_for_request():
             html.append(self.choice_html(choice))
+
+        if not html:
+            html = _('no matches found').capitalize()
 
         return self.autocomplete_html_format % ''.join(html)
 
