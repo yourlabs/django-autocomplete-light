@@ -12,6 +12,7 @@ from django import forms
 from django.forms.util import flatatt
 from django.utils import safestring
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
 
 __all__ = ['ChoiceWidget', 'MultipleChoiceWidget']
 
@@ -68,6 +69,10 @@ class WidgetBase(object):
         if 'url' not in self.autocomplete_js_attributes.keys():
             url = self.autocomplete().get_absolute_url()
             self.autocomplete_js_attributes['url'] = url
+
+        if 'placeholder' not in self.autocomplete_js_attributes.keys():
+            self.autocomplete_js_attributes['placeholder'] = _(
+                'type some text to search in this autocomplete').capitalize()
 
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs)
