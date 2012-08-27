@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-11 08:11+0200\n"
+"POT-Creation-Date: 2012-08-27 13:13+0200\n"
 "PO-Revision-Date: 2012-05-16 17:18+0200\n"
 "Last-Translator: Riccardo Magliocchetti <riccardo.magliocchetti@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: autocomplete/base.py:55
+#: widgets.py:75
 msgid "type some text to search in this autocomplete"
 msgstr "digita del testo da ricercare"
+
+#: autocomplete/base.py:96
+msgid "no matches found"
+msgstr ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-11 08:11+0200\n"
+"POT-Creation-Date: 2012-08-27 13:13+0200\n"
 "PO-Revision-Date: 2012-07-09 14:46+0100\n"
 "Last-Translator: Michał Pasternak <michal.dtz@gmail.com>\n"
 "Language-Team: pl <michal.dtz@gmail.com>\n"
@@ -18,7 +18,10 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: channel/base.py:55
+#: widgets.py:75
 msgid "type some text to search in this autocomplete"
 msgstr "wpisz tekst, aby wyszukać..."
 
+#: autocomplete/base.py:96
+msgid "no matches found"
+msgstr ""
