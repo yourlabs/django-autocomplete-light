@@ -68,6 +68,7 @@ class AutocompleteBase(AutocompleteInterface):
     choices_for_request().
     """
     choice_html_format = u'<div data-value="%s">%s</div>'
+    empty_html_format = u'<div><em>%s</em></div>'
     autocomplete_html_format = u'%s'
 
     def choices_for_request(self):
@@ -93,7 +94,7 @@ class AutocompleteBase(AutocompleteInterface):
             html.append(self.choice_html(choice))
 
         if not html:
-            html = _('no matches found').capitalize()
+            html = self.empty_html_format % _('no matches found').capitalize()
 
         return self.autocomplete_html_format % ''.join(html)
 
