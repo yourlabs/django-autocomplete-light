@@ -93,7 +93,7 @@ class AutocompleteBase(AutocompleteInterface):
             html.append(self.choice_html(choice))
 
         if not html:
-            html = _('no matches found').capitalize()
+            html = '<div><em>%s</em></div>' % _('no matches found').capitalize()
 
         return self.autocomplete_html_format % ''.join(html)
 
