@@ -45,7 +45,7 @@ Full documentation
 ------------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    demo
    quick
