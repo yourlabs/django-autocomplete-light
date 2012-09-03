@@ -148,7 +148,7 @@ class WidgetTestCase(LiveServerTestCase):
                 self.autocomplete_hilighted_choice_element().id
             )
 
-        self.input_element().send_keys(Keys.ENTER)
+        self.input_element().send_keys(Keys.TAB)
         self.assertEqual(
             self.autocomplete_choice_elements()[test['expected']].get_attribute('data-value'),
             self.widget_select_element().get_attribute('value'),
