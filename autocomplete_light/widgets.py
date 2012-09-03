@@ -5,7 +5,8 @@ and MultipleChoiceWidget for django's SelectMultiple.
 Constructing a widget needs an Autocomplete class or registered autocomplete
 name.
 
-The widget renders from autocomplete_light/widget.html template.
+The choice autocomplete widget renders from autocomplete_light/widget.html
+template.
 """
 
 from django import forms

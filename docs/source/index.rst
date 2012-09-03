@@ -76,6 +76,15 @@ When things go wrong
 There is a convenience view to visualize the registry, login as staff, and open
 the autocomplete url, for example: /autocomplete_light/.
 
+Ensure that:
+
+- jquery is loaded,
+- ``autocomplete_light/static.html`` is included once, it should load
+  ``autocomplete.js``, ``widget.js`` and ``style.css``,
+- your form uses autocomplete_light widgets,
+- your channels are properly defined see ``/autocomplete/`` if you included
+  ``autocomplete_light.urls`` with prefix ``/autocomplete/``.
+
 If you don't know how to debug, you should learn to use:
 
 Firebug javascript debugger

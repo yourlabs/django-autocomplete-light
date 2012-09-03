@@ -65,8 +65,29 @@ shortcut directly in ``yourapp/admin.py``, ie.:
 Quick form integration
 ----------------------
 
-Use autocomplete_light.ChoiceWidget or autocomplete_light.MultipleChoiceWidget
-for django's ModelChoiceField and ModelMultipleChoiceField respectively.
+Example models:
+
+.. literalinclude:: ../../test_project/non_admin/models.py
+   :language: python
+
+Example forms:
+
+.. literalinclude:: ../../test_project/non_admin/forms.py
+   :language: python
+
+Example urls:
+
+.. literalinclude:: ../../test_project/non_admin/urls.py
+   :language: python
+
+Example template:
+
+.. literalinclude:: ../../test_project/non_admin/templates/non_admin/widget_form.html
+   :language: django
+
+You can manually use autocomplete_light.ChoiceWidget or
+autocomplete_light.MultipleChoiceWidget for django's ModelChoiceField and
+ModelMultipleChoiceField respectively.
 
 .. automodule:: autocomplete_light.widgets
    :noindex:
