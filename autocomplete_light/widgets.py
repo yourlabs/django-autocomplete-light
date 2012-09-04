@@ -30,7 +30,8 @@ class WidgetBase(object):
     """
 
     def __init__(self, autocomplete,
-                 widget_js_attributes=None, autocomplete_js_attributes=None):
+                 widget_js_attributes=None, autocomplete_js_attributes=None,
+                 add_another_url=None):
 
         if isinstance(autocomplete, str):
             self.autocomplete_name = autocomplete
@@ -49,6 +50,8 @@ class WidgetBase(object):
             self.autocomplete_js_attributes = {}
         else:
             self.autocomplete_js_attributes = autocomplete_js_attributes
+
+        self.add_another_url = add_another_url
 
     def process_js_attributes(self):
         extra_autocomplete_js_attributes = getattr(self.autocomplete,

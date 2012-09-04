@@ -1,3 +1,5 @@
+1.0.21 Added addanother.js, allowing to 'add another' even outside the admin.
+
 1.0.20 Added AutocompleteBase.empty_html_format and spanish translation.
 
 1.0.19 Locale/UX improvements suggested by vibragiel.

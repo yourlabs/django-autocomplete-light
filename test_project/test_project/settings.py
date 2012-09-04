@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'tagging',
     'template_autocomplete',
     'non_admin',
+    'non_admin_add_another',
 )
 
 # A sample logging configuration. The only tangible logging

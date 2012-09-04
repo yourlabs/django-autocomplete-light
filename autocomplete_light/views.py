@@ -62,3 +62,21 @@ class AutocompleteView(generic.View):
             kwargs['autocomplete']]
         autocomplete = autocomplete_class()
         return autocomplete.post(request, *args, **kwargs)
+
+
+class CreateView(generic.CreateView):
+    def form_valid(self, form):
+        response = super(CreateView, self).form_valid(form)
+
+        if not self.request.GET.get('_popup', False):
+            return response
+
+        html = []
+        html.append(u'<script type="text/javascript">')
+        html.append(u'opener.dismissAddAnotherPopup( window, "%s", "%s" );' % (
+            unicode(self.object.pk), unicode(self.object).replace('"', '\\"')))
+        html.append(u'</script>')
+
+        html = u''.join(html)
+
+        return http.HttpResponse(html, status=201)

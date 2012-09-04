@@ -70,6 +70,7 @@ class AutocompleteBase(AutocompleteInterface):
     choice_html_format = u'<div data-value="%s">%s</div>'
     empty_html_format = u'<div><em>%s</em></div>'
     autocomplete_html_format = u'%s'
+    add_another_url_name = None
 
     def choices_for_request(self):
         """

@@ -1,5 +1,7 @@
 {% load i18n %}
+{% load staticfiles %}
 {% load autocomplete_light_tags %}
+{% load url from future %}
 
 <span class="autocomplete-light-widget {{ name }}
     {% if widget.widget_js_attributes.max_values == 1 %}single{% else %}multiple{% endif %}"
@@ -18,6 +20,13 @@
 
     {# a text input, that is the 'autocomplete input' #}
     <input type="text" class="autocomplete" name="{{ name }}-autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
+
+    {# A link to add a new choice using a popup #}
+    {% if autocomplete.add_another_url_name %}
+    <a href="{% url autocomplete.add_another_url_name %}?_popup=1" class="autocomplete-add-another" id="add_{{ widget.html_id }}" style="display:none;">
+            <img src="{% static 'admin/img/icon_addlink.gif' %}" width="10" height="10" alt="{% trans 'Add another' %}" />
+        </a>
+    {% endif %}
 
     {# a hidden select, that contains the actual selected values #}
     <select style="display:none" class="value-select" name="{{ name }}" id="{{ widget.html_id }}" multiple="multiple">

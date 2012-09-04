@@ -34,6 +34,7 @@ This app fills all your ajax autocomplete needs:
 - **0 inline javascript** you can load the javascript just before </body> for
   best page loading performance, :ref:`wherever you want
   <javascript-setup>`
+- **add another** :ref:`also available outside the admin<addanother>`,
 - **simple** python, html and javascript, easy to hack, PEP8 compliant, tested
 
 README
@@ -53,6 +54,7 @@ Full documentation
    forms
    template
    charfield
+   addanother
    generic
    remote
    dependant
