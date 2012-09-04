@@ -10,7 +10,8 @@ class Widget(models.Model):
         related_name='widget_m2m')
 
     def get_absolute_url(self):
-        return urlresolvers.reverse('widget_update', args=(self.pk,))
+        return urlresolvers.reverse(
+            'non_admin_add_another:widget_update', args=(self.pk,))
 
     def __unicode__(self):
         return self.name

@@ -7,4 +7,4 @@ class Widget(models.Model):
     users = models.ManyToManyField('auth.user', blank=True)
 
     def get_absolute_url(self):
-        return urlresolvers.reverse('widget_update', args=(self.pk,))
+        return urlresolvers.reverse('non_admin:widget_update', args=(self.pk,))
