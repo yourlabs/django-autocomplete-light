@@ -18,7 +18,9 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^non_admin/', include('non_admin.urls')),
+    url(r'^non_admin/', include('non_admin.urls', namespace='non_admin')),
+    url(r'^non_admin_add_another/', include('non_admin_add_another.urls',
+        namespace='non_admin_add_another')),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^navigation/', include('navigation_autocomplete.urls')),
     url(r'^cities_light/', include('cities_light.contrib.restframework')),
