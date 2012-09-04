@@ -50,6 +50,9 @@ example usage:
 
 .. literalinclude:: ../../test_project/non_admin_add_another/urls.py
 
+.. Note::
+    It is not mandatory to use url namespaces.
+
 Autocompletes
 -------------
 

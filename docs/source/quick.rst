@@ -80,6 +80,9 @@ Example urls:
 .. literalinclude:: ../../test_project/non_admin/urls.py
    :language: python
 
+.. Note::
+    It is not mandatory to use url namespaces.
+
 Example template:
 
 .. literalinclude:: ../../test_project/non_admin/templates/non_admin/widget_form.html
