@@ -23,6 +23,11 @@ It doesn't have many features for now, but feel free to participate to the
 As usual, a working example lives in test_project. in app
 ``charfield_autocomplete``.
 
+.. Warning::
+    Note that this feature was added in version 1.0.16, if you have overloaded
+    ``autocomplete_light/static.html`` from a previous version then you should
+    make it load ``autocomplete_light/text_widget.js`` to get this new feature.
+
 Example
 -------
 
@@ -40,14 +45,3 @@ So is registering an Autocomplete for Tag:
 
 .. literalinclude:: ../../test_project/charfield_autocomplete/autocomplete_light_registry.py
    :language: python
-
-Upgrading from previous versions
---------------------------------
-
-This feature is available since version 1.0.16.
-
-Note that if you have customized ``autocomplete_light/static.html``, you have
-to update it to include ``text_widget.js``. FTR, this is what it looks like:
-
-.. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/static.html
-   :language: django
