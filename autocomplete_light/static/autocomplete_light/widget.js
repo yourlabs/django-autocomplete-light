@@ -60,7 +60,7 @@ yourlabs.Widget = function(widget) {
     // When a choice is selected from the autocomplete of this widget,
     // getValue() is called to add and select the option in the select.
     this.getValue = function(choice) {
-        return choice.data('value');
+        return choice.attr('data-value');
     };
 
     // The widget is in charge of managing its Autocomplete.
