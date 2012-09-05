@@ -1,3 +1,5 @@
+1.0.22 Fix #46: $.data striped leading zeros from data-value
+
 1.0.21 Added addanother.js, allowing to 'add another' even outside the admin.
 
 1.0.20 Added AutocompleteBase.empty_html_format and spanish translation.
