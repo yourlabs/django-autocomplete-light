@@ -64,6 +64,10 @@ $(document).ready(function() {
         } 
 
         var windowname_to_id = function(text) {
+            text = text.replace(/__dot__/g, '.');
+            text = text.replace(/__dash__/g, '-');
+            text = text.replace(/__braceleft__/g, '[');
+            text = text.replace(/__braceright__/g, ']');
             return text;
         }
 
