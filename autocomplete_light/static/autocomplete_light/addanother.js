@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if (typeof window.__admin_media_prefix__ === 'undefined') {
+    if (! $('a[onclick="return showAddAnotherPopup(this);"]').length) {
 
         /* Credit: django.contrib.admin (BSD) */
 
