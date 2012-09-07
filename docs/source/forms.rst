@@ -65,6 +65,13 @@ A more high level API is also available:
 .. automodule:: autocomplete_light.forms
    :members:
 
+.. Note::
+    Due to `Django's issue #9321<https://code.djangoproject.com/ticket/9321>`_,
+    you may have to use ``autocomplete_light.FixedModelForm`` instead of
+    ``django.forms.ModelForm``. Otherwise, you might see help text like 'Hold
+    down "Control" key ...' for MultipleChoiceWidgets.
+    
+
 Page rendering
 ~~~~~~~~~~~~~~
 
