@@ -10,6 +10,8 @@ from .widgets import ChoiceWidget, MultipleChoiceWidget
 
 __all__ = ['get_widgets_dict', 'modelform_factory', 'FixedModelForm']
 
+M = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
+
 
 class FixedModelForm(forms.ModelForm):
     """
@@ -22,8 +24,7 @@ class FixedModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FixedModelForm, self).__init__(*args, **kwargs)
 
-        msg = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
-        msg = unicode(msg)
+        msg = unicode(M)
 
         for name, field in self.fields.items():
             if not isinstance(field.widget, MultipleChoiceWidget):
