@@ -16,7 +16,7 @@ M = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
 class FixedModelForm(forms.ModelForm):
     """
     Simple child of FixedModelForm that removes the 'Hold down "Control" ...'
-    message that is enforced in select multiple fields.
+    message that is enforced in select multiple fields. Added in 1.0.23.
 
     See https://code.djangoproject.com/ticket/9321
     """
