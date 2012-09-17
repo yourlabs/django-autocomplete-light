@@ -1,0 +1,27 @@
+# Brazilian Portuguese translation file for django-autocomplete-light
+# Copyright (C) 2012 Fabio Caritas Barrionuevo da Luz
+# This file is distributed under the same license as the django-autocomplete-light package.
+# Fabio Caritas Barrionuevo da Luz <bnafta at gmail dot com>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-17 13:29+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Fabio Caritas Barrionuevo da Luz <bnafta at gmail dot com>\n"
+"Language-Team: pt-br <bnafta at gmail dot com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: widgets.py:75
+msgid "type some text to search in this autocomplete"
+msgstr "escreva algum texto para buscar e autocompletar"
+
+#: autocomplete/base.py:96
+msgid "no matches found"
+msgstr "nenhum resultado encontrado"
