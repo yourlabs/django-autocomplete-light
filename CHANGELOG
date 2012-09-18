@@ -1,3 +1,5 @@
+1.0.24 Added pt_BR translation, thanks Fábio C. Barrionuevo da Luz.
+
 1.0.23 Added FixedModelForm, workaround django issue #9321.
 
 1.0.22 Fix #46: $.data striped leading zeros from data-value
