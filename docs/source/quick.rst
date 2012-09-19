@@ -19,7 +19,7 @@ Add to urls::
 
     url(r'autocomplete/', include('autocomplete_light.urls')),
 
-Add before admin.autodiscover()::
+Add before admin.autodiscover() and **any form import** for that matter::
 
     import autocomplete_light
     autocomplete_light.autodiscover()
