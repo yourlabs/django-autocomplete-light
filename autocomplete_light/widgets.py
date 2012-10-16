@@ -33,7 +33,7 @@ class WidgetBase(object):
                  widget_js_attributes=None, autocomplete_js_attributes=None,
                  add_another_url=None):
 
-        if isinstance(autocomplete, str):
+        if isinstance(autocomplete, basestring):
             self.autocomplete_name = autocomplete
             from autocomplete_light import registry
             self.autocomplete = registry[self.autocomplete_name]
