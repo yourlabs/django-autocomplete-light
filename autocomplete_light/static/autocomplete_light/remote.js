@@ -1,11 +1,12 @@
 var RemoteAutocompleteWidget = {
     /*
     The default deck getValue() implementation just returns the PK from the
-    choice HTML. RemoteAutocompleteWidget's implementation checks for a textarea
-    that would contain a JSON dict in the choice's HTML. If the dict has a
-    'value' key, then return this value. Otherwise, make a blocking ajax
-    request: POST the json dict to the autocomplete url. It expects that the
-    response will contain the value.
+    choice HTML. RemoteAutocompleteWidget.getValue's implementation checks for
+    a url too. If a url is found, it will post to that url and expect the pk to
+    be in the response.
+
+    This is how autocomplete-light supports proposing values that are not there
+    in the database until user selection.
     */
     getValue: function(choice) {
         var value = choice.data('value');
