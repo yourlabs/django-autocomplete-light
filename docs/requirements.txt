@@ -1,3 +1,4 @@
 django
 django-generic-m2m
+django-taggit
 pycco

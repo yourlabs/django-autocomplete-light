@@ -1,3 +1,5 @@
+1.0.25 Added support for django-taggit in django.contrib.taggit_fields.
+
 1.0.24 Added pt_BR translation, thanks Fábio C. Barrionuevo da Luz.
 
 1.0.23 Added FixedModelForm, workaround django issue #9321.
