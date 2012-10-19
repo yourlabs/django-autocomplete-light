@@ -26,7 +26,7 @@ autoclass_content = "both"
 project_root = os.path.abspath('../../')
 static_root = os.path.abspath('_static')
 import pycco
-for script in ('autocomplete', 'widget', 'remote'):
+for script in ('autocomplete', 'addanother', 'widget', 'remote', 'text_widget'):
     html = pycco.generate_documentation(
         os.path.join(project_root, 'autocomplete_light/static/autocomplete_light/%s.js' % script),
         static_root

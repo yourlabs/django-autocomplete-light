@@ -67,8 +67,14 @@ Work in progress:
 
 - `autocomplete.js
   <_static/autocomplete.html>`_
-- `deck.js
-  <_static/deck.html>`_
+- `widget.js
+  <_static/widget.html>`_
+- `addanother.js
+  <_static/addanother.html>`_
+- `remote.js
+  <_static/remote.html>`_
+- `text_widget.js
+  <_static/text_widget.html>`_
 
 .. _debugger:
 
