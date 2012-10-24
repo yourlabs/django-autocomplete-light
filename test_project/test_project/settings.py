@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'template_autocomplete',
     'non_admin',
     'non_admin_add_another',
+    'support_sandino',
 )
 
 # A sample logging configuration. The only tangible logging
