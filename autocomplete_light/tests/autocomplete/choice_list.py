@@ -82,15 +82,15 @@ class AutocompleteChoiceListTestCase(AutocompleteTestCase):
             {
                 'fixture': make_get_request('q=t'),
                 'expected': u''.join([
-                    '<div data-value="10">Ten</div>',
-                    '<div data-value="3">Three</div>',
+                    '<span class="div" data-value="10">Ten</span>',
+                    '<span class="div" data-value="3">Three</span>',
                 ])
             },
             {
                 'fixture': make_get_request(),
                 'expected': u''.join([
-                    '<div data-value="4">Four</div>',
-                    '<div data-value="1">One</div>',
+                    '<span class="div" data-value="4">Four</span>',
+                    '<span class="div" data-value="1">One</span>',
                 ])
             },
         )
