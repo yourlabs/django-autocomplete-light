@@ -2,6 +2,11 @@
 {
 }
 
+.div
+{
+    display: block;
+}
+
 .yourlabs-autocomplete
 {
     background: none;

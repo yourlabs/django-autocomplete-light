@@ -12,11 +12,11 @@
 
     {# a deck that should contain the list of selected options #}
     {{ choices }}
-    <div id="{{ widget.html_id }}-deck" class="deck" >
+    <span id="{{ widget.html_id }}-deck" class="deck div" >
         {% for choice in autocomplete.choices_for_values %}
             {{ choice|autocomplete_light_choice_html:autocomplete }}
         {% endfor %}
-    </div>
+    </span>
 
     {# a text input, that is the 'autocomplete input' #}
     <input type="text" class="autocomplete" name="{{ name }}-autocomplete" id="{{ widget.html_id }}_text" value="" {{ extra_attrs }} />
@@ -36,19 +36,19 @@
     </select>
 
     {# a hidden div that serves as template for the 'remove from deck' button #}
-    <div style="display:none" class="remove">
+    <span style="display:none" class="remove div">
         {# This will be appended to choices on the deck, it's the remove button #}
         X
-    </div>
+    </span>
 
-    <div style="display:none" class="choice-template">
+    <span style="display:none" class="choice-template div">
         {% comment %}
         the contained element will be used to render options that are added to the select
         via javascript, for example in django admin with the + sign
 
         The text of the option will be inserted in the html of this tag
         {% endcomment %}
-        <div class="choice">
-        </div>
-    </div>
+        <span class="choice div">
+        </span>
+    </span>
 </span>
