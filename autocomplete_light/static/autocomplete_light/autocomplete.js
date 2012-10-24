@@ -59,6 +59,10 @@ Also, note that this script is composed of two main parts:
 // Our class will live in the yourlabs global namespace.
 if (window.yourlabs == undefined) window.yourlabs = {};
 
+// Fix #25: Prevent accidental inclusion of autocomplete_light/static.html
+if (window.yourlabs.Autocomplete != undefined) 
+    console.log('WARNING ! You are loading autocomplete.js **again**.');
+
 /*
 The autocomplete class constructor:
 

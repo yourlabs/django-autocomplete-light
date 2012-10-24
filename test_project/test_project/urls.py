@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views import generic
 
 import autocomplete_light
 autocomplete_light.autodiscover()
@@ -21,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^non_admin/', include('non_admin.urls', namespace='non_admin')),
     url(r'^non_admin_add_another/', include('non_admin_add_another.urls',
         namespace='non_admin_add_another')),
+    url(r'^double_loading/', generic.TemplateView.as_view(
+        template_name='double_loading.html')),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^navigation/', include('navigation_autocomplete.urls')),
     url(r'^cities_light/', include('cities_light.contrib.restframework')),
