@@ -12,7 +12,7 @@ class AutocompleteList(object):
             if choice in self.values:
                 values_choices.append(choice)
 
-        return self.order_choices(values_choices)[0:self.limit_choices]
+        return self.order_choices(values_choices)
 
     def choices_for_request(self):
         assert self.choices, 'autocomplete.choices is not set'

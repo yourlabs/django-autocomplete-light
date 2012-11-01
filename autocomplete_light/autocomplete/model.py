@@ -22,8 +22,8 @@ class AutocompleteModel(object):
 
     def choices_for_values(self):
         assert self.choices is not None, 'choices should be a queryset'
-        return self.order_choices(self.choices.filter(pk__in=self.values or [])
-            )[0:self.limit_choices]
+        return self.order_choices(self.choices.filter(
+            pk__in=self.values or []))
 
     def choices_for_request(self):
         assert self.choices is not None, 'choices should be a queryset'
