@@ -13,7 +13,7 @@ class AutocompleteChoiceList(AutocompleteList):
             if choice[0] in self.values:
                 values_choices.append(choice)
 
-        return self.order_choices(values_choices)[0:self.limit_choices]
+        return self.order_choices(values_choices)
 
     def choices_for_request(self):
         requests_choices = []
