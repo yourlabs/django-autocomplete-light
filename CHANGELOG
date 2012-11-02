@@ -1,3 +1,11 @@
+1.1.0 BC break in templates.
+
+- Fix #51, replaced <div> tags by <span class="div">, this
+  enables rendering the widget in inline tags such as with {{
+  form.as_p }}, and also makes it valid HTML.
+- Fix #58, remove restrictions in choices_for_values.
+- Added to AUTHORS: Marc Hörsken.
+
 1.0.26 Fix #25: Prevent accidental inclusion of autocomplete_light/static.html
 
 1.0.25 Added support for django-taggit in django.contrib.taggit_fields.
