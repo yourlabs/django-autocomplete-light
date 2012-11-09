@@ -109,4 +109,7 @@ def modelform_factory(model, autocomplete_exclude=None, registry=None,
     widgets.update(kwargs.pop('widgets', {}))
     kwargs['widgets'] = widgets
 
-    return django_modelform_factory(model, form=FixedModelForm, **kwargs)
+    if 'form' not in kwargs.keys():
+        kwargs['form'] = FixedModelForm
+
+    return django_modelform_factory(model, **kwargs)
