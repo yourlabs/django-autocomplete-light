@@ -64,6 +64,9 @@ class WidgetBase(object):
         self.widget_js_attributes.update(
             extra_widget_js_attributes)
 
+        if 'watch' not in self.widget_js_attributes.keys():
+            self.widget_js_attributes['watch'] = '1'
+
         if 'bootstrap' not in self.widget_js_attributes.keys():
             self.widget_js_attributes['bootstrap'] = 'normal'
 

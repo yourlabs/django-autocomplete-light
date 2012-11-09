@@ -278,7 +278,7 @@ $(document).ready(function() {
     Sorry for the hack but I see no other way, this is HTML's fault.
     */
     function updateWidgets() {
-        $('.autocomplete-light-widget[data-widget-ready=1]').each(function() {
+        $('.autocomplete-light-widget[data-widget-watch=1][data-widget-ready=1]').each(function() {
             var widget = $(this).yourlabsWidget();
             var value = widget.select.val();
 
