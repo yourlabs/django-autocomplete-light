@@ -65,7 +65,10 @@ class AutocompleteView(generic.View):
 
 
 class CreateView(generic.CreateView):
+    """Simple wrapper for generic.CreateView, that responds to _popup."""
+
     def form_valid(self, form):
+        """ If request.GET._popup, return some javascript. """
         response = super(CreateView, self).form_valid(form)
 
         if not self.request.GET.get('_popup', False):
