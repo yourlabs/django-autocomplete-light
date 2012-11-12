@@ -275,10 +275,19 @@ $(document).ready(function() {
         $('select#id-dependencies').append(
             '<option value="9999" selected="selected">blabla</option>')
 
-    Sorry for the hack but I see no other way, this is HTML's fault.
+    Currently, browsers still haven't fixed it. The optimizations that are in
+    place are:
+
+    - only check for widgets which have data-watch=1, default for widgets
+      created in python,
+    - only check for widgets which have data-dirty=1, it is set if an option
+      was added using event DOMNodeInserted,
+
+    Sorry for the hack but I see no other way, this is HTML's fault. Any help
+    is appreciated.
     */
     function updateWidgets() {
-        $('.autocomplete-light-widget[data-watch=1][data-widget-ready=1]').each(function() {
+        $('.autocomplete-light-widget[data-watch=1][data-dirty=1][data-widget-ready=1]').each(function() {
             var widget = $(this).yourlabsWidget();
             var value = widget.select.val();
 
@@ -308,6 +317,8 @@ $(document).ready(function() {
             } else {
                 updateWidgetValue(value);
             }
+
+            $(this).attr('data-dirty', 0);
         });
         setTimeout(updateWidgets, 2000);
     }
@@ -329,16 +340,28 @@ $(document).ready(function() {
     });
 
     $(document).bind('DOMNodeInserted', function(e) {
-        var widget = $(e.target).find('.autocomplete-light-widget');
+        if ($(e.target).is('option')) { // added an option ?
+            widget = $(e.target).parents('.autocomplete-light-widget');
 
-        if (!widget.length) {
-            widget = $(e.target).is('.autocomplete-light-widget') ? $(e.target) : false;
-
-            if (!widget) {
+            if (!widget.length) {
                 return;
             }
-        }
 
-        widget.trigger('initialize');
+            // mark widget as dirty, so that updateWidgets 'cron' picks it up.
+            widget.attr('data-dirty', 1);
+        } else { // added a widget ?
+            var widget = $(e.target).find('.autocomplete-light-widget');
+
+            if (!widget.length) {
+                widget = $(e.target).is('.autocomplete-light-widget') ? $(e.target) : false;
+
+                if (!widget) {
+                    return;
+                }
+            }
+
+            // added a widget: initialize the widget.
+            widget.trigger('initialize');
+        }
     });
 });
