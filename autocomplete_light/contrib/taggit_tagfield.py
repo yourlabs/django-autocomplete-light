@@ -8,6 +8,11 @@ Example usage::
 
     class AppEditForm(forms.ModelForm):
         tags = TagField(widget=TagWidget('TagAutocomplete'))
+
+.. Warning::
+    In this case, the tags field is a relation. Thus form.save() **must** be
+    called with commit=True.
+
 """
 
 
