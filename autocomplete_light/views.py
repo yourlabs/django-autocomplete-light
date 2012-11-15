@@ -69,6 +69,9 @@ class CreateView(generic.CreateView):
 
     def form_valid(self, form):
         """ If request.GET._popup, return some javascript. """
+        if self.request.GET.get('_popup', False):
+            self.success_url = '/'  # avoid ImproperlyConfigured
+
         response = super(CreateView, self).form_valid(form)
 
         if not self.request.GET.get('_popup', False):
