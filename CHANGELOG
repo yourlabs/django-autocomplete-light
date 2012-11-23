@@ -1,3 +1,8 @@
+1.1.1
+
+- Performance improvement on inlines
+- Django 1.5 support in test project
+
 1.1.0 BC break in templates.
 
 - Fix #51, replaced <div> tags by <span class="div">, this
