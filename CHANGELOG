@@ -1,6 +1,13 @@
 1.1.1
 
-- Performance improvement on inlines
+- Added option to disable watch of autocompletes hidden selects,
+- Performance improvement on inlines,
+- Provide: autocomplete_light.FixedModelForm,
+- Allow override of form kwarg in modelform_factory,
+- taggit support: warn that commit=False is not supported by TagField,
+- Optimize updateWidgets with the help of DOMNodeInserted,
+- Avoid ImproperlyConfigured when using CreateView directly for popups only,
+- Mentioned python 2.6 support,
 - Django 1.5 support in test project
 
 1.1.0 BC break in templates.
