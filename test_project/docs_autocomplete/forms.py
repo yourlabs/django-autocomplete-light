@@ -13,7 +13,8 @@ class ProfileForm(forms.ModelForm):
     cities = forms.ModelMultipleChoiceField(City.objects.all(),
         widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete',
             # optionnal: override an autocomplete.js option
-            autocomplete_js_attributes={'minimum_characters': 0, 'placeholder': },
+            autocomplete_js_attributes={'minimum_characters': 0,
+                                        'placeholder': 'Choose 3 cities ...'},
             # optionnal: override a widget.js option
             widget_js_attributes={'max_values': 3}))
 

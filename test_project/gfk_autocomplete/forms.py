@@ -8,7 +8,8 @@ from models import TaggedItem
 class TaggedItemForm(autocomplete_light.GenericModelForm):
     content_object = autocomplete_light.GenericModelChoiceField(
         widget=autocomplete_light.ChoiceWidget(
-            autocomplete='AutocompleteTaggableItems'))
+            autocomplete='AutocompleteTaggableItems',
+            autocomplete_js_attributes={'minimum_characters': 0}))
 
     class Meta:
         model = TaggedItem
