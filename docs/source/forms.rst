@@ -119,6 +119,12 @@ Python:
 .. literalinclude:: ../../test_project/docs_autocomplete/forms.py
    :language: python
 
+Note that those have priority over those that are defined at the
+autocomplete level:
+
+.. literalinclude:: ../../test_project/docs_autocomplete/autocomplete_light_registry.py
+   :language: python
+
 Widget rendering
 ~~~~~~~~~~~~~~~~
 
