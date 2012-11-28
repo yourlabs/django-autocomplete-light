@@ -264,66 +264,6 @@ $(document).ready(function() {
         widget.deselectChoice(choice);
     });
 
-    /*
-    Support values added directly in the select via js (ie. choices created in
-    modal or popup).
-
-    For this, we make one timer that regularely checks for values in the select
-    that are not in the deck. The reason for that is that change is not triggered
-    when options are added like this:
-
-        $('select#id-dependencies').append(
-            '<option value="9999" selected="selected">blabla</option>')
-
-    Currently, browsers still haven't fixed it. The optimizations that are in
-    place are:
-
-    - only check for widgets which have data-watch=1, default for widgets
-      created in python,
-    - only check for widgets which have data-dirty=1, it is set if an option
-      was added using event DOMNodeInserted,
-
-    Sorry for the hack but I see no other way, this is HTML's fault. Any help
-    is appreciated.
-    */
-    function updateWidgets() {
-        $('.autocomplete-light-widget[data-watch=1][data-dirty=1][data-widget-ready=1]').each(function() {
-            var widget = $(this).yourlabsWidget();
-            var value = widget.select.val();
-
-            if (!value) return;
-
-            function updateWidgetValue(value) {
-                // is this necessary ?
-                // if (!value) return;
-
-                var choice = widget.deck.find('[data-value="'+value+'"]');
-
-                if (!choice.length) {
-                    var choice = widget.choiceTemplate.clone();
-                    var html = widget.select.find('option[value="'+value+'"]').html();
-
-                    choice.html(html);
-                    choice.attr('data-value', value);
-
-                    widget.selectChoice(choice);
-                }
-            }
-
-            if (value instanceof Array) {
-                for(var i=0; i<value.length; i++) {
-                    updateWidgetValue(value[i]);
-                }
-            } else {
-                updateWidgetValue(value);
-            }
-
-            $(this).attr('data-dirty', 0);
-        });
-        setTimeout(updateWidgets, 2000);
-    }
-    setTimeout(updateWidgets, 1000);
-
     // Solid initialization, usage:
     //
     //      $(document).bind('yourlabsWidgetReady', function() {
@@ -340,15 +280,38 @@ $(document).ready(function() {
     });
 
     $(document).bind('DOMNodeInserted', function(e) {
+        /*
+        Support values added directly in the select via js (ie. choices created in
+        modal or popup).
+
+        For this, we listen to DOMNodeInserted and intercept insert of <option> nodes.
+        
+        The reason for that is that change is not triggered when options are
+        added like this:
+
+            $('select#id-dependencies').append(
+                '<option value="9999" selected="selected">blabla</option>')
+        */
         if ($(e.target).is('option')) { // added an option ?
-            widget = $(e.target).parents('.autocomplete-light-widget');
+            var widget = $(e.target).parents('.autocomplete-light-widget');
 
             if (!widget.length) {
                 return;
             }
 
-            // mark widget as dirty, so that updateWidgets 'cron' picks it up.
-            widget.attr('data-dirty', 1);
+            widget = widget.yourlabsWidget();
+            var option = $(e.target);
+            var value = option.attr('value');
+            var choice = widget.deck.find('[data-value="'+value+'"]');
+
+            if (!choice.length) {
+                var choice = widget.choiceTemplate.clone();
+
+                choice.html(option.html());
+                choice.attr('data-value', value);
+
+                widget.selectChoice(choice);
+            }
         } else { // added a widget ?
             var widget = $(e.target).find('.autocomplete-light-widget');
 
