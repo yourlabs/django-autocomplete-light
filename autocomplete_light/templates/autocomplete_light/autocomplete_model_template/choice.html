@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load static %}
+
+<span class="div" data-value="{{ choice.pk }}">
+    {{ choice }}
+    {% with choice.get_absolute_url as url %}
+        {% if url %}
+        <a href="{{ url }}" target="_blank" class="choiceDetail">&rarr;</a>
+        {% endif %}
+    {% endwith %}
+
+    {% with choice.get_absolute_update_url  as url %}
+        {% if url %}
+        <a href="{{ url }}" target="_blank" class="choiceUpdate">
+            <img src="{% static 'admin/img/icon_changelink.gif' %}" />
+        </a>
+        {% endif %}
+    {% endwith %}
+</span>

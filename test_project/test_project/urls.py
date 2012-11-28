@@ -27,5 +27,6 @@ urlpatterns = patterns('',
         template_name='double_loading.html')),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^navigation/', include('navigation_autocomplete.urls')),
+    url(r'^default_template/', include('default_template_autocomplete.urls')),
     url(r'^cities_light/', include('cities_light.contrib.restframework')),
 )
