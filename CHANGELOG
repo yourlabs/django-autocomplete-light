@@ -1,3 +1,8 @@
+1.1.2
+
+- Fix #30: exclude already selected items from model autocomplete,
+- Fix #60: got rid of updateWidgets()
+
 1.1.1
 
 - Added option to disable watch of autocompletes hidden selects,
