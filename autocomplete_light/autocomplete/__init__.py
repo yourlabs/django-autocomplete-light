@@ -20,7 +20,8 @@ class AutocompleteModelBase(AutocompleteModel, AutocompleteBase):
 
 
 class AutocompleteModelTemplate(AutocompleteModel, AutocompleteTemplate):
-    pass
+    choice_template='autocomplete_light/autocomplete_model_template/choice.html'
+    widget_template='autocomplete_light/autocomplete_model_template/widget.html'
 
 
 class AutocompleteGenericBase(AutocompleteGeneric, AutocompleteBase):

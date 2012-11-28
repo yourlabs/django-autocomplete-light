@@ -101,6 +101,8 @@ class WidgetBase(object):
         autocomplete_name = self.autocomplete_name.lower()
         return safestring.mark_safe(render_to_string([
             'autocomplete_light/%s/widget.html' % autocomplete_name,
+            'autocomplete_light/%s/widget.html' % getattr(autocomplete_name,
+                'widget_template_name', ''),
             'autocomplete_light/widget.html',
         ], {
             'name': name,

@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<span class="div" data-value="{{ choice.pk }}">
+    {{ choice }}
+    {% with choice.get_absolute_url as url %}
+        {% if url %}
+        <a href="{{ url }}" target="_blank">{% trans 'View' %}</a>
+        {% endif %}
+    {% endwith %}
+</span>
