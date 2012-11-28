@@ -111,7 +111,10 @@ form.
 .. automodule:: autocomplete_light.widgets
    :members:
 
-Example:
+Example, overriding some `widget.js
+<_static/widget.html>`_ and `autocomplete.js
+<_static/autocomplete.html>`_ options directly from
+Python:
 
 .. literalinclude:: ../../test_project/docs_autocomplete/forms.py
    :language: python
