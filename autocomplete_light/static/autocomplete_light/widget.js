@@ -42,6 +42,8 @@ override Widget.getValue() to implement your own logic.
 // Our class will live in the yourlabs global namespace.
 if (window.yourlabs == undefined) window.yourlabs = {};
 
+$.ajaxSettings.traditional = true
+
 /*
 Instanciate a Widget.
 */
@@ -162,6 +164,7 @@ yourlabs.Widget = function(widget) {
         option.attr('selected', 'selected');
 
         this.select.trigger('change');
+        this.updateAutocompleteExclude();
     }
 
     // Called when the user clicks .remove in a deck choice.
@@ -177,8 +180,18 @@ yourlabs.Widget = function(widget) {
             this.deck.hide();
         }
 
+        this.updateAutocompleteExclude();
         this.resetDisplay();
     };
+
+    this.updateAutocompleteExclude = function() {
+        var widget = this;
+        var choices = this.deck.find(this.autocomplete.choiceSelector);
+
+        this.autocomplete.data['exclude'] = $.map(choices, function(choice) { 
+            return widget.getValue($(choice)); 
+        });
+    }
 
     this.initialize = function() {
         this.initializeAutocomplete();

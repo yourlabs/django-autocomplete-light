@@ -29,6 +29,7 @@ class AutocompleteModel(object):
         assert self.choices is not None, 'choices should be a queryset'
         assert self.search_fields, 'autocomplete.search_fields must be set'
         q = self.request.GET.get('q', '')
+        exclude = self.request.GET.getlist('exclude', [])
 
         conditions = Q()
         if q:
@@ -36,7 +37,7 @@ class AutocompleteModel(object):
                 conditions |= Q(**{search_field + '__icontains': q})
 
         return self.order_choices(self.choices.filter(
-            conditions))[0:self.limit_choices]
+            conditions).exclude(pk__in=exclude))[0:self.limit_choices]
 
     def validate_values(self):
         return len(self.choices_for_values()) == len(self.values)
