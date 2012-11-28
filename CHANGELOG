@@ -1,7 +1,8 @@
 1.1.2
 
 - Fix #30: exclude already selected items from model autocomplete,
-- Fix #60: got rid of updateWidgets()
+- Fix #60: got rid of updateWidgets(),
+- Fix #63: default template for AutocompleteModelTemplate,
 
 1.1.1
 
