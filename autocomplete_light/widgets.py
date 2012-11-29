@@ -165,6 +165,6 @@ class TextWidget(forms.TextInput, WidgetBase):
 
         if 'class' not in attrs.keys():
             attrs['class'] = ''
-        attrs['class'] += 'autocomplete-light-text-widget'
+        attrs['class'] += ' autocomplete-light-text-widget'
 
         return attrs
