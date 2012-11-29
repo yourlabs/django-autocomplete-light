@@ -1,6 +1,8 @@
 .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
 
-It is called django-autocomplete-light because the API is light.
+It is called django-autocomplete-light because the API is light and consistent
+with Django. But also because it uses a small autocomplete script instead of
+jquery-ui.
 
 In a hurry ?
 ------------

@@ -9,6 +9,10 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``::
     # This actually creates a thread safe subclass of AutocompleteModelBase.
     autocomplete_light.register(SomeModel)
 
+    # Not fancy enought ? Try using AutocompleteModelTemplate as base
+    autocomplete_light.register(NewModel,
+        autocomplete_light.AutocompleteModelTemplate)
+
     # Extra **kwargs are used as class properties in the subclass.
     autocomplete_light.register(SomeModel,
         # SomeModel is already registered, re-register with custom name
