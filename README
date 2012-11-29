@@ -1,6 +1,60 @@
 .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
 
-This is a simple alternative to django-ajax-selects.
+It is called django-autocomplete-light because the API is light.
+
+In a hurry ?
+------------
+
+Install in 3 steps:
+
+- add ``url(r'autocomplete/', include('autocomplete_light.urls')),`` to
+  ``urls.py``,
+- call ``autocomplete_light.autodiscover()`` in ``urls.py`` before
+  ``admin.autodiscover()``,
+- add after loading ``jquery.js``: ``{% include
+  'autocomplete_light/static.html' %}`` - even in ``admin/base_site.html`` if
+  you even need admin support:
+
+Use in 3 steps - if you even need admin support:
+
+Example ``your_app/autocomplete_light_registry.py``::
+
+    # This actually creates a thread safe subclass of AutocompleteModelBase.
+    autocomplete_light.register(SomeModel)
+
+Login as staff and open ``/autocomplete/`` to check that it was properly
+registered.
+
+Example ``your_app/forms.py``::
+
+    # Use as much registered autocompletes as possible.
+    SomeModelForm = autocomplete_light.modelform_factory(SomeModel, 
+        exclude=('some_field'))
+
+Example ``your_app/admin.py``:
+
+    # Ok that one's too easy ...
+    class AddressAdmin(admin.ModelAdmin):
+        form = SomeModelForm
+    admin.site.register(Address, AddressAdmin)
+
+Far from the best setup but sufficient to move on with your project. Did
+something go wrong ? Are you "not so confortable using django apps yet" ? Then
+try the `Quick start guide
+<http://django-autocomplete-light.readthedocs.org/en/latest/quick.html>`_ which
+has a lot more details and will help you get a better setup.
+
+Other features
+--------------
+
+- navigation autocomplete a-la facebook,
+- optionnal autocomplete templating,
+- generic foreign key autocomplete,
+- generic many to many autocomplete,
+- add-another outside the admin,
+- API powered autocompletes - results that are not yet in the database,
+- 0 hack in admin integration,
+- simple python, html, js, easy to hack, PEP8 compliant, tested, supported, stable
 
 Requirements
 ------------
