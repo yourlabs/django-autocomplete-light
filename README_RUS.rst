@@ -1,15 +1,13 @@
-
-
 Быстрый старт
 -------------
 
-#. Подключить библиотеку django_autocomplete_light в зависимости виртуального окружения
+#. Подключить библиотеку django_autocomplete_light в зависимости виртуального окружения::
 
   git+git@github.com:balmaster/django-autocomplete-light.git#egg=django-autocomplete-light
 
-#. Добавить приложение autocomplete_light в INSTALLED_APPS
+#. Добавить приложение autocomplete_light в ``INSTALLED_APPS``
 
-#. В своем приложении сделать autocomplete_light_registry.py
+#. В своем приложении сделать autocomplete_light_registry.py::
 
   import autocomplete_light
 
@@ -18,7 +16,7 @@
   autocomplete_light.register(МодельОбъектыКоторойБудутПоказанеВСпискеАвтозавершения, search_fields=('ПоляПоКоторымБудетПоиск',),
     autocomplete_js_attributes={'placeholder': 'ПодсказкаКоторуюУвидитПользователь'})
 
-#. В admin.py надо перехватить генерацию формы для тех форм для кторых должен работать автокомплит
+#. В admin.py надо перехватить генерацию формы для тех форм для кторых должен работать автокомплит::
 
   import autocomplete_light
 
