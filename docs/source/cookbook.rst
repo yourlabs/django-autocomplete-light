@@ -9,7 +9,8 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``::
     # This actually creates a thread safe subclass of AutocompleteModelBase.
     autocomplete_light.register(SomeModel)
 
-    # Not fancy enought ? Try using AutocompleteModelTemplate as base
+    # If NewModel.get_absolute_url or get_absolute_update_url is defined, this
+    # will look more fancey
     autocomplete_light.register(NewModel,
         autocomplete_light.AutocompleteModelTemplate)
 
@@ -32,8 +33,6 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``::
 
     # But you can make your subclass yourself and override methods.
     class AutocompleteYourModel(autocomplete_light.AutocompleteModelTemplate):
-        # Keep in mind it is completely thread safe since a subclass is
-        # generated in register() ...
         template_name = 'your_app/your_special_choice_template.html'
 
         autocomplete_js_attributes = {
@@ -89,26 +88,37 @@ Various cooking recipes far ``your_app/forms.py``::
 
         tags = autocomplete_light.TextWidget('TagAutocomplete')
 
+Read everything about the registry and widgets.
+
 Generic
 ```````
 
-Generic many to many
-````````````````````
+Everything about generic foreign key support.
 
 Tag fields
 ``````````
 
+Everything about tag field support.
+
 Navigation
 ``````````
+
+Everything about navigation autocomplete.
 
 Dependencies
 ````````````
 
+Everything about autocompletes that depend on each other.
+
 Add another
 ```````````
 
+Everything about "add-another".
+
 Remote API
 ``````````
+
+
 
 Debugging
 `````````
