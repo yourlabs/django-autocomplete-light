@@ -31,18 +31,29 @@ Example ``your_app/forms.py``::
     SomeModelForm = autocomplete_light.modelform_factory(SomeModel, 
         exclude=('some_field'))
 
-Example ``your_app/admin.py``:
+Example ``your_app/admin.py``::
 
     # Ok that one's too easy ...
     class AddressAdmin(admin.ModelAdmin):
         form = SomeModelForm
     admin.site.register(Address, AddressAdmin)
 
-Far from the best setup but sufficient to move on with your project. Did
-something go wrong ? Are you "not so confortable using django apps yet" ? Then
-try the `Quick start guide
+Far from the best setup but sufficient to move on with your project. 
+
+Did something go wrong ? Are you "not so confortable
+using external django apps yet" ? Then try the `Quick
+start guide
 <http://django-autocomplete-light.readthedocs.org/en/latest/quick.html>`_ which
 has a lot more details and will help you get a better setup.
+
+Do you want to cook more advanced stuff as long as you don't have to read any
+documentation ? Then try the `cookbook
+<http://django-autocomplete-light.readthedocs.org/en/latest/quick.html>`_ which
+targets advanced users.
+
+Do you want to learn about **all** the features ? Then go ahead and read the
+`full documentation
+<http://django-autocomplete-light.readthedocs.org/>`_.
 
 Other features
 --------------
