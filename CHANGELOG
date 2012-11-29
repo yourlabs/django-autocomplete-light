@@ -1,5 +1,6 @@
 1.1.2
 
+- Fix #68: bug when using TextInput with a custom class,
 - Fix #30: exclude already selected items from model autocomplete,
 - Fix #60: got rid of updateWidgets(),
 - Fix #63: default template for AutocompleteModelTemplate,
