@@ -19,7 +19,9 @@ Install in 3 steps:
 
 Use in 3 steps - if you even need admin support:
 
-Example ``your_app/autocomplete_light_registry.py``::
+Example ``your_app/autocomplete_light_registry.py``:
+
+.. code-block:: python
 
     # This actually creates a thread safe subclass of AutocompleteModelBase.
     autocomplete_light.register(SomeModel)
@@ -27,13 +29,17 @@ Example ``your_app/autocomplete_light_registry.py``::
 Login as staff and open ``/autocomplete/`` to check that it was properly
 registered.
 
-Example ``your_app/forms.py``::
+Example ``your_app/forms.py``:
+
+.. code-block:: python
 
     # Use as much registered autocompletes as possible.
     SomeModelForm = autocomplete_light.modelform_factory(SomeModel, 
         exclude=('some_field'))
 
-Example ``your_app/admin.py``::
+Example ``your_app/admin.py``:
+
+.. code-block:: python
 
     # Ok that one's too easy ...
     class AddressAdmin(admin.ModelAdmin):
