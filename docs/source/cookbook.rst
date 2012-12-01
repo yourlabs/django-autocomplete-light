@@ -117,7 +117,7 @@ manually for example to make a navigation autocomplete like facebook:
     // The array passed to the plugin will actually be used to $.extend the
     // autocomplete instance, so you can override any option:
     $('#yourInput').yourlabsAutocomplete({
-        url: '{% url 'your_autocomplete_url' %}',
+        url: '{% url "your_autocomplete_url" %}',
         // Hide after 200ms of mouseout
         hideAfter: 200,
         // Choices are elements with data-url attribute in the autocomplete
@@ -134,7 +134,7 @@ manually for example to make a navigation autocomplete like facebook:
 
     // Or any method:
     $('#yourInput').yourlabsAutocomplete({
-        url: '{% url 'your_autocomplete_url' %}',
+        url: '{% url "your_autocomplete_url" %}',
         choiceSelector: '[data-url]',
         getQuery: function() {
             return this.input.val() + '&search_all=' + $('#searchAll').val();
@@ -152,7 +152,7 @@ manually for example to make a navigation autocomplete like facebook:
 
     // For a simple navigation autocomplete, it could look like:
     $('#yourInput').yourlabsAutocomplete({
-        url: '{% url 'your_autocomplete_url' %}',
+        url: '{% url "your_autocomplete_url" %}',
         choiceSelector: 'a',
     }).bind('selectChoice', function(e, choice, autocomplete) {
         window.location.href = choice.attr('href');
