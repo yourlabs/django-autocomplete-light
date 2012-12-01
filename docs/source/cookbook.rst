@@ -164,7 +164,7 @@ Using `widget.js` is pretty much the same:
 
     $('#yourWidget').yourlabsWidget({
         autocompleteOptions: {
-            url: '{% url 'your_autocomplete_url' %},
+            url: '{% url "your_autocomplete_url" %}',
             // Override any autocomplete option in this array if you want
             choiceSelector: '[data-id]',
         },
