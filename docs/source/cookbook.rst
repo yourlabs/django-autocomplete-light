@@ -213,7 +213,7 @@ Hence the widget.js HTML cookbook:
         data-autocomplete-minimum-characters="0"
     >
 
-        <!-- Expected structure: have an input (duh!)
+        <!-- Expected structure: have an input -->
         <input type="text" id="some-unique-id" />
 
         <!--
