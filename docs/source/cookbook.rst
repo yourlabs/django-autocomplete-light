@@ -102,7 +102,7 @@ manually for example to make a navigation autocomplete like facebook:
 
     // Use default options, element id attribute and url options are required:
     var autocomplete = $('#yourInput').yourlabsAutocomplete({
-        url: '{% url 'your_autocomplete_url' %}'
+        url: '{% url "your_autocomplete_url" %}'
     });
 
     // Because the jQuery plugin uses a registry, you can get the autocomplete
