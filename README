@@ -30,7 +30,10 @@ package updates.
   <http://github.com>`_,
 - `Documentation graciously hosted
   <http://django-autocomplete-light.rtfd.org>`_ by `RTFD
-  <http://rtfd.org>`_,
+  <http://rtfd.org>`_, you can also check the `cookbook
+  <https://django-autocomplete-light.readthedocs.org/en/docs_rewrite/cookbook.html>`_
+  which is part of the `docs_rewrite
+  <https://django-autocomplete-light.readthedocs.org/en/docs_rewrite/>`_ branch,
 - `Package graciously hosted
   <http://pypi.python.org/pypi/django-autocomplete-light/>`_ by `PyPi
   <http://pypi.python.org/pypi>`_,
