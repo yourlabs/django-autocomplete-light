@@ -184,7 +184,7 @@ Using `widget.js` is pretty much the same:
     // Supporting dynamically added widgets (ie. inlines) is
     // possible by using "solid initialization":
     $(document).bind('yourlabsWidgetReady', function() {
-        $('.your.autocomplete-light-widget').live('initialize', function() {
+        $('.your.autocomplete-light-widget[data-bootstrap=your-custom-bootstrap]').live('initialize', function() {
             $(this).yourlabsWidget({
                 // your options ...
             })
