@@ -98,6 +98,8 @@ Various cooking recipes far ``your_app/forms.py``:
 Low level basics
 ````````````````
 
+This is something you probably won't need in the mean time. But it can turn out to be useful so here it is.
+
 Various cooking recipes for ``autocomplete.js``, useful if you want to use it
 manually for example to make a navigation autocomplete like facebook:
 
