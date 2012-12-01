@@ -92,7 +92,9 @@ Low level basics
 ````````````````
 
 Various cooking recipes for ``autocomplete.js``, useful if you want to use it
-manually for example to make a navigation autocomplete like facebook::
+manually for example to make a navigation autocomplete like facebook:
+
+.. code-block:: js
 
     // Use default options, element id attribute and url options are required:
     var autocomplete = $('#yourInput').yourlabsAutocomplete({
@@ -152,7 +154,9 @@ manually for example to make a navigation autocomplete like facebook::
         window.location.href = choice.attr('href');
     });
 
-Using `widget.js` is pretty much the same::
+Using `widget.js` is pretty much the same:
+
+.. code-block:: js
 
     $('#yourWidget').yourlabsWidget({
         autocompleteOptions: {
@@ -186,7 +190,9 @@ There are some differences with `autocomplete.js`:
 - widget options can be overridden from HTML too,
 - widget can be instanciated automatically via the default bootstrap
 
-Hence the widget.js HTML cookbook::
+Hence the widget.js HTML cookbook:
+
+.. code-block:: html
 
     <span 
         <!-- Get picked up by widget.js defaults -->
