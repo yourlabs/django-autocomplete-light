@@ -198,18 +198,19 @@ Hence the widget.js HTML cookbook:
 
 .. code-block:: html
 
+    <!-- 
+    - class=autocomplete-light-widget: get picked up by widget.js defaults,
+    - data-bootstrap=normal: Rely on automatic bootstrap because
+      if don't need to override any method, but you could change
+      that and make your own bootstrap, enabling you to make
+      chained autocomplete, create options, whatever ... 
+    - data-max-values: override a widget option
+    - data-autocomplete-minimum-characters: override an autocomplete option,
+    -->
     <span 
-        <!-- Get picked up by widget.js defaults -->
         class="autocomplete-light-widget"
-        <!-- 
-        Rely on automatic bootstrap because if don't need to override any
-        method, but you could change that and make your own bootstrap, enabling
-        you to make chained autocomplete, create options, whatever ... 
-        -->
         data-bootstrap="normal"
-        <!-- Override a widget option -->
         data-max-values="3"
-        <!-- Override an autocomplete option -->
         data-autocomplete-minimum-characters="0"
     >
 
