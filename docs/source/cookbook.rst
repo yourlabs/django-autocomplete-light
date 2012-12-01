@@ -1,8 +1,8 @@
 Voodoo black magic
 ------------------
 
-Basics
-``````
+High level Basics
+`````````````````
 
 Various cooking recipes ``your_app/autocomplete_light_registry.py``::
 
@@ -88,8 +88,11 @@ Various cooking recipes far ``your_app/forms.py``::
 
         tags = autocomplete_light.TextWidget('TagAutocomplete')
 
+Low level basics
+````````````````
+
 Various cooking recipes for ``autocomplete.js``, useful if you want to use it
-manually::
+manually for example to make a navigation autocomplete like facebook::
 
     // Use default options, element id attribute and url options are required:
     var autocomplete = $('#yourInput').yourlabsAutocomplete({
@@ -97,8 +100,13 @@ manually::
     });
 
     // Because the jQuery plugin uses a registry, you can get the autocomplete
-    // instance again by calling yourlabsAutocomplete() again::
-    var autocomplete = $('#yourInput').yourlabsAutocomplete();
+    // instance again by calling yourlabsAutocomplete() again, and patch it:
+    $('#country').change(function() {
+        $('#yourInput').yourlabsAutocomplete().data = {
+            'country': $(this).val();
+        }
+    });
+    // And that's actually how to do chained autocompletes.
 
     // The array passed to the plugin will actually be used to $.extend the
     // autocomplete instance, so you can override any option:
@@ -144,6 +152,92 @@ manually::
         window.location.href = choice.attr('href');
     });
 
+Using `widget.js` is pretty much the same::
+
+    $('#yourWidget').yourlabsWidget({
+        autocompleteOptions: {
+            url: '{% url 'your_autocomplete_url' %},
+            // Override any autocomplete option in this array if you want
+            choiceSelector: '[data-id]',
+        },
+        // Override some widget options, allow 3 choices:
+        maxValues: 3,
+        // or method:
+        getValue: function(choice) {
+            return choice.data('id'),
+        },
+    });
+
+    // Supporting dynamically added widgets (ie. inlines) is
+    // possible by using "solid initialization":
+    $(document).bind('yourlabsWidgetReady', function() {
+        $('.your.autocomplete-light-widget').live('initialize', function() {
+            $(this).yourlabsWidget({
+                // your options ...
+            })
+        });
+    });
+    // This method takes advantage of the default DOMNodeInserted observer
+    // served by widget.js
+
+There are some differences with `autocomplete.js`:
+
+- widget expect a certain HTML structure by default,
+- widget options can be overridden from HTML too,
+- widget can be instanciated automatically via the default bootstrap
+
+Hence the widget.js HTML cookbook::
+
+    <span 
+        <!-- Get picked up by widget.js defaults -->
+        class="autocomplete-light-widget"
+        <!-- 
+        Rely on automatic bootstrap because if don't need to override any
+        method, but you could change that and make your own bootstrap, enabling
+        you to make chained autocomplete, create options, whatever ... 
+        -->
+        data-bootstrap="normal"
+        <!-- Override a widget option -->
+        data-max-values="3"
+        <!-- Override an autocomplete option -->
+        data-autocomplete-minimum-characters="0"
+    >
+
+        <!-- Expected structure: have an input (duh!)
+        <input type="text" id="some-unique-id" />
+
+        <!--
+        Default expected structure: have a .deck element to append selected
+        choices too:
+        -->
+        <span class="deck">
+            <!-- Suppose a choice was already selected: -->
+            <span class="choice" data-value="1234">Option #1234</span>
+        </span>
+
+        <!--
+        Default expected structue: have a multiple select.value-select:
+        -->
+        <select style="display:none" class="value-select" name="your_input" multiple="multiple">
+            <!-- If option 1234 was already selected: -->
+            <option value="1234">Option #1234</option>
+        </select>
+
+        <!--
+        Default expected structure: a .remove element that will be appended to
+        choices, and that will de-select them on click:
+        -->
+        <span style="display:none" class="remove">Remove this choice</span>
+
+        <!--
+        Finally, supporting new options to be created directly in the select in
+        javascript (ie. add another) is possible with a .choice-template:
+        -->
+        <span style="display:none" class="choice-template">
+            <span class="choice">
+            </span>
+        </span>
+    </span>
 
 Read everything about the registry and widgets.
 
