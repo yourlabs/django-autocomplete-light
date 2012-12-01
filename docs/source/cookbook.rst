@@ -1,6 +1,9 @@
 Voodoo black magic
 ------------------
 
+This cookbook is a work in progress. Please report any error or things that
+could be explained better ! And make pull requests heh ...
+
 High level Basics
 `````````````````
 
