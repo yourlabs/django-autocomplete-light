@@ -4,7 +4,9 @@ Voodoo black magic
 High level Basics
 `````````````````
 
-Various cooking recipes ``your_app/autocomplete_light_registry.py``::
+Various cooking recipes ``your_app/autocomplete_light_registry.py``:
+
+.. code-block:: python
 
     # This actually creates a thread safe subclass of AutocompleteModelBase.
     autocomplete_light.register(SomeModel)
@@ -60,7 +62,9 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``::
         # Extra **kwargs passed to register have priority.
         choice_template='your_app/other_template.html')
 
-Various cooking recipes far ``your_app/forms.py``::
+Various cooking recipes far ``your_app/forms.py``:
+
+.. code-block:: python
 
     # Use as much registered autocompletes as possible.
     SomeModelForm = autocomplete_light.modelform_factory(SomeModel, 
