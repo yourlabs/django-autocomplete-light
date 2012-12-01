@@ -88,6 +88,63 @@ Various cooking recipes far ``your_app/forms.py``::
 
         tags = autocomplete_light.TextWidget('TagAutocomplete')
 
+Various cooking recipes for ``autocomplete.js``, useful if you want to use it
+manually::
+
+    // Use default options, element id attribute and url options are required:
+    var autocomplete = $('#yourInput').yourlabsAutocomplete({
+        url: '{% url 'your_autocomplete_url' %}'
+    });
+
+    // Because the jQuery plugin uses a registry, you can get the autocomplete
+    // instance again by calling yourlabsAutocomplete() again::
+    var autocomplete = $('#yourInput').yourlabsAutocomplete();
+
+    // The array passed to the plugin will actually be used to $.extend the
+    // autocomplete instance, so you can override any option:
+    $('#yourInput').yourlabsAutocomplete({
+        url: '{% url 'your_autocomplete_url' %}',
+        // Hide after 200ms of mouseout
+        hideAfter: 200,
+        // Choices are elements with data-url attribute in the autocomplete
+        choiceSelector: '[data-url]',
+        // Show the autocomplete after only 1 character in the input.
+        minimumCharacters: 1,
+        // Override the placeholder attribute in the input:
+        placeholder: '{% trans 'Type your search here ...' %}',
+        // Append the autocomplete HTML somewhere else:
+        appendAutocomplete: $('#yourElement'),
+        // Override zindex:
+        autocompleteZIndex: 1000,
+    });
+
+    // Or any method:
+    $('#yourInput').yourlabsAutocomplete({
+        url: '{% url 'your_autocomplete_url' %}',
+        choiceSelector: '[data-url]',
+        getQuery: function() {
+            return this.input.val() + '&search_all=' + $('#searchAll').val();
+        },
+        hasChanged: function() {
+            return true; // disable cache
+        },
+    });
+
+    // autocomplete.js doesn't do anything but trigger selectChoice when 
+    // an option is selected, let's enable some action:
+    $('#yourInput').bind('selectChoice', function(e, choice, autocomplete) {
+        window.location.href = choice.attr('href');
+    });
+
+    // For a simple navigation autocomplete, it could look like:
+    $('#yourInput').yourlabsAutocomplete({
+        url: '{% url 'your_autocomplete_url' %}',
+        choiceSelector: 'a',
+    }).bind('selectChoice', function(e, choice, autocomplete) {
+        window.location.href = choice.attr('href');
+    });
+
+
 Read everything about the registry and widgets.
 
 Generic
