@@ -132,22 +132,54 @@ yourlabs.Widget = function(widget) {
         this.deck.show();
     }
 
+    this.deckChoiceHtml = function(choice, value) {
+        var deckChoice = choice.clone();
+
+        this.addRemove(deckChoice);
+
+        return deckChoice;
+    }
+
+    this.optionChoice = function(option) {
+        var optionChoice = this.choiceTemplate.clone();
+        
+        var target = optionChoice.find('.append-option-html');
+
+        if (target.length) {
+            target.append(option.html());
+        } else {
+            optionChoice.html(option.html());
+        }
+
+        return optionChoice;
+    }
+
+    this.addRemove = function(choices) {
+        var removeTemplate = this.widget.find('.remove:last').clone().show();
+
+        var target = choices.find('.prepend-remove');
+
+        if (target.length) {
+            target.prepend(removeTemplate);
+        } else {
+            // Add the remove icon to each choice
+            choices.prepend(removeTemplate);
+        } 
+    }
+
     // Add a selected choice of a given value to the deck.
     this.addToDeck = function(choice, value) {
         var existing_choice = this.deck.find('[data-value="'+value+'"]');
 
         // Avoid duplicating choices in the deck.
         if (!existing_choice.length) {
-            var choice = choice.clone();
+            var deckChoice = this.deckChoiceHtml(choice);
 
             // In case getValue() actually **created** the value, for example
             // with a post request.
-            choice.attr('data-value', value);
+            deckChoice.attr('data-value', value);
 
-            this.deck.append(choice);
-
-            // Append a clone of the .remove element.
-            choice.prepend(this.widget.find('.remove:not(:visible)').clone().show());
+            this.deck.append(deckChoice);
         }
     }
 
@@ -207,8 +239,7 @@ yourlabs.Widget = function(widget) {
         var choices = this.deck.find(
             this.input.yourlabsAutocomplete().choiceSelector);
 
-        // Add the remove icon to each choice
-        choices.prepend(this.widget.find('.remove:last').clone().show());
+        this.addRemove(choices);
         this.resetDisplay();
 
         this.bindSelectChoice();
@@ -318,12 +349,11 @@ $(document).ready(function() {
             var choice = widget.deck.find('[data-value="'+value+'"]');
 
             if (!choice.length) {
-                var choice = widget.choiceTemplate.clone();
+                var deckChoice = widget.optionChoice(option);
 
-                choice.html(option.html());
-                choice.attr('data-value', value);
+                deckChoice.attr('data-value', value);
 
-                widget.selectChoice(choice);
+                widget.selectChoice(deckChoice);
             }
         } else { // added a widget ?
             var widget = $(e.target).find('.autocomplete-light-widget');
