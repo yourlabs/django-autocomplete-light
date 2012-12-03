@@ -1,3 +1,5 @@
+1.1.3 Fix #71: Refactor HTML generation parts in widget.js
+
 1.1.2
 
 - Fix #68: bug when using TextInput with a custom class,
