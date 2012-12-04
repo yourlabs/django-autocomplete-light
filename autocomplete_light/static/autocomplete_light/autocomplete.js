@@ -344,6 +344,8 @@ window.yourlabs.Autocomplete = function (input) {
                     this.input.trigger('selectChoice',
                         [choice, this]);
                     this.hide();
+                } else {
+                    $(this.input).parent('form').submit();
                 }
                 break;
             // On KEY_UP, call move()
