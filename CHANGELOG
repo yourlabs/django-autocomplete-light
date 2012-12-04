@@ -1,3 +1,7 @@
+1.1.4 Enter submits the form is there is no selected choice.
+
+Added to AUTHORS: Ewoud Kohl van Wijngaarden
+
 1.1.3 Fix #71: Refactor HTML generation parts in widget.js
 
 1.1.2
