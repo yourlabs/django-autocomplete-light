@@ -98,7 +98,6 @@ class WidgetBase(object):
         autocomplete_name = self.autocomplete_name.lower()
         return safestring.mark_safe(render_to_string([
             getattr(autocomplete, 'widget_template', ''),
-            # The new 2 options are deprecated as of 1.2, will be removed in 1.4
             'autocomplete_light/%s/widget.html' % autocomplete_name,
             'autocomplete_light/%s/widget.html' % getattr(autocomplete,
                 'widget_template_name', ''),
