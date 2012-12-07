@@ -31,7 +31,7 @@ class WidgetBase(object):
 
     def __init__(self, autocomplete,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 add_another_url=None):
+                 extra_context=None):
 
         if isinstance(autocomplete, basestring):
             self.autocomplete_name = autocomplete
@@ -40,6 +40,11 @@ class WidgetBase(object):
         else:
             self.autocomplete = autocomplete
             self.autocomplete_name = autocomplete.__class__.__name__
+
+        if extra_context is None:
+            self.extra_context = {}
+        else:
+            self.extra_context = extra_context
 
         if widget_js_attributes is None:
             self.widget_js_attributes = {}
@@ -50,8 +55,6 @@ class WidgetBase(object):
             self.autocomplete_js_attributes = {}
         else:
             self.autocomplete_js_attributes = autocomplete_js_attributes
-
-        self.add_another_url = add_another_url
 
     def process_js_attributes(self):
         extra_autocomplete_js_attributes = getattr(self.autocomplete,
@@ -96,19 +99,23 @@ class WidgetBase(object):
         self.process_js_attributes()
 
         autocomplete_name = self.autocomplete_name.lower()
+
+        context = {
+            'name': name,
+            'values': values,
+            'widget': self,
+            'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
+            'autocomplete': autocomplete,
+        }
+        context.update(self.extra_context)
+
         return safestring.mark_safe(render_to_string([
             getattr(autocomplete, 'widget_template', ''),
             'autocomplete_light/%s/widget.html' % autocomplete_name,
             'autocomplete_light/%s/widget.html' % getattr(autocomplete,
                 'widget_template_name', ''),
             'autocomplete_light/widget.html',
-        ], {
-            'name': name,
-            'values': values,
-            'widget': self,
-            'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
-            'autocomplete': autocomplete,
-        }))
+        ], context))
 
 
 class ChoiceWidget(WidgetBase, forms.Select):
@@ -118,12 +125,12 @@ class ChoiceWidget(WidgetBase, forms.Select):
 
     def __init__(self, autocomplete,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 *args, **kwargs):
+                 extra_context=None, *args, **kwargs):
 
         forms.Select.__init__(self, *args, **kwargs)
 
         WidgetBase.__init__(self, autocomplete,
-            widget_js_attributes, autocomplete_js_attributes)
+            widget_js_attributes, autocomplete_js_attributes, extra_context)
 
         self.widget_js_attributes['max_values'] = 1
 
@@ -134,12 +141,12 @@ class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
     """
     def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 *args, **kwargs):
+                 extra_context=None, *args, **kwargs):
 
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
         WidgetBase.__init__(self, autocomplete,
-            widget_js_attributes, autocomplete_js_attributes)
+            widget_js_attributes, autocomplete_js_attributes, extra_context)
 
 
 class TextWidget(forms.TextInput, WidgetBase):

@@ -3,6 +3,8 @@
 - Added blocks in autocomplete_light/widget.html which makes it easier to
   extend - without boilerplate.
 - Refactor CreateView to make it easier to extend.
+- Added widget.extra_context to make it easier to add context to the widget
+  template.
 
 1.1.4 Enter submits the form is there is no selected choice.
 
