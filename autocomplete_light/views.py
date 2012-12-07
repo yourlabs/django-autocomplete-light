@@ -67,22 +67,31 @@ class AutocompleteView(generic.View):
 class CreateView(generic.CreateView):
     """Simple wrapper for generic.CreateView, that responds to _popup."""
 
-    def form_valid(self, form):
-        """ If request.GET._popup, return some javascript. """
-        if self.request.GET.get('_popup', False):
-            self.success_url = '/'  # avoid ImproperlyConfigured
+    def is_popup(self):
+        return self.request.GET.get('_popup', False)
 
-        response = super(CreateView, self).form_valid(form)
-
-        if not self.request.GET.get('_popup', False):
-            return response
+    def respond_script(self, obj=None):
+        if obj is None:
+            obj = self.object
 
         html = []
         html.append(u'<script type="text/javascript">')
         html.append(u'opener.dismissAddAnotherPopup( window, "%s", "%s" );' % (
-            unicode(self.object.pk), unicode(self.object).replace('"', '\\"')))
+            unicode(obj.pk), unicode(obj).replace('"', '\\"')))
         html.append(u'</script>')
 
         html = u''.join(html)
 
         return http.HttpResponse(html, status=201)
+
+    def form_valid(self, form):
+        """ If request.GET._popup, return some javascript. """
+        if self.is_popup:
+            self.success_url = '/'  # avoid ImproperlyConfigured
+
+        response = super(CreateView, self).form_valid(form)
+
+        if not self.is_popup():
+            return response
+
+        return self.respond_script()
