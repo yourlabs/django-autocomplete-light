@@ -154,7 +154,7 @@ window.yourlabs.Autocomplete = function (input) {
     When the input looses focus, wait for this number of milliseconds before
     hiding the autocomplete.
      */
-    this.hideAfter = 500;
+    this.hideAfter = 150;
 
     /*
     The server should have a URL that takes the input value, and responds
