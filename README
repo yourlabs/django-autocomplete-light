@@ -89,6 +89,9 @@ Resources
 You could subscribe to the mailing list ask questions or just be informed of
 package updates.
 
+- `Live demo graciously hosted
+  <http://jpic.pythonanywhere.com/>`_ by `PythonAnywhere
+  <http://pythonanywhere.com/>`_,
 - `Video demo graciously hosted
   <http://youtu.be/fJIHiqWKUXI>`_ by `Youtube
   <http://youtube.com>`_,
@@ -100,7 +103,10 @@ package updates.
   <http://github.com>`_,
 - `Documentation graciously hosted
   <http://django-autocomplete-light.rtfd.org>`_ by `RTFD
-  <http://rtfd.org>`_,
+  <http://rtfd.org>`_, you can also check the `cookbook
+  <https://django-autocomplete-light.readthedocs.org/en/docs_rewrite/cookbook.html>`_
+  which is part of the `docs_rewrite
+  <https://django-autocomplete-light.readthedocs.org/en/docs_rewrite/>`_ branch,
 - `Package graciously hosted
   <http://pypi.python.org/pypi/django-autocomplete-light/>`_ by `PyPi
   <http://pypi.python.org/pypi>`_,

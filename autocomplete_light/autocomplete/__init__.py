@@ -21,7 +21,6 @@ class AutocompleteModelBase(AutocompleteModel, AutocompleteBase):
 
 class AutocompleteModelTemplate(AutocompleteModel, AutocompleteTemplate):
     choice_template = 'autocomplete_light/model_template/choice.html'
-    widget_template = 'autocomplete_light/model_template/widget.html'
 
 
 class AutocompleteGenericBase(AutocompleteGeneric, AutocompleteBase):
