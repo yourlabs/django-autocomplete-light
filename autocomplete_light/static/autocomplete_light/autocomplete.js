@@ -74,7 +74,7 @@ able to override any variable or function in it on a case-per-case basis.
 However, overriding is the job of the jQuery plugin so the procedure is
 described there.
 */
-window.yourlabs.Autocomplete = function (input) {
+yourlabs.Autocomplete = function (input) {
     /*
     Each autocomplete instance should have a unique identifier, so that the
     jQuery plugin can keep a registry of instances, but also to compose some
@@ -222,300 +222,300 @@ window.yourlabs.Autocomplete = function (input) {
     avoids double fetching the same autocomplete.
      */
     this.lastData = {};
+}
+
+/*
+Rather than directly setting up the autocomplete (DOM events etc ...) in
+the constructor, setup is done in this method. This allows to:
+
+- instanciate an Autocomplete,
+- override attribute/methods of the instance,
+- and *then* setup the instance.
+ */
+yourlabs.Autocomplete.prototype.initialize = function() {
+    // Selector for choices of this autocomplete.
+    this.autocompleteChoiceSelector = [
+        '.yourlabs-autocomplete.inner-container.id-' + this.id,
+        this.choiceSelector,
+    ].join(' ')
+
+    // Selector for hilighted choices of this autocomplete.
+    this.hilightedChoiceSelector = [
+        this.autocompleteChoiceSelector,
+        '.',
+        this.hilightClass,
+    ].join('')
+
+    // 'this' is going to be out of scope some times, so we reference it in
+    // a local variable.
+    var autocomplete = this;
+
+    // Append the container HTML somewhere so that it exists in the DOM.
+    $(this.autocompleteContainerHtml).appendTo(
+        this.appendAutocompleteTo);
+
+    // Cache the references to the container elements for performance.
+    this.innerContainer = $('.yourlabs-autocomplete.inner-container.id-'+this.id);
+    this.outerContainer = $('.yourlabs-autocomplete.outer-container.id-'+this.id);
+
+    // Set the HTML placeholder attribute on the input.
+    this.input.attr('placeholder', this.placeholder);
+
+    this.input.live({
+        blur: function() {
+            // And hide the autocomplete after a short while.
+            window.setTimeout(function() { autocomplete.hide(); },
+                autocomplete.hideAfter);
+        },
+        click: function() {
+            // Show the autocomplete when the user clicks on the input,
+            // assuming it contains enought characters.
+            if (autocomplete.getQuery().length >= autocomplete.minimumCharacters)
+                autocomplete.show();
+        }
+    });
 
     /*
-    Rather than directly setting up the autocomplete (DOM events etc ...) in
-    the constructor, setup is done in this method. This allows to:
-
-    - instanciate an Autocomplete,
-    - override attribute/methods of the instance,
-    - and *then* setup the instance.
+    Bind mouse events to fire signals. Because the same signals will be
+    sent if the user uses keyboard to work with the autocomplete.
      */
-    this.initialize = function() {
-        // Selector for choices of this autocomplete.
-        this.autocompleteChoiceSelector = [
-            '.yourlabs-autocomplete.inner-container.id-' + this.id,
-            this.choiceSelector,
-        ].join(' ')
-
-        // Selector for hilighted choices of this autocomplete.
-        this.hilightedChoiceSelector = [
-            this.autocompleteChoiceSelector,
-            '.',
-            this.hilightClass,
-        ].join('')
-
-        // 'this' is going to be out of scope some times, so we reference it in
-        // a local variable.
-        var autocomplete = this;
-
-        // Append the container HTML somewhere so that it exists in the DOM.
-        $(this.autocompleteContainerHtml).appendTo(
-            this.appendAutocompleteTo);
-
-        // Cache the references to the container elements for performance.
-        this.innerContainer = $('.yourlabs-autocomplete.inner-container.id-'+this.id);
-        this.outerContainer = $('.yourlabs-autocomplete.outer-container.id-'+this.id);
-
-        // Set the HTML placeholder attribute on the input.
-        this.input.attr('placeholder', this.placeholder);
-
-        this.input.live({
-            blur: function() {
-                // And hide the autocomplete after a short while.
-                window.setTimeout(function() { autocomplete.hide(); },
-                    autocomplete.hideAfter);
-            },
-            click: function() {
-                // Show the autocomplete when the user clicks on the input,
-                // assuming it contains enought characters.
-                if (autocomplete.getQuery().length >= autocomplete.minimumCharacters)
-                    autocomplete.show();
-            }
-        });
-
-        /*
-        Bind mouse events to fire signals. Because the same signals will be
-        sent if the user uses keyboard to work with the autocomplete.
-         */
-        $(this.autocompleteChoiceSelector).live({
-            // When the mouse enters a choice ...
-            mouseenter: function(e) {
-                // ... the first thing we want is to send the dehilight signal
-                // for any hilighted choice ...
-                $(autocomplete.hilightedChoiceSelector).each(function() {
-                    autocomplete.input.trigger('dehilightChoice',
-                        [$(this), autocomplete]);
-                });
-                // ... and then sent the hilight signal for the choice.
-                autocomplete.input.trigger('hilightChoice',
-                    [$(this), autocomplete]);
-            },
-            mouseleave: function(e) {
-                // Send dehilightChoice when the mouse leaves a choice.
+    $(this.autocompleteChoiceSelector).live({
+        // When the mouse enters a choice ...
+        mouseenter: function(e) {
+            // ... the first thing we want is to send the dehilight signal
+            // for any hilighted choice ...
+            $(autocomplete.hilightedChoiceSelector).each(function() {
                 autocomplete.input.trigger('dehilightChoice',
                     [$(this), autocomplete]);
-            },
-            click: function(e) {
-                // Send selectChoice when the user clicks on a choice.
+            });
+            // ... and then sent the hilight signal for the choice.
+            autocomplete.input.trigger('hilightChoice',
+                [$(this), autocomplete]);
+        },
+        mouseleave: function(e) {
+            // Send dehilightChoice when the mouse leaves a choice.
+            autocomplete.input.trigger('dehilightChoice',
+                [$(this), autocomplete]);
+        },
+        click: function(e) {
+            // Send selectChoice when the user clicks on a choice.
+            e.preventDefault();
+            e.stopPropagation();
+            autocomplete.input.trigger('selectChoice',
+                [$(this), autocomplete]);
+        },
+    });
+
+    // Bind keyup in the input to call this.refresh()
+    this.input.keyup(function(e) { autocomplete.refresh(); });
+
+    // Bind keyboard events to call this.keypress(), which handles keyboard
+    // navigation.
+    if (window.opera) {
+        this.input.keypress(function(e) { autocomplete.keypress(e); });
+    } else {
+        this.input.keydown(function(e) { autocomplete.keypress(e); });
+    }
+}
+
+// Return the value to pass to this.queryVariable.
+yourlabs.Autocomplete.prototype.getQuery = function() {
+    // Return the input's value by default.
+    return this.input.val();
+}
+
+// This function is in charge of keyboard usage.
+yourlabs.Autocomplete.prototype.keypress = function(e) {
+    var choice;
+
+    switch (e.keyCode) {
+        // KEY_ESC pressed hide the autocomplete.
+        case 27:
+            this.hide();
+            break;
+        // KEY_RETURN or KEY_TAB pressed, trigger select-choice if a
+        // choice is hilighted.
+        case 9:
+        case 13:
+            choice = $(this.hilightedChoiceSelector);
+
+            if (choice.length) {
                 e.preventDefault();
                 e.stopPropagation();
-                autocomplete.input.trigger('selectChoice',
-                    [$(this), autocomplete]);
-            },
-        });
-
-        // Bind keyup in the input to call this.refresh()
-        this.input.keyup(function(e) { autocomplete.refresh(); });
-
-        // Bind keyboard events to call this.keypress(), which handles keyboard
-        // navigation.
-        if (window.opera) {
-            this.input.keypress(function(e) { autocomplete.keypress(e); });
-        } else {
-            this.input.keydown(function(e) { autocomplete.keypress(e); });
-        }
-    }
-
-    // Return the value to pass to this.queryVariable.
-    this.getQuery = function() {
-        // Return the input's value by default.
-        return this.input.val();
-    }
-
-    // This function is in charge of keyboard usage.
-    this.keypress = function(e) {
-        var choice;
-
-        switch (e.keyCode) {
-            // KEY_ESC pressed hide the autocomplete.
-            case 27:
+                this.input.trigger('selectChoice',
+                    [choice, this]);
                 this.hide();
-                break;
-            // KEY_RETURN or KEY_TAB pressed, trigger select-choice if a
-            // choice is hilighted.
-            case 9:
-            case 13:
-                choice = $(this.hilightedChoiceSelector);
-
-                if (choice.length) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.input.trigger('selectChoice',
-                        [choice, this]);
-                    this.hide();
-                } else {
-                    $(this.input).parent('form').submit();
-                }
-                break;
-            // On KEY_UP, call move()
-            case 38:
-                this.move('up');
-                break;
-            // On KEY_DOWN, call move()
-            case 40: //KEY_DOWN:
-                this.move('down');
-                break;
-            // Ignore other keypresses.
-            default:
-                return;
-        }
-
-        // We handled our cases, prevent the browser from doing anything
-        // unexpected.
-        e.stopImmediatePropagation();
-        e.preventDefault();
-    }
-
-    // This function is in charge of ensuring that a relevant autocomplete is
-    // shown.
-    this.show = function(html) {
-        // First recalculate the absolute position since the autocomplete may
-        // have changed position.
-        this.fixPosition();
-
-        // Is autocomplete empty ?
-        var empty = $.trim(this.innerContainer.html()).length == 0;
-
-        // If the inner container is empty or data has changed and there is no
-        // current pending request, rely on fetch(), which should show the
-        // autocomplete as soon as it's done fetching.
-        if ((this.hasChanged() || empty) && !this.xhr) {
-            this.fetch();
-            return;
-        }
-
-        // And actually, fetch() will call show() with the response
-        // body as argument.
-        if (html != undefined) {
-            this.innerContainer.html(html);
-        }
-
-        // Show the inner and outer container only if necessary.
-        if (!this.innerContainer.is(':visible')) {
-            this.outerContainer.show();
-            this.innerContainer.show();
-        }
-    }
-
-    // This function is in charge of the opposite.
-    this.hide = function() {
-        this.outerContainer.hide();
-        this.innerContainer.hide();
-    }
-
-    // This function is in charge of hilighting the right result from keyboard
-    // navigation.
-    this.move = function(way) {
-        // The current choice if any.
-        var current = $(this.hilightedChoiceSelector);
-        // The first and last choices. If the user presses down on the last
-        // choice, then the first one will be hilighted.
-        var first = $(this.autocompleteChoiceSelector + ':first');
-        var last = $(this.autocompleteChoiceSelector + ':last');
-
-        // The choice that should be hilighted after the move.
-        var target;
-
-        // The autocomplete must be shown so that the user sees what choice
-        // he is hilighting.
-        this.show();
-
-        // If a choice is currently hilighted:
-        if (current.length) {
-            if (way == 'up') {
-                // The target choice becomes the first previous choice.
-                target = current.prevAll(this.choiceSelector + ':first');
-
-                // If none, then the last choice becomes the target.
-                if (!target.length) target = last;
             } else {
-                // The target choice becomes the first  next** choice.
-                target = current.nextAll(this.choiceSelector + ':first');
-
-                // If none, then the first choice becomes the target.
-                if (!target.length) target = first;
+                $(this.input).parent('form').submit();
             }
-
-            // Trigger dehilightChoice on the currently hilighted choice.
-            this.input.trigger('dehilightChoice',
-                [current, this]);
-        } else {
-            target = way == 'up' ? last : first;
-        }
-
-        // Trigger hilightChoice on the target choice.
-        this.input.trigger('hilightChoice',
-            [target, this]);
-    }
-
-    // Calculate and set the outer container's absolute positionning.
-    this.fixPosition = function() {
-        var css = {
-            'top': Math.floor(this.input.offset()['top']),
-            'left': Math.floor(this.input.offset()['left']),
-            'position': 'absolute',
-        }
-
-        css['top'] += Math.floor(this.input.innerHeight());
-
-        this.outerContainer.css(css);
-    }
-
-    // Proxy fetch(), with some sanity checks.
-    this.refresh = function() {
-        // Set the new current value.
-        this.value = this.getQuery();
-
-        // If the input doesn't contain enought characters then abort.
-        if (this.value.length < this.minimumCharacters) return false;
-
-        // All clear, continue on refreshing the autocomplete.
-        this.fetch();
-    }
-
-    // Return true if the data for this query has changed from last query.
-    this.hasChanged = function() {
-        for(var key in this.data) {
-            if (!key in this.lastData || this.data[key] != this.lastData[key]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Manage requests to this.url.
-    this.fetch = function() {
-        // Abort any current request.
-        if (this.xhr) this.xhr.abort();
-
-        // Again we need this from another scope.
-        var autocomplete = this;
-
-        // Add the current value to the data dict.
-        this.data[this.queryVariable] = this.value;
-
-        // Ensure that this request is different from the previous one
-        if (!this.hasChanged()) {
+            break;
+        // On KEY_UP, call move()
+        case 38:
+            this.move('up');
+            break;
+        // On KEY_DOWN, call move()
+        case 40: //KEY_DOWN:
+            this.move('down');
+            break;
+        // Ignore other keypresses.
+        default:
             return;
-        }
-
-        this.lastData = {};
-        for(var key in this.data) {
-            this.lastData[key] = this.data[key];
-        }
-
-        // Make an asynchronous GET request to this.url.
-        this.xhr = $.ajax(this.url, {
-            data: this.data,
-            complete: function(jqXHR, textStatus) {
-                // Update and show the autocomplete.
-                autocomplete.show(jqXHR.responseText);
-                // Clear the current request keeper.
-                autocomplete.xhr = false;
-            },
-        });
     }
+
+    // We handled our cases, prevent the browser from doing anything
+    // unexpected.
+    e.stopImmediatePropagation();
+    e.preventDefault();
+}
+
+// This function is in charge of ensuring that a relevant autocomplete is
+// shown.
+yourlabs.Autocomplete.prototype.show = function(html) {
+    // First recalculate the absolute position since the autocomplete may
+    // have changed position.
+    this.fixPosition();
+
+    // Is autocomplete empty ?
+    var empty = $.trim(this.innerContainer.html()).length == 0;
+
+    // If the inner container is empty or data has changed and there is no
+    // current pending request, rely on fetch(), which should show the
+    // autocomplete as soon as it's done fetching.
+    if ((this.hasChanged() || empty) && !this.xhr) {
+        this.fetch();
+        return;
+    }
+
+    // And actually, fetch() will call show() with the response
+    // body as argument.
+    if (html != undefined) {
+        this.innerContainer.html(html);
+    }
+
+    // Show the inner and outer container only if necessary.
+    if (!this.innerContainer.is(':visible')) {
+        this.outerContainer.show();
+        this.innerContainer.show();
+    }
+}
+
+// This function is in charge of the opposite.
+yourlabs.Autocomplete.prototype.hide = function() {
+    this.outerContainer.hide();
+    this.innerContainer.hide();
+}
+
+// This function is in charge of hilighting the right result from keyboard
+// navigation.
+yourlabs.Autocomplete.prototype.move = function(way) {
+    // The current choice if any.
+    var current = $(this.hilightedChoiceSelector);
+    // The first and last choices. If the user presses down on the last
+    // choice, then the first one will be hilighted.
+    var first = $(this.autocompleteChoiceSelector + ':first');
+    var last = $(this.autocompleteChoiceSelector + ':last');
+
+    // The choice that should be hilighted after the move.
+    var target;
+
+    // The autocomplete must be shown so that the user sees what choice
+    // he is hilighting.
+    this.show();
+
+    // If a choice is currently hilighted:
+    if (current.length) {
+        if (way == 'up') {
+            // The target choice becomes the first previous choice.
+            target = current.prevAll(this.choiceSelector + ':first');
+
+            // If none, then the last choice becomes the target.
+            if (!target.length) target = last;
+        } else {
+            // The target choice becomes the first  next** choice.
+            target = current.nextAll(this.choiceSelector + ':first');
+
+            // If none, then the first choice becomes the target.
+            if (!target.length) target = first;
+        }
+
+        // Trigger dehilightChoice on the currently hilighted choice.
+        this.input.trigger('dehilightChoice',
+            [current, this]);
+    } else {
+        target = way == 'up' ? last : first;
+    }
+
+    // Trigger hilightChoice on the target choice.
+    this.input.trigger('hilightChoice',
+        [target, this]);
+}
+
+// Calculate and set the outer container's absolute positionning.
+yourlabs.Autocomplete.prototype.fixPosition = function() {
+    var css = {
+        'top': Math.floor(this.input.offset()['top']),
+        'left': Math.floor(this.input.offset()['left']),
+        'position': 'absolute',
+    }
+
+    css['top'] += Math.floor(this.input.innerHeight());
+
+    this.outerContainer.css(css);
+}
+
+// Proxy fetch(), with some sanity checks.
+yourlabs.Autocomplete.prototype.refresh = function() {
+    // Set the new current value.
+    this.value = this.getQuery();
+
+    // If the input doesn't contain enought characters then abort.
+    if (this.value.length < this.minimumCharacters) return false;
+
+    // All clear, continue on refreshing the autocomplete.
+    this.fetch();
+}
+
+// Return true if the data for this query has changed from last query.
+yourlabs.Autocomplete.prototype.hasChanged = function() {
+    for(var key in this.data) {
+        if (!key in this.lastData || this.data[key] != this.lastData[key]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Manage requests to this.url.
+yourlabs.Autocomplete.prototype.fetch = function() {
+    // Abort any current request.
+    if (this.xhr) this.xhr.abort();
+
+    // Again we need this from another scope.
+    var autocomplete = this;
+
+    // Add the current value to the data dict.
+    this.data[this.queryVariable] = this.value;
+
+    // Ensure that this request is different from the previous one
+    if (!this.hasChanged()) {
+        return;
+    }
+
+    this.lastData = {};
+    for(var key in this.data) {
+        this.lastData[key] = this.data[key];
+    }
+
+    // Make an asynchronous GET request to this.url.
+    this.xhr = $.ajax(this.url, {
+        data: this.data,
+        complete: function(jqXHR, textStatus) {
+            // Update and show the autocomplete.
+            autocomplete.show(jqXHR.responseText);
+            // Clear the current request keeper.
+            autocomplete.xhr = false;
+        },
+    });
 }
 
 /*

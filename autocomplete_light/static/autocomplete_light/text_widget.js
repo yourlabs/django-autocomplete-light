@@ -100,50 +100,50 @@ yourlabs.TextWidget = function(input) {
             return this.input.getCursorWord();
         }
     }
+}
 
-    // The widget is in charge of managing its Autocomplete.
-    this.initializeAutocomplete = function() {
-        this.autocomplete = this.input.yourlabsAutocomplete(
-            this.autocompleteOptions);
+// The widget is in charge of managing its Autocomplete.
+yourlabs.TextWidget.prototype.initializeAutocomplete = function() {
+    this.autocomplete = this.input.yourlabsAutocomplete(
+        this.autocompleteOptions);
 
-        // Add a class to ease css selection of autocompletes for widgets
-        this.autocomplete.outerContainer.addClass(
-            'autocomplete-light-text-widget');
-    };
+    // Add a class to ease css selection of autocompletes for widgets
+    this.autocomplete.outerContainer.addClass(
+        'autocomplete-light-text-widget');
+};
 
-    // Bind Autocomplete.selectChoice signal to TextWidget.selectChoice()
-    this.bindSelectChoice = function() {
-        this.input.bind('selectChoice', function(e, choice) {
-            if (!choice.length)
-                return // placeholder: create choice here
+// Bind Autocomplete.selectChoice signal to TextWidget.selectChoice()
+yourlabs.TextWidget.prototype.bindSelectChoice = function() {
+    this.input.bind('selectChoice', function(e, choice) {
+        if (!choice.length)
+            return // placeholder: create choice here
 
-            $(this).yourlabsTextWidget().selectChoice(choice);
-        });
-    };
+        $(this).yourlabsTextWidget().selectChoice(choice);
+    });
+};
 
-    // Called when a choice is selected from the Autocomplete.
-    this.selectChoice = function(choice) {
-        var inputValue = this.input.val();
-        var choiceValue = this.getValue(choice);
-        var positions = this.input.getCursorWordPositions();
+// Called when a choice is selected from the Autocomplete.
+yourlabs.TextWidget.prototype.selectChoice = function(choice) {
+    var inputValue = this.input.val();
+    var choiceValue = this.getValue(choice);
+    var positions = this.input.getCursorWordPositions();
 
-        var newValue = inputValue.substring(0, positions[0]);
-        newValue += choiceValue;
-        newValue += inputValue.substring(positions[1]);
+    var newValue = inputValue.substring(0, positions[0]);
+    newValue += choiceValue;
+    newValue += inputValue.substring(positions[1]);
 
-        this.input.val(newValue);
-    }
+    this.input.val(newValue);
+}
 
-    // Return the value of an HTML choice, used to fill the input.
-    this.getValue = function(choice) {
-        return choice.html();
-    }
+// Return the value of an HTML choice, used to fill the input.
+yourlabs.TextWidget.prototype.getValue = function(choice) {
+    return choice.html();
+}
 
-    // Initialize the widget.
-    this.initialize = function() {
-        this.initializeAutocomplete();
-        this.bindSelectChoice();
-    }
+// Initialize the widget.
+yourlabs.TextWidget.prototype.initialize = function() {
+    this.initializeAutocomplete();
+    this.bindSelectChoice();
 }
 
 // TextWidget factory and registry, as jQuery extension.
