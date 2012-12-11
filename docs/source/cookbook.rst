@@ -247,7 +247,9 @@ Hence the widget.js HTML cookbook:
 
         <!--
         Finally, supporting new options to be created directly in the select in
-        javascript (ie. add another) is possible with a .choice-template:
+        javascript (ie. add another) is possible with a .choice-template. Of
+        course, you can't take this very far, since all you have is the new
+        option's value and html.
         -->
         <span style="display:none" class="choice-template">
             <span class="choice">
