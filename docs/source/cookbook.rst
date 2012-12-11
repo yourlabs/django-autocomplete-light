@@ -29,7 +29,7 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
     # It is possible to override javascript options from Python.
     autocomplete_light.register(OtherModel,
         autocomplete_js_attributes={
-            # This will actually data-autocomplete-minimum-characters which
+            # This will actually data-minimum-characters which
             # will set widget.autocomplete.minimumCharacters.
             'minimum_character': 0, 
             'placeholder': 'Other model name ?',
@@ -210,13 +210,13 @@ Hence the widget.js HTML cookbook:
       that and make your own bootstrap, enabling you to make
       chained autocomplete, create options, whatever ... 
     - data-max-values: override a widget option
-    - data-autocomplete-minimum-characters: override an autocomplete option,
+    - data-minimum-characters: override an autocomplete option,
     -->
     <span 
         class="autocomplete-light-widget"
         data-bootstrap="normal"
         data-max-values="3"
-        data-autocomplete-minimum-characters="0"
+        data-minimum-characters="0"
     >
 
         <!-- Expected structure: have an input -->
