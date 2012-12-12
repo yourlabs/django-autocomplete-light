@@ -487,9 +487,6 @@ yourlabs.Autocomplete.prototype.hasChanged = function() {
 
 // Manage requests to this.url.
 yourlabs.Autocomplete.prototype.fetch = function() {
-    // Abort any current request.
-    if (this.xhr) this.xhr.abort();
-
     // Again we need this from another scope.
     var autocomplete = this;
 
@@ -505,6 +502,9 @@ yourlabs.Autocomplete.prototype.fetch = function() {
     for(var key in this.data) {
         this.lastData[key] = this.data[key];
     }
+
+    // Abort any current request.
+    if (this.xhr) this.xhr.abort();
 
     // Make an asynchronous GET request to this.url.
     this.xhr = $.ajax(this.url, {
