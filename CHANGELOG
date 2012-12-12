@@ -1,3 +1,10 @@
+1.1.6
+
+- Fix #77: autocomplete.js "was not as good as bootstrap typeahea",
+- Fix #72: use prototypes in JS to make code faster
+
+Credit to Gennady (@geaden) for having the guts to criticize autocomplete.js.
+
 1.1.5
 
 - Added blocks in autocomplete_light/widget.html which makes it easier to
