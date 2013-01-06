@@ -57,8 +57,13 @@ class AutocompleteInterface(object):
         Return the absolute url for this autocomplete, using
         autocomplete_light_autocomplete url
         """
-        return urlresolvers.reverse('autocomplete_light_autocomplete', args=(
-            self.__class__.__name__,))
+        try:
+            return urlresolvers.reverse('autocomplete_light_autocomplete', args=(
+                self.__class__.__name__,))
+        except urlresolvers.NoReverseMatch, e:
+            # Such error will ruin form rendering. We do not want to silence it.
+            e.silent_variable_failure = False
+            raise
 
 
 class AutocompleteBase(AutocompleteInterface):
