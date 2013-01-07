@@ -85,7 +85,7 @@ class WidgetBase(object):
         final_attrs = self.build_attrs(attrs)
         self.html_id = final_attrs.pop('id', name)
 
-        if value and not isinstance(value, (list, tuple)):
+        if value is not None and not isinstance(value, (list, tuple)):
             values = [value]
         else:
             values = value
