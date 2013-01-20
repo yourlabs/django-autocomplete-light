@@ -1,4 +1,5 @@
 from django.core import urlresolvers
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 
 __all__ = ('AutocompleteInterface', 'AutocompleteBase')
@@ -61,9 +62,12 @@ class AutocompleteInterface(object):
             return urlresolvers.reverse('autocomplete_light_autocomplete', args=(
                 self.__class__.__name__,))
         except urlresolvers.NoReverseMatch, e:
-            # Such error will ruin form rendering. We do not want to silence it.
-            e.silent_variable_failure = False
-            raise
+            # Such error will ruin form rendering. It would be automatically
+            # silenced because of e.silent_variable_failure=True, which is
+            # something we don't want. Let's give the user a hint:
+            raise ImproperlyConfigured("URL lookup for autocomplete '%s' "
+                    "failed. Have you included autocomplete_light.urls in "
+                    "your urls.py?" % (self.__class__.__name__,))
 
 
 class AutocompleteBase(AutocompleteInterface):
