@@ -349,7 +349,10 @@ yourlabs.Autocomplete.prototype.keypress = function(e) {
                     [choice, this]);
                 this.hide();
             } else {
-                $(this.input).parent('form').submit();
+                // If it was KEY_TAB, nothing will happen here.
+                // If it was KEY_RETURN, it will fire the default handler,
+                // which is usually form submission.
+                stopDefault = false;
             }
             break;
         // On KEY_UP, call move()
