@@ -327,6 +327,7 @@ yourlabs.Autocomplete.prototype.getQuery = function() {
 // This function is in charge of keyboard usage.
 yourlabs.Autocomplete.prototype.keypress = function(e) {
     var choice;
+    var stopDefault = true;
 
     switch (e.keyCode) {
         // KEY_ESC pressed hide the autocomplete.
@@ -336,17 +337,22 @@ yourlabs.Autocomplete.prototype.keypress = function(e) {
         // KEY_RETURN or KEY_TAB pressed, trigger select-choice if a
         // choice is hilighted.
         case 9:
+            // On KEY_TAB we want to keep moving focus over form fields.
+            stopDefault = false;
         case 13:
             choice = $(this.hilightedChoiceSelector);
 
             if (choice.length) {
-                e.preventDefault();
+                if (stopDefault) e.preventDefault();
                 e.stopPropagation();
                 this.input.trigger('selectChoice',
                     [choice, this]);
                 this.hide();
             } else {
-                $(this.input).parent('form').submit();
+                // If it was KEY_TAB, nothing will happen here.
+                // If it was KEY_RETURN, it will fire the default handler,
+                // which is usually form submission.
+                stopDefault = false;
             }
             break;
         // On KEY_UP, call move()
@@ -365,7 +371,7 @@ yourlabs.Autocomplete.prototype.keypress = function(e) {
     // We handled our cases, prevent the browser from doing anything
     // unexpected.
     e.stopImmediatePropagation();
-    e.preventDefault();
+    if (stopDefault) e.preventDefault();
 }
 
 // This function is in charge of ensuring that a relevant autocomplete is
