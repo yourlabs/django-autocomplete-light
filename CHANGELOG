@@ -1,4 +1,11 @@
-1.1.8 Alias autocomplete_light.FixedModelForm to autocomplete_light.ModelForm.
+1.1.9
+
+- Widget requires proper url setup.
+- Rewrote keypress handler.
+
+1.1.8 (was not released on PyPi)
+
+- Alias autocomplete_light.FixedModelForm to autocomplete_light.ModelForm.
 
 1.1.7 Reset default hideAfter to 500, or click support is half broken.
 
