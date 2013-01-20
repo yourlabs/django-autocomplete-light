@@ -334,11 +334,13 @@ yourlabs.Autocomplete.prototype.keypress = function(e) {
         case 27:
             this.hide();
             break;
-        // KEY_RETURN or KEY_TAB pressed, trigger select-choice if a
-        // choice is hilighted.
+        // KEY_TAB pressed, prevent focus from entering vortex
         case 9:
             // On KEY_TAB we want to keep moving focus over form fields.
             stopDefault = false;
+            // break missing on purpose !
+        // KEY_RETURN or KEY_TAB pressed, trigger select-choice if a
+        // choice is hilighted.
         case 13:
             choice = $(this.hilightedChoiceSelector);
 
