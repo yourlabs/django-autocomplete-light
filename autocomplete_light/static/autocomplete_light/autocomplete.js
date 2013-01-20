@@ -327,35 +327,33 @@ yourlabs.Autocomplete.prototype.getQuery = function() {
 // This function is in charge of keyboard usage.
 yourlabs.Autocomplete.prototype.keypress = function(e) {
     var choice;
-    var stopDefault = true;
+
+    if (!this.input.is(':visible')) {
+        // Don't handle keypresses on hidden inputs (ie. with limited choices)
+        return;
+    }
 
     switch (e.keyCode) {
         // KEY_ESC pressed hide the autocomplete.
         case 27:
             this.hide();
             break;
-        // KEY_TAB pressed, prevent focus from entering vortex
-        case 9:
-            // On KEY_TAB we want to keep moving focus over form fields.
-            stopDefault = false;
-            // break missing on purpose !
         // KEY_RETURN or KEY_TAB pressed, trigger select-choice if a
         // choice is hilighted.
+        case 9:
         case 13:
             choice = $(this.hilightedChoiceSelector);
 
-            if (choice.length) {
-                if (stopDefault) e.preventDefault();
-                e.stopPropagation();
-                this.input.trigger('selectChoice',
-                    [choice, this]);
-                this.hide();
-            } else {
-                // If it was KEY_TAB, nothing will happen here.
-                // If it was KEY_RETURN, it will fire the default handler,
-                // which is usually form submission.
-                stopDefault = false;
+            if (! choice.length) {
+                return;
             }
+                
+            e.preventDefault();
+            e.stopPropagation();
+            this.input.trigger('selectChoice',
+                [choice, this]);
+            this.hide();
+
             break;
         // On KEY_UP, call move()
         case 38:
@@ -365,15 +363,7 @@ yourlabs.Autocomplete.prototype.keypress = function(e) {
         case 40: //KEY_DOWN:
             this.move('down');
             break;
-        // Ignore other keypresses.
-        default:
-            return;
     }
-
-    // We handled our cases, prevent the browser from doing anything
-    // unexpected.
-    e.stopImmediatePropagation();
-    if (stopDefault) e.preventDefault();
 }
 
 // This function is in charge of ensuring that a relevant autocomplete is
@@ -588,12 +578,14 @@ $.fn.yourlabsAutocomplete = function(overrides) {
     return this.data('autocomplete');
 };
 
-// Serves as both an example to set a signal, and to set or unset the hilight class.
+// Binding some default behaviors.
 $(document).ready(function() {
+    function removeHilightClass(e, choice, autocomplete) {
+        choice.removeClass(autocomplete.hilightClass);
+    };
     $(document).bind('hilightChoice', function(e, choice, autocomplete) {
         choice.addClass(autocomplete.hilightClass);
     });
-    $(document).bind('dehilightChoice', function(e, choice, autocomplete) {
-        choice.removeClass(autocomplete.hilightClass);
-    });
+    $(document).bind('dehilightChoice', removeHilightClass);
+    $(document).bind('selectChoice', removeHilightClass);
 });
