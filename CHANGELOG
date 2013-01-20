@@ -1,7 +1,12 @@
 1.1.9
 
-- Widget requires proper url setup.
-- Rewrote keypress handler.
+- Use explicit check for None value instead of trueness, allowing pk=0 (thanks
+  @ekohl).
+- Widget requires proper url setup (thanks @emesik).
+- Rewrote keypress handler using recent contributions.
+
+Also credits to @ekohl and @emesik for working on keypress handling (added to
+AUTHORS).
 
 1.1.8 (was not released on PyPi)
 
