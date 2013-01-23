@@ -31,7 +31,7 @@
 }
 
 .dropdown-menu .hilight {
-    color: #ffffff;
+    color: #ffffff !important;
     text-decoration: none;
     background-color: #0081c2;
     background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
@@ -44,7 +44,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 }
 
-.dropdown-menu [data-value] {
+.dropdown-menu .choice {
     display: block;
     padding: 3px 20px;
     clear: both;
@@ -52,6 +52,7 @@
     line-height: 20px;
     color: #333333;
     white-space: nowrap;
+    color: black;
 }
 
 .div
