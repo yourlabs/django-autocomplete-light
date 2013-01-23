@@ -125,7 +125,10 @@ yourlabs.Widget.prototype.resetDisplay = function() {
     var selected = this.select.find('option:selected').length;
 
     if (this.maxValues && selected == this.maxValues) {
+        var index = $(':input:visible').index(this.input);
         this.input.hide();
+        var next = $(':input:visible:eq('+ index +')');
+        next.focus()
     } else {
         this.input.show();
     }
@@ -139,6 +142,9 @@ yourlabs.Widget.prototype.resetDisplay = function() {
     } else {
         this.widget.removeClass('hasChoices');
     }
+
+    // Also fix the position if the autocomplete is shown.
+    if (this.autocomplete.box.is(':visible')) this.autocomplete.fixPosition();
 }
 
 yourlabs.Widget.prototype.deckChoiceHtml = function(choice, value) {

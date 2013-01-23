@@ -271,10 +271,9 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
             var choice = this.box.find('.' + this.hilightClass);
 
             if (!choice.length) {
-                console.log('no choice')
                 // Don't get in the way, let the browser submit form or focus
                 // on next element.
-                //return;
+                return;
             }
             
             e.preventDefault();
@@ -350,15 +349,22 @@ yourlabs.Autocomplete.prototype.hide = function() {
 // navigation.
 yourlabs.Autocomplete.prototype.move = function(e) {
     // If the autocomplete should not be displayed then return.
-    if (this.value.length < this.minimumCharacters) return;
+    if (this.value.length < this.minimumCharacters) return true;
+
+    // The current choice if any.
+    var current = this.box.find('.' + this.hilightClass);
+
+    // Prevent default browser behaviours on TAB and RETURN if a choice is
+    // hilighted.
+    if ($.inArray(e.keyCode, [9,13]) > -1 && current.length) {
+        e.preventDefault();
+    }
 
     // If not KEY_UP or KEY_DOWN, then return.
     if (e.keyCode == 38) var way = 'up';
     else if (e.keyCode == 40) var way = 'down';
     else return;
 
-    // The current choice if any.
-    var current = this.box.find('.' + this.hilightClass);
     // The first and last choices. If the user presses down on the last
     // choice, then the first one will be hilighted.
     var first = this.box.find(this.choiceSelector + ':first');
