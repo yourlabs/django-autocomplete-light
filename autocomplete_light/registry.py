@@ -59,6 +59,19 @@ class AutocompleteRegistry(dict):
         except AttributeError:
             pass
 
+    @classmethod
+    def extract_args(cls, *args):
+        model = None
+        autocomplete = None
+
+        for arg in args:
+            if issubclass(arg, models.Model):
+                model = arg
+            else:
+                autocomplete = arg
+
+        return [model, autocomplete]
+
     def register(self, *args, **kwargs):
         """
         Register an autocomplete.
@@ -75,17 +88,10 @@ class AutocompleteRegistry(dict):
         thread safety reasons, a copy of the autocomplete class is stored in
         the registry.
         """
-        autocomplete = None
-        model = None
-
         assert len(args) <= 2, 'register takes at most 2 args'
         assert len(args) > 0, 'register takes at least 1 arg'
 
-        for arg in args:
-            if issubclass(arg, models.Model):
-                model = arg
-            else:
-                autocomplete = arg
+        model, autocomplete = self.__class__.extract_args(*args)
 
         if not model:
             try:
