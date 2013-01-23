@@ -30,7 +30,7 @@
     background-clip: padding-box;
 }
 
-.dropdown-menu .active, .dropdown-menu [data-value]:hover {
+.dropdown-menu .hilight {
     color: #ffffff;
     text-decoration: none;
     background-color: #0081c2;
@@ -89,6 +89,9 @@
     margin-left: 0px;
 }
 
+.autocomplete-light-widget.multiple.hasChoices input, .autocomplete-light-widget.multiple.hasChoices .dropdown-menu {
+    margin-left: 100px;
+}
 
 .autocomplete-light-widget .deck [data-value] span
 {

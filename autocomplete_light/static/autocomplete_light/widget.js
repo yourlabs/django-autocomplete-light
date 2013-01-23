@@ -72,7 +72,7 @@ yourlabs.Widget.prototype.initializeAutocomplete = function() {
         this.autocompleteOptions);
 
     // Add a class to ease css selection of autocompletes for widgets
-    this.autocomplete.outerContainer.addClass(
+    this.autocomplete.box.addClass(
         'autocomplete-light-widget');
 };
 
@@ -131,6 +131,14 @@ yourlabs.Widget.prototype.resetDisplay = function() {
     }
 
     this.deck.show();
+
+    // This is a hack allowing proper display of multiple choice widgets in the
+    // admin.
+    if (this.deck.find(this.autocomplete.choiceSelector).length) {
+        this.widget.addClass('hasChoices');
+    } else {
+        this.widget.removeClass('hasChoices');
+    }
 }
 
 yourlabs.Widget.prototype.deckChoiceHtml = function(choice, value) {

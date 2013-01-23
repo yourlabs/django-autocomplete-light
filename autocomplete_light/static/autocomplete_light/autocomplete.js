@@ -110,36 +110,6 @@ yourlabs.Autocomplete = function (input) {
     this.minimumCharacters = 2;
 
     /*
-    The autocomplete should be above any other element in the page. If your
-    autocomplete is hidden by another element, overriding this attribute
-    could fix it.
-     */
-    this.autocompleteZIndex = 999999;
-
-    /*
-    The autocomplete HTML. Because of CSS limitations, it is wrapped in 3
-    divs, the outermost being the 'outer container' and the innermost the
-    'inner container'.
-
-    The server-side generate autocomplete HTML will be set in the inner
-    container.
-     */
-    this.autocompleteContainerHtml = [
-        '<div id="id-'+this.id+'"',
-        'class="yourlabs-autocomplete outer-container id-'+this.id+'"',
-        'style="display:none; position:absolute;z-index:',
-        this.autocompleteZIndex+';">',
-        '   <div class="yourlabs-autocomplete id-'+this.id+'">',
-                '<div class="',
-                'yourlabs-autocomplete inner-container  id-'+this.id,
-                '"',
-                'style="display:none;">',
-                '</div>',
-            '</div>',
-        '</div>',
-    ].join(' ')
-
-    /*
     In a perfect world, we would hide the autocomplete when the input looses
     focus (on blur). But in reality, if the user clicks on a choice, the
     input looses focus, and that would hide the autocomplete, *before* we
@@ -217,6 +187,7 @@ yourlabs.Autocomplete = function (input) {
      */
     this.lastData = {};
 
+    // The autocomplete box HTML.
     this.box = $('<span class="div yourlabs-autocomplete dropdown-menu"></span>')
 }
 
@@ -229,19 +200,6 @@ the constructor, setup is done in this method. This allows to:
 - and *then* setup the instance.
  */
 yourlabs.Autocomplete.prototype.initialize = function() {
-    // Selector for choices of this autocomplete.
-    this.autocompleteChoiceSelector = [
-        '.yourlabs-autocomplete.inner-container.id-' + this.id,
-        this.choiceSelector,
-    ].join(' ')
-
-    // Selector for hilighted choices of this autocomplete.
-    this.hilightedChoiceSelector = [
-        this.autocompleteChoiceSelector,
-        '.',
-        this.hilightClass,
-    ].join('')
-
     // 'this' is going to be out of scope some times, so we reference it in
     // a local variable.
     var autocomplete = this;
@@ -249,50 +207,18 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     // Set the HTML placeholder attribute on the input.
     this.input.attr('placeholder', this.placeholder);
 
-    this.input.live({
-        blur: function() {
-            // And hide the autocomplete after a short while.
-            window.setTimeout(function() { autocomplete.hide(); },
-                autocomplete.hideAfter);
-        },
-        click: function() {
-            // Show the autocomplete when the user clicks on the input,
-            // assuming it contains enought characters.
-            if (autocomplete.getQuery().length >= autocomplete.minimumCharacters)
-                autocomplete.show();
-        }
-    });
+    this.input
+        .on('blur', $.proxy(this.inputBlur, this))
+        .on('click', $.proxy(this.inputClick, this))
 
     /*
     Bind mouse events to fire signals. Because the same signals will be
     sent if the user uses keyboard to work with the autocomplete.
      */
-    $(this.autocompleteChoiceSelector).live({
-        // When the mouse enters a choice ...
-        mouseenter: function(e) {
-            // ... the first thing we want is to send the dehilight signal
-            // for any hilighted choice ...
-            $(autocomplete.hilightedChoiceSelector).each(function() {
-                autocomplete.input.trigger('dehilightChoice',
-                    [$(this), autocomplete]);
-            });
-            // ... and then sent the hilight signal for the choice.
-            autocomplete.input.trigger('hilightChoice',
-                [$(this), autocomplete]);
-        },
-        mouseleave: function(e) {
-            // Send dehilightChoice when the mouse leaves a choice.
-            autocomplete.input.trigger('dehilightChoice',
-                [$(this), autocomplete]);
-        },
-        click: function(e) {
-            // Send selectChoice when the user clicks on a choice.
-            e.preventDefault();
-            e.stopPropagation();
-            autocomplete.input.trigger('selectChoice',
-                [$(this), autocomplete]);
-        },
-    });
+    this.box
+        .on('mouseenter', this.choiceSelector, $.proxy(this.boxMouseenter, this))
+        .on('mouseleave', this.choiceSelector, $.proxy(this.boxMouseleave, this))
+        .on('click', this.choiceSelector, $.proxy(this.boxClick, this))
 
     // Bind keyup in the input to call this.refresh()
     this.input.keyup(function(e) { autocomplete.refresh(); });
@@ -304,6 +230,43 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     } else {
         this.input.keydown(function(e) { autocomplete.keypress(e); });
     }
+}
+
+yourlabs.Autocomplete.prototype.inputBlur = function(e) {
+    window.setTimeout($.proxy(this.hide, this), this.hideAfter);
+}
+
+yourlabs.Autocomplete.prototype.inputClick = function(e) {
+    if (this.getQuery().length >= this.minimumCharacters)
+        this.show();
+}
+
+// When mouse enters the box:
+yourlabs.Autocomplete.prototype.boxMouseenter = function(e) {
+    // ... the first thing we want is to send the dehilight signal
+    // for any hilighted choice ...
+    var current = this.box.find('.' + this.hilightClass);
+
+    this.input.trigger('dehilightChoice',
+        [current, this]);
+    
+    // ... and then sent the hilight signal for the choice.
+    this.input.trigger('hilightChoice',
+        [$(e.currentTarget), this]);
+}
+
+// When mouse leaves the box:
+yourlabs.Autocomplete.prototype.boxMouseleave = function(e) {
+    // Send dehilightChoice when the mouse leaves a choice.
+    this.input.trigger('dehilightChoice',
+        [this.box.find('.' + this.hilightClass), this]);
+}
+
+// When mouse clicks in the box:
+yourlabs.Autocomplete.prototype.boxClick = function(e) {
+    var current = this.box.find('.' + this.hilightClass);
+    
+    this.input.trigger('selectChoice', [current, this]);
 }
 
 // Return the value to pass to this.queryVariable.
@@ -330,7 +293,7 @@ yourlabs.Autocomplete.prototype.keypress = function(e) {
         // choice is hilighted.
         case 9:
         case 13:
-            choice = $(this.hilightedChoiceSelector);
+            choice = this.box.find(this.hilightClass);
 
             if (! choice.length) {
                 return;
@@ -393,11 +356,11 @@ yourlabs.Autocomplete.prototype.hide = function() {
 // navigation.
 yourlabs.Autocomplete.prototype.move = function(way) {
     // The current choice if any.
-    var current = $(this.hilightedChoiceSelector);
+    var current = this.box.find('.' + this.hilightClass);
     // The first and last choices. If the user presses down on the last
     // choice, then the first one will be hilighted.
-    var first = $(this.autocompleteChoiceSelector + ':first');
-    var last = $(this.autocompleteChoiceSelector + ':last');
+    var first = this.box.find(this.choiceSelector + ':first');
+    var last = this.box.find(this.choiceSelector + ':last');
 
     // The choice that should be hilighted after the move.
     var target;
