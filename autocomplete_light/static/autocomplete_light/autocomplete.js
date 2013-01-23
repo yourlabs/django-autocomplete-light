@@ -261,7 +261,7 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     // Set the HTML placeholder attribute on the input.
     this.input.attr('placeholder', this.placeholder);
 
-    this.input.live({
+    this.input.on({
         blur: function() {
             // And hide the autocomplete after a short while.
             window.setTimeout(function() { autocomplete.hide(); },
@@ -279,7 +279,7 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     Bind mouse events to fire signals. Because the same signals will be
     sent if the user uses keyboard to work with the autocomplete.
      */
-    $(this.autocompleteChoiceSelector).live({
+    $(document).on({
         // When the mouse enters a choice ...
         mouseenter: function(e) {
             // ... the first thing we want is to send the dehilight signal
@@ -291,20 +291,24 @@ yourlabs.Autocomplete.prototype.initialize = function() {
             // ... and then sent the hilight signal for the choice.
             autocomplete.input.trigger('hilightChoice',
                 [$(this), autocomplete]);
-        },
+        }},
+        this.autocompleteChoiceSelector);
+    $(document).on({
         mouseleave: function(e) {
             // Send dehilightChoice when the mouse leaves a choice.
             autocomplete.input.trigger('dehilightChoice',
                 [$(this), autocomplete]);
-        },
+        }},
+        this.autocompleteChoiceSelector);
+    $(document).on({
         click: function(e) {
             // Send selectChoice when the user clicks on a choice.
             e.preventDefault();
             e.stopPropagation();
             autocomplete.input.trigger('selectChoice',
                 [$(this), autocomplete]);
-        },
-    });
+        }},
+        this.autocompleteChoiceSelector);
 
     // Bind keyup in the input to call this.refresh()
     this.input.keyup(function(e) { autocomplete.refresh(); });
