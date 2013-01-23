@@ -188,16 +188,14 @@ the constructor, setup is done in this method. This allows to:
 - and *then* setup the instance.
  */
 yourlabs.Autocomplete.prototype.initialize = function() {
-    // 'this' is going to be out of scope some times, so we reference it in
-    // a local variable.
-    var autocomplete = this;
-
     // Set the HTML placeholder attribute on the input.
     this.input.attr('placeholder', this.placeholder);
 
     this.input
         .on('blur', $.proxy(this.inputBlur, this))
         .on('click', $.proxy(this.inputClick, this))
+        .on('keydown', $.proxy(this.keypress, this))
+        .on('keyup', $.proxy(this.refresh, this))
 
     /*
     Bind mouse events to fire signals. Because the same signals will be
@@ -207,17 +205,6 @@ yourlabs.Autocomplete.prototype.initialize = function() {
         .on('mouseenter', this.choiceSelector, $.proxy(this.boxMouseenter, this))
         .on('mouseleave', this.choiceSelector, $.proxy(this.boxMouseleave, this))
         .on('click', this.choiceSelector, $.proxy(this.boxClick, this))
-
-    // Bind keyup in the input to call this.refresh()
-    this.input.keyup(function(e) { autocomplete.refresh(); });
-
-    // Bind keyboard events to call this.keypress(), which handles keyboard
-    // navigation.
-    if (window.opera) {
-        this.input.keypress(function(e) { autocomplete.keypress(e); });
-    } else {
-        this.input.keydown(function(e) { autocomplete.keypress(e); });
-    }
 }
 
 yourlabs.Autocomplete.prototype.inputBlur = function(e) {
@@ -265,8 +252,6 @@ yourlabs.Autocomplete.prototype.getQuery = function() {
 
 // This function is in charge of keyboard usage.
 yourlabs.Autocomplete.prototype.keypress = function(e) {
-    var choice;
-
     if (!this.input.is(':visible')) {
         // Don't handle keypresses on hidden inputs (ie. with limited choices)
         return;
@@ -281,26 +266,27 @@ yourlabs.Autocomplete.prototype.keypress = function(e) {
         // choice is hilighted.
         case 9:
         case 13:
-            choice = this.box.find(this.hilightClass);
+            var choice = this.box.find('.' + this.hilightClass);
 
-            if (! choice.length) {
+            if (!choice.length) {
                 return;
             }
                 
             e.preventDefault();
-            e.stopPropagation();
-            this.input.trigger('selectChoice',
-                [choice, this]);
+
+            this.input.trigger('selectChoice', [choice, this]);
             this.hide();
 
             break;
         // On KEY_UP, call move()
         case 38:
             this.move('up');
+            e.preventDefault();
             break;
         // On KEY_DOWN, call move()
         case 40: //KEY_DOWN:
             this.move('down');
+            e.preventDefault();
             break;
     }
 }
