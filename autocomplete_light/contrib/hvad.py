@@ -16,7 +16,7 @@ def register(*args, **kwargs):
     Decorate the stock register() function, generating an hvad-compatible
     choices queryset.
     """
-    model, autocomplete = AutocompleteRegistry.extract_args(*args)
+    model, autocomplete = autocomplete_light.AutocompleteRegistry.extract_args(*args)
 
     if model is not None and 'choices' not in kwargs and 'lang' in kwargs:
         kwargs['choices'] = model.objects.language(kwargs['lang']).all()
