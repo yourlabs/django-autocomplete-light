@@ -11,7 +11,7 @@ same language:
 
 - The text input element is "input",
 - The default text in the input is "placeholder",
-- The box that contains a list of choices is "autocomplete",
+- The box that contains a list of choices is "box",
 - Each result in the "autocomplete" is a "choice",
 - With a capital A, "Autocomplete", is the class or an instance of the
 class.
@@ -140,12 +140,6 @@ yourlabs.Autocomplete = function (input) {
     ].join(' ')
 
     /*
-    The autocomplete is placed in position:absolute. Thus, it doesn't really
-    matter where this script appends the autocomplete container.
-     */
-    this.appendAutocompleteTo = $('body');
-
-    /*
     In a perfect world, we would hide the autocomplete when the input looses
     focus (on blur). But in reality, if the user clicks on a choice, the
     input looses focus, and that would hide the autocomplete, *before* we
@@ -222,6 +216,8 @@ yourlabs.Autocomplete = function (input) {
     avoids double fetching the same autocomplete.
      */
     this.lastData = {};
+
+    this.box = $('<span class="div yourlabs-autocomplete dropdown-menu"></span>')
 }
 
 /*
@@ -249,14 +245,6 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     // 'this' is going to be out of scope some times, so we reference it in
     // a local variable.
     var autocomplete = this;
-
-    // Append the container HTML somewhere so that it exists in the DOM.
-    $(this.autocompleteContainerHtml).appendTo(
-        this.appendAutocompleteTo);
-
-    // Cache the references to the container elements for performance.
-    this.innerContainer = $('.yourlabs-autocomplete.inner-container.id-'+this.id);
-    this.outerContainer = $('.yourlabs-autocomplete.outer-container.id-'+this.id);
 
     // Set the HTML placeholder attribute on the input.
     this.input.attr('placeholder', this.placeholder);
@@ -374,7 +362,7 @@ yourlabs.Autocomplete.prototype.show = function(html) {
     this.fixPosition();
 
     // Is autocomplete empty ?
-    var empty = $.trim(this.innerContainer.html()).length == 0;
+    var empty = $.trim(this.box.html()).length == 0;
 
     // If the inner container is empty or data has changed and there is no
     // current pending request, rely on fetch(), which should show the
@@ -387,20 +375,18 @@ yourlabs.Autocomplete.prototype.show = function(html) {
     // And actually, fetch() will call show() with the response
     // body as argument.
     if (html != undefined) {
-        this.innerContainer.html(html);
+        this.box.html(html);
     }
 
     // Show the inner and outer container only if necessary.
-    if (!this.innerContainer.is(':visible')) {
-        this.outerContainer.show();
-        this.innerContainer.show();
+    if (!this.box.is(':visible')) {
+        this.box.show();
     }
 }
 
 // This function is in charge of the opposite.
 yourlabs.Autocomplete.prototype.hide = function() {
-    this.outerContainer.hide();
-    this.innerContainer.hide();
+    this.box.hide();
 }
 
 // This function is in charge of hilighting the right result from keyboard
@@ -450,15 +436,13 @@ yourlabs.Autocomplete.prototype.move = function(way) {
 
 // Calculate and set the outer container's absolute positionning.
 yourlabs.Autocomplete.prototype.fixPosition = function() {
-    var css = {
-        'top': Math.floor(this.input.offset()['top']),
-        'left': Math.floor(this.input.offset()['left']),
-        'position': 'absolute',
-    }
+    // Insert the autocomplete container after the input.
+    var pos = $.extend({}, this.input.position(), {
+        height: this.input.offsetHeight
+    })
 
-    css['top'] += Math.floor(this.input.innerHeight());
-
-    this.outerContainer.css(css);
+    this.box.insertAfter(this.input).css(
+            {top: pos.top + pos.height, left: pos.left});
 }
 
 // Proxy fetch(), with some sanity checks.
