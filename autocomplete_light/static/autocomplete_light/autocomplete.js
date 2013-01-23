@@ -76,19 +76,7 @@ described there.
 */
 yourlabs.Autocomplete = function (input) {
     /*
-    Each autocomplete instance should have a unique identifier, so that the
-    jQuery plugin can keep a registry of instances, but also to compose some
-    unique attributes for the generated autocomplete.
-
-    By default, assume that the input has a unique id attribute that can be
-    re-used. Otherwise, the jQuery plugin will yell.
-    */
-    this.id = input.attr('id');
-
-    /*
-    The text input element that should have an autocomplete. It should have
-    a unique id attribute, or you'd have to override this.id as described
-    above.
+    The text input element that should have an autocomplete.
     */
     this.input = input;
 
