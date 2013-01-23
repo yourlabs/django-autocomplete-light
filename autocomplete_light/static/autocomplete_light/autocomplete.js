@@ -194,8 +194,9 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     this.input
         .on('blur', $.proxy(this.inputBlur, this))
         .on('click', $.proxy(this.inputClick, this))
-        .on('keydown', $.proxy(this.keypress, this))
-        .on('keyup', $.proxy(this.refresh, this))
+        .on('keypress', $.proxy(this.inputKeypress, this))
+        .on('keyup', $.proxy(this.inputKeyup, this))
+        .on('keydown', $.proxy(this.inputKeydown, this))
 
     /*
     Bind mouse events to fire signals. Because the same signals will be
@@ -250,45 +251,64 @@ yourlabs.Autocomplete.prototype.getQuery = function() {
     return this.input.val();
 }
 
-// This function is in charge of keyboard usage.
-yourlabs.Autocomplete.prototype.keypress = function(e) {
-    if (!this.input.is(':visible')) {
+yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
+    if (!this.input.is(':visible'))
         // Don't handle keypresses on hidden inputs (ie. with limited choices)
         return;
-    }
 
-    switch (e.keyCode) {
-        // KEY_ESC pressed hide the autocomplete.
-        case 27:
-            this.hide();
-            break;
-        // KEY_RETURN or KEY_TAB pressed, trigger select-choice if a
-        // choice is hilighted.
-        case 9:
-        case 13:
+    switch(e.keyCode) {
+        case 40: // down arrow
+        case 38: // up arrow
+        case 16: // shift
+        case 17: // ctrl
+        case 18: // alt
+            break
+
+        case 9: // tab
+        case 13: // enter
+            if (!this.box.is(':visible')) return
+            
             var choice = this.box.find('.' + this.hilightClass);
 
             if (!choice.length) {
-                return;
+                console.log('no choice')
+                // Don't get in the way, let the browser submit form or focus
+                // on next element.
+                //return;
             }
-                
+            
             e.preventDefault();
+            e.stopPropagation();
 
             this.input.trigger('selectChoice', [choice, this]);
-            this.hide();
+            break
 
-            break;
-        // On KEY_UP, call move()
-        case 38:
-            this.move('up');
-            e.preventDefault();
-            break;
-        // On KEY_DOWN, call move()
-        case 40: //KEY_DOWN:
-            this.move('down');
-            e.preventDefault();
-            break;
+        case 27: // escape
+            if (!this.box.is(':visible')) return
+            this.hide()
+            break
+
+        default:
+            this.refresh()
     }
+}
+
+yourlabs.Autocomplete.prototype.inputKeydown = function(e) {
+    // Don't handle keypresses on hidden inputs (ie. with limited choices)
+    if (!this.input.is(':visible')) return;
+
+    this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
+    this.move(e);
+}
+
+// This function is in charge of keyboard usage.
+yourlabs.Autocomplete.prototype.inputKeypress = function(e) {
+    // Don't handle keypresses on hidden inputs (ie. with limited choices)
+    if (!this.input.is(':visible')) return;
+
+    if (this.suppressKeyPressRepeat) return;
+
+    this.move(e);
 }
 
 // This function is in charge of ensuring that a relevant autocomplete is
@@ -329,6 +349,9 @@ yourlabs.Autocomplete.prototype.hide = function() {
 // This function is in charge of hilighting the right result from keyboard
 // navigation.
 yourlabs.Autocomplete.prototype.move = function(way) {
+    // If the autocomplete should not be displayed then return.
+    if (this.value.length < this.minimumCharacters) return;
+
     // The current choice if any.
     var current = this.box.find('.' + this.hilightClass);
     // The first and last choices. If the user presses down on the last
@@ -387,11 +410,8 @@ yourlabs.Autocomplete.prototype.refresh = function() {
     // Set the new current value.
     this.value = this.getQuery();
 
-    // If the input doesn't contain enought characters then abort.
-    if (this.value.length < this.minimumCharacters) return false;
-
-    // All clear, continue on refreshing the autocomplete.
-    this.fetch();
+    // If the input doesn't contain enought characters then abort, else fetch.
+    this.value.length < this.minimumCharacters ? this.hide() : this.fetch();
 }
 
 // Return true if the data for this query has changed from last query.
