@@ -406,9 +406,6 @@ yourlabs.Autocomplete.prototype.hasChanged = function() {
 
 // Manage requests to this.url.
 yourlabs.Autocomplete.prototype.fetch = function() {
-    // Again we need this from another scope.
-    var autocomplete = this;
-
     // Add the current value to the data dict.
     this.data[this.queryVariable] = this.value;
 
@@ -428,13 +425,13 @@ yourlabs.Autocomplete.prototype.fetch = function() {
     // Make an asynchronous GET request to this.url.
     this.xhr = $.ajax(this.url, {
         data: this.data,
-        complete: function(jqXHR, textStatus) {
-            // Update and show the autocomplete.
-            autocomplete.show(jqXHR.responseText);
-            // Clear the current request keeper.
-            autocomplete.xhr = false;
-        },
+        complete: $.proxy(this.fetchComplete, this)
     });
+}
+
+yourlabs.Autocomplete.prototype.fetchComplete = function(jqXHR, textStatus) {
+    this.show(jqXHR.responseText);
+    this.xhr = false;
 }
 
 /*
