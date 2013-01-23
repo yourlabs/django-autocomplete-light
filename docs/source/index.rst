@@ -58,6 +58,7 @@ Full documentation
    generic
    remote
    dependant
+   contrib
    django13
 
 Javascript API

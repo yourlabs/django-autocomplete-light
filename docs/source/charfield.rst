@@ -58,9 +58,8 @@ django-taggit, which provides a normal CharField behaviour:
 Django-taggit
 -------------
 
-`django-taggit
-<https://github.com/alex/django-taggit>`_ does it slightly differently. It is
-supported by autocomplete_light as of 1.0.25, using the
-`autocomplete_light.contrib.taggit_tagfield` module.
-
-.. automodule:: autocomplete_light.contrib.taggit_tagfield
+For `django-taggit
+<http://pypi.python.org/pypi/django-taggit>`_,
+you need
+:doc:`autocomplete_light.contrib.taggit_tagfield
+<contrib>`.
