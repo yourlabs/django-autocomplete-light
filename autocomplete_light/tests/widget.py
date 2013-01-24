@@ -3,6 +3,8 @@ import time
 from django.test import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.common.exceptions import NoSuchElementException
+
 
 class WidgetTestCase(LiveServerTestCase):
     fixtures = ['cities_light.json']
@@ -18,7 +20,10 @@ class WidgetTestCase(LiveServerTestCase):
         cls.selenium.quit()
 
     def autocomplete_visible(self):
-        return self.autocomplete_element().is_displayed()
+        try:
+            return self.autocomplete_element().is_displayed()
+        except NoSuchElementException:
+            return False
 
     def autocomplete_element(self):
         return self.selenium.find_element_by_css_selector(
