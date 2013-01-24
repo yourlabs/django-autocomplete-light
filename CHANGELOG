@@ -1,3 +1,10 @@
+1.1.10
+
+- Backported interresting stuff from twitter bootstrap typeahead.js,
+- Improved keyboar handling,
+- Improved web design,
+- jQuery 1.9 support (thanks Nicolas Seinlet for the heads up),
+
 1.1.9
 
 - Use explicit check for None value instead of trueness, allowing pk=0 (thanks
