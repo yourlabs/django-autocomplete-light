@@ -403,6 +403,9 @@ yourlabs.Autocomplete.prototype.move = function(e) {
         target = way == 'up' ? last : first;
     }
 
+    // Avoid moving the cursor in the input.
+    e.preventDefault();
+
     // Trigger hilightChoice on the target choice.
     this.input.trigger('hilightChoice',
         [target, this]);
