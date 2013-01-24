@@ -296,7 +296,9 @@ yourlabs.Autocomplete.prototype.inputKeydown = function(e) {
     // Don't handle keypresses on hidden inputs (ie. with limited choices)
     if (!this.input.is(':visible')) return;
 
+    // Avoid double call to move().
     this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
+
     this.move(e);
 }
 
@@ -305,6 +307,7 @@ yourlabs.Autocomplete.prototype.inputKeypress = function(e) {
     // Don't handle keypresses on hidden inputs (ie. with limited choices)
     if (!this.input.is(':visible')) return;
 
+    // Return if it already handled by inputKeydown.
     if (this.suppressKeyPressRepeat) return;
 
     this.move(e);
