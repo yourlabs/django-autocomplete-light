@@ -200,7 +200,7 @@ $.fn.yourlabsTextWidget = function(overrides) {
 }
 
 $(document).ready(function() {
-    $('input[data-bootstrap=normal]').on('initialize', function() {
+    $('body').on('initialize', 'input[data-bootstrap=normal]', function() {
         /*
         Only setup autocompletes on inputs which have data-bootstrap=normal,
         if you want to initialize some autocompletes with custom code, then set
@@ -212,7 +212,7 @@ $(document).ready(function() {
     // Solid initialization, usage::
     //
     //      $(document).bind('yourlabsTextWidgetReady', function() {
-    //          $('.your.autocomplete-light-text-widget').on('initialize', function() {
+    //          $('body').on('initialize', 'input[data-bootstrap=normal]', function() {
     //              $(this).yourlabsTextWidget({
     //                  yourCustomArgs: // ...
     //              })

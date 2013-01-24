@@ -294,7 +294,7 @@ $.fn.yourlabsWidget = function(overrides) {
 }
 
 $(document).ready(function() {
-    $('.autocomplete-light-widget[data-bootstrap=normal]').on('initialize', function() {
+    $('body').on('initialize', '.autocomplete-light-widget[data-bootstrap=normal]', function() {
         /*
         Only setup widgets which have data-bootstrap=normal, if you want to
         initialize some Widgets with custom code, then set
@@ -304,7 +304,7 @@ $(document).ready(function() {
     });
 
     // Call Widget.deselectChoice when .remove is clicked
-    $('.autocomplete-light-widget .deck .remove').on('click', function() {
+    $('body').on('click', '.autocomplete-light-widget .deck .remove', function() {
         var widget = $(this).parents('.autocomplete-light-widget'
             ).yourlabsWidget();
 

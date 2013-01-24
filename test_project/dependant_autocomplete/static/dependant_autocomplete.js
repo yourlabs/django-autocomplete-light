@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.autocomplete-light-widget select[name$=country]').live('change', function() {
+    $('body').on('change', '.autocomplete-light-widget select[name$=country]', function() {
         var countrySelectElement = $(this);
         var regionSelectElement = $('#' + $(this).attr('id').replace('country', 'region'));
         var regionWidgetElement = regionSelectElement.parents('.autocomplete-light-widget');
