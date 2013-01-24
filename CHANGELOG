@@ -1,3 +1,5 @@
+1.1.12 Enabled CSRF.
+
 1.1.11 Fixed dynamic initialisation (ie. inlines).
 
 Bug was caused by a wrong attempt at migrating from jq17 live() to jq19 on().
