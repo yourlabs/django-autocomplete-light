@@ -176,7 +176,7 @@ yourlabs.Autocomplete = function (input) {
     this.lastData = {};
 
     // The autocomplete box HTML.
-    this.box = $('<span class="div yourlabs-autocomplete dropdown-menu"></span>')
+    this.box = $('<span class="yourlabs-autocomplete"></span>')
 }
 
 /*
@@ -336,7 +336,7 @@ yourlabs.Autocomplete.prototype.show = function(html) {
 
     // Show the inner and outer container only if necessary.
     if (!this.box.is(':visible')) {
-        this.box.show();
+        this.box.css('display', 'block');
     }
 }
 

@@ -2,16 +2,7 @@
  * Admin specific styling are prefixed with body.change-form.
  */
 
-.typeahead
-{
-    z-index: 1051;
-    margin-top: 2px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-}
-
-.dropdown-menu
+.yourlabs-autocomplete
 {
     position: absolute;
     left: 0;
@@ -36,7 +27,7 @@
     background-clip: padding-box;
 }
 
-.dropdown-menu .hilight
+.yourlabs-autocomplete .hilight
 {
     color: #ffffff !important;
     text-decoration: none;
@@ -51,7 +42,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 }
 
-.dropdown-menu .choice
+.yourlabs-autocomplete .choice, .yourlabs-autocomplete [data-value], .yourlabs-autocomplete em
 {
     display: block;
     padding: 3px 20px;
