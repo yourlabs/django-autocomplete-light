@@ -537,4 +537,7 @@ $(document).ready(function() {
     });
     $(document).bind('dehilightChoice', removeHilightClass);
     $(document).bind('selectChoice', removeHilightClass);
+    $(document).bind('selectChoice', function(e, choice, autocomplete) {
+        autocomplete.hide();
+    });
 });
