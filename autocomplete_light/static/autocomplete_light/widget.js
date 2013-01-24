@@ -135,14 +135,6 @@ yourlabs.Widget.prototype.resetDisplay = function() {
 
     this.deck.show();
 
-    // This is a hack allowing proper display of multiple choice widgets in the
-    // admin.
-    if (this.deck.find(this.autocomplete.choiceSelector).length) {
-        this.widget.addClass('hasChoices');
-    } else {
-        this.widget.removeClass('hasChoices');
-    }
-
     // Also fix the position if the autocomplete is shown.
     if (this.autocomplete.box.is(':visible')) this.autocomplete.fixPosition();
 }
