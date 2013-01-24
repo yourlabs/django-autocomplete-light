@@ -7,14 +7,13 @@ autocomplete_light_autocomplete
 """
 
 from django.conf.urls.defaults import patterns, url
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 
 from views import AutocompleteView, RegistryView
 
 urlpatterns = patterns('',
     url(r'^(?P<autocomplete>[-\w]+)/$',
-        csrf_exempt(AutocompleteView.as_view()),
+        AutocompleteView.as_view(),
         name='autocomplete_light_autocomplete'
     ),
     url(r'^$',
