@@ -1,4 +1,9 @@
-.typeahead {
+/*
+ * Admin specific styling are prefixed with body.change-form.
+ */
+
+.typeahead
+{
     z-index: 1051;
     margin-top: 2px;
     -webkit-border-radius: 4px;
@@ -6,7 +11,8 @@
     border-radius: 4px;
 }
 
-.dropdown-menu {
+.dropdown-menu
+{
     position: absolute;
     left: 0;
     z-index: 1000;
@@ -30,7 +36,8 @@
     background-clip: padding-box;
 }
 
-.dropdown-menu .hilight {
+.dropdown-menu .hilight
+{
     color: #ffffff !important;
     text-decoration: none;
     background-color: #0081c2;
@@ -44,7 +51,8 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 }
 
-.dropdown-menu .choice {
+.dropdown-menu .choice
+{
     display: block;
     padding: 3px 20px;
     clear: both;
@@ -53,6 +61,7 @@
     color: #333333;
     white-space: nowrap;
     color: black;
+    cursor: pointer;
 }
 
 .div
@@ -60,9 +69,10 @@
     display: block;
 }
 
-.yourlabs-autocomplete [data-value]
+/* admin specific */
+body.change-form .autocomplete-light-widget
 {
-    cursor: pointer;
+    float: left;
 }
 
 .autocomplete-light-widget .deck [data-value]
@@ -71,33 +81,6 @@
     margin-bottom: 5px;
     padding-right: 8px;
     padding-bottom: 5px;
-}
-
-.multiple .deck [data-value] {
-    display: block;
-    padding-left: 110px;
-}
-
-.single .deck [data-value] {
-    display: inline;
-    float: left;
-    margin-top: 5px;
-    margin-right: 5px;
-}
-
-.multiple .deck {
-    display: block;
-    margin-left: 0px;
-}
-
-.autocomplete-light-widget.multiple.hasChoices input, .autocomplete-light-widget.multiple.hasChoices .dropdown-menu {
-    margin-left: 100px;
-}
-
-.autocomplete-light-widget .deck [data-value] span
-{
-    display: inline-block;
-    width: 210px;
 }
 
 .autocomplete-light-widget .deck [data-value] .remove
@@ -110,7 +93,7 @@
     margin-right: 10px;
     text-indent: -999px;
     width: 15px;
-}
+
 
 .autocomplete-light-widget .deck [data-value] .remove:hover
 {
