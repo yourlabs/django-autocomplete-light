@@ -321,7 +321,7 @@ yourlabs.Autocomplete.prototype.show = function(html) {
     this.fixPosition();
 
     // Is autocomplete empty ?
-    var empty = $.trim(this.box.find('.' + this.choiceSelector)).length == 0;
+    var empty = $.trim(this.box.find(this.choiceSelector)).length == 0;
 
     // If the inner container is empty or data has changed and there is no
     // current pending request, rely on fetch(), which should show the
