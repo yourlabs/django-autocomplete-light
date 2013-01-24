@@ -4,10 +4,17 @@ Bug was caused by a wrong attempt at migrating from jq17 live() to jq19 on().
 
 1.1.10
 
-- Backported interresting stuff from twitter bootstrap typeahead.js,
-- Improved keyboar handling,
-- Improved web design,
-- jQuery 1.9 support (thanks Nicolas Seinlet for the heads up),
+- Partial autocomplete.js rewrite using ideas from bootstrap-typeahead.js,
+- Use of $.proxy() which allowed to get rid of many scope hacks like: var
+  autocomplete = this;
+- When the maximum number of choices has been selected and the input goes,
+  automatically focus on next visible field,
+- Do not show autocomplete if input has below minCharacters,
+- CSS rewrite/debloat (~-50% SLOCs),
+- Backported typeahead CSS,
+- Backported typeahead autocomplete box placement strategy, hoping to fix IE10
+  mobile support,
+- jQuery 1.9 support (thanks Nicolas Seinlet for the heads up).
 
 1.1.9
 
