@@ -467,8 +467,9 @@ yourlabs.Autocomplete.prototype.fetch = function() {
 }
 
 yourlabs.Autocomplete.prototype.fetchComplete = function(jqXHR, textStatus) {
+    if (this.xhr == jqXHR) this.xhr = false;
+    if (textStatus == 'abort') return;
     this.show(jqXHR.responseText);
-    this.xhr = false;
 }
 
 /*
