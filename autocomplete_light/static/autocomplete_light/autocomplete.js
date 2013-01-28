@@ -213,7 +213,7 @@ yourlabs.Autocomplete.prototype.inputBlur = function(e) {
 }
 
 yourlabs.Autocomplete.prototype.inputClick = function(e) {
-    if (this.getQuery().length >= this.minimumCharacters)
+    if (this.value.length >= this.minimumCharacters)
         this.show();
 }
 
