@@ -55,7 +55,7 @@ class AutocompleteTestCase(unittest.TestCase):
         for test in self.get_choices_for_request_tests():
             mock = self.autocomplete_mock(request=test['fixture'])
             result = mock.choices_for_request()
-            self.assert_choices_equal(result, test)
+            self.assert_choices_equal(list(result), test)
 
     def test_choices_for_values(self):
         if not hasattr(self, 'get_choices_for_values_tests'):

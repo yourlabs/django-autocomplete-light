@@ -31,10 +31,19 @@ class AutocompleteModel(object):
         q = self.request.GET.get('q', '')
         exclude = self.request.GET.getlist('exclude', [])
 
+        # Apply keyword searches.
+        def construct_search(field_name):
+            if field_name.startswith('^'):
+                return "%s__istartswith" % field_name[1:]
+            elif field_name.startswith('@'):
+                return "%s__search" % field_name[1:]
+            else:
+                return "%s__icontains" % field_name
+
         conditions = Q()
         if q:
             for search_field in self.search_fields:
-                conditions |= Q(**{search_field + '__icontains': q})
+                conditions |= Q(**{construct_search(search_field): q})
 
         return self.order_choices(self.choices.filter(
             conditions).exclude(pk__in=exclude))[0:self.limit_choices]

@@ -3,6 +3,8 @@ import time
 from django.test import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.common.exceptions import NoSuchElementException
+
 
 class WidgetTestCase(LiveServerTestCase):
     fixtures = ['cities_light.json']
@@ -17,25 +19,24 @@ class WidgetTestCase(LiveServerTestCase):
         super(WidgetTestCase, cls).tearDownClass()
         cls.selenium.quit()
 
-    def autocomplete_visible(self, id=None):
-        if id is None: id = self.default_id
-        return self.autocomplete_element(id=None).is_displayed()
+    def autocomplete_visible(self):
+        try:
+            return self.autocomplete_element().is_displayed()
+        except NoSuchElementException:
+            return False
 
-    def autocomplete_element(self, id=None):
-        if id is None: id = self.default_id
+    def autocomplete_element(self):
         return self.selenium.find_element_by_css_selector(
-            '.yourlabs-autocomplete.outer-container.id-%s' % id)
+            '.yourlabs-autocomplete')
 
-    def autocomplete_hilighted_choice_element(self, id=None):
-        if id is None: id = self.default_id
+    def autocomplete_hilighted_choice_element(self):
         return self.selenium.find_element_by_css_selector(
-            '.yourlabs-autocomplete.inner-container.id-%s [data-value].hilight' % id)
+            '.yourlabs-autocomplete [data-value].hilight')
 
 
-    def autocomplete_choice_elements(self, id=None):
-        if id is None: id = self.default_id
+    def autocomplete_choice_elements(self):
         return self.selenium.find_elements_by_css_selector(
-            '.yourlabs-autocomplete.inner-container.id-%s [data-value]' % id)
+            '.yourlabs-autocomplete [data-value]')
 
     def input_element(self, id=None):
         if id is None: id = self.default_id

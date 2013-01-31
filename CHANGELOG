@@ -1,3 +1,55 @@
+1.1.15 Fix #99: choices kwarg was ignored
+
+1.1.14 Bugfix: fetchComplete now ready for textStatus == 'abort'
+
+1.1.13
+
+- Enhancement #78: search_fields more like admin,
+- Bugfix: closed brackets in style.css (thanks papalagichen)
+
+1.1.12 Enabled CSRF.
+
+1.1.11 Fixed dynamic initialisation (ie. inlines).
+
+Bug was caused by a wrong attempt at migrating from jq17 live() to jq19 on().
+
+1.1.10
+
+- Partial autocomplete.js rewrite using ideas from bootstrap-typeahead.js,
+- Use of $.proxy() which allowed to get rid of many scope hacks like: var
+  autocomplete = this;
+- When the maximum number of choices has been selected and the input goes,
+  automatically focus on next visible field,
+- Do not show autocomplete if input has below minCharacters,
+- CSS rewrite/debloat (~-50% SLOCs),
+- Backported typeahead CSS,
+- Backported typeahead autocomplete box placement strategy, hoping to fix IE10
+  mobile support,
+- jQuery 1.9 support (thanks Nicolas Seinlet for the heads up).
+
+1.1.9
+
+- Use explicit check for None value instead of trueness, allowing pk=0 (thanks
+  @ekohl).
+- Widget requires proper url setup (thanks @emesik).
+- Rewrote keypress handler using recent contributions.
+
+Also credits to @ekohl and @emesik for working on keypress handling (added to
+AUTHORS).
+
+1.1.8 (was not released on PyPi)
+
+- Alias autocomplete_light.FixedModelForm to autocomplete_light.ModelForm.
+
+1.1.7 Reset default hideAfter to 500, or click support is half broken.
+
+1.1.6
+
+- Fix #77: autocomplete.js "was not as good as bootstrap typeahea",
+- Fix #72: use prototypes in JS to make code faster
+
+Credit to Gennady (@geaden) for having the guts to criticize autocomplete.js.
+
 1.1.5
 
 - Added blocks in autocomplete_light/widget.html which makes it easier to
