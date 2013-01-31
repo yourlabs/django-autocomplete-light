@@ -1,25 +1,40 @@
 .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
 
-It is called django-autocomplete-light because the API is light and consistent
-with Django. But also because it uses a small autocomplete script instead of
-jquery-ui.
+django-autocomplete-light provides a micro framework, easing the implementation of autocomplete widgets for Django projects.
 
-In a hurry ?
-------------
+Quick install
+-------------
 
-Install in 3 steps:
+1. Install autocomplete box url and the staff debug url
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-- add ``url(r'autocomplete/', include('autocomplete_light.urls')),`` to
-  ``urls.py``,
+- in ``urls.py``, add to ``urlpatterns``:
+
+    .. code-block:: python
+
+        ``url(r'autocomplete/', include('autocomplete_light.urls')),``
+
+- in ``urls.py``, call before ``admin.autodiscover()``:
+
+    .. code-block:: python
+
+        import autocomplete_light
+        autocomplete_light.autodiscover()
+
+- after loading jQuery, insert in your templates (even in ``admin/base_site.html`` )
 - call ``autocomplete_light.autodiscover()`` in ``urls.py`` before
   ``admin.autodiscover()``,
 - add after loading ``jquery.js``: ``{% include
   'autocomplete_light/static.html' %}`` - even in ``admin/base_site.html`` if
   you even need admin support:
 
-Use in 3 steps - if you even need admin support:
+Quick start
+-----------
 
-Example ``your_app/autocomplete_light_registry.py``:
+``autodiscover()`` will import ``autocomplete_light_registry`` submodule of
+every app in ``INSTALLED_APPS``.
+
+For example, you could have ``your_app/autocomplete_light_registry.py`` like:
 
 .. code-block:: python
 
