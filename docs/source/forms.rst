@@ -139,7 +139,7 @@ Javascript initialization
 widget.js initializes all widgets that have bootstrap='normal' (the default),
 as you can see::
 
-    $('.autocomplete_light_widget[data-bootstrap=normal]').each(function() {
+    $('.autocomplete-light-widget[data-bootstrap=normal]').each(function() {
         $(this).autocompleteWidget();
     });
 
@@ -147,7 +147,7 @@ If you want to initialize the widget yourself, set the widget or channel
 bootstrap to something else, say 'yourinit'. Then, add to
 `yourapp/static/yourapp/autocomplete_light.js` something like::
 
-    $('.autocomplete_light_widget[data-bootstrap=yourinit]').each(function() {
+    $('.autocomplete-light-widget[data-bootstrap=yourinit]').each(function() {
         $(this).yourlabs_widget({
             getValue: function(choice) {
                 // your own logic to get the value from an html choice
