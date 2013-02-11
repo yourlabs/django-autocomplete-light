@@ -5,8 +5,13 @@ autocomplete_light_autocomplete
     Given a 'autocomplete' argument with the name of the autocomplete, this url
     routes to AutocompleteView.
 """
+try:
+    from django.conf.urls.defaults import patterns, url
+except ImportError:
+    from django.conf.urls import patterns, url
 
-from django.conf.urls.defaults import patterns, url
+
+
 from django.views.generic.base import TemplateView
 
 from views import AutocompleteView, RegistryView
