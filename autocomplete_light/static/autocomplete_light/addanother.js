@@ -14,7 +14,11 @@ $(document).ready(function() {
 
             href += '&winName=' + name;
 
-            var win = window.open(href, name, 'height=500,width=800,resizable=yes,scrollbars=yes');
+            var height = 500;
+            var width = 800;
+            var left = (screen.width/2)-(width/2);
+            var top = (screen.height/2)-(height/2);
+            var win = window.open(href, name, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
             win.focus();
 
             return false;
