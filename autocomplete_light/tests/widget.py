@@ -73,10 +73,10 @@ class WidgetTestCase(LiveServerTestCase):
         self.selenium.get('%s%s' % (self.live_server_url, '/admin/fk_autocomplete/address/add'))
 
         self.default_id = 'id_city_text'
-        time.sleep(1)
+        time.sleep(10)
 
         self.input_element().send_keys('par')
-        time.sleep(1)
+        time.sleep(10)
 
         self.assertTrue(self.autocomplete_visible())
         self.assertEqual(20, len(self.autocomplete_choice_elements()))
@@ -85,7 +85,7 @@ class WidgetTestCase(LiveServerTestCase):
         # select paris
         self.autocomplete_choice_elements()[1].click()
 
-        time.sleep(1)
+        time.sleep(10)
         self.assertFalse(self.autocomplete_visible())
         self.assertFalse(self.input_visible())
 
@@ -96,7 +96,7 @@ class WidgetTestCase(LiveServerTestCase):
 
 
         self.save()
-        time.sleep(1)
+        time.sleep(10)
 
 
         self.assertFalse(self.autocomplete_visible())
@@ -110,7 +110,7 @@ class WidgetTestCase(LiveServerTestCase):
         self.assertTrue(self.input_visible())
 
         self.input_element().send_keys('par')
-        time.sleep(1)
+        time.sleep(10)
 
         self.keyboard_test()
 
