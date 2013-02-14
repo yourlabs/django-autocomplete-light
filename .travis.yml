@@ -22,5 +22,5 @@ notifications:
     channels: 
       - "irc.freenode.org#neoskills"
       - "irc.freenode.org#yourlabs"
-  template:
+    template:
       - "%{repository} (%{commit} %{author}) : %{message} %{build_url} %{compare_url}"
