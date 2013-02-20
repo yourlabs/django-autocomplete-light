@@ -20,11 +20,21 @@ $(document).ready(function() {
             var top = (screen.height/2)-(height/2);
             var win = window.open(href, name, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
 
-            $('body').append('<div id="yourlabs_overlay"></div');
             function removeOverlay() {
-                win.closed ? $('#yourlabs_overlay').remove() : setTimeout(removeOverlay, 500);
+                if (win.closed) {
+                    $('#yourlabs_overlay').remove();
+                } else {
+                    setTimeout(removeOverlay, 500);
+                }
             }
-            setTimeout(removeOverlay, 500);
+
+            $('body').append('<div id="yourlabs_overlay"></div');
+            $('#yourlabs_overlay').click(function() { 
+                win.close(); 
+                $(this).remove();
+            });
+
+            setTimeout(removeOverlay, 1500);
             
             win.focus();
 
