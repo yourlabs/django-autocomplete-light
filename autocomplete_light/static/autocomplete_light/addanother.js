@@ -19,6 +19,13 @@ $(document).ready(function() {
             var left = (screen.width/2)-(width/2);
             var top = (screen.height/2)-(height/2);
             var win = window.open(href, name, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
+
+            $('body').append('<div id="yourlabs_overlay"></div');
+            function removeOverlay() {
+                win.closed ? $('#yourlabs_overlay').remove() : setTimeout(removeOverlay, 500);
+            }
+            setTimeout(removeOverlay, 500);
+            
             win.focus();
 
             return false;

@@ -90,3 +90,17 @@ body.change-form .autocomplete-light-widget
 {
     background-position: -15px 0;
 }
+
+/* credit: http://www.csslab.cl/2008/01/30/ventana-modal-solo-con-css/ */
+#yourlabs_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index:1001;
+    opacity:.75;
+    -moz-opacity: 0.75;
+    filter: alpha(opacity=75);
+}
