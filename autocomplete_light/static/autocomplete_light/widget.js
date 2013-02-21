@@ -127,8 +127,11 @@ yourlabs.Widget.prototype.resetDisplay = function() {
     if (this.maxValues && selected == this.maxValues) {
         var index = $(':input:visible').index(this.input);
         this.input.hide();
-        var next = $(':input:visible:eq('+ index +')');
-        next.focus()
+
+        if (index) {
+            var next = $(':input:visible:eq('+ index +')');
+            next.focus()
+        }
     } else {
         this.input.show();
     }
