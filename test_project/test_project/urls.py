@@ -29,4 +29,6 @@ urlpatterns = patterns('',
     url(r'^navigation/', include('navigation_autocomplete.urls')),
     url(r'^default_template/', include('default_template_autocomplete.urls')),
     url(r'^cities_light/', include('cities_light.contrib.restframework')),
+    url(r'^hvad_autocomplete/', include('hvad_autocomplete.urls',
+                                        namespace='hvad_autocomplete')),
 )

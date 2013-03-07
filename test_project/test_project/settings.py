@@ -53,6 +53,12 @@ TIME_ZONE = 'America/Chicago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
+# needed for hvad
+LANGUAGES = (
+  ('de', 'German'),
+  ('en-us', 'English'),
+)
+
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -164,6 +170,8 @@ INSTALLED_APPS = (
     'non_admin_add_another',
     'support_sandino',
     'default_template_autocomplete',
+    'hvad',
+    'hvad_autocomplete',
 )
 
 # A sample logging configuration. The only tangible logging
