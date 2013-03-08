@@ -101,19 +101,20 @@ Requirements
 Resources
 ---------
 
-You could subscribe to the mailing list ask questions or just be informed of
-package updates.
+You could subscribe to the mailing list to be informed of package updates (see link belowe).
 
+Ask questions on stack overflow (see link below).
+
+- `Question/answer platform graciously hosted
+  <http://stackoverflow.com/questions/tagged/django-autocomplete-light>`_ by
+  `StackOverflow
+  <http://stackoverflow.com>`_
 - `Live demo graciously hosted
   <http://jpic.pythonanywhere.com/>`_ by `PythonAnywhere
   <http://pythonanywhere.com/>`_,
 - `Video demo graciously hosted
   <http://youtu.be/fJIHiqWKUXI>`_ by `Youtube
   <http://youtube.com>`_,
-- `Question/answer platform graciously hosted
-  <http://stackoverflow.com/questions/tagged/django-autocomplete-light>`_ by
-  `StackOverflow
-  <http://stackoverflow.com>`_
 - `Mailing list graciously hosted
   <http://groups.google.com/group/yourlabs>`_ by `Google
   <http://groups.google.com>`_

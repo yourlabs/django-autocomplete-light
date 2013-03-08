@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-27 13:13+0200\n"
+"POT-Creation-Date: 2013-02-13 16:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: widgets.py:75
+#: forms.py:13
+msgid ""
+" Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr ""
+
+#: widgets.py:82
 msgid "type some text to search in this autocomplete"
 msgstr "saisissez votre rechercher dans cette autocompletion"
 
-#: autocomplete/base.py:96
+#: autocomplete/base.py:107
 msgid "no matches found"
 msgstr "aucun résultat"
+
+#: templates/autocomplete_light/widget.html:34
+msgid "Add another"
+msgstr "Ajouter un nouveau"
