@@ -6,13 +6,34 @@ README
 
 .. include:: ../../README.rst
 
-Full documentation
-------------------
+Install
+-------
+
+Click on any instruction step for details.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
-   demo
+   install
+
+If you didn't click any, and this is your first install: bravo !
+
+Tutorial
+--------
+
+Learn the concepts by doing useful things.
+
+.. toctree::
+   :maxdepth: 5
+
+   tutorial
+
+Topics
+------
+
+.. toctree::
+   :maxdepth: 2
+
    quick
    template
    navigation
@@ -25,8 +46,16 @@ Full documentation
    django13
    debug
 
-Javascript API
---------------
+FAQ
+---
+
+.. toctree::
+   :maxdepth: 2
+
+   faq
+
+API
+---
 
 - `autocomplete.js
   <_static/autocomplete.html>`_
