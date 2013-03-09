@@ -519,7 +519,10 @@ Now, you can instanciate the widget yourself like this:
                     // This is the method that returns the value to use for the
                     // hidden select option based on the HTML of the selected
                     // choice.
-                    return choice.data('id'),
+                    //  
+                    // This is where you could make a non-async post request to
+                    // this.autocomplete.url for example. The default is:
+                    return choice.data('id')
                 },
             })
         });

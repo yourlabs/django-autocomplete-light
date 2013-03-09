@@ -1,5 +1,5 @@
-GenericForeignKey support
-=========================
+AutocompleteGeneric, for GenericForeignKey or GenericManyToMany
+===============================================================
 
 Generic relation support comes in two flavors:
 
