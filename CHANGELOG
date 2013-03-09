@@ -1,3 +1,5 @@
+1.1.21 Bugfix: box was not re-shown after inputing twice the same string of minimumCharacters length.
+
 1.1.20 Click on modal overlay closes the popup windo
 
 1.1.19 Make add-another popup a modality
