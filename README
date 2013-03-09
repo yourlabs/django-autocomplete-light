@@ -1,10 +1,10 @@
 .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
 
 django-autocomplete-light's purpose is to enable autocompletes quickly and
-properly in a django project: it is the fruit of years of R&D. It was designed
-for Django so that every part overridable or reusable independently. It is
-stable, tested, documented and fully supported: it tries to be a good neighbour
-in Django ecosystem.
+properly in a django project: it is the fruit of **years of R&D**. It was
+designed for Django so that every part overridable or reusable independently.
+It is stable, tested, documented and fully supported: it tries to be a good
+neighbour in Django ecosystem.
 
 Features
 --------
@@ -18,7 +18,7 @@ Features include:
   images etc ...
 - 100% overridable HTML, CSS, Python and Javascript: there is no variable
   hidden far down in the scope anywhere.
-- add-another popup supported outside the admin too (yeah, **lots** of R&D ...),
+- add-another popup supported outside the admin too.
 
 Each feature has a live example and is fully documented. It is also designed
 and documented so that you create your own awesome features too.
