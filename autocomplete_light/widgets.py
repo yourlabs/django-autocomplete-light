@@ -15,7 +15,7 @@ from django.utils import safestring
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
-__all__ = ['ChoiceWidget', 'MultipleChoiceWidget']
+__all__ = ['WidgetBase', 'ChoiceWidget', 'MultipleChoiceWidget', 'TextWidget']
 
 
 class WidgetBase(object):
