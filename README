@@ -1,9 +1,32 @@
 .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
 
-django-autocomplete-light's purpose is to enable autocompletes quickly in a
-django project. It was designed for Django so that every part overridable or
-reusable independently. It is stable, tested, documented and fully supported:
-it tries to be a good neighbour in Django ecosystem.
+django-autocomplete-light's purpose is to enable autocompletes quickly and
+properly in a django project: it is the fruit of years of R&D. It was designed
+for Django so that every part overridable or reusable independently. It is
+stable, tested, documented and fully supported: it tries to be a good neighbour
+in Django ecosystem.
+
+Features
+--------
+
+Features include:
+
+- charfield, foreign key, many to many autocomplete widgets,
+- generic foreign key, generic many to many autocomplete widgets,
+- remote API backed-autocompletes,
+- django template engine support for autocompletes, enabling you to include
+  images etc ...
+- 100% overridable HTML, CSS, Python and Javascript: there is no variable
+  hidden far down in the scope anywhere.
+- add-another popup supported outside the admin too (yeah, **lots** of R&D ...),
+
+Each feature has a live example and is fully documented. It is also designed
+and documented so that you create your own awesome features too.
+
+Resources
+---------
+
+Resources include:
 
 - `**Documentation** graciously hosted
   <http://django-autocomplete-light.rtfd.org>`_ by `RTFD
@@ -26,3 +49,16 @@ it tries to be a good neighbour in Django ecosystem.
 - `Continuous integration graciously hosted
   <http://travis-ci.org/yourlabs/django-autocomplete-light>`_ by `Travis-ci
   <http://travis-ci.org>`_
+
+License: MIT but open to changes
+--------------------------------
+
+It is currently under the MIT license because I don't care what you do with
+this app as long as you enjoy it ! Let me know if you need it changed.
+
+VoteWare
+--------
+
+However, I would like to ask that you vote for it on djangopackages.com. The
+rationnale of my request is simple: the more users, the more contributions and
+help the app will receive.

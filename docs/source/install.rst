@@ -1,5 +1,5 @@
-Install the package with pip
-----------------------------
+Install the ``django-autocomplete-light`` package with pip
+----------------------------------------------------------
 
 Install the stable release::
 

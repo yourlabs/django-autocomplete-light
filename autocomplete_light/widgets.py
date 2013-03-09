@@ -150,6 +150,8 @@ class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
 
 
 class TextWidget(forms.TextInput, WidgetBase):
+    """ Widget that just adds an autocomplete to fill a text input """
+
     def __init__(self, autocomplete,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
                  *args, **kwargs):

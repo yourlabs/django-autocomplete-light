@@ -258,39 +258,3 @@ Hence the widget.js HTML cookbook:
     </span>
 
 Read everything about the registry and widgets.
-
-Generic
-```````
-
-Everything about generic foreign key support.
-
-Tag fields
-``````````
-
-Everything about tag field support.
-
-Navigation
-``````````
-
-Everything about navigation autocomplete.
-
-Dependencies
-````````````
-
-Everything about autocompletes that depend on each other.
-
-Add another
-```````````
-
-Everything about "add-another".
-
-Remote API
-``````````
-
-
-
-Debugging
-`````````
-
-Django 1.3/Python 2.6
-`````````````````````

@@ -1,10 +1,17 @@
 Welcome to django-autocomplete-light's documentation!
 =====================================================
 
-README
-------
-
 .. include:: ../../README.rst
+
+Demo
+----
+
+You can also install the live demo.
+  
+.. toctree::
+   :maxdepth: 1
+
+   demo
 
 Install
 -------
@@ -24,20 +31,24 @@ Tutorial
 Learn the concepts by doing useful things.
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 6
 
    tutorial
+
+You should now fully understand the concepts and be able to do literally what
+you want.
 
 Topics
 ------
 
-.. toctree::
-   :maxdepth: 2
+Using just the concepts you've learned in the tutorial, we've built-in several
+really cool things, backed by live examples.
 
-   quick
+.. toctree::
+   :maxdepth: 1
+
    template
    navigation
-   cookbook
    charfield
    generic
    dependant
@@ -45,6 +56,10 @@ Topics
    remote
    django13
    debug
+   cookbook
+
+At this point, let me congratulate you for being badass at doing autocompletes
+in Django.
 
 FAQ
 ---
@@ -54,8 +69,19 @@ FAQ
 
    faq
 
-API
----
+API reference
+-------------
+
+Python API reference
+````````````````````
+
+.. toctree::
+   :maxdepth: 5
+
+   api
+
+Javascript API reference
+````````````````````````
 
 - `autocomplete.js
   <_static/autocomplete.html>`_
