@@ -448,6 +448,8 @@ yourlabs.Autocomplete.prototype.fetch = function() {
 
     // Ensure that this request is different from the previous one
     if (!this.hasChanged()) {
+        // Else show the same box again.
+        this.show();
         return;
     }
 
