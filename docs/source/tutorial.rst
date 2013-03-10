@@ -4,9 +4,9 @@ Enable an autocomplete in admin forms in two steps: high level API concepts
 ``register()`` shortcut can generate Autocomplete classes
 `````````````````````````````````````````````````````````
 
-``register()`` passes the extra keyword arguments like ``search_fields`` to
-the Python ``type()`` function. This means that extra keyword arguments
-will be used as class attributes of the generated class.
+``register()`` passes the extra keyword arguments like ``search_fields`` to the
+Python :py:func:``type`` function. This means that extra keyword arguments will
+be used as class attributes of the generated class.
 
 Register an Autocomplete for your model in
 ``your_app/autocomplete_light_registry.py``, it can look like this:
@@ -25,12 +25,14 @@ Register an Autocomplete for your model in
         autocomplete_js_attributes={'placeholder': 'Other model name ?',},
     )
 
-Because ``PersonAutocomplete`` is registered, ``AutocompleteView`` can proxy
-``PersonAutocomplete.get()`` - and also ``PersonAutocomplete.post()`` but
-that's another story.
+Because ``PersonAutocomplete`` is registered, ``AutocompleteView.get()`` can
+proxy ``PersonAutocomplete.get()`` - and also ``AutocompleteView.post()`` to
+``PersonAutocomplete.post()`` which is useful to build your own features using
+Javascript method overrides.
 
 This means that openning ``/autocomplete/PersonAutocomplete/`` will call
-``AutocompleteView.get`` which will in turn call ``PersonAutocomplete.get``.
+``AutocompleteView.get()`` which will in turn call
+``PersonAutocomplete.get()``.
 
 .. note::
 
@@ -100,7 +102,7 @@ Registering a custom Autocomplete class for your model in
 Using a template to render the autocomplete
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-You could use autocomplete_light.AutocompleteListTemplate instead:
+You could use :py:class:`autocomplete_light.AutocompleteListTemplate` instead:
 
 .. code-block:: python
 

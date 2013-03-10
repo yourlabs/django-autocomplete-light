@@ -6,7 +6,7 @@ Welcome to django-autocomplete-light's documentation!
 Demo
 ----
 
-You can also install the live demo.
+You can run test projects for a local demo in a temporary virtualenv.
   
 .. toctree::
    :maxdepth: 1
