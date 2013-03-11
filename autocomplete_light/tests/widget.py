@@ -82,7 +82,6 @@ class WidgetTestCase(LiveServerTestCase):
         def wait_for_selector(selector, displayed=None):
             def f(selenium):
                 element = selenium.find_element_by_css_selector(selector)
-                print "FOUND!", displayed, element.is_displayed()
                 if displayed is not None:
                     return element.is_displayed() == displayed
                 return True
