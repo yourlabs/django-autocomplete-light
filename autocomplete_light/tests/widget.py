@@ -34,7 +34,6 @@ class WidgetTestCase(LiveServerTestCase):
         return self.selenium.find_element_by_css_selector(
             '.yourlabs-autocomplete [data-value].hilight')
 
-
     def autocomplete_choice_elements(self):
         return self.selenium.find_elements_by_css_selector(
             '.yourlabs-autocomplete [data-value]')
