@@ -10,14 +10,18 @@ from optionnal_gfk_autocomplete.forms import OptionnalTaggedItemForm
 
 class GenericModelFormTestCase(unittest.TestCase):
     def setUp(self):
-        self.france, c = Country.objects.get_or_create(name='France')
-        self.paris, c = City.objects.get_or_create(country=self.france,
+        self.country, c = Country.objects.get_or_create(name='Countryname')
+        self.city, c = City.objects.get_or_create(country=self.country,
             name=u'Paris')
+
+    def tearDown(self):
+        self.country.delete()
+        self.city.delete()
 
     def test_model_form(self):
         tests = (
             {
-                'content_object': self.paris,
+                'content_object': self.city,
                 'tag': 'foo',
                 'valid': True,
                 'form_class': TaggedItemForm,
@@ -28,7 +32,7 @@ class GenericModelFormTestCase(unittest.TestCase):
                 'form_class': TaggedItemForm,
             },
             {
-                'content_object': self.paris,
+                'content_object': self.city,
                 'tag': 'foo',
                 'valid': True,
                 'form_class': OptionnalTaggedItemForm,
