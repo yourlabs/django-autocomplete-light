@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 class WidgetTestCase(LiveServerTestCase):
-    fixtures = ['test.json']
+    fixtures = ['test.json', 'initial_data.json']
 
     @classmethod
     def setUpClass(cls):
