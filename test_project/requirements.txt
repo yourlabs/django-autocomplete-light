@@ -1,3 +1,4 @@
+django
 django-cities-light
 django-autocomplete-light
 djangorestframework==0.3.3
