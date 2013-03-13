@@ -72,9 +72,6 @@ setup(
     license='MIT',
     keywords='django autocomplete',
     cmdclass={'test': RunTests},
-    install_requires=[
-        'django',
-    ],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
