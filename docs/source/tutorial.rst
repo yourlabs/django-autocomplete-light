@@ -1,8 +1,8 @@
 Enable an autocomplete in admin forms in two steps: high level API concepts
----------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 
-``register()`` shortcut can generate Autocomplete classes
-`````````````````````````````````````````````````````````
+``register()`` shortcut to generate and register Autocomplete classes
+`````````````````````````````````````````````````````````````````````
 
 ``register()`` passes the extra keyword arguments like ``search_fields`` to the
 Python :py:func:``type`` function. This means that extra keyword arguments will
@@ -46,8 +46,8 @@ This means that openning ``/autocomplete/PersonAutocomplete/`` will call
             model = Person
         autocomplete_light.register(PersonAutocomplete)
 
-``modelform_factory()`` shortcut can generate ModelForms
-````````````````````````````````````````````````````````
+``modelform_factory()`` shortcut to generate ModelForms in the admin
+````````````````````````````````````````````````````````````````````
 
 Make the admin ``Order`` form that uses ``PersonAutocomplete``, in
 ``your_app/admin.py``:
@@ -70,17 +70,11 @@ Make the admin ``Order`` form that uses ``PersonAutocomplete``, in
     wanted to replace Selects in the admin and autocomplete-light's job is done
     by now !
 
-Using the autocomplete widget: low level API concepts
------------------------------------------------------
-
-This chapter demonstrates how to achieve exactly the same thing than the
-previous chapter: except that it doesn't take the shortcuts.
-
-Your own Autocomplete class
-```````````````````````````
+Making Autocomplete classes
+---------------------------
 
 Create a basic list-backed autocomplete class
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+`````````````````````````````````````````````
 
 Registering a custom Autocomplete class for your model in
 ``your_app/autocomplete_light_registry.py`` can look like this:
@@ -100,7 +94,7 @@ Registering a custom Autocomplete class for your model in
     class copy.
 
 Using a template to render the autocomplete
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+```````````````````````````````````````````
 
 You could use :py:class:`autocomplete_light.AutocompleteListTemplate` instead:
 
@@ -123,7 +117,7 @@ You could use :py:class:`autocomplete_light.AutocompleteListTemplate` instead:
     AutocompleteModelTemplate and so on.
 
 Create a basic model autocomplete class
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+````````````````````````````````````````
 
 Registering a custom Autocomplete class for your model in
 ``your_app/autocomplete_light_registry.py`` can look like this:
@@ -148,7 +142,7 @@ Registering a custom Autocomplete class for your model in
             search_fields=['^first_name', 'last_name'])
 
 Overriding the queryset of a model autocomplete to secure an Autocomplete
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+`````````````````````````````````````````````````````````````````````````
 
 You can override any method of the Autocomplete class. Filtering choices based on the request user could look like this:
 
@@ -172,7 +166,7 @@ You can override any method of the Autocomplete class. Filtering choices based o
     autocomplete_light.register(Person, PersonAutocomplete)
 
 Registering the same Autocomplete class for several autocompletes
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+`````````````````````````````````````````````````````````````````
 
 This code registers an autocomplete with name 'ContactAutocomplete':
 
@@ -190,10 +184,10 @@ To register two autocompletes with the same class, pass in a name argument:
         choices=Person.objects.filter(is_company=True))
 
 Your own form classes
-`````````````````````
+---------------------
 
 Working around Django bug #9321: `Hold down "Control" ...`
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+``````````````````````````````````````````````````````````
 
 If any autocomplete widget renders with a message like 'Hold down "Control" to
 select multiple items at once', it is because of Django bug #9321. A trivial
@@ -206,7 +200,7 @@ replacement for ``ModelForm`.`
 Of course, ``FixedModelForm`` is **not** required, but might prove helpful.
 
 Override a default relation select in ``ModelForm.Meta.widgets``
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+````````````````````````````````````````````````````````````````
 
 You can override the default relation select as such:
 
@@ -224,7 +218,7 @@ You can override the default relation select as such:
             widgets = autocomplete_light.get_widgets_dict(Order)
 
 Or in a ``ModelChoiceField`` or similar
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+```````````````````````````````````````
 
 Now use ``PersonAutocomplete`` in a ``ChoiceWidget`` ie. for a ``ForeignKey``,
 it can look like this:
@@ -245,7 +239,7 @@ it can look like this:
             model = Order
 
 Using your own form in a ``ModelAdmin``
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+```````````````````````````````````````
 
 You can use this form in the admin too, it can look like this:
 
@@ -266,7 +260,7 @@ You can use this form in the admin too, it can look like this:
     plain Django, but still it might be useful to someone.
 
 Using autocomplete widgets in non model-forms
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+`````````````````````````````````````````````
 
 Any widget is usable in any form, ie.:
 
@@ -283,7 +277,7 @@ Any widget is usable in any form, ie.:
         tags = autocomplete_light.TextWidget('TagAutocomplete')
 
 Overriding a JS option in Python
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+````````````````````````````````
 
 Javascript widget options can be set in Python via the ``widget_js_attributes``
 keyword argument. And javascript autocomplete options can be set in Python via
