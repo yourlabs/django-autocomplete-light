@@ -3,8 +3,8 @@ import autocomplete_light
 
 class AutocompleteModel(autocomplete_light.AutocompleteModel):
     def __init__(self, request=None, values=None):
-        if request and getattr(self.choices.model.objects, 'language', False):
-            self.choices = self.choices.model.objects.language(request.LANGUAGE_CODE)
+        if getattr(self.choices.model.objects, 'language', False):
+            self.choices = self.choices.model.objects.language()
         super(AutocompleteModel, self).__init__(request, values)
 
 
