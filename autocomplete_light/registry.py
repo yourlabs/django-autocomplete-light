@@ -38,8 +38,13 @@ class AutocompleteRegistry(dict):
     Dict with some shortcuts to handle a registry of autocompletes.
     """
 
-    def __init__(self):
+    def __init__(self, autocomplete_model_base=None):
         self._models = {}
+        self.autocomplete_model_base = autocomplete_model_base
+
+        if self.autocomplete_model_base is None:
+            self.autocomplete_model_base = AutocompleteModelBase
+
 
     def autocomplete_for_model(self, model):
         """ Return the autocomplete class for a given model. """
@@ -120,7 +125,7 @@ class AutocompleteRegistry(dict):
             name = '%sAutocomplete' % model.__name__
 
         if autocomplete is None:
-            base = AutocompleteModelBase
+            base = self.autocomplete_model_base
         else:
             base = autocomplete
 
