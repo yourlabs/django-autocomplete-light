@@ -11,16 +11,8 @@ class Category(TranslatableModel):
     class Meta:
         verbose_name_plural = "categories"
 
-    def lazy_language(self):
-        """helper for usage in admin"""
-        return self.language_code
-
-    def lazy_name(self):
-        """helper for usage in admin"""
-        return self.lazy_translation_getter('name')
-
     def __unicode__(self):
-        return u"%s" % (self.lazy_translation_getter('name'))
+        return self.safe_translation_getter('name', 'MyMode: %s' % self.pk)
 
 
 class Item(models.Model):
