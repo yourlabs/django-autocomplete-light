@@ -41,26 +41,9 @@ class GenericModelForm(forms.ModelForm):
             if value:
                 setattr(self.instance, field.name, value)
 
-    def save(self, commit=True):
-        """
-        What ModelForm does, but also set GFK.ct_field and GFK.fk_field if such
-        a virtual field has a value.
-
-        This should probably be done in the GFK field itself, but it's here for
-        convenience until Django fixes that.
-        """
-        for field in self._meta.model._meta.virtual_fields:
-            if isinstance(field, GenericForeignKey):
-                value = self.cleaned_data.get(field.name, None)
-
-                if not value:
-                    continue
-
-                setattr(self.instance, field.ct_field,
-                        ContentType.objects.get_for_model(value))
-                setattr(self.instance, field.fk_field, value.pk)
-
-        return super(GenericModelForm, self).save(commit)
+                self.cleaned_data[field.ct_field] = \
+                        ContentType.objects.get_for_model(value)
+                self.cleaned_data[field.fk_field] = value.pk
 
 
 class GenericModelChoiceField(fields.Field):

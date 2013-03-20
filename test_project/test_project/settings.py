@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'generic_inline',
     'cities_light',
     'table_autocomplete',
     'djangorestframework',
