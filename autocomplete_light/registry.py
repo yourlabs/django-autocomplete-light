@@ -45,7 +45,6 @@ class AutocompleteRegistry(dict):
         if self.autocomplete_model_base is None:
             self.autocomplete_model_base = AutocompleteModelBase
 
-
     def autocomplete_for_model(self, model):
         """ Return the autocomplete class for a given model. """
         try:

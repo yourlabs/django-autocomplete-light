@@ -32,9 +32,11 @@ class AutocompleteModel(autocomplete_light.AutocompleteModel):
         super(AutocompleteModel, self).__init__(request, values)
 
 
-class AutocompleteModelBase(AutocompleteModel, autocomplete_light.AutocompleteBase):
+class AutocompleteModelBase(AutocompleteModel,
+                            autocomplete_light.AutocompleteBase):
     pass
 
 
-class AutocompleteModelTemplate(AutocompleteModel, autocomplete_light.AutocompleteTemplate):
+class AutocompleteModelTemplate(AutocompleteModel,
+                                autocomplete_light.AutocompleteTemplate):
     pass
