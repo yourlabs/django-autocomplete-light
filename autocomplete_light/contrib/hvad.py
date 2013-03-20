@@ -22,6 +22,7 @@ import autocomplete_light
 
 
 class AutocompleteModel(autocomplete_light.AutocompleteModel):
+    """ Ensure that `.language()` is called. """
     def __init__(self, request=None, values=None):
         """
         Overridden init to call .language(). Note: this will replace the

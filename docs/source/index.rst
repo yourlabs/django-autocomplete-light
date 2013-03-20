@@ -65,8 +65,13 @@ really cool things, backed by live examples.
    debug
    cookbook
 
-At this point, let me congratulate you for being badass at doing autocompletes
-in Django.
+Integration with external apps
+------------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   contrib
 
 FAQ
 ---

@@ -1,19 +1,16 @@
-Support for external apps: autocomplete_light.contrib
-=====================================================
-
-django-generic-m2m
-------------------
+Support for django-generic-m2m
+------------------------------
 
 See :doc:`GenericManyToMany documentation<generic>`.
 
-django-hvad
------------
+Support for django-hvad
+-----------------------
 
 .. automodule:: autocomplete_light.contrib.hvad
    :members:
 
-django-taggit
--------------
+Support for django-taggit
+-------------------------
 
 `django-taggit
 <https://github.com/alex/django-taggit>`_ does it slightly differently. It is

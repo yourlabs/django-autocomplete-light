@@ -46,6 +46,14 @@ This means that openning ``/autocomplete/PersonAutocomplete/`` will call
             model = Person
         autocomplete_light.register(PersonAutocomplete)
 
+    If you wanted, you could override the default AutocompleteModelBase used by
+    register() to generate Autocomplete classes. It looks like this (in urls.py):
+
+    .. code-block:: python
+
+        autocomplete_light.registry.autocomplete_model_base = YourAutocompleteModelBase
+        autocomplete_light.autodiscover()
+
 ``modelform_factory()`` shortcut to generate ModelForms in the admin
 ````````````````````````````````````````````````````````````````````
 
