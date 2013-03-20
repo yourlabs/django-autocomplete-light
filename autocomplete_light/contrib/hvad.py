@@ -35,9 +35,11 @@ class AutocompleteModel(autocomplete_light.AutocompleteModel):
 
 class AutocompleteModelBase(AutocompleteModel,
                             autocomplete_light.AutocompleteBase):
+    """ Drop-in replacement for AutocompleteModelBase """
     pass
 
 
 class AutocompleteModelTemplate(AutocompleteModel,
                                 autocomplete_light.AutocompleteTemplate):
+    """ Drop-in replacement for AutocompleteModelTemplate """
     pass
