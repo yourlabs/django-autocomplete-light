@@ -1,3 +1,8 @@
+1.1.24
+
+- Allow to override the default AutocompleteModelBase class used by register()
+- Implemented django-hvad support
+
 1.1.23: Removed django from install_requires, fixes pip install -U
 
 1.1.22: Fixed DeprecationWarning for Django 1.5.
