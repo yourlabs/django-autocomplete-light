@@ -4,7 +4,7 @@ from django.views.generic import base
 
 import autocomplete_light
 
-__all__ = ['AutocompleteView', 'RegistryView']
+__all__ = ['AutocompleteView', 'RegistryView', 'CreateView']
 
 
 class RegistryView(base.TemplateView):

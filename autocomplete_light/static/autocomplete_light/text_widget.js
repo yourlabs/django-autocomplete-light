@@ -108,7 +108,7 @@ yourlabs.TextWidget.prototype.initializeAutocomplete = function() {
         this.autocompleteOptions);
 
     // Add a class to ease css selection of autocompletes for widgets
-    this.autocomplete.outerContainer.addClass(
+    this.autocomplete.box.addClass(
         'autocomplete-light-text-widget');
 };
 
@@ -200,7 +200,7 @@ $.fn.yourlabsTextWidget = function(overrides) {
 }
 
 $(document).ready(function() {
-    $('input[data-bootstrap=normal]').live('initialize', function() {
+    $('body').on('initialize', 'input[data-bootstrap=normal]', function() {
         /*
         Only setup autocompletes on inputs which have data-bootstrap=normal,
         if you want to initialize some autocompletes with custom code, then set
@@ -212,7 +212,7 @@ $(document).ready(function() {
     // Solid initialization, usage::
     //
     //      $(document).bind('yourlabsTextWidgetReady', function() {
-    //          $('.your.autocomplete-light-text-widget').live('initialize', function() {
+    //          $('body').on('initialize', 'input[data-bootstrap=normal]', function() {
     //              $(this).yourlabsTextWidget({
     //                  yourCustomArgs: // ...
     //              })

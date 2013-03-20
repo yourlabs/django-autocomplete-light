@@ -60,8 +60,8 @@ else:
 
 setup(
     name='django-autocomplete-light',
-    version='1.1.9',
-    description='Simple alternative to django-ajax-selects',
+    version='1.1.23',
+    description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',
     url='http://django-autocomplete-light.rtfd.org',
@@ -72,9 +72,6 @@ setup(
     license='MIT',
     keywords='django autocomplete',
     cmdclass={'test': RunTests},
-    install_requires=[
-        'django',
-    ],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',

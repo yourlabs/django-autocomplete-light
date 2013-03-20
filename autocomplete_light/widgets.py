@@ -15,7 +15,7 @@ from django.utils import safestring
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
-__all__ = ['ChoiceWidget', 'MultipleChoiceWidget']
+__all__ = ['WidgetBase', 'ChoiceWidget', 'MultipleChoiceWidget', 'TextWidget']
 
 
 class WidgetBase(object):
@@ -150,6 +150,8 @@ class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
 
 
 class TextWidget(forms.TextInput, WidgetBase):
+    """ Widget that just adds an autocomplete to fill a text input """
+
     def __init__(self, autocomplete,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
                  *args, **kwargs):

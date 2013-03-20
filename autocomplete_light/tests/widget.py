@@ -3,9 +3,12 @@ import time
 from django.test import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.support import ui
+from selenium.common.exceptions import NoSuchElementException
+
 
 class WidgetTestCase(LiveServerTestCase):
-    fixtures = ['cities_light.json']
+    fixtures = ['test.json', 'initial_data.json']
 
     @classmethod
     def setUpClass(cls):
@@ -17,25 +20,23 @@ class WidgetTestCase(LiveServerTestCase):
         super(WidgetTestCase, cls).tearDownClass()
         cls.selenium.quit()
 
-    def autocomplete_visible(self, id=None):
-        if id is None: id = self.default_id
-        return self.autocomplete_element(id=None).is_displayed()
+    def autocomplete_visible(self):
+        try:
+            return self.autocomplete_element().is_displayed()
+        except NoSuchElementException:
+            return False
 
-    def autocomplete_element(self, id=None):
-        if id is None: id = self.default_id
+    def autocomplete_element(self):
         return self.selenium.find_element_by_css_selector(
-            '.yourlabs-autocomplete.outer-container.id-%s' % id)
+            '.yourlabs-autocomplete')
 
-    def autocomplete_hilighted_choice_element(self, id=None):
-        if id is None: id = self.default_id
+    def autocomplete_hilighted_choice_element(self):
         return self.selenium.find_element_by_css_selector(
-            '.yourlabs-autocomplete.inner-container.id-%s [data-value].hilight' % id)
+            '.yourlabs-autocomplete [data-value].hilight')
 
-
-    def autocomplete_choice_elements(self, id=None):
-        if id is None: id = self.default_id
+    def autocomplete_choice_elements(self):
         return self.selenium.find_elements_by_css_selector(
-            '.yourlabs-autocomplete.inner-container.id-%s [data-value]' % id)
+            '.yourlabs-autocomplete [data-value]')
 
     def input_element(self, id=None):
         if id is None: id = self.default_id
@@ -60,46 +61,60 @@ class WidgetTestCase(LiveServerTestCase):
 
     def save(self):
         return self.selenium.find_element_by_css_selector(
-            'input[name=_continue]').click()
+            'input[name=_save]').click()
 
-    def test_login(self):
+    def login(self):
         self.selenium.get('%s%s' % (self.live_server_url, '/admin/'))
+        self.wait.until(lambda selenium: selenium.find_element_by_name("username"))
+
         username_input = self.selenium.find_element_by_name("username")
         username_input.send_keys('test')
         password_input = self.selenium.find_element_by_name("password")
         password_input.send_keys('test')
         self.selenium.find_element_by_xpath('//input[@value="Log in"]').click()
-        self.selenium.get('%s%s' % (self.live_server_url, '/admin/fk_autocomplete/address/add'))
+
+        self.wait.until(lambda selenium: selenium.find_element_by_id("user-tools"))
+
+    def test_login(self):
+        self.wait = ui.WebDriverWait(self.selenium,30)
+
+        def wait_for_selector(selector, displayed=None):
+            def f(selenium):
+                element = selenium.find_element_by_css_selector(selector)
+                if displayed is not None:
+                    return element.is_displayed() == displayed
+                return True
+            self.wait.until(f)
+
+        self.login()
 
         self.default_id = 'id_city_text'
-        time.sleep(1)
+
+        self.selenium.get('%s%s' % (self.live_server_url, '/admin/fk_autocomplete/address/add'))
+        wait_for_selector("[data-widget-ready]")
 
         self.input_element().send_keys('par')
-        time.sleep(1)
+        wait_for_selector(".yourlabs-autocomplete", True)
 
-        self.assertTrue(self.autocomplete_visible())
         self.assertEqual(20, len(self.autocomplete_choice_elements()))
-
 
         # select paris
         self.autocomplete_choice_elements()[1].click()
 
-        time.sleep(1)
-        self.assertFalse(self.autocomplete_visible())
-        self.assertFalse(self.input_visible())
+        wait_for_selector(".yourlabs-autocomplete", False)
+        wait_for_selector("#%s" % self.default_id, False)
 
         selected = self.widget_choice_elements()
         self.assertEqual(1, len(selected))
         self.assertTrue('Paris' in selected[0].text)
         self.assertTrue('France' in selected[0].text)
 
-
         self.save()
-        time.sleep(1)
+        wait_for_selector('#changelist')
+        element = self.selenium.find_element_by_css_selector(
+            '#changelist tr.row1 a').click()
 
-
-        self.assertFalse(self.autocomplete_visible())
-        self.assertFalse(self.input_visible())
+        wait_for_selector("[data-widget-ready]")
 
         # remove
         selected = self.widget_choice_elements()
@@ -109,7 +124,7 @@ class WidgetTestCase(LiveServerTestCase):
         self.assertTrue(self.input_visible())
 
         self.input_element().send_keys('par')
-        time.sleep(1)
+        wait_for_selector('.yourlabs-autocomplete', True)
 
         self.keyboard_test()
 

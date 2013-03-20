@@ -1,10 +1,58 @@
-.autocomplete
+/*
+ * Admin specific styling are prefixed with body.change-form.
+ */
+
+.yourlabs-autocomplete
 {
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
 }
 
-.yourlabs-autocomplete.inner-container a
+.yourlabs-autocomplete .hilight
 {
+    color: #ffffff !important;
     text-decoration: none;
+    background-color: #0081c2;
+    background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+    background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+    background-repeat: repeat-x;
+    outline: 0;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+}
+
+.yourlabs-autocomplete .choice, .yourlabs-autocomplete [data-value], .yourlabs-autocomplete em
+{
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #333333;
+    white-space: nowrap;
+    color: black;
+    cursor: pointer;
 }
 
 .div
@@ -12,55 +60,10 @@
     display: block;
 }
 
-.yourlabs-autocomplete
+/* admin specific */
+body.change-form .autocomplete-light-widget
 {
-    background: none;
-    border: none;
-}
-
-.yourlabs-autocomplete.outer-container
-{
-    position: relative;
-}
-
-.yourlabs-autocomplete.inner-container
-{
-    background: #fff;
-    left: -1px;
-    position: absolute;
-    top: 2px;
-    width: 260px;
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 0 0 6px #999999;
-    border: 1px solid #AAAAAA;
-    outline: 0 none;
-}
-
-.yourlabs-autocomplete.inner-container
-{
-    list-style-type: none;
-    margin: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding: 0;
-    position: relative;
-}
-
-.yourlabs-autocomplete.inner-container div
-{
-    color: #000;
-    padding: 5px 6px;
-}
-
-.yourlabs-autocomplete [data-value]
-{
-    cursor: pointer;
-}
-
-.yourlabs-autocomplete .hilight
-{
-    background: #2e83db;
-    color: #fff;
+    float: left;
 }
 
 .autocomplete-light-widget .deck [data-value]
@@ -69,33 +72,6 @@
     margin-bottom: 5px;
     padding-right: 8px;
     padding-bottom: 5px;
-}
-
-.multiple .deck [data-value] {
-    display: block;
-    padding-left: 110px;
-}
-
-.single .deck [data-value] {
-    display: inline;
-    float: left;
-    margin-top: 5px;
-    margin-right: 5px;
-}
-
-.multiple .deck {
-    display: block;
-    margin-left: 0px;
-}
-
-.multiple input {
-    margin-left: 100px;
-}
-
-.autocomplete-light-widget .deck [data-value] span
-{
-    display: inline-block;
-    width: 210px;
 }
 
 .autocomplete-light-widget .deck [data-value] .remove
@@ -113,4 +89,18 @@
 .autocomplete-light-widget .deck [data-value] .remove:hover
 {
     background-position: -15px 0;
+}
+
+/* credit: http://www.csslab.cl/2008/01/30/ventana-modal-solo-con-css/ */
+#yourlabs_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index:1001;
+    opacity:.75;
+    -moz-opacity: 0.75;
+    filter: alpha(opacity=75);
 }

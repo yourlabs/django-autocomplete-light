@@ -49,9 +49,11 @@ class RegistryTestCase(unittest.TestCase):
         self.assertEqual(self.registry.keys(), [])
 
     def test_register_with_kwargs(self):
-        self.registry.register(Foo, search_name='search_name')
+        choices = ['foo']
+        self.registry.register(Foo, search_name='search_name', choices=choices)
         self.assertEqual(self.registry['FooAutocomplete'].search_name,
             'search_name')
+        self.assertEqual(self.registry['FooAutocomplete'].choices, choices)
 
     def test_register_with_autocomplete_and_kwargs(self):
         self.registry.register(Foo, Bar, search_name='search_name')

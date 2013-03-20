@@ -1,3 +1,49 @@
+1.1.23: Removed django from install_requires, fixes pip install -U
+
+1.1.22: Fixed DeprecationWarning for Django 1.5.
+
+1.1.21 Bugfix: box was not re-shown after inputing twice the same string
+of minimumCharacters length.
+
+1.1.20 Click on modal overlay closes the popup windo
+
+1.1.19 Make add-another popup a modality
+
+1.1.18 Center add-another popup on screen
+
+1.1.17 Update fr locale
+
+1.1.16 Django 1.5 compatibility. Credit: Patrick Taylor
+
+1.1.15 Fix #99: choices kwarg was ignored
+
+1.1.14 Bugfix: fetchComplete now ready for textStatus == 'abort'
+
+1.1.13
+
+- Enhancement #78: search_fields more like admin,
+- Bugfix: closed brackets in style.css (thanks papalagichen)
+
+1.1.12 Enabled CSRF.
+
+1.1.11 Fixed dynamic initialisation (ie. inlines).
+
+Bug was caused by a wrong attempt at migrating from jq17 live() to jq19 on().
+
+1.1.10
+
+- Partial autocomplete.js rewrite using ideas from bootstrap-typeahead.js,
+- Use of $.proxy() which allowed to get rid of many scope hacks like: var
+  autocomplete = this;
+- When the maximum number of choices has been selected and the input goes,
+  automatically focus on next visible field,
+- Do not show autocomplete if input has below minCharacters,
+- CSS rewrite/debloat (~-50% SLOCs),
+- Backported typeahead CSS,
+- Backported typeahead autocomplete box placement strategy, hoping to fix IE10
+  mobile support,
+- jQuery 1.9 support (thanks Nicolas Seinlet for the heads up).
+
 1.1.9
 
 - Use explicit check for None value instead of trueness, allowing pk=0 (thanks

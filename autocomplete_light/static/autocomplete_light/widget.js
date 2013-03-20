@@ -72,7 +72,7 @@ yourlabs.Widget.prototype.initializeAutocomplete = function() {
         this.autocompleteOptions);
 
     // Add a class to ease css selection of autocompletes for widgets
-    this.autocomplete.outerContainer.addClass(
+    this.autocomplete.box.addClass(
         'autocomplete-light-widget');
 };
 
@@ -125,12 +125,18 @@ yourlabs.Widget.prototype.resetDisplay = function() {
     var selected = this.select.find('option:selected').length;
 
     if (this.maxValues && selected == this.maxValues) {
+        var index = $(':input:visible').index(this.input);
         this.input.hide();
+        var next = $(':input:visible:eq('+ index +')');
+        next.focus()
     } else {
         this.input.show();
     }
 
     this.deck.show();
+
+    // Also fix the position if the autocomplete is shown.
+    if (this.autocomplete.box.is(':visible')) this.autocomplete.fixPosition();
 }
 
 yourlabs.Widget.prototype.deckChoiceHtml = function(choice, value) {
@@ -288,7 +294,7 @@ $.fn.yourlabsWidget = function(overrides) {
 }
 
 $(document).ready(function() {
-    $('.autocomplete-light-widget[data-bootstrap=normal]').live('initialize', function() {
+    $('body').on('initialize', '.autocomplete-light-widget[data-bootstrap=normal]', function() {
         /*
         Only setup widgets which have data-bootstrap=normal, if you want to
         initialize some Widgets with custom code, then set
@@ -298,7 +304,7 @@ $(document).ready(function() {
     });
 
     // Call Widget.deselectChoice when .remove is clicked
-    $('.autocomplete-light-widget .deck .remove').live('click', function() {
+    $('body').on('click', '.autocomplete-light-widget .deck .remove', function() {
         var widget = $(this).parents('.autocomplete-light-widget'
             ).yourlabsWidget();
 
@@ -311,7 +317,7 @@ $(document).ready(function() {
     // Solid initialization, usage:
     //
     //      $(document).bind('yourlabsWidgetReady', function() {
-    //          $('.your.autocomplete-light-widget').live('initialize', function() {
+    //          $('.your.autocomplete-light-widget').on('initialize', function() {
     //              $(this).yourlabsWidget({
     //                  yourCustomArgs: // ...
     //              })

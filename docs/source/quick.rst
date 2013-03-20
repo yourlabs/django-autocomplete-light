@@ -40,9 +40,17 @@ This is an example of how you could load the javascript::
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     {% include 'autocomplete_light/static.html' %}
 
-Note that you should adapt the static.html template to your needs at some
-point, because its purpose is to work for all projects, not to be optimal for
-your project.
+.. NOTE::
+    Note that you should adapt the static.html template to your needs at some
+    point, because its purpose is to work for all projects, not to be optimal
+    for your project.
+
+.. WARNING::
+    Since 1.1.12, ``autocomplete_light/static.html`` includes ``autocomplete_light/_ajax_csrf.html`` which provides the `necessary javascript
+    <https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax>`_ to protect
+    ajax requests. If your project already has this, then you could override
+    ``autocomplete_light/_ajax_csrf.html`` - or just override ``static.html``
+    and not include that.
 
 .. _quick-admin:
 
