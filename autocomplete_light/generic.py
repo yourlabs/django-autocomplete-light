@@ -42,7 +42,7 @@ class GenericModelForm(forms.ModelForm):
                 setattr(self.instance, field.name, value)
 
                 self.cleaned_data[field.ct_field] = \
-                        ContentType.objects.get_for_model(value)
+                    ContentType.objects.get_for_model(value)
                 self.cleaned_data[field.fk_field] = value.pk
 
 
