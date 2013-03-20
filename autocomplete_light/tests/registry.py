@@ -55,6 +55,15 @@ class RegistryTestCase(unittest.TestCase):
             'search_name')
         self.assertEqual(self.registry['FooAutocomplete'].choices, choices)
 
+    def test_register_with_custom_autocomplete_model_base(self):
+        class NewBase(autocomplete_light.AutocompleteModelBase):
+            new_base = True
+
+        self.registry.autocomplete_model_base = NewBase
+        self.registry.register(Foo)
+        self.assertEqual(NewBase, self.registry['FooAutocomplete'].__base__)
+        self.assertTrue(self.registry['FooAutocomplete'].new_base)
+
     def test_register_with_autocomplete_and_kwargs(self):
         self.registry.register(Foo, Bar, search_name='search_name')
         self.assertEqual(self.registry['FooBar'].search_name,
