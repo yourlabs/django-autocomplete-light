@@ -372,6 +372,11 @@ $(document).ready(function() {
                 }
             }
 
+            // Ignore inserted autocomplete box elements.
+            if (widget.is('.yourlabs-autocomplete')) {
+                return;
+            }
+
             // added a widget: initialize the widget.
             widget.trigger('initialize');
         }
