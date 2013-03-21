@@ -377,6 +377,10 @@ $(document).ready(function() {
                 return;
             }
 
+            // Ensure that the newly added widget is clean, in case it was cloned.
+            widget.removeData('widget');
+            widget.find('input').removeData('autocomplete');
+
             // added a widget: initialize the widget.
             widget.trigger('initialize');
         }
