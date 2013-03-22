@@ -305,7 +305,7 @@ Per Autocomplete class
         autocomplete_js_attributes = {
             # This will actually data-autocomplete-minimum-characters which
             # will set widget.autocomplete.minimumCharacters.
-            'minimum_character': 4, 
+            'minimum_characters': 4, 
         }
 
         widget_js_attributes = {
@@ -321,7 +321,7 @@ Per registered Autocomplete
     autocomplete_light.register(City,
         # Those have priority over the class attributes
         autocomplete_js_attributes={
-            'minimum_character': 0, 
+            'minimum_characters': 0, 
             'placeholder': 'City name ?',
         }
         widget_js_attributes = {

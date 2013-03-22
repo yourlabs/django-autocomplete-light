@@ -31,7 +31,7 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
         autocomplete_js_attributes={
             # This will actually data-minimum-characters which
             # will set widget.autocomplete.minimumCharacters.
-            'minimum_character': 0, 
+            'minimum_characters': 0, 
             'placeholder': 'Other model name ?',
         }
     )
@@ -41,7 +41,7 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
         template_name = 'your_app/your_special_choice_template.html'
 
         autocomplete_js_attributes = {
-            'minimum_character': 4, 
+            'minimum_characters': 4, 
         }
 
         widget_js_attributes = {
