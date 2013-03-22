@@ -81,7 +81,7 @@ Load the javascript scripts after loading ``jquery.js``, it can look like this:
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
     {% include 'autocomplete_light/static.html' %}
 
-Optionnaly include it in ``admin/base_site.html`` too
+Optionaly include it in ``admin/base_site.html`` too
 -----------------------------------------------------
 
 For admin support, `override
