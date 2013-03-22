@@ -321,7 +321,7 @@ Per registered Autocomplete
     autocomplete_light.register(City,
         # Those have priority over the class attributes
         autocomplete_js_attributes={
-            'minimum_character': 0, 
+            'minimum_characters': 0, 
             'placeholder': 'City name ?',
         }
         widget_js_attributes = {
