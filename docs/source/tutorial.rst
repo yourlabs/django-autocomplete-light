@@ -305,7 +305,7 @@ Per Autocomplete class
         autocomplete_js_attributes = {
             # This will actually data-autocomplete-minimum-characters which
             # will set widget.autocomplete.minimumCharacters.
-            'minimum_character': 4, 
+            'minimum_characters': 4, 
         }
 
         widget_js_attributes = {
