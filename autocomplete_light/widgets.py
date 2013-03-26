@@ -108,14 +108,16 @@ class WidgetBase(object):
             'autocomplete': autocomplete,
         }
         context.update(self.extra_context)
-
-        return safestring.mark_safe(render_to_string([
-            getattr(autocomplete, 'widget_template', ''),
+        templates = [
             'autocomplete_light/%s/widget.html' % autocomplete_name,
             'autocomplete_light/%s/widget.html' % getattr(autocomplete,
                 'widget_template_name', ''),
             'autocomplete_light/widget.html',
-        ], context))
+        ]
+        widget_template = getattr(autocomplete, 'widget_template', None)
+        if widget_template:
+            templates.insert(0, widget_template)
+        return safestring.mark_safe(render_to_string(templates, context))
 
 
 class ChoiceWidget(WidgetBase, forms.Select):

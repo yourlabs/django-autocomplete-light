@@ -1,3 +1,6 @@
+1.1.26
+- Fixed #114: Use widget_template attr only when set.
+
 1.1.25 Fixed #108: generic inline support.
 
 1.1.24
