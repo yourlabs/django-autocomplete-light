@@ -31,5 +31,7 @@ urlpatterns = patterns('',
     url(r'^cities_light/', include('cities_light.contrib.restframework')),
     url(r'^hvad_autocomplete/', include('hvad_autocomplete.urls',
                                         namespace='hvad_autocomplete')),
+    url(r'^inlines_outside_admin/', include('inlines_outside_admin.urls',
+                                            namespace='inlines_outside_admin')),
     (r'^i18n/', include('django.conf.urls.i18n')),
 )

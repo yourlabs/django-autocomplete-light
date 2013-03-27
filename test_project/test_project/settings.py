@@ -165,7 +165,7 @@ INSTALLED_APPS = (
     'm2m_autocomplete',
     'navigation_autocomplete',
     'docs_autocomplete',
-    'inline_autocomplete',
+    'inlines_outside_admin',
     'tagging',
     'template_autocomplete',
     'non_admin',
