@@ -252,8 +252,35 @@ yourlabs.Widget.prototype.initialize = function() {
     this.bindSelectChoice();
 }
 
+// Destroy the widget. Takes a widget element because a cloned widget element
+// will be dirty, ie. have wrong .input and .widget properties.
+yourlabs.Widget.prototype.destroy = function(widget) {
+    widget.find('input')
+        .unbind('selectChoice')
+        .yourlabsAutocomplete('destroy');
+}
+
+// Get or create or destroy a widget instance.
+//
+// On first call, yourlabsWidget() will instanciate a widget applying all
+// passed overrides.
+// 
+// On later calls, yourlabsWidget() will return the previously created widget
+// instance, which is stored in widget.data('widget').
+//
+// Calling yourlabsWidget('destroy') will destroy the widget. Useful if the
+// element was blindly cloned with .clone(true) for example.
 $.fn.yourlabsWidget = function(overrides) {
     var overrides = overrides ? overrides : {};
+
+    if (overrides == 'destroy') {
+        var widget = this.data('widget');
+        if (widget) {
+            widget.destroy(this);
+            this.removeData('widget');
+        }
+        return
+    }
 
     if (this.data('widget') == undefined) {
         // Instanciate the widget
@@ -378,8 +405,8 @@ $(document).ready(function() {
             }
 
             // Ensure that the newly added widget is clean, in case it was cloned.
-            widget.removeData('widget');
-            widget.find('input').removeData('autocomplete');
+            widget.yourlabsWidget('destroy');
+            widget.find('input').yourlabsAutocomplete('destroy');
 
             // added a widget: initialize the widget.
             widget.trigger('initialize');

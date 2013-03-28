@@ -146,9 +146,26 @@ yourlabs.TextWidget.prototype.initialize = function() {
     this.bindSelectChoice();
 }
 
-// TextWidget factory and registry, as jQuery extension.
+// Destroy the widget. Takes a widget element because a cloned widget element
+// will be dirty, ie. have wrong .input and .widget properties.
+yourlabs.TextWidget.prototype.destroy = function(input) {
+    input 
+        .unbind('selectChoice')
+        .yourlabsAutocomplete('destroy');
+}
+
+// TextWidget factory, registry and destroyer, as jQuery extension.
 $.fn.yourlabsTextWidget = function(overrides) {
     var overrides = overrides ? overrides : {};
+
+    if (overrides == 'destroy') {
+        var widget = this.data('widget');
+        if (widget) {
+            widget.destroy(this);
+            this.removeData('widget');
+        }
+        return
+    }
 
     if (this.data('widget') == undefined) {
         // Instanciate the widget
@@ -234,6 +251,15 @@ $(document).ready(function() {
                 return;
             }
         }
+
+        // Ignore inserted autocomplete box elements.
+        if (widget.is('.yourlabs-autocomplete')) {
+            return;
+        }
+
+        // Ensure that the newly added widget is clean, in case it was cloned.
+        widget.yourlabsWidget('destroy');
+        widget.find('input').yourlabsAutocomplete('destroy');
 
         widget.trigger('initialize');
     });

@@ -192,11 +192,11 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     this.input.attr('placeholder', this.placeholder);
 
     this.input
-        .on('blur', $.proxy(this.inputBlur, this))
-        .on('click', $.proxy(this.inputClick, this))
-        .on('keypress', $.proxy(this.inputKeypress, this))
-        .on('keyup', $.proxy(this.inputKeyup, this))
-        .on('keydown', $.proxy(this.inputKeydown, this))
+        .on('blur.autocomplete', $.proxy(this.inputBlur, this))
+        .on('click.autocomplete', $.proxy(this.inputClick, this))
+        .on('keypress.autocomplete', $.proxy(this.inputKeypress, this))
+        .on('keyup.autocomplete', $.proxy(this.inputKeyup, this))
+        .on('keydown.autocomplete', $.proxy(this.inputKeydown, this))
 
     /*
     Bind mouse events to fire signals. Because the same signals will be
@@ -206,6 +206,16 @@ yourlabs.Autocomplete.prototype.initialize = function() {
         .on('mouseenter', this.choiceSelector, $.proxy(this.boxMouseenter, this))
         .on('mouseleave', this.choiceSelector, $.proxy(this.boxMouseleave, this))
         .on('click', this.choiceSelector, $.proxy(this.boxClick, this))
+}
+
+// Unbind callbacks on input.
+yourlabs.Autocomplete.prototype.destroy = function(input) {
+    input
+        .unbind('blur.autocomplete')
+        .unbind('click.autocomplete')
+        .unbind('keypress.autocomplete')
+        .unbind('keyup.autocomplete')
+        .unbind('keydown.autocomplete')
 }
 
 yourlabs.Autocomplete.prototype.inputBlur = function(e) {
@@ -468,6 +478,7 @@ yourlabs.Autocomplete.prototype.fetch = function() {
     });
 }
 
+// Callback for the ajax response.
 yourlabs.Autocomplete.prototype.fetchComplete = function(jqXHR, textStatus) {
     if (this.xhr == jqXHR) this.xhr = false;
     if (textStatus == 'abort') return;
@@ -501,6 +512,8 @@ Also, it implements a simple identity map, which means that:
   $('input#your-autocomplete').yourlabsAutocomplete().data = {
       newData: $('#foo').val(),
   }
+
+To destroy an autocomplete, call yourlabsAutocomplete('destroy').
 */
 $.fn.yourlabsAutocomplete = function(overrides) {
     if (this.length < 1) {
@@ -509,6 +522,15 @@ $.fn.yourlabsAutocomplete = function(overrides) {
     }
 
     var overrides = overrides ? overrides : {};
+
+    if (overrides == 'destroy') {
+        var autocomplete = this.data('autocomplete');
+        if (autocomplete) {
+            autocomplete.destroy(this);
+            this.removeData('autocomplete');
+        }
+        return
+    }
 
     // Disable the browser's autocomplete features on that input.
     this.attr('autocomplete', 'off');
