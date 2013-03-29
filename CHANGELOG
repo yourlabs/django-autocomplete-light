@@ -1,3 +1,7 @@
+1.1.27 Fix #117: django-grappelli support.
+
+Contributed by Michał Pasternak.
+
 1.1.26
 
 - Fixed #114: Use widget_template attr only when set.
