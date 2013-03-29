@@ -91,6 +91,11 @@ body.change-form .autocomplete-light-widget
     background-position: -15px 0;
 }
 
+/* grappelli specific */
+fieldset.grp-module .grp-row {
+    overflow: visible !important;
+}
+
 /* credit: http://www.csslab.cl/2008/01/30/ventana-modal-solo-con-css/ */
 #yourlabs_overlay {
     position: absolute;
