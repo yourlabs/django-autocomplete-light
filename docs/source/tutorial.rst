@@ -42,7 +42,7 @@ This means that openning ``/autocomplete/PersonAutocomplete/`` will call
 
         class PersonAutocomplete(autocomplete_light.AutocompleteModelBase):
             search_fields = ['^first_name', 'last_name']
-            autocomplete_js_attributes={'placeholder': 'Other model name ?',},
+            autocomplete_js_attributes={'placeholder': 'Other model name ?',}
             model = Person
         autocomplete_light.register(PersonAutocomplete)
 
