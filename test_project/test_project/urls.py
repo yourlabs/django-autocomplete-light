@@ -34,4 +34,5 @@ urlpatterns = patterns('',
     url(r'^inlines_outside_admin/', include('inlines_outside_admin.urls',
                                             namespace='inlines_outside_admin')),
     (r'^i18n/', include('django.conf.urls.i18n')),
+    (r'^$', generic.TemplateView.as_view(template_name='index.html'))
 )
