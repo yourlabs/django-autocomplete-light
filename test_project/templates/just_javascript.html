@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+just_javascript demo - {{ block.super }}
+{% endblock %}
+
+{% block extrahead %}
+    <script src="{{ STATIC_URL }}jquery.js" type="text/javascript"></script>
+    {% include 'autocomplete_light/static.html' %}
+{% endblock %}
+
+{% block branding %}
+    <a href="/" style="float: right;">go back</a>
+    <h1>just_javascript demo</h1>
+{% endblock %}
+
+{% block content %}
+    <p>
+        This simple demo shows, how to create a fully working autocomplete-light
+        widget just by JavaScript, at client side.
+    <p/>
+    Please note, that at server-side, this demo uses objects called
+    <a target="_blank" href="/admin/admin_test_autocomplete/bar/">Bar</a> from
+    <a target="_blank" href="/admin/admin_test_autocomplete/">Admin Test
+        Autocomplete</a> demo, running in the Django Admin interface of this
+    humble application. So, if the pop-down list of the autocomplete objects
+    is empty, please
+    <a target="_blank" href="/admin/admin_test_autocomplete/bar/add/">
+        click here</a> to add more objects to the database.
+    </p>
+    <p>
+        The idea is <a target="_blank"
+                       href="http://django-autocomplete-light.readthedocs.org/en/latest/tutorial.html#javascript-api-concepts">
+        described in the documentation</a>.
+    </p>
+    <p>
+        Here's our input widget: <input type="text" id="yourInput"></input>
+    </p>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Make a javascript Autocomplete object and set it up
+            var autocomplete = $('#yourInput').yourlabsAutocomplete({
+                url: '/autocomplete/BarAutocomplete/'
+            });
+
+            $('#yourInput').bind('selectChoice', function (e, choice, autocomplete) {
+                alert(choice);
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}django-autocomplete-light demo{% endblock %}</title>
+    <title>{% block title %}django-autocomplete-light{% endblock %}</title>
+    {% block extrahead %}{% endblock %}
 </head>
-<body>
+<body style="width:800px; margin-left: auto; margin-right: auto;">
+
+{% block branding %}
+<h1>Welcome to django-autocomplete-light test project!</h1>
+{% endblock %}
+
 {% block content %}
 {% endblock %}
 </body>
