@@ -169,6 +169,7 @@ INSTALLED_APPS = (
     'tagging',
     'template_autocomplete',
     'non_admin',
+    'non_id_foreignkey',
     # test models
     'autocomplete_light.tests',
     'non_admin_add_another',
