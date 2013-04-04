@@ -1,3 +1,12 @@
+1.1.28 Regression fix: hide choiceDetail and choiceUpdate from the autocomplete
+       box.
+
+This fixes the default model template, see in test_project:
+
+    http://localhost:8000/admin/default_template_autocomplete/testmodel/add/
+
+The test_project now includes demos created by Michał Pasternak. Thankssss !
+
 1.1.27 Fix #117: django-grappelli support.
 
 Contributed by Michał Pasternak.
