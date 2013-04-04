@@ -91,6 +91,12 @@ body.change-form .autocomplete-light-widget
     background-position: -15px 0;
 }
 
+.yourlabs-autocomplete .choiceDetail, 
+.yourlabs-autocomplete .choiceUpdate 
+{
+    display: none;
+}
+
 /* grappelli specific */
 fieldset.grp-module .grp-row {
     overflow: visible !important;
