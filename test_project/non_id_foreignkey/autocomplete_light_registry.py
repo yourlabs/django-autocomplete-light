@@ -12,5 +12,9 @@ class AutocompleteCode(autocomplete_light.AutocompleteModelBase):
     def choice_value(self, choice):
         return choice.code
 
+    def choices_for_values(self):
+        return self.order_choices(self.choices.filter(
+            code__in=self.values or []))
+
 
 autocomplete_light.register(CodeModel, AutocompleteCode)
