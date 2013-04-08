@@ -1,3 +1,5 @@
+1.1.29 Fix #126: support .clone(true) with values.
+
 1.1.28 Regression fix: hide choiceDetail and choiceUpdate from the autocomplete
        box.
 
