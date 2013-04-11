@@ -1,0 +1,10 @@
+{% load autocomplete_light_tags %}
+{% load i18n %}
+
+{% for choice in choices %}
+    {{ choice|autocomplete_light_choice_html:autocomplete }}
+{% empty %}
+    <span class="div" data-create-choice="{{ request.GET.q }}">
+        {% blocktrans with choice=request.GET.q %}No result found for {{ choice }}, click here to create it.{% endblocktrans %}
+    </span>
+{% endfor %}

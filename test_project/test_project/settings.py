@@ -177,6 +177,7 @@ INSTALLED_APPS = (
     'default_template_autocomplete',
     'hvad',
     'hvad_autocomplete',
+    'ajax_create',
 )
 
 # A sample logging configuration. The only tangible logging
