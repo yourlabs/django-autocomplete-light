@@ -361,9 +361,20 @@ you understand for one plugin is likely to be appliable for others.
 Using ``$.yourlabsAutocomplete`` to create a navigation autocomplete
 ````````````````````````````````````````````````````````````````````
 
-If you have a view that already renders just a list of links based on
-``request.GET.q``, then you can use it to make a global navigation
-autocomplete using ``autocomplete.js`` directly. It can look like this:
+If your website has a lot of data, it might be useful to add a search
+input somewhere in the design. For example, there is a search input in
+Facebook's header. You will also notice that the search input in Facebook
+provides an autocomplete which allows to directly navigate to a particular
+object's detail page. This allows a visitor to jump to a particular page with
+very few effort.
+
+Our autocomplete script is designed to support this kind of autocomplete. It
+can be enabled on an input field and query the server for a rendered
+autocomplete with anything like images and nifty design. Just create a view
+that renders just a list of links based on ``request.GET.q``.
+
+Then you can use it to make a global navigation autocomplete using
+``autocomplete.js`` directly.  It can look like this:
 
 .. code-block:: javascript
     
