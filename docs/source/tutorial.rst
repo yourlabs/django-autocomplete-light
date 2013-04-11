@@ -270,7 +270,16 @@ You can use this form in the admin too, it can look like this:
 Using autocomplete widgets in non model-forms
 `````````````````````````````````````````````
 
-Any widget is usable in any form, ie.:
+There are 3 kinds of widgets:
+
+- ``autocomplete_light.ChoiceWidget`` has a hidden ``<select>`` which works for
+  ``django.forms.ChoiceField``,
+- ``autocomplete_light.MultipleChoiceWidget`` has a hidden ``<select
+  multiple="multiple">`` which works for ``django.forms.MultipleChoiceField``,
+- ``autocomplete_light.TextWidget`` just enables an autocomplete on its
+  ``<input>`` and works for ``django.forms.CharField``.
+
+For example:
 
 .. code-block:: python
 
@@ -282,7 +291,8 @@ Any widget is usable in any form, ie.:
         cities = forms.ModelMultipleChoiceField(City.objects.all(),
             widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete'))
 
-        tags = autocomplete_light.TextWidget('TagAutocomplete')
+        tags = forms.CharField(
+            widget=autocomplete_light.TextWidget('TagAutocomplete'))
 
 Overriding a JS option in Python
 ````````````````````````````````
