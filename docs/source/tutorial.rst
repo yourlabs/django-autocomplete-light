@@ -34,6 +34,11 @@ This means that openning ``/autocomplete/PersonAutocomplete/`` will call
 ``AutocompleteView.get()`` which will in turn call
 ``PersonAutocomplete.get()``.
 
+.. warning::
+
+    Note that this would make **all** ``Person`` public. Fine tuning
+    security is explained later in this tutorial in section :ref:`security`.
+
 .. note::
 
     An equivalent way of doing the above is:
@@ -148,6 +153,8 @@ Registering a custom Autocomplete class for your model in
         
         autocomplete_light.register(Person, 
             search_fields=['^first_name', 'last_name'])
+
+.. _security:
 
 Overriding the queryset of a model autocomplete to secure an Autocomplete
 `````````````````````````````````````````````````````````````````````````
