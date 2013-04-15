@@ -60,7 +60,7 @@ else:
 
 setup(
     name='django-autocomplete-light',
-    version='1.1.29',
+    version='1.1.30',
     description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',
