@@ -425,9 +425,9 @@ yourlabs.Autocomplete.prototype.move = function(e) {
 yourlabs.Autocomplete.prototype.fixPosition = function() {
     // Insert the autocomplete container after the input.
     var pos = $.extend({}, this.input.position(), {
-        height: this.input.offsetHeight
-    })
-
+        height: this.input.outerHeight()
+    });
+	
     this.box.insertAfter(this.input).css(
             {top: pos.top + pos.height, left: pos.left});
 }
