@@ -1,3 +1,5 @@
+1.1.31 Fix #129: Firefox support in JS positioning code.
+
 1.1.30 Polish translation contributed by Michał Pasternak.
 
 1.1.29 Fix #126: support .clone(true) with values.
