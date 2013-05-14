@@ -19,6 +19,8 @@ Features include:
 - 100% overridable HTML, CSS, Python and Javascript: there is no variable
   hidden far down in the scope anywhere.
 - add-another popup supported outside the admin too.
+- keyboard is supported with enter, tab and
+  arrows by default.
 
 Each feature has a live example and is fully documented. It is also designed
 and documented so that you create your own awesome features too.
