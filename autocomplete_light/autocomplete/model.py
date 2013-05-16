@@ -41,10 +41,11 @@ class AutocompleteModel(object):
                 return "%s__icontains" % field_name
 
         conditions = Q()
-        if q:
+        for word in q.strip().split():
+            word_conditions = Q()
             for search_field in self.search_fields:
-                conditions |= Q(**{construct_search(search_field): q})
-
+                word_conditions |= Q(**{construct_search(search_field): word})
+            conditions &= word_conditions
         return self.order_choices(self.choices.filter(
             conditions).exclude(pk__in=exclude))[0:self.limit_choices]
 
