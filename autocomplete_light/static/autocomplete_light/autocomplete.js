@@ -347,6 +347,14 @@ yourlabs.Autocomplete.prototype.show = function(html) {
         this.box.html(html);
     }
 
+    // Don't display empty boxes.
+    if (this.box.is(':empty')) {
+        if (this.box.is(':visible')) {
+            this.hide();
+        }
+        return;
+    }
+
     // Show the inner and outer container only if necessary.
     if (!this.box.is(':visible')) {
         this.box.css('display', 'block');
