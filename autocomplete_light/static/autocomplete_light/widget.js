@@ -405,7 +405,10 @@ $(document).ready(function() {
             }
 
             // Ensure that the newly added widget is clean, in case it was cloned.
-            widget.find('select option').remove();
+            if (widget.clearOnClone) {
+                widget.find('select option').remove();
+            }
+            
             widget.yourlabsWidget('destroy');
             widget.find('input').yourlabsAutocomplete('destroy');
 
