@@ -354,6 +354,12 @@ yourlabs.Autocomplete.prototype.show = function(html) {
         }
         return;
     }
+    
+    var current = this.box.find('.' + this.hilightClass);
+    var first = this.box.find(this.choiceSelector + ':first');
+    if (first && !current.length) { 
+        first.addClass(this.hilightClass);
+    }
 
     // Show the inner and outer container only if necessary.
     if (!this.box.is(':visible')) {
