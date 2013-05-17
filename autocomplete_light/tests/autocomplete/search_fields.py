@@ -47,6 +47,12 @@ class AutocompleteSearchFieldsTestCase(AutocompleteTestCase):
                 'expected': []
             },
             {
+                'fixture': make_get_request('q=buddy gu'),
+                'expected': [
+                    self.buddy_guy,
+                ]
+            },
+            {
                 'fixture': make_get_request('q=bud'),
                 'expected': [
                     self.buddy_guy,
@@ -54,6 +60,7 @@ class AutocompleteSearchFieldsTestCase(AutocompleteTestCase):
             },
             {
                 'fixture': make_get_request('q=bud bl'),
+                'kwargs': {'split_words': True},
                 'expected': [
                     self.buddy_guy,
                 ]

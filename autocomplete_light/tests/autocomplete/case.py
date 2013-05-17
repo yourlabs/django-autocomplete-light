@@ -54,6 +54,8 @@ class AutocompleteTestCase(unittest.TestCase):
 
         for test in self.get_choices_for_request_tests():
             mock = self.autocomplete_mock(request=test['fixture'])
+            for k, v in test.get('kwargs', {}).items():
+                setattr(mock, k, v)
             result = mock.choices_for_request()
             self.assert_choices_equal(list(result), test)
 

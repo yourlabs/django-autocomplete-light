@@ -7,6 +7,7 @@ class AutocompleteModel(object):
     limit_choices = 20
     choices = None
     search_fields = None
+    split_words = False
 
     def choice_value(self, choice):
         return choice.pk
@@ -41,11 +42,18 @@ class AutocompleteModel(object):
                 return "%s__icontains" % field_name
 
         conditions = Q()
-        for word in q.strip().split():
-            word_conditions = Q()
+
+        if self.split_words:
+            for word in q.strip().split():
+                word_conditions = Q()
+                for search_field in self.search_fields:
+                    word_conditions |= Q(**{construct_search(search_field):
+                        word})
+                conditions &= word_conditions
+        else:
             for search_field in self.search_fields:
-                word_conditions |= Q(**{construct_search(search_field): word})
-            conditions &= word_conditions
+                conditions |= Q(**{construct_search(search_field): q})
+
         return self.order_choices(self.choices.filter(
             conditions).exclude(pk__in=exclude))[0:self.limit_choices]
 
