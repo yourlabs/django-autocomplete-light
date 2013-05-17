@@ -53,6 +53,12 @@ class AutocompleteSearchFieldsTestCase(AutocompleteTestCase):
                 ]
             },
             {
+                'fixture': make_get_request('q=bud bl'),
+                'expected': [
+                    self.buddy_guy,
+                ]
+            },
+            {
                 'fixture': make_get_request('q=Mud'),
                 'expected': [
                     self.muddy_waters,
