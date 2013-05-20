@@ -30,7 +30,7 @@ class AutocompleteModel(object):
         assert self.choices is not None, 'choices should be a queryset'
         assert self.search_fields, 'autocomplete.search_fields must be set'
         q = self.request.GET.get('q', '')
-        exclude = self.request.GET.getlist('exclude', [])
+        exclude = self.request.GET.getlist('exclude')
 
         # Apply keyword searches.
         def construct_search(field_name):
