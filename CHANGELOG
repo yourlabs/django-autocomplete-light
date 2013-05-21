@@ -1,8 +1,28 @@
+1.2.0 
+
+- Implement #136: AutocompleteModel.split_words
+- Django 1.3 unofficial support compatibility fix, thanks @haplo.
+- Auto-hilight the first choice.
+- Implemented .clone(true) with values as an option, emptyOnClone,
+  restoring compatibility with <1.1.29.
+
+UPDATING from 1.1.29: if you want to autocomplete widgets values to be emptied
+on javascript .clone(true) (ie. using ajax formsets) then set the widget
+attribute emptyOnClone.
+
+You can do it from Python, ie.:
+
+
+
 1.1.31 Fix #129: Firefox support in JS positioning code.
 
 1.1.30 Polish translation contributed by Michał Pasternak.
 
 1.1.29 Fix #126: support .clone(true) with values.
+
+WARNING: This introduced a backward compatibility break. It was
+reverted in 1.2.0. This means that if you want this feature with
+1.2.0 then set the widget attribute emptyOnClone to true.
 
 1.1.28 Regression fix: hide choiceDetail and choiceUpdate from the autocomplete
        box.
