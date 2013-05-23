@@ -76,7 +76,7 @@ class WidgetTestCase(LiveServerTestCase):
         self.wait.until(lambda selenium: selenium.find_element_by_id("user-tools"))
 
     def test_login(self):
-        self.wait = ui.WebDriverWait(self.selenium,30)
+        self.wait = ui.WebDriverWait(self.selenium,120)
 
         def wait_for_selector(selector, displayed=None):
             def f(selenium):
