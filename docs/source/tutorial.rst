@@ -497,6 +497,28 @@ Overriding methods works the same, ie:
 
     The pattern is the same for all plugins provided by django-autocomplete-light.
 
+Overload autocomplete JS methods
+````````````````````````````````
+
+Use `call
+<https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Function/call>`_
+to call a parent method. This example automatically selects the choice if there
+is only one:
+
+.. code-block:: javascript
+
+    $(document).ready(function() {
+        var autocomplete = $('#id_city_text').yourlabsAutocomplete();
+        autocomplete.show = function(html) {
+            yourlabs.Autocomplete.prototype.show.call(this, html)
+            var choices = this.box.find(this.choiceSelector);
+
+            if (choices.length == 1) {
+                this.input.trigger('selectChoice', [choices, this]);
+            }
+        }
+    });
+
 Get an existing autocomplete object and chain autocompletes
 ```````````````````````````````````````````````````````````
 
