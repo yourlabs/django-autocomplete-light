@@ -135,10 +135,14 @@ class WidgetTestCase(LiveServerTestCase):
         tests = (
             {
                 'key': Keys.ARROW_DOWN,
-                'expected': 0,
+                'expected': 1,
             },
             {
                 'key': Keys.ARROW_DOWN,
+                'expected': 2,
+            },
+            {
+                'key': Keys.ARROW_UP,
                 'expected': 1,
             },
             {
