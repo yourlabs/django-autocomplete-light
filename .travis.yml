@@ -1,6 +1,10 @@
 language: python
 python:
   - "2.7"
+branches:
+  only:
+    - master
+    - travis_fix
 env:
   - DJANGO=1.4
   - DJANGO=1.5
