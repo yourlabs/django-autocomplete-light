@@ -8,7 +8,7 @@ except ImportError:
     import json
 
 
-from model import AutocompleteModel
+from .model import AutocompleteModel
 
 
 class AutocompleteRestModel(AutocompleteModel):
