@@ -8,3 +8,4 @@ dist
 django_autocomplete_light.egg-info/
 *swp
 docs/docs
+__pycache__

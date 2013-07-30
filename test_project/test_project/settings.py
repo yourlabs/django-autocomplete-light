@@ -175,8 +175,6 @@ INSTALLED_APPS = (
     'non_admin_add_another',
     'support_sandino',
     'default_template_autocomplete',
-    'hvad',
-    'hvad_autocomplete',
     'ajax_create',
 )
 

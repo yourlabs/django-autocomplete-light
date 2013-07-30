@@ -61,7 +61,7 @@ class AutocompleteInterface(object):
         try:
             return urlresolvers.reverse('autocomplete_light_autocomplete',
                 args=(self.__class__.__name__,))
-        except urlresolvers.NoReverseMatch, e:
+        except urlresolvers.NoReverseMatch as e:
             # Such error will ruin form rendering. It would be automatically
             # silenced because of e.silent_variable_failure=True, which is
             # something we don't want. Let's give the user a hint:
