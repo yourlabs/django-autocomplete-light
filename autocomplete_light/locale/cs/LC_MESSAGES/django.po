@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.2.3.\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-30 22:13+0200\n"
-"PO-Revision-Date: 2013-07-30 22:17+0100\n"
+"PO-Revision-Date: 2013-07-30 22:25+0100\n"
 "Last-Translator: Tomáš Peterka <peterka@webriginals.com>\n"
 "Language-Team: CS <peterka@webriginals.com>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: forms.py:13
 msgid ""
 " Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr "Držte \"Ctrl\" nebo \"Command\" na Mac abyste vybrali více položek."
+msgstr "Držte \"Ctrl\" (nebo \"Command\" na Macu) pro výběr více položek."
 
 #: widgets.py:82
 msgid "type some text to search in this autocomplete"
