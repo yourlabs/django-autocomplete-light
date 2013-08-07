@@ -34,7 +34,7 @@ class AutocompleteGeneric(AutocompleteModel):
                 return False
 
             try:
-                content_type_id, object_id = value.split('-')
+                content_type_id, object_id = value.split('-', 1)
             except ValueError:
                 return False
 
