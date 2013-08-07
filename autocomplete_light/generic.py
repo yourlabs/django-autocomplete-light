@@ -82,7 +82,7 @@ class GenericModelChoiceField(fields.Field):
         if not value:
             return value
 
-        content_type_id, object_id = value.split('-')
+        content_type_id, object_id = value.split('-', 1)
         try:
             content_type = ContentType.objects.get_for_id(content_type_id)
         except ContentType.DoesNotExist:
