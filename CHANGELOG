@@ -1,3 +1,6 @@
+1.2.5 Raise AutocompleteNotRegistered instead of KeyError in
+      Registry.__getitem__.
+
 1.2.4 @g1itch: Support hyphens in generic autocomplete object pks.
 
 1.2.3 @mislavcimpersak: Croatian i18n
