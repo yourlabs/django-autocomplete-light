@@ -5,6 +5,7 @@ from .registry import RegistryTestCase
 from .templatetags import DataAttributesTestCase
 from .generic import GenericModelFormTestCase
 from .generic_m2m import AutocompleteGenericM2MTestCase
+from .exceptions import AutocompleteNotRegisteredTestCase
 #from .widget import WidgetTestCase
 
 from .autocomplete.choice_list import AutocompleteChoiceListTestCase

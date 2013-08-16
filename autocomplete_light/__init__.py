@@ -7,5 +7,6 @@ from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
 from .forms import get_widgets_dict, modelform_factory, FixedModelForm
 from .generic import GenericModelForm, GenericModelChoiceField
 from .views import CreateView
+from .exceptions import AutocompleteNotRegistered
 
 ModelForm = FixedModelForm

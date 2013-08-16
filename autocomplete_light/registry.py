@@ -29,6 +29,7 @@ autodiscover
 from django.db import models
 
 from .autocomplete import AutocompleteModelBase
+from .exceptions import AutocompleteNotRegistered
 
 __all__ = ('AutocompleteRegistry', 'registry', 'register', 'autodiscover')
 
@@ -150,6 +151,18 @@ class AutocompleteRegistry(dict):
         Register a autocomplete without model, like a generic autocomplete.
         """
         self[autocomplete.__name__] = autocomplete
+
+    def __getitem__(self, name):
+        """
+        Return the Autocomplete class registered for this name. If none is
+        registered, return a callback that decorates the construction of an
+        Autocomplete instance. This merely allows to use an Autocomplete as
+        argument without having it registered at first.
+        """
+        try:
+            return super(AutocompleteRegistry, self).__getitem__(name)
+        except KeyError:
+            raise AutocompleteNotRegistered(name, self)
 
 
 def _autodiscover(registry):

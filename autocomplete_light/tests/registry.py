@@ -87,3 +87,10 @@ class RegistryTestCase(unittest.TestCase):
     def test_register_generic_with_custom_name(self):
         self.registry.register(Generic, name='foo')
         self.assertTrue('foo' in self.registry.keys())
+
+    def test_raise_AutocompleteNotRegistered(self):
+        try:
+            self.registry['NotRegistered']
+            self.fail('Should raise AutocompleteNotRegistered')
+        except autocomplete_light.AutocompleteNotRegistered:
+            pass
