@@ -155,9 +155,7 @@ class AutocompleteRegistry(dict):
     def __getitem__(self, name):
         """
         Return the Autocomplete class registered for this name. If none is
-        registered, return a callback that decorates the construction of an
-        Autocomplete instance. This merely allows to use an Autocomplete as
-        argument without having it registered at first.
+        registered, raise AutocompleteNotRegistered.
         """
         try:
             return super(AutocompleteRegistry, self).__getitem__(name)
