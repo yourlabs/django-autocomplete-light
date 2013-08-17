@@ -2,11 +2,14 @@ from django.db.models import Q
 
 __all__ = ('AutocompleteModel', )
 
+from django.utils.translation import get_language, check_for_language
 
 class AutocompleteModel(object):
     limit_choices = 20
     choices = None
     search_fields = None
+    internationalization = False
+    exclude_i18n = ['']
     split_words = False
 
     def choice_value(self, choice):
@@ -43,15 +46,26 @@ class AutocompleteModel(object):
 
         conditions = Q()
 
+        language = get_language()
+        
+        def check_i18n(field_name):
+            if self.internationalization and field_name not in self.exclude_i18n and check_for_language(language):
+                #i.e. for a field named description a field called description_de would be used in german
+                return '%s_%s' % (field_name, language)
+            else:
+                return field_name
+                
         if self.split_words:
             for word in q.strip().split():
                 word_conditions = Q()
                 for search_field in self.search_fields:
+                    search_field = check_i18n(search_field)
                     word_conditions |= Q(**{construct_search(search_field):
                         word})
                 conditions &= word_conditions
         else:
             for search_field in self.search_fields:
+                search_field = check_i18n(search_field)
                 conditions |= Q(**{construct_search(search_field): q})
 
         return self.order_choices(self.choices.filter(
