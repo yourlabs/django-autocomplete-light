@@ -121,14 +121,17 @@ yourlabs.Widget.prototype.freeDeck = function() {
 }
 
 // Empty the search input and hide it if maxValues has been reached.
-yourlabs.Widget.prototype.resetDisplay = function() {
+yourlabs.Widget.prototype.resetDisplay = function(initialize) {
     var selected = this.select.find('option:selected').length;
 
     if (this.maxValues && selected == this.maxValues) {
         var index = $(':input:visible').index(this.input);
         this.input.hide();
         var next = $(':input:visible:eq('+ index +')');
-        next.focus()
+
+        if (initialize !== true) {
+            next.focus()
+        }
     } else {
         this.input.show();
     }
@@ -247,7 +250,7 @@ yourlabs.Widget.prototype.initialize = function() {
         this.input.yourlabsAutocomplete().choiceSelector);
 
     this.addRemove(choices);
-    this.resetDisplay();
+    this.resetDisplay(true);
 
     this.bindSelectChoice();
 }
