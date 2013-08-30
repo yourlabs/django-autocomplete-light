@@ -7,7 +7,7 @@ class AutocompleteModel(object):
     limit_choices = 20
     choices = None
     search_fields = None
-    split_words = False
+    split_words = True
 
     def choice_value(self, choice):
         return choice.pk
