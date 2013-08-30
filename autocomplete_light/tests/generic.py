@@ -8,6 +8,7 @@ from cities_light.models import Country, City
 from gfk_autocomplete.forms import TaggedItemForm
 from optionnal_gfk_autocomplete.forms import OptionnalTaggedItemForm
 
+
 class GenericModelFormTestCase(unittest.TestCase):
     def setUp(self):
         self.country, c = Country.objects.get_or_create(name='Countryname')

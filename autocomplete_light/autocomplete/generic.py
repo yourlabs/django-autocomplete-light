@@ -75,11 +75,8 @@ class AutocompleteGeneric(AutocompleteModel):
 
         i = 0
         for queryset in self.choices:
-            conditions = Q()
-
-            if q:
-                for search_field in self.search_fields[i]:
-                    conditions |= Q(**{search_field + '__icontains': q})
+            conditions = self._choices_for_request_conditions(q,
+                    self.search_fields[i])
 
             limit = ((self.limit_choices - len(request_choices)) /
                 querysets_left)
