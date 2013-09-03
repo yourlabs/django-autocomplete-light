@@ -32,7 +32,8 @@ class AutocompleteModel(object):
         q = self.request.GET.get('q', '')
         exclude = self.request.GET.getlist('exclude')
 
-        conditions = self._choices_for_request_conditions(q, self.search_fields)
+        conditions = self._choices_for_request_conditions(q,
+                self.search_fields)
 
         return self.order_choices(self.choices.filter(
             conditions).exclude(pk__in=exclude))[0:self.limit_choices]
@@ -52,8 +53,8 @@ class AutocompleteModel(object):
             for word in q.strip().split():
                 word_conditions = Q()
                 for search_field in search_fields:
-                    word_conditions |= Q(
-                            **{self._construct_search(search_field): word})
+                    word_conditions |= Q(**{
+                        self._construct_search(search_field): word})
                 conditions &= word_conditions
         else:
             for search_field in search_fields:
