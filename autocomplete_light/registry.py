@@ -130,7 +130,7 @@ class AutocompleteRegistry(dict):
             base = autocomplete
 
         if base.choices is None and 'choices' not in kwargs:
-            kwargs['choices'] = model.objects.all()
+            kwargs['choices'] = model._default_manager.all()
 
         if base.search_fields is None and 'search_fields' not in kwargs:
             try:
