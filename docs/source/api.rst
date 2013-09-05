@@ -32,6 +32,18 @@ See ``autocomplete_light/autocomplete/__init__.py``:
 
 .. literalinclude:: ../../autocomplete_light/autocomplete/__init__.py
 
+AutocompleteModel
+>>>>>>>>>>>>>>>>>
+
+.. automodule:: autocomplete_light.autocomplete.model
+   :members:
+
+AutocompleteGeneric
+>>>>>>>>>>>>>>>>>>>
+
+.. automodule:: autocomplete_light.autocomplete.generic
+   :members:
+
 ``import autocomplete_light``
 -----------------------------
 
