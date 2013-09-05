@@ -4,6 +4,7 @@ A couple of helper functions to help enabling Widget in ModelForms.
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.db.models import ForeignKey, OneToOneField
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
 
 from .widgets import ChoiceWidget, MultipleChoiceWidget
@@ -27,7 +28,12 @@ class FixedModelForm(forms.ModelForm):
         msg = unicode(M)
 
         for name, field in self.fields.items():
-            if not isinstance(field.widget, MultipleChoiceWidget):
+            widget = field.widget
+
+            if isinstance(widget, RelatedFieldWidgetWrapper):
+                widget = widget.widget
+
+            if not isinstance(widget, MultipleChoiceWidget):
                 continue
 
             field.help_text = field.help_text.replace(msg, '')
