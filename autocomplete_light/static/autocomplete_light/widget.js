@@ -253,6 +253,13 @@ yourlabs.Widget.prototype.initialize = function() {
     this.resetDisplay(true);
 
     this.bindSelectChoice();
+    this.clearBoth()
+}
+
+// Add an empty div with clear:both after the widget's container.
+// This is meant to support django-responsive-admin templates.
+yourlabs.Widget.prototype.clearBoth = function() {
+    this.widget.parent().append('<div style="clear: both"></div>');
 }
 
 // Destroy the widget. Takes a widget element because a cloned widget element
