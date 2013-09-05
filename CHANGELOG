@@ -1,3 +1,11 @@
+1.3.1
+
+    - Support django 1.5 RelatedFieldWidgetWrapper in
+      FixedModelForm,
+    - Support django-responsive-admin theme (and probably many
+      other customisations) by adding a div with clear:both after
+      the widget.
+
 1.3.0
 
     - BC Break: Default split_words to True, to match behaviour from
