@@ -20,7 +20,8 @@ class AutocompleteModel(object):
         If 'or', AutocompleteModel does the same but returns all objects that
         contain **any** of the words.
     order_by
-        If set, it will be used to order choices.
+        If set, it will be used to order choices. It can be a single field name
+        or an iterable (ie. list, tuple).
     """
     limit_choices = 20
     choices = None
@@ -44,9 +45,13 @@ class AutocompleteModel(object):
         """
         Order choices using `order_by` option if it is set.
         """
-        if self.order_by is not None:
+        if self.order_by is None:
+            return choices
+
+        if isinstance(self.order_by, basestring):
             return choices.order_by(self.order_by)
-        return choices
+
+        return choices.order_by(*self.order_by)
 
     def choices_for_values(self):
         """

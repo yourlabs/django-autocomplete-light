@@ -54,9 +54,37 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
         return (
             {
                 'fixture': make_get_request('q=j'),
+                'kwargs': {
+                    'limit_choices': 5,
+                },
                 'expected': [
                     self.jack,
                     self.james,
+                    self.john,
+                ]
+            },
+            {
+                'fixture': make_get_request('q=j'),
+                'kwargs': {
+                    'order_by': '-username',
+                    'limit_choices': 5,
+                },
+                'expected': [
+                    self.john,
+                    self.james,
+                    self.jack,
+                ]
+            },
+            {
+                'fixture': make_get_request('q=j'),
+                'kwargs': {
+                    'order_by': ('-email', 'username'),
+                    'limit_choices': 5,
+                },
+                'expected': [
+                    self.james,
+                    self.john,
+                    self.jack,
                 ]
             },
             {
@@ -72,7 +100,7 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
                     self.abe,
                     self.jack,
                 ]
-            }
+            },
         )
 
     def get_validate_tests(self):
