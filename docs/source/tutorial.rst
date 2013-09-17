@@ -159,7 +159,8 @@ Registering a custom Autocomplete class for your model in
 Overriding the queryset of a model autocomplete to secure an Autocomplete
 `````````````````````````````````````````````````````````````````````````
 
-You can override any method of the Autocomplete class. Filtering choices based on the request user could look like this:
+You can override any method of the Autocomplete class. Filtering choices based
+on the request user could look like this:
 
 .. code-block:: python
 
@@ -176,7 +177,7 @@ You can override any method of the Autocomplete class. Filtering choices based o
             if not self.request.user.is_staff:
                 choices = choices.filter(private=False)
 
-            return False
+            return choices
 
     autocomplete_light.register(Person, PersonAutocomplete)
 
