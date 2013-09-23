@@ -1,5 +1,6 @@
 from django.core import urlresolvers
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 
 __all__ = ('AutocompleteInterface', 'AutocompleteBase')
@@ -113,7 +114,8 @@ class AutocompleteBase(AutocompleteInterface):
         Return a choice formated according to self.choice_html_format.
         """
         return self.choice_html_format % (
-            self.choice_value(choice), self.choice_label(choice))
+            escape(self.choice_value(choice)),
+            escape(self.choice_label(choice)))
 
     def choice_value(self, choice):
         """
