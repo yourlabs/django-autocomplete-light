@@ -58,6 +58,9 @@ yourlabs.Widget = function(widget) {
     // The number of choices that the user may select with this widget. Set 0
     // for no limit. In the case of a foreign key you want to set it to 1.
     this.maxValues = 0;
+    
+    // Clear input when choice made? 1 for yes, 0 for no
+    this.clearInputOnChoice = 1
 }
 
 // When a choice is selected from the autocomplete of this widget,
@@ -104,7 +107,8 @@ yourlabs.Widget.prototype.selectChoice = function(choice) {
     this.addToSelect(choice, value);
     this.resetDisplay();
 
-    this.input.val('');
+    if (this.clearInputOnChoice === 1)
+        this.input.val('');
 }
 
 // Unselect a value if the maximum number of selected values has been
