@@ -206,6 +206,11 @@ yourlabs.Autocomplete.prototype.initialize = function() {
         .on('mouseenter', this.choiceSelector, $.proxy(this.boxMouseenter, this))
         .on('mouseleave', this.choiceSelector, $.proxy(this.boxMouseleave, this))
         .on('click', this.choiceSelector, $.proxy(this.boxClick, this))
+    
+    /*
+    Initially - empty data queried
+    */
+    this.data[this.queryVariable] = '';
 }
 
 // Unbind callbacks on input.
