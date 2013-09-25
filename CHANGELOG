@@ -1,3 +1,10 @@
+1.4.3:
+    
+    - Fix Added option clearInputOnSelectChoice, patch by @vosi
+    - Fix uninitialized js key, patch by @vosi
+    - Escape choices before putting them in html, patch by @voidus
+    - Added Simon Kohlmeyer to AUTHORS (Volodymyr was there already).
+
 1.4.2 Fix #164: Support iterables in AutocompleteModel.order_by.
 
 1.4.1
