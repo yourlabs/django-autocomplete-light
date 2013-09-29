@@ -181,6 +181,11 @@ on the request user could look like this:
 
     autocomplete_light.register(Person, PersonAutocomplete)
 
+.. info:: The widget prevents a malicious user from crafting choices keys by
+          doing validation even in `render()`. This causes an overhead, any
+          help would be appreciated. Discussion is on:
+          https://github.com/yourlabs/django-autocomplete-light/issues/168
+
 Registering the same Autocomplete class for several autocompletes
 `````````````````````````````````````````````````````````````````
 
