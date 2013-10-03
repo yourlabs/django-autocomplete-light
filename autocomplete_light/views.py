@@ -27,7 +27,7 @@ class AutocompleteView(generic.View):
     def get(self, request, *args, **kwargs):
         """
         Return an HttpResponse with the return value of
-        autocomplete.render_autocomplete().
+        autocomplete.autocomplete_html().
 
         This view is called by the autocomplete script, it is expected to
         return the rendered autocomplete box contents.
@@ -40,7 +40,7 @@ class AutocompleteView(generic.View):
         calls autocomplete.init_for_request, passing all arguments it recieved.
 
         Finnaly, it makes an HttpResponse with the result of
-        autocomplete.render_autocomplete(). The javascript will use that to
+        autocomplete.autocomplete_html(). The javascript will use that to
         fill the autocomplete suggestion box.
         """
         try:
