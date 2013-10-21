@@ -16,7 +16,7 @@ var RemoteAutocompleteWidget = {
                 async: false,
                 type: 'post',
                 data: {
-                    'value': value,
+                    'value': value
                 },
                 success: function(text, jqXHR, textStatus) {
                     value = text;
