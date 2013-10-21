@@ -1,3 +1,5 @@
+1.4.4: Improved IE7 and IE8 support, thanks @rhunwicks
+
 1.4.3:
     
     - Fix Added option clearInputOnSelectChoice, patch by @vosi
