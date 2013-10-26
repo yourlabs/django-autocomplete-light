@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 """
 ChoiceWidget is intended to work as a replacement for django's Select widget,
 and MultipleChoiceWidget for django's SelectMultiple.
@@ -8,6 +10,7 @@ name.
 The choice autocomplete widget renders from autocomplete_light/widget.html
 template.
 """
+import six
 
 from django import forms
 from django.forms.util import flatatt

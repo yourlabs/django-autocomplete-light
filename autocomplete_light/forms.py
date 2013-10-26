@@ -1,11 +1,14 @@
 """
 A couple of helper functions to help enabling Widget in ModelForms.
 """
+from __future__ import unicode_literals
+
 import six
 
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 from django.db.models import ForeignKey, OneToOneField, ManyToManyField
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
@@ -31,7 +34,7 @@ class SelectMultipleHelpTextRemovalMixin(object):
     """
 
     def __init__(self):
-        msg = unicode(M)
+        msg = force_text(M)
 
         for name, field in self.fields.items():
             widget = field.widget

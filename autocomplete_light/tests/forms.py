@@ -4,8 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 
 import autocomplete_light
 
-from test_app.models import *
-from test_app.forms import *
+from .test_app.models import *
+from .test_app.forms import *
 
 class BaseModelFormTestCase(unittest.TestCase):
     def setUp(self):
