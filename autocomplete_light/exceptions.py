@@ -13,3 +13,14 @@ class AutocompleteNotRegistered(AutocompleteLightException):
             msg = '%s not registered (registry is empty)' % name
 
         super(AutocompleteNotRegistered, self).__init__(msg)
+
+
+class AutocompleteArgNotUnderstood(AutocompleteLightException):
+    """
+    Raised by AutocompleteRegistry.get_autocomplete_from_arg when it cannot
+    understand the argument.
+    """
+    def __init__(self, arg, registry):
+        msg = '%s not understod by get_autocomplete_from_arg()' % arg
+        super(AutocompleteArgNotUnderstood, self).__init__(msg)
+
