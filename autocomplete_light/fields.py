@@ -6,19 +6,23 @@ from django import forms
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
+from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
+
 
 class ModelChoiceField(forms.ModelChoiceField):
-    pass
+    widget = ChoiceWidget
 
 
 class ModelMultipleChoiceField(forms.ModelMultipleChoiceField):
-    pass
+    widget = MultipleChoiceWidget
 
 
 class GenericModelChoiceField(forms.Field):
     """
     Simple form field that converts strings to models.
     """
+    widget = ChoiceWidget
+
     def validate(self, value):
         if not value and not self.required:
             return True
@@ -66,6 +70,8 @@ class GenericModelMultipleChoiceField(GenericModelChoiceField):
     """
     Simple form field that converts strings to models.
     """
+    widget = MultipleChoiceWidget
+
     def prepare_value(self, value):
         return [super(GenericModelMultipleChoiceField, self
             ).prepare_value(v) for v in value]
