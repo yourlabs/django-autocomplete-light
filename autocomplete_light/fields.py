@@ -7,11 +7,10 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from .registry import registry as default_registry
-from .utils import AutocompleteConsumerMixin
 from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
 
 
-class AutocompleteFieldMixin(AutocompleteConsumerMixin, forms.Field):
+class AutocompleteFieldMixin(object):
     def __init__(self, autocomplete=None, registry=None, widget=None,
             widget_js_attributes=None, autocomplete_js_attributes=None,
             extra_context=None, *args, **kwargs):
