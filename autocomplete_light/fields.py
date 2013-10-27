@@ -6,33 +6,55 @@ from django import forms
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
+from .registry import registry as default_registry
+from .utils import AutocompleteConsumerMixin
 from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
 
 
-class ModelChoiceField(forms.ModelChoiceField):
+class AutocompleteFieldMixin(AutocompleteConsumerMixin, forms.Field):
+    def __init__(self, autocomplete=None, registry=None, widget=None,
+            widget_js_attributes=None, autocomplete_js_attributes=None,
+            extra_context=None, *args, **kwargs):
+        registry = registry or default_registry
+        self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
+
+        widget = widget or self.widget
+        if isinstance(widget, type):
+            self.widget = widget(autocomplete, widget_js_attributes,
+                    autocomplete_js_attributes, extra_context)
+
+        super(AutocompleteFieldMixin, self).__init__(*args, **kwargs)
+
+    def validate(self, value):
+        """
+        Wrap around Autocomplete.validate_values().
+        """
+        super(AutocompleteFieldMixin, self).validate(value)
+
+        # FIXME: we might actually want to change the Autocomplete API to
+        # support python values instead of raw values, that would probably be
+        # more performant.
+        values = self.prepare_value(value)
+
+        if value and not self.autocomplete(values=values).validate_values():
+            raise forms.ValidationError('%s cannot validate %s' % (
+                self.autocomplete_name, value))
+
+
+class ModelChoiceField(AutocompleteFieldMixin, forms.ModelChoiceField):
     widget = ChoiceWidget
 
 
-class ModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+class ModelMultipleChoiceField(AutocompleteFieldMixin,
+        forms.ModelMultipleChoiceField):
     widget = MultipleChoiceWidget
 
 
-class GenericModelChoiceField(forms.Field):
+class GenericModelChoiceField(AutocompleteFieldMixin, forms.Field):
     """
     Simple form field that converts strings to models.
     """
     widget = ChoiceWidget
-
-    def validate(self, value):
-        if not value and not self.required:
-            return True
-
-        value = self.prepare_value(value)
-        valid = self.widget.autocomplete(values=value).validate_values()
-
-        if not valid:
-            raise forms.ValidationError(u'%s cannot validate %s' % (
-                self, value))
 
     def prepare_value(self, value):
         """
