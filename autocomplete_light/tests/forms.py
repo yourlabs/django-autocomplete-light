@@ -24,7 +24,7 @@ class SimpleRelationModelFormBaseTestCase(BaseModelFormTestCase):
         form = self.model_form_class()
 
         self.assertTrue(isinstance(form.fields[self.relation_name],
-            autocomplete_light.ModelChoiceField))
+            self.field_class))
 
     def test_001_create(self):
         form = self.model_form_class({self.relation_name:
@@ -52,18 +52,22 @@ class FkModelFormTestCase(SimpleRelationModelFormBaseTestCase):
     model_class = FkModel
     model_form_class = FkModelForm
     relation_name = 'fk'
+    field_class = autocomplete_light.ModelChoiceField
 
 
 class OtoModelFormTestCase(SimpleRelationModelFormBaseTestCase):
     model_class = OtoModel
     model_form_class = OtoModelForm
     relation_name = 'oto'
+    field_class = autocomplete_light.ModelChoiceField
 
 
 class GfkModelFormTestCase(SimpleRelationModelFormBaseTestCase):
     model_class = GfkModel
     model_form_class = GfkModelForm
     relation_name = 'gfk'
+    field_class = autocomplete_light.GenericModelChoiceField
 
     def form_value(self, model):
-        return '%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)
+        r = '%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)
+        return r

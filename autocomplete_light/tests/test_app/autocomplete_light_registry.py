@@ -1,31 +1,22 @@
-try:
-    import genericm2m
-except ImportError:
-    genericm2m = None
-
 import autocomplete_light
 
 from .models import *
 
-autocomplete_light.register(OtoModel)
-autocomplete_light.register(FkModel)
-autocomplete_light.register(MtmModel)
-autocomplete_light.register(GfkModel)
+models = [OtoModel, FkModel, MtmModel, GfkModel]
 
-if genericm2m:
-    autocomplete_light.register(GmtmModel)
+try:
+    import genericm2m
+except ImportError:
+    pass
+else:
+    models.append(GmtmModel)
+
+for model in models:
+    autocomplete_light.register(model)
 
 
-class AutocompleteGeneric(autocomplete_light.AutocompleteGenericBase):
-    choices = (
-        OtoModel.objects.all(),
-        FkModel.objects.all(),
-        MtmModel.objects.all(),
-        GfkModel.objects.all(),
-    )
+class A(autocomplete_light.AutocompleteGenericBase):
+    choices=[m.objects.all() for m in models]
+    search_names=['name'] * len(models)
 
-    if genericm2m:
-        choices += (GmtmModel.objects.all(),)
-
-    # Should we default on that ? seems kind of dangerous ...
-    search_fields = ('name',)*5
+autocomplete_light.register(A)
