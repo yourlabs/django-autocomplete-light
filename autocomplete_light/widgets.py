@@ -18,6 +18,8 @@ from django.utils import safestring
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
+from .registry import registry as default_registry
+
 __all__ = ['WidgetBase', 'ChoiceWidget', 'MultipleChoiceWidget', 'TextWidget']
 
 
@@ -32,32 +34,14 @@ class WidgetBase(object):
     This widget also renders the widget template.
     """
 
-    def __init__(self, autocomplete,
+    def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None):
-
-        if isinstance(autocomplete, basestring):
-            self.autocomplete_name = autocomplete
-            from autocomplete_light import registry
-            self.autocomplete = registry[self.autocomplete_name]
-        else:
-            self.autocomplete = autocomplete
-            self.autocomplete_name = autocomplete.__class__.__name__
-
-        if extra_context is None:
-            self.extra_context = {}
-        else:
-            self.extra_context = extra_context
-
-        if widget_js_attributes is None:
-            self.widget_js_attributes = {}
-        else:
-            self.widget_js_attributes = widget_js_attributes
-
-        if autocomplete_js_attributes is None:
-            self.autocomplete_js_attributes = {}
-        else:
-            self.autocomplete_js_attributes = autocomplete_js_attributes
+                 extra_context=None, registry=None):
+        registry = registry or default_registry
+        self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
+        self.widget_js_attributes = widget_js_attributes or {}
+        self.autocomplete_js_attributes = autocomplete_js_attributes or {}
+        self.extra_context = extra_context or {}
 
     def process_js_attributes(self):
         extra_autocomplete_js_attributes = getattr(self.autocomplete,
@@ -88,20 +72,9 @@ class WidgetBase(object):
         final_attrs = self.build_attrs(attrs)
         self.html_id = final_attrs.pop('id', name)
 
-        if value is not None and not isinstance(value, (list, tuple)):
-            values = [value]
-        else:
-            values = value
-
-        autocomplete = self.autocomplete(values=values)
-
-        if values and not autocomplete.validate_values():
-            raise forms.ValidationError('%s cannot validate %s' % (
-                self.autocomplete_name, values))
+        autocomplete = self.autocomplete(values=value)
 
         self.process_js_attributes()
-
-        autocomplete_name = self.autocomplete_name.lower()
 
         context = {
             'name': name,
@@ -112,7 +85,8 @@ class WidgetBase(object):
         }
         context.update(self.extra_context)
         templates = [
-            'autocomplete_light/%s/widget.html' % autocomplete_name,
+            'autocomplete_light/%s/widget.html' %
+                self.autocomplete_name.lower(),
             'autocomplete_light/%s/widget.html' % getattr(autocomplete,
                 'widget_template_name', ''),
             'autocomplete_light/widget.html',
@@ -128,9 +102,9 @@ class ChoiceWidget(WidgetBase, forms.Select):
     Widget that provides an autocomplete for zero to one choice.
     """
 
-    def __init__(self, autocomplete,
+    def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None, *args, **kwargs):
+                 extra_context=None, registry=None, *args, **kwargs):
 
         forms.Select.__init__(self, *args, **kwargs)
 
@@ -146,8 +120,7 @@ class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
     """
     def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None, *args, **kwargs):
-
+                 extra_context=None, registry=None, *args, **kwargs):
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
         WidgetBase.__init__(self, autocomplete,
@@ -157,9 +130,9 @@ class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
 class TextWidget(forms.TextInput, WidgetBase):
     """ Widget that just adds an autocomplete to fill a text input """
 
-    def __init__(self, autocomplete,
+    def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 *args, **kwargs):
+                 extra_context=None, *args, **kwargs):
 
         forms.TextInput.__init__(self, *args, **kwargs)
 
