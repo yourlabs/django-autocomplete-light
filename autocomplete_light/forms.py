@@ -191,14 +191,25 @@ def formfield_callback(model_field, **kwargs):
 
 class ModelFormMetaclass(DjangoModelFormMetaclass):
     """
-    Simple override for ModelFormMetaclass that sets formfield_callback.
+    Wrap around django's ModelFormMetaclass to add autocompletes.
     """
     def __new__(cls, name, bases, attrs):
+        """
+        Add autocompletes in three steps:
+
+        - use our formfield_callback for basic field autocompletes: one to one,
+        foreign key, many to many
+        - exclude generic foreign key content type foreign key and object id
+        field,
+        - add autocompletes for generic foreign key and generic many to many.
+        """
+        # use our formfield_callback to add autocompletes
         attrs['formfield_callback'] = attrs.pop('formfield_callback',
             formfield_callback)
 
         meta = attrs.get('Meta', None)
         if meta is not None:
+            # exclude gfk content type and object id fields
             for field in meta.model._meta.virtual_fields:
                 if isinstance(field, GenericForeignKey):
                     if not hasattr(meta, 'exclude'):
@@ -210,8 +221,13 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 attrs)
 
         if meta is not None:
+            # Add generic fk and m2m autocompletes
             for field in meta.model._meta.virtual_fields:
                 new_class.base_fields[field.name] = GenericModelChoiceField()
+
+            if not RelatedObjectsDescriptor:
+                # django-generic-m2m is not installed.
+                return new_class
 
             for field in meta.model.__dict__.values():
                 if not isinstance(field, RelatedObjectsDescriptor):
