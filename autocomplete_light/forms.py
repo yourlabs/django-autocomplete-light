@@ -25,7 +25,7 @@ __all__ = ['get_widgets_dict', 'modelform_factory', 'formfield_callback',
 M = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
 
 
-class SelectMultipleHelpTextRemovalMixin(object):
+class SelectMultipleHelpTextRemovalMixin(forms.BaseModelForm):
     """
     Simple child of mixin that removes the 'Hold down "Control" ...'
     message that is enforced in select multiple fields.
@@ -33,7 +33,9 @@ class SelectMultipleHelpTextRemovalMixin(object):
     See https://code.djangoproject.com/ticket/9321
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super(SelectMultipleHelpTextRemovalMixin, self).__init__(*args,
+                **kwargs)
         msg = force_text(M)
 
         for name, field in self.fields.items():
@@ -48,7 +50,7 @@ class SelectMultipleHelpTextRemovalMixin(object):
             field.help_text = field.help_text.replace(msg, '')
 
 
-class VirtualFieldHandlingMixin(object):
+class VirtualFieldHandlingMixin(forms.BaseModelForm):
     """
     This simple subclass of ModelForm fixes a couple of issues with django's
     ModelForm.
@@ -58,10 +60,12 @@ class VirtualFieldHandlingMixin(object):
     - when setting a GenericForeignKey value, also set the object id and
       content type id fields, again Django could probably afford to do that.
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         What ModelForm does, but also add virtual field values to self.initial.
         """
+        super(VirtualFieldHandlingMixin, self).__init__(*args, **kwargs)
+
         # do what model_to_dict doesn't
         for field in self._meta.model._meta.virtual_fields:
             self.initial[field.name] = getattr(self.instance, field.name, None)
@@ -85,16 +89,18 @@ class VirtualFieldHandlingMixin(object):
                 self.cleaned_data[field.fk_field] = value.pk
 
 
-class GenericM2MRelatedObjectDescriptorHandlingMixin(object):
+class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
     """
     Extension of autocomplete_light.GenericModelForm, that handles
     genericm2m's RelatedObjectsDescriptor.
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Add related objects to initial for each generic m2m field.
         """
+        super(GenericM2MRelatedObjectDescriptorHandlingMixin, self).__init__(
+                *args, **kwargs)
         for name, field in self.generic_m2m_fields():
             related_objects = getattr(self.instance, name).all()
             self.initial[name] = [x.object for x in related_objects]
@@ -181,24 +187,16 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         return super(ModelFormMetaclass, cls).__new__(cls, name, bases, attrs)
 
 
-class BaseModelForm(SelectMultipleHelpTextRemovalMixin,
+
+
+
+        return new_class
+
+
+class ModelForm(six.with_metaclass(ModelFormMetaclass, SelectMultipleHelpTextRemovalMixin,
         VirtualFieldHandlingMixin,
-        GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm):
-    """ Simple BaseModelForm override that adds our various mixins. """
-
-    def __init__(self, *args, **kwargs):
-        forms.ModelForm.__init__(self, *args, **kwargs)
-        VirtualFieldHandlingMixin.__init__(self)
-        GenericM2MRelatedObjectDescriptorHandlingMixin.__init__(self)
-        SelectMultipleHelpTextRemovalMixin.__init__(self)
-
-
-class ModelForm(six.with_metaclass(ModelFormMetaclass, BaseModelForm)):
-    """
-    Simple ModelForm override using our ModelFormMetaclass and our
-    BaseModelForm.
-    """
-    pass
+        GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm)):
+    """ Simple ModelForm override that adds our various mixins. """
 
 
 def get_widgets_dict(model, autocomplete_exclude=None, registry=None):
