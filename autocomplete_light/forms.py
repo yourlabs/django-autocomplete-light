@@ -102,7 +102,8 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
         Add related objects to initial for each generic m2m field.
         """
         super(GenericM2MRelatedObjectDescriptorHandlingMixin, self).__init__(
-                *args, **kwargs)
+            *args, **kwargs)
+
         for name, field in self.generic_m2m_fields():
             related_objects = getattr(self.instance, name).all()
             self.initial[name] = [x.object for x in related_objects]
@@ -170,7 +171,7 @@ def formfield_callback(model_field, **kwargs):
     """
     if hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
         autocomplete = default_registry.autocomplete_for_model(
-                model_field.rel.to)
+            model_field.rel.to)
 
         if autocomplete is not None:
             if isinstance(model_field, (OneToOneField, ForeignKey)):
@@ -184,7 +185,9 @@ def formfield_callback(model_field, **kwargs):
 
 
 class ModelFormMetaclass(DjangoModelFormMetaclass):
-    """ Simple override for ModelFormMetaclass that sets formfield_callback. """
+    """
+    Simple override for ModelFormMetaclass that sets formfield_callback.
+    """
     def __new__(cls, name, bases, attrs):
         attrs['formfield_callback'] = attrs.pop('formfield_callback',
             formfield_callback)
@@ -208,10 +211,11 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         return new_class
 
 
-class ModelForm(six.with_metaclass(ModelFormMetaclass, SelectMultipleHelpTextRemovalMixin,
-        VirtualFieldHandlingMixin,
+class ModelForm(six.with_metaclass(ModelFormMetaclass,
+        SelectMultipleHelpTextRemovalMixin, VirtualFieldHandlingMixin,
         GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm)):
     """ Simple ModelForm override that adds our various mixins. """
+    pass
 
 
 def get_widgets_dict(model, autocomplete_exclude=None, registry=None):

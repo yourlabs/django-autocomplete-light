@@ -37,6 +37,7 @@ class WidgetBase(object):
     def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
                  extra_context=None, registry=None):
+
         registry = registry or default_registry
         self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
         self.widget_js_attributes = widget_js_attributes or {}
@@ -86,7 +87,7 @@ class WidgetBase(object):
         context.update(self.extra_context)
         templates = [
             'autocomplete_light/%s/widget.html' %
-                self.autocomplete_name.lower(),
+            self.autocomplete_name.lower(),
             'autocomplete_light/%s/widget.html' % getattr(autocomplete,
                 'widget_template_name', ''),
             'autocomplete_light/widget.html',

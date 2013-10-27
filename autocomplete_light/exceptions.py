@@ -23,4 +23,3 @@ class AutocompleteArgNotUnderstood(AutocompleteLightException):
     def __init__(self, arg, registry):
         msg = '%s not understod by get_autocomplete_from_arg()' % arg
         super(AutocompleteArgNotUnderstood, self).__init__(msg)
-
