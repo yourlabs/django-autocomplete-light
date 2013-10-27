@@ -53,6 +53,10 @@ class AutocompleteRegistry(dict):
         except KeyError:
             return
 
+    def autocomplete_for_generic(self):
+        """ Return the default generic autocomplete. """
+        return self.default_generic
+
     def unregister(self, name):
         """ Unregister a autocomplete. """
         autocomplete = self[name]
@@ -151,6 +155,7 @@ class AutocompleteRegistry(dict):
         Register a autocomplete without model, like a generic autocomplete.
         """
         self[autocomplete.__name__] = autocomplete
+        self.default_generic = autocomplete
 
     def __getitem__(self, name):
         """

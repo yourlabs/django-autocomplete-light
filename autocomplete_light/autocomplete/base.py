@@ -1,7 +1,11 @@
+from __future__ import unicode_literals
+
 from django.core import urlresolvers
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
+
+import six
 
 __all__ = ('AutocompleteInterface', 'AutocompleteBase')
 
@@ -30,10 +34,13 @@ class AutocompleteInterface(object):
         """
         self.request = request
 
-        if hasattr(values, '__iter__'):
+        if values is None:
             self.values = values
-        else:
+        elif (isinstance(values, six.string_types) or
+                not hasattr(values, '__iter__')):
             self.values = [values]
+        else:
+            self.values = values
 
     def autocomplete_html(self):
         """

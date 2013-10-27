@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
 from django.db.models import ForeignKey, OneToOneField, ManyToManyField
+from django.contrib.contenttypes.generic import GenericForeignKey
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 
@@ -184,11 +185,22 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     def __new__(cls, name, bases, attrs):
         attrs['formfield_callback'] = attrs.pop('formfield_callback',
             formfield_callback)
-        return super(ModelFormMetaclass, cls).__new__(cls, name, bases, attrs)
 
+        meta = attrs.get('Meta', None)
+        if meta is not None:
+            for field in meta.model._meta.virtual_fields:
+                if isinstance(field, GenericForeignKey):
+                    if not hasattr(meta, 'exclude'):
+                        meta.exclude = []
 
+                    meta.exclude += [field.ct_field, field.fk_field]
 
+        new_class = super(ModelFormMetaclass, cls).__new__(cls, name, bases,
+                attrs)
 
+        if meta is not None:
+            for field in meta.model._meta.virtual_fields:
+                new_class.base_fields[field.name] = GenericModelChoiceField()
 
         return new_class
 
