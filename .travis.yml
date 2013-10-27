@@ -16,6 +16,8 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
 script:
   - python setup.py test
+  - pip install -e git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
+  - python setup.py test
 notifications:
   irc: 
     channels: 
