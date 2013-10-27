@@ -11,6 +11,7 @@ from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
 from django.db.models import ForeignKey, OneToOneField, ManyToManyField
 from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 
@@ -176,6 +177,8 @@ def formfield_callback(model_field, **kwargs):
                 kwargs['form_class'] = ModelChoiceField
             elif isinstance(model_field, ManyToManyField):
                 kwargs['form_class'] = ModelMultipleChoiceField
+
+        kwargs['autocomplete'] = autocomplete
 
     return model_field.formfield(**kwargs)
 
