@@ -233,7 +233,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 if not isinstance(field, RelatedObjectsDescriptor):
                     continue
 
-                new_class.base_fields[field.name] = GenericModelMultipleChoiceField()
+                new_class.base_fields[field.name] = \
+                    GenericModelMultipleChoiceField()
 
         return new_class
 
