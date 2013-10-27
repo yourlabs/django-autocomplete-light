@@ -5,13 +5,13 @@ from __future__ import unicode_literals
 
 import six
 
-from django.forms.models import modelform_factory as django_modelform_factory
-from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
-from django.db.models import ForeignKey, OneToOneField, ManyToManyField
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
+from django.db.models import ForeignKey, OneToOneField, ManyToManyField
+from django.forms.models import modelform_factory as django_modelform_factory
+from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 
 from .registry import registry as default_registry
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
