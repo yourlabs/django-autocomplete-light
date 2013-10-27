@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+import six
+
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
@@ -47,7 +50,7 @@ class AutocompleteGeneric(AutocompleteModel):
         assert self.choices, 'autocomplete.choices should be a queryset list'
 
         for value in self.values:
-            if not isinstance(value, basestring):
+            if not isinstance(value, six.string_types):
                 return False
 
             try:
