@@ -85,7 +85,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 
     'autocomplete_light',
-    'genericm2m',
     'autocomplete_light.tests.apps.basic',
 )
 
