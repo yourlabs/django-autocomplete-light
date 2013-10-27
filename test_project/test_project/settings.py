@@ -86,7 +86,7 @@ INSTALLED_APPS = (
 
     'autocomplete_light',
     'genericm2m',
-    'autocomplete_light.tests.test_app',
+    'autocomplete_light.tests.apps.basic',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
