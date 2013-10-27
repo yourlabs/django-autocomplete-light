@@ -8,7 +8,7 @@ class AutocompleteNotRegistered(AutocompleteLightException):
     def __init__(self, name, registry):
         if registry.keys():
             msg = '%s not registered, you have registered: %s' % (name,
-                    registry.keys())
+                    list(registry.keys()))
         else:
             msg = '%s not registered (registry is empty)' % name
 

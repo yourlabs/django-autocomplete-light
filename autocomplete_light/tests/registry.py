@@ -46,7 +46,7 @@ class RegistryTestCase(unittest.TestCase):
     def test_unregister(self):
         self.registry.register(Bar)
         self.registry.unregister('Bar')
-        self.assertEqual(self.registry.keys(), [])
+        self.assertEqual(list(self.registry.keys()), [])
 
     def test_register_with_kwargs(self):
         choices = ['foo']

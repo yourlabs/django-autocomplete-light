@@ -1,4 +1,5 @@
 import unittest
+from collections import OrderedDict
 
 from autocomplete_light.templatetags.autocomplete_light_tags import *
 
@@ -13,10 +14,10 @@ class DataAttributesTestCase(unittest.TestCase):
                 'expected': 'data-foo="bar"',
             },
             {
-                'fixture': {
-                    'foo': 'bar',
-                    'test_underscore': 'example',
-                },
+                'fixture': OrderedDict([
+                    ('foo', 'bar'),
+                    ('test_underscore', 'example'),
+                ]),
                 'expected': 'data-foo="bar" data-test-underscore="example"',
             },
             {
