@@ -72,7 +72,7 @@ setup(
     keywords='django autocomplete',
     cmdclass={'test': RunTests},
     install_requires=[
-        'six',
+        'six>=1.4',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

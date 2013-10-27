@@ -115,7 +115,7 @@ class AutocompleteRegistry(dict):
             self._register_model_autocomplete(model, autocomplete, **kwargs)
         else:
             name = kwargs.get('name', autocomplete.__name__)
-            autocomplete = type(name, (autocomplete,), kwargs)
+            autocomplete = type(str(name), (autocomplete,), kwargs)
             self._register_autocomplete(autocomplete)
 
     def _register_model_autocomplete(self, model, autocomplete=None,
@@ -148,7 +148,7 @@ class AutocompleteRegistry(dict):
             else:
                 kwargs['search_fields'] = ['name']
 
-        autocomplete = type(name, (base,), kwargs)
+        autocomplete = type(str(name), (base,), kwargs)
 
         self._register_autocomplete(autocomplete)
         self._models[model] = autocomplete
