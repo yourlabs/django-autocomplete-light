@@ -1,7 +1,8 @@
 import autocomplete_light
 autocomplete_light.autodiscover()
 
-from .forms import FkModelFormTestCase, OtoModelFormTestCase, GfkModelFormTestCase
+from .forms import (FkModelFormTestCase, OtoModelFormTestCase,
+        GfkModelFormTestCase, MtmModelFormTestCase, GmtmModelFormTestCase)
 
 #from .registry import RegistryTestCase
 #from .templatetags import DataAttributesTestCase

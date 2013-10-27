@@ -15,6 +15,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 
+try:
+    from genericm2m.models import RelatedObjectsDescriptor
+except ImportError:
+    RelatedObjectsDescriptor = None
+
 from .registry import registry as default_registry
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
@@ -207,6 +212,12 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         if meta is not None:
             for field in meta.model._meta.virtual_fields:
                 new_class.base_fields[field.name] = GenericModelChoiceField()
+
+            for field in meta.model.__dict__.values():
+                if not isinstance(field, RelatedObjectsDescriptor):
+                    continue
+
+                new_class.base_fields[field.name] = GenericModelMultipleChoiceField()
 
         return new_class
 
