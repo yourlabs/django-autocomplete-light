@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 """
 The registry module provides tools to maintain a registry of autocompletes.
 
@@ -25,11 +27,12 @@ register
 autodiscover
     Find autocompletes and fill registry.
 """
+import six
 
 from django.db import models
 
-from .autocomplete import AutocompleteModelBase
-from .exceptions import AutocompleteNotRegistered
+from .autocomplete import AutocompleteModelBase, AutocompleteInterface
+from .exceptions import AutocompleteNotRegistered, AutocompleteArgNotUnderstood
 
 __all__ = ('AutocompleteRegistry', 'registry', 'register', 'autodiscover')
 
