@@ -86,12 +86,18 @@ class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase)
     field_class = autocomplete_light.ModelMultipleChoiceField
 
 
-class GmtmModelFormTestCase(MultipleRelationTestCaseMixin,
-        GenericModelFormTestCaseMixin,
-        ModelFormBaseTestCase):
-    model_class = GmtmModel
-    model_form_class = GmtmModelForm
-    field_class = autocomplete_light.GenericModelMultipleChoiceField
+try:
+    import genericm2m
+except ImportError:
+    class GmtmModelFormTestCase(object):
+        pass
+else:
+    class GmtmModelFormTestCase(MultipleRelationTestCaseMixin,
+            GenericModelFormTestCaseMixin,
+            ModelFormBaseTestCase):
+        model_class = GmtmModel
+        model_form_class = GmtmModelForm
+        field_class = autocomplete_light.GenericModelMultipleChoiceField
 
-    def field_value(self, model):
-        return getattr(model, 'relation').all().generic_objects()[0]
+        def field_value(self, model):
+            return getattr(model, 'relation').all().generic_objects()[0]

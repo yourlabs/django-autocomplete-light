@@ -89,4 +89,11 @@ INSTALLED_APPS = (
     'autocomplete_light.tests.apps.basic',
 )
 
+try:
+    import genericm2m
+except ImportError:
+    pass
+else:
+    INSTALLED_APPS += ('genericm2m',)
+
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
