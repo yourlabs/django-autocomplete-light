@@ -18,6 +18,8 @@ class BaseModelFormTestCase(unittest.TestCase):
 
 
 class ModelFormBaseTestCase(BaseModelFormTestCase):
+    widget_class = autocomplete_light.ChoiceWidget
+
     def form_value(self, model):
         return model.pk
 
@@ -29,6 +31,8 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         self.assertTrue(isinstance(form.fields['relation'],
             self.field_class))
+        self.assertTrue(isinstance(form.fields['relation'].widget,
+            self.widget_class))
 
     def test_create_with_relation(self):
         form = self.model_form_class({'relation':
@@ -54,6 +58,8 @@ class GenericModelFormTestCaseMixin(object):
 
 
 class MultipleRelationTestCaseMixin(ModelFormBaseTestCase):
+    widget_class = autocomplete_light.MultipleChoiceWidget
+
     def form_value(self, model):
         return [super(MultipleRelationTestCaseMixin, self).form_value(model)]
 
