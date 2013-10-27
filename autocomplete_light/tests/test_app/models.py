@@ -12,9 +12,7 @@ except ImportError:
 @python_2_unicode_compatible
 class FkModel(models.Model):
     name = models.CharField(max_length=200)
-
-    fk = models.ForeignKey('self', related_name='reverse_fk',
-            null=True, blank=True)
+    relation = models.ForeignKey('self', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -23,9 +21,7 @@ class FkModel(models.Model):
 @python_2_unicode_compatible
 class OtoModel(models.Model):
     name = models.CharField(max_length=200)
-
-    oto = models.OneToOneField('self', related_name='reverse_oto',
-            null=True, blank=True)
+    relation = models.OneToOneField('self', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -34,9 +30,7 @@ class OtoModel(models.Model):
 @python_2_unicode_compatible
 class MtmModel(models.Model):
     name = models.CharField(max_length=200)
-
-    mtm = models.ManyToManyField('self', related_name='reverse_mtm',
-            blank=True)
+    relation = models.ManyToManyField('self', blank=True)
 
     def __str__(self):
         return self.name
@@ -48,7 +42,7 @@ class GfkModel(models.Model):
 
     content_type = models.ForeignKey(ContentType, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
-    gfk = generic.GenericForeignKey('content_type', 'object_id')
+    relation = generic.GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         return self.name
@@ -58,8 +52,7 @@ if RelatedObjectsDescriptor:
     @python_2_unicode_compatible
     class GmtmModel(models.Model):
         name = models.CharField(max_length=200)
-
-        gmtm = RelatedObjectsDescriptor()
+        relation = RelatedObjectsDescriptor()
 
         def __str__(self):
             return self.name

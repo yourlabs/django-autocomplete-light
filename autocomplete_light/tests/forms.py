@@ -22,24 +22,24 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         return model.pk
 
     def field_value(self, model):
-        return getattr(model, self.relation_name)
+        return getattr(model, 'relation')
 
-    def test_000_field(self):
+    def test_appropriate_field_on_modelform(self):
         form = self.model_form_class()
 
-        self.assertTrue(isinstance(form.fields[self.relation_name],
+        self.assertTrue(isinstance(form.fields['relation'],
             self.field_class))
 
-    def test_001_create(self):
-        form = self.model_form_class({self.relation_name:
+    def test_create_with_relation(self):
+        form = self.model_form_class({'relation':
             self.form_value(self.janis), 'name': 'test'})
         self.assertTrue(form.is_valid())
 
         result = form.save()
         self.assertEqual(self.field_value(result), self.janis)
 
-    def test_002_update(self):
-        form = self.model_form_class({self.relation_name:
+    def test_add_relation(self):
+        form = self.model_form_class({'relation':
             self.form_value(self.janis), 'name': 'test'},
             instance=self.james)
         self.assertTrue(form.is_valid())
@@ -64,14 +64,12 @@ class MultipleRelationTestCaseMixin(ModelFormBaseTestCase):
 class FkModelFormTestCase(ModelFormBaseTestCase):
     model_class = FkModel
     model_form_class = FkModelForm
-    relation_name = 'fk'
     field_class = autocomplete_light.ModelChoiceField
 
 
 class OtoModelFormTestCase(ModelFormBaseTestCase):
     model_class = OtoModel
     model_form_class = OtoModelForm
-    relation_name = 'oto'
     field_class = autocomplete_light.ModelChoiceField
 
 
@@ -79,14 +77,12 @@ class GfkModelFormTestCase(GenericModelFormTestCaseMixin,
         ModelFormBaseTestCase):
     model_class = GfkModel
     model_form_class = GfkModelForm
-    relation_name = 'gfk'
     field_class = autocomplete_light.GenericModelChoiceField
 
 
 class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase):
     model_class = MtmModel
     model_form_class = MtmModelForm
-    relation_name = 'mtm'
     field_class = autocomplete_light.ModelMultipleChoiceField
 
 
@@ -95,8 +91,7 @@ class GmtmModelFormTestCase(MultipleRelationTestCaseMixin,
         ModelFormBaseTestCase):
     model_class = GmtmModel
     model_form_class = GmtmModelForm
-    relation_name = 'gmtm'
     field_class = autocomplete_light.GenericModelMultipleChoiceField
 
     def field_value(self, model):
-        return getattr(model, self.relation_name).all().generic_objects()[0]
+        return getattr(model, 'relation').all().generic_objects()[0]
