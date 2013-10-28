@@ -30,7 +30,9 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         return getattr(model, 'relation')
 
     def test_appropriate_field_with_modelformfactory(self):
-        form = self.model_form_class()
+        form_class = modelform_factory(self.model_class,
+                form=self.model_form_class)
+        form = form_class()
 
         self.assertTrue(isinstance(form.fields['relation'],
             self.field_class))
@@ -38,6 +40,9 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
             self.widget_class))
 
     def test_appropriate_field_on_modelform_with_formfield_callback(self):
+        def cb(f, **kwargs):
+            return f.formfield(**kwargs)
+
         form_class = modelform_factory(self.model_class,
                 form=self.model_form_class, formfield_callback=cb)
         form = form_class()
