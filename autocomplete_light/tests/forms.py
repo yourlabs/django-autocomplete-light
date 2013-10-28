@@ -2,9 +2,11 @@ import unittest
 
 from django import http
 from django.contrib.contenttypes.models import ContentType
+from django.forms.models import modelform_factory
 
 import autocomplete_light
 
+from .apps.basic.admin import *
 from .apps.basic.models import *
 from .apps.basic.forms import *
 
@@ -27,8 +29,18 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
     def field_value(self, model):
         return getattr(model, 'relation')
 
-    def test_appropriate_field_on_modelform(self):
+    def test_appropriate_field_with_modelformfactory(self):
         form = self.model_form_class()
+
+        self.assertTrue(isinstance(form.fields['relation'],
+            self.field_class))
+        self.assertTrue(isinstance(form.fields['relation'].widget,
+            self.widget_class))
+
+    def test_appropriate_field_on_modelform_with_formfield_callback(self):
+        form_class = modelform_factory(self.model_class,
+                form=self.model_form_class, formfield_callback=cb)
+        form = form_class()
 
         self.assertTrue(isinstance(form.fields['relation'],
             self.field_class))
@@ -53,7 +65,6 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         result = form.save()
         self.assertEqual(self.field_value(result), self.janis)
-
 
 class GenericModelFormTestCaseMixin(object):
     def form_value(self, model):

@@ -25,7 +25,7 @@ from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
 from .widgets import ChoiceWidget, MultipleChoiceWidget
 
-__all__ = ['get_widgets_dict', 'modelform_factory', 'formfield_callback',
+__all__ = ['get_widgets_dict', 'modelform_factory', 'FormfieldCallback',
 'ModelForm', 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
 'SecureModelFormMixin', 'GenericM2MRelatedObjectDescriptorHandlingMixin']
 
@@ -165,7 +165,7 @@ class SecureModelFormMixin(object):
         pass
 
 
-def formfield_callback(model_field, **kwargs):
+class FormfieldCallback(object):
     """
     Decorate `model_field.formfield()` to use a
     `autocomplete_light.ModelChoiceField` for `OneToOneField` and
@@ -174,19 +174,30 @@ def formfield_callback(model_field, **kwargs):
 
     It is the very purpose of our `ModelFormMetaclass` !
     """
-    if hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
-        autocomplete = default_registry.autocomplete_for_model(
-            model_field.rel.to)
 
-        if autocomplete is not None:
-            if isinstance(model_field, (OneToOneField, ForeignKey)):
-                kwargs['form_class'] = ModelChoiceField
-            elif isinstance(model_field, ManyToManyField):
-                kwargs['form_class'] = ModelMultipleChoiceField
+    def __init__(self, default=None):
+        def _default(model_field, **kwargs):
+            return model_field.formfield(**kwargs)
 
-        kwargs['autocomplete'] = autocomplete
+        self.default = default or _default
 
-    return model_field.formfield(**kwargs)
+    def __call__(self, model_field, **kwargs):
+        if hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
+            autocomplete = default_registry.autocomplete_for_model(
+                model_field.rel.to)
+
+            if autocomplete is not None:
+                if isinstance(model_field, (OneToOneField, ForeignKey)):
+                    kwargs['form_class'] = ModelChoiceField
+                elif isinstance(model_field, ManyToManyField):
+                    kwargs['form_class'] = ModelMultipleChoiceField
+
+            kwargs['autocomplete'] = autocomplete
+
+        if self.default:
+            return self.default(model_field, **kwargs)
+        else:
+            return model_field.formfield(**kwargs)
 
 
 class ModelFormMetaclass(DjangoModelFormMetaclass):
@@ -204,8 +215,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         - add autocompletes for generic foreign key and generic many to many.
         """
         # use our formfield_callback to add autocompletes
-        attrs['formfield_callback'] = attrs.pop('formfield_callback',
-            formfield_callback)
+        attrs['formfield_callback'] = FormfieldCallback(attrs.pop('formfield_callback', None))
 
         meta = attrs.get('Meta', None)
         if meta is not None:
@@ -325,7 +335,7 @@ def modelform_factory(model, autocomplete_exclude=None, registry=None,
     if 'form' not in kwargs.keys():
         kwargs['form'] = ModelForm
 
-    if 'formfield_callback' not in kwargs.keys():
-        kwargs['formfield_callback'] = formfield_callback
+    kwargs['formfield_callback'] = FormfieldCallback(
+        kwargs.pop('formfield_callback'))
 
     return django_modelform_factory(model, **kwargs)
