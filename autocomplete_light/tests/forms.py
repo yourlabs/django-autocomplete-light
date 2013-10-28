@@ -1,5 +1,6 @@
 import unittest
 
+from django import http
 from django.contrib.contenttypes.models import ContentType
 
 import autocomplete_light
@@ -21,7 +22,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
     widget_class = autocomplete_light.ChoiceWidget
 
     def form_value(self, model):
-        return model.pk
+        return 'relation=%s' % model.pk
 
     def field_value(self, model):
         return getattr(model, 'relation')
@@ -35,17 +36,19 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
             self.widget_class))
 
     def test_create_with_relation(self):
-        form = self.model_form_class({'relation':
-            self.form_value(self.janis), 'name': 'test'})
+        form = self.model_form_class(http.QueryDict(
+            'name=test&%s' % self.form_value(self.janis)))
+
         self.assertTrue(form.is_valid())
 
         result = form.save()
         self.assertEqual(self.field_value(result), self.janis)
 
     def test_add_relation(self):
-        form = self.model_form_class({'relation':
-            self.form_value(self.janis), 'name': 'test'},
+        form = self.model_form_class(http.QueryDict(
+            'name=test&%s' % self.form_value(self.janis)),
             instance=self.james)
+
         self.assertTrue(form.is_valid())
 
         result = form.save()
@@ -54,14 +57,11 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
 class GenericModelFormTestCaseMixin(object):
     def form_value(self, model):
-        return '%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)
+        return 'relation=%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)
 
 
 class MultipleRelationTestCaseMixin(ModelFormBaseTestCase):
     widget_class = autocomplete_light.MultipleChoiceWidget
-
-    def form_value(self, model):
-        return [super(MultipleRelationTestCaseMixin, self).form_value(model)]
 
     def field_value(self, model):
         return super(MultipleRelationTestCaseMixin, self).field_value(model).all()[0]
