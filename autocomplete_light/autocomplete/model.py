@@ -28,6 +28,7 @@ class AutocompleteModel(object):
     search_fields = None
     split_words = False
     order_by = None
+    get_parameter = 'q'
 
     def choice_value(self, choice):
         """
@@ -69,7 +70,7 @@ class AutocompleteModel(object):
         """
         assert self.choices is not None, 'choices should be a queryset'
         assert self.search_fields, 'autocomplete.search_fields must be set'
-        q = self.request.GET.get('q', '')
+        q = self.request.GET.get(self.get_parameter, '')
         exclude = self.request.GET.getlist('exclude')
 
         conditions = self._choices_for_request_conditions(q,
