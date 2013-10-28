@@ -218,37 +218,53 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         attrs['formfield_callback'] = FormfieldCallback(attrs.pop('formfield_callback', None))
 
         meta = attrs.get('Meta', None)
-        if meta is not None:
-            # exclude gfk content type and object id fields
-            for field in meta.model._meta.virtual_fields:
-                if isinstance(field, GenericForeignKey):
-                    if not hasattr(meta, 'exclude'):
-                        meta.exclude = []
 
-                    meta.exclude += [field.ct_field, field.fk_field]
+        if meta is not None:
+            cls.pre_new(meta)
 
         new_class = super(ModelFormMetaclass, cls).__new__(cls, name, bases,
                 attrs)
 
         if meta is not None:
-            # Add generic fk and m2m autocompletes
-            for field in meta.model._meta.virtual_fields:
-                new_class.base_fields[field.name] = GenericModelChoiceField(
-                    required=not meta.model._meta.get_field_by_name(
-                        field.fk_field))
-
-            if not RelatedObjectsDescriptor:
-                # django-generic-m2m is not installed.
-                return new_class
-
-            for field in meta.model.__dict__.values():
-                if not isinstance(field, RelatedObjectsDescriptor):
-                    continue
-
-                new_class.base_fields[field.name] = \
-                    GenericModelMultipleChoiceField()
+            cls.post_new(new_class, meta)
 
         return new_class
+
+    @classmethod
+    def pre_new(cls, meta):
+        # exclude gfk content type and object id fields
+        for field in meta.model._meta.virtual_fields:
+            if isinstance(field, GenericForeignKey):
+                if not hasattr(meta, 'exclude'):
+                    meta.exclude = []
+
+                meta.exclude += [field.ct_field, field.fk_field]
+
+    @classmethod
+    def post_new(cls, new_class, meta):
+        cls.add_generic_fk_fields(new_class, meta)
+
+        if RelatedObjectsDescriptor:
+            # if genericm2m is installed
+            cls.add_generic_m2m_fields(new_class, meta)
+
+    @classmethod
+    def add_generic_fk_fields(cls, new_class, meta):
+        # Add generic fk and m2m autocompletes
+        for field in meta.model._meta.virtual_fields:
+            new_class.base_fields[field.name] = GenericModelChoiceField(
+                required=not meta.model._meta.get_field_by_name(
+                    field.fk_field))
+
+    @classmethod
+    def add_generic_m2m_fields(cls, new_class, meta):
+        for field in meta.model.__dict__.values():
+            if not isinstance(field, RelatedObjectsDescriptor):
+                continue
+
+            new_class.base_fields[field.name] = \
+                GenericModelMultipleChoiceField()
+
 
 
 class ModelForm(six.with_metaclass(ModelFormMetaclass,
