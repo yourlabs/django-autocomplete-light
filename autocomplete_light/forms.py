@@ -233,7 +233,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         if meta is not None:
             # Add generic fk and m2m autocompletes
             for field in meta.model._meta.virtual_fields:
-                new_class.base_fields[field.name] = GenericModelChoiceField()
+                new_class.base_fields[field.name] = GenericModelChoiceField(
+                    required=not meta.model._meta.get_field_by_name(
+                        field.fk_field))
 
             if not RelatedObjectsDescriptor:
                 # django-generic-m2m is not installed.
