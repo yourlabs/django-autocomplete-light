@@ -36,5 +36,6 @@ urlpatterns = patterns('',
     (r'^i18n/', include('django.conf.urls.i18n')),
     (r'^just_javascript/$', generic.TemplateView.as_view(
         template_name='just_javascript.html')),
+    url(r'^jquery_support/$', include('jquery_support.urls', namespace='jquery_support')),
     (r'^$', generic.TemplateView.as_view(template_name='index.html'))
 )

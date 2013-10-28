@@ -1,0 +1,70 @@
+<html>
+
+
+<head>
+
+    <link rel="stylesheet"
+          href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+</head>
+<body>
+<p>
+
+    Here's the widget. It uses CityAutocompleteJSONP, which is an autocomplete,
+    that utilizes cities-light database, so please enter city name below.
+
+</p>
+
+<p>
+    Currently, this is in very early stage, so don't expect this to be a
+    drop-in replacement for "normal" form controls. On the other hand, this
+    can be easily hacked to be an in-drop replacement, just like
+    django-autocomplete-light's original control is now.
+</p>
+
+<p>
+    <input id="test" size="50" />
+</p>
+
+<p>
+    <button id="result">Click me to get the ID value!</button>
+</p>
+<script>
+
+    $(document).ready(function () {
+
+        // When the document is ready, you:
+        // - init the autocomplete like this:
+        $("#test").autocomplete({
+
+            // - give it a source parameter
+            source: '/autocomplete/CityAutocompleteJSONP/',
+
+            // - decide, after how many chars dropdown pops up
+            minLength: 0,
+
+            // - disallow non-dropdown input values
+            change: function(evt, ui){
+                if (ui.item == null) {
+                    alert("Please select value from the dropdown.");
+                    $("#test").val('').focus();
+                }
+            },
+
+            // - save the ID of selected element somewhere
+            select: function (evt, ui) {
+                $("#test").attr("data-id", ui.item.id);
+            }
+
+        });
+
+        $("#result").click(function () {
+            // - and read the value
+            alert("Value is: " + $("#test").attr("data-id"));
+        });
+    });
+</script>
+</body>
+</html>
