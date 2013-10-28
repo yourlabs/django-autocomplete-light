@@ -2,6 +2,7 @@ from django.core import urlresolvers
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
+import json
 
 __all__ = ('AutocompleteInterface', 'AutocompleteBase')
 
@@ -128,3 +129,20 @@ class AutocompleteBase(AutocompleteInterface):
         Convert a choice to a label.
         """
         return unicode(choice)
+
+
+class AutocompleteJSONP(AutocompleteBase):
+    """An autocomplete implementation, that spews out JSONP-data, for
+    instant use with jquery-ui widget .autocomplete()."""
+
+    def choice_json(self, choice):
+        return {'id': choice.pk,
+                'label': self.choice_label(choice),
+                'value': self.choice_label(choice)}
+
+    def autocomplete_html(self):
+        ret = []
+        for choice in self.choices_for_request():
+            ret.append(self.choice_json(choice))
+
+        return json.dumps(ret)

@@ -1,3 +1,4 @@
+from autocomplete_light.autocomplete.base import AutocompleteJSONP
 from .base import AutocompleteBase
 from .list import AutocompleteList
 from .model import AutocompleteModel
@@ -17,6 +18,9 @@ class AutocompleteChoiceListBase(AutocompleteChoiceList, AutocompleteBase):
 
 class AutocompleteModelBase(AutocompleteModel, AutocompleteBase):
     pass
+
+class AutocompleteModelJSONP(AutocompleteModel, AutocompleteJSONP):
+    get_parameter = 'term'
 
 
 class AutocompleteModelTemplate(AutocompleteModel, AutocompleteTemplate):
