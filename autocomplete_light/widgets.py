@@ -79,7 +79,7 @@ class WidgetBase(object):
 
         context = {
             'name': name,
-            'values': values,
+            'values': value,
             'widget': self,
             'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
             'autocomplete': autocomplete,
@@ -87,7 +87,7 @@ class WidgetBase(object):
         context.update(self.extra_context)
         templates = [
             'autocomplete_light/%s/widget.html' %
-            self.autocomplete_name.lower(),
+            self.autocomplete.__name__.lower(),
             'autocomplete_light/%s/widget.html' % getattr(autocomplete,
                 'widget_template_name', ''),
             'autocomplete_light/widget.html',
