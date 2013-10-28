@@ -492,7 +492,7 @@ yourlabs.Autocomplete.prototype.fetch = function() {
 
     // Make an asynchronous GET request to this.url.
     this.xhr = $.ajax(this.url, {
-    	type: "GET",
+        type: "GET",
         data: this.data,
         complete: $.proxy(this.fetchComplete, this)
     });
