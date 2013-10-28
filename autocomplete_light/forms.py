@@ -215,7 +215,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         - add autocompletes for generic foreign key and generic many to many.
         """
         # use our formfield_callback to add autocompletes
-        attrs['formfield_callback'] = FormfieldCallback(attrs.pop('formfield_callback', None))
+        attrs['formfield_callback'] = FormfieldCallback(
+            attrs.pop('formfield_callback', None))
 
         meta = attrs.get('Meta', None)
 
@@ -264,7 +265,6 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
             new_class.base_fields[field.name] = \
                 GenericModelMultipleChoiceField()
-
 
 
 class ModelForm(six.with_metaclass(ModelFormMetaclass,
