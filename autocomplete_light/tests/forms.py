@@ -58,7 +58,19 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         form = form_class()
         self.do_field_test(form)
 
-    def test_meta_exclude(self):
+    def test_meta_exclude_name(self):
+        class Meta:
+            model = self.model_class
+            exclude = ('name',)
+
+        ModelForm = type('ExcludeAutocompleteModelForm',
+                (autocomplete_light.ModelForm,), {'Meta': Meta})
+        form = ModelForm()
+
+        self.do_field_test(form)
+        self.assertFalse('name' in form.fields)
+
+    def test_meta_exclude_relation(self):
         class Meta:
             model = self.model_class
             exclude = ['relation']

@@ -1,5 +1,5 @@
 """
-A couple of helper functions to help enabling Widget in ModelForms.
+Most of this deserve to be realesed in its own app.
 """
 from __future__ import unicode_literals
 
@@ -234,20 +234,23 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def pre_new(cls, meta):
         fields = getattr(meta, 'fields', None)
-
-        if not hasattr(meta, 'exclude'):
-            meta.exclude = []
+        exclude = getattr(meta, 'exclude', [])
+        add_exclude = []
 
         # exclude gfk content type and object id fields
         for field in meta.model._meta.virtual_fields:
-            if field.name in meta.exclude:
+            if exclude and field.name in exclude:
                 continue
 
             if fields and field.name not in fields:
                 continue
 
             if isinstance(field, GenericForeignKey):
-                meta.exclude += [field.ct_field, field.fk_field]
+                add_exclude += [field.ct_field, field.fk_field]
+
+        if exclude:
+            # safe concatenation of list/tuple
+            meta.exclude = add_exclude + [f for f in exclude]
 
     @classmethod
     def post_new(cls, new_class, meta):
@@ -260,10 +263,11 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def add_generic_fk_fields(cls, new_class, meta):
         fields = getattr(meta, 'fields', None)
+        exclude = getattr(meta, 'exclude', [])
 
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
-            if field.name in meta.exclude:
+            if field.name in exclude:
                 continue
 
             if fields and field.name not in fields:
@@ -276,12 +280,13 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
         fields = getattr(meta, 'fields', None)
+        exclude = getattr(meta, 'exclude', [])
 
         for field in meta.model.__dict__.values():
             if not isinstance(field, RelatedObjectsDescriptor):
                 continue
 
-            if field.name in meta.exclude:
+            if field.name in exclude:
                 continue
 
             if fields and field.name not in fields:
