@@ -1,5 +1,8 @@
 """
 Most of this deserve to be realesed in its own app.
+
+I want a better implementation for this, so don't expect the low level internal
+API to be stable until this comment is removed.
 """
 from __future__ import unicode_literals
 
