@@ -14,8 +14,17 @@ class AutocompleteFieldMixin(object):
     def __init__(self, autocomplete=None, registry=None, widget=None,
             widget_js_attributes=None, autocomplete_js_attributes=None,
             extra_context=None, *args, **kwargs):
-        registry = registry or default_registry
-        self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
+
+        if widget:
+            # BC: maybe defining the autocomplete as a widget argument ?
+            autocomplete = getattr(widget, 'autocomplete', None)
+            if autocomplete:
+                self.autocomplete = autocomplete
+
+        if not getattr(self, 'autocomplete', False):
+            # new DRY style support
+            registry = registry or default_registry
+            self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
 
         widget = widget or self.widget
         if isinstance(widget, type):

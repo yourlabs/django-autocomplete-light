@@ -3,7 +3,8 @@ import unittest
 from django import http
 from django import forms
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User, Group, Permission
+
+from ..apps.autocomplete_test_case_app.models import User, Group
 
 import autocomplete_light
 
@@ -112,7 +113,7 @@ class AutocompleteTestCase(unittest.TestCase):
             try:
                 valid = form.is_valid()
             except TypeError:
-                print self.__class__, test, self.get_widget_tests()
+                print(self.__class__, test, self.get_widget_tests())
                 raise
 
             self.assertEqual(

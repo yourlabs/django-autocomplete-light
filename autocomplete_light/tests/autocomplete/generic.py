@@ -1,7 +1,9 @@
 from .case import *
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import Permission
+
+from ..apps.autocomplete_test_case_app.models import User, Group
 
 
 class AutocompleteGenericMock(autocomplete_light.AutocompleteGenericBase):
@@ -136,3 +138,9 @@ class AutocompleteGenericTestCase(AutocompleteTestCase):
                 'expected_valid': False,
             },
         )
+
+    def test_default_search_fields(self):
+        class MyGeneric(autocomplete_light.AutocompleteGenericBase):
+            choices = [Group.objects.all()]
+        self.assertEqual(MyGeneric.search_fields, [('name',)])
+

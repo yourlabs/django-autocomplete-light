@@ -14,3 +14,5 @@ from .fields import (ModelChoiceField, ModelMultipleChoiceField,
 
 from .views import CreateView
 from .exceptions import AutocompleteNotRegistered
+
+from .settings import *

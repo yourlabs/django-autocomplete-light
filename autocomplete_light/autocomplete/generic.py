@@ -4,14 +4,32 @@ import six
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
-from autocomplete_light.generic import GenericModelChoiceField
-
+import autocomplete_light
+from ..settings import DEFAULT_SEARCH_FIELDS
 from .model import AutocompleteModel
 
 __all__ = ['AutocompleteGeneric']
 
 
-class AutocompleteGeneric(AutocompleteModel):
+class AutocompleteGenericMetaClass(type):
+    def __new__(cls, name, bases, attrs):
+        new_class = super(AutocompleteGenericMetaClass, cls).__new__(cls, name,
+                bases, attrs)
+
+        if attrs.get('__module__',
+                '').startswith('autocomplete_light.autocomplete'):
+            # we are defining own of our own classes
+            return new_class
+
+        if not new_class.search_fields:
+            default = DEFAULT_SEARCH_FIELDS
+            new_class.search_fields = [default] * len(new_class.choices)
+
+        return new_class
+
+
+class AutocompleteGeneric(six.with_metaclass(AutocompleteGenericMetaClass,
+    AutocompleteModel)):
     """
     Autocomplete which considers choices as a list of querysets. It inherits
     from AutocompleteModel so make sure that you've read the docs and
@@ -40,7 +58,7 @@ class AutocompleteGeneric(AutocompleteModel):
         Because this autocomplete is made for that field, and to avoid code
         duplication.
         """
-        field = GenericModelChoiceField()
+        field = autocomplete_light.GenericModelChoiceField()
         return field.prepare_value(choice)
 
     def validate_values(self):

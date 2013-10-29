@@ -135,7 +135,8 @@ class GenericModelFormTestCaseMixin(object):
 
         class Fixture(autocomplete_light.ModelForm):
             relation = self.field_class(registry=registry,
-                autocomplete=registry.register(choices=[self.model_class.objects.all()],
+                autocomplete=registry.register(autocomplete_light.AutocompleteGenericBase,
+                    choices=[self.model_class.objects.all()],
                     search_fields=['name']))
 
             class Meta:
@@ -143,7 +144,6 @@ class GenericModelFormTestCaseMixin(object):
 
         form = Fixture()
         self.do_field_test(form)
-        self.do_field_test(form, 'relation2')
 
     def form_value(self, model):
         return 'relation=%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)
