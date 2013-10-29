@@ -42,7 +42,7 @@ class AutocompleteFieldMixin(object):
 
         if value and not self.autocomplete(values=values).validate_values():
             raise forms.ValidationError('%s cannot validate %s' % (
-                self.autocomplete_name, value))
+                self.autocomplete.__name__, value))
 
 
 class ModelChoiceField(AutocompleteFieldMixin, forms.ModelChoiceField):
