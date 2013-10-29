@@ -40,6 +40,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
             self.widget_class))
 
     def test_appropriate_field_on_modelform_with_formfield_callback(self):
+        # This tests what django admin does
         def cb(f, **kwargs):
             return f.formfield(**kwargs)
 
