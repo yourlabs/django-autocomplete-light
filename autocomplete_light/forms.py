@@ -192,7 +192,7 @@ class FormfieldCallback(object):
                 elif isinstance(model_field, ManyToManyField):
                     kwargs['form_class'] = ModelMultipleChoiceField
 
-            kwargs['autocomplete'] = autocomplete
+                kwargs['autocomplete'] = autocomplete
 
         if self.default:
             return self.default(model_field, **kwargs)
@@ -233,12 +233,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def pre_new(cls, meta):
+        if not hasattr(meta, 'exclude'):
+            meta.exclude = []
+
         # exclude gfk content type and object id fields
         for field in meta.model._meta.virtual_fields:
-            if isinstance(field, GenericForeignKey):
-                if not hasattr(meta, 'exclude'):
-                    meta.exclude = []
+            if field.name in meta.exclude:
+                continue
 
+            if isinstance(field, GenericForeignKey):
                 meta.exclude += [field.ct_field, field.fk_field]
 
     @classmethod
@@ -253,6 +256,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     def add_generic_fk_fields(cls, new_class, meta):
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
+            if field.name in meta.exclude:
+                continue
+
             new_class.base_fields[field.name] = GenericModelChoiceField(
                 required=not meta.model._meta.get_field_by_name(
                     field.fk_field))
@@ -261,6 +267,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     def add_generic_m2m_fields(cls, new_class, meta):
         for field in meta.model.__dict__.values():
             if not isinstance(field, RelatedObjectsDescriptor):
+                continue
+
+            if field.name in meta.exclude:
                 continue
 
             new_class.base_fields[field.name] = \

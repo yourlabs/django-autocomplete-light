@@ -29,15 +29,24 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
     def field_value(self, model):
         return getattr(model, 'relation')
 
-    def test_appropriate_field_with_modelformfactory(self):
-        form_class = modelform_factory(self.model_class,
-                form=self.model_form_class)
-        form = form_class()
 
+    def do_field_test(self, form):
         self.assertTrue(isinstance(form.fields['relation'],
             self.field_class))
         self.assertTrue(isinstance(form.fields['relation'].widget,
             self.widget_class))
+        self.assertEqual(form.fields['relation'].autocomplete.__name__,
+                self.autocomplete_name)
+
+    def test_appropriate_field_on_modelform(self):
+        form = self.model_form_class()
+        self.do_field_test(form)
+
+    def test_appropriate_field_with_modelformfactory(self):
+        form_class = modelform_factory(self.model_class,
+                form=self.model_form_class)
+        form = form_class()
+        self.do_field_test(form)
 
     def test_appropriate_field_on_modelform_with_formfield_callback(self):
         # This tests what django admin does
@@ -47,11 +56,19 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         form_class = modelform_factory(self.model_class,
                 form=self.model_form_class, formfield_callback=cb)
         form = form_class()
+        self.do_field_test(form)
 
-        self.assertTrue(isinstance(form.fields['relation'],
-            self.field_class))
-        self.assertTrue(isinstance(form.fields['relation'].widget,
-            self.widget_class))
+    def test_meta_exclude(self):
+        class Meta:
+            model = self.model_class
+            exclude = ['relation']
+
+        ModelForm = type('ExcludeAutocompleteModelForm',
+                (autocomplete_light.ModelForm,), {'Meta': Meta})
+        form = ModelForm()
+
+        self.assertFalse('relation' in form.fields)
+
 
     def test_create_with_relation(self):
         form = self.model_form_class(http.QueryDict(
@@ -73,6 +90,8 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertEqual(self.field_value(result), self.janis)
 
 class GenericModelFormTestCaseMixin(object):
+    autocomplete_name = 'A'
+
     def form_value(self, model):
         return 'relation=%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)
 
@@ -88,12 +107,14 @@ class FkModelFormTestCase(ModelFormBaseTestCase):
     model_class = FkModel
     model_form_class = FkModelForm
     field_class = autocomplete_light.ModelChoiceField
+    autocomplete_name = 'FkModelAutocomplete'
 
 
 class OtoModelFormTestCase(ModelFormBaseTestCase):
     model_class = OtoModel
     model_form_class = OtoModelForm
     field_class = autocomplete_light.ModelChoiceField
+    autocomplete_name = 'OtoModelAutocomplete'
 
 
 class GfkModelFormTestCase(GenericModelFormTestCaseMixin,
@@ -107,6 +128,8 @@ class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase)
     model_class = MtmModel
     model_form_class = MtmModelForm
     field_class = autocomplete_light.ModelMultipleChoiceField
+    autocomplete_name = 'MtmModelAutocomplete'
+
 
 
 try:
