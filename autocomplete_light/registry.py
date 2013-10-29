@@ -118,6 +118,8 @@ class AutocompleteRegistry(dict):
             autocomplete = type(str(name), (autocomplete,), kwargs)
             self._register_autocomplete(autocomplete)
 
+        return autocomplete
+
     def _register_model_autocomplete(self, model, autocomplete=None,
                                     name=None, **kwargs):
 

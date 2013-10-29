@@ -29,13 +29,12 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
     def field_value(self, model):
         return getattr(model, 'relation')
 
-
-    def do_field_test(self, form):
-        self.assertTrue(isinstance(form.fields['relation'],
+    def do_field_test(self, form, name='relation'):
+        self.assertTrue(isinstance(form.fields[name],
             self.field_class))
-        self.assertTrue(isinstance(form.fields['relation'].widget,
+        self.assertTrue(isinstance(form.fields[name].widget,
             self.widget_class))
-        self.assertEqual(form.fields['relation'].autocomplete.__name__,
+        self.assertEqual(form.fields[name].autocomplete.__name__,
                 self.autocomplete_name)
 
     def test_appropriate_field_on_modelform(self):
@@ -92,6 +91,22 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         self.assertFalse('relation' in form.fields)
 
+    def test_empty_registry(self):
+        registry = autocomplete_light.AutocompleteRegistry()
+
+        class Fixture(autocomplete_light.ModelForm):
+            relation = self.field_class(registry=registry,
+                autocomplete=registry.register(self.model_class))
+            relation2 = self.field_class(registry=registry,
+                autocomplete=registry.register(self.model_class))
+
+            class Meta:
+                model = self.model_class
+
+        form = Fixture()
+        self.do_field_test(form)
+        self.do_field_test(form, 'relation2')
+
     def test_create_with_relation(self):
         form = self.model_form_class(http.QueryDict(
             'name=test&%s' % self.form_value(self.janis)))
@@ -114,6 +129,21 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
 class GenericModelFormTestCaseMixin(object):
     autocomplete_name = 'A'
+
+    def test_empty_registry(self):
+        registry = autocomplete_light.AutocompleteRegistry()
+
+        class Fixture(autocomplete_light.ModelForm):
+            relation = self.field_class(registry=registry,
+                autocomplete=registry.register(choices=[self.model_class.objects.all()],
+                    search_fields=['name']))
+
+            class Meta:
+                model = self.model_class
+
+        form = Fixture()
+        self.do_field_test(form)
+        self.do_field_test(form, 'relation2')
 
     def form_value(self, model):
         return 'relation=%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)

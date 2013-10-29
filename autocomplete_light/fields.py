@@ -22,6 +22,11 @@ class AutocompleteFieldMixin(object):
             self.widget = widget(autocomplete, widget_js_attributes,
                     autocomplete_js_attributes, extra_context)
 
+        parents = super(AutocompleteFieldMixin, self).__self_class__.__bases__
+        if (forms.ModelChoiceField in parents or
+                forms.ModelMultipleChoiceField in parents):
+            kwargs['queryset'] = self.autocomplete.choices
+
         super(AutocompleteFieldMixin, self).__init__(*args, **kwargs)
 
     def validate(self, value):
