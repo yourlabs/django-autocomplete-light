@@ -69,6 +69,16 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         self.assertFalse('relation' in form.fields)
 
+    def test_meta_fields(self):
+        class Meta:
+            model = self.model_class
+            fields = ['name']
+
+        ModelForm = type('ExcludeAutocompleteModelForm',
+                (autocomplete_light.ModelForm,), {'Meta': Meta})
+        form = ModelForm()
+
+        self.assertFalse('relation' in form.fields)
 
     def test_create_with_relation(self):
         form = self.model_form_class(http.QueryDict(
@@ -88,6 +98,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         result = form.save()
         self.assertEqual(self.field_value(result), self.janis)
+
 
 class GenericModelFormTestCaseMixin(object):
     autocomplete_name = 'A'

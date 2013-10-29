@@ -233,12 +233,17 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def pre_new(cls, meta):
+        fields = getattr(meta, 'fields', None)
+
         if not hasattr(meta, 'exclude'):
             meta.exclude = []
 
         # exclude gfk content type and object id fields
         for field in meta.model._meta.virtual_fields:
             if field.name in meta.exclude:
+                continue
+
+            if fields and field.name not in fields:
                 continue
 
             if isinstance(field, GenericForeignKey):
@@ -254,9 +259,14 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_fk_fields(cls, new_class, meta):
+        fields = getattr(meta, 'fields', None)
+
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
             if field.name in meta.exclude:
+                continue
+
+            if fields and field.name not in fields:
                 continue
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
@@ -265,11 +275,16 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
+        fields = getattr(meta, 'fields', None)
+
         for field in meta.model.__dict__.values():
             if not isinstance(field, RelatedObjectsDescriptor):
                 continue
 
             if field.name in meta.exclude:
+                continue
+
+            if fields and field.name not in fields:
                 continue
 
             new_class.base_fields[field.name] = \
