@@ -38,3 +38,6 @@ urlpatterns = patterns('',
         template_name='just_javascript.html')),
     (r'^$', generic.TemplateView.as_view(template_name='index.html'))
 )
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()
