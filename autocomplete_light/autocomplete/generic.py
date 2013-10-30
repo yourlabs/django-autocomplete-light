@@ -29,7 +29,7 @@ class AutocompleteGenericMetaClass(type):
 
 
 class AutocompleteGeneric(six.with_metaclass(AutocompleteGenericMetaClass,
-    AutocompleteModel)):
+        AutocompleteModel)):
     """
     Autocomplete which considers choices as a list of querysets. It inherits
     from AutocompleteModel so make sure that you've read the docs and

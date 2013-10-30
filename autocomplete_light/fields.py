@@ -24,7 +24,8 @@ class AutocompleteFieldMixin(object):
         if not getattr(self, 'autocomplete', False):
             # new DRY style support
             registry = registry or default_registry
-            self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
+            self.autocomplete = registry.get_autocomplete_from_arg(
+                autocomplete)
 
         widget = widget or self.widget
         if isinstance(widget, type):
