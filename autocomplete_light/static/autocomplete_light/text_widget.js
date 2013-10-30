@@ -133,6 +133,7 @@ yourlabs.TextWidget.prototype.selectChoice = function(choice) {
     newValue += inputValue.substring(positions[1]);
 
     this.input.val(newValue);
+    this.input.focus();
 }
 
 // Return the value of an HTML choice, used to fill the input.

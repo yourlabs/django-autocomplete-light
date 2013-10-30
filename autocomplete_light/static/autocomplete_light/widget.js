@@ -105,7 +105,16 @@ yourlabs.Widget.prototype.selectChoice = function(choice) {
     this.freeDeck();
     this.addToDeck(choice, value);
     this.addToSelect(choice, value);
+    
+    var index = $(':input:visible').index(this.input);
     this.resetDisplay();
+
+    if (this.input.is(':visible')) {
+        this.input.focus();
+    } else {
+        var next = $(':input:visible:eq('+ index +')');
+        next.focus();
+    }
 
     if (this.clearInputOnSelectChoice === "1")
         this.input.val('');
@@ -125,17 +134,11 @@ yourlabs.Widget.prototype.freeDeck = function() {
 }
 
 // Empty the search input and hide it if maxValues has been reached.
-yourlabs.Widget.prototype.resetDisplay = function(initialize) {
+yourlabs.Widget.prototype.resetDisplay = function() {
     var selected = this.select.find('option:selected').length;
 
     if (this.maxValues && selected == this.maxValues) {
-        var index = $(':input:visible').index(this.input);
         this.input.hide();
-        var next = $(':input:visible:eq('+ index +')');
-
-        if (initialize !== true) {
-            next.focus()
-        }
     } else {
         this.input.show();
     }
@@ -254,7 +257,7 @@ yourlabs.Widget.prototype.initialize = function() {
         this.input.yourlabsAutocomplete().choiceSelector);
 
     this.addRemove(choices);
-    this.resetDisplay(true);
+    this.resetDisplay();
 
     this.bindSelectChoice();
     this.clearBoth()
