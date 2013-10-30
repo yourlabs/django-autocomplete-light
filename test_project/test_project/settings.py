@@ -90,6 +90,7 @@ INSTALLED_APPS = (
 
     'autocomplete_light',
     'autocomplete_light.tests.apps.basic',
+    'autocomplete_light.tests.apps.music',
     'autocomplete_light.tests.apps.autocomplete_test_case_app',
 )
 

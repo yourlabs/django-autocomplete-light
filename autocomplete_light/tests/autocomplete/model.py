@@ -1,6 +1,9 @@
-from .case import *
+from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
+from django.utils.encoding import force_text
+
+from .case import *
 
 
 class AutocompleteModelMock(autocomplete_light.AutocompleteModelBase):
@@ -121,18 +124,18 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
                 'fixture': make_get_request('q=j'),
                 'expected': u''.join([
                     '<span class="div" data-value="%s">%s</span>' % (
-                        self.jack.pk, unicode(self.jack)),
+                        self.jack.pk, force_text(self.jack)),
                     '<span class="div" data-value="%s">%s</span>' % (
-                        self.james.pk, unicode(self.james)),
+                        self.james.pk, force_text(self.james)),
                 ])
             },
             {
                 'fixture': make_get_request(),
                 'expected': u''.join([
                     '<span class="div" data-value="%s">%s</span>' % (
-                        self.abe.pk, unicode(self.abe)),
+                        self.abe.pk, force_text(self.abe)),
                     '<span class="div" data-value="%s">%s</span>' % (
-                        self.jack.pk, unicode(self.jack)),
+                        self.jack.pk, force_text(self.jack)),
                 ])
             },
         )

@@ -1,9 +1,13 @@
+from __future__ import unicode_literals
+
+from django.utils.encoding import force_text
+
 __all__ = ('AutocompleteList',)
 
 
 class AutocompleteList(object):
     limit_choices = 20
-    order_by = lambda cls, choice: unicode(choice).lower()
+    order_by = lambda cls, choice: force_text(choice).lower()
 
     def choices_for_values(self):
         values_choices = []
@@ -21,7 +25,7 @@ class AutocompleteList(object):
         q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
-            if q in unicode(choice).lower():
+            if q in force_text(choice).lower():
                 requests_choices.append(choice)
 
         return self.order_choices(requests_choices)[0:self.limit_choices]

@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from django.utils.encoding import force_text
 from django.core import urlresolvers
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.html import escape
@@ -128,10 +129,10 @@ class AutocompleteBase(AutocompleteInterface):
         """
         Convert a choice to a value.
         """
-        return unicode(choice)
+        return force_text(choice)
 
     def choice_label(self, choice):
         """
         Convert a choice to a label.
         """
-        return unicode(choice)
+        return force_text(choice)

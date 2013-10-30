@@ -1,3 +1,7 @@
+from __future__ import unicode_literals
+import six
+
+from django.utils.encoding import force_text
 from django.db.models import Q
 
 from ..settings import DEFAULT_SEARCH_FIELDS
@@ -41,7 +45,7 @@ class AutocompleteModel(object):
         """
         Return the unicode representation of the choice by default.
         """
-        return unicode(choice)
+        return force_text(choice)
 
     def order_choices(self, choices):
         """
@@ -50,7 +54,7 @@ class AutocompleteModel(object):
         if self.order_by is None:
             return choices
 
-        if isinstance(self.order_by, basestring):
+        if isinstance(self.order_by, six.string_types):
             return choices.order_by(self.order_by)
 
         return choices.order_by(*self.order_by)

@@ -1,8 +1,10 @@
-from .case import *
+from __future__ import unicode_literals
 
+from django.utils.encoding import force_text
 from django.template import Template, Context
 
-from django.contrib.auth.models import User
+from .case import *
+from ..apps.autocomplete_test_case_app.models import User, Group
 
 
 class AutocompleteMock(autocomplete_light.AutocompleteModelTemplate):
@@ -59,9 +61,9 @@ class AutocompleteModelTemplateTestCase(AutocompleteTestCase):
                 'expected': u''.join([
                     u'<ul>',
                     u'<li data-value="%s">%s</li>' % (
-                        self.jack.pk, unicode(self.jack)),
+                        self.jack.pk, force_text(self.jack)),
                     u'<li data-value="%s">%s</li>' % (
-                        self.james.pk, unicode(self.james)),
+                        self.james.pk, force_text(self.james)),
                     u'</ul>',
                 ])
             },
@@ -70,9 +72,9 @@ class AutocompleteModelTemplateTestCase(AutocompleteTestCase):
                 'expected': u''.join([
                     u'<ul>',
                     u'<li data-value="%s">%s</li>' % (
-                        self.abe.pk, unicode(self.abe)),
+                        self.abe.pk, force_text(self.abe)),
                     u'<li data-value="%s">%s</li>' % (
-                        self.jack.pk, unicode(self.jack)),
+                        self.jack.pk, force_text(self.jack)),
                     u'</ul>',
                 ])
             },
