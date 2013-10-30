@@ -24,8 +24,8 @@ class AutocompleteChoiceList(AutocompleteList):
         q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
-            match = force_text(choice[0]).lower() + force_text(choice[1]).lower()
-            if q in match:
+            m = force_text(choice[0]).lower() + force_text(choice[1]).lower()
+            if q in m:
                 requests_choices.append(choice)
 
         return self.order_choices(requests_choices)[0:self.limit_choices]
