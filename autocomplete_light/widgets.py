@@ -119,6 +119,16 @@ class WidgetBase(object):
             templates.insert(0, widget_template)
         return safestring.mark_safe(render_to_string(templates, context))
 
+    def build_attrs(self, extra_attrs=None, **kwargs):
+        attrs = super(WidgetBase, self).build_attrs(extra_attrs, **kwargs)
+
+        if 'class' not in attrs.keys():
+            attrs['class'] = ''
+
+        attrs['class'] += ' autocomplete'
+
+        return attrs
+
 
 class ChoiceWidget(WidgetBase, forms.Select):
     """
