@@ -123,7 +123,7 @@ yourlabs.Autocomplete = function (input) {
     will wait before querying the server. The higher it is, the less it will
     spam the server but the more the user will wait.
     */
-    this.xhrTimeout = 150;
+    this.xhrTimeout = 200;
 
     /*
     As the server responds with plain HTML, we need a selector to find the
