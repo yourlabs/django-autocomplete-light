@@ -123,7 +123,7 @@ yourlabs.Autocomplete = function (input) {
     will wait before querying the server. The higher it is, the less it will
     spam the server but the more the user will wait.
     */
-    this.xhrTimeout = 200;
+    this.xhrWait = 200;
 
     /*
     As the server responds with plain HTML, we need a selector to find the
@@ -503,8 +503,8 @@ yourlabs.Autocomplete.prototype.fetch = function() {
     // Abort any request that we planned to make.
     if (this.timeoutId) clearTimeout(this.timeoutId);
 
-    // Make an asynchronous GET request to this.url in this.xhrTimeout ms
-    this.timeoutId = setTimeout($.proxy(this.makeXhr, this), this.xhrTimeout);
+    // Make an asynchronous GET request to this.url in this.xhrWait ms
+    this.timeoutId = setTimeout($.proxy(this.makeXhr, this), this.xhrWait);
 }
 
 // Wrapped ajax call to use with setTimeout in fetch().
