@@ -1,3 +1,8 @@
+1.4.6:
+
+    - Fix #188: Added debouncing in autocomplete.js,
+    - Fix #173: load static from staticfiles.
+
 1.4.5:
 
     - Fix #180: Support HTTPS in remote.js,
