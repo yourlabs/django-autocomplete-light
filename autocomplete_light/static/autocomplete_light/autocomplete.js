@@ -116,6 +116,16 @@ yourlabs.Autocomplete = function (input) {
     this.url = false;
 
     /*
+    Although this script will make sure that it doesn't have multiple ajax
+    requests at the time, it also supports debouncing.
+
+    Set a number of milliseconds here, it is the number of milliseconds that it
+    will wait before querying the server. The higher it is, the less it will
+    spam the server but the more the user will wait.
+    */
+    this.xhrTimeout = 150;
+
+    /*
     As the server responds with plain HTML, we need a selector to find the
     choices that it contains.
 
@@ -490,7 +500,15 @@ yourlabs.Autocomplete.prototype.fetch = function() {
     // Abort any current request.
     if (this.xhr) this.xhr.abort();
 
-    // Make an asynchronous GET request to this.url.
+    // Abort any request that we planned to make.
+    if (this.timeoutId) clearTimeout(this.timeoutId);
+
+    // Make an asynchronous GET request to this.url in this.xhrTimeout ms
+    this.timeoutId = setTimeout($.proxy(this.makeXhr, this), this.xhrTimeout);
+}
+
+// Wrapped ajax call to use with setTimeout in fetch().
+yourlabs.Autocomplete.prototype.makeXhr = function() {
     this.xhr = $.ajax(this.url, {
         data: this.data,
         complete: $.proxy(this.fetchComplete, this)
