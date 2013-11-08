@@ -3,9 +3,9 @@ import urllib
 from django import http
 
 try:
-    from django.utils import simplejson as json
-except ImportError:
     import json
+except ImportError:
+    from django.utils import simplejson as json
 
 
 from .model import AutocompleteModel
