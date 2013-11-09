@@ -20,8 +20,8 @@ Register an Autocomplete for your model in
     autocomplete_light.register(Person, 
         # Just like in ModelAdmin.search_fields
         search_fields=['^first_name', 'last_name'],
-        # This will actually data-minimum-characters which will set
-        # widget.autocomplete.minimumCharacters.
+        # This will actually html attribute data-placeholder which will set
+        # javascript attribute widget.autocomplete.placeholder.
         autocomplete_js_attributes={'placeholder': 'Other model name ?',},
     )
 
