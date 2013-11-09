@@ -510,6 +510,7 @@ yourlabs.Autocomplete.prototype.fetch = function() {
 // Wrapped ajax call to use with setTimeout in fetch().
 yourlabs.Autocomplete.prototype.makeXhr = function() {
     this.xhr = $.ajax(this.url, {
+        type: "GET",
         data: this.data,
         complete: $.proxy(this.fetchComplete, this)
     });
