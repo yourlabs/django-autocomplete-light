@@ -5,7 +5,7 @@ Enable an autocomplete in admin forms in two steps: high level API concepts
 `````````````````````````````````````````````````````````````````````
 
 ``register()`` passes the extra keyword arguments like ``search_fields`` to the
-Python :py:func:``type`` function. This means that extra keyword arguments will
+Python :py:func:`type` function. This means that extra keyword arguments will
 be used as class attributes of the generated class.
 
 Register an Autocomplete for your model in
