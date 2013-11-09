@@ -38,14 +38,9 @@ for script in ('autocomplete', 'addanother', 'widget', 'remote', 'text_widget'):
 
 import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-if on_rtd:
-    intersphinx_mapping = {
-        'citieslight': ('http://django-cities-light.readthedocs.org/en/latest/', None),
-    }
-else:
-    intersphinx_mapping = {
-        'citieslight': ('file:///home/jpic/env/src/cities-light/docs/build/html/', None),
-    }
+intersphinx_mapping = {
+    'python': ('http://docs.python.org/2/', None),
+}
 
 # -- General configuration -----------------------------------------------------
 
