@@ -1,7 +1,7 @@
-{% load i18n %}
+{% load i18n l10n %}
 {% load static %}
 
-<span class="div" data-value="{{ choice.pk }}">
+<span class="div" data-value="{{ choice.pk|unlocalize }}">
     {{ choice }}
     {% with choice.get_absolute_url as url %}
         {% if url %}
