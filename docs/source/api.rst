@@ -28,6 +28,10 @@ AutocompleteTemplate
 Other Autocompletes
 ```````````````````
 
+.. automodule:: autocomplete_light.autocomplete
+   :members:
+   :undoc-members:
+
 See ``autocomplete_light/autocomplete/__init__.py``:
 
 .. literalinclude:: ../../autocomplete_light/autocomplete/__init__.py

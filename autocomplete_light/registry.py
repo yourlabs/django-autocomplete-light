@@ -9,21 +9,22 @@ required for ModelAdmin.
 It looks like this:
 
 - in ``yourapp/autocomplete_light_registry.py``, register your autocompletes
-  with ``autocomplete_light.register()``,
-- in ``urls.py``, do ``autocomplete_light.autodiscover()`` **before**
-  ``admin.autodiscover()``.
+  with :py:func:`autocomplete_light.register()`,
+- in ``urls.py``, call :py:func:`autocomplete_light.autodiscover()` **before**
+  :py:func:`admin.autodiscover()`.
 
-AutocompleteRegistry
+:py:class:`AutocompleteRegistry`
     Subclass of Python's dict type with registration/unregistration methods.
 
-registry
-    Instance of AutocompleteRegistry.
+:py:data:`registry`
+    Module-level instance of :py:class:`AutocompleteRegistry`.
 
-register
-    Proxy registry.register.
+:py:func:`register`
+    Proxy for :py:meth:`AutocompleteRegistry.register` for the module-level
+    :py:data:`registry`.
 
-autodiscover
-    Find autocompletes and fill registry.
+:py:func:`autodiscover`
+    Find autocompletes and fill the module-level :py:data:`registry`.
 """
 
 from django.db import models
@@ -40,6 +41,10 @@ class AutocompleteRegistry(dict):
     """
 
     def __init__(self, autocomplete_model_base=None):
+        """
+        Instanciate with a custom base autocomplete class when registering
+        a Model without Autocomplete class.
+        """
         self._models = {}
         self.autocomplete_model_base = autocomplete_model_base
 
@@ -47,14 +52,16 @@ class AutocompleteRegistry(dict):
             self.autocomplete_model_base = AutocompleteModelBase
 
     def autocomplete_for_model(self, model):
-        """ Return the autocomplete class for a given model. """
+        """
+        Return the default autocomplete class for a given model or None.
+        """
         try:
             return self._models[model]
         except KeyError:
             return
 
     def unregister(self, name):
-        """ Unregister a autocomplete. """
+        """ Unregister a autocomplete given a name. """
         autocomplete = self[name]
         del self[name]
 
@@ -66,6 +73,10 @@ class AutocompleteRegistry(dict):
 
     @classmethod
     def extract_args(cls, *args):
+        """
+        Takes any arguments like a model and an autocomplete, or just one of
+        those, in any order, and return a model and autocomplete.
+        """
         model = None
         autocomplete = None
 

@@ -8,10 +8,18 @@ from .rest_model import AutocompleteRestModel
 
 
 class AutocompleteListBase(AutocompleteList, AutocompleteBase):
+    """
+    Uses :py:class:`AutocompleteBase` for rendering logic and
+    :py:class:`AutocompleteList` for business logic.
+    """
     pass
 
 
 class AutocompleteChoiceListBase(AutocompleteChoiceList, AutocompleteBase):
+    """
+    Uses AutocompleteBase for rendering logic and AutocompleteChoiceList for
+    business logic.
+    """
     pass
 
 
