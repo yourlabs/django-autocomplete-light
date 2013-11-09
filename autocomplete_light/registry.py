@@ -98,11 +98,13 @@ class AutocompleteRegistry(dict):
         - an autocomplete class if necessary, else one will be generated.
 
         'name' is also an acceptable keyword argument, that can be used to
-        override the default autocomplete name (which is its class name).
+        override the default autocomplete name which is the class name by
+        default, which could cause name conflicts in some rare cases.
 
-        In addition, keyword arguments will be set as class attributes. For
-        thread safety reasons, a copy of the autocomplete class is stored in
-        the registry.
+        In addition, keyword arguments will be set as class attributes.
+
+        For thread safety reasons, a copy of the autocomplete class is stored
+        in the registry.
         """
         assert len(args) <= 2, 'register takes at most 2 args'
         assert len(args) > 0, 'register takes at least 1 arg'
