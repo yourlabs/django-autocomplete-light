@@ -16,7 +16,8 @@ class AutocompleteInterface(object):
 
     .. py:attribute:: values
 
-        A list of values which :py:meth:`~.base.AutocompleteInterface.validate_values` and
+        A list of values which
+        :py:meth:`~.base.AutocompleteInterface.validate_values` and
         :py:meth:`~.base.AutocompleteInterface.choices_for_values` should use.
 
     .. py:attribute:: request

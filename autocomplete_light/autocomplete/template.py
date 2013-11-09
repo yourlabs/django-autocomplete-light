@@ -48,9 +48,9 @@ class AutocompleteTemplate(AutocompleteBase):
 
     def autocomplete_html(self):
         """
-        Render :py:attr:`autocomplete_template` with base context and ``{{ choices
-        }}``. If :py:attr:`autocomplete_template` is None then fall back on
-        :py:meth:`.base.AutocompleteBase.autocomplete_html`.
+        Render :py:attr:`autocomplete_template` with base context and ``{{
+        choices }}``. If :py:attr:`autocomplete_template` is None then fall
+        back on :py:meth:`.base.AutocompleteBase.autocomplete_html`.
         """
         if self.autocomplete_template:
             choices = self.choices_for_request()
@@ -62,8 +62,8 @@ class AutocompleteTemplate(AutocompleteBase):
 
     def choice_html(self, choice):
         """
-        Render :py:attr:`choice_template` with base context and ``{{ choice }}``. If
-        :py:attr:`choice_template` is None then fall back on
+        Render :py:attr:`choice_template` with base context and ``{{ choice
+        }}``. If :py:attr:`choice_template` is None then fall back on
         :py:meth:`.base.AutocompleteBase.choice_html()`.
         """
         if self.choice_template:
