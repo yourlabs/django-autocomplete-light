@@ -225,5 +225,5 @@ def autodiscover():
 
 
 def register(*args, **kwargs):
-    """Proxy registry.register"""
+    """Proxy :py:meth:`AutocompleteRegistry.register`."""
     return registry.register(*args, **kwargs)
