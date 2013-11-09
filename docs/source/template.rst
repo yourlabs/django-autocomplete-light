@@ -3,23 +3,25 @@
 Templating autocompletes
 ========================
 
-This documentation drives through the example app ``template_autocomplete``,
-which is available in ``test_project``.
+This documentation drives through the example app
+``test_project/template_autocomplete``.
 
-API
----
+You can use :py:class:`AutocompleteTemplate
+<autocomplete_light.autocomplete.template.AutocompleteTemplate>` as a mixin
+just like us:
 
-.. autoclass:: autocomplete_light.autocomplete.template.AutocompleteTemplate
-   :members:
-
-In ``autocomplete_light/autocomplete/__init__.py``, it is used as a mixin::
-
-    class AutocompleteModelBase(AutocompleteModel, AutocompleteBase):
-        pass
-
+.. code-block:: python
 
     class AutocompleteModelTemplate(AutocompleteModel, AutocompleteTemplate):
         pass
+
+You could also directly inherit from :py:class:`AutocompleteModelTemplate
+<autocomplete_light.autocomplete.AutocompleteModelTemplate>`.
+
+Anyway, this enable two new attributes: :py:attr:`choice_template
+<autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template>`
+and :py:attr:`autocomplete_template
+<autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template>`
 
 Example
 -------

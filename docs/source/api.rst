@@ -32,10 +32,6 @@ Other Autocompletes
    :members:
    :undoc-members:
 
-See ``autocomplete_light/autocomplete/__init__.py``:
-
-.. literalinclude:: ../../autocomplete_light/autocomplete/__init__.py
-
 AutocompleteModel
 >>>>>>>>>>>>>>>>>
 
@@ -108,6 +104,12 @@ CreateView
 ``````````
 
 .. autoclass:: autocomplete_light.views.CreateView
+   :members:
+
+Generic foreign key support
+```````````````````````````
+
+.. automodule:: autocomplete_light.generic
    :members:
 
 
