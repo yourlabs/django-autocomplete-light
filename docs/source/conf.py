@@ -40,6 +40,7 @@ import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 intersphinx_mapping = {
     'python': ('http://docs.python.org/2/', None),
+    'django': ('http://django.readthedocs.org/en/latest/', None),
 }
 
 # -- General configuration -----------------------------------------------------

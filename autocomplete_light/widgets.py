@@ -27,11 +27,44 @@ class WidgetBase(object):
     """
     Base widget for autocompletes.
 
-    Mainly handles passing arguments from Python to HTML data-* attributes,
-    via widget_js_attributes and autocomplete_js_attributes. Javascript will
-    parse these data-* attributes.
+    .. py:attribute:: widget_js_attributes
 
-    This widget also renders the widget template.
+        A dict of options that will override the default widget options. For
+        example::
+
+            widget_js_attributes = {'max_values': 8}
+
+        The above code will set this HTML attribute::
+
+            data-max-values="8"
+
+        Which will override the default javascript widget maxValues option
+        (which is 0).
+
+        It is important to understand naming conventions which are sparse
+        unfortunately:
+
+        - python: lower case with underscores ie. ``max_values``,
+        - HTML attributes: lower case with dashes ie. ``data-max-values``,
+        - javascript: camel case, ie. ``maxValues``.
+
+        The python to HTML name conversion is done by the
+        :py:func:`autocomplete_light.templatetags.autocomplete_light_tags.autocomplete_light_data_attributes`
+        template filter.
+
+        The HTML to javascript name conversion is done by the jquery plugin.
+
+    .. py:attribute:: autocomplete_js_attributes
+
+        A dict of options like for :py:attr:`widget_js_attributes`. However,
+        note that HTML attributes will be prefixed by ``data-autocomplete-``
+        instead of just ``data-``. This allows the jQuery plugins to make the
+        distinction between attributes for the autocomplete instance and
+        attributes for the widget instance.
+
+    .. py:attribute:: extra_context
+
+        Extra context dict to pass to the template.
     """
 
     def __init__(self, autocomplete=None,
