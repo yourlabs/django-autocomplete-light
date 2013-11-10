@@ -11,7 +11,7 @@ from .forms import *
 
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField,
-        AutocompleteFieldMixin)
+        FieldBase)
 
 from .views import CreateView
 from .exceptions import AutocompleteNotRegistered

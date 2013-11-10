@@ -46,11 +46,11 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def assertIsAutocomplete(self, name):
         self.assertIsInstance(self.form.fields[name],
-                autocomplete_light.AutocompleteFieldMixin)
+                autocomplete_light.FieldBase)
 
     def assertNotIsAutocomplete(self, name):
         self.assertNotIsInstance(self.form.fields[name],
-                autocomplete_light.AutocompleteFieldMixin)
+                autocomplete_light.FieldBase)
 
     def test_appropriate_field_on_modelform(self):
         self.form = self.model_form_class()

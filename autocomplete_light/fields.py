@@ -10,7 +10,7 @@ from .registry import registry as default_registry
 from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
 
 
-class AutocompleteFieldMixin(object):
+class FieldBase(object):
     def __init__(self, autocomplete=None, registry=None, widget=None,
             widget_js_attributes=None, autocomplete_js_attributes=None,
             extra_context=None, *args, **kwargs):
@@ -32,18 +32,18 @@ class AutocompleteFieldMixin(object):
             self.widget = widget(autocomplete, widget_js_attributes,
                     autocomplete_js_attributes, extra_context)
 
-        parents = super(AutocompleteFieldMixin, self).__self_class__.__bases__
+        parents = super(FieldBase, self).__self_class__.__bases__
         if (forms.ModelChoiceField in parents or
                 forms.ModelMultipleChoiceField in parents):
             kwargs['queryset'] = self.autocomplete.choices
 
-        super(AutocompleteFieldMixin, self).__init__(*args, **kwargs)
+        super(FieldBase, self).__init__(*args, **kwargs)
 
     def validate(self, value):
         """
         Wrap around Autocomplete.validate_values().
         """
-        super(AutocompleteFieldMixin, self).validate(value)
+        super(FieldBase, self).validate(value)
 
         # FIXME: we might actually want to change the Autocomplete API to
         # support python values instead of raw values, that would probably be
@@ -55,16 +55,16 @@ class AutocompleteFieldMixin(object):
                 self.autocomplete.__name__, value))
 
 
-class ModelChoiceField(AutocompleteFieldMixin, forms.ModelChoiceField):
+class ModelChoiceField(FieldBase, forms.ModelChoiceField):
     widget = ChoiceWidget
 
 
-class ModelMultipleChoiceField(AutocompleteFieldMixin,
+class ModelMultipleChoiceField(FieldBase,
         forms.ModelMultipleChoiceField):
     widget = MultipleChoiceWidget
 
 
-class GenericModelChoiceField(AutocompleteFieldMixin, forms.Field):
+class GenericModelChoiceField(FieldBase, forms.Field):
     """
     Simple form field that converts strings to models.
     """
