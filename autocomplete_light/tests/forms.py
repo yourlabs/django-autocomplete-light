@@ -156,7 +156,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         self.assertExpectedFormField()
 
-    def test_modelform_factory_fields(self):
+    def test_modelform_factory_fields_relation(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,
                 fields=['relation'])()
 
@@ -164,7 +164,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertNotInForm('name')
         self.assertNotInForm('noise')
 
-    def test_modelform_factory_exclude(self):
+    def test_modelform_factory_exclude_relation(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,
                 exclude=['relation'])()
 
@@ -172,7 +172,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertInForm('name')
         self.assertIsAutocomplete('noise')
 
-    def test_modelform_factory_autocomplete_fields(self):
+    def test_modelform_factory_autocomplete_fields_relation(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,
                 autocomplete_fields=['relation'])()
 
@@ -180,12 +180,28 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertNotIsAutocomplete('noise')
         self.assertInForm('name')
 
-    def test_modelform_factory_autocomplete_exclude(self):
+    def test_modelform_factory_autocomplete_exclude_relation(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,
                 autocomplete_exclude=['relation'])()
 
         self.assertNotIsAutocomplete('relation')
         self.assertInForm('name')
+        self.assertIsAutocomplete('noise')
+
+    def test_modelform_factory_fields_name(self):
+        self.form = autocomplete_light.modelform_factory(self.model_class,
+                fields=['name'])()
+
+        self.assertInForm('name')
+        self.assertNotInForm('relation')
+        self.assertNotInForm('noise')
+
+    def test_modelform_factory_exclude_name(self):
+        self.form = autocomplete_light.modelform_factory(self.model_class,
+                exclude=['name'])()
+
+        self.assertNotInForm('name')
+        self.assertExpectedFormField()
         self.assertIsAutocomplete('noise')
 
     def test_empty_registry(self):
@@ -240,7 +256,7 @@ class GenericModelFormTestCaseMixin(object):
         self.assertInForm('name')
         self.assertIsAutocomplete('noise')
 
-    def test_modelform_factory_autocomplete_exclude(self):
+    def test_modelform_factory_autocomplete_exclude_relation(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,
                 autocomplete_exclude=['relation'])()
 
