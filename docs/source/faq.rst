@@ -22,6 +22,14 @@ So, in the next version, I added a dependency management system. Which sucked
 and was removed right away to finally keep it simple and stupid as we have it
 today.
 
+How to override a JS method ?
+-----------------------------
+
+
+
+How to work around Django bug #9321: `Hold down "Control" ...` ?
+----------------------------------------------------------------
+
 How to ask for help ?
 ---------------------
 

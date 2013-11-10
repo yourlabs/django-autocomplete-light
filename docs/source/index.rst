@@ -35,15 +35,31 @@ upgrades ie. from 1.1.3 to 1.1.22.
 Tutorial
 --------
 
-Learn the concepts by doing useful things.
+Enable autocompletes in the admin has become piece of cake.
 
 .. toctree::
-   :maxdepth: 6
+   :maxdepth: 3
 
    tutorial
 
-You should now fully understand the concepts and be able to do literally what
-you want.
+.. _reference:
+
+Reference
+---------
+
+If you need anything more than just enabling autocompletes in the admin, then
+you should understand django-autocomplete-light's architecture. Because you can
+override any part of it. 
+
+The architecture is based on 3 main parts which you can override to build
+insanely creative features as many users already did.
+
+.. toctree::
+   :maxdepth: 3
+
+   autocomplete
+   form
+   script
 
 Topics
 ------
@@ -80,31 +96,6 @@ FAQ
    :maxdepth: 2
 
    faq
-
-API reference
--------------
-
-Python API reference
-````````````````````
-
-.. toctree::
-   :maxdepth: 5
-
-   api
-
-Javascript API reference
-````````````````````````
-
-- `autocomplete.js
-  <_static/autocomplete.html>`_
-- `widget.js
-  <_static/widget.html>`_
-- `addanother.js
-  <_static/addanother.html>`_
-- `remote.js
-  <_static/remote.html>`_
-- `text_widget.js
-  <_static/text_widget.html>`_
 
 Indices and tables
 ==================

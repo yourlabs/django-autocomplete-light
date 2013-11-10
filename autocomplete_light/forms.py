@@ -1,8 +1,15 @@
 """
-Most of this deserve to be realesed in its own app.
+High-level API for django-autocomplete-light.
 
-I want a better implementation for this, so don't expect the low level internal
-API to be stable until this comment is removed.
+Before, django-autocomplete-light was just a container for a loosely coupled
+set of tools. You had to go for a treasure hunt in the docs and source to find
+just what you need and add it to your project.
+
+While you can still do that, this module adds a high-level API which couples
+all the little pieces together. Basically you could just inherit from ModelForm
+or use modelform_factory() and expect everything to work out of the box, from
+simple autocompletes to generic many to many autocompletes including a bug fix
+for django bug #9321 or even added security.
 """
 from __future__ import unicode_literals
 
@@ -32,13 +39,14 @@ __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
 'SecureModelFormMixin', 'GenericM2MRelatedObjectDescriptorHandlingMixin']
 
+# OMG #9321 why do we have to hard-code this ?
 M = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
 
 
 class SelectMultipleHelpTextRemovalMixin(forms.BaseModelForm):
     """
-    Simple child of mixin that removes the 'Hold down "Control" ...'
-    message that is enforced in select multiple fields.
+    This mixin that removes the 'Hold down "Control" ...' message that is
+    enforced in select multiple fields.
 
     See https://code.djangoproject.com/ticket/9321
     """
@@ -62,17 +70,19 @@ class SelectMultipleHelpTextRemovalMixin(forms.BaseModelForm):
 
 class VirtualFieldHandlingMixin(forms.BaseModelForm):
     """
-    This simple subclass of ModelForm fixes a couple of issues with django's
-    ModelForm.
+    Enable virtual field (generic foreign key) handling in django's ModelForm.
 
-    - treat virtual fields like GenericForeignKey as normal fields, Django
-      should already do that but it doesn't,
+    - treat virtual fields like GenericForeignKey as normal fields,
     - when setting a GenericForeignKey value, also set the object id and
-      content type id fields, again Django could probably afford to do that.
+      content type id fields.
+
+    Probably, django doesn't do that for legacy reasons: virtual fields were
+    added after ModelForm and simply nobody asked django to add virtual field
+    support in ModelForm.
     """
     def __init__(self, *args, **kwargs):
         """
-        What ModelForm does, but also add virtual field values to self.initial.
+        The constructor adds virtual field values to :py:attr:`django:django.forms.Form.initial`
         """
         super(VirtualFieldHandlingMixin, self).__init__(*args, **kwargs)
 
