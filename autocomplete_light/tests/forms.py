@@ -91,6 +91,31 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         self.assertFalse('relation' in form.fields)
 
+    def test_meta_autocomplete_fields(self):
+        class Meta:
+            model = self.model_class
+            autocomplete_fields = ['relation']
+
+        ModelForm = type('AutocompleteFieldsAutocompleteModelForm',
+                (autocomplete_light.ModelForm,), {'Meta': Meta})
+        form = ModelForm()
+
+        self.do_field_test(form, 'relation')
+
+    def test_meta_autocomplete_exclude(self):
+        class Meta:
+            model = self.model_class
+            autocomplete_exclude = ['relation']
+
+        ModelForm = type('AutocompleteExcludeAutocompleteModelForm',
+                (autocomplete_light.ModelForm,), {'Meta': Meta})
+        form = ModelForm()
+
+        self.assertTrue('relation' in form.fields)
+        self.assertFalse(isinstance(form.fields['relation'], self.field_class))
+        self.assertFalse(isinstance(form.fields['relation'].widget,
+            self.widget_class))
+
     def test_empty_registry(self):
         registry = autocomplete_light.AutocompleteRegistry()
 
@@ -129,6 +154,12 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
 class GenericModelFormTestCaseMixin(object):
     autocomplete_name = 'A'
+
+    def test_meta_autocomplete_fields(self):
+        pass
+
+    def test_meta_autocomplete_exclude(self):
+        pass
 
     def test_empty_registry(self):
         registry = autocomplete_light.AutocompleteRegistry()

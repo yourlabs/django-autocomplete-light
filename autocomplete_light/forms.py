@@ -178,14 +178,25 @@ class FormfieldCallback(object):
     It is the very purpose of our `ModelFormMetaclass` !
     """
 
-    def __init__(self, default=None):
+    def __init__(self, default=None, meta=None):
+        self.autocomplete_exclude = getattr(meta, 'autocomplete_exclude', None)
+        self.autocomplete_fields = getattr(meta, 'autocomplete_fields', None)
+
         def _default(model_field, **kwargs):
             return model_field.formfield(**kwargs)
 
         self.default = default or _default
 
     def __call__(self, model_field, **kwargs):
-        if hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
+        if (self.autocomplete_exclude and
+                model_field.name in self.autocomplete_exclude):
+            pass
+
+        elif (self.autocomplete_fields and
+                model_field.name not in self.autocomplete_fields):
+            pass
+
+        elif hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
             autocomplete = default_registry.autocomplete_for_model(
                 model_field.rel.to)
 
@@ -217,11 +228,11 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         field,
         - add autocompletes for generic foreign key and generic many to many.
         """
+        meta = attrs.get('Meta', None)
+
         # use our formfield_callback to add autocompletes
         attrs['formfield_callback'] = FormfieldCallback(
-            attrs.pop('formfield_callback', None))
-
-        meta = attrs.get('Meta', None)
+                attrs.pop('formfield_callback', None), meta)
 
         if meta is not None:
             cls.pre_new(meta)
@@ -237,7 +248,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def pre_new(cls, meta):
         fields = getattr(meta, 'fields', None)
-        exclude = getattr(meta, 'exclude', [])
+        exclude = tuple(getattr(meta, 'exclude', []))
+        autocomplete_fields = getattr(meta, 'autocomplete_fields', None)
+        autocomplete_exclude = tuple(getattr(meta, 'autocomplete_exclude', []))
         add_exclude = []
 
         # exclude gfk content type and object id fields
@@ -245,7 +258,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             if exclude and field.name in exclude:
                 continue
 
-            if fields and field.name not in fields:
+            if fields is not None and field.name not in fields:
+                continue
+
+            if (autocomplete_exclude is not None and field.name in
+                    autocomplete_exclude):
+                continue
+
+            if (autocomplete_fields is not None and field.name not in
+                    autocomplete_fields):
                 continue
 
             if isinstance(field, GenericForeignKey):
