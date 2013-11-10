@@ -32,7 +32,8 @@ class AutocompleteChoiceListBase(AutocompleteChoiceList, AutocompleteBase):
     pass
 
 
-class AutocompleteChoiceListTemplate(AutocompleteChoiceList, AutocompleteTemplate):
+class AutocompleteChoiceListTemplate(AutocompleteChoiceList,
+        AutocompleteTemplate):
     """
     Use :py:class:`~template.AutocompleteTemplate` for rendering logic and
     :py:class:`~choice_list.AutocompleteChoiceList` for business logic.

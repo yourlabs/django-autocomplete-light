@@ -82,7 +82,8 @@ class VirtualFieldHandlingMixin(forms.BaseModelForm):
     """
     def __init__(self, *args, **kwargs):
         """
-        The constructor adds virtual field values to :py:attr:`django:django.forms.Form.initial`
+        The constructor adds virtual field values to
+        :py:attr:`django:django.forms.Form.initial`
         """
         super(VirtualFieldHandlingMixin, self).__init__(*args, **kwargs)
 
@@ -349,7 +350,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 class ModelForm(six.with_metaclass(ModelFormMetaclass,
         SelectMultipleHelpTextRemovalMixin, VirtualFieldHandlingMixin,
         GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm)):
-    """ ModelForm override using our metaclass that adds our various mixins. """
+    """
+    ModelForm override using our metaclass that adds our various mixins.
+    """
     pass
 
 

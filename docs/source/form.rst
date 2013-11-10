@@ -223,7 +223,7 @@ WidgetBase
 ChoiceWidget
 >>>>>>>>>>>>
 
-.. autoclass:: autocomplete_light.widgets.WidgetBase
+.. autoclass:: autocomplete_light.widgets.ChoiceWidget
    :members:
 
 MultipleChoiceWidget
@@ -241,7 +241,7 @@ TextWidget
 Fields
 ``````
 
-.. automodule:: autocomplete_light.widgets
+.. automodule:: autocomplete_light.fields
 
 FieldBase
 >>>>>>>>>
@@ -272,6 +272,8 @@ GenericModelMultipleChoiceField
 .. autoclass:: autocomplete_light.fields.GenericModelMultipleChoiceField
    :members:
 
+.. _form-api:
+
 Form stuff
 ``````````
 
@@ -280,7 +282,7 @@ Form stuff
 modelform_factory
 >>>>>>>>>>>>>>>>>
 
-.. autofunction:: autocomplete_light.form.modelform_factory
+.. autofunction:: autocomplete_light.forms.modelform_factory
 
 ModelForm
 >>>>>>>>>
