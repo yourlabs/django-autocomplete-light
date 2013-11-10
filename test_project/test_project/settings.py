@@ -102,3 +102,5 @@ else:
     INSTALLED_APPS += ('genericm2m',)
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
