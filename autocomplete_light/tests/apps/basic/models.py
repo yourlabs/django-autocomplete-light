@@ -13,6 +13,7 @@ except ImportError:
 class FkModel(models.Model):
     name = models.CharField(max_length=200)
     relation = models.ForeignKey('self', null=True, blank=True)
+    noise = models.ForeignKey('OtoModel', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -22,6 +23,7 @@ class FkModel(models.Model):
 class OtoModel(models.Model):
     name = models.CharField(max_length=200)
     relation = models.OneToOneField('self', null=True, blank=True)
+    noise = models.ForeignKey('FkModel', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -31,6 +33,7 @@ class OtoModel(models.Model):
 class MtmModel(models.Model):
     name = models.CharField(max_length=200)
     relation = models.ManyToManyField('self', blank=True)
+    noise = models.ForeignKey('FkModel', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -44,6 +47,8 @@ class GfkModel(models.Model):
     object_id = models.PositiveIntegerField(null=True, blank=True)
     relation = generic.GenericForeignKey('content_type', 'object_id')
 
+    noise = models.ForeignKey('FkModel', null=True, blank=True)
+
     def __str__(self):
         return self.name
 
@@ -54,12 +59,11 @@ if RelatedObjectsDescriptor:
         name = models.CharField(max_length=200)
         relation = RelatedObjectsDescriptor()
 
+        noise = models.ForeignKey('FkModel', null=True, blank=True)
+
         def __str__(self):
             return self.name
 
-
-'''
-Maybe I'll need this one ?
 
 @python_2_unicode_compatible
 class FullModel(models.Model):
@@ -78,4 +82,3 @@ class FullModel(models.Model):
 
     def __str__(self):
         return self.name
-'''

@@ -37,6 +37,14 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertEqual(form.fields[name].autocomplete.__name__,
                 self.autocomplete_name)
 
+    def assertIsAutocomplete(self, form, name):
+        self.assertIsInstance(form.fields[name],
+                autocomplete_light.AutocompleteFieldMixin)
+
+    def assertNotIsAutocomplete(self, form, name):
+        self.assertNotIsInstance(form.fields[name],
+                autocomplete_light.AutocompleteFieldMixin)
+
     def test_appropriate_field_on_modelform(self):
         form = self.model_form_class()
         self.do_field_test(form)
@@ -56,6 +64,8 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
                 form=self.model_form_class, formfield_callback=cb)
         form = form_class()
         self.do_field_test(form)
+        self.assertIsAutocomplete(form, 'noise')
+        self.assertIsAutocomplete(form, 'relation')
 
     def test_meta_exclude_name(self):
         class Meta:
@@ -68,6 +78,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         self.do_field_test(form)
         self.assertFalse('name' in form.fields)
+        self.assertTrue('noise' in form.fields)
 
     def test_meta_exclude_relation(self):
         class Meta:
@@ -80,7 +91,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
         self.assertFalse('relation' in form.fields)
 
-    def test_meta_fields(self):
+    def test_meta_fields_name(self):
         class Meta:
             model = self.model_class
             fields = ['name']
@@ -90,6 +101,18 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         form = ModelForm()
 
         self.assertFalse('relation' in form.fields)
+
+    def test_meta_fields_relation(self):
+        class Meta:
+            model = self.model_class
+            fields = ['relation']
+
+        ModelForm = type('FieldsAutocompleteModelForm',
+                (autocomplete_light.ModelForm,), {'Meta': Meta})
+        form = ModelForm()
+
+        self.do_field_test(form)
+        self.assertFalse('name' in form.fields)
 
     def test_meta_autocomplete_fields(self):
         class Meta:
@@ -110,6 +133,36 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         ModelForm = type('AutocompleteExcludeAutocompleteModelForm',
                 (autocomplete_light.ModelForm,), {'Meta': Meta})
         form = ModelForm()
+
+        self.assertTrue('relation' in form.fields)
+        self.assertFalse(isinstance(form.fields['relation'], self.field_class))
+        self.assertFalse(isinstance(form.fields['relation'].widget,
+            self.widget_class))
+
+    def test_modelform_factory(self):
+        form = autocomplete_light.modelform_factory(self.model_class)()
+        self.do_field_test(form)
+
+    def test_modelform_factory_fields(self):
+        form = autocomplete_light.modelform_factory(self.model_class,
+                fields=['relation'])()
+        self.do_field_test(form)
+        self.assertFalse('noise' in form.fields)
+
+    def test_modelform_factory_exclude(self):
+        form = autocomplete_light.modelform_factory(self.model_class,
+                exclude=['relation'])()
+        self.assertFalse('relation' in form.fields)
+        self.assertTrue('noise' in form.fields)
+
+    def test_modelform_factory_autocomplete_fields(self):
+        form = autocomplete_light.modelform_factory(self.model_class,
+                autocomplete_fields=['relation'])()
+        self.do_field_test(form)
+
+    def test_modelform_factory_autocomplete_exclude(self):
+        form = autocomplete_light.modelform_factory(self.model_class,
+                autocomplete_exclude=['relation'])()
 
         self.assertTrue('relation' in form.fields)
         self.assertFalse(isinstance(form.fields['relation'], self.field_class))
@@ -155,11 +208,20 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 class GenericModelFormTestCaseMixin(object):
     autocomplete_name = 'A'
 
-    def test_meta_autocomplete_fields(self):
-        pass
-
     def test_meta_autocomplete_exclude(self):
-        pass
+        class ModelForm(autocomplete_light.ModelForm):
+            class Meta:
+                model = self.model_class
+                autocomplete_exclude = ['relation']
+        form = ModelForm()
+
+        self.assertFalse('relation' in form.fields)
+
+    def test_modelform_factory_autocomplete_exclude(self):
+        form = autocomplete_light.modelform_factory(self.model_class,
+                autocomplete_exclude=['relation'])()
+
+        self.assertFalse('relation' in form.fields)
 
     def test_empty_registry(self):
         registry = autocomplete_light.AutocompleteRegistry()

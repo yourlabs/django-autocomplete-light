@@ -28,8 +28,8 @@ from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
 from .widgets import ChoiceWidget, MultipleChoiceWidget
 
-__all__ = ['get_widgets_dict', 'modelform_factory', 'FormfieldCallback',
-'ModelForm', 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
+__all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
+'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
 'SecureModelFormMixin', 'GenericM2MRelatedObjectDescriptorHandlingMixin']
 
 M = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
@@ -230,11 +230,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         """
         meta = attrs.get('Meta', None)
 
-        # use our formfield_callback to add autocompletes
-        attrs['formfield_callback'] = FormfieldCallback(
-                attrs.pop('formfield_callback', None), meta)
+        # use our formfield_callback to add autocompletes if not already used
+        formfield_callback = attrs.get('formfield_callback', None)
+
+        if not isinstance(formfield_callback, FormfieldCallback):
+            attrs['formfield_callback'] = FormfieldCallback(formfield_callback,
+                    meta)
 
         if meta is not None:
+            cls.clean_meta(meta)
             cls.pre_new(meta)
 
         new_class = super(ModelFormMetaclass, cls).__new__(cls, name, bases,
@@ -246,27 +250,50 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         return new_class
 
     @classmethod
+    def skip_field(cls, meta, field):
+        # fixme: find a thread safe **and elegant** way to cache this
+        all_fields = set(getattr(meta, 'fields', [])) | set(getattr(meta,
+            'autocomplete_fields', []))
+        all_exclude = set(getattr(meta, 'exclude', [])) | set(getattr(meta,
+            'autocomplete_exclude', []))
+
+        if len(all_fields) and field not in all_fields:
+            return True
+
+        if len(all_exclude) and field in all_exclude:
+            return True
+
+    @classmethod
+    def clean_meta(cls, meta):
+        # All virtual fields/excludes must be move to
+        # autocomplete_fields/exclude
+        fields = getattr(meta, 'fields', [])
+
+        for field in fields:
+            model_field = getattr(meta.model._meta.virtual_fields, field, None)
+
+            if model_field is None:
+                model_field = getattr(meta.model, field, None)
+
+            if model_field is None:
+                continue
+
+            if isinstance(model_field,
+                    (RelatedObjectsDescriptor, GenericForeignKey)):
+                meta.fields.remove(field)
+
+                if not hasattr(meta, 'autocomplete_fields'):
+                    meta.autocomplete_fields = tuple()
+                meta.autocomplete_fields += (field,)
+
+    @classmethod
     def pre_new(cls, meta):
-        fields = getattr(meta, 'fields', None)
         exclude = tuple(getattr(meta, 'exclude', []))
-        autocomplete_fields = getattr(meta, 'autocomplete_fields', None)
-        autocomplete_exclude = tuple(getattr(meta, 'autocomplete_exclude', []))
         add_exclude = []
 
         # exclude gfk content type and object id fields
         for field in meta.model._meta.virtual_fields:
-            if exclude and field.name in exclude:
-                continue
-
-            if fields is not None and field.name not in fields:
-                continue
-
-            if (autocomplete_exclude is not None and field.name in
-                    autocomplete_exclude):
-                continue
-
-            if (autocomplete_fields is not None and field.name not in
-                    autocomplete_fields):
+            if cls.skip_field(meta, field.name):
                 continue
 
             if isinstance(field, GenericForeignKey):
@@ -274,7 +301,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
         if exclude:
             # safe concatenation of list/tuple
-            meta.exclude = add_exclude + [f for f in exclude]
+            # thanks lvh from #python@freenode
+            meta.exclude = set(add_exclude) | set(exclude)
 
     @classmethod
     def post_new(cls, new_class, meta):
@@ -286,15 +314,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_fk_fields(cls, new_class, meta):
-        fields = getattr(meta, 'fields', None)
-        exclude = getattr(meta, 'exclude', [])
-
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
-            if field.name in exclude:
-                continue
-
-            if fields and field.name not in fields:
+            if cls.skip_field(meta, field.name):
                 continue
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
@@ -303,17 +325,11 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
-        fields = getattr(meta, 'fields', None)
-        exclude = getattr(meta, 'exclude', [])
-
         for field in meta.model.__dict__.values():
             if not isinstance(field, RelatedObjectsDescriptor):
                 continue
 
-            if field.name in exclude:
-                continue
-
-            if fields and field.name not in fields:
+            if cls.skip_field(meta, field.name):
                 continue
 
             new_class.base_fields[field.name] = \
@@ -323,90 +339,37 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 class ModelForm(six.with_metaclass(ModelFormMetaclass,
         SelectMultipleHelpTextRemovalMixin, VirtualFieldHandlingMixin,
         GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm)):
-    """ Simple ModelForm override that adds our various mixins. """
+    """ ModelForm override using our metaclass that adds our various mixins. """
     pass
 
 
-def get_widgets_dict(model, autocomplete_exclude=None, registry=None):
+def modelform_factory(model, autocomplete_fields=None,
+        autocomplete_exclude=None, registry=None, **kwargs):
     """
-    Return a dict of field_name: widget_instance for model that is compatible
-    with Django.
-
-    autocomplete_exclude
-        List of model field names to ignore
-
-    registry
-        Registry to use.
-
-    Inspect the model's field and many to many fields, calls
-    registry.autocomplete_for_model to get the autocomplete for the related
-    model. If a autocomplete is returned, then an Widget will be spawned using
-    this autocomplete.
-
-    The dict is usable by ModelForm.Meta.widgets. In django 1.4, with
-    modelform_factory too.
+    Wrap around Django's django_modelform_factory, using our ModelForm and
+    setting autocomplete_fields and autocomplete_exclude.
     """
-    if autocomplete_exclude is None:
-        autocomplete_exclude = []
-
-    if registry is None:
-        from .registry import registry
-
-    widgets = {}
-
-    for field in model._meta.fields:
-        if field.name in autocomplete_exclude:
-            continue
-
-        if not isinstance(field, (ForeignKey, OneToOneField)):
-            continue
-
-        autocomplete = registry.autocomplete_for_model(field.rel.to)
-        if not autocomplete:
-            continue
-
-        widgets[field.name] = ChoiceWidget(autocomplete=autocomplete)
-
-    for field in model._meta.many_to_many:
-        if field.name in autocomplete_exclude:
-            continue
-
-        autocomplete = registry.autocomplete_for_model(field.rel.to)
-        if not autocomplete:
-            continue
-
-        widgets[field.name] = MultipleChoiceWidget(autocomplete=autocomplete)
-
-    return widgets
-
-
-def modelform_factory(model, autocomplete_exclude=None, registry=None,
-                      **kwargs):
-    """
-    Wraps around Django's django_modelform_factory, using get_widgets_dict.
-
-    autocomplete_exclude
-        List of model field names to ignore
-
-    registry
-        Registry to use.
-
-    Basically, it will use the dict returned by get_widgets_dict in order and
-    pass it to django's modelform_factory, and return the resulting modelform.
-    """
-
-    if registry is None:
-        from .registry import registry
-
-    widgets = get_widgets_dict(model, registry=registry,
-                               autocomplete_exclude=autocomplete_exclude)
-    widgets.update(kwargs.pop('widgets', {}))
-    kwargs['widgets'] = widgets
-
     if 'form' not in kwargs.keys():
         kwargs['form'] = ModelForm
 
-    kwargs['formfield_callback'] = FormfieldCallback(
-        kwargs.pop('formfield_callback'))
+    attrs = {'model': model}
+
+    if autocomplete_fields is not None:
+        attrs['autocomplete_fields'] = autocomplete_fields
+    if autocomplete_exclude is not None:
+        attrs['autocomplete_exclude'] = autocomplete_exclude
+
+    # If parent form class already has an inner Meta, the Meta we're
+    # creating needs to inherit from the parent's inner meta.
+    parent = (object,)
+    if hasattr(kwargs['form'], 'Meta'):
+        parent = (kwargs['form'].Meta, object)
+    Meta = type(str('Meta'), parent, attrs)
+
+    kwargs['form'] = type(kwargs['form'].__name__, (kwargs['form'],),
+            {'Meta': Meta})
+
+    if not issubclass(kwargs['form'], ModelForm):
+        raise Exception('form kwarg must be an autocomplete_light ModelForm')
 
     return django_modelform_factory(model, **kwargs)

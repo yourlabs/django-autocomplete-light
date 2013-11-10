@@ -10,7 +10,8 @@ from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
 from .forms import *
 
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
-        GenericModelChoiceField, GenericModelMultipleChoiceField)
+        GenericModelChoiceField, GenericModelMultipleChoiceField,
+        AutocompleteFieldMixin)
 
 from .views import CreateView
 from .exceptions import AutocompleteNotRegistered
