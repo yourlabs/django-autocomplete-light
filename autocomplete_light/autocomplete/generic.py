@@ -10,39 +10,53 @@ __all__ = ['AutocompleteGeneric']
 
 class AutocompleteGeneric(AutocompleteModel):
     """
-    Autocomplete which considers choices as a list of querysets. It inherits
-    from AutocompleteModel so make sure that you've read the docs and
-    docstrings for AutocompleteModel before using this class.
+    :py:class:`~.model.AutocompleteModel` extension which considers choices as
+    a **list of querysets**, and composes a choice value with both the content
+    type pk and the actual model pk.
 
-    choices
-        A list of querysets.
-    search_fields
+    .. py:attribute:: choices
+
+        A list of querysets. Example::
+
+            choices = (
+                User.objects.all(),
+                Group.objects.all(),
+            )
+
+    .. py:attribute:: search_fields
+
         A list of lists of fields to search in, configurable like on
         ModelAdmin.search_fields. The first list of fields will be used for the
-        first queryset in choices and so on.
+        first queryset in choices and so on. Example::
 
-    AutocompleteGeneric inherits from AutocompleteModel and supports
-    `limit_choices` and `split_words` exactly like AutocompleteModel.
+            search_fields = (
+                ('email', '^name'),  # Used for User.objects.all()
+                ('name',)            # User for Group.objects.all()
+            )
 
-    However `order_by` is not supported (yet) in AutocompleteGeneric.
+    AutocompleteGeneric inherits from :py:class:`.model.AutocompleteModel` and
+    supports :py:attr:`~.model.AutocompleteModel.limit_choices` and
+    :py:attr:`~.model.AutocompleteModel.split_words` exactly like
+    AutocompleteModel.
+
+    However :py:attr:`~.model.AutocompleteModel.order_by` is not supported
+    (yet) in AutocompleteGeneric.
     """
     choices = None
     search_fields = None
 
     def choice_value(self, choice):
         """
-        Rely on GenericModelChoiceField to return a string containing the
-        content type id and object id of the result.
-
-        Because this autocomplete is made for that field, and to avoid code
-        duplication.
+        Rely on :py:class:`~autocomplete_light.generic.GenericModelChoiceField`
+        to return a string containing the content type id and object id of the
+        result.
         """
         field = GenericModelChoiceField()
         return field.prepare_value(choice)
 
     def validate_values(self):
         """
-        Ensure that every choice is part of a queryset.
+        Ensure that every choice is part of a queryset in :py:attr:`choices`.
         """
         assert self.choices, 'autocomplete.choices should be a queryset list'
 
@@ -80,8 +94,7 @@ class AutocompleteGeneric(AutocompleteModel):
 
     def choices_for_request(self):
         """
-        Propose local results and fill the autocomplete with remote
-        suggestions.
+        Return a list of choices from every queryset in :py:attr:`choices`.
         """
         assert self.choices, 'autocomplete.choices should be a queryset list'
 
@@ -107,7 +120,8 @@ class AutocompleteGeneric(AutocompleteModel):
 
     def choices_for_values(self):
         """
-        Values which are not found in the querysets are ignored.
+        Values which are not found in any querysets of :py:attr:`choices` are
+        ignored.
         """
         values_choices = []
 
