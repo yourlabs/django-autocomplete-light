@@ -53,6 +53,8 @@ Examples
 django-autocomplete-light provides consistent JS plugins. A concept that
 you understand for one plugin is likely to be appliable for others.
 
+.. _navigation-autocomplete-example:
+
 Using ``$.yourlabsAutocomplete`` to create a navigation autocomplete
 ````````````````````````````````````````````````````````````````````
 
@@ -100,6 +102,9 @@ some action:
 Because the script doesn't know what HTML the server returns, it is nice to
 tell it how to recognize choices in the autocomplete box HTML::
 This will allow to use the keyboard arrows up/down to navigate between choices.
+
+Refer to :ref:`navigation` for complete help on making a navigation
+autocomplete.
 
 Override autocomplete JS options in JS
 ``````````````````````````````````````
@@ -249,6 +254,8 @@ You can use the remote autocomplete as an example.
 
 API
 ---
+
+.. _autocomplete.js:
 
 ``autocomplete.js``
 ```````````````````
