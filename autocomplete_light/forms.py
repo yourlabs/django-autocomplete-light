@@ -290,12 +290,14 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 continue
 
             if ((RelatedObjectsDescriptor and isinstance(model_field,
-                    (RelatedObjectsDescriptor, GenericForeignKey))) or
-                    isinstance(model_field, GenericForeignKey))):
+                (RelatedObjectsDescriptor, GenericForeignKey))) or
+                    isinstance(model_field, GenericForeignKey)):
+
                 meta.fields.remove(field)
 
                 if not hasattr(meta, 'autocomplete_fields'):
                     meta.autocomplete_fields = tuple()
+
                 meta.autocomplete_fields += (field,)
 
     @classmethod
