@@ -1,8 +1,12 @@
 from __future__ import unicode_literals
 
 """
+The provided widgets are ment to rely on an Autocomplete class.
+
+- :py:class:`ChoiceWidget` :py:class:`django:django.forms.Select`
+
 ChoiceWidget is intended to work as a replacement for django's Select widget,
-and MultipleChoiceWidget for django's SelectMultiple.
+and MultipleChoiceWidget for django's SelectMultiple,
 
 Constructing a widget needs an Autocomplete class or registered autocomplete
 name.
@@ -10,7 +14,6 @@ name.
 The choice autocomplete widget renders from autocomplete_light/widget.html
 template.
 """
-import six
 
 from django import forms
 from django.forms.util import flatatt
@@ -49,8 +52,7 @@ class WidgetBase(object):
         - javascript: camel case, ie. ``maxValues``.
 
         The python to HTML name conversion is done by the
-        :py:func:`autocomplete_light.templatetags.autocomplete_light_tags.autocomplete_light_data_attributes`
-        template filter.
+        autocomplete_light_data_attributes template filter.
 
         The HTML to javascript name conversion is done by the jquery plugin.
 

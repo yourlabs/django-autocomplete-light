@@ -28,12 +28,14 @@ simple field classes:
     - :py:class:`autocomplete_light.GenericModelChoiceField <autocomplete_light.fields.GenericModelChoiceField>`, and
     - :py:class:`autocomplete_light.GenericModelMultipleChoiceField <autocomplete_light.fields.GenericModelMultipleChoiceField>`.
 
+.. _widget-template: 
+
 In the very same fashion, :py:class:`autcomplete_light.WidgetBase <autocomplete_light.widgets.WidgetBase>` 
 renders a template which should contain:
 
 - a hidden ``<select>`` field containing real field values,
 - a visible ``<input>`` field which has the autocomplete,
-- a deck which contains the list of selected values,
+- a **deck** which contains the list of selected values,
 - add-another optionnal link, because add-another works outside the admin,
 - a hidden choice template, which is copied when a choice is created on the fly
   (ie. with add-another).

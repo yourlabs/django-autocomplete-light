@@ -5,10 +5,26 @@
 
 {% block branding %}
 <h1 id="site-name">{% trans 'Django administration' %}</h1>
+
+    {% comment %}
+    This is a simple input, used for global navigation autocomplete. It
+    serves as an example, refer to the documentation to make a navigation
+    autocomplete.
+
+    FYI It leaves in
+    autocomplete_light/tests/apps/navigation_autocomplete/templates
+    {% endcomment %}
+    {% include 'navigation_autocomplete/input.html' %}
 {% endblock %}
 
 {% block footer %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
     {% include 'autocomplete_light/static.html' %}
+
+    {% if user.is_authenticated %}
+        {# This script enables global navigation autocomplete #}
+        {# refer to the docs about global navigation autocomplete for more information #}
+        {% include 'navigation_autocomplete/script.html' %}
+    {% endif %}
 {% endblock %}

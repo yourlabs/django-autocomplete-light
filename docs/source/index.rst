@@ -64,8 +64,8 @@ insanely creative features as many users already did.
 Topics
 ------
 
-Using just the concepts you've learned in the tutorial, we've built-in several
-really cool things, backed by live examples.
+Using just the concepts you've learned in the reference, here are some of the
+things you can do.
 
 .. toctree::
    :maxdepth: 1

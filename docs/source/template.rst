@@ -1,19 +1,41 @@
 .. _template:
 
-Templating autocompletes
-========================
+Styling autocompletes
+=====================
 
-This documentation drives through the example app
-``test_project/template_autocomplete``.
+A complete autocomplete widget has three parts you can style individually:
 
-You can use :py:class:`AutocompleteTemplate
-<autocomplete_light.autocomplete.template.AutocompleteTemplate>` as a mixin
-just like us:
+- the autocomplete widget.
+- the autocomplete box,
+- choices presented by the autocomplete box,
 
-.. code-block:: python
+Styling choices
+---------------
 
-    class AutocompleteModelTemplate(AutocompleteModel, AutocompleteTemplate):
-        pass
+By default, choices are rendered by the :py:meth:`choice_html() 
+<autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>` method.
+The result of this method will be used in the autocomplete box as well as in
+the :ref:`widget deck <widget-template>`. There are many ways to customize it:
+
+- overriding :py:attr:`~autocomplete_light.autocomplete.base.AutocompleteBase.choice_html_format`,
+- overriding :py:meth:`~autocomplete_light.autocomplete.base.AutocompleteBase.choice_html()`,
+- or even with a template specified in :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template` 
+
+Styling autocomplete boxes
+--------------------------
+
+By default, the autocomplete box is rendered by the :py:meth:`autocomplete_html() 
+<autocomplete_light.autocomplete.base.AutocompleteBase.autocomplete_html>` method.
+The result of this method will be used in the autocomplete box as well as in
+the :ref:`widget deck <widget-template>`. There are many ways to customize it:
+
+- overriding :py:attr:`~autocomplete_light.autocomplete.base.AutocompleteBase.choice_html_format`,
+- overriding :py:meth:`~autocomplete_light.autocomplete.base.AutocompleteBase.choice_html()`,
+- or even with a template specified in :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template` 
+  if using :py:class:`~autocomplete_light.autocomplete.template.AutocompleteTemplate` for rendering logic.
+
+Styling widgets
+---------------
 
 You could also directly inherit from :py:class:`AutocompleteModelTemplate
 <autocomplete_light.autocomplete.AutocompleteModelTemplate>`.
