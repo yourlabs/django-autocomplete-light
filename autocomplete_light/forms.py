@@ -289,8 +289,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             if model_field is None:
                 continue
 
-            if isinstance(model_field,
-                    (RelatedObjectsDescriptor, GenericForeignKey)):
+            if ((RelatedObjectsDescriptor and isinstance(model_field,
+                    (RelatedObjectsDescriptor, GenericForeignKey))) or
+                    isinstance(model_field, GenericForeignKey))):
                 meta.fields.remove(field)
 
                 if not hasattr(meta, 'autocomplete_fields'):
