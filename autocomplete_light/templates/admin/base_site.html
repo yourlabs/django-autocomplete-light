@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}
+{% load admin_static %}
+
+{% block extrahead %}
+{{block.super}}
+{% include 'autocomplete_light/static.html' %}
+{% endblock %}
