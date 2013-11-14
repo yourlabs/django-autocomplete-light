@@ -2,6 +2,11 @@
 {% load admin_static %}
 
 {% block extrahead %}
-{{block.super}}
+<script 
+  type='text/javascript' 
+  src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'>
+</script>
+
 {% include 'autocomplete_light/static.html' %}
+{{block.super}}
 {% endblock %}
