@@ -311,7 +311,8 @@ $.fn.yourlabsWidget = function(overrides) {
 
             if (key.substr(0, 12) == 'autocomplete') {
                 var newKey = key.replace('autocomplete', '');
-                newKey = newKey.replace(newKey[0], newKey[0].toLowerCase())
+                newKey = newKey.replace(newKey.charAt(0),
+                                        newKey.charAt(0).toLowerCase());
                 dataOverrides['autocompleteOptions'][newKey] = data[key];
             } else {
                 dataOverrides[key] = data[key];
