@@ -290,8 +290,9 @@ yourlabs.Widget.prototype.destroy = function(widget) {
 $.fn.yourlabsWidget = function(overrides) {
     var overrides = overrides ? overrides : {};
 
+    var widget = this.yourlabsRegistry('widget');
+
     if (overrides == 'destroy') {
-        var widget = this.data('widget');
         if (widget) {
             widget.destroy(this);
             this.removeData('widget');
@@ -299,7 +300,7 @@ $.fn.yourlabsWidget = function(overrides) {
         return
     }
 
-    if (this.data('widget') == undefined) {
+    if (widget == undefined) {
         // Instanciate the widget
         var widget = new yourlabs.Widget(this);
 
@@ -325,7 +326,7 @@ $.fn.yourlabsWidget = function(overrides) {
         // Allow javascript object overrides
         widget = $.extend(widget, overrides);
 
-        this.data('widget', widget);
+        $(this).yourlabsRegistry('widget', widget);
 
         // Setup for usage
         widget.initialize();
@@ -335,7 +336,7 @@ $.fn.yourlabsWidget = function(overrides) {
         widget.widget.trigger('widget-ready');
     }
 
-    return this.data('widget');
+    return widget;
 }
 
 $(document).ready(function() {

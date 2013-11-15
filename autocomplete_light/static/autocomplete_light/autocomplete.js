@@ -63,6 +63,39 @@ if (window.yourlabs == undefined) window.yourlabs = {};
 if (window.yourlabs.Autocomplete != undefined) 
     console.log('WARNING ! You are loading autocomplete.js **again**.');
 
+
+$.fn.yourlabsRegistry = function(key, value) {
+    if ($.fn.yourlabsRegistry.data == undefined) {
+        $.fn.yourlabsRegistry.data = {};
+    }
+
+    if ($.fn.yourlabsRegistry.guid == undefined) {
+        $.fn.yourlabsRegistry.guid = function() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+                /[xy]/g, 
+                function(c) {
+                    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+                    return v.toString(16);
+                }
+            ); 
+        }
+    }
+
+    var attributeName = 'data-yourlabs-' + key + '-registry-id';
+    var id = this.attr(attributeName);
+
+    if (id == undefined) {
+        id = $.fn.yourlabsRegistry.guid();
+        this.attr(attributeName, id);
+    }
+
+    if (value != undefined) {
+        $.fn.yourlabsRegistry.data[id] = value;
+    }
+    
+    return $.fn.yourlabsRegistry.data[id];
+}
+
 /*
 The autocomplete class constructor:
 
@@ -560,9 +593,9 @@ $.fn.yourlabsAutocomplete = function(overrides) {
     }
 
     var overrides = overrides ? overrides : {};
+    var autocomplete = this.yourlabsRegistry('autocomplete');
 
     if (overrides == 'destroy') {
-        var autocomplete = this.data('autocomplete');
         if (autocomplete) {
             autocomplete.destroy(this);
             this.removeData('autocomplete');
@@ -574,7 +607,7 @@ $.fn.yourlabsAutocomplete = function(overrides) {
     this.attr('autocomplete', 'off');
 
     // If no Autocomplete instance is defined for this id, make one.
-    if (this.data('autocomplete') == undefined) {
+    if (autocomplete == undefined) {
         if (overrides.url == undefined) {
             alert('Autocomplete needs a url !');
             return;
@@ -586,14 +619,14 @@ $.fn.yourlabsAutocomplete = function(overrides) {
         // Extend the instance with overrides.
         autocomplete = $.extend(autocomplete, overrides);
 
-        this.data('autocomplete', autocomplete);
+        this.yourlabsRegistry('autocomplete', autocomplete);
 
         // All set, call initialize().
         autocomplete.initialize();
     }
 
     // Return the Autocomplete instance for this id from the registry.
-    return this.data('autocomplete');
+    return autocomplete;
 };
 
 // Binding some default behaviors.
