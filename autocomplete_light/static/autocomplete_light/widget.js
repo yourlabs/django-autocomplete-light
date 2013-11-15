@@ -432,4 +432,25 @@ $(document).ready(function() {
             widget.trigger('initialize');
         }
     });
+    
+    var ie = yourlabs.getInternetExplorerVersion();
+    if (ie != -1 && ie < 9) {
+        observe = [
+            '.autocomplete-light-widget:not([data-yourlabs-skip])',
+            '.autocomplete-light-widget option:not([data-yourlabs-skip])'
+        ].join();
+        $(observe).attr('data-yourlabs-skip', 1);
+
+        function ieDOMNodeInserted() {
+            // http://msdn.microsoft.com/en-us/library/ms536957
+            $(observe).each(function() {
+                $(document).trigger(jQuery.Event('DOMNodeInserted', {target: $(this)}));
+                $(this).attr('data-yourlabs-skip', 1);
+            });
+
+            setTimeout(ieDOMNodeInserted, 500);
+        }
+        setTimeout(ieDOMNodeInserted, 500);
+    }
+
 });
