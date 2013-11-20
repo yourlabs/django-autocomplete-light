@@ -8,33 +8,70 @@ from .rest_model import AutocompleteRestModel
 
 
 class AutocompleteListBase(AutocompleteList, AutocompleteBase):
+    """
+    Use :py:class:`~base.AutocompleteBase` for rendering logic and
+    :py:class:`~list.AutocompleteList` for business logic.
+
+    .. FIXME: sphinx autodoc can't find AutocompleteList
+    """
     pass
 
 
 class AutocompleteChoiceListBase(AutocompleteChoiceList, AutocompleteBase):
+    """
+    Use :py:class:`~base.AutocompleteBase` for rendering logic and
+    :py:class:`~choice_list.AutocompleteChoiceList` for
+    business logic.
+    """
     pass
 
 
 class AutocompleteModelBase(AutocompleteModel, AutocompleteBase):
+    """
+    Use :py:class:`~base.AutocompleteBase` for rendering logic and
+    :py:class:`~model.AutocompleteModel` for business logic.
+    """
     pass
 
 
 class AutocompleteModelTemplate(AutocompleteModel, AutocompleteTemplate):
+    """
+    Use :py:class:`~template.AutocompleteTemplate` for rendering logic and
+    :py:class:`~model.AutocompleteModel` for business logic.
+
+    It also sets a default :py:attr:`choice_template`.
+    """
     choice_template = 'autocomplete_light/model_template/choice.html'
 
 
 class AutocompleteGenericBase(AutocompleteGeneric, AutocompleteBase):
+    """
+    Use :py:class:`~base.AutocompleteBase` for rendering logic and
+    :py:class:`~generic.AutocompleteGeneric` for business logic.
+    """
     pass
 
 
 class AutocompleteGenericTemplate(AutocompleteGeneric, AutocompleteTemplate):
+    """
+    Use :py:class:`~template.AutocompleteTemplate` for rendering logic and
+    :py:class:`~generic.AutocompleteGeneric` for business logic.
+    """
     pass
 
 
 class AutocompleteRestModelBase(AutocompleteRestModel, AutocompleteBase):
+    """
+    Use :py:class:`~base.AutocompleteBase` for rendering logic and
+    :py:class:`~rest_model.AutocompleteRestModel` for business logic.
+    """
     pass
 
 
 class AutocompleteRestModelTemplate(AutocompleteRestModel,
                                     AutocompleteTemplate):
+    """
+    Use :py:class:`~template.AutocompleteTemplate` for rendering logic and
+    :py:class:`~rest_model.AutocompleteRestModel` for business logic.
+    """
     pass
