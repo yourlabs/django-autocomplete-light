@@ -6,6 +6,12 @@ autocomplete_light.autodiscover()
 from django.contrib import admin
 admin.autodiscover()
 
+try:
+    from hvad_autocomplete import urls as hvad
+except ImportError:
+    # django 1.6 not support by hvad
+    hvad = None
+
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
