@@ -1,5 +1,5 @@
-Enable an autocomplete in admin forms in two steps: high level API concepts
-===========================================================================
+Tutorial
+========
 
 .. _quick-start:
 
@@ -82,17 +82,54 @@ Make the admin ``Order`` form that uses ``PersonAutocomplete``, in
 
 .. code-block:: python
 
-    from django.contrib import admin
-    import autocomplete_light
-    from models import Order
-
     class OrderAdmin(admin.ModelAdmin):
         # This will generate a ModelForm
         form = autocomplete_light.modelform_factory(Order)
     admin.site.register(Order)
 
-There are other ways to generate forms, depending on your needs. If you just
-wanted to replace selects in the admin then autocomplete_light's job is done by
-now !
+There are other ways to generate forms, depending on your needs. Chances are
+that you just wanted to replace selects in the admin then autocomplete-light's
+job is done by now !
 
-Else, continue reading :ref:`the reference documentation <reference>`.
+:py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>` to generate Autocomplete fields, the DRY way
+--------------------------------------------------------------------------------------------------------------------------
+
+You can use :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>`
+to replace automatic `<select>` fields with autocompletes:
+
+.. code-block:: python
+
+    class OrderModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = Order
+
+:py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>`
+respects ``Meta.fields`` and ``Meta.exclude``. However, you can enable or
+disable :py:class:`autocomplete_light.ModelForm
+<autocomplete_light.forms.Modelform>`'s behaviour in the same fashion with
+:py:attr:`Meta.autocomplete_fields <autocomplete_light.forms.ModelForm.autocomplete_fields>`
+and 
+:py:attr:`Meta.autocomplete_exclude <autocomplete_light.forms.ModelForm.autocomplete_exclude>`:
+
+.. code-block:: python
+
+    class OrderModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = Order
+            # only enable autocompletes on 'person' and 'product' fields
+            autocomplete_fields = ('person', 'product')
+
+    class PersonModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = Order
+            # do not make 'category' an autocomplete field
+            autocomplete_exclude = ('category',)
+
+Also, it will
+automatically enable autocompletes on generic foreign keys and generic many to
+many relations if you have at least one generic Autocomplete class register
+(typically an
+:py:class:`~autocomplete_light.autocomplete.AutocompleteGenericBase`).
+
+For more documentation, continue reading :ref:`the reference documentation
+<reference>`.

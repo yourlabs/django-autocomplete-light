@@ -355,6 +355,18 @@ class ModelForm(six.with_metaclass(ModelFormMetaclass,
         GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm)):
     """
     ModelForm override using our metaclass that adds our various mixins.
+
+    .. py:attribute:: autocomplete_fields
+
+        A list field names on which you want automatic autocomplete fields.
+
+    .. py:attribute:: autocomplete_exclude
+
+        A list of field names on which you do not want automatic autocomplete
+        fields.
+
+    Note: both ``autocomplete_fields`` and ``autocomplete_exclude`` understand
+    generic foreign key and generic many to many descriptor names.
     """
     pass
 

@@ -21,52 +21,9 @@ the :ref:`widget deck <widget-template>`. There are many ways to customize it:
 - overriding :py:meth:`~autocomplete_light.autocomplete.base.AutocompleteBase.choice_html()`,
 - or even with a template specified in :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template` 
 
-Styling autocomplete boxes
---------------------------
+For example:
 
-By default, the autocomplete box is rendered by the :py:meth:`autocomplete_html() 
-<autocomplete_light.autocomplete.base.AutocompleteBase.autocomplete_html>` method.
-The result of this method will be used in the autocomplete box as well as in
-the :ref:`widget deck <widget-template>`. There are many ways to customize it:
-
-- overriding :py:attr:`~autocomplete_light.autocomplete.base.AutocompleteBase.choice_html_format`,
-- overriding :py:meth:`~autocomplete_light.autocomplete.base.AutocompleteBase.choice_html()`,
-- or even with a template specified in :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template` 
-  if using :py:class:`~autocomplete_light.autocomplete.template.AutocompleteTemplate` for rendering logic.
-
-Styling widgets
----------------
-
-You could also directly inherit from :py:class:`AutocompleteModelTemplate
-<autocomplete_light.autocomplete.AutocompleteModelTemplate>`.
-
-Anyway, this enable two new attributes: :py:attr:`choice_template
-<autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template>`
-and :py:attr:`autocomplete_template
-<autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template>`
-
-Example
--------
-
-In this case, all you have to do, is use ``AutocompleteModelTemplate`` instead
-of ``AutocompleteModelBase``. For example, in
-``test_project/template_autocomplete/autocomplete_light_registry.py``:
-
-.. literalinclude:: ../../test_project/template_autocomplete/autocomplete_light_registry.py
-   :language: python
-
-
-This example template makes choices clickable, it is
-``test_project/template_autocomplete/templates/template_autocomplete/templated_choice.html``:
-
-.. literalinclude:: ../../test_project/template_autocomplete/templates/template_autocomplete/templated_choice.html
-   :language: django
-
-Alternative
------------
-
-FTR, here's another way to do it, assuming your models have a
-`get_absolute_update_url` method defined::
+.. code-block:: python
 
     class AutocompleteEditableModelBase(autocomplete_light.AutocompleteModelBase):
         choice_html_format = u'''
@@ -88,3 +45,31 @@ FTR, here's another way to do it, assuming your models have a
 
     autocomplete_light.register(AppFeature, AutocompleteEditableModelBase,
         add_another_url_name='appstore_appfeature_create')
+
+Styling autocomplete boxes
+--------------------------
+
+By default, the autocomplete box is rendered by the :py:meth:`autocomplete_html() 
+<autocomplete_light.autocomplete.base.AutocompleteBase.autocomplete_html>` method.
+The result of this method will be used to render the autocomplete box. There
+are many ways to customize it:
+
+- overriding :py:attr:`~autocomplete_light.autocomplete.base.AutocompleteBase.autocomplete_html_format`,
+- overriding :py:meth:`~autocomplete_light.autocomplete.base.AutocompleteBase.autocomplete_html()`,
+- or even with a template specified in :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template` 
+  if using :py:class:`~autocomplete_light.autocomplete.template.AutocompleteTemplate` for rendering logic.
+
+Styling widgets
+---------------
+
+Widgets are rendered by the :py:meth:`~autocomplete_light.widgets.WidgetBase.render` 
+method. By default, it renders `autocomplete_light/widget.html`. You can set 
+:py:attr:`~autocomplete_light.widgets.WidgetBase.template_name` to override it
+or extend it on a per-widget basis.
+
+Examples
+--------
+
+FTR, here's another way to do it, assuming your models have a
+`get_absolute_update_url` method defined::
+

@@ -1,6 +1,9 @@
 Form, fields and widgets
 ========================
 
+.. note:: This chapter assumes that you have been through the entire
+          :doc:`tutorial`.
+
 Design documentation
 --------------------
 
@@ -49,36 +52,15 @@ It is used as a mixin to make some simple widget classes:
 Examples
 --------
 
-ModelForm and Meta options
+Using :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>`
+```````````````````````````````````````````````````````````````````````````````````
+
+Using form fields directly
 ``````````````````````````
 
-By default, :py:class:
+Using form widgets directly
+```````````````````````````
 
-.. code-block:: python
-
-    class OrderForm(autocomplete_light.ModelForm):
-        class Meta:
-            model = Order
-
-Enabling autocomplete for specific fields
-`````````````````````````````````````````
-
-.. code-block:: python
-
-    class OrderForm(autocomplete_light.ModelForm):
-        class Meta:
-            model = Order
-            autocomplete_fields = ['person']
-
-Excluding autocomplete for specific fields
-``````````````````````````````````````````
-
-.. code-block:: python
-
-    class OrderForm(autocomplete_light.ModelForm):
-        class Meta:
-            model = Order
-            autocomplete_exclude = ['person']
 
 Or in a ``ModelChoiceField`` or similar
 ```````````````````````````````````````
@@ -288,6 +270,12 @@ modelform_factory
 
 ModelForm
 >>>>>>>>>
+
+.. autoclass:: autocomplete_light.forms.ModelForm
+   :members:
+
+ModelFormMetaclass
+>>>>>>>>>>>>>>>>>>
 
 .. autoclass:: autocomplete_light.forms.ModelFormMetaclass
    :members:

@@ -1,0 +1,12 @@
+{% load url from future %}
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#navigation_autocomplete').yourlabsAutocomplete({
+        url: '{% url 'navigation_autocomplete' %}',
+        choiceSelector: 'a',
+    }).input.bind('selectChoice', function(e, choice, autocomplete) {
+        document.location.href = choice.attr('href');
+    });
+});
+</script>

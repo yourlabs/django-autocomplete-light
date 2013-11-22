@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'autocomplete_light.tests.apps.basic',
     'autocomplete_light.tests.apps.music',
     'autocomplete_light.tests.apps.autocomplete_test_case_app',
+    'autocomplete_light.tests.apps.non_admin_add_another',
 )
 
 try:
