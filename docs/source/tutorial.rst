@@ -180,12 +180,9 @@ on the request user could look like this:
         search_fields = ['^first_name', 'last_name'])
 
         def choices_for_request(self):
-            choices = super(PersonAutocomplete, self).choices_for_request()
-
             if not self.request.user.is_staff:
-                choices = choices.filter(private=False)
-
-            return choices
+                self.choices = self.choices.filter(private=False)
+            return super(PersonAutocomplete, self).choices_for_request()
 
     autocomplete_light.register(Person, PersonAutocomplete)
 
