@@ -30,6 +30,18 @@ Features include:
 Each feature has a live example and is fully documented. It is also designed
 and documented so that you create your own awesome features too.
 
+v2
+--
+
+`v2 branch <https://github.com/yourlabs/django-autocomplete-light/tree/v2>`_ is
+under active development.
+
+You might want to use that instead, since it's much easier to work with and
+supports python3.
+
+In this case, please refer to the `v2 documentation
+<http://django-autocomplete-light.readthedocs.org/en/v2/>`_.
+
 Resources
 ---------
 
