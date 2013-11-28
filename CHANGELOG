@@ -1,3 +1,12 @@
+2.0.0:
+
+    - Added form fields, which are now in charge of validation,
+    - Added ModelForm which includes all features previously provided as
+      separated tools (generic m2m support, django issue #9321, etc, etc ...)
+      and overrides django's form field generator to automatically use
+      autocomplete fields when possible, even for generic relations.
+    - Python3 support.
+
 1.4.9: Fix #193: IE8 support hacks.
 
 1.4.8: Fix #195: RegistryView got broken on recent Django versions.
