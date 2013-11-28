@@ -163,6 +163,8 @@ class AutocompleteRegistry(dict):
             else:
                 kwargs['search_fields'] = ['name']
 
+        kwargs.update({'model': model})
+
         autocomplete = type(str(name), (base,), kwargs)
 
         self._register_autocomplete(autocomplete)
@@ -175,7 +177,9 @@ class AutocompleteRegistry(dict):
         Register a autocomplete without model, like a generic autocomplete.
         """
         self[autocomplete.__name__] = autocomplete
-        self.default_generic = autocomplete
+
+        if not getattr(autocomplete, 'model', False):
+            self.default_generic = autocomplete
 
     def __getitem__(self, name):
         """
