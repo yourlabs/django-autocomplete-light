@@ -1,10 +1,10 @@
 {% extends "admin/base.html" %}
 {% load i18n static %}
 
-{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+{% block title %}{{ title }} | {% trans 'django-autocomplete-light demo site admin' %}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name">{% trans 'Django administration' %}</h1>
+<h1 id="site-name">{% trans 'django-autocomplete-light demo administration' %}</h1>
 
     {% comment %}
     This is a simple input, used for global navigation autocomplete. It
@@ -14,7 +14,9 @@
     FYI It leaves in
     autocomplete_light/tests/apps/navigation_autocomplete/templates
     {% endcomment %}
-    {% include 'navigation_autocomplete/input.html' %}
+    {% if user.is_authenticated %}
+        {% include 'navigation_autocomplete/input.html' %}
+    {% endif %}
 {% endblock %}
 
 {% block footer %}
