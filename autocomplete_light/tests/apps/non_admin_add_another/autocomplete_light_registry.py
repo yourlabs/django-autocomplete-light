@@ -1,6 +1,6 @@
 import autocomplete_light
 
-from models import NonAdminAddAnotherModel
+from .models import NonAdminAddAnotherModel
 
 
 autocomplete_light.register(NonAdminAddAnotherModel,
