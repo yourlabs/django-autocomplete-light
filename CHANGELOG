@@ -6,6 +6,10 @@
       and overrides django's form field generator to automatically use
       autocomplete fields when possible, even for generic relations.
     - Python3 support.
+    - Tests rely on apps provided in the autocomplete_light.tests.apps
+      submodule instead of those provided by test_project. This make tests
+      potentially runnable on a user project (except that the user project
+      still needs to add those apps in INSTALLED_APPS).
 
 1.4.9: Fix #193: IE8 support hacks.
 
