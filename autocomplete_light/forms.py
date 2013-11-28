@@ -368,7 +368,7 @@ class ModelForm(six.with_metaclass(ModelFormMetaclass,
     Note: both ``autocomplete_fields`` and ``autocomplete_exclude`` understand
     generic foreign key and generic many to many descriptor names.
     """
-    pass
+    __metaclass__ = ModelFormMetaclass
 
 
 def modelform_factory(model, autocomplete_fields=None,
