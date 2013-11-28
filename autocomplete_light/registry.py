@@ -124,7 +124,8 @@ class AutocompleteRegistry(dict):
                 pass
 
         if model:
-            self._register_model_autocomplete(model, autocomplete, **kwargs)
+            autocomplete = self._register_model_autocomplete(model,
+                autocomplete, **kwargs)
         else:
             name = kwargs.get('name', autocomplete.__name__)
             autocomplete = type(str(name), (autocomplete,), kwargs)
@@ -166,6 +167,8 @@ class AutocompleteRegistry(dict):
 
         self._register_autocomplete(autocomplete)
         self._models[model] = autocomplete
+
+        return autocomplete
 
     def _register_autocomplete(self, autocomplete):
         """
