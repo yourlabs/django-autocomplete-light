@@ -30,6 +30,14 @@ How to override a JS method ?
 How to work around Django bug #9321: `Hold down "Control" ...` ?
 ----------------------------------------------------------------
 
+How to report a bug effectively ?
+---------------------------------
+
+Read `How to Report Bugs Effectively
+<http://www.chiark.greenend.org.uk/~sgtatham/bugs.html>`_ and open an issue on
+`django-autocomplete-light's issue tracker on GitHub
+<https://github.com/yourlabs/django-autocomplete-light/issues>`_.
+
 How to ask for help ?
 ---------------------
 
