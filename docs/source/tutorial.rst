@@ -87,7 +87,7 @@ Refer to the :doc:`autocomplete` documentation for details, it is the first
 chapter of the :ref:`the reference documentation <reference>`.
 
 :py:func:`autocomplete_light.modelform_factory() <autocomplete_light.forms.modelform_factory>` shortcut to generate ModelForms in the admin
---------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------
 
 First, ensure that scripts are :ref:`installed in the admin base template <install-scripts-admin>`.
 

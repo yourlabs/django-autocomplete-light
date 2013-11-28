@@ -1,6 +1,9 @@
 Autocomplete classes
 ====================
 
+.. note:: This chapter assumes that you have been through the entire
+          :doc:`tutorial`.
+
 Design documentation
 --------------------
 
@@ -60,7 +63,7 @@ Create a basic list-backed autocomplete class
 `````````````````````````````````````````````
 
 Class attributes are thread safe because
-:py:func:`autocomplete_light.register() <autocomplete_light.registry.register>`
+:py:func:`~autocomplete_light.registry.register`
 always create a class copy. So, registering a custom Autocomplete class for
 your model in ``your_app/autocomplete_light_registry.py`` could look like this:
 
@@ -82,7 +85,7 @@ OSes in the
 :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteList.choices`
 attribute.
 
-Finnaly, we registered the Autocomplete class. It will be registered with the
+Finally, we registered the Autocomplete class. It will be registered with the
 class name by default.
 
 .. note::
@@ -132,7 +135,7 @@ What changes from the previous example are two things:
     <autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>`,
 
 
-  , AutocompleteListBase inherits from both AutocompleteList and
+AutocompleteListBase inherits from both AutocompleteList and
 AutocompleteBase, and AutocompleteListTemplate inherits from both
 AutocompleteList and AutocompleteTemplate. It is the same for the other
 Autocomplete: AutocompleteModel + AutocompleteTemplate =

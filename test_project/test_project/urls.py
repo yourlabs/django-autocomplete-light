@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views import generic
 
 import autocomplete_light
 autocomplete_light.autodiscover()
@@ -17,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^non_admin_add_another/',
         include('autocomplete_light.tests.apps.non_admin_add_another.urls')),
+    (r'^$', generic.TemplateView.as_view(template_name='index.html'))
 )
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

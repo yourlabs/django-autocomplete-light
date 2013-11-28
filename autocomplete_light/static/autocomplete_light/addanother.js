@@ -55,7 +55,7 @@ $(document).ready(function() {
                     o.selected = true;
                 }
             } else {
-                console.log("Could not get input id for win " + name);
+                alert("Could not get input id for win " + name);
             }
 
             win.close();

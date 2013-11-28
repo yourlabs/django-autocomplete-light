@@ -18,6 +18,7 @@ class RegistryView(base.TemplateView):
     def get_context_data(self, **kwargs):
         return {
             'registry': autocomplete_light.registry,
+            'registry_items': autocomplete_light.registry.items(),
         }
 
 
