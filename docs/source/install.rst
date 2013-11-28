@@ -74,6 +74,8 @@ or refer to official `howto
 Include ``autocomplete_light/static.html`` after loading jquery.js (>=1.7)
 --------------------------------------------------------------------------
 
+.. _install-scripts:
+
 Load the javascript scripts after loading ``jquery.js``, it can look like this:
 
 .. code-block:: django
@@ -83,6 +85,8 @@ Load the javascript scripts after loading ``jquery.js``, it can look like this:
 
 Optionaly include it in ``admin/base_site.html`` too
 -----------------------------------------------------
+
+.. _install-scripts-admin:
 
 For admin support, `override
 <http://blog.yourlabs.org/post/19777151073/how-to-override-a-view-from-an-external-django-app>`_

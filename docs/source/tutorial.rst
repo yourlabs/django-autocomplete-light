@@ -6,6 +6,8 @@ Tutorial
 :py:func:`autocomplete_light.register() <autocomplete_light.registry.register>` shortcut to generate and register Autocomplete classes
 --------------------------------------------------------------------------------------------------------------------------------------
 
+.. _register:
+
 Register an Autocomplete for your model in
 ``your_app/autocomplete_light_registry.py``, it can look like this:
 
@@ -23,15 +25,20 @@ Register an Autocomplete for your model in
         autocomplete_js_attributes={'placeholder': 'Other model name ?',},
     )
 
-Because ``PersonAutocomplete`` is registered, :py:meth:`AutocompleteView.get()
+:py:meth:`AutocompleteView.get()
 <autocomplete_light.views.AutocompleteView.get>` can proxy
 :py:meth:`PersonAutocomplete.autocomplete_html()
-<autocomplete_light.autocomplete.base.AutocompleteInterface.autocomplete_html>`.
-This means that openning ``/autocomplete/PersonAutocomplete/`` will call
+<autocomplete_light.autocomplete.base.AutocompleteInterface.autocomplete_html>`
+because ``PersonAutocomplete`` is registered. This means that openning
+``/autocomplete/PersonAutocomplete/`` will call
 :py:meth:`AutocompleteView.get()
 <autocomplete_light.views.AutocompleteView.get>` which will in turn call
 :py:meth:`PersonAutocomplete.autocomplete_html()
 <autocomplete_light.autocomplete.base.AutocompleteInterface.autocomplete_html>`.
+
+.. digraph:: autocomplete
+
+   "widget HTML" -> "widget JavaScript" -> "AutocompleteView" -> "autocomplete_html()";
 
 Also :py:meth:`AutocompleteView.post()
 <autocomplete_light.views.AutocompleteView.post>` would proxy
@@ -45,7 +52,9 @@ overrides <js-method-override>` like the :ref:`remote autocomplete <remote>`.
     security is explained later in this tutorial in section :ref:`security`.
 
 :py:func:`autocomplete_light.register() <autocomplete_light.registry.register>`
-works by passing the extra keyword arguments like ``search_fields`` to the
+generates an Autocomplete class, passing the extra keyword arguments like
+:py:attr:`AutocompleteModel.search_fields
+<autocomplete_light.autocomplete.model.AutocompleteModel.search_fields>` to the
 Python :py:func:`type` function. This means that extra keyword arguments will
 be used as class attributes of the generated class. An equivalent version of
 the above code would be:
@@ -67,18 +76,27 @@ the above code would be:
     <autocomplete_light.registry.register>` to generate :py:class:`Autocomplete
     <autocomplete_light.autocomplete.base.AutocompleteInterface>` classes.
 
-    It could look like this (in urls.py):
+    It could look like this (in your project's ``urls.py``):
 
     .. code-block:: python
 
         autocomplete_light.registry.autocomplete_model_base = YourAutocompleteModelBase
         autocomplete_light.autodiscover()
 
+Refer to the :doc:`autocomplete` documentation for details, it is the first
+chapter of the :ref:`the reference documentation <reference>`.
+
 :py:func:`autocomplete_light.modelform_factory() <autocomplete_light.forms.modelform_factory>` shortcut to generate ModelForms in the admin
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-Make the admin ``Order`` form that uses ``PersonAutocomplete``, in
-``your_app/admin.py``:
+First, ensure that scripts are :ref:`installed in the admin base template <install-scripts-admin>`.
+
+Then, enabling autocompletes in the admin is as simple as  overriding
+:py:attr:`ModelAdmin.form
+<django:django.contrib.admin.ModelAdmin.form>` in
+``your_app/admin.py``. You can use the
+:py:func:`~autocomplete_light.forms.modelform_factory` shortcut as
+such:
 
 .. code-block:: python
 
@@ -87,15 +105,20 @@ Make the admin ``Order`` form that uses ``PersonAutocomplete``, in
         form = autocomplete_light.modelform_factory(Order)
     admin.site.register(Order)
 
-There are other ways to generate forms, depending on your needs. Chances are
-that you just wanted to replace selects in the admin then autocomplete-light's
-job is done by now !
+Refer to the :doc:`form` documentation for other ways of making forms, it is
+the second chapter of the :ref:`the reference documentation <reference>`.
 
-:py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>` to generate Autocomplete fields, the DRY way
+:py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.ModelForm>` to generate Autocomplete fields, the DRY way
 --------------------------------------------------------------------------------------------------------------------------
 
-You can use :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>`
-to replace automatic `<select>` fields with autocompletes:
+First, ensure that :ref:`scripts are properly installed in your
+template <install-scripts>`.
+
+Then, you can use :py:class:`autocomplete_light.ModelForm
+<autocomplete_light.forms.ModelForm>` to replace automatic
+:py:class:`~django:django.forms.Select` and
+:py:class:`~django:django.forms.SelectMultiple` widgets which renders
+``<select>`` HTML inputs by autocompletion widgets:
 
 .. code-block:: python
 
@@ -103,10 +126,10 @@ to replace automatic `<select>` fields with autocompletes:
         class Meta:
             model = Order
 
-:py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>`
+:py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.ModelForm>`
 respects ``Meta.fields`` and ``Meta.exclude``. However, you can enable or
 disable :py:class:`autocomplete_light.ModelForm
-<autocomplete_light.forms.Modelform>`'s behaviour in the same fashion with
+<autocomplete_light.forms.ModelForm>`'s behaviour in the same fashion with
 :py:attr:`Meta.autocomplete_fields <autocomplete_light.forms.ModelForm.autocomplete_fields>`
 and 
 :py:attr:`Meta.autocomplete_exclude <autocomplete_light.forms.ModelForm.autocomplete_exclude>`:
@@ -125,10 +148,9 @@ and
             # do not make 'category' an autocomplete field
             autocomplete_exclude = ('category',)
 
-Also, it will
-automatically enable autocompletes on generic foreign keys and generic many to
-many relations if you have at least one generic Autocomplete class register
-(typically an
+Also, it will automatically enable autocompletes on generic foreign keys and
+generic many to many relations if you have at least one generic Autocomplete
+class register (typically an
 :py:class:`~autocomplete_light.autocomplete.AutocompleteGenericBase`).
 
 For more documentation, continue reading :ref:`the reference documentation

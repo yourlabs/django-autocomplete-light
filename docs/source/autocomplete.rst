@@ -23,29 +23,35 @@ As you need both business-logic and rendering logic for an Autocomplete class
 to be completely usable, you would mix both
 :py:class:`~autocomplete_light.autocomplete.base.AutocompleteBase` and
 :py:class:`~autocomplete_light.autocomplete.list.AutocompleteList` resulting in
-:py:class:`~autocomplete_light.autocomplete.AutocompleteListBase`.
+:py:class:`~autocomplete_light.autocomplete.AutocompleteListBase`:
+
+.. inheritance-diagram:: autocomplete_light.autocomplete.AutocompleteListBase
+   :parts: 1
 
 If you wanted to re-use your python list business logic with a template based
 rendering logic, you would mix
 :py:class:`~autocomplete_light.autocomplete.list.AutocompleteList` and
 :py:class:`~autocomplete_light.autocomplete.template.AutocompleteTemplate`,
 resulting in
-:py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate`.
+:py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate`:
+
+.. inheritance-diagram:: autocomplete_light.autocomplete.AutocompleteListTemplate
+   :parts: 1
 
 So far, you should understand that rendering and business logic are not coupled
 in autocomplete classes: you can make your own business logic (ie.  using
 redis, haystack ...) and re-use an existing rendering logic (ie.
 :py:class:`~autocomplete_light.autocomplete.base.AutocompleteBase` or
-:py:class:`~autocomplete_light.autocomplete.template.AutocompleteTemplate` and
+:py:class:`~autocomplete_light.autocomplete.template.AutocompleteTemplate`) and
 vice-versa.
 
 For an exhaustive list of Autocomplete classes, refer to :ref:`the Autocomplete
 API doc <autocomplete-api>`.
 
-One last thing: Autocomplete classes should be registered so that the view can
-serve them and that form fields and widget be able to re-use them. The registry
-itself is rather simple and filled with good intentions, refer to :ref:`the
-Registry API doc <registry-api>`.
+One last thing: Autocomplete classes should be :ref:`registered <register>` so
+that the view can serve them and that form fields and widget be able to re-use
+them. The registry itself is rather simple and filled with good intentions,
+refer to :ref:`registry-api` documentation.
 
 Examples
 --------
@@ -67,29 +73,33 @@ your model in ``your_app/autocomplete_light_registry.py`` could look like this:
 
     autocomplete_light.register(OsAutocomplete)
 
-First, we imported ``autocomplete_light``'s namespace. It should contain
+First, we imported ``autocomplete_light``'s module. It should contain
 everything you need.
 
 Then, we subclassed :py:class:`autocomplete_light.AutocompleteListBase
 <autocomplete_light.autocomplete.AutocompleteListBase>`, setting a list of
-OSes.
+OSes in the
+:py:attr:`~autocomplete_light.autocomplete.template.AutocompleteList.choices`
+attribute.
 
 Finnaly, we registered the Autocomplete class. It will be registered with the
 class name by default.
 
-Another way of achieving the above could be:
+.. note::
 
-.. code-block:: python
-
-    import autocomplete_light
-    autocomplete_light.register(autocomplete_light.AutocompleteListBase,
-        name='OsAutocomplete', choices=['Linux', 'BSD', 'Minix'])
+    Another way of achieving the above using the :ref:`register <register>`
+    shortcut could be:
+    
+    .. code-block:: python
+    
+        autocomplete_light.register(autocomplete_light.AutocompleteListBase,
+            name='OsAutocomplete', choices=['Linux', 'BSD', 'Minix'])
 
 Using a template to render the autocomplete
 ```````````````````````````````````````````
 
-You could use :py:class:`autocomplete_light.AutocompleteListTemplate
-<autocomplete_light.autocomplete.AutocompleteListTemplate>` instead:
+You could use
+:py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate` instead:
 
 .. code-block:: python
 
@@ -101,40 +111,43 @@ You could use :py:class:`autocomplete_light.AutocompleteListTemplate
 
     autocomplete_light.register(OsAutocomplete)
 
-What changes from the above example are two things:
+What changes from the previous example are two things:
 
-- instead of inheriting from :py:class:`autcomplete_light.AutocompleteListBase
-  <autcomplete_light.autocomplete.AutocompleteListBase>`, inherit from
-  :py:class:`autocomplete_light.AutocompleteListTemplate
-  <autocomplete_light.autocomplete.AutocompleteListTemplate>`,
+- inherit from
+  :py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate` instead
+  of inheriting from
+  :py:class:`~autocomplete_light.autocomplete.AutocompleteListBase`, 
 - this enabled two optionnal options which we defined:
 
-  - :py:attr:`~autocomplete_light.autocomplete.AutocompleteTemplate.autocomplete_template` 
+  - :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template` 
     which we have customized, if we hadn't then
     :py:meth:`AutocompleteTemplate.choice_html()
-    <autocomplete_light.autocomplete.template.choice_html>` would have fallen
+    <autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_html>` would have fallen
     back on the parent :py:meth:`AutocompleteBase.choice_html()
     <autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>`,
-  - :py:attr:`~autocomplete_light.autocomplete.AutocompleteTemplate.choice_template` 
+  - :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template` 
     which we haven't set, so :py:meth:`AutocompleteTemplate.choice_html()
-    <autocomplete_light.autocomplete.template.choice_html>` will fall back on
+    <autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_html>` will fall back on
     the parent :py:meth:`AutocompleteBase.choice_html()
     <autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>`,
 
-In reality, AutocompleteListBase inherits from both AutocompleteList and
+
+  , AutocompleteListBase inherits from both AutocompleteList and
 AutocompleteBase, and AutocompleteListTemplate inherits from both
 AutocompleteList and AutocompleteTemplate. It is the same for the other
 Autocomplete: AutocompleteModel + AutocompleteTemplate =
 AutocompleteModelTemplate and so on.
 
-Another way of achieving the above could be:
 
-.. code-block:: python
+.. note:: 
 
-    import autocomplete_light
-    autocomplete_light.register(autocomplete_light.AutocompleteListTemplate,
-        name='OsAutocomplete', choices=['Linux', 'BSD', 'Minix'],
-        autocomplete_template='your_autocomplete_box.html')
+    Another way of achieving the above could be:
+    
+    .. code-block:: python
+    
+        autocomplete_light.register(autocomplete_light.AutocompleteListTemplate,
+            name='OsAutocomplete', choices=['Linux', 'BSD', 'Minix'],
+            autocomplete_template='your_autocomplete_box.html')
 
 Create a basic model autocomplete class
 ````````````````````````````````````````
@@ -143,8 +156,6 @@ Registering a custom Autocomplete class for your model in
 ``your_app/autocomplete_light_registry.py`` can look like this:
 
 .. code-block:: python
-
-    import autocomplete_light
 
     from models import Person
 
@@ -170,10 +181,6 @@ You can override any method of the Autocomplete class. Filtering choices based
 on the request user could look like this:
 
 .. code-block:: python
-
-    import autocomplete_light
-
-    from models import Person
 
     class PersonAutocomplete(autocomplete_light.AutocompleteModelBase):
         search_fields = ['^first_name', 'last_name'])
@@ -214,6 +221,8 @@ To register two autocompletes with the same class, pass in a name argument:
 API
 ---
 
+.. _registry-api:
+
 Registry API
 ````````````
 
@@ -225,6 +234,8 @@ AutocompleteInterface
 
 .. autoclass:: autocomplete_light.autocomplete.base.AutocompleteInterface
    :members:
+
+.. _autocomplete-api:
 
 Rendering logic Autocomplete mixins
 ```````````````````````````````````
@@ -274,3 +285,9 @@ Autocomplete classes with both rendering and business logic
 .. automodule:: autocomplete_light.autocomplete
    :members:
    :undoc-members:
+
+Views
+`````
+
+.. automodule:: autocomplete_light.views
+   :members:
