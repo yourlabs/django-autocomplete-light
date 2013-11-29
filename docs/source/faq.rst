@@ -143,10 +143,15 @@ But don't take my word for it, try the ``security_test`` app of the
 How to override a JS method ?
 -----------------------------
 
-
+Refer to :ref:`script-method-override`.
 
 How to work around Django bug #9321: `Hold down "Control" ...` ?
 ----------------------------------------------------------------
+
+Just use the :py:class:`autocomplete_light.ModelForm
+<autocomplete_light.forms.ModelForm>` or inherit from both
+:py:class:`~autocomplete_light.forms.SelectMultipleHelpTextRemovalMixin`
+and :py:class:`django.forms.ModelForm`.
 
 How to report a bug effectively ?
 ---------------------------------

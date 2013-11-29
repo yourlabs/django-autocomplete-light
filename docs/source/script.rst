@@ -137,6 +137,8 @@ autocomplete instance, so you can override any option, ie:
 
     The pattern is the same for all plugins provided by django-autocomplete-light.
 
+.. _script-method-override:
+
 Override autocomplete JS methods
 ````````````````````````````````
 
