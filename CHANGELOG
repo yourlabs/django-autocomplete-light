@@ -1,4 +1,9 @@
-2.0.0:
+2.0.0a1:
+
+    - Fix #168: ensure that autocompletion inputs behaves like django
+      when it comes to values that were removed from the queryset.
+
+2.0.0pre:
 
     - Added form fields, which are now in charge of validation,
     - Added ModelForm which includes all features previously provided as
