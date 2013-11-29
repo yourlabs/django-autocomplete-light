@@ -4,7 +4,7 @@ Install the ``django-autocomplete-light>=2.0.0pre`` package with pip
 Install the stable release, preferably in a `virtualenv
 <http://virtualenv.org>`_::
 
-    pip install django-autocomplete-light>=2.0.0pre
+    pip install 'django-autocomplete-light>=2.0.0a1'
 
 Or the development version::
 
