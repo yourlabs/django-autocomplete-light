@@ -1,0 +1,10 @@
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+{% include 'autocomplete_light/static.html' %}
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" />
+</form>

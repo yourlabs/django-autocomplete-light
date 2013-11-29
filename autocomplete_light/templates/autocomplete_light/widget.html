@@ -14,9 +14,8 @@
 
 {% block deck %}
     {# a deck that should contain the list of selected options #}
-    {{ choices }}
     <span id="{{ widget.html_id }}-deck" class="deck div" >
-        {% for choice in autocomplete.choices_for_values %}
+        {% for choice in choices %}
             {{ choice|autocomplete_light_choice_html:autocomplete }}
         {% endfor %}
     </span>

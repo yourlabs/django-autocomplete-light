@@ -109,12 +109,15 @@ class WidgetBase(object):
         self.html_id = final_attrs.pop('id', name)
 
         autocomplete = self.autocomplete(values=value)
+        choices = autocomplete.choices_for_values()
+        values = [autocomplete.choice_value(c) for c in choices]
 
         self.process_js_attributes()
 
         context = {
             'name': name,
-            'values': value,
+            'values': values,
+            'choices': choices,
             'widget': self,
             'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
             'autocomplete': autocomplete,

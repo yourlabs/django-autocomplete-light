@@ -97,6 +97,48 @@ which means you should use ``Meta.widgets``, ie.:
 
 Again, this has nothing to do with django-autocomplete-light.
 
+Fields bound on values which are not in the queryset anymore raise a ValidationError
+------------------------------------------------------------------------------------
+
+This has nothing to do with django-autocomplete-light, but still it's a FAQ (it
+was even asked by a Django core contributor, so don't feel bad about it) so
+here goes.
+
+Django **specifies in its unit tests** that a ``ModelChoiceField`` and
+``ModelMultipleChoiceField`` should raise a ``ValidationError`` if a value is
+not part of the ``queryset`` passed to the field constructor.
+
+This is the `relevant part of Django's specification <>`_:
+
+.. code-block:: python
+
+        # Delete a Category object *after* the ModelChoiceField has already been
+        # instantiated. This proves clean() checks the database during clean() rather
+        # than caching it at time of instantiation.
+        Category.objects.get(url='5th').delete()
+        with self.assertRaises(ValidationError):
+            f.clean(c5.id)
+
+        # [...]
+
+        # Delete a Category object *after* the ModelMultipleChoiceField has already been
+        # instantiated. This proves clean() checks the database during clean() rather
+        # than caching it at time of instantiation.
+        Category.objects.get(url='6th').delete()
+        with self.assertRaises(ValidationError):
+            f.clean([c6.id])
+
+django-autocomplete-light behaves exactly the same way. If an item is removed
+from the queryset then a ValidationError will be raised, just like if the item
+wasn't there at all.
+
+But don't take my word for it, try the ``security_test`` app of the
+``test_project``, it provides:
+
+- an admin to control which items are in and out of the queryset,
+- an update view with a django select
+- another update view with an autocomplete instead
+
 How to override a JS method ?
 -----------------------------
 
