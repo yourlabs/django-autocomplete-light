@@ -5,6 +5,32 @@
 
 2.0.0pre:
 
+    There are minor backward compatibility breaks due to the
+    reorganization of form classes. The best way to upgrade is to
+    inherit from autocomplete_light.ModelForm.
+
+    - autocomplete_light.FixedModelForm was renamed to
+      autocomplete_light.SelectMultipleHelpTextRemovalMixin and is now
+      a mixin for ModelForm. Inherit from both that and
+      django.forms.ModelForm to get the same.
+    - GenericModelForm was renamed to
+      GenericM2MRelatedObjectDescriptorHandlingMixin and is now a mixin
+      for ModelForm. Inherit from both that and django.forms.ModelForm
+      to get the same.
+    - get_widgets_dict is gone, because we now favor using form fields
+      which do validation where it's due: on POST.
+    - using widgets should still work, but using the new form fields is
+      better because it enables DRY validation: you don't have to
+      hardcode the queryset on the form field definition anymore.
+
+    To fix those, just inherit from autocomplete_light.ModelForm if
+    possible, else check the form API details in the source or 
+    generated API documentation:
+
+    - http://django-autocomplete-light.readthedocs.org/en/v2/form.html#module-autocomplete_light.forms
+
+    New features:
+
     - Added form fields, which are now in charge of validation,
     - Added ModelForm which includes all features previously provided as
       separated tools (generic m2m support, django issue #9321, etc, etc ...)
