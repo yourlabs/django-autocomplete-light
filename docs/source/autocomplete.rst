@@ -4,6 +4,8 @@ Autocomplete classes
 .. note:: This chapter assumes that you have been through the entire
           :doc:`tutorial`.
 
+.. _autocomplete-design:
+
 Design documentation
 --------------------
 
@@ -102,7 +104,8 @@ Using a template to render the autocomplete
 ```````````````````````````````````````````
 
 You could use
-:py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate` instead:
+:py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate` instead
+of :py:class:`~autocomplete_light.autocomplete.AutocompleteListBase`:
 
 .. code-block:: python
 
@@ -114,33 +117,24 @@ You could use
 
     autocomplete_light.register(OsAutocomplete)
 
-What changes from the previous example are two things:
+Inheriting from
+:py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate` instead
+of :py:class:`~autocomplete_light.autocomplete.AutocompleteListBase` like as
+show in the **previous** example enables two optionnal options:
 
-- inherit from
-  :py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate` instead
-  of inheriting from
-  :py:class:`~autocomplete_light.autocomplete.AutocompleteListBase`, 
-- this enabled two optionnal options which we defined:
+- :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template` 
+  which we have customized, if we hadn't then
+  :py:meth:`AutocompleteTemplate.choice_html()
+  <autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_html>` would have fallen
+  back on the parent :py:meth:`AutocompleteBase.choice_html()
+  <autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>`,
+- :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template` 
+  which we haven't set, so :py:meth:`AutocompleteTemplate.choice_html()
+  <autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_html>` will fall back on
+  the parent :py:meth:`AutocompleteBase.choice_html()
+  <autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>`,
 
-  - :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template` 
-    which we have customized, if we hadn't then
-    :py:meth:`AutocompleteTemplate.choice_html()
-    <autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_html>` would have fallen
-    back on the parent :py:meth:`AutocompleteBase.choice_html()
-    <autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>`,
-  - :py:attr:`~autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_template` 
-    which we haven't set, so :py:meth:`AutocompleteTemplate.choice_html()
-    <autocomplete_light.autocomplete.template.AutocompleteTemplate.choice_html>` will fall back on
-    the parent :py:meth:`AutocompleteBase.choice_html()
-    <autocomplete_light.autocomplete.base.AutocompleteBase.choice_html>`,
-
-
-AutocompleteListBase inherits from both AutocompleteList and
-AutocompleteBase, and AutocompleteListTemplate inherits from both
-AutocompleteList and AutocompleteTemplate. It is the same for the other
-Autocomplete: AutocompleteModel + AutocompleteTemplate =
-AutocompleteModelTemplate and so on.
-
+See :ref:`autocomplete-design` for details.
 
 .. note:: 
 
@@ -166,6 +160,15 @@ Registering a custom Autocomplete class for your model in
         search_fields = ['^first_name', 'last_name']
     autocomplete_light.register(Person, PersonAutocomplete)
 
+In the same fashion, you could have used 
+:py:class:`~autocomplete_light.autocomplete.AutocompleteModelTemplate`
+instead of
+:py:class:`~autocomplete_light.autocomplete.AutocompleteModelBase`. You can see
+that the inheritance diagram follows the same pattern:
+
+.. inheritance-diagram:: autocomplete_light.autocomplete.AutocompleteModelTemplate
+   :parts: 1
+
 .. note::
 
     An equivalent of this example would be:
@@ -187,21 +190,25 @@ on the request user could look like this:
 
     class PersonAutocomplete(autocomplete_light.AutocompleteModelBase):
         search_fields = ['^first_name', 'last_name'])
+        model = Person
 
         def choices_for_request(self):
-            choices = super(PersonAutocomplete, self).choices_for_request()
-
             if not self.request.user.is_staff:
-                choices = choices.filter(private=False)
+                self.choices = self.choices.filter(private=False)
 
-            return choices
+            return super(PersonAutocomplete, self).choices_for_request()
 
-    autocomplete_light.register(Person, PersonAutocomplete)
+    # we have specified PersonAutocomplete.model, so we don't have to repeat
+    # the model class as argument for register()
+    autocomplete_light.register(PersonAutocomplete)
 
-.. note:: The widget prevents a malicious user from crafting choices keys by
-          doing validation even in
-          :py:attr:`~autocomplete_light.widgets.WidgetBase.render`. This causes an
-          overhead, which is fixed in version 2.
+It is very important to note here, that `clean()` **will** raise a
+``ValidationError`` if a model is selected in a
+``ModelChoiceField`` or ``ModelMultipleChoiceField`` 
+
+.. note:: Use at your own discretion, as this can cause problems when a choice
+          is no longer part of the queryset, just like with django's Select
+          widget.
 
 Registering the same Autocomplete class for several autocompletes
 `````````````````````````````````````````````````````````````````
