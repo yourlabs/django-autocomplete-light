@@ -100,15 +100,15 @@ Again, this has nothing to do with django-autocomplete-light.
 Fields bound on values which are not in the queryset anymore raise a ValidationError
 ------------------------------------------------------------------------------------
 
-This has nothing to do with django-autocomplete-light, but still it's a FAQ (it
-was even asked by a Django core contributor, so don't feel bad about it) so
-here goes.
+This is not specific to django-autocomplete-light, but still it's a FAQ so here
+goes.
 
 Django **specifies in its unit tests** that a ``ModelChoiceField`` and
 ``ModelMultipleChoiceField`` should raise a ``ValidationError`` if a value is
 not part of the ``queryset`` passed to the field constructor.
 
-This is the `relevant part of Django's specification <>`_:
+This is the `relevant part of Django's specification
+<https://github.com/django/django/blob/16d73d7416a7902703ee8022f093667f7ac9ef5b/tests/model_forms/tests.py#L1251>`_:
 
 .. code-block:: python
 
@@ -129,8 +129,9 @@ This is the `relevant part of Django's specification <>`_:
             f.clean([c6.id])
 
 django-autocomplete-light behaves exactly the same way. If an item is removed
-from the queryset then a ValidationError will be raised, just like if the item
-wasn't there at all.
+from the queryset, then its value will be dropped from the field values on
+display of the form. Trying to save that value again will raise a
+ValidationError will be raised, just like if the item wasn't there at all.
 
 But don't take my word for it, try the ``security_test`` app of the
 ``test_project``, it provides:
