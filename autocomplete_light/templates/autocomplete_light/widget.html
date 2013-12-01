@@ -14,7 +14,7 @@
 
 {% block deck %}
     {# a deck that should contain the list of selected options #}
-    <span id="{{ widget.html_id }}-deck" class="deck block" >
+    <span id="{{ widget.html_id }}-deck" class="deck" >
         {% for choice in choices %}
             {{ choice|autocomplete_light_choice_html:autocomplete }}
         {% endfor %}
@@ -46,21 +46,21 @@
 
 {% block remove_template %}
     {# a hidden element that serves as template for the 'remove from deck' button #}
-    <span style="display:none" class="remove block">
+    <span style="display:none" class="remove">
         {# This will be appended to choices on the deck, it's the remove button #}
-        X
+        ˣ
     </span>
 {% endblock %}
 
 {% block choice_template %}
-    <span style="display:none" class="choice-template block">
+    <span style="display:none" class="choice-template">
         {% comment %}
         the contained element will be used to render options that are added to the select
         via javascript, for example in django admin with the + sign
 
         The text of the option will be inserted in the html of this tag
         {% endcomment %}
-        <span class="choice block prepend-remove append-option-html">
+        <span class="choice prepend-remove append-option-html">
         </span>
     </span>
 {% endblock %}

@@ -172,7 +172,8 @@ yourlabs.Widget.prototype.optionChoice = function(option) {
 }
 
 yourlabs.Widget.prototype.addRemove = function(choices) {
-    var removeTemplate = this.widget.find('.remove:last').clone().show();
+    var removeTemplate = this.widget.find('.remove:last')
+        .clone().css('display', 'inline-block');
 
     var target = choices.find('.prepend-remove');
 

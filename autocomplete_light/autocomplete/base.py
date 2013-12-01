@@ -106,7 +106,7 @@ class AutocompleteBase(AutocompleteInterface):
         :py:meth:`~.base.AutocompleteBase.choice_value` and
         :py:meth:`~.base.AutocompleteBase.choice_label`. Default is::
 
-            <span class="block" data-value="%s">%s</span>
+            <span data-value="%s">%s</span>
 
     .. py:attribute:: empty_html_format
 
@@ -129,7 +129,7 @@ class AutocompleteBase(AutocompleteInterface):
         Name of the url to add another choice via a javascript popup. If empty
         then no "add another" link will appear.
     """
-    choice_html_format = u'<span class="block" data-value="%s">%s</span>'
+    choice_html_format = u'<span data-value="%s">%s</span>'
     empty_html_format = u'<span class="block"><em>%s</em></span>'
     autocomplete_html_format = u'%s'
     add_another_url_name = None

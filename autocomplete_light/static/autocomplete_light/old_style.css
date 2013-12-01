@@ -42,9 +42,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 }
 
-.yourlabs-autocomplete .choice, 
-.yourlabs-autocomplete [data-value], 
-.yourlabs-autocomplete em
+.yourlabs-autocomplete .choice, .yourlabs-autocomplete [data-value], .yourlabs-autocomplete em
 {
     display: block;
     padding: 3px 20px;
@@ -67,37 +65,18 @@
     display: block;
 }
 
-/* admin specific 
+/* admin specific */
 body.change-form .autocomplete-light-widget
 {
     float: left;
 }
-*/
 
-.autocomplete-light-widget {
-    border: 1px solid lightgrey;
-    display: inline-block;
-    padding: 4px 4px 3px 4px;
-    /* for the add-another image */
-    vertical-align: middle;
-}
-
-.autocomplete-light-widget input,
-.autocomplete-light-widget input:focus {
-    border: 0;
-    outline: 0;
-    width: 230px;
-}
-
-.autocomplete-light-widget .deck [data-value],
-.autocomplete-light-widget .deck .choice
+.autocomplete-light-widget .deck [data-value]
 {
     list-style-type: none;
-    display: inline-block;
-    border: 1px solid lightgrey;
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-right: 3px;
+    margin-bottom: 5px;
+    padding-right: 8px;
+    padding-bottom: 5px;
 }
 
 .autocomplete-light-widget .deck [data-value] .remove
@@ -105,12 +84,11 @@ body.change-form .autocomplete-light-widget
     background-image: url('../admin/img/inline-delete.png');
     color: #fff;
     cursor: pointer;
+    float: left;
+    height: 15px;
+    margin-right: 10px;
     text-indent: -999px;
-    height: 16px;
-    width: 16px;
-    display: inline-block;
-    background-position-y: -1px;
-    background-repeat: no-repeat;
+    width: 15px;
 }
 
 .autocomplete-light-widget .deck [data-value] .remove:hover
