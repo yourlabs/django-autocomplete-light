@@ -9,23 +9,18 @@ from django.contrib.contenttypes.models import ContentType
 from .registry import registry as default_registry
 from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
 
+__all__ = ['FieldBase', 'ChoiceField', 'MultipleChoiceField',
+    'ModelChoiceField', 'ModelMultipleChoiceField', 'GenericModelChoiceField',
+    'GenericModelMultipleChoiceField']
+
 
 class FieldBase(object):
     def __init__(self, autocomplete=None, registry=None, widget=None,
             widget_js_attributes=None, autocomplete_js_attributes=None,
             extra_context=None, *args, **kwargs):
 
-        if widget:
-            # BC: maybe defining the autocomplete as a widget argument ?
-            autocomplete = getattr(widget, 'autocomplete', None)
-            if autocomplete:
-                self.autocomplete = autocomplete
-
-        if not getattr(self, 'autocomplete', False):
-            # new DRY style support
-            registry = registry or default_registry
-            self.autocomplete = registry.get_autocomplete_from_arg(
-                autocomplete)
+        self.autocomplete = self.get_autocomplete(autocomplete, registry,
+                widget)
 
         widget = widget or self.widget
         if isinstance(widget, type):
@@ -38,6 +33,14 @@ class FieldBase(object):
             kwargs['queryset'] = self.autocomplete.choices
 
         super(FieldBase, self).__init__(*args, **kwargs)
+
+    def get_autocomplete(self, autocomplete, registry, widget):
+        if widget:
+            # BC: maybe defining the autocomplete as a widget argument ?
+            autocomplete = getattr(widget, 'autocomplete', None)
+
+        registry = registry or default_registry
+        return registry.get_autocomplete_from_arg(autocomplete)
 
     def validate(self, value):
         """
@@ -53,6 +56,29 @@ class FieldBase(object):
         if value and not self.autocomplete(values=values).validate_values():
             raise forms.ValidationError('%s cannot validate %s' % (
                 self.autocomplete.__name__, value))
+
+
+class ChoiceField(FieldBase, forms.ChoiceField):
+    widget = ChoiceWidget
+
+    def __init__(self, autocomplete=None, registry=None, widget=None,
+            widget_js_attributes=None, autocomplete_js_attributes=None,
+            extra_context=None, *args, **kwargs):
+
+        kwargs.update({'choices':
+            self.get_choices(autocomplete, registry, widget)})
+
+        super(ChoiceField, self).__init__(autocomplete, registry, widget,
+                widget_js_attributes, autocomplete_js_attributes,
+                extra_context, *args, **kwargs)
+
+    def get_choices(self, autocomplete, registry, widget):
+        a = self.get_autocomplete(autocomplete, registry, widget)()
+        return ((a.choice_label(c), a.choice_value(c)) for c in a.choices)
+
+
+class MultipleChoiceField(ChoiceField, forms.MultipleChoiceField):
+    widget = MultipleChoiceWidget
 
 
 class ModelChoiceField(FieldBase, forms.ModelChoiceField):
