@@ -35,7 +35,8 @@ upgrades ie. from 1.1.3 to 1.1.22.
 Tutorial
 --------
 
-Enable autocompletes in the admin has become piece of cake.
+Enabling autocompletes inside and outside of the admin has become piece of
+cake.
 
 .. toctree::
    :maxdepth: 3
