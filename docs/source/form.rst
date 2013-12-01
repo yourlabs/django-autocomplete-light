@@ -13,10 +13,22 @@ This app provides optionnal helpers to make forms:
   which wraps around django's modelform_factory but uses the heroic
   :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.ModelForm>`.
 - :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.ModelForm>`: 
-  the heroic ModelForm which couples all our loosely coupled tools together.
-  For an exhaustive list of tools that it uses and that you can re-use
-  (particularely if you don't want to or can't use the provided ModelForm),
-  refer to :ref:`the Form API doc <form-api>`.
+  the heroic ModelForm which ties all our loosely coupled tools together: 
+
+    - :py:class:`~autocomplete_light.forms.SelectMultipleHelpTextRemovalMixin`,
+      which removes the "Hold down control or command to select more
+      than one" help text on autocomplete widgets (fixing `Django ticket #9321 
+      <https://code.djangoproject.com/ticket/9321>`_),
+    - :py:class:`~autocomplete_light.forms.VirtualFieldHandlingMixin`
+      which enables support for generic foreign keys,
+    - :py:class:`~autocomplete_light.forms.GenericM2MRelatedObjectDescriptorHandlingMixin`
+      which enables support for generic many to many, if
+      django-genericm2m is installed,
+    - :py:class:`~autocomplete_light.forms.ModelFormMetaclass` which
+      enables :py:class:`~autocomplete_light.forms.FormfieldCallback`
+      to replace the default form field creator replacing `<select>`
+      with autocompletes for relations and creates generic foreign key
+      and generic many to many fields.
 
 You probably already know that Django has form-fields for validation and each
 form-field has a widget for rendering logic.
@@ -26,6 +38,8 @@ makes a form field field rely on an Autocomplete class for initial choices and
 validation (hail DRY configuration !), it is used as a mixin to make some
 simple field classes:
 
+    - :py:class:`autocomplete_light.ChoiceField <autocomplete_light.fields.ChoiceField>`,
+    - :py:class:`autocomplete_light.MultipleChoiceField <autocomplete_light.fields.MultipleChoiceField>`,
     - :py:class:`autocomplete_light.ModelChoiceField <autocomplete_light.fields.ModelChoiceField>`,
     - :py:class:`autocomplete_light.ModelMultipleChoiceField <autocomplete_light.fields.ModelMultipleChoiceField>`,
     - :py:class:`autocomplete_light.GenericModelChoiceField <autocomplete_light.fields.GenericModelChoiceField>`, and
@@ -52,36 +66,123 @@ It is used as a mixin to make some simple widget classes:
 Examples
 --------
 
+This basic example demonstrates how to use an autocomplete form field in a form:
+
+.. code-block:: python
+
+    class YourForm(forms.Form):
+        os = autocomplete_light.ChoiceField('OsAutocomplete')
+
 Using :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.Modelform>`
 ```````````````````````````````````````````````````````````````````````````````````
+
+Consider such a model which have every kind of relations that are supported out
+of the box:
+
+.. code-block:: python
+
+    class FullModel(models.Model):
+        name = models.CharField(max_length=200)
+
+        oto = models.OneToOneField('self', related_name='reverse_oto')
+        fk = models.ForeignKey('self', related_name='reverse_fk')
+        mtm = models.ManyToManyField('self', related_name='reverse_mtm')
+
+        content_type = models.ForeignKey(ContentType)
+        object_id = models.PositiveIntegerField()
+        gfk = generic.GenericForeignKey("content_type", "object_id")
+
+        # that's generic many to many as per django-generic-m2m
+        gmtm = RelatedObjectsDescriptor()
+
+Assuming that you have registered an ``Autocomplete`` for ``FullModel`` **and**
+a generic ``Autocomplete``, then :py:class:`autocomplete_light.ModelForm
+<autocomplete_light.forms.ModelForm>` will contain 5 autocompletion fields by
+default: `oto`, `fk`, `mtm`, `gfk` and `gmtm`. 
+
+.. code-block:: python
+
+    class FullModelModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = FullModel
+            # add for django 1.6:
+            fields = '__all__'
+
+:py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.ModelForm>`
+gives autocompletion super powers to :py:class:`django:django.forms.ModelForm`.
+To disable the ``fk`` input for example:
+
+.. code-block:: python
+
+    class FullModelModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = FullModel
+            exclude = ['fk']
+
+Or, to just get the default ``<select>`` widget for the ``fk`` field:
+
+.. code-block:: python
+
+    class FullModelModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = FullModel
+            autocomplete_exclude = ['fk']
+
+In the same fashion, you can use ``Meta.fields`` and
+``Meta.autocomplete_fields``. To the difference that they all understand
+generic foreign key names and generic relation names in addition to regular
+model fields.
+
+Not using ``autocomplete_light.ModelForm``
+``````````````````````````````````````````
+
+Instead of using our :py:class:`autocomplete_light.ModelForm
+<autocomplete_light.forms.ModelForm>`, you could create such a ModelForm using
+our mixins:
+
+.. code-block:: python
+
+    class YourModelForm(autocomplete_light.SelectMultipleHelpTextRemovalMixin,
+            autocomplete_light.VirtualFieldHandlingMixin,
+            autocomplete_light.GenericM2MRelatedObjectDescriptorHandlingMixin,
+            forms.ModelForm):
+        pass
+
+This way, you get a fully working ModelForm which does **not** handle any field
+generation. You **can** use form fields directly though, which is demonstrated
+in the next example.
 
 Using form fields directly
 ``````````````````````````
 
-Using form widgets directly
-```````````````````````````
+You might want to use form fields directly for any reason:
 
+- you don't want to or can't extend :py:class:`autocomplete_light.ModelForm
+  <autocomplete_light.forms.ModelForm>`,
+- you want to override a field, ie. if you have several Autocomplete classes
+  registered for a model or for generic relations and you want to specify it,
+- you want to override any option like placeholder, help_text and so on.
 
-Or in a ``ModelChoiceField`` or similar
-```````````````````````````````````````
-
-Now use ``PersonAutocomplete`` in a ``ChoiceWidget`` ie. for a ``ForeignKey``,
-it can look like this:
+Considering the model of the above example, this is how you could do it:
 
 .. code-block:: python
-
-    from django import forms
-
-    import autocomplete_light
-
-    from models import Order, Person
-
-    class OrderForm(forms.ModelForm):
-        person = forms.ModelChoiceField(Person.objects.all(),
-            widget=autocomplete_light.ChoiceWidget('PersonAutocomplete'))
+    
+    class FullModelModelForm(autocomplete_light.ModelForm):
+        # Demonstrate how to use a form field directly
+        oto = autocomplete_light.ModelChoiceField('FullModelAutocomplete')
+        fk = autocomplete_light.ModelChoiceField('FullModelAutocomplete')
+        m2m = autocomplete_light.ModelMultipleChoiceField('FullModelAutocomplete')
+        # It will use the default generic Autocomplete class by default
+        gfk = autocomplete_light.GenericModelChoiceField()
+        gmtm = autocomplete_light.GenericModelMultipleChoiceField()
 
         class Meta:
-            model = Order
+            model = FullModel
+            # django 1.6:
+            fields = '__all__'
+
+As you see, it's as easy as 1-2-3, but keep in mind that this can break DRY:
+:ref:`dry-break`.
 
 Using your own form in a ``ModelAdmin``
 ```````````````````````````````````````
@@ -103,92 +204,6 @@ You can use this form in the admin too, it can look like this:
 
     Ok, this has nothing to do with ``django-autocomplete-light`` because it is
     plain Django, but still it might be useful to someone.
-
-Using autocomplete widgets in non model-forms
-`````````````````````````````````````````````
-
-There are 3 kinds of widgets:
-
-- ``autocomplete_light.ChoiceWidget`` has a hidden ``<select>`` which works for
-  ``django.forms.ChoiceField``,
-- ``autocomplete_light.MultipleChoiceWidget`` has a hidden ``<select
-  multiple="multiple">`` which works for ``django.forms.MultipleChoiceField``,
-- ``autocomplete_light.TextWidget`` just enables an autocomplete on its
-  ``<input>`` and works for ``django.forms.CharField``.
-
-For example:
-
-.. code-block:: python
-
-    # Using widgets directly in any kind of form.
-    class NonModelForm(forms.Form):
-        user = forms.ModelChoiceField(User.objects.all(),
-            widget=autocomplete_light.ChoiceWidget('UserAutocomplete'))
-
-        cities = forms.ModelMultipleChoiceField(City.objects.all(),
-            widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete'))
-
-        tags = forms.CharField(
-            widget=autocomplete_light.TextWidget('TagAutocomplete'))
-
-Overriding a JS option in Python
-````````````````````````````````
-
-Javascript widget options can be set in Python via the ``widget_js_attributes``
-keyword argument. And javascript autocomplete options can be set in Python via
-the ``autocomplete_js_attributes``.
-
-Those can be set either on an Autocomplete class, either using the
-``register()`` shortcut, either via the Widget constructor.
-
-Per Autocomplete class
->>>>>>>>>>>>>>>>>>>>>>
-
-.. code-block:: python
-    
-    class AutocompleteYourModel(autocomplete_light.AutocompleteModelTemplate):
-        template_name = 'your_app/your_special_choice_template.html'
-
-        autocomplete_js_attributes = {
-            # This will actually data-autocomplete-minimum-characters which
-            # will set widget.autocomplete.minimumCharacters.
-            'minimum_characters': 4, 
-        }
-
-        widget_js_attributes = {
-            # That will set data-max-values which will set widget.maxValues
-            'max_values': 6,
-        }
-
-Per registered Autocomplete
->>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-.. code-block:: python
-
-    autocomplete_light.register(City,
-        # Those have priority over the class attributes
-        autocomplete_js_attributes={
-            'minimum_characters': 0, 
-            'placeholder': 'City name ?',
-        }
-        widget_js_attributes = {
-            'max_values': 6,
-        }
-    )
-
-Per widget
->>>>>>>>>>
-
-.. code-block:: python
-
-    class SomeForm(forms.Form):
-        cities = forms.ModelMultipleChoiceField(City.objects.all(),
-            widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete',
-                # Those attributes have priority over the Autocomplete ones.
-                autocomplete_js_attributes={'minimum_characters': 0,
-                                            'placeholder': 'Choose 3 cities ...'},
-                widget_js_attributes={'max_values': 3}))
-
 
 API
 ---
@@ -231,6 +246,18 @@ FieldBase
 >>>>>>>>>
 
 .. autoclass:: autocomplete_light.fields.FieldBase
+
+ChoiceField
+>>>>>>>>>>>
+
+.. autoclass:: autocomplete_light.fields.ChoiceField
+   :members:
+
+MultipleChoiceField
+>>>>>>>>>>>>>>>>>>>
+
+.. autoclass:: autocomplete_light.fields.MultipleChoiceField
+   :members:
 
 ModelChoiceField
 >>>>>>>>>>>>>>>>

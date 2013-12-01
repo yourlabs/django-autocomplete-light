@@ -109,6 +109,64 @@ This will allow to use the keyboard arrows up/down to navigate between choices.
 Refer to :ref:`navigation` for complete help on making a navigation
 autocomplete.
 
+Overriding a JS option in Python
+````````````````````````````````
+
+Javascript widget options can be set in Python via the ``widget_js_attributes``
+keyword argument. And javascript autocomplete options can be set in Python via
+the ``autocomplete_js_attributes``.
+
+Those can be set either on an Autocomplete class, either using the
+``register()`` shortcut, either via the Widget constructor.
+
+Per Autocomplete class
+>>>>>>>>>>>>>>>>>>>>>>
+
+.. code-block:: python
+    
+    class AutocompleteYourModel(autocomplete_light.AutocompleteModelTemplate):
+        template_name = 'your_app/your_special_choice_template.html'
+
+        autocomplete_js_attributes = {
+            # This will actually data-autocomplete-minimum-characters which
+            # will set widget.autocomplete.minimumCharacters.
+            'minimum_characters': 4, 
+        }
+
+        widget_js_attributes = {
+            # That will set data-max-values which will set widget.maxValues
+            'max_values': 6,
+        }
+
+Per registered Autocomplete
+>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+.. code-block:: python
+
+    autocomplete_light.register(City,
+        # Those have priority over the class attributes
+        autocomplete_js_attributes={
+            'minimum_characters': 0, 
+            'placeholder': 'City name ?',
+        }
+        widget_js_attributes = {
+            'max_values': 6,
+        }
+    )
+
+Per widget
+>>>>>>>>>>
+
+.. code-block:: python
+
+    class SomeForm(forms.Form):
+        cities = forms.ModelMultipleChoiceField(City.objects.all(),
+            widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete',
+                # Those attributes have priority over the Autocomplete ones.
+                autocomplete_js_attributes={'minimum_characters': 0,
+                                            'placeholder': 'Choose 3 cities ...'},
+                widget_js_attributes={'max_values': 3}))
+
 Override autocomplete JS options in JS
 ``````````````````````````````````````
 

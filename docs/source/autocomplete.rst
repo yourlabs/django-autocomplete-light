@@ -61,6 +61,8 @@ refer to :ref:`registry-api` documentation.
 Examples
 --------
 
+.. _os-autocomplete:
+
 Create a basic list-backed autocomplete class
 `````````````````````````````````````````````
 

@@ -22,6 +22,8 @@ So, in the next version, I added a dependency management system. Which sucked
 and was removed right away to finally keep it simple and stupid as we have it
 today.
 
+.. _dry-break:
+
 Model field's ``help_text`` and ``verbose_name`` are lost when overriding the widget
 ------------------------------------------------------------------------------------
 
