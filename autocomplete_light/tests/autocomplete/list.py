@@ -64,15 +64,15 @@ class AutocompleteListTestCase(AutocompleteTestCase):
             {
                 'fixture': make_get_request('q=t'),
                 'expected': u''.join([
-                    '<span class="block" data-value="Ten">Ten</span>',
-                    '<span class="block" data-value="Three">Three</span>',
+                    '<span data-value="Ten">Ten</span>',
+                    '<span data-value="Three">Three</span>',
                 ])
             },
             {
                 'fixture': make_get_request(),
                 'expected': u''.join([
-                    '<span class="block" data-value="Four">Four</span>',
-                    '<span class="block" data-value="One">One</span>',
+                    '<span data-value="Four">Four</span>',
+                    '<span data-value="One">One</span>',
                 ])
             },
         )

@@ -123,18 +123,18 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
             {
                 'fixture': make_get_request('q=j'),
                 'expected': u''.join([
-                    '<span class="block" data-value="%s">%s</span>' % (
+                    '<span data-value="%s">%s</span>' % (
                         self.jack.pk, force_text(self.jack)),
-                    '<span class="block" data-value="%s">%s</span>' % (
+                    '<span data-value="%s">%s</span>' % (
                         self.james.pk, force_text(self.james)),
                 ])
             },
             {
                 'fixture': make_get_request(),
                 'expected': u''.join([
-                    '<span class="block" data-value="%s">%s</span>' % (
+                    '<span data-value="%s">%s</span>' % (
                         self.abe.pk, force_text(self.abe)),
-                    '<span class="block" data-value="%s">%s</span>' % (
+                    '<span data-value="%s">%s</span>' % (
                         self.jack.pk, force_text(self.jack)),
                 ])
             },
