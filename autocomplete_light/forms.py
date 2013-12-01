@@ -37,7 +37,7 @@ from .widgets import ChoiceWidget, MultipleChoiceWidget
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
-'SecureModelFormMixin', 'GenericM2MRelatedObjectDescriptorHandlingMixin']
+'GenericM2MRelatedObjectDescriptorHandlingMixin']
 
 # OMG #9321 why do we have to hard-code this ?
 M = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
@@ -172,11 +172,6 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
             save_m2m()
 
         return instance
-
-
-class SecureModelFormMixin(object):
-    def secure_for_request(self, request):
-        pass
 
 
 class FormfieldCallback(object):
