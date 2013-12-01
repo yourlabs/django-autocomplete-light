@@ -9,8 +9,14 @@ from .models import *
 from .forms import *
 
 
+class FkInline(admin.TabularInline):
+    model = FkModel
+    form = FkModelForm
+
+
 class FkModelAdmin(admin.ModelAdmin):
     form = FkModelForm
+    inlines = [FkInline]
 admin.site.register(FkModel, FkModelAdmin)
 
 
