@@ -4,7 +4,7 @@
 {% for choice in choices %}
     {{ choice|autocomplete_light_choice_html:autocomplete }}
 {% empty %}
-    <span class="div" data-create-choice="{{ request.GET.q }}">
+    <span class="block" data-create-choice="{{ request.GET.q }}">
         {% blocktrans with choice=request.GET.q %}No result found for {{ choice }}, click here to create it.{% endblocktrans %}
     </span>
 {% endfor %}

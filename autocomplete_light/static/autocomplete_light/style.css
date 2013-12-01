@@ -55,6 +55,11 @@
     cursor: pointer;
 }
 
+/* 
+ * You should use the "block" class because the "div" class is deprecated since
+ * 2.0. However, the "div" class is still supported for backward compatibility.
+ */
+.block,
 .div
 {
     display: block;

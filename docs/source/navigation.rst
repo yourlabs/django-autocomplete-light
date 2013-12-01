@@ -45,12 +45,12 @@ would work:
 
     <span class="separator">Artists</span>
     {% for artist in artists %}
-    <a class="div choice" href="{{ artist.get_absolute_url }">{{ artist }}</a>
+    <a class="block choice" href="{{ artist.get_absolute_url }">{{ artist }}</a>
     {% endfor %}
 
     <span class="separator">Genres</span>
     {% for genre in genre %}
-    <a class="div choice" href="{{ genre.get_absolute_url }}">{{ genre }}</a>
+    <a class="block choice" href="{{ genre.get_absolute_url }}">{{ genre }}</a>
     {% endfor %}    
 
 A basic autocomplete configuration

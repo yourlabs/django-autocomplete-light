@@ -27,7 +27,7 @@ For example:
 
     class AutocompleteEditableModelBase(autocomplete_light.AutocompleteModelBase):
         choice_html_format = u'''
-            <span class="div" data-value="%s">%s</span>
+            <span class="block" data-value="%s">%s</span>
             <a href="%s" title="%s"><img src="%s%s" /></a>
         '''
 
