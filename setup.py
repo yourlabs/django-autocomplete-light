@@ -59,7 +59,7 @@ else:
 
 setup(
     name='django-autocomplete-light',
-    version='2.0.0a1',
+    version='2.0.0a2',
     description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',

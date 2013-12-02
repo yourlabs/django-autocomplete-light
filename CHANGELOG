@@ -1,3 +1,11 @@
+2.0.0a2:
+
+    - Make AutocompleteModelTemplate the default autocomplete base for models.
+    - Added ChoiceField and MultipleChoiceField.
+    - Renamed .div class to .block, backward compatibility is preserved.
+    - BC Break: Restyled autocomplete widget to look more modern. If you want
+      the old style back, include autocomplete_light/old_style.css.
+
 2.0.0a1:
 
     - Fix #168: ensure that autocompletion inputs behaves like django
