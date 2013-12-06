@@ -14,7 +14,7 @@ Example usage::
     called with commit=True.
 
 """
-
+import six
 
 from taggit.forms import TagField as TaggitTagField
 from taggit.utils import edit_string_for_tags
@@ -24,7 +24,7 @@ from ..widgets import TextWidget
 
 class TagWidget(TextWidget):
     def render(self, name, value, attrs=None):
-        if value is not None and not isinstance(value, basestring):
+        if value is not None and not isinstance(value, six.string_types):
             value = edit_string_for_tags(
                 [o.tag for o in value.select_related("tag")])
         return super(TagWidget, self).render(name, value, attrs)
