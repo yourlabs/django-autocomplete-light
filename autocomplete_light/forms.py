@@ -31,9 +31,15 @@ try:
 except ImportError:
     RelatedObjectsDescriptor = None
 
+try:
+    from taggit.managers import TaggableManager
+except ImportError:
+    TaggableManager = None
+
 from .registry import registry as default_registry
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
+from .contrib.taggit_field import TaggitField
 from .widgets import ChoiceWidget, MultipleChoiceWidget
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
@@ -212,6 +218,8 @@ class FormfieldCallback(object):
                     kwargs['form_class'] = ModelChoiceField
                 elif isinstance(model_field, ManyToManyField):
                     kwargs['form_class'] = ModelMultipleChoiceField
+                elif isinstance(model_field, TaggableManager):
+                    kwargs['form_class'] = TaggitField
 
                 kwargs['autocomplete'] = autocomplete
 

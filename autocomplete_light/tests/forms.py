@@ -15,6 +15,7 @@ class BaseModelFormTestCase(unittest.TestCase):
     def setUp(self):
         self.james = self.model_class.objects.create(name='James')
         self.janis = self.model_class.objects.create(name='Janis')
+        self.test_instance = self.james
 
     def tearDown(self):
         self.model_class.objects.all().delete()
@@ -233,7 +234,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
     def test_add_relation(self):
         form = self.model_form_class(http.QueryDict(
             'name=test&%s' % self.form_value(self.janis)),
-            instance=self.james)
+            instance=self.test_instance)
 
         self.assertTrue(form.is_valid())
 
@@ -320,6 +321,33 @@ class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase)
     field_class = autocomplete_light.ModelMultipleChoiceField
     autocomplete_name = 'MtmModelAutocomplete'
 
+
+try:
+    from taggit.models import Tag
+except ImportError:
+    class TaggitModelFormTestCase(object):
+        pass
+else:
+    class TaggitModelFormTestCase(ModelFormBaseTestCase):
+        model_class = TaggitModel
+        model_form_class = TaggitModelForm
+        field_class = autocomplete_light.TaggitField
+        widget_class = autocomplete_light.TaggitWidget
+        autocomplete_name = 'TagAutocomplete'
+
+        def setUp(self):
+            self.james = 'james'
+            self.janis = 'janis'
+            self.test_instance = self.model_class.objects.create(name='test')
+
+        def form_value(self, model):
+            return 'relation=%s' % model
+
+        def field_value(self, model):
+            return model.relation.all().values_list('name', flat=True)[0]
+
+        def test_empty_registry(self):
+            pass
 
 
 try:

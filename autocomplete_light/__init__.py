@@ -11,6 +11,13 @@ from .forms import *
 
 from .fields import *
 
+try:
+    import taggit
+except ImportError:
+    pass
+else:
+    from .contrib.taggit_field import TaggitField, TaggitWidget
+
 from .views import CreateView
 from .exceptions import AutocompleteNotRegistered
 

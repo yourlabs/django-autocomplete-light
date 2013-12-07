@@ -4,7 +4,7 @@ need this.
 
 Example usage::
 
-    from autocomplete_light.contrib.taggit_tagfield import TagField, TagWidget
+    from autocomplete_light.contrib.taggit_field import TagField, TagWidget
 
     class AppEditForm(forms.ModelForm):
         tags = TagField(widget=TagWidget('TagAutocomplete'))
@@ -19,10 +19,11 @@ import six
 from taggit.forms import TagField as TaggitTagField
 from taggit.utils import edit_string_for_tags
 
+from ..fields import FieldBase
 from ..widgets import TextWidget
 
 
-class TagWidget(TextWidget):
+class TaggitWidget(TextWidget):
     def render(self, name, value, attrs=None):
         if value is not None and not isinstance(value, six.string_types):
             value = edit_string_for_tags(
@@ -30,5 +31,8 @@ class TagWidget(TextWidget):
         return super(TagWidget, self).render(name, value, attrs)
 
 
-class TagField(TaggitTagField):
-    widget = TagWidget
+class TaggitField(FieldBase, TaggitTagField):
+    widget = TaggitWidget
+
+    def validate(self, value):
+        return TaggitTagField.validate(self, value)

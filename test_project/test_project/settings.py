@@ -105,6 +105,13 @@ except ImportError:
 else:
     INSTALLED_APPS += ('genericm2m',)
 
+try:
+    import taggit
+except ImportError:
+    pass
+else:
+    INSTALLED_APPS += ('taggit',)
+
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
