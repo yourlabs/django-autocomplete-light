@@ -5,6 +5,11 @@ try:
 except ImportError:
     genericm2m = None
 
+try:
+    import taggit
+except ImportError:
+    taggit = None
+
 from .models import *
 from .forms import *
 
@@ -39,3 +44,9 @@ if genericm2m:
     class GmtmModelAdmin(admin.ModelAdmin):
         form = GmtmModelForm
     admin.site.register(GmtmModel, GmtmModelAdmin)
+
+
+if taggit:
+    class TaggitModelAdmin(admin.ModelAdmin):
+        form = TaggitModelForm
+    admin.site.register(TaggitModel, TaggitModelAdmin)
