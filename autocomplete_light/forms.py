@@ -214,10 +214,7 @@ class FormfieldCallback(object):
 
                 kwargs['autocomplete'] = autocomplete
 
-        if self.default:
-            return self.default(model_field, **kwargs)
-        else:
-            return model_field.formfield(**kwargs)
+        return self.default(model_field, **kwargs)
 
 
 class ModelFormMetaclass(DjangoModelFormMetaclass):
