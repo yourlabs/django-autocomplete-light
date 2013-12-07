@@ -226,7 +226,6 @@ class FormfieldCallback(object):
                     # none of our concern
                     kwargs.pop('form_class')
 
-
         return self.default(model_field, **kwargs)
 
 
