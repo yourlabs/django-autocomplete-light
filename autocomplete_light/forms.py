@@ -20,7 +20,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
 from django.db.models import ForeignKey, OneToOneField, ManyToManyField
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.generic import (GenericForeignKey,
+                                                 GenericRelation)
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
@@ -260,10 +261,14 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         all_exclude = set(getattr(meta, 'exclude', [])) | set(getattr(meta,
             'autocomplete_exclude', []))
 
-        if len(all_fields) and field not in all_fields:
+        if isinstance(field, GenericRelation):
+            # skip reverse generic foreign key
             return True
 
-        if len(all_exclude) and field in all_exclude:
+        if len(all_fields) and field.name not in all_fields:
+            return True
+
+        if len(all_exclude) and field.name in all_exclude:
             return True
 
     @classmethod
@@ -299,7 +304,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
         # exclude gfk content type and object id fields
         for field in meta.model._meta.virtual_fields:
-            if cls.skip_field(meta, field.name):
+            if cls.skip_field(meta, field):
                 continue
 
             if isinstance(field, GenericForeignKey):
@@ -322,7 +327,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     def add_generic_fk_fields(cls, new_class, meta):
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
-            if cls.skip_field(meta, field.name):
+            if cls.skip_field(meta, field):
                 continue
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
@@ -335,7 +340,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             if not isinstance(field, RelatedObjectsDescriptor):
                 continue
 
-            if cls.skip_field(meta, field.name):
+            if cls.skip_field(meta, field):
                 continue
 
             new_class.base_fields[field.name] = \
