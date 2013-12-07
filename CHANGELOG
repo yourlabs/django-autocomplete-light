@@ -1,3 +1,10 @@
+2.0.0a3:
+
+    - Do not interfere with non-autocomplete-enabled form fields,
+    - Ported taggit support to Python3,
+    - Renamed TaggitTagField to TaggitField and integrated TaggitField into
+      autocomplete_light.ModelForm,
+
 2.0.0a2:
 
     - Make AutocompleteModelTemplate the default autocomplete base for models.
