@@ -16,8 +16,13 @@ Example usage::
 """
 import six
 
-from taggit.forms import TagField as TaggitTagField
-from taggit.utils import edit_string_for_tags
+try:
+    from taggit.forms import TagField as TaggitTagField
+    from taggit.utils import edit_string_for_tags
+except ImportError:
+    class TaggitTagField(object):
+        pass
+    edit_string_for_tags = None
 
 from ..fields import FieldBase
 from ..widgets import TextWidget
