@@ -214,14 +214,18 @@ class FormfieldCallback(object):
                 model_field.rel.to)
 
             if autocomplete is not None:
+                kwargs['autocomplete'] = autocomplete
+
                 if isinstance(model_field, (OneToOneField, ForeignKey)):
                     kwargs['form_class'] = ModelChoiceField
                 elif isinstance(model_field, ManyToManyField):
                     kwargs['form_class'] = ModelMultipleChoiceField
                 elif isinstance(model_field, TaggableManager):
                     kwargs['form_class'] = TaggitField
+                else:
+                    # none of our concern
+                    kwargs.pop('form_class')
 
-                kwargs['autocomplete'] = autocomplete
 
         return self.default(model_field, **kwargs)
 
