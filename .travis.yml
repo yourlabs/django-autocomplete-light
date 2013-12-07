@@ -24,6 +24,8 @@ script:
   - python setup.py test
   - pip install -e git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
   - python setup.py test
+  - pip install django-taggit
+  - python setup.py test
 notifications:
   irc: 
     channels: 
