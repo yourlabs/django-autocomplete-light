@@ -138,7 +138,7 @@ yourlabs.TextWidget.prototype.selectChoice = function(choice) {
 
 // Return the value of an HTML choice, used to fill the input.
 yourlabs.TextWidget.prototype.getValue = function(choice) {
-    return choice.html();
+    return $.trim(choice.html());
 }
 
 // Initialize the widget.
