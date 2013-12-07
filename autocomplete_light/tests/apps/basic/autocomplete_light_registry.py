@@ -20,3 +20,11 @@ class A(autocomplete_light.AutocompleteGenericBase):
     search_fields=['name'] * len(models)
 
 autocomplete_light.register(A)
+
+
+try:
+    from taggit.models import Tag
+except ImportError:
+    pass
+else:
+    autocomplete_light.register(Tag)

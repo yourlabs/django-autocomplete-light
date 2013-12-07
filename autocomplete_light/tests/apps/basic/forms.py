@@ -3,6 +3,11 @@ try:
 except ImportError:
     genericm2m = None
 
+try:
+    import taggit
+except ImportError:
+    taggit = None
+
 import autocomplete_light
 
 from .models import *
@@ -32,3 +37,9 @@ if genericm2m:
     class GmtmModelForm(autocomplete_light.ModelForm):
         class Meta:
             model = GmtmModel
+
+
+if taggit:
+    class TaggitModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = TaggitModel

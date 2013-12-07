@@ -8,6 +8,11 @@ try:
 except ImportError:
     RelatedObjectsDescriptor = None
 
+try:
+    from taggit.managers import TaggableManager
+except ImportError:
+    TaggableManager = None
+
 
 @python_2_unicode_compatible
 class FkModel(models.Model):
@@ -60,6 +65,17 @@ if RelatedObjectsDescriptor:
         relation = RelatedObjectsDescriptor()
 
         noise = models.ForeignKey('FkModel', null=True, blank=True)
+
+        def __str__(self):
+            return self.name
+
+
+if TaggableManager:
+    @python_2_unicode_compatible
+    class TaggitModel(models.Model):
+        name = models.CharField(max_length=200)
+        noise = models.ForeignKey('FkModel', null=True, blank=True)
+        relation = TaggableManager()
 
         def __str__(self):
             return self.name
