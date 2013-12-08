@@ -159,15 +159,13 @@ class AutocompleteBase(AutocompleteInterface):
         by :py:meth:`~.base.AutocompleteBase.choices_for_request`, and
         wrap that in :py:attr:`autocomplete_html_format`.
         """
-        html = []
-
-        for choice in self.choices_for_request():
-            html.append(self.choice_html(choice))
+        html = ''.join(
+            [self.choice_html(c) for c in self.choices_for_request()])
 
         if not html:
             html = self.empty_html_format % _('no matches found').capitalize()
 
-        return self.autocomplete_html_format % ''.join(html)
+        return self.autocomplete_html_format % html
 
     def choice_html(self, choice):
         """
