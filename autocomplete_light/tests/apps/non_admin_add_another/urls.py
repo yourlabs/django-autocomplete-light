@@ -3,8 +3,8 @@ from django.views import generic
 
 import autocomplete_light
 
-from forms import NonAdminAddAnotherModelForm
-from models import NonAdminAddAnotherModel
+from .forms import NonAdminAddAnotherModelForm
+from .models import NonAdminAddAnotherModel
 
 
 urlpatterns = patterns('',
