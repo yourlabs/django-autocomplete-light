@@ -1,4 +1,5 @@
 import unittest
+import six
 
 try:
     from unittest.mock import Mock, MagicMock, patch
@@ -125,7 +126,8 @@ class CreateViewTestCase(unittest.TestCase):
         expected = '''
         <script type="text/javascript">opener.dismissAddAnotherPopup( window, "5", "abc \\"yoo\\"" );</script>
         '''
-        self.assertEqual(expected.strip(), output.content.strip())
+        self.assertEqual(force_text(expected.strip()),
+                force_text(output.content.strip()))
         self.assertEqual(output.status_code, 201)
 
     def test_is_popup(self):
@@ -144,7 +146,12 @@ class CreateViewTestCase(unittest.TestCase):
     def test_form_valid(self):
         form = Mock()
 
-        with patch('__builtin__.super') as patcher:
+        if six.PY3:
+            to_patch = 'builtins.super'
+        else:
+            to_patch = '__builtin__.super'
+
+        with patch(to_patch) as patcher:
             patcher.is_local = True
 
             view = autocomplete_light.CreateView()
