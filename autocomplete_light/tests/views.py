@@ -10,13 +10,17 @@ from django.utils.encoding import force_text
 from django import forms
 from django import http
 from django.test import RequestFactory
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import Client
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:
+    # Django 1.4
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 
 import autocomplete_light
-
-User = get_user_model()
 
 
 class RegistryViewTestCase(unittest.TestCase):
