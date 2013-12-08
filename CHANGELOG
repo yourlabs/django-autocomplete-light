@@ -1,3 +1,9 @@
+2.0.0a4:
+
+    - Fix #204: Restore AutocompleteModelBase as default,
+    - Fix #205: Support Python3 in views,
+    - Fixed 404 response in AutocompleteView.
+
 2.0.0a3:
 
     - Do not interfere with non-autocomplete-enabled form fields,
