@@ -23,7 +23,7 @@ import six
 
 from django.db import models
 
-from .autocomplete import AutocompleteModelTemplate, AutocompleteInterface
+from .autocomplete import AutocompleteModelBase, AutocompleteInterface
 from .exceptions import AutocompleteNotRegistered, AutocompleteArgNotUnderstood
 
 __all__ = ('AutocompleteRegistry', 'registry', 'register', 'autodiscover')
@@ -38,9 +38,7 @@ class AutocompleteRegistry(dict):
 
         The default model autocomplete class to use when registering a Model
         without Autocomplete class. Default is
-        :py:class:`~.autocomplete.AutocompleteModelTemplate`. You could use
-        :py:class:`~.autocomplete.AutocompleteModelBase` instead for better
-        performance.
+        :py:class:`~.autocomplete.AutocompleteModelBase`
     """
 
     def __init__(self, autocomplete_model_base=None):
@@ -53,7 +51,7 @@ class AutocompleteRegistry(dict):
         self.autocomplete_model_base = autocomplete_model_base
 
         if self.autocomplete_model_base is None:
-            self.autocomplete_model_base = AutocompleteModelTemplate
+            self.autocomplete_model_base = AutocompleteModelBase
 
     def autocomplete_for_model(self, model):
         """
