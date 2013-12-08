@@ -5,6 +5,7 @@ try:
 except ImportError:  # python2
     from mock import Mock, MagicMock, patch
 
+from django.utils.encoding import force_text
 from django import forms
 from django import http
 from django.test import RequestFactory
@@ -60,9 +61,9 @@ class RegistryViewTestCase(unittest.TestCase):
 
         response = self.admin.get(reverse('autocomplete_light_registry'))
 
-        self.assertIn('List of your 1 registered autocompletes', response.content)
+        self.assertIn('List of your 1 registered autocompletes', force_text(response.content))
         self.assertIn(reverse('autocomplete_light_autocomplete',
-            args=['UserAutocomplete']), response.content)
+            args=['UserAutocomplete']), force_text(response.content))
 
 
 class AutocompleteViewTestCase(unittest.TestCase):
@@ -88,7 +89,7 @@ class AutocompleteViewTestCase(unittest.TestCase):
         autocomplete_light.registry.__getitem__.return_value.assert_called_with(request=request)
         autocomplete_light.registry.__getitem__.return_value.return_value.autocomplete_html.assert_called_with()
 
-        self.assertIn('foo', response.content)
+        self.assertIn('foo', force_text(response.content))
 
         autocomplete_light.registry = self.old_registry
 
