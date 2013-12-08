@@ -18,7 +18,7 @@ except ImportError:
 else:
     from .contrib.taggit_field import TaggitField, TaggitWidget
 
-from .views import CreateView
+from .views import CreateView, RegistryView, AutocompleteView
 from .exceptions import AutocompleteNotRegistered
 
 from .settings import *

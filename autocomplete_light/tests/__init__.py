@@ -9,6 +9,8 @@ from .fields import ChoiceFieldTestCase, MultipleChoiceFieldTestCase
 
 from .registry import RegistryTestCase
 from .templatetags import DataAttributesTestCase
+from .views import (RegistryViewTestCase, AutocompleteViewTestCase,
+        CreateViewTestCase)
 
 from .exceptions import AutocompleteNotRegisteredTestCase
 
