@@ -1,7 +1,7 @@
 import unittest
 
 try:
-    from unittest.mock import Mock, MagicMock
+    from unittest.mock import Mock, MagicMock, patch
 except ImportError:  # python2
     from mock import Mock, MagicMock, patch
 
