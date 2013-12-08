@@ -47,7 +47,7 @@ class AutocompleteView(generic.View):
         try:
             autocomplete_class = autocomplete_light.registry[
                 kwargs['autocomplete']]
-        except KeyError:
+        except autocomplete_light.AutocompleteNotRegistered:
             return http.HttpResponseNotFound()
         autocomplete = autocomplete_class(request=request)
         return http.HttpResponse(autocomplete.autocomplete_html())
