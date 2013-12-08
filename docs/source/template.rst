@@ -86,9 +86,10 @@ change form:
 .. code-block:: django
 
     {% load i18n %}
+    {% load thumbnail %}
 
     <span class="block person" data-value="{{ choice.pk }}">
-        <img src="{{ choice.profile_image.url }}" />
+        <img src="{% thumbnail choice.profile_image.url 50x50 crop %}" />
 
         <a href="{{ choice.get_absolute_url }}">
             {{ choice.first_name }} {{ choice.last_name }}
@@ -117,8 +118,6 @@ critical** because it is what tells ``autocomplete.js`` that this element is a
 choice, and it also tells ``widget.js`` that the value is ``{{ choice.pk }}``
 (which will be rendered before ``widget.js`` gets its hands on it of course).
 
-
-
 Styling autocomplete boxes
 --------------------------
 
@@ -131,6 +130,58 @@ are many ways to customize it:
 - overriding :py:meth:`AutocompleteBase.autocomplete_html() <autocomplete_light.autocomplete.base.AutocompleteBase.autocomplete_html()>`,
 - or even with a template specified in :py:attr:`AutocompleteTemplate.autocomplete_template <autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template>` 
   if using :py:class:`AutocompleteTemplate <autocomplete_light.autocomplete.template.AutocompleteTemplate>` for rendering logic.
+
+Overriding :py:attr:`AutocompleteBase.autocomplete_html_format <autocomplete_light.registry.AutocompleteBase.autocomplete_html_format>`
+```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+
+The easiest and most limited way to change how a autocomplete is rendered is
+to override the :py:attr:`AutocompleteBase.autocomplete_html_format
+<autocomplete_light.registry.AutocompleteBase.autocomplete_html_format>`
+attribute.
+
+For example:
+
+.. code-block:: python
+
+    class OsAutocomplete(autocomplete_light.AutocompleteListBase):
+        autocompletes = ['Linux', 'BSD', 'Minix']
+        autocomplete_html_format = u'<span class="autocomplete-os">%s</span>'
+
+This will add the ``autocomplete-os`` class to the autocomplete box.
+
+Overriding :py:attr:`AutocompleteBase.autocomplete_html <autocomplete_light.registry.AutocompleteBase.autocomplete_html>`
+`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+
+Overriding :py:meth:`AutocompleteBase.autocomplete_html()
+<autocomplete_light.autocomplete.base.AutocompleteBase.autocomplete_html()>`
+enables changing the way autocompletes are rendered.
+
+For example:
+
+.. code-block:: python
+
+    class PersonAutocomplete(autocomplete_light.AutocompleteModelBase):
+        autocomplete_html_format = u'''
+            <span class="autocomplete-os">
+                <span class="count">%s Persons matching your query</span>
+                %s
+            </span>
+        '''
+        
+        def autocomplete_html(self):
+            html = ''.join(
+                [self.choice_html(c) for c in self.choices_for_request()])
+
+            if not html:
+                html = self.empty_html_format % _('no matches found').capitalize()
+            
+            count = len(self.choices_for_request())
+            return self.autocomplete_html_format % (count, html)
+
+This will add a choice counter at the top of the autocomplete.
+
+Overriding :py:attr:`AutocompleteTemplate.autocomplete_template <autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template>`
+``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 Styling widgets
 ---------------
