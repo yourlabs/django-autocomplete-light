@@ -15,6 +15,26 @@ from selenium.webdriver.support import ui
 from selenium.common.exceptions import NoSuchElementException
 
 
+# Patch for travis
+from django.test.testcases import StoppableWSGIServer
+
+
+def patient_shutdown(self):
+    """
+    Stops the serve_forever loop.
+
+    Blocks until the loop has finished. This must be called while
+    serve_forever() is running in another thread, or it will
+    deadlock.
+    """
+    self._StoppableWSGIServer__serving = False
+    if not self._StoppableWSGIServer__is_shut_down.wait(30 if os.environ.get('TRAVIS', False) else 2):
+        raise RuntimeError(
+            "Failed to shutdown the live test server in 2 seconds. The "
+            "server might be stuck or generating a slow response.")
+StoppableWSGIServer.shutdown = patient_shutdown
+
+
 class WidgetTestCase(LiveServerTestCase):
     fixtures = ['basic_fk_model_test_case.json', 'initial_data.json']
 
