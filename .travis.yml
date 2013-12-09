@@ -10,7 +10,7 @@ env:
   - DJANGO=django==1.4.10
   - DJANGO=django==1.5.5
   - DJANGO=django==1.6
-  - DJANGO=-e git+https://github.com/django/django.git#egg=django
+  - DJANGO="-e git+https://github.com/django/django.git#egg=django"
 install:
   - pip install $DJANGO
   - pip install pep8 --use-mirrors
