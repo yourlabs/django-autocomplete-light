@@ -68,20 +68,38 @@ class WidgetTestCase(LiveServerTestCase):
 
     @property
     def autocomplete(self):
-        return self.selenium.find_element_by_css_selector(
-                '.autocomplete-light-widget.%s .yourlabs-autocomplete' % self.autocomplete_name)
+        xpath = ''.join([
+            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            'following-sibling::',
+            'span[contains(',
+                'concat(" ", normalize-space(@class), " "), ',
+                '" yourlabs-autocomplete ")',
+            ']'])
+        return self.selenium.find_element_by_xpath(xpath)
 
     @property
     def deck_choices(self):
-        return self.selenium.find_elements_by_css_selector(
-                '.autocomplete-light-widget.%s .deck [data-value]' %
-                self.autocomplete_name)
+        xpath = ''.join([
+            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            'preceding-sibling::',
+            'span[contains(',
+                'concat(" ", normalize-space(@class), " "), ',
+                '" deck ")',
+            ']/*[@data-value]'])
+
+        return self.selenium.find_elements_by_xpath(xpath)
 
     @property
     def autocomplete_choices(self):
-        return self.selenium.find_elements_by_css_selector(
-                '.autocomplete-light-widget.%s .yourlabs-autocomplete [data-value]' %
-                self.autocomplete_name)
+        xpath = ''.join([
+            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            'following-sibling::',
+            'span[contains(',
+                'concat(" ", normalize-space(@class), " "), ',
+                '" yourlabs-autocomplete ")',
+            ']/*[@data-value]'])
+
+        return self.selenium.find_elements_by_xpath(xpath)
 
     @property
     def hilighted_choice(self):
@@ -92,14 +110,16 @@ class WidgetTestCase(LiveServerTestCase):
     @property
     def input(self):
         return self.selenium.find_element_by_css_selector(
-                '.autocomplete-light-widget.%s input' %
-                self.autocomplete_name)
+                'input[name=%s-autocomplete]' % self.autocomplete_name)
 
     @property
     def select(self):
-        return Select(self.selenium.find_element_by_css_selector(
-                '.autocomplete-light-widget.%s select' %
-                self.autocomplete_name))
+        xpath = ''.join([
+            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            'following-sibling::',
+            'select'])
+
+        return self.selenium.find_element_by_xpath(xpath)
 
     def set_implicit_wait(self):
         self.selenium.implicitly_wait(300 if os.environ.get('TRAVIS', False) else 5)
@@ -114,7 +134,8 @@ class WidgetTestCase(LiveServerTestCase):
         # don't wait for options as there might be none
         self.unset_implicit_wait()
 
-        ret = [o.get_attribute('value') for o in self.select.options if o.is_selected()]
+        ret = [o.get_attribute('value') for o in Select(self.select).options if
+                o.is_selected()]
 
         # restore implicit wait
         self.set_implicit_wait()
@@ -132,8 +153,8 @@ class WidgetTestCase(LiveServerTestCase):
     def test_fk_model_add_relation(self):
         self.login()
         self.open_url('/admin/basic/fkmodel/add/')
-
         self.autocomplete_name = 'relation'
+
         self.send_keys('Selenium', 'input[name=name]')
         self.send_keys('ja')
 
@@ -154,6 +175,11 @@ class WidgetTestCase(LiveServerTestCase):
         self.assertTrue(self.input.is_displayed())
         self.assertEqual(self.select_values, [])
 
+    def test_keyboard(self):
+        self.login()
+        self.autocomplete_name = 'relation'
+        self.open_url('/admin/basic/fkmodel/add/')
+
         def keyboard_test(keys, n):
             self.send_keys(keys)
             self.assertSameChoice(self.hilighted_choice, self.autocomplete_choices[n])
@@ -168,4 +194,26 @@ class WidgetTestCase(LiveServerTestCase):
         self.assertSameChoice(self.autocomplete_choices[1], self.deck_choices[0])
         self.assertEqual(self.select_values, ['6'])
 
-        return
+    def test_inline(self):
+        self.login()
+        self.open_url('/admin/basic/fkmodel/add/')
+        self.autocomplete_name = 'fkmodel_set-3-noise'
+
+        self.unset_implicit_wait()
+        try:
+            self.autocomplete
+        except NoSuchElementException:
+            pass
+        else:
+            self.fail('The inline was already created')
+        self.set_implicit_wait()
+
+        self.selenium.find_element_by_css_selector('.add-row a').click()
+        self.send_keys('ja')
+        self.assertTrue(self.autocomplete.is_displayed())
+        self.autocomplete_choices[1].click()
+        self.assertFalse(self.autocomplete.is_displayed())
+        self.assertFalse(self.input.is_displayed())
+        self.assertEqual(len(self.deck_choices), 1)
+        self.assertSameChoice(self.autocomplete_choices[1], self.deck_choices[0])
+        self.assertEqual(self.select_values, ['4'])
