@@ -6,6 +6,7 @@ import time
 
 import six
 
+from django import VERSION
 from django.test import LiveServerTestCase
 
 from selenium.webdriver.support.ui import Select
@@ -14,25 +15,25 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support import ui
 from selenium.common.exceptions import NoSuchElementException
 
+if VERSION[0] == 1 and VERSION[1] < 7:
+    # Patch for travis
+    from django.test.testcases import StoppableWSGIServer
 
-# Patch for travis
-from django.test.testcases import StoppableWSGIServer
 
+    def patient_shutdown(self):
+        """
+        Stops the serve_forever loop.
 
-def patient_shutdown(self):
-    """
-    Stops the serve_forever loop.
-
-    Blocks until the loop has finished. This must be called while
-    serve_forever() is running in another thread, or it will
-    deadlock.
-    """
-    self._StoppableWSGIServer__serving = False
-    if not self._StoppableWSGIServer__is_shut_down.wait(30 if os.environ.get('TRAVIS', False) else 2):
-        raise RuntimeError(
-            "Failed to shutdown the live test server in 2 seconds. The "
-            "server might be stuck or generating a slow response.")
-StoppableWSGIServer.shutdown = patient_shutdown
+        Blocks until the loop has finished. This must be called while
+        serve_forever() is running in another thread, or it will
+        deadlock.
+        """
+        self._StoppableWSGIServer__serving = False
+        if not self._StoppableWSGIServer__is_shut_down.wait(30 if os.environ.get('TRAVIS', False) else 2):
+            raise RuntimeError(
+                "Failed to shutdown the live test server in 2 seconds. The "
+                "server might be stuck or generating a slow response.")
+    StoppableWSGIServer.shutdown = patient_shutdown
 
 
 class WidgetTestCase(LiveServerTestCase):
