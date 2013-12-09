@@ -14,7 +14,7 @@ from .views import (RegistryViewTestCase, AutocompleteViewTestCase,
 
 from .exceptions import AutocompleteNotRegisteredTestCase
 
-#from .widget import WidgetTestCase
+from .widget import WidgetTestCase
 
 from .autocomplete.generic import AutocompleteGenericTestCase
 from .autocomplete.choice_list import AutocompleteChoiceListTestCase
