@@ -1,0 +1,75 @@
+[
+{
+    "fields": {
+        "name": "rockers"
+    },
+    "model": "autocomplete_test_case_app.group",
+    "pk": 1
+},
+{
+    "fields": {
+        "name": "bluesmen"
+    },
+    "model": "autocomplete_test_case_app.group",
+    "pk": 2
+},
+{
+    "fields": {
+        "name": "jazzmen"
+    },
+    "model": "autocomplete_test_case_app.group",
+    "pk": 3
+},
+{
+    "fields": {
+        "name": "emos"
+    },
+    "model": "autocomplete_test_case_app.group",
+    "pk": 10
+},
+{
+    "fields": {
+        "username": "Abe",
+        "groups": [],
+        "email": "sales@example.com"
+    },
+    "model": "autocomplete_test_case_app.user",
+    "pk": 1
+},
+{
+    "fields": {
+        "username": "Jack",
+        "groups": [],
+        "email": "jack@example.com"
+    },
+    "model": "autocomplete_test_case_app.user",
+    "pk": 2
+},
+{
+    "fields": {
+        "username": "James",
+        "groups": [],
+        "email": "sales@example.com"
+    },
+    "model": "autocomplete_test_case_app.user",
+    "pk": 3
+},
+{
+    "fields": {
+        "username": "John",
+        "groups": [],
+        "email": "sales@example.com"
+    },
+    "model": "autocomplete_test_case_app.user",
+    "pk": 4
+},
+{
+    "fields": {
+        "username": "Elton",
+        "groups": [],
+        "email": "elton@example.com"
+    },
+    "model": "autocomplete_test_case_app.user",
+    "pk": 10
+}
+]

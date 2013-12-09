@@ -27,18 +27,6 @@ class MultipleFormMock(forms.Form):
 class AutocompleteModelTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteModelMock
 
-    def setUp(self):
-        User.objects.all().delete()
-        self.abe = User(username='Abe', email='sales@example.com')
-        self.jack = User(username='Jack', email='jack@example.com')
-        self.james = User(username='James', email='sales@example.com')
-        self.john = User(username='John', email='sales@example.com')
-
-        self.abe.save()
-        self.jack.save()
-        self.james.save()
-        self.john.save()
-
     def assert_choices_equal(self, result, test):
         self.assertEqual(list(result), test['expected'])
 

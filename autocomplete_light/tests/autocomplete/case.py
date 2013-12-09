@@ -2,6 +2,7 @@ import unittest
 
 from django import http
 from django import forms
+from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 
 from ..apps.autocomplete_test_case_app.models import User, Group
@@ -15,35 +16,24 @@ def make_get_request(query=''):
     return request
 
 
-class AutocompleteTestCase(unittest.TestCase):
+class AutocompleteTestCase(TestCase):
     autocomplete_mock = None
+    fixtures = ['autocomplete_model_test_case']
 
-    def setUpAuth(self):
+    def setUp(self):
         self.user_ctype = ContentType.objects.get_for_model(User)
         self.group_ctype = ContentType.objects.get_for_model(Group)
 
-        User.objects.all().delete()
-        self.abe = User(username='Abe', email='sales@example.com')
-        self.jack = User(username='Jack', email='jack@example.com')
-        self.james = User(username='James', email='sales@example.com')
-        self.john = User(username='John', email='sales@example.com')
-        self.elton = User(username='Elton', email='elton@example.com', pk=10)
+        self.rockers = Group.objects.get(name='rockers')
+        self.bluesmen = Group.objects.get(name='bluesmen')
+        self.jazzmen = Group.objects.get(name='jazzmen')
+        self.emos = Group.objects.get(name='emos')
 
-        self.abe.save()
-        self.jack.save()
-        self.james.save()
-        self.john.save()
-
-        Group.objects.all().delete()
-        self.rockers = Group(name='rockers')
-        self.bluesmen = Group(name='bluesmen')
-        self.jazzmen = Group(name='jazzmen')
-        self.emos = Group(name='emos', pk=10)
-
-        self.rockers.save()
-        self.bluesmen.save()
-        self.jazzmen.save()
-        self.emos.save()
+        self.abe = User.objects.get(username='Abe')
+        self.jack = User.objects.get(username='Jack')
+        self.james = User.objects.get(username='James')
+        self.john = User.objects.get(username='John')
+        self.elton = User.objects.get(username='Elton')
 
     def assert_choices_equal(self, result, test):
         self.assertEqual(result, test['expected'],

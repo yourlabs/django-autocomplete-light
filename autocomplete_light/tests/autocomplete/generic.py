@@ -27,9 +27,6 @@ class FormMock(forms.Form):
 class AutocompleteGenericTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteGenericMock
 
-    def setUp(self):
-        self.setUpAuth()
-
     def assert_choices_equal(self, result, test):
         self.assertEqual(list(result), test['expected'])
 
