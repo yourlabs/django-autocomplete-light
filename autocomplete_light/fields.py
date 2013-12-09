@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import six
 
 from django import forms
@@ -121,7 +122,7 @@ class GenericModelChoiceField(FieldBase, forms.Field):
         try:
             content_type = ContentType.objects.get_for_id(content_type_id)
         except ContentType.DoesNotExist:
-            raise forms.ValidationError(u'Wrong content type')
+            raise forms.ValidationError('Wrong content type')
         else:
             model = content_type.model_class()
 
