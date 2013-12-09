@@ -125,7 +125,10 @@ class GenericModelChoiceField(FieldBase, forms.Field):
         else:
             model = content_type.model_class()
 
-        return model.objects.get(pk=object_id)
+        try:
+            return model.objects.get(pk=object_id)
+        except model.DoesNotExist:
+            raise forms.ValidationError('Wrong object id')
 
 
 class GenericModelMultipleChoiceField(GenericModelChoiceField):
