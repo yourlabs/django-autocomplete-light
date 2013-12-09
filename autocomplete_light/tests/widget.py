@@ -34,6 +34,9 @@ if VERSION[0] == 1 and VERSION[1] < 7:
                 "Failed to shutdown the live test server in 2 seconds. The "
                 "server might be stuck or generating a slow response.")
     StoppableWSGIServer.shutdown = patient_shutdown
+else:
+    # LiveServerTestCase doesn't serve static files in 1.7 anymore
+    from django.contrib.staticfiles.testing import StaticLiveServerCase as LiveServerTestCase
 
 
 class WidgetTestCase(LiveServerTestCase):
