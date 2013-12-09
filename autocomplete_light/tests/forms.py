@@ -1,5 +1,6 @@
 import unittest
 
+from django import VERSION
 from django import http
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory
@@ -63,6 +64,17 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         form_class = modelform_factory(self.model_class,
                 form=self.model_form_class)
         self.form = form_class()
+
+        self.assertExpectedFormField()
+        self.assertIsAutocomplete('noise')
+
+    @unittest.skipUnless(VERSION[0] >= 1 and VERSION[1] >= 6, 'Django >= 1.6')
+    def test_appropriate_field_on_modelform_with_all(self):
+        class ModelForm(autocomplete_light.ModelForm):
+            class Meta:
+                model = self.model_class
+                fields = '__all__'
+        self.form = ModelForm()
 
         self.assertExpectedFormField()
         self.assertIsAutocomplete('noise')
