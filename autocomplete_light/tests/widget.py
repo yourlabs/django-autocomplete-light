@@ -69,7 +69,7 @@ class WidgetTestCase(LiveServerTestCase):
     @property
     def autocomplete(self):
         xpath = ''.join([
-            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -80,7 +80,7 @@ class WidgetTestCase(LiveServerTestCase):
     @property
     def deck_choices(self):
         xpath = ''.join([
-            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
             'preceding-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -92,7 +92,7 @@ class WidgetTestCase(LiveServerTestCase):
     @property
     def autocomplete_choices(self):
         xpath = ''.join([
-            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -115,7 +115,7 @@ class WidgetTestCase(LiveServerTestCase):
     @property
     def select(self):
         xpath = ''.join([
-            '//*[@id="id_%s_text"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
             'following-sibling::',
             'select'])
 
