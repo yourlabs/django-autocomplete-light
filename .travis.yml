@@ -2,16 +2,17 @@ language: python
 matrix:
   exclude:
     - python: "3.3"
-      env: DJANGO=1.4.10
+      env: DJANGO=django==1.4.10
 python:
   - "2.7"
   - "3.3"
 env:
-  - DJANGO=1.4.10
-  - DJANGO=1.5.5
-  - DJANGO=1.6
+  - DJANGO=django==1.4.10
+  - DJANGO=django==1.5.5
+  - DJANGO=django==1.6
+  - DJANGO=-e git+https://github.com/django/django.git#egg=django
 install:
-  - pip install Django==$DJANGO --use-mirrors
+  - pip install $DJANGO --use-mirrors
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
   - pip install -r test_project/requirements.txt
