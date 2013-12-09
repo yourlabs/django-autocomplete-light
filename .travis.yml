@@ -12,7 +12,7 @@ env:
   - DJANGO=django==1.6
   - DJANGO=-e git+https://github.com/django/django.git#egg=django
 install:
-  - pip install $DJANGO --use-mirrors
+  - pip install $DJANGO
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
   - pip install -r test_project/requirements.txt
