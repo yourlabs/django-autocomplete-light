@@ -1,3 +1,8 @@
+2.0.0a5:
+
+    - Support for Django 1.6's ModelForm.Meta.fields = '__all__', generic fk
+      and generic m2m autocomplete fields were not created.
+
 2.0.0a4:
 
     - Fix #204: Restore AutocompleteModelBase as default,
