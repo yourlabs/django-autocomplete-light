@@ -8,6 +8,12 @@ autocomplete_light.autodiscover()
 from django.contrib import admin
 admin.autodiscover()
 
+try:
+    from hvad_autocomplete import urls as hvad
+except ImportError:
+    # django 1.6 not support by hvad
+    hvad = None
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'test_project.views.home', name='home'),
@@ -36,6 +42,12 @@ urlpatterns = patterns('',
         template_name='just_javascript.html')),
     (r'^$', generic.TemplateView.as_view(template_name='index.html'))
 )
+
+if hvad:
+    urlpatterns += patterns('',
+        url(r'^hvad_autocomplete/', include('hvad_autocomplete.urls',
+                                    namespace='hvad_autocomplete')),
+    )
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns += staticfiles_urlpatterns()
