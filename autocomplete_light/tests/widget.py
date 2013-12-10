@@ -38,6 +38,7 @@ WAIT_TIME = 300 if os.environ.get('TRAVIS', False) else 5
 
 
 class WidgetTestCase(LiveServerTestCase):
+    autocomplete_name = 'relation'
     fixtures = ['basic_fk_model_test_case.json', 'initial_data.json']
     test_case_setup_done = False
 
@@ -204,30 +205,12 @@ class WidgetTestCase(LiveServerTestCase):
             self.fail('Choices have different text')
 
 
-class FkRelationTestCase(WidgetTestCase):
-    autocomplete_name = 'relation'
-    prepare_send_keys = 'ja'
-
+class ActivateAutocompleteInBlankFormTestCase(WidgetTestCase):
     def setup_test_case(self):
         self.login()
-        self.open_url(self.url)
+        self.open_url('/admin/basic/fkmodel/add/')
+        self.send_keys('ja')
 
-
-class FkRelationEditTestCase(FkRelationTestCase):
-    url = '/admin/basic/fkmodel/1/'
-
-
-class FkRelationCreateTestCase(FkRelationTestCase):
-    url = '/admin/basic/fkmodel/add/'
-
-    def setup_test_case(self, prepare_autocomplete=True):
-        super(FkRelationCreateTestCase, self).setup_test_case()
-
-        if prepare_autocomplete:
-            self.send_keys(self.prepare_send_keys)
-
-
-class ActivateAutocompleteInBlankFormTestCase(FkRelationCreateTestCase):
     def test_autocomplete_shows_up(self):
         self.assertTrue(self.autocomplete.is_displayed())
 
@@ -235,13 +218,12 @@ class ActivateAutocompleteInBlankFormTestCase(FkRelationCreateTestCase):
         self.assertEqual(4, len(self.autocomplete_choices))
 
 
-class SelectChoiceInEmptyFormTestCase(FkRelationCreateTestCase):
-    def setup_test_case(self, prepare_autocomplete=True):
-        super(SelectChoiceInEmptyFormTestCase,
-                self).setup_test_case(prepare_autocomplete)
-
-        if prepare_autocomplete:
-            self.autocomplete_choices[1].click()
+class SelectChoiceInEmptyFormTestCase(WidgetTestCase):
+    def setup_test_case(self):
+        self.login()
+        self.open_url('/admin/basic/fkmodel/add/')
+        self.send_keys('ja')
+        self.autocomplete_choices[1].click()
 
     def test_autocomplete_disappears(self):
         self.assertFalse(self.autocomplete.is_displayed())
@@ -259,7 +241,11 @@ class SelectChoiceInEmptyFormTestCase(FkRelationCreateTestCase):
         self.assertEqual(self.select_values, ['4'])
 
 
-class WidgetInitialStatusInEditForm(FkRelationEditTestCase):
+class WidgetInitialStatusInEditForm(WidgetTestCase):
+    def setup_test_case(self):
+        self.login()
+        self.open_url('/admin/basic/fkmodel/1/')
+
     def test_hidden_select_values(self):
         self.assertEqual(self.select_values, ['4'])
 
@@ -267,12 +253,11 @@ class WidgetInitialStatusInEditForm(FkRelationEditTestCase):
         self.assertFalse(self.input.is_displayed())
 
 
-class RemoveChoiceInEditFormTestCase(FkRelationEditTestCase):
-    def setup_test_case(self, prepare_autocomplete=True):
-        super(RemoveChoiceInEditFormTestCase, self).setup_test_case()
-
-        if prepare_autocomplete:
-            self.deck_choices[0].find_element_by_css_selector('.remove').click()
+class RemoveChoiceInEditFormTestCase(WidgetTestCase):
+    def setup_test_case(self):
+        self.login()
+        self.open_url('/admin/basic/fkmodel/1/')
+        self.deck_choices[0].find_element_by_css_selector('.remove').click()
 
     def test_input_shows_up(self):
         self.assertTrue(self.input.is_displayed())
@@ -288,8 +273,11 @@ class RemoveChoiceInEditFormTestCase(FkRelationEditTestCase):
         self.set_implicit_wait()
 
 
-class KeyboardTestCase(FkRelationCreateTestCase):
-    prepare_send_keys = 'jac'
+class KeyboardTestCase(WidgetTestCase):
+    def setup_test_case(self):
+        self.login()
+        self.open_url('/admin/basic/fkmodel/add/')
+        self.send_keys('jac')
 
     def assertHilightedChoiceNmber(self, n):
         self.assertSameChoice(self.hilighted_choice, self.autocomplete_choices[n])
@@ -325,8 +313,8 @@ class InlineBlankTestCase(ActivateAutocompleteInBlankFormTestCase):
     autocomplete_name = 'fkmodel_set-3-noise'
 
     def setup_test_case(self):
-        super(InlineBlankTestCase, self).setup_test_case(False)
-
+        self.login()
+        self.open_url('/admin/basic/fkmodel/add/')
         self.selenium.find_element_by_css_selector('.add-row a').click()
         self.send_keys('ja')
 
@@ -335,8 +323,8 @@ class InlineSelectChoiceTestCase(SelectChoiceInEmptyFormTestCase):
     autocomplete_name = 'fkmodel_set-3-noise'
 
     def setup_test_case(self):
-        super(InlineSelectChoiceTestCase, self).setup_test_case(False)
-
+        self.login()
+        self.open_url('/admin/basic/fkmodel/add/')
         self.selenium.find_element_by_css_selector('.add-row a').click()
         self.send_keys('ja')
         self.autocomplete_choices[1].click()
