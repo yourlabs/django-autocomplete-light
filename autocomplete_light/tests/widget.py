@@ -74,12 +74,13 @@ class WidgetTestCase(LiveServerTestCase):
     def open_url(self, url):
         self.selenium.get('%s%s' % (self.live_server_url, url))
 
-    def send_keys(self, keys, selector=None):
-        if selector is None and self.autocomplete_name:
-            selector = 'input[name=%s-autocomplete]' % self.autocomplete_name
+    def send_keys(self, keys, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
 
         for key in keys:
-            self.selenium.find_element_by_css_selector(selector).send_keys(key)
+            self.selenium.find_element_by_css_selector(
+                'input[name=%s-autocomplete]' % autocomplete_name
+                ).send_keys(key)
 
     def submit(self, name=None):
         selector = 'input[type=submit]'
@@ -91,17 +92,21 @@ class WidgetTestCase(LiveServerTestCase):
 
     def login(self):
         self.open_url('/admin/')
-        self.send_keys('test', 'input[name=username]')
-        self.send_keys('test', 'input[name=password]')
+        self.selenium.find_element_by_css_selector('input[name=username]').send_keys('test')
+        self.selenium.find_element_by_css_selector('input[name=password]').send_keys('test')
         self.submit()
 
-    def deck_choice_elements(self):
-        return self.selenium.find_elements_by_css_selector(
-            '#id_%s-deck [data-value]' % self.autocomplete_name)
+    def deck_choice_elements(self, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
 
-    def autocomplete(self):
+        return self.selenium.find_elements_by_css_selector(
+            '#id_%s-deck [data-value]' % autocomplete_name)
+
+    def autocomplete(self, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
+
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -109,9 +114,11 @@ class WidgetTestCase(LiveServerTestCase):
             ']'])
         return self.selenium.find_element_by_xpath(xpath)
 
-    def deck_choices(self):
+    def deck_choices(self, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
+
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
             'preceding-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -120,9 +127,11 @@ class WidgetTestCase(LiveServerTestCase):
 
         return self.selenium.find_elements_by_xpath(xpath)
 
-    def hilighted_choice(self):
+    def hilighted_choice(self, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
+
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -135,9 +144,11 @@ class WidgetTestCase(LiveServerTestCase):
 
         return self.selenium.find_element_by_xpath(xpath)
 
-    def autocomplete_choices(self):
+    def autocomplete_choices(self, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
+
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -146,13 +157,17 @@ class WidgetTestCase(LiveServerTestCase):
 
         return self.selenium.find_elements_by_xpath(xpath)
 
-    def input(self):
-        return self.selenium.find_element_by_css_selector(
-                'input[name=%s-autocomplete]' % self.autocomplete_name)
+    def input(self, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
 
-    def select(self):
+        return self.selenium.find_element_by_css_selector(
+                'input[name=%s-autocomplete]' % autocomplete_name)
+
+    def select(self, autocomplete_name=None):
+        autocomplete_name = autocomplete_name or self.autocomplete_name
+
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % self.autocomplete_name,
+            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
             'following-sibling::',
             'select'])
 
@@ -185,6 +200,11 @@ class WidgetTestCase(LiveServerTestCase):
         if autocomplete_choice.text not in deck_choice.text:
             # deck_choice has an additional span.remove
             self.fail('Choices have different text')
+
+    def assertAutocompleteEmpty(self):
+        self.unset_implicit_wait()
+        self.assertTrue(len(self.autocomplete_choices()) == 0)
+        self.set_implicit_wait()
 
 
 class ActivateAutocompleteInBlankFormTestCase(WidgetTestCase):

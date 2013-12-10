@@ -8,25 +8,37 @@ class DependentAutocompleteTestCase(WidgetTestCase):
 
 
 class DependentAutocompleteEmptyFormTestCase(DependentAutocompleteTestCase):
+    autocomplete_name = 'region'
+
     def setup_test_case(self):
-        self.login()
-        self.open_url('/admin/dependant_autocomplete/dummy/add/')
-        self.autocomplete_name = 'country'
-        self.send_keys('fra')
-        self.hilighted_choice().click()
+        pass
+
+    def select_usa(self):
+        self.send_keys('united states', 'country')
+        self.hilighted_choice('country').click()
+
+    def select_france(self):
+        self.send_keys('fra', 'country')
+        self.hilighted_choice('country').click()
 
     def setUp(self):
         super(DependentAutocompleteEmptyFormTestCase, self).setUp()
 
-        self.autocomplete_name = 'region'
+        self.login()
+        self.open_url('/admin/dependant_autocomplete/dummy/add/')
+        self.select_france()
         self.input().clear()
 
     def test_texas_not_in_france(self):
         self.send_keys('tex')
-        self.unset_implicit_wait()
-        self.assertTrue(len(self.autocomplete_choices()) == 0)
-        self.set_implicit_wait()
+        self.assertAutocompleteEmpty()
 
     def test_alpes_in_france(self):
         self.send_keys('alp')
         self.assertTrue(len(self.autocomplete_choices()) == 2)
+
+    def test_change_to_different_country_after_region_select(self):
+        pass
+
+    def test_change_to_same_country_after_region_select(self):
+        pass
