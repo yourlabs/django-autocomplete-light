@@ -11,8 +11,14 @@ env:
   - DJANGO=django==1.5.5
   - DJANGO=django==1.6
   - DJANGO="-e git+https://github.com/django/django.git#egg=django"
+  - TAGGIT=
+  - TAGGIT=1
+  - GENERICM=
+  - GENERICM=1
 install:
   - pip install $DJANGO
+  - [[ -n $TAGGIT ]] && pip install django-taggit
+  - [[ -n $GENERICM ]] && pip install -e git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
   - pip install -r test_project/requirements.txt
@@ -24,10 +30,6 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 script:
-  - python setup.py test
-  - pip install -e git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
-  - python setup.py test
-  - pip install django-taggit
   - python setup.py test
 notifications:
   irc: 
