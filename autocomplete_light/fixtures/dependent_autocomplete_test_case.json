@@ -1,0 +1,340 @@
+[
+{
+    "pk": 75, 
+    "model": "cities_light.country", 
+    "fields": {
+        "code2": "FR", 
+        "code3": "FRA", 
+        "name": "France", 
+        "tld": "fr", 
+        "alternate_names": "Frankreich,Fran\u00e7a,Francja", 
+        "continent": "EU", 
+        "geoname_id": 3017382, 
+        "name_ascii": "France", 
+        "slug": "france"
+    }
+},
+{
+    "pk": 234, 
+    "model": "cities_light.country", 
+    "fields": {
+        "code2": "US", 
+        "code3": "USA", 
+        "name": "United States", 
+        "tld": "us", 
+        "alternate_names": "Vereinigte Staaten,America,United States of America,Estados Unidos,Stany Zjednoczone,U.S.,USA,U.S.A.", 
+        "continent": "NA", 
+        "geoname_id": 6252001, 
+        "name_ascii": "United States", 
+        "slug": "united-states"
+    }
+},
+{
+    "pk": 958, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Rh\u00f4ne-Alpes, France", 
+        "name": "Rh\u00f4ne-Alpes", 
+        "country": 75, 
+        "alternate_names": "R\u00f3dano-Alpes,Rodan-Alpy", 
+        "geoname_id": 2983751, 
+        "geoname_code": "B9", 
+        "name_ascii": "Rhone-Alpes", 
+        "slug": "rhone-alpes"
+    }
+},
+{
+    "pk": 959, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Provence-Alpes-C\u00f4te d'Azur, France", 
+        "name": "Provence-Alpes-C\u00f4te d'Azur", 
+        "country": 75, 
+        "alternate_names": "Provence-Alpes-C\u00f4te d\u2019Azur,Prowansja-Alpy-Lazurowe Wybrze\u017ce,Provenza-Alpes-Costa Azul,Proven\u00e7a-Alpes-Costa Azul", 
+        "geoname_id": 2985244, 
+        "geoname_code": "B8", 
+        "name_ascii": "Provence-Alpes-Cote d'Azur", 
+        "slug": "provence-alpes-cote-dazur"
+    }
+},
+{
+    "pk": 960, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Poitou-Charentes, France", 
+        "name": "Poitou-Charentes", 
+        "country": 75, 
+        "alternate_names": "", 
+        "geoname_id": 2986492, 
+        "geoname_code": "B7", 
+        "name_ascii": "Poitou-Charentes", 
+        "slug": "poitou-charentes"
+    }
+},
+{
+    "pk": 961, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Picardie, France", 
+        "name": "Picardie", 
+        "country": 75, 
+        "alternate_names": "Pikardia,Picard\u00eda,Picardia", 
+        "geoname_id": 2987375, 
+        "geoname_code": "B6", 
+        "name_ascii": "Picardie", 
+        "slug": "picardie"
+    }
+},
+{
+    "pk": 3592, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Arkansas, United States", 
+        "name": "Arkansas", 
+        "country": 234, 
+        "alternate_names": "State of Arkansas,AR", 
+        "geoname_id": 4099753, 
+        "geoname_code": "AR", 
+        "name_ascii": "Arkansas", 
+        "slug": "arkansas"
+    }
+},
+{
+    "pk": 3593, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Washington, D.C., United States", 
+        "name": "Washington, D.C.", 
+        "country": 234, 
+        "alternate_names": "DC", 
+        "geoname_id": 4138106, 
+        "geoname_code": "DC", 
+        "name_ascii": "Washington, D.C.", 
+        "slug": "washington-dc"
+    }
+},
+{
+    "pk": 3594, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Delaware, United States", 
+        "name": "Delaware", 
+        "country": 234, 
+        "alternate_names": "State of Delaware,DE", 
+        "geoname_id": 4142224, 
+        "geoname_code": "DE", 
+        "name_ascii": "Delaware", 
+        "slug": "delaware"
+    }
+},
+{
+    "pk": 3595, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Florida, United States", 
+        "name": "Florida", 
+        "country": 234, 
+        "alternate_names": "State of Florida,FL,Floryda,Fl\u00f3rida", 
+        "geoname_id": 4155751, 
+        "geoname_code": "FL", 
+        "name_ascii": "Florida", 
+        "slug": "florida"
+    }
+},
+{
+    "pk": 3596, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Georgia, United States", 
+        "name": "Georgia", 
+        "country": 234, 
+        "alternate_names": "State of Georgia,GA,Estado de Georgia", 
+        "geoname_id": 4197000, 
+        "geoname_code": "GA", 
+        "name_ascii": "Georgia", 
+        "slug": "georgia"
+    }
+},
+{
+    "pk": 3597, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Kansas, United States", 
+        "name": "Kansas", 
+        "country": 234, 
+        "alternate_names": "State of Kansas,KS,Estado de Kansas", 
+        "geoname_id": 4273857, 
+        "geoname_code": "KS", 
+        "name_ascii": "Kansas", 
+        "slug": "kansas"
+    }
+},
+{
+    "pk": 3598, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Louisiana, United States", 
+        "name": "Louisiana", 
+        "country": 234, 
+        "alternate_names": "Luizjana,LA,Luisiana,la Luisiana,Estado de Louisiana", 
+        "geoname_id": 4331987, 
+        "geoname_code": "LA", 
+        "name_ascii": "Louisiana", 
+        "slug": "louisiana"
+    }
+},
+{
+    "pk": 3599, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Maryland, United States", 
+        "name": "Maryland", 
+        "country": 234, 
+        "alternate_names": "State of Maryland,MD", 
+        "geoname_id": 4361885, 
+        "geoname_code": "MD", 
+        "name_ascii": "Maryland", 
+        "slug": "maryland"
+    }
+},
+{
+    "pk": 3600, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Missouri, United States", 
+        "name": "Missouri", 
+        "country": 234, 
+        "alternate_names": "State of Missouri,MO,Estado de Missouri,Misuri", 
+        "geoname_id": 4398678, 
+        "geoname_code": "MO", 
+        "name_ascii": "Missouri", 
+        "slug": "missouri"
+    }
+},
+{
+    "pk": 3601, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Mississippi, United States", 
+        "name": "Mississippi", 
+        "country": 234, 
+        "alternate_names": "State of Mississippi,MS,Estado de Mississippi,Misisipi,Missisipi", 
+        "geoname_id": 4436296, 
+        "geoname_code": "MS", 
+        "name_ascii": "Mississippi", 
+        "slug": "mississippi"
+    }
+},
+{
+    "pk": 3602, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "North Carolina, United States", 
+        "name": "North Carolina", 
+        "country": 234, 
+        "alternate_names": "Carolina do Norte,State of North Carolina,NC,Estado de Carolina del Norte,Karolina P\u00f3\u0142nocna", 
+        "geoname_id": 4482348, 
+        "geoname_code": "NC", 
+        "name_ascii": "North Carolina", 
+        "slug": "north-carolina"
+    }
+},
+{
+    "pk": 3603, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Oklahoma, United States", 
+        "name": "Oklahoma", 
+        "country": 234, 
+        "alternate_names": "State of Oklahoma,OK,Estado de Oklahoma", 
+        "geoname_id": 4544379, 
+        "geoname_code": "OK", 
+        "name_ascii": "Oklahoma", 
+        "slug": "oklahoma"
+    }
+},
+{
+    "pk": 3604, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "South Carolina, United States", 
+        "name": "South Carolina", 
+        "country": 234, 
+        "alternate_names": "Carolina do Sul,State of South Carolina,SC,Estado de Carolina del Sur,Karolina Po\u0142udniowa", 
+        "geoname_id": 4597040, 
+        "geoname_code": "SC", 
+        "name_ascii": "South Carolina", 
+        "slug": "south-carolina"
+    }
+},
+{
+    "pk": 3605, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Tennessee, United States", 
+        "name": "Tennessee", 
+        "country": 234, 
+        "alternate_names": "State of Tennessee,TN,Estado de Tennessee", 
+        "geoname_id": 4662168, 
+        "geoname_code": "TN", 
+        "name_ascii": "Tennessee", 
+        "slug": "tennessee"
+    }
+},
+{
+    "pk": 3606, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Texas, United States", 
+        "name": "Texas", 
+        "country": 234, 
+        "alternate_names": "Lone Star State,TX,Tejas,Estado de la Estrella Solitaria,Estado de Texas,Teksas", 
+        "geoname_id": 4736286, 
+        "geoname_code": "TX", 
+        "name_ascii": "Texas", 
+        "slug": "texas"
+    }
+},
+{
+    "pk": 3607, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "West Virginia, United States", 
+        "name": "West Virginia", 
+        "country": 234, 
+        "alternate_names": "Virg\u00ednia Ocidental,State of West Virginia,WV,Virginia Occidental,Wirginia Zachodnia", 
+        "geoname_id": 4826850, 
+        "geoname_code": "WV", 
+        "name_ascii": "West Virginia", 
+        "slug": "west-virginia"
+    }
+},
+{
+    "pk": 3608, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Alabama, United States", 
+        "name": "Alabama", 
+        "country": 234, 
+        "alternate_names": "State of Alabama,AL", 
+        "geoname_id": 4829764, 
+        "geoname_code": "AL", 
+        "name_ascii": "Alabama", 
+        "slug": "alabama"
+    }
+},
+{
+    "pk": 3609, 
+    "model": "cities_light.region", 
+    "fields": {
+        "display_name": "Connecticut, United States", 
+        "name": "Connecticut", 
+        "country": 234, 
+        "alternate_names": "State of Connecticut,CT", 
+        "geoname_id": 4831725, 
+        "geoname_code": "CT", 
+        "name_ascii": "Connecticut", 
+        "slug": "connecticut"
+    }
+}
+]

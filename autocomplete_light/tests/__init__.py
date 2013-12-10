@@ -24,6 +24,10 @@ from .widget import (
     InlineSelectChoiceTestCase,
 )
 
+from .dependent import (
+    DependentAutocompleteEmptyFormTestCase,
+)
+
 from .autocomplete.generic import AutocompleteGenericTestCase
 from .autocomplete.choice_list import AutocompleteChoiceListTestCase
 from .autocomplete.list import AutocompleteListTestCase
