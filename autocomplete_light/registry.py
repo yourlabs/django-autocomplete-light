@@ -38,7 +38,12 @@ class AutocompleteRegistry(dict):
 
         The default model autocomplete class to use when registering a Model
         without Autocomplete class. Default is
-        :py:class:`~.autocomplete.AutocompleteModelBase`
+        :py:class:`~.autocomplete.AutocompleteModelBase`. You can override
+        it just before calling autodiscover() in urls.py as such::
+
+            import autocomplete_light
+            autocomplete_light.registry.autocomplete_model_base = autocomplete_light.AutocompleteModelTemplate
+            autocomplete_light.autodiscover()
     """
 
     def __init__(self, autocomplete_model_base=None):

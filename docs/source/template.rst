@@ -183,17 +183,102 @@ This will add a choice counter at the top of the autocomplete.
 Overriding :py:attr:`AutocompleteTemplate.autocomplete_template <autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template>`
 ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
+Perhaps the coolest way to style an autocomplete box is to use a template. Just set
+:py:attr:`AutocompleteTemplate.autocomplete_template
+<autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_template>`.
+It is used by :py:meth:`AutocompleteTemplate.autocomplete_html
+<autocomplete_light.autocomplete.template.AutocompleteTemplate.autocomplete_html>`:
+
+.. code-block:: python
+
+    class PersonAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+        autocomplete_template = 'person_autocomplete.html'
+
+Now, all you have to do is create a ``person_autocomplete.html`` template.
+Consider this elaborated example with user-friendly translated messages:
+
+.. code-block:: django
+
+    {% load i18n %}
+    {% load autocomplete_light_tags %}
+
+    {% if choices %}
+        <h2>{% trans 'Please select a person' %}</h2>
+        {% for choice in choices %}
+            {{ choice|autocomplete_light_choice_html:autocomplete }}
+        {% endfor %}
+    {% else %}
+        <h2>{% trans 'No matching person found' %}</h2>
+        <p>
+            {% blocktrans %}Sometimes, persons have not filled their name,
+            maybe try to search based on email addresses ?{% endblocktrans %}
+        </p>
+    {% endif %}
+
+First, it loads Django's i18n template tags for translation. Then, it loads
+autocomplete-light's tags.
+
+If there are any choices, it will display the list of choices, rendered by
+``choice_html()`` through the ``autocomplete_light_choice_html`` template
+filter as such: ``{{ choice|autocomplete_light_choice_html:autocomplete }}``.
+
+If no choice is found, then it will display a user friendly suggestion.
+
 Styling widgets
 ---------------
 
 Widgets are rendered by the :py:meth:`~autocomplete_light.widgets.WidgetBase.render` 
-method. By default, it renders `autocomplete_light/widget.html`. You can set 
-:py:attr:`~autocomplete_light.widgets.WidgetBase.template_name` to override it
-or extend it on a per-widget basis.
+method. By default, it renders `autocomplete_light/widget.html`. While you can
+override the widget template globally, there are two ways to override the
+widget template name on a per-case basis:
 
-Examples
---------
+- :py:attr:`WidgetBase.widget_template <autocomplete_light.widgets.WidgetBase.widget_template>`,
+- :py:attr:`AutocompleteBase.widget_template <autocomplete_light.registry.AutocompleteBase.widget_template>`,
 
-FTR, here's another way to do it, assuming your models have a
-`get_absolute_update_url` method defined::
+Using another template instead of a global override allows to extend
+the default widget template and override only the parts you need.
 
+If you're not sure what is in a widget template, please review :ref:`part 2 of
+reference documentation about widget templates<widget-template>`.
+
+Also, note that the widget is styled with CSS, you can override or extend any
+definition of ``autocomplete_light/style.css``.
+
+:py:class:`~autocomplete_light.autocomplete.AutocompleteModelTemplate`
+``````````````````````````````````````````````````````````````````````
+
+By default,
+:py:class:`~autocomplete_light.autocomplete.AutocompleteModelTemplate`
+sets ``choice_template`` to
+``autocomplete_light/model_template/choice.html``. It adds a "view
+absolute url" link as well as an "update form url" link based on
+``YourModel.get_absolute_url()`` and
+``YourModel.get_absolute_update_url()`` with such a template:
+
+.. literalinclude:: ../../autocomplete_light/templates/autocomplete_light/model_template/choice.html
+
+It does not play well in all projects, so it was not set as default.
+But you can inherit from it:
+
+.. code-block:: python
+
+    class YourAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+        model = YourModel
+    autocomplete_light.register(YourAutocomplete)
+
+Or let the :py:func:`~autocomplete_light.registry.register` shortcut
+use it:
+
+.. code-block:: python
+
+    autocomplete_light.register(YourModel,
+        autocomplete_light.AutocompleteModelTemplate)
+
+Or set it as default with
+:py:attr:`AutocompleteRegistry.autocomplete_model_base
+<autocomplete_light.registry.AutocompleteRegistry.autocomplete_model_base>`
+and used it as such:
+
+.. code-block:: python
+
+    autocomplete_light.register(YourModel)

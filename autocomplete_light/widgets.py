@@ -67,17 +67,23 @@ class WidgetBase(object):
     .. py:attribute:: extra_context
 
         Extra context dict to pass to the template.
+
+    .. py:attribute:: widget_template
+
+        Template to use to render the widget. Default is
+        ``autocomplete_light/widget.html``.
     """
 
     def __init__(self, autocomplete=None,
                  widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None, registry=None):
+                 extra_context=None, registry=None, widget_template=None):
 
         registry = registry or default_registry
         self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
         self.widget_js_attributes = widget_js_attributes or {}
         self.autocomplete_js_attributes = autocomplete_js_attributes or {}
         self.extra_context = extra_context or {}
+        self.widget_template = widget_template or 'autocomplete_light/widget.html'
 
     def process_js_attributes(self):
         extra_autocomplete_js_attributes = getattr(self.autocomplete,
@@ -123,17 +129,9 @@ class WidgetBase(object):
             'autocomplete': autocomplete,
         }
         context.update(self.extra_context)
-        templates = [
-            'autocomplete_light/%s/widget.html' %
-            self.autocomplete.__name__.lower(),
-            'autocomplete_light/%s/widget.html' % getattr(autocomplete,
-                'widget_template_name', ''),
-            'autocomplete_light/widget.html',
-        ]
-        widget_template = getattr(autocomplete, 'widget_template', None)
-        if widget_template:
-            templates.insert(0, widget_template)
-        return safestring.mark_safe(render_to_string(templates, context))
+
+        template = getattr(autocomplete, 'widget_template', self.widget_template)
+        return safestring.mark_safe(render_to_string(template, context))
 
     def build_attrs(self, extra_attrs=None, **kwargs):
         attrs = super(WidgetBase, self).build_attrs(extra_attrs, **kwargs)

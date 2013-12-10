@@ -128,6 +128,12 @@ class AutocompleteBase(AutocompleteInterface):
 
         Name of the url to add another choice via a javascript popup. If empty
         then no "add another" link will appear.
+
+    .. py:attribute:: widget_template
+
+        A special attribute used only by the widget. If it is set, the widget
+        will use that instead of the default
+        ``autocomplete_light/widget.html``.
     """
     choice_html_format = u'<span data-value="%s">%s</span>'
     empty_html_format = u'<span class="block"><em>%s</em></span>'
