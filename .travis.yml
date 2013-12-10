@@ -7,16 +7,25 @@ python:
   - "2.7"
   - "3.3"
 env:
-  - DJANGO=django==1.4.10
-  - DJANGO=django==1.5.5
-  - DJANGO=django==1.6
-  - DJANGO="-e git+https://github.com/django/django.git#egg=django"
-  - TAGGIT=django-taggit
-  - TAGGIT=""
-  - GENERICM="-e git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m"
-  - GENERICM=""
+  matrix:
+    - REQ="django==1.4.10"
+    - REQ="django==1.5.5"
+    - REQ="django==1.6"
+    - REQ="git+https://github.com/django/django.git#egg=django"
+    - REQ="git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m django==1.4.10"
+    - REQ="git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m django==1.5.5"
+    - REQ="git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m django==1.6"
+    - REQ="git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m git+https://github.com/django/django.git#egg=django"
+    - REQ="django==1.4.10 django-taggit git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m"
+    - REQ="django==1.5.5 django-taggit git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m"
+    - REQ="django==1.6 django-taggit git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m"
+    - REQ="git+https://github.com/django/django.git#egg=django django-taggit git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m django-taggit git+https://github.com/django/django.git#egg=django"
+    - REQ="django-taggit django==1.4.10"
+    - REQ="django-taggit django==1.5.5"
+    - REQ="django-taggit django==1.6"
+    - REQ="django-taggit git+https://github.com/django/django.git#egg=django"
 install:
-  - pip install $DJANGO $TAGGIT $GENERICM
+  - pip install $REQ
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
   - pip install -r test_project/requirements.txt
