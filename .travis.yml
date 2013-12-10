@@ -11,6 +11,10 @@ matrix:
       env: REQ="django==1.4.10 django-taggit"
   allow_failures:
     - python: "2.7"
+      env: REQ="git+https://github.com/django/django.git#egg=django"
+    - python: "3.3"
+      env: REQ="git+https://github.com/django/django.git#egg=django"
+    - python: "2.7"
       env: REQ="git+https://github.com/django/django.git#egg=django django-taggit django-generic-m2m"
     - python: "3.3"
       env: REQ="git+https://github.com/django/django.git#egg=django django-taggit django-generic-m2m"
