@@ -5,7 +5,7 @@ import autocomplete_light
 from models import Dummy
 
 
-class DummyForm(forms.ModelForm):
+class DummyForm(autocomplete_light.ModelForm):
     class Media:
         """
         We're currently using Media here, but that forced to move the
@@ -17,4 +17,3 @@ class DummyForm(forms.ModelForm):
 
     class Meta:
         model = Dummy
-        widgets = autocomplete_light.get_widgets_dict(Dummy)
