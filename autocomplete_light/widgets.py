@@ -83,7 +83,8 @@ class WidgetBase(object):
         self.widget_js_attributes = widget_js_attributes or {}
         self.autocomplete_js_attributes = autocomplete_js_attributes or {}
         self.extra_context = extra_context or {}
-        self.widget_template = widget_template or 'autocomplete_light/widget.html'
+        self.widget_template = (widget_template or
+                'autocomplete_light/widget.html')
 
     def process_js_attributes(self):
         extra_autocomplete_js_attributes = getattr(self.autocomplete,
@@ -130,7 +131,8 @@ class WidgetBase(object):
         }
         context.update(self.extra_context)
 
-        template = getattr(autocomplete, 'widget_template', self.widget_template)
+        template = getattr(autocomplete, 'widget_template',
+                self.widget_template)
         return safestring.mark_safe(render_to_string(template, context))
 
     def build_attrs(self, extra_attrs=None, **kwargs):

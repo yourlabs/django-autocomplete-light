@@ -42,7 +42,8 @@ class AutocompleteRegistry(dict):
         it just before calling autodiscover() in urls.py as such::
 
             import autocomplete_light
-            autocomplete_light.registry.autocomplete_model_base = autocomplete_light.AutocompleteModelTemplate
+            autocomplete_light.registry.autocomplete_model_base = \
+                autocomplete_light.AutocompleteModelTemplate
             autocomplete_light.autodiscover()
     """
 

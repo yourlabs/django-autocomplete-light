@@ -1,3 +1,7 @@
+2.0.0a6:
+
+    - Simplified widget template selection.
+
 2.0.0a5:
 
     - Support for Django 1.6's ModelForm.Meta.fields = '__all__', generic fk
