@@ -44,6 +44,9 @@ supports python3.
 In this case, please refer to the `v2 documentation
 <http://django-autocomplete-light.readthedocs.org/en/v2/>`_.
 
+**To upgrade to v2**, inherit from `autocomplete_light.ModelForm` and remove
+calls to `get_widgets_dict`. Optionnaly remove all old widget definitions.
+
 Resources
 ---------
 
