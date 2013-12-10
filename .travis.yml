@@ -47,7 +47,6 @@ script:
 notifications:
   irc: 
     channels: 
-      - "irc.freenode.org#neoskills"
       - "irc.freenode.org#yourlabs"
     template:
       - "%{repository} (%{commit} %{author}) : %{message} %{build_url} %{compare_url}"
