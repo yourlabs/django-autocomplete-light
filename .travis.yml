@@ -11,14 +11,12 @@ env:
   - DJANGO=django==1.5.5
   - DJANGO=django==1.6
   - DJANGO="-e git+https://github.com/django/django.git#egg=django"
+  - TAGGIT=django-taggit
   - TAGGIT=""
-  - TAGGIT=1
+  - GENERICM="-e git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m"
   - GENERICM=""
-  - GENERICM=1
 install:
-  - pip install $DJANGO
-  - test -n "$TAGGIT" && pip install django-taggit
-  - test -n "$GENERICM" && pip install -e git+git://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
+  - pip install $DJANGO $TAGGIT $GENERICM
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
   - pip install -r test_project/requirements.txt
