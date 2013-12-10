@@ -4,7 +4,7 @@
     "model": "basic.fkmodel", 
     "fields": {
         "noise": null, 
-        "relation": null, 
+        "relation": 4, 
         "name": "Bla"
     }
 },
