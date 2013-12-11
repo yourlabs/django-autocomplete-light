@@ -75,9 +75,6 @@ install:
   - if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
 
   - pip freeze
-before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
 before_script:
   - RUN_TESTS="tox -- autocomplete_light"
   # Run tests either with or without coverage (being installed).
