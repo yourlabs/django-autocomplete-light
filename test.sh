@@ -24,6 +24,8 @@ DJANGO_VERSION=$(git tag -l | grep -E "$DJANGO_VERSION(\.[0-9])?$" | tail -n1)
 # Make virtualenv if necessary
 [ ! -d "$ENV_PATH" ] && virtualenv-$PYTHON_VERSION $ENV_PATH
 
+source $ENV_PATH/bin/activate
+
 if [ "$DJANGO_TAGGIT" = "1" ]; then
     pip install -U django-taggit
 else
