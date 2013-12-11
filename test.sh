@@ -43,7 +43,7 @@ else
     pip uninstall -y django-generic-m2m
 fi
 
-pip install -e .
+pip install -e $WORKSPACE
 pip install -Ur $WORKSPACE/test_project/requirements.txt
 pip install -Ur $WORKSPACE/test_project/test_requirements.txt
 
