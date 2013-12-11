@@ -1,14 +1,8 @@
 Generic relations
 =================
 
-Generic relation support comes in two flavors:
-
-- for django's generic foreign keys,
-- and for django-generic-m2m's generic many to many in
-  autocomplete_light.contrib.generic_m2m,
-
-In any case, you need to register an autocomplete class for generic
-autocompletes.
+First, you need to register an autocomplete class for autocompletes on generic
+relations.
 
 The easiest is to inherit from
 :py:class:`~autocomplete_light.autocomplete.AutocompleteGenericBase`
@@ -17,6 +11,11 @@ or
 main logic is contained in
 :py:class:`~autocomplete_light.autocomplete.generic.AutocompleteGeneric` which
 is extended by both the Base and Template versions.
+
+Generic relation support comes in two flavors:
+
+- for django's generic foreign keys,
+- and for django-generic-m2m's generic many to many.
 
 `autocomplete_light.ModelForm` will setup the fields:
 
