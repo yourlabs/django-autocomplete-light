@@ -31,8 +31,6 @@ DJANGO_VERSION=$(git tag -l | grep -E "$DJANGO_VERSION(\.[0-9])?$" | tail -n1)
 
 source $ENV_PATH/bin/activate
 
-$ENV_PATH/bin/pip install -U psycopg2
-
 if [ "$DJANGO_TAGGIT" = "1" ]; then
     pip install -U django-taggit
 else
