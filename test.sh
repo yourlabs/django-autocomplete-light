@@ -9,7 +9,7 @@ DJANGO_GENERIC_M2M="${DJANGO_GENERIC_M2M:-1}"
 PYTHON_VERSION="${PYTHON_VERSION:-3.3}"
 DJANGO_VERSION="${DJANGO_VERSION:-1.5}"
 JOB_UNIQUE_ID="$PYTHON_VERSION-$DJANGO_VERSION-$DJANGO_TAGGIT-$DJANGO_GENERIC_M2M"
-DATABASE_NAME="autocomplete_light_test_${JOB_UNIQUE_ID//[.-]}"
+export DATABASE_NAME="autocomplete_light_test_${JOB_UNIQUE_ID//[.-]}"
 
 # Make a unique env path for this configuration
 ENV_PATH="$WORKSPACE/test_env"
