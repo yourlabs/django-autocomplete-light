@@ -18,8 +18,8 @@ psql -c "drop database if exists $DATABASE_NAME;" -U postgres
 psql -c "create database $DATABASE_NAME;" -U postgres
 
 # Get real django version
-[ ! -d /tmp/django ] && git clone http://github.com/django/django.git $WORKSPACE/.django
-cd $WORKSPACE/.django
+[ ! -d "$HOME/django" ] && git clone http://github.com/django/django.git $HOME/.django
+cd $HOME/.django
 git fetch --tags
 DJANGO_VERSION=$(git tag -l | grep -E "$DJANGO_VERSION(\.[0-9])?$" | tail -n1)
 
