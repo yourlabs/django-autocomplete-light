@@ -73,21 +73,21 @@ things you can do.
 
    template
    navigation
-   charfield
-   generic
    dependant
+   generic
+   debug
+
+Documentation that has not yet been ported to v2
+------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   charfield
    addanother
    remote
    django13
-   debug
    cookbook
-
-Integration with external apps
-------------------------------
-
-.. toctree::
-   :maxdepth: 2
-
    contrib
 
 FAQ
