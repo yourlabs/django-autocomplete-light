@@ -10,7 +10,7 @@ PYTHON_VERSION="${PYTHON_VERSION:-3.3}"
 DJANGO_VERSION="${DJANGO_VERSION:-1.5}"
 export DATABASE_NAME="autocomplete_light_test_${BUILD_ID//[_-]}"
 
-trap 'clean; exit' SIGINT SIGQUIT
+#trap 'clean; exit' SIGINT SIGQUIT
 clean() {
     psql -c "drop database if exists $DATABASE_NAME;" -U postgres
 }
