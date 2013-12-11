@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.5.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-11 16:00-0300\n"
+"PO-Revision-Date: 2013-12-11 16:00-0300\n"
+"Last-Translator: Fabio Caritas Barrionuevo da Luz <bnafta at gmail.com>\n"
+"Language: Brazilian Portuguese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: forms.py:14
+msgid ""
+" Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr " Mantenha pressionada a tecla \"Control\", ou \"Command\" em um Mac, para selecionar mais de um."
+
+#: widgets.py:82
+msgid "type some text to search in this autocomplete"
+msgstr "escreva algum texto para buscar e autocompletar"
+
+#: autocomplete/base.py:160
+msgid "no matches found"
+msgstr "nenhum resultado encontrado"
+
+#: templates/autocomplete_light/widget.html:34
+msgid "Add another"
+msgstr "Adicionar outro"
