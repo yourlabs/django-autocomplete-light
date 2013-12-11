@@ -6,7 +6,7 @@ matrix:
     - python: "2.7"
       env: REQ="django==1.6,<1.7 django-generic-m2m"
     - python: "2.7"
-      env: REQ="django==1.6,<1.7 django-taggit django-generic-m2m"
+      env: REQ="django==1.6,<1.7"
     - python: "2.7"
       env: REQ="django==1.6,<1.7 django-taggit"
 python:
@@ -14,11 +14,11 @@ python:
   - "3.3"
 env:
   matrix:
-    - REQ="django>=1.4,<1.5"
-    - REQ="django>=1.5,<1.6"
-    - REQ="django>=1.6,<1.7"
+    - REQ="django>=1.4,<1.5 django-taggit django-generic-m2m"
+    - REQ="django>=1.5,<1.6 django-taggit django-generic-m2m"
+    - REQ="django>=1.6,<1.7 django-taggit django-generic-m2m"
     - REQ="django==1.6,<1.7 django-generic-m2m"
-    - REQ="django==1.6,<1.7 django-taggit django-generic-m2m"
+    - REQ="django==1.6,<1.7"
     - REQ="django==1.6,<1.7 django-taggit"
 install:
   - pip install "$REQ"
