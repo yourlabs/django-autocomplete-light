@@ -45,7 +45,6 @@ class WidgetTestCase(LiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         cls.selenium = webdriver.PhantomJS()
-        cls.selenium.implicitly_wait(WAIT_TIME)
         super(WidgetTestCase, cls).setUpClass()
 
     @classmethod
@@ -56,6 +55,7 @@ class WidgetTestCase(LiveServerTestCase):
 
     def setUp(self):
         if self.__class__.test_case_setup_done is False:
+            self.set_implicit_wait()
             self.setup_test_case()
         self.__class__.test_case_setup_done = True
 
