@@ -12,7 +12,7 @@ JOB_UNIQUE_ID="$PYTHON_VERSION-$DJANGO_VERSION-$DJANGO_TAGGIT-$DJANGO_GENERIC_M2
 DATABASE_NAME="autocomplete_light_test_${JOB_UNIQUE_ID//[.-]}"
 
 # Make a unique env path for this configuration
-ENV_PATH="/tmp/autocomplete-light-test-$PYTHON_VERSION-$DJANGO_VERSION-$DJANGO_TAGGIT-$DJANGO_GENERIC_M2M"
+ENV_PATH="$WORKSPACE/test_env"
 
 psql -c "drop database if exists $DATABASE_NAME;" -U postgres
 psql -c "create database $DATABASE_NAME;" -U postgres
