@@ -31,7 +31,10 @@ name as such:
 .. code-block:: python
 
     class YourModelForm(autocomplete_light.ModelForm):
+        # if your GenericForeignKey name is "generic_fk":
         generic_fk = autocomplete_light.GenericModelChoiceField('YourAutocomplete1')
+
+        # if your RelatedObjectsDescriptor is "generic_m2m":
         generic_m2m = autocomplete_light.GenericModelMultipleChoiceField('YourAutocomplete2')
 
 But please note that you will :ref:`loose some DRY<dry-break>` by doing that, as stated in the faq.
