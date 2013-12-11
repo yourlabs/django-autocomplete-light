@@ -314,38 +314,3 @@ You can use the remote autocomplete as an example.
     ``yourlabsWidgetReady`` event takes advantage of the built-in
     DOMNodeInserted event: your widgets will also work with dynamically created
     widgets (ie. admin inlines).
-
-API
----
-
-.. _autocomplete.js:
-
-``autocomplete.js``
-```````````````````
-
-The autocomplete box script, see `autocomplete.js API documentation
-<_static/autocomplete.html>`_.
-
-``widget.js``
-`````````````
-
-The script that ties the autocomplete box script and the hidden ``<select>``
-used by django, see `widget.js API documentation <_static/widget.html>`_.
-
-``text_widget.js``
-``````````````````
-
-The script that ties the autocomplete box script with a text input, see
-`text_widget.js API docummentation <_static/text_widget.html>`_.
-
-``addanother.js``
-`````````````````
-
-The script that enables adding options to a ``<select>`` outside the admin, see
-`addanother.js API documentation <_static/addanother.html>`_.
-
-``remote.js``
-`````````````
-
-The script that overrides a method from ``widget.js`` to create choices on the
-fly, see `remote.js API documentation <_static/remote.html>`_.

@@ -32,8 +32,8 @@ Run ``pip install -U django-autocomplete-light``. Check the CHANGELOG for BC
 (Backward Compatibility) breaks. There should be none for minor version
 upgrades ie. from 1.1.3 to 1.1.22.
 
-Tutorial
---------
+Quick start
+-----------
 
 Enabling autocompletes inside and outside of the admin has become piece of
 cake.
@@ -45,8 +45,8 @@ cake.
 
 .. _reference:
 
-Reference
----------
+Tutorial
+--------
 
 If you need anything more than just enabling autocompletes in the admin, then
 you should understand django-autocomplete-light's architecture. Because you can
@@ -77,6 +77,22 @@ things you can do.
    generic
    debug
 
+API: find hidden gems
+---------------------
+
+.. toctree::
+   :maxdepth: 3
+
+   api
+
+FAQ
+---
+
+.. toctree::
+   :maxdepth: 2
+
+   faq
+
 Documentation that has not yet been ported to v2
 ------------------------------------------------
 
@@ -89,14 +105,6 @@ Documentation that has not yet been ported to v2
    django13
    cookbook
    contrib
-
-FAQ
----
-
-.. toctree::
-   :maxdepth: 2
-
-   faq
 
 Indices and tables
 ==================
