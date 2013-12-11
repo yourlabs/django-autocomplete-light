@@ -28,7 +28,7 @@ from .dependent import (
     DependentAutocompleteEmptyFormTestCase,
 )
 
-from .autocomplete.generic import AutocompleteGenericTestCase
+#from .autocomplete.generic import AutocompleteGenericTestCase
 from .autocomplete.choice_list import AutocompleteChoiceListTestCase
 from .autocomplete.list import AutocompleteListTestCase
 from .autocomplete.model import AutocompleteModelTestCase
