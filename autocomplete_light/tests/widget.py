@@ -7,7 +7,7 @@ from django.test import LiveServerTestCase
 
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium import webdriver
 from selenium.webdriver.support import ui
 
 
@@ -44,8 +44,7 @@ class WidgetTestCase(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.selenium = WebDriver()
-        cls.selenium.implicitly_wait(WAIT_TIME)
+        cls.selenium = webdriver.PhantomJS()
         super(WidgetTestCase, cls).setUpClass()
 
     @classmethod
@@ -56,6 +55,7 @@ class WidgetTestCase(LiveServerTestCase):
 
     def setUp(self):
         if self.__class__.test_case_setup_done is False:
+            self.set_implicit_wait()
             self.setup_test_case()
         self.__class__.test_case_setup_done = True
 
