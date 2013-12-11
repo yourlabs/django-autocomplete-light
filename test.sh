@@ -42,7 +42,9 @@ $ENV_PATH/bin/pip install -e $WORKSPACE
 $ENV_PATH/bin/pip install -Ur $WORKSPACE/test_project/requirements.txt
 $ENV_PATH/bin/pip install -Ur $WORKSPACE/test_project/test_requirements.txt
 
-# Install appropriate django version
+# Install appropriate django version because other package upgrades like
+# pip install -U django-jenkins has caused installation of the latest django 
+# release because it requires django>=1.4.
 $ENV_PATH/bin/pip install -U django==$DJANGO_VERSION
 
 $ENV_PATH/bin/python $WORKSPACE/test_project/manage.py jenkins autocomplete_light
