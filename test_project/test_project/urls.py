@@ -21,6 +21,7 @@ urlpatterns = patterns('',
         include('autocomplete_light.tests.apps.security_test.urls')),
     url(r'^non_admin_add_another/',
         include('autocomplete_light.tests.apps.non_admin_add_another.urls')),
+    (r'^favicon.ico', generic.RedirectView.as_view(url='http://mozilla.org/favicon.ico')),
     (r'^$', generic.TemplateView.as_view(template_name='index.html'))
 )
 
