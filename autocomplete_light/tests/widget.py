@@ -24,7 +24,7 @@ if VERSION[0] == 1 and VERSION[1] < 7:
         deadlock.
         """
         self._StoppableWSGIServer__serving = False
-        if not self._StoppableWSGIServer__is_shut_down.wait(30 if os.environ.get('TRAVIS', False) else 2):
+        if not self._StoppableWSGIServer__is_shut_down.wait(30):
             raise RuntimeError(
                 "Failed to shutdown the live test server in 2 seconds. The "
                 "server might be stuck or generating a slow response.")
