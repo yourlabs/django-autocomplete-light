@@ -24,9 +24,6 @@ DJANGO_VERSION=$(git tag -l | grep -E "$DJANGO_VERSION(\.[0-9])?$" | tail -n1)
 # Make virtualenv if necessary
 [ ! -d "$ENV_PATH" ] && virtualenv-$PYTHON_VERSION $ENV_PATH
 
-# Install appropriate django version
-$ENV_PATH/bin/pip install -U django==$DJANGO_VERSION
-
 if [ "$DJANGO_TAGGIT" = "1" ]; then
     pip install -U django-taggit
 else
@@ -42,4 +39,8 @@ fi
 $ENV_PATH/bin/pip install -e $WORKSPACE
 $ENV_PATH/bin/pip install -Ur $WORKSPACE/test_project/requirements.txt
 $ENV_PATH/bin/pip install -Ur $WORKSPACE/test_project/test_requirements.txt
+
+# Install appropriate django version
+$ENV_PATH/bin/pip install -U django==$DJANGO_VERSION
+
 $ENV_PATH/bin/python $WORKSPACE/test_project/manage.py jenkins autocomplete_light
