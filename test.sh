@@ -12,6 +12,9 @@ DJANGO_VERSION="${DJANGO_VERSION:-1.5}"
 # Make a unique env path for this configuration
 ENV_PATH="/tmp/autocomplete-light-test-$PYTHON_VERSION-$DJANGO_VERSION-$DJANGO_TAGGIT-$DJANGO_GENERIC_M2M"
 
+psql -c 'drop database if exists autocomplete_light_test;' -U postgres
+psql -c 'create database autocomplete_light_test;' -U postgres
+
 # Get real django version
 [ ! -d /tmp/django ] && git clone http://github.com/django/django.git $WORKSPACE/.django
 cd $WORKSPACE/.django
@@ -48,4 +51,4 @@ $ENV_PATH/bin/pip install -Ur $WORKSPACE/test_project/test_requirements.txt
 $ENV_PATH/bin/pip install -U django==$DJANGO_VERSION
 
 cd $WORKSPACE
-$ENV_PATH/bin/python $WORKSPACE/test_project/manage.py jenkins autocomplete_light
+$ENV_PATH/bin/python $WORKSPACE/test_project/manage.py jenkins autocomplete_light --settings=test_project.settings_postgres
