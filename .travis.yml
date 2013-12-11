@@ -4,7 +4,7 @@ matrix:
     - python: "3.3"
       env: REQ="django==1.4.10 django-taggit django-generic-m2m"
     - python: "2.7"
-      env: REQ="jango==1.6 django-generic-m2m"
+      env: REQ="django==1.6 django-generic-m2m"
     - python: "2.7"
       env: REQ="django==1.6"
     - python: "2.7"
