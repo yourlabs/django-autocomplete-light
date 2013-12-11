@@ -11,10 +11,10 @@ DJANGO_VERSION="${DJANGO_VERSION:-1.5}"
 export DATABASE_NAME="autocomplete_light_test_${BUILD_ID}${DJANGO_VERSION}${DJANGO_TAGGIT}${PYTHONVERSION}${DJANGO_GENERIC_M2M}"
 export DATABASE_NAME="${DATABASE_NAME//[._-]}"
 
-#trap 'clean; exit' SIGINT SIGQUIT
-clean() {
+function clean {
     psql -c "drop database if exists $DATABASE_NAME;" -U postgres
 }
+trap 'clean; exit' SIGINT SIGQUIT
 
 # Make a unique env path for this configuration
 ENV_PATH="$WORKSPACE/test_env"
@@ -64,4 +64,4 @@ pip install -U django==$DJANGO_VERSION
 cd $WORKSPACE
 test_project/manage.py jenkins autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
 
-clean()
+clean
