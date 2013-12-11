@@ -1,7 +1,7 @@
 Scripts: the javascript side of autocompletes
 =============================================
 
-.. note:: This chapter assumes that you have been through the entire
+.. note:: This chapter assumes that you have been through 
           :doc:`tutorial` and :doc:`autocomplete` and :doc:`form`.
 
 Design documentation

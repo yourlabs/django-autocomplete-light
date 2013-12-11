@@ -1,7 +1,7 @@
 Form, fields and widgets
 ========================
 
-.. note:: This chapter assumes that you have been through the entire
+.. note:: This chapter assumes that you have been through 
           :doc:`tutorial` and :doc:`autocomplete`.
 
 Design documentation
