@@ -77,14 +77,6 @@ things you can do.
    generic
    debug
 
-API: find hidden gems
----------------------
-
-.. toctree::
-   :maxdepth: 3
-
-   api
-
 FAQ
 ---
 
@@ -92,6 +84,15 @@ FAQ
    :maxdepth: 2
 
    faq
+
+
+API: find hidden gems
+---------------------
+
+.. toctree::
+   :maxdepth: 3
+
+   api
 
 Documentation that has not yet been ported to v2
 ------------------------------------------------
