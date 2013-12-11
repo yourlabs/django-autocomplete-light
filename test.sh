@@ -29,6 +29,10 @@ DJANGO_VERSION=$(git tag -l | grep -E "$DJANGO_VERSION(\.[0-9])?$" | tail -n1)
 # Make virtualenv if necessary
 [ ! -d "$ENV_PATH" ] && virtualenv-$PYTHON_VERSION $ENV_PATH
 
+# Shebangs are too long without this and the kernel truncates them at 127
+# characters.
+virtualenv-$PYTHON_VERSION --relocatable $ENV_PATH
+
 source $ENV_PATH/bin/activate
 
 if [ "$DJANGO_TAGGIT" = "1" ]; then
