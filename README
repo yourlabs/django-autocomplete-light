@@ -36,16 +36,20 @@ v2
 --
 
 `v2 branch <https://github.com/yourlabs/django-autocomplete-light/tree/v2>`_ is
-under active development.
-
-You might want to use that instead, since it's much easier to work with and
-supports python3.
+under active development. You might want to use that instead, since it's much
+easier to work with and supports python3.
 
 In this case, please refer to the `v2 documentation
 <http://django-autocomplete-light.readthedocs.org/en/v2/>`_.
 
-**To upgrade to v2**, basically inherit from `autocomplete_light.ModelForm`
-instead of calling `get_widgets_dict`.
+**To upgrade to v2**, just inherit from `autocomplete_light.ModelForm`. It
+does everything like creating form fields (which didn't exist in v1) handling
+generic relations, etc, etc .. And remove any reference to things that don't
+exist anymore in your code (`get_widgets_dict()`, `FixedModelForm`, etc ...).
+
+**If you're coming from v1**, you just need to read the documentation about the
+`new design of forms
+<http://django-autocomplete-light.readthedocs.org/en/v2/form.html#design-documentation>`_.
 
 Resources
 ---------
