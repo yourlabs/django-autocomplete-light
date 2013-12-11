@@ -32,25 +32,25 @@ DJANGO_VERSION=$(git tag -l | grep -E "$DJANGO_VERSION(\.[0-9])?$" | tail -n1)
 source $ENV_PATH/bin/activate
 
 if [ "$DJANGO_TAGGIT" = "1" ]; then
-    $ENV_PATH/bin/pip install -U django-taggit
+    pip install -U django-taggit
 else
-    $ENV_PATH/bin/pip uninstall -y django-taggit
+    pip uninstall -y django-taggit
 fi
 
 if [ "$DJANGO_GENERIC_M2M" = "1" ]; then
-    $ENV_PATH/bin/pip install -U django-generic-m2m
+    pip install -U django-generic-m2m
 else
-    $ENV_PATH/bin/pip uninstall -y django-generic-m2m
+    pip uninstall -y django-generic-m2m
 fi
 
-$ENV_PATH/bin/pip install -e $WORKSPACE
-$ENV_PATH/bin/pip install -Ur $WORKSPACE/test_project/requirements.txt
-$ENV_PATH/bin/pip install -Ur $WORKSPACE/test_project/test_requirements.txt
+pip install -e $WORKSPACE
+pip install -Ur $WORKSPACE/test_project/requirements.txt
+pip install -Ur $WORKSPACE/test_project/test_requirements.txt
 
 # Install appropriate django version because other package upgrades like
 # pip install -U django-jenkins has caused installation of the latest django 
 # release because it requires django>=1.4.
-$ENV_PATH/bin/pip install -U django==$DJANGO_VERSION
+pip install -U django==$DJANGO_VERSION
 
 cd $WORKSPACE
-$ENV_PATH/bin/python $WORKSPACE/test_project/manage.py jenkins autocomplete_light --liveserver=9000-9200 --settings=test_project.settings_postgres
+test_project/manage.py jenkins autocomplete_light --liveserver=9000-9200 --settings=test_project.settings_postgres
