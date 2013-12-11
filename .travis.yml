@@ -43,6 +43,7 @@ install:
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
   - pip install -r test_project/requirements.txt
+  - pip install -r test_project/test_requirements.txt
   - pip install -e . --use-mirrors
   - pip install selenium==2.37.2
   - pip freeze
