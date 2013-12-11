@@ -55,4 +55,4 @@ pip install -Ur $WORKSPACE/test_project/test_requirements.txt
 pip install -U django==$DJANGO_VERSION
 
 cd $WORKSPACE
-test_project/manage.py jenkins autocomplete_light --settings=test_project.settings_postgres
+test_project/manage.py jenkins autocomplete_light --liveserver=9000-9200 --settings=test_project.settings_postgres
