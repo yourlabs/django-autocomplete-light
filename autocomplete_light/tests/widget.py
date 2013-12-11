@@ -44,7 +44,8 @@ class WidgetTestCase(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.selenium = webdriver.PhantomJS()
+        cls.selenium = webdriver.Firefox()
+        cls.selenium.implicitly_wait(WAIT_TIME)
         super(WidgetTestCase, cls).setUpClass()
 
     @classmethod
