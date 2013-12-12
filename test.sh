@@ -52,13 +52,13 @@ else
 fi
 
 pip install -e $WORKSPACE
-pip install -Ur $WORKSPACE/test_project/requirements.txt
-pip install -Ur $WORKSPACE/test_project/test_requirements.txt
+pip install -r $WORKSPACE/test_project/requirements.txt
+pip install -r $WORKSPACE/test_project/test_requirements.txt
 
 # Install appropriate django version because other package upgrades like
 # pip install -U django-jenkins has caused installation of the latest django 
 # release because it requires django>=1.4.
-pip install -U django==$DJANGO_VERSION
+pip install django==$DJANGO_VERSION
 
 cd $WORKSPACE
 test_project/manage.py jenkins autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
