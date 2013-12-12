@@ -23,9 +23,9 @@ psql -c "drop database if exists $DATABASE_NAME;" -U postgres
 psql -c "create database $DATABASE_NAME;" -U postgres
 
 # Get real django version
-[ "$DJANGO_VERSION" == "1.4" ] && DJANGO_VERSION="1.4.10"
-[ "$DJANGO_VERSION" == "1.5" ] && DJANGO_VERSION="1.5.5"
-[ "$DJANGO_VERSION" == "1.6" ] && DJANGO_VERSION="1.6"
+[ "$DJANGO_VERSION" = "1.4" ] && DJANGO_VERSION="1.4.10"
+[ "$DJANGO_VERSION" = "1.5" ] && DJANGO_VERSION="1.5.5"
+[ "$DJANGO_VERSION" = "1.6" ] && DJANGO_VERSION="1.6"
 
 # Clean virtualenv if necessary
 [ "$CLEAN_VIRTUALENV" = "1" ] && rm -rf $ENV_PATH
