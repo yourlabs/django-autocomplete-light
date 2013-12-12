@@ -54,7 +54,7 @@ pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
     django==$DJANGO_VERSION
 
 cd $WORKSPACE
-xvfb-run -a $XVFB_FLAGS test_project/manage.py test autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
+xvfb-run -a $XVFB_FLAGS test_project/manage.py test autocomplete_light --noinput --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
 
 RET="$?"
 
