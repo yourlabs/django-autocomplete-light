@@ -45,6 +45,8 @@ source $ENV_PATH/bin/activate
 
 [ "$DJANGO_GENERIC_M2M" = "1" ] && DJANGO_GENERIC_M2M=django-generic-m2m || DJANGO_GENERIC_M2M=""
 
+# 2.1.7 has a bad migration
+pip install django-cities-light==2.1.8
 pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
     -e $WORKSPACE \
     -r $WORKSPACE/test_project/requirements.txt \
