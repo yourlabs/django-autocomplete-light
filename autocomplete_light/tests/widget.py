@@ -34,7 +34,12 @@ else:
     from django.contrib.staticfiles.testing import StaticLiveServerCase as LiveServerTestCase
 
 
-WAIT_TIME = 300 if os.environ.get('TRAVIS', False) else 5
+if os.environ.get('TRAVIS', False):
+    WAIT_TIME = 300
+elif os.environ.get('BUILD_ID', False):  #  Jenkins build server
+    WAIT_TIME = 30
+else:
+    WAIT_TIME = 5
 
 
 class WidgetTestCase(LiveServerTestCase):
