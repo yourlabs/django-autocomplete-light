@@ -39,26 +39,15 @@ virtualenv-$PYTHON_VERSION --relocatable $ENV_PATH
 
 source $ENV_PATH/bin/activate
 
-if [ "$DJANGO_TAGGIT" = "1" ]; then
-    pip install -U django-taggit
-else
-    pip uninstall -y django-taggit
-fi
+[ "$DJANGO_TAGGIT" = "1" ] && DJANGO_TAGGIT=django-taggit || DJANGO_TAGGIT=""
 
-if [ "$DJANGO_GENERIC_M2M" = "1" ]; then
-    pip install -U django-generic-m2m
-else
-    pip uninstall -y django-generic-m2m
-fi
+[ "$DJANGO_GENERIC_M2M" = "1" ] && DJANGO_GENERIC_M2M=django-generic-m2m || DJANGO_GENERIC_M2M=""
 
-pip install -e $WORKSPACE
-pip install -r $WORKSPACE/test_project/requirements.txt
-pip install -r $WORKSPACE/test_project/test_requirements.txt
-
-# Install appropriate django version because other package upgrades like
-# pip install -U django-jenkins has caused installation of the latest django 
-# release because it requires django>=1.4.
-pip install django==$DJANGO_VERSION
+pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
+    -e $WORKSPACE \
+    -r $WORKSPACE/test_project/requirements.txt \
+    -r $WORKSPACE/test_project/test_requirements.txt \
+    django==$DJANGO_VERSION
 
 cd $WORKSPACE
 test_project/manage.py jenkins autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
