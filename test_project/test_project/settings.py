@@ -100,8 +100,6 @@ INSTALLED_APPS = (
     'autocomplete_light.tests.apps.non_admin_add_another',
 
     'navigation_autocomplete',
-
-    'django_jenkins',
 )
 
 try:

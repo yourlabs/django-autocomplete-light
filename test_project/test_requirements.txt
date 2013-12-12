@@ -1,4 +1,3 @@
 mock
 psycopg2
-django-jenkins
 selenium==2.37.2
