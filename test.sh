@@ -50,6 +50,6 @@ pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
     django==$DJANGO_VERSION
 
 cd $WORKSPACE
-test_project/manage.py jenkins autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
+xvfb-run -a -e /dev/stdout test_project/manage.py jenkins autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
 
 clean
