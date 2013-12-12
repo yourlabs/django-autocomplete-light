@@ -8,6 +8,8 @@ DJANGO_TAGGIT="${DJANGO_TAGGIT:-1}"
 DJANGO_GENERIC_M2M="${DJANGO_GENERIC_M2M:-1}"
 PYTHON_VERSION="${PYTHON_VERSION:-3.3}"
 DJANGO_VERSION="${DJANGO_VERSION:-1.5}"
+# for debug, it could be -e /dev/stdout
+XVFB_FLAGS="${XVFB_FLAGS:-}"
 export DATABASE_NAME="autocomplete_light_test_${BUILD_ID}${DJANGO_VERSION}${DJANGO_TAGGIT}${PYTHONVERSION}${DJANGO_GENERIC_M2M}"
 export DATABASE_NAME="${DATABASE_NAME//[._-]}"
 
@@ -50,6 +52,6 @@ pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
     django==$DJANGO_VERSION
 
 cd $WORKSPACE
-xvfb-run -a -e /dev/stdout test_project/manage.py test autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
+xvfb-run -a $XVFB_FLAGS test_project/manage.py test autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
 
 clean
