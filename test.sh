@@ -54,4 +54,8 @@ pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
 cd $WORKSPACE
 xvfb-run -a $XVFB_FLAGS test_project/manage.py test autocomplete_light --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
 
+RET="$?"
+
 clean
+
+exit $RET
