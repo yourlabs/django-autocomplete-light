@@ -12,7 +12,7 @@ class RegistryView(base.TemplateView):
     template_name = 'autocomplete_light/registry.html'
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_staff:
+        if not request.user.is_superuser:
             return http.HttpResponseForbidden()
         return super(RegistryView, self).get(request, *args, **kwargs)
 

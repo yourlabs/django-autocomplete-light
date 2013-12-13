@@ -30,6 +30,11 @@ class RegistryViewTestCase(unittest.TestCase):
         u.set_password('p')
         u.save()
 
+        u = User.objects.create(is_staff=True, username='su', is_active=True,
+                is_superuser=True)
+        u.set_password('p')
+        u.save()
+
     @classmethod
     def tearDownClass(cls):
         User.objects.all().delete()
@@ -37,6 +42,9 @@ class RegistryViewTestCase(unittest.TestCase):
     def setUp(self):
         self.admin = Client()
         self.admin.login(username='u', password='p')
+
+        self.superuser = Client()
+        self.superuser.login(username='su', password='p')
 
         self.anonymous = Client()
 
@@ -46,15 +54,18 @@ class RegistryViewTestCase(unittest.TestCase):
     def tearDown(self):
         autocomplete_light.registry = self.old_registry
 
-    def test_requires_staff(self):
+    def test_requires_superuser(self):
         response = self.anonymous.get(reverse('autocomplete_light_registry'))
         self.assertEqual(response.status_code, 403)
 
         response = self.admin.get(reverse('autocomplete_light_registry'))
+        self.assertEqual(response.status_code, 403)
+
+        response = self.superuser.get(reverse('autocomplete_light_registry'))
         self.assertEqual(response.status_code, 200)
 
     def test_get_context_data(self):
-        response = self.admin.get(reverse('autocomplete_light_registry'))
+        response = self.superuser.get(reverse('autocomplete_light_registry'))
 
         self.assertEqual(response.context['registry'],
                 autocomplete_light.registry)
@@ -64,7 +75,7 @@ class RegistryViewTestCase(unittest.TestCase):
     def test_output(self):
         autocomplete_light.registry.register(User)
 
-        response = self.admin.get(reverse('autocomplete_light_registry'))
+        response = self.superuser.get(reverse('autocomplete_light_registry'))
 
         self.assertIn('List of your 1 registered autocompletes', force_text(response.content))
         self.assertIn(reverse('autocomplete_light_autocomplete',
