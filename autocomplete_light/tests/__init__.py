@@ -1,9 +1,15 @@
 import autocomplete_light
 autocomplete_light.autodiscover()
 
-from .forms import (FkModelFormTestCase, OtoModelFormTestCase,
-        GfkModelFormTestCase, MtmModelFormTestCase, GmtmModelFormTestCase,
-        TaggitModelFormTestCase)
+from .forms import (
+    SelectMultipleHelpTextRemovalMixinTestCase,
+    FkModelFormTestCase,
+    OtoModelFormTestCase,
+    GfkModelFormTestCase,
+    MtmModelFormTestCase,
+    GmtmModelFormTestCase,
+    TaggitModelFormTestCase
+)
 
 from .fields import ChoiceFieldTestCase, MultipleChoiceFieldTestCase
 

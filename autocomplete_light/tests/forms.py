@@ -2,6 +2,8 @@ import unittest
 
 from django import VERSION
 from django import http
+from django import forms
+from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory
 
@@ -10,6 +12,23 @@ import autocomplete_light
 from .apps.basic.admin import *
 from .apps.basic.models import *
 from .apps.basic.forms import *
+
+
+class SelectMultipleHelpTextRemovalMixinTestCase(unittest.TestCase):
+    def test_help_text_removed(self):
+        class ModelForm(forms.ModelForm):
+            class Meta:
+                model = MtmModel
+        form = ModelForm()
+        help_text = force_text(form.fields['relation'].help_text).strip()
+
+        class ModelForm(autocomplete_light.ModelForm):
+            class Meta:
+                model = MtmModel
+        form = ModelForm()
+        my_help_text = force_text(form.fields['relation'].help_text).strip()
+
+        self.assertNotIn(help_text, my_help_text)
 
 
 class BaseModelFormTestCase(unittest.TestCase):
