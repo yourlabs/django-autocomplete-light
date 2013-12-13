@@ -201,9 +201,9 @@ class AutocompleteRegistry(dict):
         if isinstance(arg, six.string_types):
             return self[arg]
         elif isinstance(arg, type) and issubclass(arg, models.Model):
-            return self.autocomplete_for_model(arg.__class__)
-        elif isinstance(arg, models.Model):
             return self.autocomplete_for_model(arg)
+        elif isinstance(arg, models.Model):
+            return self.autocomplete_for_model(arg.__class__)
         elif isinstance(arg, type) and issubclass(arg, AutocompleteInterface):
             return arg
         elif arg is None:

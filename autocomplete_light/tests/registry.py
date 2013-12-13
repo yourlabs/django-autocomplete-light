@@ -94,3 +94,29 @@ class RegistryTestCase(unittest.TestCase):
             self.fail('Should raise AutocompleteNotRegistered')
         except autocomplete_light.AutocompleteNotRegistered:
             pass
+
+class RegistryGetAutocompleteFromArgTestCase(unittest.TestCase):
+    def setUp(self):
+        self.registry = autocomplete_light.AutocompleteRegistry()
+        self.registry.register(Foo)
+        self.registry.register(Generic)
+
+    def test_from_string(self):
+        a = self.registry.get_autocomplete_from_arg('FooAutocomplete')
+        self.assertEqual(a.model, Foo)
+
+    def test_from_model(self):
+        a = self.registry.get_autocomplete_from_arg(Foo)
+        self.assertEqual(a.model, Foo)
+
+    def test_from_model_instance(self):
+        a = self.registry.get_autocomplete_from_arg(Foo())
+        self.assertEqual(a.model, Foo)
+
+    def test_from_autocomplete_instance(self):
+        a = self.registry.get_autocomplete_from_arg(Generic)
+        self.assertEqual(a, Generic)
+
+    def test_default_generic(self):
+        a = self.registry.get_autocomplete_from_arg()
+        self.assertTrue(issubclass(a, Generic))
