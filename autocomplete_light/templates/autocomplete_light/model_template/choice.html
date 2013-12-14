@@ -5,13 +5,13 @@
     {{ choice }}
     {% with choice.get_absolute_url as url %}
         {% if url %}
-        <a href="{{ url }}" target="_blank" class="choiceDetail">&rarr;</a>
+        <a href="{{ url }}" target="_blank" class="choice-detail">&rarr;</a>
         {% endif %}
     {% endwith %}
 
     {% with choice.get_absolute_update_url  as url %}
         {% if url %}
-        <a href="{{ url }}" target="_blank" class="choiceUpdate">
+        <a href="{{ url }}" target="_blank" class="choice-update">
             <img src="{% static 'admin/img/icon_changelink.gif' %}" />
         </a>
         {% endif %}

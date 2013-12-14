@@ -118,8 +118,8 @@ body.change-form .autocomplete-light-widget
     background-position: -15px 0;
 }
 
-.yourlabs-autocomplete .choiceDetail, 
-.yourlabs-autocomplete .choiceUpdate 
+.yourlabs-autocomplete .choice-detail, 
+.yourlabs-autocomplete .choice-update 
 {
     display: none;
 }
