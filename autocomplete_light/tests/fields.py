@@ -41,3 +41,19 @@ class ChoiceFieldTestCase(BaseTestCase):
 class MultipleChoiceFieldTestCase(BaseTestCase):
     field_class = autocomplete_light.MultipleChoiceField
     GOOD_VALUE = ['b']
+
+
+class ModelChoiceFieldTestCase(BaseTestCase):
+    pass
+
+
+class ModelMultipleChoiceFieldTestCase(BaseTestCase):
+    pass
+
+
+class GenericModelChoiceFieldTestCase(BaseTestCase):
+    pass
+
+
+class GenericModelMultipleChoiceFieldTestCase(BaseTestCase):
+    pass

@@ -5,7 +5,7 @@ from .registry import AutocompleteRegistry, registry, register, autodiscover
 
 from .autocomplete import *
 
-from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
+from .widgets import WidgetBase, ChoiceWidget, MultipleChoiceWidget, TextWidget
 
 from .forms import *
 

@@ -629,16 +629,25 @@ $.fn.yourlabsAutocomplete = function(overrides) {
 
     // If no Autocomplete instance is defined for this id, make one.
     if (autocomplete == undefined) {
-        if (overrides.url == undefined) {
-            alert('Autocomplete needs a url !');
-            return;
-        }
-
         // Instanciate Autocomplete.
         var autocomplete = new yourlabs.Autocomplete(this);
 
+        // Extend the instance with data-autocomplete-* overrides
+        for (var key in this.data()) {
+            if (!key) continue;
+            if (key.substr(0, 12) != 'autocomplete') continue;
+            var newKey = key.replace('autocomplete', '');
+            var newKey = newKey.charAt(0).toLowerCase() + newKey.slice(1);
+            autocomplete[newKey] = this.data(key);
+        }
+
         // Extend the instance with overrides.
         autocomplete = $.extend(autocomplete, overrides);
+
+        if (!autocomplete.url) {
+            alert('Autocomplete needs a url !');
+            return;
+        }
 
         this.yourlabsRegistry('autocomplete', autocomplete);
 

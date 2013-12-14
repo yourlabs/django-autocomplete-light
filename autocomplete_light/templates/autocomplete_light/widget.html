@@ -4,12 +4,7 @@
 {% load url from future %}
 
 {% block widget_open %}
-<span class="autocomplete-light-widget {{ name }}
-    {% if widget.widget_js_attributes.max_values == 1 %}single{% else %}multiple{% endif %}"
-    id="{{ widget.html_id }}-wrapper"
-    {{ widget.widget_js_attributes|autocomplete_light_data_attributes }}
-    {{ widget.autocomplete_js_attributes|autocomplete_light_data_attributes:'autocomplete-' }}
-    >
+<span id="{{ widget.html_id }}-wrapper" {{ widget_attrs }} >
 {% endblock %}
 
 {% block deck %}
@@ -23,7 +18,7 @@
 
 {% block input %}
     {# a text input, that is the 'autocomplete input' #}
-    <input type="text" name="{{ name }}-autocomplete" id="{{ widget.html_id }}-autocomplete" value="" {{ extra_attrs }} />
+    <input type="text" name="{{ name }}-autocomplete" id="{{ widget.html_id }}-autocomplete" value="" {{ input_attrs }} />
 {% endblock %}
 
 {% block add_another %}

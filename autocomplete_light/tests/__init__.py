@@ -34,6 +34,21 @@ from .widget import (
     InlineSelectChoiceTestCase,
 )
 
+from .widgets import (
+    ChoiceWidgetTestCase,
+    MultipleChoiceWidgetTestCase,
+    TextWidgetTestCase,
+)
+
+from .fields import (
+    ChoiceFieldTestCase,
+    MultipleChoiceFieldTestCase,
+#    ModelChoiceFieldTestCase,
+#    ModelMultipleChoiceFieldTestCase,
+#    GenericModelChoiceFieldTestCase,
+#    GenericModelMultipleChoiceFieldTestCase,
+)
+
 from .dependent import (
     DependentAutocompleteEmptyFormTestCase,
 )

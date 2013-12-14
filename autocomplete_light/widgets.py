@@ -74,9 +74,9 @@ class WidgetBase(object):
         ``autocomplete_light/widget.html``.
     """
 
-    def __init__(self, autocomplete=None,
-                 widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None, registry=None, widget_template=None):
+    def __init__(self, autocomplete=None, widget_js_attributes=None,
+                 autocomplete_js_attributes=None, extra_context=None,
+                 registry=None, widget_template=None, widget_attrs=None):
 
         registry = registry or default_registry
         self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
@@ -85,48 +85,32 @@ class WidgetBase(object):
         self.extra_context = extra_context or {}
         self.widget_template = (widget_template or
                 'autocomplete_light/widget.html')
+        self.widget_attrs = widget_attrs or {}
 
-    def process_js_attributes(self):
-        extra_autocomplete_js_attributes = getattr(self.autocomplete,
-            'autocomplete_js_attributes', {})
-        self.autocomplete_js_attributes.update(
-            extra_autocomplete_js_attributes)
+        if autocomplete_js_attributes is not None:
+            raise PendingDeprecationWarning('autocomplete_js_attributes will be'
+                    'deprecated in favor of input_attrs')
 
-        extra_widget_js_attributes = getattr(self.autocomplete,
-            'widget_js_attributes', {})
-        self.widget_js_attributes.update(
-            extra_widget_js_attributes)
-
-        if 'bootstrap' not in self.widget_js_attributes.keys():
-            self.widget_js_attributes['bootstrap'] = 'normal'
-
-        if 'choice_selector' not in self.autocomplete_js_attributes.keys():
-            self.autocomplete_js_attributes['choice_selector'] = '[data-value]'
-
-        if 'url' not in self.autocomplete_js_attributes.keys():
-            url = self.autocomplete().get_absolute_url()
-            self.autocomplete_js_attributes['url'] = url
-
-        if 'placeholder' not in self.autocomplete_js_attributes.keys():
-            self.autocomplete_js_attributes['placeholder'] = _(
-                'type some text to search in this autocomplete').capitalize()
+        if widget_js_attributes is not None:
+            raise PendingDeprecationWarning('widget_js_attributes will be'
+                    'deprecated in favor of widget_attrs')
 
     def render(self, name, value, attrs=None):
-        final_attrs = self.build_attrs(attrs)
-        self.html_id = final_attrs.pop('id', name)
+        widget_attrs = self.build_widget_attrs(name)
+        input_attrs = self.build_attrs(attrs)
+        self.html_id = input_attrs.pop('id', name)
 
         autocomplete = self.autocomplete(values=value)
         choices = autocomplete.choices_for_values()
         values = [autocomplete.choice_value(c) for c in choices]
-
-        self.process_js_attributes()
 
         context = {
             'name': name,
             'values': values,
             'choices': choices,
             'widget': self,
-            'extra_attrs': safestring.mark_safe(flatatt(final_attrs)),
+            'input_attrs': safestring.mark_safe(flatatt(input_attrs)),
+            'widget_attrs': safestring.mark_safe(flatatt(widget_attrs)),
             'autocomplete': autocomplete,
         }
         context.update(self.extra_context)
@@ -136,12 +120,46 @@ class WidgetBase(object):
         return safestring.mark_safe(render_to_string(template, context))
 
     def build_attrs(self, extra_attrs=None, **kwargs):
+        self.attrs.update(getattr(self.autocomplete, 'input_attrs', {}))
         attrs = super(WidgetBase, self).build_attrs(extra_attrs, **kwargs)
 
         if 'class' not in attrs.keys():
             attrs['class'] = ''
 
         attrs['class'] += ' autocomplete'
+
+        attrs.setdefault('data-autocomplete-choice-selector', '[data-value]')
+        attrs.setdefault('data-autocomplete-url',
+                         self.autocomplete().get_absolute_url())
+        attrs.setdefault('placeholder', _(
+            'type some text to search in this autocomplete').capitalize())
+
+        # for backward compatibility
+        for key, value in self.autocomplete_js_attributes.items():
+            attrs['data-autocomplete-%s' % key.replace('_', '-')] = value
+
+        return attrs
+
+    def build_widget_attrs(self, name):
+        attrs = getattr(self.autocomplete, 'widget_attrs', {})
+        attrs.update(self.widget_attrs)
+
+        if 'class' not in attrs:
+            attrs['class'] = ''
+
+        attrs.setdefault('data-widget-bootstrap', 'normal')
+
+        # for backward compatibility
+        for key, value in self.autocomplete_js_attributes.items():
+            attrs['data-widget-%s' % key.replace('_', '-')] = value
+
+        attrs['class'] += 'autocomplete-light-widget '
+        attrs['class'] += name
+
+        if attrs.get('data-widget-maximum-values', 0) == 1:
+            attrs['class'] += ' single'
+        else:
+            attrs['class'] += ' multiple'
 
         return attrs
 
@@ -151,42 +169,49 @@ class ChoiceWidget(WidgetBase, forms.Select):
     Widget that provides an autocomplete for zero to one choice.
     """
 
-    def __init__(self, autocomplete=None,
-                 widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None, registry=None, *args, **kwargs):
+    def __init__(self, autocomplete=None, widget_js_attributes=None,
+            autocomplete_js_attributes=None, extra_context=None, registry=None,
+            widget_template=None, widget_attrs=None, *args,
+            **kwargs):
 
         forms.Select.__init__(self, *args, **kwargs)
 
-        WidgetBase.__init__(self, autocomplete,
-            widget_js_attributes, autocomplete_js_attributes, extra_context)
+        WidgetBase.__init__(self, autocomplete, widget_js_attributes,
+                autocomplete_js_attributes, extra_context, registry,
+                widget_template, widget_attrs)
 
-        self.widget_js_attributes['max_values'] = 1
+        self.widget_attrs.setdefault('data-widget-maximum-values', 1)
 
 
 class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
     """
     Widget that provides an autocomplete for zero to n choices.
     """
-    def __init__(self, autocomplete=None,
-                 widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None, registry=None, *args, **kwargs):
+    def __init__(self, autocomplete=None, widget_js_attributes=None,
+            autocomplete_js_attributes=None, extra_context=None, registry=None,
+            widget_template=None, widget_attrs=None, *args,
+            **kwargs):
+
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
         WidgetBase.__init__(self, autocomplete,
-            widget_js_attributes, autocomplete_js_attributes, extra_context)
+            widget_js_attributes, autocomplete_js_attributes, extra_context,
+            registry, widget_template, widget_attrs)
 
 
 class TextWidget(forms.TextInput, WidgetBase):
     """ Widget that just adds an autocomplete to fill a text input """
 
-    def __init__(self, autocomplete=None,
-                 widget_js_attributes=None, autocomplete_js_attributes=None,
-                 extra_context=None, *args, **kwargs):
+    def __init__(self, autocomplete=None, widget_js_attributes=None,
+            autocomplete_js_attributes=None, extra_context=None, registry=None,
+            widget_template=None, widget_attrs=None, *args,
+            **kwargs):
 
         forms.TextInput.__init__(self, *args, **kwargs)
 
-        WidgetBase.__init__(self, autocomplete,
-            widget_js_attributes, autocomplete_js_attributes)
+        WidgetBase.__init__(self, autocomplete, widget_js_attributes,
+                autocomplete_js_attributes, extra_context, registry,
+                widget_template, widget_attrs)
 
     def build_attrs(self, extra_attrs=None, **kwargs):
         attrs = forms.TextInput.build_attrs(self, extra_attrs, **kwargs)
@@ -196,7 +221,6 @@ class TextWidget(forms.TextInput, WidgetBase):
                 key = u'data-%s%s' % (prefix, key.replace('_', '-'))
                 attrs[key] = value
 
-        self.process_js_attributes()
         update_attrs(self.widget_js_attributes)
         update_attrs(self.autocomplete_js_attributes, 'autocomplete-')
 
