@@ -88,11 +88,11 @@ class WidgetBase(object):
         self.widget_attrs = widget_attrs or {}
 
         if autocomplete_js_attributes is not None:
-            raise PendingDeprecationWarning('autocomplete_js_attributes will be'
-                    'deprecated in favor of input_attrs')
+            raise PendingDeprecationWarning('autocomplete_js_attributes are'
+                    'deprecated in favor of attrs')
 
         if widget_js_attributes is not None:
-            raise PendingDeprecationWarning('widget_js_attributes will be'
+            raise PendingDeprecationWarning('widget_js_attributes are'
                     'deprecated in favor of widget_attrs')
 
     def render(self, name, value, attrs=None):
