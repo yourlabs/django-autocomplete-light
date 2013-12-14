@@ -10,7 +10,6 @@ Let's establish the vocabulary used in this script, so that we speak the
 same language:
 
 - The text input element is "input",
-- The default text in the input is "placeholder",
 - The box that contains a list of choices is "box",
 - Each result in the "autocomplete" is a "choice",
 - With a capital A, "Autocomplete", is the class or an instance of the
@@ -138,9 +137,6 @@ yourlabs.Autocomplete = function (input) {
     // purposes.
     this.value = '';
 
-    // When the input is empty, show this text.
-    this.placeholder = 'type your search here';
-
     /*
     It is possible to wait until a certain number of characters have been
     typed in the input before making a request to the server, to limit the
@@ -252,9 +248,6 @@ the constructor, setup is done in this method. This allows to:
 - and *then* setup the instance.
  */
 yourlabs.Autocomplete.prototype.initialize = function() {
-    // Set the HTML placeholder attribute on the input.
-    this.input.attr('placeholder', this.placeholder);
-
     this.input
         .on('blur.autocomplete', $.proxy(this.inputBlur, this))
         .on('click.autocomplete', $.proxy(this.inputClick, this))
