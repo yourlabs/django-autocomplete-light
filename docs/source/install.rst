@@ -29,7 +29,8 @@ Call ``autocomplete_light.autodiscover()`` *before* ``admin.autodiscover()``
 ----------------------------------------------------------------------------
 
 In ``urls.py``, call ``autocomplete_light.autodiscover()`` before
-``admin.autodiscover()``, it can look like this:
+``admin.autodiscover()`` **and before any import of a form with
+autocompletes**, it can look like this:
 
 .. code-block:: python
 
@@ -39,6 +40,28 @@ In ``urls.py``, call ``autocomplete_light.autodiscover()`` before
 
     import admin
     admin.autodiscover()
+
+Also, if you have ``yourapp.views`` which imports a form that has autocomplete,
+say ``SomeForm``, this would work:
+
+.. code-block:: python
+
+    import autocomplete_Light
+    autocomplete_light.autodiscover()
+
+    from yourapp.views import SomeCreateView
+
+But that wouldn't:
+
+.. code-block:: python
+
+    from yourapp.views import SomeCreateView
+
+    import autocomplete_Light
+    autocomplete_light.autodiscover()
+
+That is because auto-discovery of autocomplete classes should happen before
+definition of forms using autocompletes.
 
 Include ``autocomplete_light.urls``
 -----------------------------------
