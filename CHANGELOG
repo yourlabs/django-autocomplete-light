@@ -1,3 +1,17 @@
+1.4.9: Fix #193: IE8 support hacks.
+
+1.4.8: Fix #195: RegistryView got broken on recent Django versions.
+
+1.4.7:
+
+    - Fix #190: Remove Django 1.6 Depreciation Warning,
+    - Fix #189: Fixed support for USE_THOUSAND_SEPARATOR.
+
+1.4.6:
+
+    - Fix #188: Added debouncing in autocomplete.js,
+    - Fix #173: load static from staticfiles.
+
 1.4.5:
 
     - Fix #180: Support HTTPS in remote.js,

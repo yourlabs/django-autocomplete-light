@@ -4,6 +4,8 @@
     :target: https://crate.io/packages/django-autocomplete-light
 .. image:: https://pypip.in/v/django-autocomplete-light/badge.png   
     :target: https://crate.io/packages/django-autocomplete-light
+.. image:: https://coveralls.io/repos/yourlabs/django-autocomplete-light/badge.png 
+    :target: https://coveralls.io/r/yourlabs/django-autocomplete-light
 
 django-autocomplete-light's purpose is to enable autocompletes quickly and
 properly in a django project: it is the fruit of **years of R&D**. It was
@@ -29,6 +31,21 @@ Features include:
 
 Each feature has a live example and is fully documented. It is also designed
 and documented so that you create your own awesome features too.
+
+v2
+--
+
+`v2 branch <https://github.com/yourlabs/django-autocomplete-light/tree/v2>`_ is
+under active development.
+
+You might want to use that instead, since it's much easier to work with and
+supports python3.
+
+In this case, please refer to the `v2 documentation
+<http://django-autocomplete-light.readthedocs.org/en/v2/>`_.
+
+**To upgrade to v2**, inherit from `autocomplete_light.ModelForm` and remove
+calls to `get_widgets_dict`. Optionnaly remove all old widget definitions.
 
 Resources
 ---------

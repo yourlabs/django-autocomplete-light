@@ -1,8 +1,8 @@
-{% if registry.keys|length %}
-    <h2>List of your {{ registry.keys|length }} registered autocompletes</h2>
+{% if registry|length %}
+    <h2>List of your {{ registry_items|length }} registered autocompletes</h2>
 
     <table>
-    {% for name, autocomplete in registry.items %}
+    {% for name, autocomplete in registry_items %}
         <tr>
             <td>
                 {{ name }}

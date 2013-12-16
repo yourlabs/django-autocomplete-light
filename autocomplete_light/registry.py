@@ -9,21 +9,13 @@ required for ModelAdmin.
 It looks like this:
 
 - in ``yourapp/autocomplete_light_registry.py``, register your autocompletes
-  with ``autocomplete_light.register()``,
-- in ``urls.py``, do ``autocomplete_light.autodiscover()`` **before**
-  ``admin.autodiscover()``.
+  with :py:func:`autocomplete_light.register() <register>`,
+- in ``urls.py``, call :py:func:`autocomplete_light.autodiscover()
+  <autodiscover>` **before** :py:func:`admin.autodiscover()`.
 
-AutocompleteRegistry
-    Subclass of Python's dict type with registration/unregistration methods.
+.. py:data:: registry
 
-registry
-    Instance of AutocompleteRegistry.
-
-register
-    Proxy registry.register.
-
-autodiscover
-    Find autocompletes and fill registry.
+    Module-level instance of :py:class:`AutocompleteRegistry`.
 """
 
 from django.db import models
@@ -36,10 +28,22 @@ __all__ = ('AutocompleteRegistry', 'registry', 'register', 'autodiscover')
 
 class AutocompleteRegistry(dict):
     """
-    Dict with some shortcuts to handle a registry of autocompletes.
+    AutocompleteRegistry is a dict of ``AutocompleteName: AutocompleteClass``
+    with some shortcuts to handle a registry of autocompletes.
+
+    .. py:attribute:: autocomplete_model_base
+
+        The default model autocomplete class to use when registering a Model
+        without Autocomplete class. Default is
+        :py:class:`~.autocomplete.AutocompleteModelBase`
     """
 
     def __init__(self, autocomplete_model_base=None):
+        """
+        You can pass a custom base autocomplete which will be set to
+        :py:attr:`autocomplete_model_base` when instanciating an
+        AutocompleteRegistry.
+        """
         self._models = {}
         self.autocomplete_model_base = autocomplete_model_base
 
@@ -47,14 +51,16 @@ class AutocompleteRegistry(dict):
             self.autocomplete_model_base = AutocompleteModelBase
 
     def autocomplete_for_model(self, model):
-        """ Return the autocomplete class for a given model. """
+        """
+        Return the default autocomplete class for a given model or None.
+        """
         try:
             return self._models[model]
         except KeyError:
             return
 
     def unregister(self, name):
-        """ Unregister a autocomplete. """
+        """ Unregister a autocomplete given a name. """
         autocomplete = self[name]
         del self[name]
 
@@ -66,6 +72,10 @@ class AutocompleteRegistry(dict):
 
     @classmethod
     def extract_args(cls, *args):
+        """
+        Takes any arguments like a model and an autocomplete, or just one of
+        those, in any order, and return a model and autocomplete.
+        """
         model = None
         autocomplete = None
 
@@ -87,11 +97,13 @@ class AutocompleteRegistry(dict):
         - an autocomplete class if necessary, else one will be generated.
 
         'name' is also an acceptable keyword argument, that can be used to
-        override the default autocomplete name (which is its class name).
+        override the default autocomplete name which is the class name by
+        default, which could cause name conflicts in some rare cases.
 
-        In addition, keyword arguments will be set as class attributes. For
-        thread safety reasons, a copy of the autocomplete class is stored in
-        the registry.
+        In addition, keyword arguments will be set as class attributes.
+
+        For thread safety reasons, a copy of the autocomplete class is stored
+        in the registry.
         """
         assert len(args) <= 2, 'register takes at most 2 args'
         assert len(args) > 0, 'register takes at least 1 arg'
@@ -196,11 +208,11 @@ def autodiscover():
     """
     Check all apps in INSTALLED_APPS for stuff related to autocomplete_light.
 
-    For each app, autodiscover imports app.autocomplete_light_registry if
-    available, resulting in execution of register() statements in that module,
-    filling registry.
+    For each app, autodiscover imports ``app.autocomplete_light_registry`` if
+    possing, resulting in execution of :py:func:`register()` statements in that
+    module, filling up :py:data:`registry`.
 
-    Consider a standard app called 'cities_light' with such a structure::
+    Consider a standard app called ``cities_light`` with such a structure::
 
         cities_light/
             __init__.py
@@ -209,21 +221,25 @@ def autodiscover():
             views.py
             autocomplete_light_registry.py
 
-    With such a autocomplete_light_registry.py::
+    Where autocomplete_light_registry.py contains something like::
 
         from models import City, Country
         import autocomplete_light
         autocomplete_light.register(City)
         autocomplete_light.register(Country)
 
-    When autodiscover() imports cities_light.autocomplete_light_registry, both
-    CityAutocomplete and CountryAutocomplete will be registered. For details on
-    how these autocomplete classes are generated, read the documentation of
-    AutocompleteRegistry.register.
+    When ``autodiscover()`` imports
+    ``cities_light.autocomplete_light_registry``, both ``CityAutocomplete`` and
+    ``CountryAutocomplete`` will be registered. See
+    :py:meth:`AutocompleteRegistry.register()` for details on how these
+    autocomplete classes are generated.
     """
     _autodiscover(registry)
 
 
 def register(*args, **kwargs):
-    """Proxy registry.register"""
+    """
+    Proxy method :py:meth:`AutocompleteRegistry.register` of the
+    :py:data:`registry` module level instance.
+    """
     return registry.register(*args, **kwargs)

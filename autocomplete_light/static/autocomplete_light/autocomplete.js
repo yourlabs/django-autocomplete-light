@@ -63,6 +63,60 @@ if (window.yourlabs == undefined) window.yourlabs = {};
 if (window.yourlabs.Autocomplete != undefined) 
     console.log('WARNING ! You are loading autocomplete.js **again**.');
 
+yourlabs.getInternetExplorerVersion = function()
+// Returns the version of Internet Explorer or a -1
+// (indicating the use of another browser).
+{
+  var rv = -1; // Return value assumes failure.
+  if (navigator.appName == 'Microsoft Internet Explorer')
+  {
+    var ua = navigator.userAgent;
+    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+    if (re.exec(ua) != null)
+      rv = parseFloat( RegExp.$1 );
+  }
+  return rv;
+}
+
+$.fn.yourlabsRegistry = function(key, value) {
+    var ie = yourlabs.getInternetExplorerVersion();
+
+    if (ie == -1 || ie > 8) {
+        // If not on IE8 and friends, that's all we need to do.
+        return value === undefined ? this.data(key) : this.data(key, value);
+    }
+
+    if ($.fn.yourlabsRegistry.data == undefined) {
+        $.fn.yourlabsRegistry.data = {};
+    }
+
+    if ($.fn.yourlabsRegistry.guid == undefined) {
+        $.fn.yourlabsRegistry.guid = function() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+                /[xy]/g, 
+                function(c) {
+                    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+                    return v.toString(16);
+                }
+            ); 
+        }
+    }
+
+    var attributeName = 'data-yourlabs-' + key + '-registry-id';
+    var id = this.attr(attributeName);
+
+    if (id == undefined) {
+        id = $.fn.yourlabsRegistry.guid();
+        this.attr(attributeName, id);
+    }
+
+    if (value != undefined) {
+        $.fn.yourlabsRegistry.data[id] = value;
+    }
+    
+    return $.fn.yourlabsRegistry.data[id];
+}
+
 /*
 The autocomplete class constructor:
 
@@ -114,6 +168,16 @@ yourlabs.Autocomplete = function (input) {
     better.
      */
     this.url = false;
+
+    /*
+    Although this script will make sure that it doesn't have multiple ajax
+    requests at the time, it also supports debouncing.
+
+    Set a number of milliseconds here, it is the number of milliseconds that it
+    will wait before querying the server. The higher it is, the less it will
+    spam the server but the more the user will wait.
+    */
+    this.xhrWait = 200;
 
     /*
     As the server responds with plain HTML, we need a selector to find the
@@ -490,8 +554,17 @@ yourlabs.Autocomplete.prototype.fetch = function() {
     // Abort any current request.
     if (this.xhr) this.xhr.abort();
 
-    // Make an asynchronous GET request to this.url.
+    // Abort any request that we planned to make.
+    if (this.timeoutId) clearTimeout(this.timeoutId);
+
+    // Make an asynchronous GET request to this.url in this.xhrWait ms
+    this.timeoutId = setTimeout($.proxy(this.makeXhr, this), this.xhrWait);
+}
+
+// Wrapped ajax call to use with setTimeout in fetch().
+yourlabs.Autocomplete.prototype.makeXhr = function() {
     this.xhr = $.ajax(this.url, {
+        type: "GET",
         data: this.data,
         complete: $.proxy(this.fetchComplete, this)
     });
@@ -541,9 +614,9 @@ $.fn.yourlabsAutocomplete = function(overrides) {
     }
 
     var overrides = overrides ? overrides : {};
+    var autocomplete = this.yourlabsRegistry('autocomplete');
 
     if (overrides == 'destroy') {
-        var autocomplete = this.data('autocomplete');
         if (autocomplete) {
             autocomplete.destroy(this);
             this.removeData('autocomplete');
@@ -555,7 +628,7 @@ $.fn.yourlabsAutocomplete = function(overrides) {
     this.attr('autocomplete', 'off');
 
     // If no Autocomplete instance is defined for this id, make one.
-    if (this.data('autocomplete') == undefined) {
+    if (autocomplete == undefined) {
         if (overrides.url == undefined) {
             alert('Autocomplete needs a url !');
             return;
@@ -567,14 +640,14 @@ $.fn.yourlabsAutocomplete = function(overrides) {
         // Extend the instance with overrides.
         autocomplete = $.extend(autocomplete, overrides);
 
-        this.data('autocomplete', autocomplete);
+        this.yourlabsRegistry('autocomplete', autocomplete);
 
         // All set, call initialize().
         autocomplete.initialize();
     }
 
     // Return the Autocomplete instance for this id from the registry.
-    return this.data('autocomplete');
+    return autocomplete;
 };
 
 // Binding some default behaviors.

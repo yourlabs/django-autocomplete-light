@@ -290,8 +290,9 @@ yourlabs.Widget.prototype.destroy = function(widget) {
 $.fn.yourlabsWidget = function(overrides) {
     var overrides = overrides ? overrides : {};
 
+    var widget = this.yourlabsRegistry('widget');
+
     if (overrides == 'destroy') {
-        var widget = this.data('widget');
         if (widget) {
             widget.destroy(this);
             this.removeData('widget');
@@ -299,7 +300,7 @@ $.fn.yourlabsWidget = function(overrides) {
         return
     }
 
-    if (this.data('widget') == undefined) {
+    if (widget == undefined) {
         // Instanciate the widget
         var widget = new yourlabs.Widget(this);
 
@@ -311,7 +312,8 @@ $.fn.yourlabsWidget = function(overrides) {
 
             if (key.substr(0, 12) == 'autocomplete') {
                 var newKey = key.replace('autocomplete', '');
-                newKey = newKey.replace(newKey[0], newKey[0].toLowerCase())
+                newKey = newKey.replace(newKey.charAt(0),
+                                        newKey.charAt(0).toLowerCase());
                 dataOverrides['autocompleteOptions'][newKey] = data[key];
             } else {
                 dataOverrides[key] = data[key];
@@ -324,7 +326,7 @@ $.fn.yourlabsWidget = function(overrides) {
         // Allow javascript object overrides
         widget = $.extend(widget, overrides);
 
-        this.data('widget', widget);
+        $(this).yourlabsRegistry('widget', widget);
 
         // Setup for usage
         widget.initialize();
@@ -334,7 +336,7 @@ $.fn.yourlabsWidget = function(overrides) {
         widget.widget.trigger('widget-ready');
     }
 
-    return this.data('widget');
+    return widget;
 }
 
 $(document).ready(function() {
@@ -430,4 +432,25 @@ $(document).ready(function() {
             widget.trigger('initialize');
         }
     });
+    
+    var ie = yourlabs.getInternetExplorerVersion();
+    if (ie != -1 && ie < 9) {
+        observe = [
+            '.autocomplete-light-widget:not([data-yourlabs-skip])',
+            '.autocomplete-light-widget option:not([data-yourlabs-skip])'
+        ].join();
+        $(observe).attr('data-yourlabs-skip', 1);
+
+        function ieDOMNodeInserted() {
+            // http://msdn.microsoft.com/en-us/library/ms536957
+            $(observe).each(function() {
+                $(document).trigger(jQuery.Event('DOMNodeInserted', {target: $(this)}));
+                $(this).attr('data-yourlabs-skip', 1);
+            });
+
+            setTimeout(ieDOMNodeInserted, 500);
+        }
+        setTimeout(ieDOMNodeInserted, 500);
+    }
+
 });

@@ -15,14 +15,14 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
     autocomplete_light.register(SomeModel)
 
     # If NewModel.get_absolute_url or get_absolute_update_url is defined, this
-    # will look more fancey
+    # will look more fancy
     autocomplete_light.register(NewModel,
         autocomplete_light.AutocompleteModelTemplate)
 
     # Extra **kwargs are used as class properties in the subclass.
     autocomplete_light.register(SomeModel,
         # SomeModel is already registered, re-register with custom name
-        name='AutocompleSomeModelNew',
+        name='AutocompleteSomeModelNew',
         # Filter the queryset
         choices=SomeModel.objects.filter(new=True))
 
@@ -31,17 +31,17 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
         autocomplete_js_attributes={
             # This will actually data-minimum-characters which
             # will set widget.autocomplete.minimumCharacters.
-            'minimum_characters': 0, 
+            'minimum_characters': 0,
             'placeholder': 'Other model name ?',
         }
     )
 
     # But you can make your subclass yourself and override methods.
-    class AutocompleteYourModel(autocomplete_light.AutocompleteModelTemplate):
+    class YourModelAutocomplete(autocomplete_light.AutocompleteModelTemplate):
         template_name = 'your_app/your_special_choice_template.html'
 
         autocomplete_js_attributes = {
-            'minimum_characters': 4, 
+            'minimum_characters': 4,
         }
 
         widget_js_attributes = {
@@ -51,7 +51,7 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
 
         def choices_for_request(self):
             """ Return choices for a particular request """
-            return super(AutocompleteYourModel, self).choices_for_request(
+            return super(YourModelAutocomplete, self).choices_for_request(
                 ).exclude(extra=self.request.GET['extra'])
 
     # Just pass the class to register and it'll subclass it to be thread safe.
@@ -65,12 +65,12 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
         # Extra **kwargs passed to register have priority.
         choice_template='your_app/other_template.html')
 
-Various cooking recipes far ``your_app/forms.py``:
+Various cooking recipes for ``your_app/forms.py``:
 
 .. code-block:: python
 
     # Use as much registered autocompletes as possible.
-    SomeModelForm = autocomplete_light.modelform_factory(SomeModel, 
+    SomeModelForm = autocomplete_light.modelform_factory(SomeModel,
         exclude=('some_field'))
 
     # Same with a custom modelform, using Meta.get_widgets_dict().
@@ -79,7 +79,7 @@ Various cooking recipes far ``your_app/forms.py``:
 
         class Meta:
             model = SomeModel
-            widgets = autocmoplete_light.get_widgets_dict(SomeModel)
+            widgets = autocomplete_light.get_widgets_dict(SomeModel)
 
     # Using widgets directly in any kind of form.
     class NonModelForm(forms.Form):
@@ -149,7 +149,7 @@ manually for example to make a navigation autocomplete like facebook:
         },
     });
 
-    // autocomplete.js doesn't do anything but trigger selectChoice when 
+    // autocomplete.js doesn't do anything but trigger selectChoice when
     // an option is selected, let's enable some action:
     $('#yourInput').bind('selectChoice', function(e, choice, autocomplete) {
         window.location.href = choice.attr('href');
@@ -203,16 +203,16 @@ Hence the widget.js HTML cookbook:
 
 .. code-block:: html
 
-    <!-- 
+    <!--
     - class=autocomplete-light-widget: get picked up by widget.js defaults,
     - data-bootstrap=normal: Rely on automatic bootstrap because
       if don't need to override any method, but you could change
       that and make your own bootstrap, enabling you to make
-      chained autocomplete, create options, whatever ... 
+      chained autocomplete, create options, whatever ...
     - data-max-values: override a widget option
     - data-minimum-characters: override an autocomplete option,
     -->
-    <span 
+    <span
         class="autocomplete-light-widget"
         data-bootstrap="normal"
         data-max-values="3"
@@ -232,7 +232,7 @@ Hence the widget.js HTML cookbook:
         </span>
 
         <!--
-        Default expected structue: have a multiple select.value-select:
+        Default expected structure: have a multiple select.value-select:
         -->
         <select style="display:none" class="value-select" name="your_input" multiple="multiple">
             <!-- If option 1234 was already selected: -->

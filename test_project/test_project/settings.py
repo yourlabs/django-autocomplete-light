@@ -215,3 +215,5 @@ LOGGING = {
         },
     }
 }
+
+TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'

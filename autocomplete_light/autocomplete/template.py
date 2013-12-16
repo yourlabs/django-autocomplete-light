@@ -7,15 +7,19 @@ from .base import AutocompleteBase
 
 class AutocompleteTemplate(AutocompleteBase):
     """
-    This replacement for AutocompleteBase supports two new attributes:
+    This extension of :py:class:`~.base.AutocompleteBase` supports two new
+    attributes:
 
-    choice_template
+    .. py:attribute:: choice_template
+
         Name of the template to use to render a choice in the autocomplete. If
-        none is specified, then ``AutocompleteBase`` will render the choice.
+        none is specified, then :py:class:`~.base.AutocompleteBase` will render
+        the choice.
 
-    autocomplete_template
+    .. py:attribute:: autocomplete_template
+
         Name of the template to use to render the autocomplete. Again, fall
-        back on ``AutocompleteBase`` if this is None.
+        back on :py:class:`~.base.AutocompleteBase` if this is None.
     """
     choice_template = None
     autocomplete_template = None
@@ -44,9 +48,9 @@ class AutocompleteTemplate(AutocompleteBase):
 
     def autocomplete_html(self):
         """
-        Render ``autocomplete_template`` with base context and ``{{ choices
-        }}``. If ``autocomplete_template`` is none then fall back on
-        ``AutocompleteBase``.
+        Render :py:attr:`autocomplete_template` with base context and ``{{
+        choices }}``. If :py:attr:`autocomplete_template` is None then fall
+        back on :py:meth:`.base.AutocompleteBase.autocomplete_html`.
         """
         if self.autocomplete_template:
             choices = self.choices_for_request()
@@ -58,8 +62,9 @@ class AutocompleteTemplate(AutocompleteBase):
 
     def choice_html(self, choice):
         """
-        Render choice_template with base context and ``{{ choice }}``. If
-        ``choice_template`` is none then fall back on ``AutocompleteBase``.
+        Render :py:attr:`choice_template` with base context and ``{{ choice
+        }}``. If :py:attr:`choice_template` is None then fall back on
+        :py:meth:`.base.AutocompleteBase.choice_html()`.
         """
         if self.choice_template:
             return self.render_template_context(self.choice_template,

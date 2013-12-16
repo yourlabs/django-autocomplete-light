@@ -28,12 +28,10 @@ class RunTests(Command):
         testproj_dir = os.path.join(this_dir, "test_project")
         os.chdir(testproj_dir)
         sys.path.append(testproj_dir)
-        from django.core.management import execute_manager
+        from django.core.management import execute_from_command_line
         os.environ["DJANGO_SETTINGS_MODULE"] = 'test_project.settings'
-        settings_file = os.environ["DJANGO_SETTINGS_MODULE"]
-        settings_mod = __import__(settings_file, {}, {}, [''])
-        execute_manager(settings_mod, argv=[
-            __file__, "test", "autocomplete_light"])
+        execute_from_command_line(argv=[ __file__, "test",
+                        "autocomplete_light"])
         os.chdir(this_dir)
 
 if 'sdist' in sys.argv:
@@ -59,7 +57,7 @@ else:
 
 setup(
     name='django-autocomplete-light',
-    version='1.4.5',
+    version='1.4.9',
     description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',

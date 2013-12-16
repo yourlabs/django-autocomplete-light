@@ -28,9 +28,9 @@ AutocompleteTemplate
 Other Autocompletes
 ```````````````````
 
-See ``autocomplete_light/autocomplete/__init__.py``:
-
-.. literalinclude:: ../../autocomplete_light/autocomplete/__init__.py
+.. automodule:: autocomplete_light.autocomplete
+   :members:
+   :undoc-members:
 
 AutocompleteModel
 >>>>>>>>>>>>>>>>>
@@ -104,6 +104,12 @@ CreateView
 ``````````
 
 .. autoclass:: autocomplete_light.views.CreateView
+   :members:
+
+Generic foreign key support
+```````````````````````````
+
+.. automodule:: autocomplete_light.generic
    :members:
 
 
