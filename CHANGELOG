@@ -1,3 +1,7 @@
+1.4.10: Fix #211: updated pt_BR translation
+
+Also, pt-br was renamed to pt_BR to match django's translation path.
+
 1.4.9: Fix #193: IE8 support hacks.
 
 1.4.8: Fix #195: RegistryView got broken on recent Django versions.
