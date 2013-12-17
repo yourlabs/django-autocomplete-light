@@ -73,6 +73,7 @@ insanely creative features as many users already did.
    autocomplete
    form
    script
+   cookbook
 
 Topics
 ------
@@ -116,7 +117,6 @@ Documentation that has not yet been ported to v2
    addanother
    remote
    django13
-   cookbook
    contrib
 
 Indices and tables

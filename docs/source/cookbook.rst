@@ -46,8 +46,10 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
         }
 
         widget_attrs = {
-            # That will set data-max-values which will set widget.maxValues
+            # That will set widget.maximumValues, naming conversion is done by
+            # jQuery.data()
             'data-widget-maximum-values': 6,
+            'class': 'your-custom-class',
         }
 
         def choices_for_request(self):
@@ -74,27 +76,26 @@ Various cooking recipes for ``your_app/forms.py``:
     SomeModelForm = autocomplete_light.modelform_factory(SomeModel,
         exclude=('some_field'))
 
-    # Same with a custom modelform, using Meta.get_widgets_dict().
-    class CustomModelForm(forms.ModelForm):
+    # Same with a custom autocomplete_light.ModelForm
+    class CustomModelForm(autocomplete_light.ModelForm):
+        # autocomplete_light.ModelForm will set up the fields for you
         some_extra_field = forms.CharField()
 
         class Meta:
             model = SomeModel
-            widgets = autocomplete_light.get_widgets_dict(SomeModel)
 
-    # Using widgets directly in any kind of form.
+    # Using form fields directly in any kind of form
     class NonModelForm(forms.Form):
-        user = forms.ModelChoiceField(User.objects.all(),
-            widget=autocomplete_light.ChoiceWidget('UserAutocomplete'))
+        user = autocomplete_light.ModelChoiceField('UserAutocomplete')
 
-        cities = forms.ModelMultipleChoiceField(City.objects.all(),
+        cities = autocomplete_light.ModelMultipleChoiceField('CityAutocomplete',
             widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete',
                 # Those attributes have priority over the Autocomplete ones.
                 attrs={'data-autocomplete-minimum-characters': 0,
                        'placeholder': 'Choose 3 cities ...'},
                 widget_attrs={'data-widget-maximum-values': 3}))
 
-        tags = autocomplete_light.TextWidget('TagAutocomplete')
+        tags = forms.TextField(widget=autocomplete_light.TextWidget('TagAutocomplete'))
 
 Low level basics
 ````````````````
@@ -175,7 +176,7 @@ Using `widget.js` is pretty much the same:
             choiceSelector: '[data-id]',
         },
         // Override some widget options, allow 3 choices:
-        maxValues: 3,
+        maximumValues: 3,
         // or method:
         getValue: function(choice) {
             return choice.data('id'),
@@ -206,22 +207,30 @@ Hence the widget.js HTML cookbook:
 
     <!--
     - class=autocomplete-light-widget: get picked up by widget.js defaults,
-    - data-bootstrap=normal: Rely on automatic bootstrap because
+    - any data-widget-* attribute will override yourlabs.Widget js option,
+    - data-widget-bootstrap=normal: Rely on automatic bootstrap because
       if don't need to override any method, but you could change
       that and make your own bootstrap, enabling you to make
       chained autocomplete, create options, whatever ...
-    - data-max-values: override a widget option
-    - data-minimum-characters: override an autocomplete option,
+    - data-widget-maximum-values: override a widget option maximumValues, note
+      that the naming conversion is done by jQuery.data().
     -->
     <span
         class="autocomplete-light-widget"
-        data-bootstrap="normal"
-        data-max-values="3"
-        data-minimum-characters="0"
+        data-widget-bootstrap="normal"
+        data-widget-maximum-values="3"
     >
 
-        <!-- Expected structure: have an input -->
-        <input type="text" id="some-unique-id" />
+        <!-- 
+        Expected structure: have an input, it can set override default
+        autocomplete options with data-autocomplete-* attributes, naming
+        conversion is done by jQuery.data().
+        -->
+        <input 
+            type="text" 
+            data-autocomplete-minimum-characters="0"
+            data-autocomplete-url="/foo" 
+        />
 
         <!--
         Default expected structure: have a .deck element to append selected
