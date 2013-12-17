@@ -11,21 +11,22 @@ DJANGO_TAGGIT="${DJANGO_TAGGIT:-1}"
 DJANGO_GENERIC_M2M="${DJANGO_GENERIC_M2M:-1}"
 PYTHON_VERSION="${PYTHON_VERSION:-3.3}"
 DJANGO_VERSION="${DJANGO_VERSION:-1.5}"
+POSTGRES_USER="${POSTGRES_USER:-postgres}"
 # for debug, it could be -e /dev/stdout
 XVFB_FLAGS="${XVFB_FLAGS:-}"
 export DATABASE_NAME="autocomplete_light_test_${BUILD_ID}${PYTHON_VERSION}${DJANGO_VERSION}${DJANGO_TAGGIT}${DJANGO_GENERIC_M2M}"
 export DATABASE_NAME="${DATABASE_NAME//[._-]}"
 
 function clean {
-    psql -c "drop database if exists $DATABASE_NAME;" -U postgres
+    psql -c "drop database if exists $DATABASE_NAME;" -U $POSTGRES_USER
 }
 trap 'clean; exit' SIGINT SIGQUIT
 
 # Make a unique env path for this configuration
 ENV_PATH="$WORKSPACE/test_env"
 
-psql -c "drop database if exists $DATABASE_NAME;" -U postgres
-psql -c "create database $DATABASE_NAME;" -U postgres
+psql -c "drop database if exists $DATABASE_NAME;" -U $POSTGRES_USER
+psql -c "create database $DATABASE_NAME;" -U $POSTGRES_USER
 
 # Get real django version
 [ "$DJANGO_VERSION" = "1.4" ] && DJANGO_VERSION="1.4.10"
