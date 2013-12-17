@@ -1,6 +1,9 @@
 #!/bin/bash
 
+# Enable tracing (display executed lines)
 set -x
+# Halt on error!
+set -e
 
 WORKSPACE="${WORKSPACE:-$(pwd)}"
 CLEAN_VIRTUALENV="${CLEAN_VIRTUALENV:-0}"
