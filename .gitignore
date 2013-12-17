@@ -10,3 +10,4 @@ django_autocomplete_light.egg-info/
 docs/docs
 __pycache__
 *.mo
+test_env/
