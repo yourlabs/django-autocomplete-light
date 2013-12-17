@@ -42,14 +42,14 @@ easier to work with and supports python3.
 In this case, please refer to the `v2 documentation
 <http://django-autocomplete-light.readthedocs.org/en/v2/>`_.
 
-**To upgrade to v2**, just inherit from `autocomplete_light.ModelForm`. It
-does everything like creating form fields (which didn't exist in v1) handling
-generic relations, etc, etc .. And remove any reference to things that don't
-exist anymore in your code (`get_widgets_dict()`, `FixedModelForm`, etc ...).
+**To upgrade to v2**, please enjoy the `v1 to v2 upgrade instructions
+<http://django-autocomplete-light.readthedocs.org/en/v2/1to2.html>`_ (documented with love !).
 
-**If you're coming from v1**, you just need to read the documentation about the
-`new design of forms
-<http://django-autocomplete-light.readthedocs.org/en/v2/form.html#design-documentation>`_.
+- the Autocomplete class design hasn't changed at all.
+- ``yourlabsWidget()`` doesn't parses ``data-*`` options the same,
+- the django/form python code has been re-organised ie.
+  ``get_widgets_dict()`` is gone and ``autocomplete_light.ModelForm``
+  wraps around all features.
 
 Resources
 ---------
