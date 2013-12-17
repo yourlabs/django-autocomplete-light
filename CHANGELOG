@@ -1,3 +1,7 @@
+2.0.0a8:
+
+    - Updated pt_BR translation contributed by Fábio C. Barrionuevo da Luz (@luzfcb).
+
 2.0.0a7:
 
     - Removed a layer of complexity by trading autocomplete_js_attributes and
