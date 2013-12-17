@@ -49,10 +49,10 @@ Assuming you have registered a generic autocomplete,
 :py:class:`autocomplete_light.ModelForm
 <autocomplete_light.forms.ModelForm>` will pick it up automatically.
 
-If you want django's default behaviour back (``<select>``) then you could tell
-:py:class:`autocomplete_light.ModelForm
-<autocomplete_light.forms.ModelForm>` to not be "autocomplete-aware" for ``user`` as
-such:
+If you want Django's default behavior back (using a ``<select>`` tag), then you
+could tell :py:class:`autocomplete_light.ModelForm
+<autocomplete_light.forms.ModelForm>` to not be "autocomplete-aware" for
+``user`` as such:
 
 .. code-block:: python
 
@@ -77,10 +77,10 @@ and
             model = YourModel
             autocomplete_exclude = ('user',)
 
-You can still override widgets the same way as before though, but you should
-consider the :ref:`DRY breaking <dry-break>` implications (which have nothing
-to do with django-autocomplete-light actually, just an in-depth explanation of
-Django design).
+You can still override widgets the same way as before, but you should
+consider the :ref:`DRY breaking <dry-break>` implications (which are 
+not specific to django-autocomplete-light, but Django's design in
+general).
 
 Python class re-organisation
 ----------------------------
@@ -101,7 +101,7 @@ Deprecation of ``autocomplete_js_attributes`` and ``widget_js_attributes``
 
 In the past, we used ``autocomplete_js_attributes`` and
 ``widget_js_attributes``. Those are deprecated and HTML ``data``
-attributes should be set directly instead.
+attributes should be used instead.
 
 For example:
 
@@ -131,22 +131,21 @@ As you probably understand already magic inside
 ``autocomplete_js_attributes`` and ``widget_js_attributes`` is gone,
 we're just setting plain simple HTML attributes now with :py:attr:`input_attrs <autocomplete_light.registry.AutocompleteBase.input_attrs>`.
 
-Also not the other two differences which are detailed below:
+Also notice the other two differences which are detailed below:
 
-- ``max-values`` was renamed to ``maximum-values`` (see below),
-- ``data-autocomplete-placeholder`` is gone in favor of HTML5 ``placeholder`` attribute (see below),
+- ``max-values`` was renamed to ``maximum-values`` (see below)
+- ``data-autocomplete-placeholder`` is gone in favor of HTML5 ``placeholder`` attribute (see below)
 
 ``max-values`` was renamed to ``maximum-values``
 ------------------------------------------------
 
-For consistency with my one of my naming standards which is: no
-abbreviations.
+For consistency with one of my naming conventions which is: no abbreviations.
 
 ``data-autocomplete-placeholder`` is gone in favor of HTML5 ``placeholder`` attribute
 -------------------------------------------------------------------------------------
 
-It made no sense keeping ``data-autocomplete-placeholder`` since we now
-have HTML5 ``placeholder`` attribute.
+It made no sense to keep ``data-autocomplete-placeholder`` since we now
+have the HTML5 ``placeholder`` attribute.
 
 Widget template changes
 -----------------------
@@ -176,8 +175,8 @@ Script changes
 
 ``.yourlabsWidget()`` used to parse ``data-*`` attributes:
 
-- ``data-foo-bar`` used to set js attribute ``yourlabs.Widget.fooBar``,
-- ``data-autocomplete-foo-bar`` used to set js attribute ``yourlabs.Widget.autocomplete.fooBar``.
+- ``data-foo-bar`` used to set the JS attribute ``yourlabs.Widget.fooBar``,
+- ``data-autocomplete-foo-bar`` used to set the JS attribute ``yourlabs.Widget.autocomplete.fooBar``.
 
 Now:
 
