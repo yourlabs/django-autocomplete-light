@@ -218,11 +218,13 @@ $.fn.yourlabsTextWidget = function(overrides) {
 }
 
 $(document).ready(function() {
-    $('body').on('initialize', 'input[data-bootstrap=normal]', function() {
+    $('body').on('initialize', 'input[data-widget-bootstrap=text]', function() {
+        console.log('hi')
         /*
-        Only setup autocompletes on inputs which have data-bootstrap=normal,
-        if you want to initialize some autocompletes with custom code, then set
-        data-boostrap=yourbootstrap or something like that.
+        Only setup autocompletes on inputs which have
+        data-widget-bootstrap=text, if you want to initialize some
+        autocompletes with custom code, then set
+        data-widget-boostrap=yourbootstrap or something like that.
         */
         $(this).yourlabsTextWidget();
     });
@@ -230,7 +232,7 @@ $(document).ready(function() {
     // Solid initialization, usage::
     //
     //      $(document).bind('yourlabsTextWidgetReady', function() {
-    //          $('body').on('initialize', 'input[data-bootstrap=normal]', function() {
+    //          $('body').on('initialize', 'input[data-widget-bootstrap=text]', function() {
     //              $(this).yourlabsTextWidget({
     //                  yourCustomArgs: // ...
     //              })

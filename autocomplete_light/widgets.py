@@ -189,7 +189,7 @@ class WidgetBase(object):
 
         return attrs
 
-    def build_widget_attrs(self, name):
+    def build_widget_attrs(self, name=None):
         attrs = getattr(self.autocomplete, 'widget_attrs', {})
         attrs.update(self.widget_attrs)
 
@@ -203,7 +203,9 @@ class WidgetBase(object):
             attrs['data-widget-%s' % key.replace('_', '-')] = value
 
         attrs['class'] += 'autocomplete-light-widget '
-        attrs['class'] += name
+
+        if name:
+            attrs['class'] += name
 
         if attrs.get('data-widget-maximum-values', 0) == 1:
             attrs['class'] += ' single'
@@ -248,8 +250,13 @@ class MultipleChoiceWidget(WidgetBase, forms.SelectMultiple):
             registry, widget_template, widget_attrs)
 
 
-class TextWidget(forms.TextInput, WidgetBase):
-    """ Widget that just adds an autocomplete to fill a text input """
+class TextWidget(WidgetBase, forms.TextInput):
+    """
+    Widget that just adds an autocomplete to fill a text input.
+
+    Note that it only renders an ``<input>``, so attrs and widget_attrs are
+    merged together.
+    """
 
     def __init__(self, autocomplete=None, widget_js_attributes=None,
             autocomplete_js_attributes=None, extra_context=None, registry=None,
@@ -262,19 +269,24 @@ class TextWidget(forms.TextInput, WidgetBase):
                 autocomplete_js_attributes, extra_context, registry,
                 widget_template, widget_attrs)
 
+    def render(self, name, value, attrs=None):
+        """ Proxy Django's TextInput.render() """
+        return forms.TextInput.render(self, name, value, attrs)
+
     def build_attrs(self, extra_attrs=None, **kwargs):
-        attrs = forms.TextInput.build_attrs(self, extra_attrs, **kwargs)
+        attrs = super(TextWidget, self).build_widget_attrs()
+        attrs.update(super(TextWidget, self).build_attrs(
+            extra_attrs, **kwargs))
 
         def update_attrs(source, prefix=''):
             for key, value in source.items():
                 key = u'data-%s%s' % (prefix, key.replace('_', '-'))
                 attrs[key] = value
 
-        update_attrs(self.widget_js_attributes)
+        update_attrs(self.widget_js_attributes, 'widget-')
         update_attrs(self.autocomplete_js_attributes, 'autocomplete-')
 
-        if 'class' not in attrs.keys():
-            attrs['class'] = ''
+        attrs['data-widget-bootstrap'] = 'text'
         attrs['class'] += ' autocomplete-light-text-widget'
 
         return attrs

@@ -331,9 +331,9 @@ $.fn.yourlabsWidget = function(overrides) {
 $(document).ready(function() {
     $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=normal]', function() {
         /*
-        Only setup widgets which have data-bootstrap=normal, if you want to
+        Only setup widgets which have data-widget-bootstrap=normal, if you want to
         initialize some Widgets with custom code, then set
-        data-boostrap=yourbootstrap or something like that.
+        data-widget-boostrap=yourbootstrap or something like that.
         */
         $(this).yourlabsWidget();
     });
@@ -350,6 +350,7 @@ $(document).ready(function() {
     });
 
     // Solid initialization, usage:
+    //
     //
     //      $(document).bind('yourlabsWidgetReady', function() {
     //          $('.your.autocomplete-light-widget').on('initialize', function() {
