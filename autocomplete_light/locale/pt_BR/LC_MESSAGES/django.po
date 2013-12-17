@@ -17,11 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: forms.py:14
-msgid ""
-" Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr " Mantenha pressionada a tecla \"Control\", ou \"Command\" em um Mac, para selecionar mais de um."
-
 #: widgets.py:82
 msgid "type some text to search in this autocomplete"
 msgstr "escreva algum texto para buscar e autocompletar"
@@ -29,7 +24,3 @@ msgstr "escreva algum texto para buscar e autocompletar"
 #: autocomplete/base.py:160
 msgid "no matches found"
 msgstr "nenhum resultado encontrado"
-
-#: templates/autocomplete_light/widget.html:34
-msgid "Add another"
-msgstr "Adicionar outro"
