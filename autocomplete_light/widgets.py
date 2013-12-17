@@ -44,7 +44,11 @@ class WidgetBase(object):
 
         Will render like::
 
-            <input placeholder="foo" data-autocomplete-minimum-characters="0" class="autocomplete bar" />
+            <input
+                placeholder="foo"
+                data-autocomplete-minimum-characters="0"
+                class="autocomplete bar"
+            />
 
         Which will set by the way ``yourlabs.Autocomplete.minimumCharacters``
         option - the naming conversion is handled by jQuery.
@@ -62,7 +66,11 @@ class WidgetBase(object):
 
         Will render like::
 
-            <span id="country-wrapper" data-widget-maximum-values="6" class="country-autocomplete autcomplete-light-widget">
+            <span
+                id="country-wrapper"
+                data-widget-maximum-values="6"
+                class="country-autocomplete autcomplete-light-widget"
+            />
 
         Which will set by the way ``yourlabs.Widget.maximumValues`` - note that
         the naming conversion is handled by jQuery.
