@@ -112,60 +112,65 @@ autocomplete.
 Overriding a JS option in Python
 ````````````````````````````````
 
-Javascript widget options can be set in Python via the ``widget_js_attributes``
-keyword argument. And javascript autocomplete options can be set in Python via
-the ``autocomplete_js_attributes``.
+Javascript widget and autocomplete objects options can be overidden via HTML
+data attributes:
 
-Those can be set either on an Autocomplete class, either using the
-``register()`` shortcut, either via the Widget constructor.
+- ``yourlabs.Autocomplete`` will use any ``data-autocomplete-*`` attribute **on
+  the input tag**,
+- ``yourlabs.Widget`` will use any ``data-widget-*`` attribute **on the widget
+  container**.
 
-Per Autocomplete class
->>>>>>>>>>>>>>>>>>>>>>
-
-.. code-block:: python
-    
-    class AutocompleteYourModel(autocomplete_light.AutocompleteModelTemplate):
-        template_name = 'your_app/your_special_choice_template.html'
-
-        autocomplete_js_attributes = {
-            # This will actually data-autocomplete-minimum-characters which
-            # will set widget.autocomplete.minimumCharacters.
-            'minimum_characters': 4, 
-        }
-
-        widget_js_attributes = {
-            # That will set data-max-values which will set widget.maxValues
-            'max_values': 6,
-        }
+Those can be set in Python either with ``register()``, as Autocomplete class
+attributes or as widget attributes. See next examples for details.
 
 Per registered Autocomplete
 >>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+These options can be set with the ``register()`` shortcut:
+
 .. code-block:: python
 
-    autocomplete_light.register(City,
-        # Those have priority over the class attributes
-        autocomplete_js_attributes={
-            'minimum_characters': 0, 
-            'placeholder': 'City name ?',
-        }
-        widget_js_attributes = {
-            'max_values': 6,
-        }
+    autocomplete_light.register(Person,
+        input_attrs={
+            'placeholder': 'foo',
+            'data-autocomplete-minimum-characters': 0
+        },
+        widget_attrs={'data-widget-maximum-values': 4}
     )
+
+Per Autocomplete class
+>>>>>>>>>>>>>>>>>>>>>>
+
+Or equivalently on a Python Autocomplete class:
+
+.. code-block:: python
+
+    class YourAutocomplete(autocomplete_light.AutocompleteModelBase):
+        model = Person
+        input_attrs={
+            'placeholder': 'foo',
+            'data-autocomplete-minimum-characters': 0
+        },
+        widget_attrs={'data-widget-maximum-values': 4}
 
 Per widget
 >>>>>>>>>>
 
+Or via the Python widget class:
+
 .. code-block:: python
 
-    class SomeForm(forms.Form):
-        cities = forms.ModelMultipleChoiceField(City.objects.all(),
-            widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete',
-                # Those attributes have priority over the Autocomplete ones.
-                autocomplete_js_attributes={'minimum_characters': 0,
-                                            'placeholder': 'Choose 3 cities ...'},
-                widget_js_attributes={'max_values': 3}))
+    autocomplete_light.ChoiceWidget('FooAutocomplete',
+        attrs={
+            'placeholder': 'foo',
+            'data-autocomplete-minimum-characters': 0
+        },
+        widget_attrs={'data-widget-maximum-values': 4}
+    )
+
+**NOTE** the difference of the option name here. It is ``attrs`` to match
+django and not ``input_attrs``. Note that ``Autocomplete.input_attrs`` might be
+renamed to ``Autocomplete.attrs`` before v2 hits RC.
 
 Override autocomplete JS options in JS
 ``````````````````````````````````````
@@ -269,7 +274,7 @@ way.
 .. code-block:: python
 
     autocomplete_light.register(City, 
-        widget_js_attributes={'bootstrap': 'your-custom-bootstrap'})
+        widget_attrs={'data-widget-bootstrap': 'your-custom-bootstrap'})
 
 .. note::
 

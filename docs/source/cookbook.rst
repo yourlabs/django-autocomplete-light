@@ -28,10 +28,10 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
 
     # It is possible to override javascript options from Python.
     autocomplete_light.register(OtherModel,
-        autocomplete_js_attributes={
-            # This will actually data-minimum-characters which
+        attrs={
+            # This will actually data-autocomplete-minimum-characters which
             # will set widget.autocomplete.minimumCharacters.
-            'minimum_characters': 0,
+            'data-autocomplete-minimum-characters': 0,
             'placeholder': 'Other model name ?',
         }
     )
@@ -40,19 +40,20 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
     class YourModelAutocomplete(autocomplete_light.AutocompleteModelTemplate):
         template_name = 'your_app/your_special_choice_template.html'
 
-        autocomplete_js_attributes = {
-            'minimum_characters': 4,
+        input_attrs = {
+            'data-mininum-minimum-characters': 4,
+            'placeholder': 'choose your model',
         }
 
-        widget_js_attributes = {
+        widget_attrs = {
             # That will set data-max-values which will set widget.maxValues
-            'max_values': 6,
+            'data-widget-maximum-values': 6,
         }
 
         def choices_for_request(self):
             """ Return choices for a particular request """
-            return super(YourModelAutocomplete, self).choices_for_request(
-                ).exclude(extra=self.request.GET['extra'])
+            self.choices = self.choices.exclude(extra=self.request.GET['extra'])
+            return super(YourModelAutocomplete, self).choices_for_request()
 
     # Just pass the class to register and it'll subclass it to be thread safe.
     autocomplete_light.register(YourModel, YourModelAutocomplete)
@@ -89,9 +90,9 @@ Various cooking recipes for ``your_app/forms.py``:
         cities = forms.ModelMultipleChoiceField(City.objects.all(),
             widget=autocomplete_light.MultipleChoiceWidget('CityAutocomplete',
                 # Those attributes have priority over the Autocomplete ones.
-                autocomplete_js_attributes={'minimum_characters': 0,
-                                            'placeholder': 'Choose 3 cities ...'},
-                widget_js_attributes={'max_values': 3}))
+                attrs={'data-autocomplete-minimum-characters': 0,
+                       'placeholder': 'Choose 3 cities ...'},
+                widget_attrs={'data-widget-maximum-values': 3}))
 
         tags = autocomplete_light.TextWidget('TagAutocomplete')
 

@@ -30,7 +30,46 @@ class WidgetBase(object):
     """
     Base widget for autocompletes.
 
+    .. py:attribute:: attrs
+
+        HTML ``<input />`` attributes, such as class, placeholder, etc ... Note
+        that any ``data-autocomplete-*`` attribute will be parsed as an option
+        for ``yourlabs.Autocomplete`` js object. For example::
+
+        attrs={
+            'placeholder': 'foo',
+            'data-autocomplete-minimum-characters': 0
+            'class': 'bar',
+        }
+
+        Will render like::
+
+            <input placeholder="foo" data-autocomplete-minimum-characters="0" class="autocomplete bar" />
+
+        Which will set by the way ``yourlabs.Autocomplete.minimumCharacters``
+        option - the naming conversion is handled by jQuery.
+
+    .. py:attribute:: widget_attrs
+
+        HTML widget container attributes. Note that any ``data-widget-*``
+        attribute will be parsed as an option for ``yourlabs.Widget`` js
+        object. For example::
+
+            widget_attrs={
+                'data-widget-maximum-values': 6,
+                'class': 'country-autocomplete',
+            }
+
+        Will render like::
+
+            <span id="country-wrapper" data-widget-maximum-values="6" class="country-autocomplete autcomplete-light-widget">
+
+        Which will set by the way ``yourlabs.Widget.maximumValues`` - note that
+        the naming conversion is handled by jQuery.
+
     .. py:attribute:: widget_js_attributes
+
+        **DEPRECATED** in favor of :py:attr::`widget_attrs`.
 
         A dict of options that will override the default widget options. For
         example::
@@ -57,6 +96,8 @@ class WidgetBase(object):
         The HTML to javascript name conversion is done by the jquery plugin.
 
     .. py:attribute:: autocomplete_js_attributes
+
+        **DEPRECATED** in favor of :py:attr::`attrs`.
 
         A dict of options like for :py:attr:`widget_js_attributes`. However,
         note that HTML attributes will be prefixed by ``data-autocomplete-``

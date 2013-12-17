@@ -1,3 +1,22 @@
+2.0.0a7:
+
+    - Removed a layer of complexity by trading autocomplete_js_attributes and
+      widget_js_attributes for attrs (for input/autocomplete object) and widget_attrs
+      (for widget container/widget js object).
+    - Fixed naming conventions issues:
+        - #124: css class .choiceDetail should be .choice-detail, same for
+          .choiceUpdate
+        - #97: rename .div css class to .block,
+    - Fixed #84: data-autocomplete-placeholder is gone in favor of the
+      placeholder attribute.
+    - Fixed #82: data-* is not parsed anymore by yourlabs.Widget, data-widget-*
+      is parsed for options instead.
+    - Fixed #81: js Autocomplete object now parses data-autocomplete-* for
+      options,
+    - Fixed #80: js maxValues is now maximumValues.
+    - Fixed #27: refactored selenium tests to be able to test any example app.
+    - Bugfix: get_autocomplete_from_arg returned wrong autocomplete in two cases
+
 2.0.0a6:
 
     - Simplified widget template selection.
