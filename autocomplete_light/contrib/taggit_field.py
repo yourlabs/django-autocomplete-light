@@ -4,10 +4,18 @@ need this.
 
 Example usage::
 
-    from autocomplete_light.contrib.taggit_field import TagField, TagWidget
+    from autocomplete_light.contrib.taggit_field import TaggitField, TaggitWidget
 
     class AppEditForm(forms.ModelForm):
-        tags = TagField(widget=TagWidget('TagAutocomplete'))
+        tags = TaggitField(widget=TaggitWidget('TagAutocomplete'))
+
+Register it as follows (in your_app/autocomplete_light_registry.py):
+
+    from taggit.models import Tag
+    autocomplete_light.register(Tag)
+
+TODO: How to integrate it in a admin form? See https://github.com/yourlabs/django-autocomplete-light/issues/213
+
 
 .. Warning::
     In this case, the tags field is a relation. Thus form.save() **must** be
