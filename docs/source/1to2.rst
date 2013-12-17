@@ -61,12 +61,11 @@ such:
             model = YourModel
             autocomplete_exclude = ('user',)
 
-You can still override the field using
-:py:cls:`autocomplete_light.ModelChoiceField
-<autocomplete_light.fields.ModelChoiceField>``
+:py:class:`autocomplete_light.ModelChoiceField
+<autocomplete_light.fields.ModelChoiceField>`
 and
-:py:cls:`autocomplete_light.GenericChoiceField
-<autocomplete_light.fields.GenericChoiceField>``:
+:py:class:`autocomplete_light.GenericModelChoiceField
+<autocomplete_light.fields.GenericModelChoiceField>`:
 
 .. code-block:: python
 
@@ -79,9 +78,9 @@ and
             autocomplete_exclude = ('user',)
 
 You can still override widgets the same way as before though, but you should
-consider the :ref:`dry-break`_ implications (which have nothing to do with
-django-autocomplete-light actually, just an in-depth explanation of Django
-design).
+consider the :ref:`DRY breaking <dry-break>` implications (which have nothing
+to do with django-autocomplete-light actually, just an in-depth explanation of
+Django design).
 
 Python class re-organisation
 ----------------------------
@@ -94,8 +93,8 @@ renamed. But if you can, just inherit from
 Generic field classes were moved from
 ``autocomplete_light.contrib.generic_m2m`` into
 ``autocomplete_light.fields``: just import
-``autocomplete_light.GenericModelChoiceField`` and
-``autocomplete_light.GenericModelMultipleChoiceField``.
+:py:class:`autocomplete_light.GenericModelChoiceField <autocomplete_light.fields.GenericModelChoiceField>` and
+:py:class:`autocomplete_light.GenericModelMultipleChoiceField <autocomplete_light.fields.GenericModelMultipleChoiceField`.
 
 Deprecation of ``autocomplete_js_attributes`` and ``widget_js_attributes``
 --------------------------------------------------------------------------
@@ -130,7 +129,7 @@ Should now be:
 
 As you probably understand already magic inside
 ``autocomplete_js_attributes`` and ``widget_js_attributes`` is gone,
-we're just setting plain simple HTML attributes now.
+we're just setting plain simple HTML attributes now with :py:attr:`input_attrs <autocomplete_light.registry.AutocompleteBase.input_attrs>`.
 
 Also not the other two differences which are detailed below:
 
@@ -177,7 +176,7 @@ Script changes
 
 ``.yourlabsWidget()`` used to parse ``data-*`` attributes:
 
-- ``data-foo-bar`` used to set js attribute ``yourlabs.Widget.fooBar,
+- ``data-foo-bar`` used to set js attribute ``yourlabs.Widget.fooBar``,
 - ``data-autocomplete-foo-bar`` used to set js attribute ``yourlabs.Widget.autocomplete.fooBar``.
 
 Now:
