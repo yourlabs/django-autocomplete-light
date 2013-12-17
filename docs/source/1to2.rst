@@ -197,3 +197,8 @@ Becomes:
 
     <span class="autocomplete-light-widget" data-widget-foo-bar="3">
         <input data-autocomplete-foo-bar="2" ... />
+
+``.choiceDetail`` and ``.choiceUpdate`` were renamed to ``.choice-detail`` and ``.choice-update``
+`````````````````````````````````````````````````````````````````````````````````````````````````
+
+This makes the CSS class names standard.
