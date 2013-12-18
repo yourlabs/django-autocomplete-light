@@ -20,7 +20,7 @@ ENV_PATH="$WORKSPACE/test_env"
 # Get real django version
 [ "$DJANGO_VERSION" = "1.4" ] && DJANGO_VERSION="1.4.10"
 [ "$DJANGO_VERSION" = "1.5" ] && DJANGO_VERSION="1.5.5"
-[ "$DJANGO_VERSION" = "1.6" ] && DJANGO_VERSION="1.6"
+[ "$DJANGO_VERSION" = "1.6" ] && DJANGO_VERSION="1.6.1"
 
 # Clean virtualenv if necessary
 [ "$CLEAN_VIRTUALENV" = "1" ] && rm -rf $ENV_PATH
