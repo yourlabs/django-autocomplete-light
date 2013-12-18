@@ -318,7 +318,7 @@ class KeyboardTestCase(WidgetTestCase):
 
 
 class InlineBlankTestCase(ActivateAutocompleteInBlankFormTestCase):
-    autocomplete_name = 'fkmodel_set-3-noise'
+    autocomplete_name = 'reverse_for_inline-3-relation'
 
     def setup_test_case(self):
         self.login()
@@ -328,7 +328,7 @@ class InlineBlankTestCase(ActivateAutocompleteInBlankFormTestCase):
 
 
 class InlineSelectChoiceTestCase(SelectChoiceInEmptyFormTestCase):
-    autocomplete_name = 'fkmodel_set-3-noise'
+    autocomplete_name = 'reverse_for_inline-3-relation'
 
     def setup_test_case(self):
         self.login()

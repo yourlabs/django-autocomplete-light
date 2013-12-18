@@ -21,7 +21,7 @@ class FkModel(models.Model):
     noise = models.ForeignKey('OtoModel', null=True, blank=True)
 
     for_inline = models.ForeignKey('self', null=True, blank=True,
-                                   related_name='inline')
+                                   related_name='reverse_for_inline')
     def __str__(self):
         return self.name
 

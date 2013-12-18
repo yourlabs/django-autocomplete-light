@@ -52,7 +52,13 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def assertExpectedFormField(self, name='relation'):
         self.assertInForm(name)
-        self.assertEqual(self.form[name].label, name.capitalize())
+
+        if self.__class__.__name__ != 'TaggitModelFormTestCase':
+            # django-taggit enforces verbose_name=_('Tags')
+            # bug reported at:
+            # https://github.com/alex/django-taggit/issues/177
+            self.assertEqual(force_text(self.form[name].label), name.capitalize())
+
         self.assertTrue(isinstance(self.form.fields[name],
             self.field_class))
         self.assertTrue(isinstance(self.form.fields[name].widget,
