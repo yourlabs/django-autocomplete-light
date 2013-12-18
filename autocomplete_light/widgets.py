@@ -202,7 +202,7 @@ class WidgetBase(object):
         for key, value in self.autocomplete_js_attributes.items():
             attrs['data-widget-%s' % key.replace('_', '-')] = value
 
-        attrs['class'] += 'autocomplete-light-widget '
+        attrs['class'] += ' autocomplete-light-widget '
 
         if name:
             attrs['class'] += name
