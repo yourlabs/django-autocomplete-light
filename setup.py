@@ -13,7 +13,7 @@ def read(fname):
 
 
 class RunTests(Command):
-    description = "Run the django test suite from the testproj dir."
+    description = "Run the django test suite from the test_project dir."
 
     user_options = []
 
@@ -44,7 +44,7 @@ if 'sdist' in sys.argv:
         if 'django.mo' in filenames:
             os.unlink(os.path.join(dirpath, 'django.mo'))
 else:
-    # if django is there, compile the po files to mo,
+    # if django is there, compile the po files to mo
     try:
         import django
     except ImportError:
