@@ -1,18 +1,8 @@
 """
-Support for django-taggit tags system. If using django-taggit, you **will**
-need this.
+Support for django-taggit tags system. It is used automatically by
+autocomplete_light.ModelForm but you can use it independently.
 
-Example usage::
-
-    class AppEditForm(autocomplete_light.ModelForm):
-        tags = TaggitField('TagAutocomplete')
-
-Register it as follows (in your_app/autocomplete_light_registry.py):
-
-    from taggit.models import Tag
-    autocomplete_light.register(Tag)
-
-TODO: How to integrate it in a admin form? See https://github.com/yourlabs/django-autocomplete-light/issues/213
+Note that you still need to register an autocomplete for the Tag model.
 
 .. Warning::
     In this case, the tags field is a relation. Thus form.save() **must** be
