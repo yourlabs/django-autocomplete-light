@@ -78,7 +78,7 @@ and
             autocomplete_exclude = ('user',)
 
 You can still override widgets the same way as before, but you should
-consider the :ref:`DRY breaking <dry-break>` implications (which are 
+consider the :ref:`DRY breaking <dry-break>` implications (which are
 not specific to django-autocomplete-light, but Django's design in
 general).
 
