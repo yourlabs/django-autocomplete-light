@@ -14,39 +14,23 @@ from .models import *
 from .forms import *
 
 
-class FkInline(admin.TabularInline):
-    model = FkModel
-    form = FkModelForm
-
-
-class FkModelAdmin(admin.ModelAdmin):
-    form = FkModelForm
-    inlines = [FkInline]
-admin.site.register(FkModel, FkModelAdmin)
-
-
-class OtoModelAdmin(admin.ModelAdmin):
-    form = OtoModelForm
-admin.site.register(OtoModel, OtoModelAdmin)
-
-
-class MtmModelAdmin(admin.ModelAdmin):
-    form = MtmModelForm
-admin.site.register(MtmModel, MtmModelAdmin)
-
-
-class GfkModelAdmin(admin.ModelAdmin):
-    form = GfkModelForm
-admin.site.register(GfkModel, GfkModelAdmin)
-
+models = [FkModel, OtoModel, MtmModel, GfkModel]
 
 if genericm2m:
-    class GmtmModelAdmin(admin.ModelAdmin):
-        form = GmtmModelForm
-    admin.site.register(GmtmModel, GmtmModelAdmin)
-
+    models.append(GmtmModel)
 
 if taggit:
-    class TaggitModelAdmin(admin.ModelAdmin):
-        form = TaggitModelForm
-    admin.site.register(TaggitModel, TaggitModelAdmin)
+    models.append(TaggitModel)
+
+
+for model in models:
+    ModelForm = autocomplete_light.modelform_factory(model,
+        exclude=['for_inline', 'noise'])
+
+    Inline = type(str('%sInline') % model.__name__, (admin.TabularInline,), {
+        'form': ModelForm, 'model': model, 'fk_name': 'for_inline'})
+
+    ModelAdmin = type(str('%sAdmin' % model.__name__), (admin.ModelAdmin,), {
+        'form': ModelForm, 'inlines': [Inline]})
+
+    admin.site.register(model, ModelAdmin)

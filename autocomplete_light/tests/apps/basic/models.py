@@ -20,6 +20,8 @@ class FkModel(models.Model):
     relation = models.ForeignKey('self', null=True, blank=True)
     noise = models.ForeignKey('OtoModel', null=True, blank=True)
 
+    for_inline = models.ForeignKey('self', null=True, blank=True,
+                                   related_name='inline')
     def __str__(self):
         return self.name
 
@@ -30,6 +32,8 @@ class OtoModel(models.Model):
     relation = models.OneToOneField('self', null=True, blank=True)
     noise = models.ForeignKey('FkModel', null=True, blank=True)
 
+    for_inline = models.ForeignKey('self', null=True, blank=True,
+                                   related_name='inline')
     def __str__(self):
         return self.name
 
@@ -40,6 +44,8 @@ class MtmModel(models.Model):
     relation = models.ManyToManyField('self', blank=True)
     noise = models.ForeignKey('FkModel', null=True, blank=True)
 
+    for_inline = models.ForeignKey('self', null=True, blank=True,
+                                   related_name='inline')
     def __str__(self):
         return self.name
 
@@ -54,6 +60,8 @@ class GfkModel(models.Model):
 
     noise = models.ForeignKey('FkModel', null=True, blank=True)
 
+    for_inline = models.ForeignKey('self', null=True, blank=True,
+                                   related_name='inline')
     def __str__(self):
         return self.name
 
@@ -65,6 +73,8 @@ if RelatedObjectsDescriptor:
         relation = RelatedObjectsDescriptor()
 
         noise = models.ForeignKey('FkModel', null=True, blank=True)
+        for_inline = models.ForeignKey('self', null=True, blank=True,
+                                       related_name='inline')
 
         def __str__(self):
             return self.name
@@ -77,6 +87,8 @@ if TaggableManager:
         noise = models.ForeignKey('FkModel', null=True, blank=True)
         relation = TaggableManager()
 
+        for_inline = models.ForeignKey('self', null=True, blank=True,
+                                       related_name='inline')
         def __str__(self):
             return self.name
 
