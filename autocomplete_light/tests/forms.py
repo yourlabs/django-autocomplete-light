@@ -52,6 +52,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def assertExpectedFormField(self, name='relation'):
         self.assertInForm(name)
+        self.assertEqual(self.form.fields[name].label, name)
         self.assertTrue(isinstance(self.form.fields[name],
             self.field_class))
         self.assertTrue(isinstance(self.form.fields[name].widget,

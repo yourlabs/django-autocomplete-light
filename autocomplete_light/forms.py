@@ -346,7 +346,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
                 required=not meta.model._meta.get_field_by_name(
-                    field.fk_field))
+                    field.fk_field),
+                label=_(field.name),
+            )
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
@@ -358,7 +360,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 continue
 
             new_class.base_fields[field.name] = \
-                GenericModelMultipleChoiceField()
+                GenericModelMultipleChoiceField(
+                    label=_(field.name))
 
 
 class ModelForm(six.with_metaclass(ModelFormMetaclass,
