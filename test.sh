@@ -42,7 +42,6 @@ source $ENV_PATH/bin/activate
 pip install django-cities-light==2.1.8
 pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
     -e $WORKSPACE \
-    -r $WORKSPACE/test_project/requirements.txt \
     -r $WORKSPACE/test_project/test_requirements.txt \
     django==$DJANGO_VERSION
 
