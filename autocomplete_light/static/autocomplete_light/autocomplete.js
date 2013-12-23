@@ -509,9 +509,13 @@ yourlabs.Autocomplete.prototype.fixPosition = function() {
     // This change of CSS for just a moment is required for
     // proper positioning of the autocomplete in some cases,
     // eg. grappelli admin.
+
     // This is *not* the same thing as .offset().
     var old_css = this.input.css("position");
-    this.input.css("position", "absolute");
+    var float = this.input.css("float");
+    if (float!="right" && float!="left")
+        this.input.css("position", "absolute");
+
     var pos = $.extend({}, this.input.position(), {
         height: this.input.outerHeight()
     });
