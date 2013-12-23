@@ -506,12 +506,19 @@ yourlabs.Autocomplete.prototype.move = function(e) {
 
 // Calculate and set the outer container's absolute positionning.
 yourlabs.Autocomplete.prototype.fixPosition = function() {
-    // Insert the autocomplete container after the input.
+    // This change of CSS for just a moment is required for
+    // proper positioning of the autocomplete in some cases,
+    // eg. grappelli admin.
+    // This is *not* the same thing as .offset().
+    var old_css = this.input.css("position");
+    this.input.css("position", "absolute");
     var pos = $.extend({}, this.input.position(), {
         height: this.input.outerHeight()
     });
-	
-    this.box.insertAfter(this.input).css(
+    this.input.css("position", old_css);
+
+   // Insert the autocomplete container after the input.
+   this.box.insertAfter(this.input).css(
             {top: pos.top + pos.height, left: pos.left});
 }
 
