@@ -66,6 +66,23 @@ body.change-form .autocomplete-light-widget
     float: left;
 }
 
+.autocomplete-light-widget {
+    /* "Position" the widget */
+    position: relative;
+}
+
+input.autocomplete {
+    position: relative;
+    vertical-align: top;
+}
+
+.autocomplete-light-widget.yourlabs-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+}
+
 .autocomplete-light-widget .deck [data-value]
 {
     list-style-type: none;
