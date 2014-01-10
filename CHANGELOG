@@ -1,3 +1,6 @@
+1.4.12: Fix #231: widget.js should only initialize freshly created widget
+                  elements.
+
 1.4.11: Fix #226: improved positionning of autocomplete
 
 1.4.10: Fix #211: updated pt_BR translation
