@@ -1,3 +1,5 @@
+1.4.11: Fix #226: improved positionning of autocomplete
+
 1.4.10: Fix #211: updated pt_BR translation
 
 Also, pt-br was renamed to pt_BR to match django's translation path.
