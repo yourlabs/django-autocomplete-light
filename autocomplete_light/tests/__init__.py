@@ -7,6 +7,7 @@ from .generic import GenericModelFormTestCase
 from .generic_m2m import AutocompleteGenericM2MTestCase
 from .exceptions import AutocompleteNotRegisteredTestCase
 from .widget import WidgetTestCase
+from .widgets import WidgetsTestCase
 
 from .autocomplete.choice_list import AutocompleteChoiceListTestCase
 from .autocomplete.list import AutocompleteListTestCase
