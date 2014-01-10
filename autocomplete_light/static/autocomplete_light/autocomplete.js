@@ -503,6 +503,10 @@ yourlabs.Autocomplete.prototype.fixPosition = function() {
     var pos = $.extend({}, this.input.position(), {
         height: this.input.outerHeight()
     });
+
+    this.input.parents().filter(function() {
+        return $(this).css('overflow') === 'hidden';
+    }).first().css('overflow', 'visible');
 	
     this.box.insertAfter(this.input).css(
             {top: pos.top + pos.height, left: pos.left});
