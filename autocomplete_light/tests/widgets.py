@@ -12,7 +12,7 @@ except ImportError:  # python2
 from django import template
 import autocomplete_light
 
-from .apps.basic.models import FkModel
+from ..example_apps.basic.models import FkModel
 
 
 class WidgetBaseTestCase(unittest.TestCase):

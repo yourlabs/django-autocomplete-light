@@ -18,9 +18,9 @@ urlpatterns = patterns('',
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^navigation/', include('navigation_autocomplete.urls')),
     url(r'^security_test/',
-        include('autocomplete_light.tests.apps.security_test.urls')),
+        include('autocomplete_light.example_apps.security_test.urls')),
     url(r'^non_admin_add_another/',
-        include('autocomplete_light.tests.apps.non_admin_add_another.urls')),
+        include('autocomplete_light.example_apps.non_admin_add_another.urls')),
     (r'^favicon.ico', generic.RedirectView.as_view(url='http://mozilla.org/favicon.ico')),
     (r'^$', generic.TemplateView.as_view(template_name='index.html'))
 )

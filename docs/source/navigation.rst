@@ -20,7 +20,7 @@ to render the autocomplete. For example:
     from django import shortcuts
     from django.db.models import Q
     
-    from autocomplete_light.tests.apps.music.models import Artist, Genre
+    from autocomplete_light.example_apps.music.models import Artist, Genre
 
     def navigation_autocomplete(request,
         template_name='navigation_autocomplete/autocomplete.html'):

@@ -92,12 +92,12 @@ INSTALLED_APPS = (
     'cities_light',
 
     'autocomplete_light',
-    'autocomplete_light.tests.apps.basic',
-    'autocomplete_light.tests.apps.music',
-    'autocomplete_light.tests.apps.autocomplete_test_case_app',
-    'autocomplete_light.tests.apps.security_test',
-    'autocomplete_light.tests.apps.dependant_autocomplete',
-    'autocomplete_light.tests.apps.non_admin_add_another',
+    'autocomplete_light.example_apps.basic',
+    'autocomplete_light.example_apps.music',
+    'autocomplete_light.example_apps.autocomplete_test_case_app',
+    'autocomplete_light.example_apps.security_test',
+    'autocomplete_light.example_apps.dependant_autocomplete',
+    'autocomplete_light.example_apps.non_admin_add_another',
 
     'navigation_autocomplete',
 )

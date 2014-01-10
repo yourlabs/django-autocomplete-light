@@ -3,7 +3,7 @@ from .case import *
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
 
-from ..apps.autocomplete_test_case_app.models import User, Group
+from ...example_apps.autocomplete_test_case_app.models import User, Group
 
 
 class AutocompleteGenericMock(autocomplete_light.AutocompleteGenericBase):

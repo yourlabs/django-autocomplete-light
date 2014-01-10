@@ -4,7 +4,7 @@ from django.utils.encoding import force_text
 from django.template import Template, Context
 
 from .case import *
-from ..apps.autocomplete_test_case_app.models import User, Group
+from ...example_apps.autocomplete_test_case_app.models import User, Group
 
 
 class AutocompleteMock(autocomplete_light.AutocompleteModelTemplate):

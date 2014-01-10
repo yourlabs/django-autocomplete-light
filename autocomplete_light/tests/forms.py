@@ -9,9 +9,9 @@ from django.forms.models import modelform_factory
 
 import autocomplete_light
 
-from .apps.basic.admin import *
-from .apps.basic.models import *
-from .apps.basic.forms import *
+from ..example_apps.basic.admin import *
+from ..example_apps.basic.models import *
+from ..example_apps.basic.forms import *
 
 
 class SelectMultipleHelpTextRemovalMixinTestCase(unittest.TestCase):

@@ -5,7 +5,7 @@ from django import forms
 from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 
-from ..apps.autocomplete_test_case_app.models import User, Group
+from ...example_apps.autocomplete_test_case_app.models import User, Group
 
 import autocomplete_light
 
