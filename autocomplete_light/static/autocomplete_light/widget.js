@@ -398,10 +398,11 @@ $(document).ready(function() {
                 widget.selectChoice(deckChoice);
             }
         } else { // added a widget ?
-            var widget = $(e.target).find('.autocomplete-light-widget');
+            var notReady = '.autocomplete-light-widget:not([data-widget-ready])'
+            var widget = $(e.target).find(notReady);
 
             if (!widget.length) {
-                widget = $(e.target).is('.autocomplete-light-widget') ? $(e.target) : false;
+                widget = $(e.target).is(notReady) ? $(e.target) : false;
 
                 if (!widget) {
                     return;
