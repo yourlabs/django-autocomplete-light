@@ -402,11 +402,7 @@ $(document).ready(function() {
             var widget = $(e.target).find(notReady);
 
             if (!widget.length) {
-                widget = $(e.target).is(notReady) ? $(e.target) : false;
-
-                if (!widget) {
-                    return;
-                }
+                return;
             }
 
             // Ignore inserted autocomplete box elements.
