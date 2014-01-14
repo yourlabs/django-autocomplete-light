@@ -33,13 +33,11 @@ class WidgetBase(object):
                  widget_js_attributes=None, autocomplete_js_attributes=None,
                  extra_context=None):
 
+        self._autocomplete = None
         if isinstance(autocomplete, basestring):
             self.autocomplete_name = autocomplete
-            from autocomplete_light import registry
-            self.autocomplete = registry[self.autocomplete_name]
         else:
             self.autocomplete = autocomplete
-            self.autocomplete_name = autocomplete.__class__.__name__
 
         if extra_context is None:
             self.extra_context = {}
@@ -55,6 +53,21 @@ class WidgetBase(object):
             self.autocomplete_js_attributes = {}
         else:
             self.autocomplete_js_attributes = autocomplete_js_attributes
+
+    def autocomplete():
+        def fget(self):
+            if not self._autocomplete:
+                from autocomplete_light import registry
+                self._autocomplete = registry[self.autocomplete_name]
+
+            return self._autocomplete
+
+        def fset(self, value):
+            self._autocomplete = value
+            self.autocomplete_name = value.__class__.__name__
+
+        return {'fget': fget, 'fset': fset}
+    autocomplete = property(**autocomplete())
 
     def process_js_attributes(self):
         extra_autocomplete_js_attributes = getattr(self.autocomplete,
