@@ -46,7 +46,7 @@ class AutocompleteInterface(object):
         self.request = request
 
         if values is None:
-            self.values = values
+            self.values = []
         elif (isinstance(values, six.string_types) or
                 not hasattr(values, '__iter__')):
             self.values = [values]
