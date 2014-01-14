@@ -17,7 +17,8 @@ for model in models:
 
 class A(autocomplete_light.AutocompleteGenericBase):
     choices=[m.objects.all() for m in models]
-    search_fields=['name'] * len(models)
+    search_fields=[['name']] * len(models)
+
 
 autocomplete_light.register(A)
 
