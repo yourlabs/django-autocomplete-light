@@ -40,7 +40,8 @@ urlpatterns = patterns('',
     (r'^i18n/', include('django.conf.urls.i18n')),
     (r'^just_javascript/$', generic.TemplateView.as_view(
         template_name='just_javascript.html')),
-    (r'^$', generic.TemplateView.as_view(template_name='index.html'))
+    (r'^$', generic.TemplateView.as_view(template_name='index.html')),
+    url('r^taggit_autocomplete/', include('taggit_autocomplete.urls')),
 )
 
 if hvad:
