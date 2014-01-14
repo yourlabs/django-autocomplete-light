@@ -1,3 +1,12 @@
+2.0.a9:
+
+    - Fix #219: autocompletes now convert None value to an empty list, as
+      Autocomplete promises that values is a list. (Fixed gfk in inlines)
+    - Fix #226: improved css/js positioning.
+    - Fix #231: widget.js was re-initializing widgets.
+    - Fixed taggit support
+    - Fix: label was not set for gmtm and gfk in inlines.
+
 2.0.0a8:
 
     - Updated pt_BR translation contributed by Fábio C. Barrionuevo da Luz (@luzfcb).
