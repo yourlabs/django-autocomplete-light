@@ -15,6 +15,10 @@ import autocomplete_light
 from ..example_apps.basic.models import FkModel
 
 
+class LazyAutocomplete(autocomplete_light.AutocompleteModelBase):
+    pass
+
+
 class WidgetBaseTestCase(unittest.TestCase):
     widget_class = autocomplete_light.WidgetBase
 
@@ -113,6 +117,35 @@ class WidgetBaseTestCase(unittest.TestCase):
 
         self.assertIn('foo', et.attrib['class'])
 
+    def test_lazy_autocomplete_init(self):
+        registry = autocomplete_light.AutocompleteRegistry()
+
+        try:
+            self.widget_class('LazyAutocomplete', registry=registry)
+        except autocomplete_light.AutocompleteNotRegistered:
+            self.fail('WidgetBase initialization should not trigger registry '
+                      'access')
+
+    def test_lazy_autcomplete_access(self):
+        registry = autocomplete_light.AutocompleteRegistry()
+
+        widget = self.widget_class('LazyAutocomplete', registry=registry)
+
+        try:
+            widget.autocomplete
+            self.fail('Should raise AutocompleteNotRegistered on unregistered '
+                      'LazyAutocomplete')
+        except autocomplete_light.AutocompleteNotRegistered:
+            pass
+
+        registry.register(LazyAutocomplete)
+        self.assertIn('LazyAutocomplete', registry.keys())
+
+        try:
+            widget.autocomplete
+        except autocomplete_light.AutocompleteNotRegistered:
+            self.fail('widget.autocomplete access should not raise '
+                      'AutocompleteNotRegistered')
 
 class ChoiceWidgetTestCase(WidgetBaseTestCase):
     widget_class = autocomplete_light.ChoiceWidget

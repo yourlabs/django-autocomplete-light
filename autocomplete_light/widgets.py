@@ -43,7 +43,6 @@ class WidgetBase(object):
         }
 
         Will render like::
-
             <input
                 placeholder="foo"
                 data-autocomplete-minimum-characters="0"
@@ -127,8 +126,10 @@ class WidgetBase(object):
                  autocomplete_js_attributes=None, extra_context=None,
                  registry=None, widget_template=None, widget_attrs=None):
 
-        registry = registry or default_registry
-        self.autocomplete = registry.get_autocomplete_from_arg(autocomplete)
+        self.registry = default_registry if registry is None else registry
+        self._autocomplete = None
+        self.autocomplete_arg = autocomplete
+
         self.widget_js_attributes = widget_js_attributes or {}
         self.autocomplete_js_attributes = autocomplete_js_attributes or {}
         self.extra_context = extra_context or {}
@@ -213,6 +214,21 @@ class WidgetBase(object):
             attrs['class'] += ' multiple'
 
         return attrs
+
+    def autocomplete():
+        def fget(self):
+            if not self._autocomplete:
+                self._autocomplete = self.registry.get_autocomplete_from_arg(
+                    self.autocomplete_arg)
+
+            return self._autocomplete
+
+        def fset(self, value):
+            self._autocomplete = value
+            self.autocomplete_name = value.__class__.__name__
+
+        return {'fget': fget, 'fset': fset}
+    autocomplete = property(**autocomplete())
 
 
 class ChoiceWidget(WidgetBase, forms.Select):
