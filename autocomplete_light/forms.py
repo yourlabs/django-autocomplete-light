@@ -194,6 +194,7 @@ class FormfieldCallback(object):
     def __init__(self, default=None, meta=None):
         self.autocomplete_exclude = getattr(meta, 'autocomplete_exclude', None)
         self.autocomplete_fields = getattr(meta, 'autocomplete_fields', None)
+        self.autocomplete_names = getattr(meta, 'autocomplete_names', {})
 
         def _default(model_field, **kwargs):
             return model_field.formfield(**kwargs)
@@ -210,8 +211,12 @@ class FormfieldCallback(object):
             pass
 
         elif hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
-            autocomplete = default_registry.autocomplete_for_model(
-                model_field.rel.to)
+            if model_field.name in self.autocomplete_names:
+                autocomplete = default_registry.get(
+                    self.autocomplete_names[model_field.name])
+            else:
+                autocomplete = default_registry.autocomplete_for_model(
+                    model_field.rel.to)
 
             if autocomplete is not None:
                 kwargs['autocomplete'] = autocomplete
@@ -345,6 +350,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 continue
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
+                autocomplete=cls.get_generic_autocomplete(meta, field.name),
                 required=not meta.model._meta.get_field_by_name(
                     field.fk_field)
             )
@@ -359,7 +365,19 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 continue
 
             new_class.base_fields[field.name] = \
-                GenericModelMultipleChoiceField()
+                GenericModelMultipleChoiceField(
+                    autocomplete=cls.get_generic_autocomplete(
+                        meta, field.name))
+
+    @classmethod
+    def get_generic_autocomplete(self, meta, name):
+        autocomplete_name = getattr(meta, 'autocomplete_names', {}).get(
+            name, None)
+
+        if autocomplete_name:
+            return default_registry[autocomplete_name]
+        else:
+            return default_registry.default_generic
 
 
 class ModelForm(six.with_metaclass(ModelFormMetaclass,

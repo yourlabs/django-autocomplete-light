@@ -54,6 +54,7 @@ class AutocompleteRegistry(dict):
         AutocompleteRegistry.
         """
         self._models = {}
+        self.default_generic = None
         self.autocomplete_model_base = autocomplete_model_base
 
         if self.autocomplete_model_base is None:
@@ -78,7 +79,7 @@ class AutocompleteRegistry(dict):
         del self[name]
 
         try:
-            if autocomplete.choices.model:
+            if self._models[autocomplete.choices.model].name == name:
                 del self._models[autocomplete.choices.model]
         except AttributeError:
             pass
@@ -174,7 +175,9 @@ class AutocompleteRegistry(dict):
         autocomplete = type(str(name), (base,), kwargs)
 
         self._register_autocomplete(autocomplete)
-        self._models[model] = autocomplete
+
+        if model not in self._models.keys():
+            self._models[model] = autocomplete
 
         return autocomplete
 
@@ -185,7 +188,8 @@ class AutocompleteRegistry(dict):
         self[autocomplete.__name__] = autocomplete
 
         if not getattr(autocomplete, 'model', False):
-            self.default_generic = autocomplete
+            if not self.default_generic:
+                self.default_generic = autocomplete
 
     def __getitem__(self, name):
         """

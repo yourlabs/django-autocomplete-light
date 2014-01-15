@@ -44,6 +44,11 @@ class BaseModelFormTestCase(unittest.TestCase):
 class ModelFormBaseTestCase(BaseModelFormTestCase):
     widget_class = autocomplete_light.ChoiceWidget
 
+    def get_new_autocomplete_class(self):
+        class SpecialAutocomplete(autocomplete_light.AutocompleteModelBase):
+            model = self.model_class
+        return SpecialAutocomplete
+
     def form_value(self, model):
         return 'relation=%s' % model.pk
 
@@ -190,6 +195,26 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertNotIsAutocomplete('relation')
         self.assertIsAutocomplete('noise')
 
+    def test_meta_autocomplete_names(self):
+        SpecialAutocomplete = self.get_new_autocomplete_class()
+        autocomplete_light.registry.register(SpecialAutocomplete)
+
+        class ModelForm(autocomplete_light.ModelForm):
+            class Meta:
+                model = self.model_class
+                autocomplete_names = {
+                    'relation': 'SpecialAutocomplete'
+                }
+
+        self.form = ModelForm()
+
+        self.assertInForm('name')
+        self.assertIsAutocomplete('relation')
+        self.assertIsAutocomplete('noise')
+
+        self.assertTrue(issubclass(self.form.fields['relation'].autocomplete,
+                                   SpecialAutocomplete))
+
     def test_modelform_factory(self):
         self.form = autocomplete_light.modelform_factory(self.model_class)()
 
@@ -282,6 +307,13 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
 class GenericModelFormTestCaseMixin(object):
     autocomplete_name = 'A'
+
+
+    def get_new_autocomplete_class(self):
+        class SpecialAutocomplete(autocomplete_light.AutocompleteGenericBase):
+            choices = autocomplete_light.registry[self.autocomplete_name].choices
+            search_fields = autocomplete_light.registry[self.autocomplete_name].search_fields
+        return SpecialAutocomplete
 
     def test_meta_autocomplete_exclude(self):
         class ModelForm(autocomplete_light.ModelForm):
