@@ -161,7 +161,7 @@ manually for example to make a navigation autocomplete like facebook:
     $('#yourInput').yourlabsAutocomplete({
         url: '{% url "your_autocomplete_url" %}',
         choiceSelector: 'a',
-    }).bind('selectChoice', function(e, choice, autocomplete) {
+    }).input.bind('selectChoice', function(e, choice, autocomplete) {
         window.location.href = choice.attr('href');
     });
 
