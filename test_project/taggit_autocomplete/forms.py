@@ -5,9 +5,6 @@ from models import TaggitDemo
 
 class TaggitDemoForm(forms.ModelForm):
     tags = taggit_tagfield.TagField(widget=taggit_tagfield.TagWidget('TagAutocomplete'))
+
     class Meta:
         model = TaggitDemo
-        widgets = {
-            'tags': autocomplete_light.TextWidget('TagAutocomplete'),
-        }
-
