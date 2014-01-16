@@ -10,6 +10,7 @@ except ImportError:
 
 try:
     from taggit.managers import TaggableManager
+    from taggit.models import TagBase, GenericTaggedItemBase
 except ImportError:
     TaggableManager = None
 
@@ -92,6 +93,28 @@ if TaggableManager:
         def __str__(self):
             return self.name
 
+    # using OtherTag to ensure different names between tags
+    @python_2_unicode_compatible
+    class OtherTag(TagBase):
+        def __str__(self):
+            return self.name
+
+    @python_2_unicode_compatible
+    class OtherTagThroughModel(GenericTaggedItemBase):
+        tag = models.ForeignKey(OtherTag, related_name = "tagged_items")
+        def __str__(self):
+            return self.tag.name
+
+    @python_2_unicode_compatible
+    class TaggitChoiceListModel(models.Model):
+        name = models.CharField(max_length=200)
+        noise = models.ForeignKey('FkModel', null=True, blank=True)
+        relation = TaggableManager(through = OtherTagThroughModel,
+                                   help_text = 'NB: you must add tags (basic > Other Tags) before you can use them here')
+        for_inline = models.ForeignKey('self', null=True, blank=True,
+                                       related_name='inline')
+        def __str__(self):
+            return self.name
 
 @python_2_unicode_compatible
 class FullModel(models.Model):

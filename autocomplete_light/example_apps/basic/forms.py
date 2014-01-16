@@ -43,3 +43,7 @@ if taggit:
     class TaggitModelForm(autocomplete_light.ModelForm):
         class Meta:
             model = TaggitModel
+
+    class TaggitMultiModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = TaggitChoiceListModel

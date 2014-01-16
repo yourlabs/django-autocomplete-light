@@ -37,10 +37,11 @@ except ImportError:
     TaggableManager = None
 
 from .registry import registry as default_registry
-from .fields import (ModelChoiceField, ModelMultipleChoiceField,
+from .fields import (ModelChoiceField, ModelMultipleChoiceField, MultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
 from .contrib.taggit_field import TaggitField
 from .widgets import ChoiceWidget, MultipleChoiceWidget
+from autocomplete_light import AutocompleteTaggitChoiceList
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
@@ -226,7 +227,10 @@ class FormfieldCallback(object):
                 elif isinstance(model_field, ManyToManyField):
                     kwargs['form_class'] = ModelMultipleChoiceField
                 elif isinstance(model_field, TaggableManager):
-                    kwargs['form_class'] = TaggitField
+                    if issubclass(autocomplete, AutocompleteTaggitChoiceList):
+                        kwargs['form_class'] = MultipleChoiceField
+                    else:
+                        kwargs['form_class'] = TaggitField
                 else:
                     # none of our concern
                     kwargs.pop('form_class')

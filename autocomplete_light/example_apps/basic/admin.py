@@ -20,8 +20,14 @@ if genericm2m:
     models.append(GmtmModel)
 
 if taggit:
+    import taggit.admin
     models.append(TaggitModel)
+    models.append(TaggitChoiceListModel)
 
+    class OtherTagAdmin(taggit.admin.TagAdmin):
+        inlines = []
+
+    admin.site.register(OtherTag, OtherTagAdmin)
 
 for model in models:
     ModelForm = autocomplete_light.modelform_factory(model,

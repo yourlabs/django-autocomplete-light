@@ -17,6 +17,13 @@ DATABASES = {
     }
 }
 
+#if module is installed into the environment then we'll use that. If not, then use a local/dev version
+try:
+    import autocomplete_light
+except:
+    import sys
+    sys.path.append(os.path.abspath(os.path.join(PROJECT_ROOT, '..')))
+
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, 'fixtures'),
 ]

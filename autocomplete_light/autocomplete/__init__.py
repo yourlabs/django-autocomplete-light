@@ -5,6 +5,7 @@ from .choice_list import AutocompleteChoiceList
 from .template import AutocompleteTemplate
 from .generic import AutocompleteGeneric
 from .rest_model import AutocompleteRestModel
+from .taggit_choice_list import AutocompleteTaggitChoiceList
 
 
 class AutocompleteListBase(AutocompleteList, AutocompleteBase):

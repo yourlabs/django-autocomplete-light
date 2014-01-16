@@ -1,4 +1,5 @@
 import autocomplete_light
+from autocomplete_light import AutocompleteTaggitChoiceList
 
 from .models import *
 
@@ -25,7 +26,9 @@ autocomplete_light.register(A)
 
 try:
     from taggit.models import Tag
+    from .models import OtherTag
 except ImportError:
     pass
 else:
     autocomplete_light.register(Tag)
+    autocomplete_light.register(OtherTag, AutocompleteTaggitChoiceList)
