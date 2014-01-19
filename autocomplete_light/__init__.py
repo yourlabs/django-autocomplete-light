@@ -7,6 +7,8 @@ from .autocomplete import *
 
 from .widgets import WidgetBase, ChoiceWidget, MultipleChoiceWidget, TextWidget
 
+from .contrib.taggit_field import TaggitWidget, TaggitField
+
 from .forms import *
 
 from .fields import *
