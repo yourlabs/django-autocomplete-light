@@ -134,6 +134,19 @@ Then, you can use :py:class:`autocomplete_light.ModelForm
         class Meta:
             model = Order
 
+Note that the first Autocomplete class registered for a model becomes the
+default Autocomplete for that model. If you have registered several
+Autocomplete classes for a given model, you probably want to use a different
+Autocomplete class depending on the form using 
+:py:attr:`Meta.autocomplete_names <autocomplete_light.forms.ModelForm.autocomplete_names>`:
+
+.. code-block:: python
+
+    class OrderModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            autocomplete_names = {'company': 'PublicCompanyAutocomplete'}
+            model = Order
+
 :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.ModelForm>`
 respects ``Meta.fields`` and ``Meta.exclude``. However, you can enable or
 disable :py:class:`autocomplete_light.ModelForm
