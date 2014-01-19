@@ -1,4 +1,14 @@
-2.0.a9:
+2.0.0a10:
+
+    - Implemented autocomplete_names support to override the default
+      Autocomplete class used for a given model form field,
+    - Make the first Autocomplete class the default autocomplete (for generic
+      and model).
+    - Implemented lazy autocompletes: you can refer to an autocomplete class
+      before it is discovered.
+    - Import TaggitField and TaggitWidget in autocomplete_light.
+
+2.0.0a9:
 
     - Fix #219: autocompletes now convert None value to an empty list, as
       Autocomplete promises that values is a list. (Fixed gfk in inlines)
