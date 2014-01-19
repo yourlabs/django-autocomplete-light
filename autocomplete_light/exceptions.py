@@ -33,4 +33,3 @@ class NoGenericAutocompleteRegistered(AutocompleteLightException):
     def __init__(self, registry):
         msg = 'No generic autocomplete was registered.'
         super(NoGenericAutocompleteRegistered, self).__init__(msg)
-
