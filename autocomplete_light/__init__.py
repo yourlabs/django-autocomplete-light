@@ -19,6 +19,9 @@ else:
     from .contrib.taggit_field import TaggitField, TaggitWidget
 
 from .views import CreateView, RegistryView, AutocompleteView
-from .exceptions import AutocompleteNotRegistered
+from .exceptions import (AutocompleteNotRegistered,
+                         NoGenericAutocompleteRegistered,
+                         AutocompleteArgNotUnderstood,
+                         AutocompleteLightException)
 
 from .settings import *

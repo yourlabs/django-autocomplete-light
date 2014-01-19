@@ -95,6 +95,10 @@ class RegistryTestCase(unittest.TestCase):
         except autocomplete_light.AutocompleteNotRegistered:
             pass
 
+    def test_raise_NoGenericAutocompleteRegistered(self):
+        self.assertRaises(autocomplete_light.NoGenericAutocompleteRegistered,
+                          autocomplete_light.AutocompleteRegistry().autocomplete_for_generic)
+
 class RegistryGetAutocompleteFromArgTestCase(unittest.TestCase):
     def setUp(self):
         self.registry = autocomplete_light.AutocompleteRegistry()
