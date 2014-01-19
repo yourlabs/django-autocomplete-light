@@ -395,8 +395,14 @@ class ModelForm(six.with_metaclass(ModelFormMetaclass,
         A list of field names on which you do not want automatic autocomplete
         fields.
 
-    Note: both ``autocomplete_fields`` and ``autocomplete_exclude`` understand
-    generic foreign key and generic many to many descriptor names.
+    .. py:attribute:: autocomplete_names
+
+        A dict of ``field_name: AutocompleteName`` to override the default
+        autocomplete that would be used for a field.
+
+    Note: all of ``autocomplete_fields``, ``autocomplete_exclude`` and
+    ``autocomplete_names`` understand generic foreign key and generic many to
+    many descriptor names.
     """
     __metaclass__ = ModelFormMetaclass
 
