@@ -99,6 +99,32 @@ class RegistryTestCase(unittest.TestCase):
         self.assertRaises(autocomplete_light.NoGenericAutocompleteRegistered,
                           self.registry.autocomplete_for_generic)
 
+    def test_autocomplete_for_model(self):
+        class FirstAutocomplete(autocomplete_light.AutocompleteModelBase):
+            pass
+
+        class SecondAutocomplete(autocomplete_light.AutocompleteModelBase):
+            pass
+
+        self.registry.register(Foo, FirstAutocomplete)
+        self.registry.register(Foo, SecondAutocomplete)
+
+        self.assertTrue(issubclass(
+            self.registry.autocomplete_for_model(Foo), FirstAutocomplete))
+
+    def test_autocomplete_for_generic(self):
+        class FirstAutocomplete(Generic):
+            pass
+
+        class SecondAutocomplete(Generic):
+            pass
+
+        self.registry.register(FirstAutocomplete)
+        self.registry.register(SecondAutocomplete)
+
+        self.assertTrue(issubclass(
+            self.registry.autocomplete_for_generic(), FirstAutocomplete))
+
 
 class RegistryGetAutocompleteFromArgTestCase(unittest.TestCase):
     def setUp(self):
