@@ -46,7 +46,7 @@ say ``SomeForm``, this would work:
 
 .. code-block:: python
 
-    import autocomplete_Light
+    import autocomplete_light
     autocomplete_light.autodiscover()
 
     from yourapp.views import SomeCreateView
@@ -57,7 +57,7 @@ But that wouldn't:
 
     from yourapp.views import SomeCreateView
 
-    import autocomplete_Light
+    import autocomplete_light
     autocomplete_light.autodiscover()
 
 That is because auto-discovery of autocomplete classes should happen before
