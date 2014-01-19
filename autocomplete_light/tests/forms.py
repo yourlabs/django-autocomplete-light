@@ -268,6 +268,22 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertExpectedFormField()
         self.assertIsAutocomplete('noise')
 
+    def test_modelform_factory_autocomplete_names(self):
+        SpecialAutocomplete = self.get_new_autocomplete_class()
+        autocomplete_light.registry.register(SpecialAutocomplete)
+
+        ModelForm = autocomplete_light.modelform_factory(self.model_class,
+            autocomplete_names={'relation': 'SpecialAutocomplete'})
+
+        self.form = ModelForm()
+
+        self.assertInForm('name')
+        self.assertIsAutocomplete('relation')
+        self.assertIsAutocomplete('noise')
+
+        self.assertTrue(issubclass(self.form.fields['relation'].autocomplete,
+                                   SpecialAutocomplete))
+
     def test_empty_registry(self):
         registry = autocomplete_light.AutocompleteRegistry()
 

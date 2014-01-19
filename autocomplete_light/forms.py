@@ -408,7 +408,8 @@ class ModelForm(six.with_metaclass(ModelFormMetaclass,
 
 
 def modelform_factory(model, autocomplete_fields=None,
-        autocomplete_exclude=None, registry=None, **kwargs):
+                      autocomplete_exclude=None, autocomplete_names=None,
+                      registry=None, **kwargs):
     """
     Wrap around Django's django_modelform_factory, using our ModelForm and
     setting autocomplete_fields and autocomplete_exclude.
@@ -422,6 +423,8 @@ def modelform_factory(model, autocomplete_fields=None,
         attrs['autocomplete_fields'] = autocomplete_fields
     if autocomplete_exclude is not None:
         attrs['autocomplete_exclude'] = autocomplete_exclude
+    if autocomplete_names is not None:
+        attrs['autocomplete_names'] = autocomplete_names
 
     # If parent form class already has an inner Meta, the Meta we're
     # creating needs to inherit from the parent's inner meta.
