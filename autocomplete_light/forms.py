@@ -34,7 +34,7 @@ except ImportError:
 try:
     from taggit.managers import TaggableManager
 except ImportError:
-    TaggableManager = None
+    class TaggableManager(object): pass
 
 from .registry import registry as default_registry
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
