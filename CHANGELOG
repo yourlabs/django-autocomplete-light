@@ -1,3 +1,9 @@
+2.0.0a11:
+
+    - #241 IE11 compatibility fix on text autocomplete contributed by Jonathan
+      Wiklund (@MaZZly)
+      
+
 2.0.0a10:
 
     - Implemented autocomplete_names support to override the default
