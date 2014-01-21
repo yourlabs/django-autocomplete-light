@@ -13,6 +13,9 @@ designed for Django so that every part overridable or reusable independently.
 It is stable, tested, documented and fully supported: it tries to be a good
 neighbour in Django ecosystem.
 
+**WARNING** you are currently on the v2 branch where new development happens.
+            master (v1) is still supported for BC.
+
 Features
 --------
 
