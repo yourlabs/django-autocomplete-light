@@ -1,3 +1,6 @@
+2.0.0a12: !! BC BREAK !! Renamed input_attrs to attrs to be consistent
+                         with django.
+
 2.0.0a11:
 
     - #241 IE11 compatibility fix on text autocomplete contributed by Jonathan
