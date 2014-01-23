@@ -131,7 +131,7 @@ These options can be set with the ``register()`` shortcut:
 .. code-block:: python
 
     autocomplete_light.register(Person,
-        input_attrs={
+        attrs={
             'placeholder': 'foo',
             'data-autocomplete-minimum-characters': 0
         },
@@ -147,7 +147,7 @@ Or equivalently on a Python Autocomplete class:
 
     class YourAutocomplete(autocomplete_light.AutocompleteModelBase):
         model = Person
-        input_attrs={
+        attrs={
             'placeholder': 'foo',
             'data-autocomplete-minimum-characters': 0
         },
@@ -169,7 +169,7 @@ Or via the Python widget class:
     )
 
 **NOTE** the difference of the option name here. It is ``attrs`` to match
-django and not ``input_attrs``. Note that ``Autocomplete.input_attrs`` might be
+django and not ``attrs``. Note that ``Autocomplete.attrs`` might be
 renamed to ``Autocomplete.attrs`` before v2 hits RC.
 
 Override autocomplete JS options in JS

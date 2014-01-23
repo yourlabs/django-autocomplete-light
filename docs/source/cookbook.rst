@@ -28,7 +28,7 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
 
     # It is possible to override javascript options from Python.
     autocomplete_light.register(OtherModel,
-        input_attrs={
+        attrs={
             # This will actually data-autocomplete-minimum-characters which
             # will set widget.autocomplete.minimumCharacters.
             'data-autocomplete-minimum-characters': 0,
@@ -40,7 +40,7 @@ Various cooking recipes ``your_app/autocomplete_light_registry.py``:
     class YourModelAutocomplete(autocomplete_light.AutocompleteModelTemplate):
         template_name = 'your_app/your_special_choice_template.html'
 
-        input_attrs = {
+        attrs = {
             'data-mininum-minimum-characters': 4,
             'placeholder': 'choose your model',
         }

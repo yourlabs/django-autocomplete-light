@@ -147,8 +147,8 @@ class WidgetBase(object):
 
     def render(self, name, value, attrs=None):
         widget_attrs = self.build_widget_attrs(name)
-        input_attrs = self.build_attrs(attrs)
-        self.html_id = input_attrs.pop('id', name)
+        attrs = self.build_attrs(attrs)
+        self.html_id = attrs.pop('id', name)
 
         autocomplete = self.autocomplete(values=value)
         choices = autocomplete.choices_for_values()
@@ -159,7 +159,7 @@ class WidgetBase(object):
             'values': values,
             'choices': choices,
             'widget': self,
-            'input_attrs': safestring.mark_safe(flatatt(input_attrs)),
+            'attrs': safestring.mark_safe(flatatt(attrs)),
             'widget_attrs': safestring.mark_safe(flatatt(widget_attrs)),
             'autocomplete': autocomplete,
         }
@@ -170,7 +170,7 @@ class WidgetBase(object):
         return safestring.mark_safe(render_to_string(template, context))
 
     def build_attrs(self, extra_attrs=None, **kwargs):
-        self.attrs.update(getattr(self.autocomplete, 'input_attrs', {}))
+        self.attrs.update(getattr(self.autocomplete, 'attrs', {}))
         attrs = super(WidgetBase, self).build_attrs(extra_attrs, **kwargs)
 
         if 'class' not in attrs.keys():

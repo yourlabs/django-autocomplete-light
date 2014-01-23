@@ -150,7 +150,7 @@ Should now be:
 
     class PersonAutocomplete(autocomplete_light.AutocompleteModelBase):
         model = Person
-        input_attrs = {
+        attrs = {
             'data-autcomplete-minimum-characters': 0,
             'placeholder': 'foo',
         }
@@ -158,7 +158,7 @@ Should now be:
 
 As you probably understand already magic inside
 ``autocomplete_js_attributes`` and ``widget_js_attributes`` is gone,
-we're just setting plain simple HTML attributes now with :py:attr:`input_attrs <autocomplete_light.registry.AutocompleteBase.input_attrs>`.
+we're just setting plain simple HTML attributes now with :py:attr:`attrs <autocomplete_light.registry.AutocompleteBase.attrs>`.
 
 Also notice the other two differences which are detailed below:
 
