@@ -65,18 +65,6 @@ class WidgetTestCase(LiveServerTestCase):
             self.setup_test_case()
         self.__class__.test_case_setup_done = True
 
-    def wait_for_selector_change(self, selector):
-        self.wait_for_selector(selector)
-        initial = self.selenium.find_element_by_css_selector(selector)
-
-        def f(selenium):
-            try:
-                return selenium.find_element_by_css_selector(selector) != initial
-            except NoSuchElementException:
-                return False
-
-        self.wait.until(f)
-
     def open_url(self, url):
         self.selenium.get('%s%s' % (self.live_server_url, url))
 
