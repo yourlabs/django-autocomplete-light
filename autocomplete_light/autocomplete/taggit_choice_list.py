@@ -1,4 +1,4 @@
-"""Support for django-taggit tags system using the
+                    """Support for django-taggit tags system using the
 MultipleChoiceWidget. A django-taggit field will default to a
 TextWidget. To enable use of the MultipleChoiceWidget, this class must
 be registered explicitly. eg:
@@ -14,7 +14,7 @@ tags to be dynamically created then use the default interface.
     In this case, the tags field is a relation. Thus form.save() **must** be
     called with commit=True.
 
-.. Warning:: 
+.. Warning::
     Tags that are created after the form has been loaded are
     selectable, but will be marked as invalid when the form is
     saved. After tags are added the form must be reloaded.
@@ -36,12 +36,15 @@ except ImportError:
 
 __all__ = ('AutocompleteTaggitChoiceList',)
 
-class AutocompleteTaggitChoiceList(AutocompleteChoiceList, AutocompleteBase, AutocompleteModel):
+
+class AutocompleteTaggitChoiceList(AutocompleteChoiceList, AutocompleteBase,
+                                   AutocompleteModel):
     search_fields = ('name',)
     order_by = lambda cls, choice: unicode(choice).lower()
-    autocomplete_js_attributes={'placeholder': 'Enter tag...',}
+    autocomplete_js_attributes = {'placeholder': 'Enter tag...',}
     error_messages = {
-        'invalid_data_type': _('Function %(function)s does not support this data type: %(type)s'),
+        'invalid_data_type': _(
+            'Function %(function)s does not support this data type: %(type)s'),
     }
     choices = None
 
@@ -52,17 +55,17 @@ class AutocompleteTaggitChoiceList(AutocompleteChoiceList, AutocompleteBase, Aut
 
     def _set_values(self, values):
         choices = self.choices.all()
-        self._values = [] 
+        self._values = []
         for val in values:
-            if val != None:
+            if val is not None:
                 self._values.append(self.format_value(val, choices))
-                
+
     def _get_values(self):
         return self._values
-        
+
     values = property(_get_values, _set_values)
 
-    def format_value(self, value, choices = None):
+    def format_value(self, value, choices=None):
         if choices == None:
             choices = self.choices.all()
         if isinstance(value, basestring):
@@ -73,27 +76,26 @@ class AutocompleteTaggitChoiceList(AutocompleteChoiceList, AutocompleteBase, Aut
                     return choice.name
         if hasattr(value, 'tag'):
             return value.tag.name
-        raise ValidationError(self.error_messages['invalid_data_type'],
-                              code = 'invalid_data_type',
-                              params = {'function' : 'AutocompleteTaggitChoiceList.format_value',
-                                        'type' : str(type(value)), } 
-            )
-            
+        raise
+        ValidationError(self.error_messages['invalid_data_type'],
+                        code='invalid_data_type', params={'function':
+                                                          'AutocompleteTaggitChoiceList.format_value',
+                                                          'type': str(type(value)), } )
 
     def choices_for_values(self):
         values_choices = []
         return self.order_choices(self.choices.filter(
             name__in=self.values or []))
 
-        
     def choices_for_request(self):
         assert self.choices is not None, 'choices should be a queryset'
         assert self.search_fields, 'autocomplete.search_fields must be set'
 
         q = self.request.GET.get('q', '').strip()
 
-        conditions = self._choices_for_request_conditions(q, self.search_fields)
-        
+        conditions = self._choices_for_request_conditions(q,
+                                                          self.search_fields)
+
         request_choices = self.choices.filter(conditions)
         return self.order_choices(request_choices)[0:self.limit_choices]
 

@@ -37,8 +37,9 @@ except ImportError:
     TaggableManager = None
 
 from .registry import registry as default_registry
-from .fields import (ModelChoiceField, ModelMultipleChoiceField, MultipleChoiceField,
-        GenericModelChoiceField, GenericModelMultipleChoiceField)
+from .fields import (ModelChoiceField, ModelMultipleChoiceField,
+                     MultipleChoiceField, GenericModelChoiceField,
+                     GenericModelMultipleChoiceField)
 from .contrib.taggit_field import TaggitField
 from .widgets import ChoiceWidget, MultipleChoiceWidget
 from autocomplete_light import AutocompleteTaggitChoiceList
