@@ -125,7 +125,7 @@ input.autocomplete.xhr-pending {
 
 .autocomplete-light-widget .deck [data-value] .remove
 {
-    background-image: url('../admin/img/inline-delete.png');
+    background-image: url('delete.png');
     color: #fff;
     cursor: pointer;
     text-indent: -999px;
