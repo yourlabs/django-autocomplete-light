@@ -68,16 +68,14 @@
 }
 
 .autocomplete-light-widget {
-    border: 1px solid lightgrey;
     display: inline-block;
-    padding: 4px 4px 3px 4px;
     /* for the add-another image */
     vertical-align: middle;
 }
 
 .autocomplete-light-widget input,
 .autocomplete-light-widget input:focus {
-    border: 0;
+    margin: 0;
     outline: 0;
     width: 230px;
 }
@@ -110,8 +108,6 @@ input.autocomplete.xhr-pending {
 {
     list-style-type: none;
     display: inline-block;
-    border: 1px solid lightgrey;
-    border-radius: 4px;
     padding-top: 3px;
     padding-right: 3px;
 }
