@@ -67,13 +67,6 @@
     display: block;
 }
 
-/* admin specific 
-body.change-form .autocomplete-light-widget
-{
-    float: left;
-}
-*/
-
 .autocomplete-light-widget {
     border: 1px solid lightgrey;
     display: inline-block;
