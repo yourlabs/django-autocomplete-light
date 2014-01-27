@@ -560,6 +560,8 @@ yourlabs.Autocomplete.prototype.fetch = function() {
 
 // Wrapped ajax call to use with setTimeout in fetch().
 yourlabs.Autocomplete.prototype.makeXhr = function() {
+    this.input.addClass('xhr-pending');
+
     this.xhr = $.ajax(this.url, {
         type: "GET",
         data: this.data,
@@ -569,6 +571,8 @@ yourlabs.Autocomplete.prototype.makeXhr = function() {
 
 // Callback for the ajax response.
 yourlabs.Autocomplete.prototype.fetchComplete = function(jqXHR, textStatus) {
+    this.input.removeClass('xhr-pending');
+
     if (this.xhr == jqXHR) this.xhr = false;
     if (textStatus == 'abort') return;
     this.show(jqXHR.responseText);

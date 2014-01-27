@@ -213,6 +213,13 @@ class ActivateAutocompleteInBlankFormTestCase(WidgetTestCase):
     def test_autocomplete_has_four_choices(self):
         self.assertEqual(4, len(self.autocomplete_choices()))
 
+    def test_xhr_pending(self):
+        self.selenium.find_element_by_css_selector(
+            'input.xhr-pending[name=%s-autocomplete]' % self.autocomplete_name)
+
+        self.selenium.find_element_by_css_selector(
+            'input:not(.xhr-pending)[name=%s-autocomplete]' % self.autocomplete_name)
+
 
 class SelectChoiceInEmptyFormTestCase(WidgetTestCase):
     def setup_test_case(self):

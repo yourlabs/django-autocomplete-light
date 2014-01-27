@@ -99,6 +99,12 @@ input.autocomplete {
     vertical-align: top;
 }
 
+input.autocomplete.xhr-pending {
+    background-image: url('xhr-pending.gif');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
 .autocomplete-light-widget.yourlabs-autocomplete {
     position: absolute;
     top: 100%;
