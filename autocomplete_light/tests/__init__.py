@@ -29,6 +29,7 @@ from .widget import (
     SelectChoiceInEmptyFormTestCase,
     WidgetInitialStatusInEditForm,
     RemoveChoiceInEditFormTestCase,
+    XhrPendingTestCase,
     KeyboardTestCase,
     InlineBlankTestCase,
     InlineSelectChoiceTestCase,
