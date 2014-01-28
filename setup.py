@@ -72,6 +72,18 @@ setup(
     install_requires=[
         'six>=1.4',
     ],
+    extras_require={
+        'Tags': 'django-taggit',
+        'Generic m2m': 'django-generic-m2m',
+    },
+    tests_require=[
+        'django',
+        'selenium',
+        'django-cities-light',
+        'mock',
+        'lxml',
+        'cssselect',
+    ],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
