@@ -96,6 +96,23 @@ input.autocomplete.xhr-pending {
     background-position: right;
 }
 
+.autocomplete-light-widget.modern-style {
+    border: 1px solid lightgrey;
+    padding: 4px 4px 3px 4px;
+}
+
+.autocomplete-light-widget.modern-style input,
+.autocomplete-light-widget.modern-style input:focus {
+    border: 0;
+    margin: 2px 0;
+}
+
+.autocomplete-light-widget.modern-style .deck [data-value],
+.autocomplete-light-widget.modern-style .deck .choice {
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+}
+
 .autocomplete-light-widget.yourlabs-autocomplete {
     position: absolute;
     top: 100%;
