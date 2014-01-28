@@ -1,3 +1,5 @@
+2.0.0a14: Added missing extensions to MANIFEST
+
 2.0.0a13: Fix #244: Added ajax loading in input.autocomplete.
 
 2.0.0a12: !! BC BREAK !! Renamed input_attrs to attrs to be consistent
