@@ -17,7 +17,7 @@ From there you have two choices:
   it from pip.
 
 If you're trying to run a buildbot then you can use ``test.sh`` and use that
-buildbot configuration:
+buildbot configuration to enable CI on the 28 supported configurations:
 
 .. code-block:: python
 
