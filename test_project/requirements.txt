@@ -1,3 +1,2 @@
--r ../docs/requirements.txt
 south
 django-cities-light
