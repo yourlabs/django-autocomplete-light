@@ -22,11 +22,11 @@ tags to be dynamically created then use the default interface.
 """
 
 from django.utils.encoding import force_text
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy
 from .choice_list import AutocompleteChoiceList
 from .base import AutocompleteBase
 from .model import AutocompleteModel
+from ..exceptions import AutocompleteLightException
 
 try:
     from taggit.utils import parse_tags
@@ -77,7 +77,7 @@ class AutocompleteTaggitChoiceList(AutocompleteChoiceList, AutocompleteBase,
         if hasattr(value, 'tag'):
             return value.tag.name
         raise
-        ValidationError(self.error_messages['invalid_data_type'],
+        AutocompleteLightException(self.error_messages['invalid_data_type'],
                         code='invalid_data_type',
                         params={'function':
                                 'AutocompleteTaggitChoiceList.format_value',
