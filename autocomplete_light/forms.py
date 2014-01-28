@@ -345,12 +345,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_fk_fields(cls, new_class, meta):
+        widgets = getattr(meta, 'widgets', {})
+
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
             if cls.skip_field(meta, field):
                 continue
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
+                widget=widgets.get(field.name, None),
                 autocomplete=cls.get_generic_autocomplete(meta, field.name),
                 required=not meta.model._meta.get_field_by_name(
                     field.fk_field)
@@ -358,6 +361,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
+        widgets = getattr(meta, 'widgets', {})
+
         for field in meta.model.__dict__.values():
             if not isinstance(field, RelatedObjectsDescriptor):
                 continue
@@ -367,6 +372,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
             new_class.base_fields[field.name] = \
                 GenericModelMultipleChoiceField(
+                    widget=widgets.get(field.name, None),
                     autocomplete=cls.get_generic_autocomplete(
                         meta, field.name))
 

@@ -25,8 +25,9 @@ class FieldBase(object):
 
         widget = widget or self.widget
         if isinstance(widget, type):
-            self.widget = widget(autocomplete, widget_js_attributes,
+            widget = widget(autocomplete, widget_js_attributes,
                     autocomplete_js_attributes, extra_context)
+        kwargs['widget'] = widget
 
         parents = super(FieldBase, self).__self_class__.__bases__
         if (forms.ModelChoiceField in parents or
