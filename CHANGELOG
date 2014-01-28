@@ -1,3 +1,8 @@
+2.0.0a15:
+
+    - Honor Meta.widgets,
+    - Added .modern-style class for autocomplete widget,
+
 2.0.0a14: Added missing extensions to MANIFEST
 
 2.0.0a13: Fix #244: Added ajax loading in input.autocomplete.
