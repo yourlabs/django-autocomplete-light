@@ -36,10 +36,15 @@ class WidgetBaseTestCase(unittest.TestCase):
         widget = self.widget_class('FkModelAutocomplete')
         self.assertEqual(widget.autocomplete.model, FkModel)
 
-    def test_widget_data_attributes(self):
+    def test_widget_attrs(self):
         widget = self.widget_class('FkModelAutocomplete',
             widget_attrs={'data-widget-foo': 'bar', 'class':'foobar'})
         html = widget.render('somewidget', None)
+        et = etree.fromstring(html)
+
+        self.assertEquals(et.attrib['data-widget-foo'], 'bar')
+        self.assertIn('foobar', et.attrib['class'])
+        self.assertIn('autocomplete-light-widget', et.attrib['class'])
 
     def test_widget_js_attributes_deprecation(self):
         with self.assertRaises(PendingDeprecationWarning) as context:
