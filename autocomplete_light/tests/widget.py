@@ -9,8 +9,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.support import ui
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 
 
 if VERSION[0] == 1 and VERSION[1] < 7:
@@ -222,11 +220,10 @@ class XhrPendingTestCase(WidgetTestCase):
 
     def test_xhr_pending(self):
         self.send_keys('ja')
-        ui.WebDriverWait(self.selenium, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR,
-            'input.xhr-pending[name=%s-autocomplete]' % self.autocomplete_name)))
-
-        ui.WebDriverWait(self.selenium, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR,
-            'input:not(.xhr-pending)[name=%s-autocomplete]' % self.autocomplete_name)))
+        self.selenium.find_element_by_css_selector(
+            'input[name=%s-autocomplete]' % self.autocomplete_name)
+        self.selenium.find_element_by_css_selector(
+            'input:not(.xhr-pending)[name=%s-autocomplete]' % self.autocomplete_name)
 
 
 class SelectChoiceInEmptyFormTestCase(WidgetTestCase):
