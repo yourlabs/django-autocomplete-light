@@ -2,7 +2,8 @@ How to run tests
 ----------------
 
 You should not try to ``test autocomplete_light`` from your own project because
-tests depend on example apps to be present in ``INSTALLED_APPS``.
+tests depend on example apps to be present in ``INSTALLED_APPS``. You may use
+the provided ``test_project`` which is prepared to run all testst.
 
 Install a version from git, ie::
 
