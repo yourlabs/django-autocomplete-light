@@ -1,5 +1,6 @@
 # Django settings for test_project project.
 import os.path
+import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -17,12 +18,14 @@ DATABASES = {
     }
 }
 
-#if module is installed into the environment then we'll use that. If not, then use a local/dev version
-try:
-    import autocomplete_light
-except:
-    import sys
-    sys.path.append(os.path.abspath(os.path.join(PROJECT_ROOT, '..')))
+#if module is installed into the environment then we'll use that. If
+#not, then use a local/dev version. By appending the path to sys.path,
+#it should search for the local version last.
+
+PARENT_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
+init_file = os.path.join(PARENT_DIR, 'autocomplete_light', '__init__.py');
+if os.path.exists(init_file):
+    sys.path.append(PARENT_DIR)
 
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, 'fixtures'),
