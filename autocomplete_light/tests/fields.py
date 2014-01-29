@@ -35,8 +35,7 @@ class BaseTestCase(TestCase):
 
         form = TestForm({'test_field': self.GOOD_VALUE})
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data['test_field'], self.CLEANED_VALUE or
-                         self.GOOD_VALUE)
+        self.assertEqual(form.cleaned_data['test_field'], self.CLEANED_VALUE)
 
 
 class ChoiceFieldTestCase(BaseTestCase):
@@ -46,6 +45,7 @@ class ChoiceFieldTestCase(BaseTestCase):
 class MultipleChoiceFieldTestCase(BaseTestCase):
     field_class = autocomplete_light.MultipleChoiceField
     GOOD_VALUE = ['b']
+    CLEANED_VALUE = ['b']
 
 
 class ModelChoiceFieldTestCase(BaseTestCase):
@@ -72,12 +72,24 @@ class ModelMultipleChoiceFieldTestCase(ModelChoiceFieldTestCase):
     BAD_VALUE = [2]
 
     def setUp(self):
-        self.CLEANED_VALUE = Item.objects.get(pk__in=self.GOOD_VALUE)
+        self.CLEANED_VALUE = Item.objects.filter(pk=1)
 
     def test_automatic_field_choices(self):
         test = self.field_class(self.TestAutocomplete, required=True)
         self.assertEqual(list(test.choices),
                          [(1, u'public'), (3, u'linked')])
+
+    def test_select_choice(self):
+        class TestForm(forms.Form):
+            test_field = self.field_class(self.TestAutocomplete)
+
+        form = TestForm({'test_field': self.GOOD_VALUE})
+        self.assertTrue(form.is_valid())
+        self.assertEqual(len(form.cleaned_data['test_field']),
+                         len(self.CLEANED_VALUE))
+        self.assertEqual(form.cleaned_data['test_field'][0],
+                         self.CLEANED_VALUE[0])
+
 
 class GenericModelChoiceFieldTestCase(BaseTestCase):
     field_class = autocomplete_light.GenericModelChoiceField
@@ -95,6 +107,7 @@ class GenericModelChoiceFieldTestCase(BaseTestCase):
 
     def test_automatic_field_choices(self):
         pass  # generic model choice field has no choices
+
 
 class GenericModelMultipleChoiceFieldTestCase(GenericModelChoiceFieldTestCase):
     field_class = autocomplete_light.GenericModelMultipleChoiceField
