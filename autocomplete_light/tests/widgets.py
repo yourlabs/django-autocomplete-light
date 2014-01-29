@@ -1,7 +1,4 @@
-import re
-import unittest
-
-from lxml import etree
+from lxml.html import etree
 from lxml.cssselect import CSSSelector
 
 try:
@@ -9,18 +6,21 @@ try:
 except ImportError:  # python2
     import mock
 
-from django import template
+from django.test import TestCase
+
 import autocomplete_light
 
 from ..example_apps.basic.models import FkModel
+from ..example_apps.security_test.models import Item
 
 
 class LazyAutocomplete(autocomplete_light.AutocompleteModelBase):
     pass
 
 
-class WidgetBaseTestCase(unittest.TestCase):
+class WidgetBaseTestCase(TestCase):
     widget_class = autocomplete_light.WidgetBase
+    fixtures = ['security_test.json']
 
     def autocomplete_input(self, et):
         return CSSSelector('input.autocomplete')(et)[0]
@@ -152,6 +152,17 @@ class WidgetBaseTestCase(unittest.TestCase):
             self.fail('widget.autocomplete access should not raise '
                       'AutocompleteNotRegistered')
 
+    def test_value_out_of_queryset(self):
+        widget = self.widget_class('ItemAutocomplete')
+        html = widget.render('somewidget', [1, 2])
+        span = etree.fromstring(html)
+
+        choices = CSSSelector('[data-value]')(span)
+
+        self.assertEqual(len(choices), 1)
+        self.assertEqual(int(choices[0].attrib['data-value']), 1)
+
+
 class ChoiceWidgetTestCase(WidgetBaseTestCase):
     widget_class = autocomplete_light.ChoiceWidget
 
@@ -180,3 +191,6 @@ class TextWidgetTestCase(WidgetBaseTestCase):
 
     def test_widget_attrs(self):
         pass  # no widget_attrs for TextWidget
+
+    def test_value_out_of_queryset(self):
+        pass  # no queryset for text widget
