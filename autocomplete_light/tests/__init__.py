@@ -44,10 +44,10 @@ from .widgets import (
 from .fields import (
     ChoiceFieldTestCase,
     MultipleChoiceFieldTestCase,
-#    ModelChoiceFieldTestCase,
-#    ModelMultipleChoiceFieldTestCase,
-#    GenericModelChoiceFieldTestCase,
-#    GenericModelMultipleChoiceFieldTestCase,
+    ModelChoiceFieldTestCase,
+    ModelMultipleChoiceFieldTestCase,
+    GenericModelChoiceFieldTestCase,
+    GenericModelMultipleChoiceFieldTestCase,
 )
 
 from .dependent import (
