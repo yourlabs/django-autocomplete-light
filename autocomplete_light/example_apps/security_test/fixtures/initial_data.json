@@ -1,0 +1,33 @@
+[
+{
+    "pk": 1, 
+    "model": "security_test.item", 
+    "fields": {
+        "items": [], 
+        "name": "public", 
+        "private": false
+    }
+},
+{
+    "pk": 2, 
+    "model": "security_test.item", 
+    "fields": {
+        "items": [], 
+        "name": "private", 
+        "private": true
+    }
+},
+{
+    "pk": 3, 
+    "model": "security_test.item", 
+    "fields": {
+        "items": [
+            1, 
+            2
+        ], 
+        "name": "linked", 
+        "private": false
+    }
+}
+]
+
