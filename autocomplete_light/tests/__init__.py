@@ -47,7 +47,7 @@ from .fields import (
     ModelChoiceFieldTestCase,
     ModelMultipleChoiceFieldTestCase,
     GenericModelChoiceFieldTestCase,
-    GenericModelMultipleChoiceFieldTestCase,
+    GenericModelMultipleChoiceFieldTestCase
 )
 
 from .dependent import (

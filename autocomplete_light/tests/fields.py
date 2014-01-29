@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 import autocomplete_light
 
 from ..example_apps.security_test.models import Item
-from ..example_apps.basic.models import GfkModel, GmtmModel
+from ..example_apps.basic.models import GfkModel
 
 
 class BaseTestCase(TestCase):
@@ -100,7 +100,6 @@ class GenericModelChoiceFieldTestCase(BaseTestCase):
 
     def setUp(self):
         self.gfk_ct = ContentType.objects.get_for_model(GfkModel)
-        self.gmtm_ct = ContentType.objects.get_for_model(GmtmModel)
         self.GOOD_VALUE = '%s-%s' % (self.gfk_ct.pk, 1)
         self.BAD_VALUE = '%s-%s' % (self.gfk_ct.pk, 1234)
         self.CLEANED_VALUE = GfkModel.objects.get(pk=1)
@@ -109,12 +108,12 @@ class GenericModelChoiceFieldTestCase(BaseTestCase):
         pass  # generic model choice field has no choices
 
 
+
 class GenericModelMultipleChoiceFieldTestCase(GenericModelChoiceFieldTestCase):
     field_class = autocomplete_light.GenericModelMultipleChoiceField
 
     def setUp(self):
         self.gfk_ct = ContentType.objects.get_for_model(GfkModel)
-        self.gmtm_ct = ContentType.objects.get_for_model(GmtmModel)
         self.GOOD_VALUE = ['%s-%s' % (self.gfk_ct.pk, 1)]
         self.BAD_VALUE = ['%s-%s' % (self.gfk_ct.pk, 1234)]
         self.CLEANED_VALUE = [GfkModel.objects.get(pk=1)]
