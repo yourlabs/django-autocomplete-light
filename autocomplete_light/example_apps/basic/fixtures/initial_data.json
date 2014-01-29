@@ -5,7 +5,7 @@
     "fields": {
         "for_inline": null, 
         "noise": null, 
-        "name": "GfkModel0", 
+        "name": "one", 
         "content_type": null, 
         "object_id": null
     }
@@ -16,18 +16,12 @@
     "fields": {
         "for_inline": null, 
         "noise": null, 
-        "name": "GfkModel1", 
-        "content_type": 12, 
+        "name": "two", 
+        "content_type": [
+            "basic", 
+            "gfkmodel"
+        ], 
         "object_id": 1
-    }
-},
-{
-    "pk": 1, 
-    "model": "basic.gmtmmodel", 
-    "fields": {
-        "noise": null, 
-        "name": "GmtmModel0", 
-        "for_inline": null
     }
 }
 ]
