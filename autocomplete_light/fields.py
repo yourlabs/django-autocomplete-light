@@ -76,7 +76,7 @@ class ChoiceField(FieldBase, forms.ChoiceField):
 
     def get_choices(self, autocomplete, registry, widget):
         a = self.get_autocomplete(autocomplete, registry, widget)()
-        return ((a.choice_label(c), a.choice_value(c)) for c in a.choices)
+        return ((a.choice_value(c), a.choice_label(c)) for c in a.choices)
 
 
 class MultipleChoiceField(ChoiceField, forms.MultipleChoiceField):
