@@ -231,7 +231,7 @@ def _autodiscover(registry):
     for app in settings.INSTALLED_APPS:
         try:
             mod = import_module(app)
-        except ImportError, e:
+        except ImportError:
             #not all entries in INSTALLED_APPS are have to be modules
             continue
         # Attempt to import the app's admin module.
