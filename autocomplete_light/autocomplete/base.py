@@ -131,7 +131,7 @@ class AutocompleteBase(AutocompleteInterface):
 
     .. py:attribute:: add_another_url_kwargs
 
-        Keyword arguments to use when reversing the add another url.       
+        Keyword arguments to use when reversing the add another url.
 
     .. py:attribute:: widget_template
 
