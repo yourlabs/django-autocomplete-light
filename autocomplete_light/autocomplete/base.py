@@ -129,6 +129,10 @@ class AutocompleteBase(AutocompleteInterface):
         Name of the url to add another choice via a javascript popup. If empty
         then no "add another" link will appear.
 
+    .. py:attribute:: add_another_url_kwargs
+
+        Keyword arguments to use when reversing the add another url.       
+
     .. py:attribute:: widget_template
 
         A special attribute used only by the widget. If it is set, the widget
@@ -139,6 +143,17 @@ class AutocompleteBase(AutocompleteInterface):
     empty_html_format = u'<span class="block"><em>%s</em></span>'
     autocomplete_html_format = u'%s'
     add_another_url_name = None
+    add_another_url_kwargs = None
+
+    def get_add_another_url(self):
+        """
+        Return the url to use when adding another element
+        """
+        if self.add_another_url_name:
+            return urlresolvers.reverse(self.add_another_url_name,
+                                        kwargs=self.add_another_url_kwargs)
+        else:
+            return None
 
     def choices_for_request(self):
         """
