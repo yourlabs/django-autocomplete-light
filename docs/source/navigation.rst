@@ -4,7 +4,7 @@ Making a global navigation autocomplete
 =======================================
 
 This guide demonstrates how to make a global navigation autocomplete
-like on facebook.
+like on Facebook.
 
 Note that there are many ways to implement such a feature, we're just
 describing a simple one.
