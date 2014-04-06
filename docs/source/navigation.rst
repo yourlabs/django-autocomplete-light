@@ -36,7 +36,7 @@ to render the autocomplete. For example:
 
         queries['genres'] = Genre.objects.filter(name__icontains=q)[:6]
 
-        return shortcuts.render(request, template_name, {'queries': queries})
+        return shortcuts.render(request, template_name, queries)
 
 Along with a trivial template for ``navigation_autocomplete/autocomplete.html``
 would work:
