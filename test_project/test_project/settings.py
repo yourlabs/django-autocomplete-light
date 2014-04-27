@@ -2,10 +2,9 @@
 import os.path
 import django
 
-if django.VERSION < (1, 7):
-    SOUTH_MIGRATIONS_MODULES = {
-        'cities_light': 'cities_light.south_migrations',
-    }
+SOUTH_MIGRATIONS_MODULES = {
+    'cities_light': 'cities_light.south_migrations',
+}
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
