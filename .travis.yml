@@ -17,6 +17,7 @@ env:
     - REQ="django<1.5 django-taggit django-generic-m2m"
     - REQ="django<1.6 django-taggit django-generic-m2m"
     - REQ="django<1.7 django-taggit django-generic-m2m"
+    - REQ="django-taggit django-generic-m2m -e git+https://github.com/django/django.git@1.7b2#egg=django"
     - REQ="django<1.7 django-generic-m2m"
     - REQ="django<1.7"
     - REQ="django<1.7 django-taggit"
