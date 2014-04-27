@@ -28,7 +28,8 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteModelMock
 
     def assert_choices_equal(self, result, test):
-        self.assertEqual(list(result), test['expected'])
+        self.assertEqual([x.pk for x in result],
+                         [x.pk for x in test['expected']])
 
     def get_choices_for_values_tests(self):
         return (
