@@ -36,16 +36,6 @@ class WidgetBaseTestCase(TestCase):
         widget = self.widget_class('FkModelAutocomplete')
         self.assertEqual(widget.autocomplete.model, FkModel)
 
-    def test_widget_attrs(self):
-        widget = self.widget_class('FkModelAutocomplete',
-            widget_attrs={'data-widget-foo': 'bar', 'class':'foobar'})
-        html = widget.render('somewidget', None)
-        et = etree.fromstring(html)
-
-        self.assertEquals(et.attrib['data-widget-foo'], 'bar')
-        self.assertIn('foobar', et.attrib['class'])
-        self.assertIn('autocomplete-light-widget', et.attrib['class'])
-
     def test_widget_js_attributes_deprecation(self):
         with self.assertRaises(PendingDeprecationWarning) as context:
             widget = self.widget_class(widget_js_attributes={'foo': 'bar'})
@@ -119,8 +109,17 @@ class WidgetBaseTestCase(TestCase):
                                    widget_attrs={'class': 'foo'})
         html = widget.render('somewidget', None)
         et = etree.XML(html)
-
         self.assertIn('foo', et.attrib['class'])
+
+        # This was originally masked from the test suite because method
+        # definition was repeated
+        widget = self.widget_class('FkModelAutocomplete',
+            widget_attrs={'data-widget-foo': 'bar', 'class':'foobar'})
+        html = widget.render('somewidget', None)
+        et = etree.fromstring(html)
+        self.assertEquals(et.attrib['data-widget-foo'], 'bar')
+        self.assertIn('foobar', et.attrib['class'])
+        self.assertIn('autocomplete-light-widget', et.attrib['class'])
 
     def test_lazy_autocomplete_init(self):
         registry = autocomplete_light.AutocompleteRegistry()
@@ -194,3 +193,14 @@ class TextWidgetTestCase(WidgetBaseTestCase):
 
     def test_value_out_of_queryset(self):
         pass  # no queryset for text widget
+
+    def test_widget_attrs_copy(self):
+        # Test case for GH269
+        widget = self.widget_class('B')
+        html = widget.render('taggit', value='Cued Speech, languages')
+        et = etree.XML(html)
+        self.assertTrue('value' in et.attrib)
+
+        html = widget.render('taggit', None)
+        et = etree.XML(html)
+        self.assertFalse('value' in et.attrib)
