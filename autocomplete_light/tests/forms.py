@@ -23,13 +23,13 @@ from ..example_apps.basic.forms import *
 class SelectMultipleHelpTextRemovalMixinTestCase(unittest.TestCase):
     def test_help_text_removed(self):
         class ModelForm(forms.ModelForm):
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = MtmModel
         form = ModelForm()
         help_text = force_text(form.fields['relation'].help_text).strip()
 
         class ModelForm(autocomplete_light.ModelForm):
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = MtmModel
         form = ModelForm()
         my_help_text = force_text(form.fields['relation'].help_text).strip()
@@ -138,7 +138,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def test_widget_override(self):
         class ModelForm(autocomplete_light.ModelForm):
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = self.model_class
                 widgets = {'relation': self.widget_class(widget_attrs={
                     'class': 'test-class', 'data-foo': 'bar'})}
@@ -200,7 +200,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def test_meta_autocomplete_fields(self):
         class ModelForm(autocomplete_light.ModelForm):
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = self.model_class
                 autocomplete_fields = ['relation']
 
@@ -212,7 +212,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def test_meta_autocomplete_exclude(self):
         class ModelForm(autocomplete_light.ModelForm):
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = self.model_class
                 autocomplete_exclude = ['relation']
 
@@ -264,8 +264,13 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertIsAutocomplete('noise')
 
     def test_modelform_factory_autocomplete_fields_relation(self):
+        if VERSION < (1, 7):
+            fields = None
+        else:
+            fields = '__all__'
+
         self.form = autocomplete_light.modelform_factory(self.model_class,
-                autocomplete_fields=['relation'])()
+                autocomplete_fields=['relation'], fields=fields)()
 
         self.assertExpectedFormField()
         self.assertNotIsAutocomplete('noise')
@@ -320,7 +325,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
             relation2 = self.field_class(registry=registry,
                 autocomplete=registry.register(self.model_class))
 
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = self.model_class
 
         self.form = ModelForm()
@@ -360,7 +365,7 @@ class GenericModelFormTestCaseMixin(object):
 
     def test_meta_autocomplete_exclude(self):
         class ModelForm(autocomplete_light.ModelForm):
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = self.model_class
                 autocomplete_exclude = ['relation']
 
@@ -387,7 +392,7 @@ class GenericModelFormTestCaseMixin(object):
                     choices=[self.model_class.objects.all()],
                     search_fields=['name']))
 
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = self.model_class
 
         self.form = ModelForm()
