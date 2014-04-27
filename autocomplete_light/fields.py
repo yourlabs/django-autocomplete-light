@@ -3,6 +3,7 @@ import six
 
 from django import forms
 from django.db import models
+from django.db.models.query import QuerySet
 from django import forms
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -32,7 +33,7 @@ class FieldBase(object):
         parents = super(FieldBase, self).__self_class__.__bases__
         if ((forms.ModelChoiceField in parents or
                 forms.ModelMultipleChoiceField in parents)
-                and isinstance(self.autocomplete.choices, models.QuerySet)):
+                and isinstance(self.autocomplete.choices, QuerySet)):
             kwargs['queryset'] = self.autocomplete.choices
 
         super(FieldBase, self).__init__(*args, **kwargs)
