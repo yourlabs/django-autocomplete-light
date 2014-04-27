@@ -276,14 +276,13 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             # skip reverse generic foreign key
             return True
 
-        # fixme: find a thread safe **and elegant** way to cache this
-        if getattr(meta, 'fields', None) == '__all__':
-            return False
-
         all_fields = set(getattr(meta, 'fields', [])) | set(getattr(meta,
             'autocomplete_fields', []))
         all_exclude = set(getattr(meta, 'exclude', [])) | set(getattr(meta,
             'autocomplete_exclude', []))
+
+        if getattr(meta, 'fields', None) == '__all__':
+            return field.name in all_exclude
 
         if len(all_fields) and field.name not in all_fields:
             return True

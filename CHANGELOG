@@ -1,3 +1,13 @@
+2.0.0a16:
+
+    - #252: Not all INSTALLED_APPS are modules (Django 1.7),
+    - #270: SelectMultipleHelpTextRemovalMixin multiple language support,
+    - #267: Delegate add-another url generation to Autocomplete class,
+    - #269: make build_widget_attrs thread-safe,
+    - #250: Fix ChoiceField.get_choices(),
+    - #192: Auto-load local jquery if not loaded already,
+    - Django 1.7b2 support.
+
 2.0.0a15:
 
     - Honor Meta.widgets,
