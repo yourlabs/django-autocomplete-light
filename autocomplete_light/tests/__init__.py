@@ -3,6 +3,7 @@ autocomplete_light.autodiscover()
 
 from .forms import (
     SelectMultipleHelpTextRemovalMixinTestCase,
+    SelectMultipleHelpTextRemovalMixinFrTestCase,
     FkModelFormTestCase,
     OtoModelFormTestCase,
     GfkModelFormTestCase,

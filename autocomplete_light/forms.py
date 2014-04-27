@@ -48,7 +48,7 @@ __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'GenericM2MRelatedObjectDescriptorHandlingMixin']
 
 # OMG #9321 why do we have to hard-code this ?
-M = _(' Hold down "Control", or "Command" on a Mac, to select more than one.')
+M = _('Hold down "Control", or "Command" on a Mac, to select more than one.')
 
 
 class SelectMultipleHelpTextRemovalMixin(forms.BaseModelForm):

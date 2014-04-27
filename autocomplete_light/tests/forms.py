@@ -8,6 +8,7 @@ import lxml.html
 from django import VERSION
 from django import http
 from django import forms
+from django.utils import translation
 from django.utils.encoding import force_text
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory
@@ -34,6 +35,13 @@ class SelectMultipleHelpTextRemovalMixinTestCase(unittest.TestCase):
         my_help_text = force_text(form.fields['relation'].help_text).strip()
 
         self.assertNotIn(help_text, my_help_text)
+
+
+class SelectMultipleHelpTextRemovalMixinFrTestCase(
+        SelectMultipleHelpTextRemovalMixinTestCase):
+
+    def setUp(self):
+        translation.activate('fr_FR')
 
 
 class BaseModelFormTestCase(unittest.TestCase):
