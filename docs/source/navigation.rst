@@ -70,7 +70,7 @@ looks like:
 
         // With keyboard, we should iterate around <a> tags in the autocomplete
         choiceSelector: 'a',
-    }).bind('selectChoice', function(e, choice, autocomplete) {
+    }).input.bind('selectChoice', function(e, choice, autocomplete) {
         // When a choice is selected, open it. Note: this is not needed for
         // mouse click on the links of course, but this is necessary for keyboard
         // selection.

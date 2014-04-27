@@ -25,8 +25,9 @@ class FieldBase(object):
 
         widget = widget or self.widget
         if isinstance(widget, type):
-            self.widget = widget(autocomplete, widget_js_attributes,
+            widget = widget(autocomplete, widget_js_attributes,
                     autocomplete_js_attributes, extra_context)
+        kwargs['widget'] = widget
 
         parents = super(FieldBase, self).__self_class__.__bases__
         if (forms.ModelChoiceField in parents or
@@ -75,7 +76,7 @@ class ChoiceField(FieldBase, forms.ChoiceField):
 
     def get_choices(self, autocomplete, registry, widget):
         a = self.get_autocomplete(autocomplete, registry, widget)()
-        return ((a.choice_label(c), a.choice_value(c)) for c in a.choices)
+        return ((a.choice_value(c), a.choice_label(c)) for c in a.choices)
 
 
 class MultipleChoiceField(ChoiceField, forms.MultipleChoiceField):

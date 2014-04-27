@@ -34,7 +34,8 @@ except ImportError:
 try:
     from taggit.managers import TaggableManager
 except ImportError:
-    TaggableManager = None
+    class TaggableManager(object):
+        pass
 
 from .registry import registry as default_registry
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
@@ -344,12 +345,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_fk_fields(cls, new_class, meta):
+        widgets = getattr(meta, 'widgets', {})
+
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
             if cls.skip_field(meta, field):
                 continue
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
+                widget=widgets.get(field.name, None),
                 autocomplete=cls.get_generic_autocomplete(meta, field.name),
                 required=not meta.model._meta.get_field_by_name(
                     field.fk_field)
@@ -357,6 +361,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
+        widgets = getattr(meta, 'widgets', {})
+
         for field in meta.model.__dict__.values():
             if not isinstance(field, RelatedObjectsDescriptor):
                 continue
@@ -366,6 +372,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
             new_class.base_fields[field.name] = \
                 GenericModelMultipleChoiceField(
+                    widget=widgets.get(field.name, None),
                     autocomplete=cls.get_generic_autocomplete(
                         meta, field.name))
 
@@ -395,14 +402,21 @@ class ModelForm(six.with_metaclass(ModelFormMetaclass,
         A list of field names on which you do not want automatic autocomplete
         fields.
 
-    Note: both ``autocomplete_fields`` and ``autocomplete_exclude`` understand
-    generic foreign key and generic many to many descriptor names.
+    .. py:attribute:: autocomplete_names
+
+        A dict of ``field_name: AutocompleteName`` to override the default
+        autocomplete that would be used for a field.
+
+    Note: all of ``autocomplete_fields``, ``autocomplete_exclude`` and
+    ``autocomplete_names`` understand generic foreign key and generic many to
+    many descriptor names.
     """
     __metaclass__ = ModelFormMetaclass
 
 
 def modelform_factory(model, autocomplete_fields=None,
-        autocomplete_exclude=None, registry=None, **kwargs):
+                      autocomplete_exclude=None, autocomplete_names=None,
+                      registry=None, **kwargs):
     """
     Wrap around Django's django_modelform_factory, using our ModelForm and
     setting autocomplete_fields and autocomplete_exclude.
@@ -416,6 +430,8 @@ def modelform_factory(model, autocomplete_fields=None,
         attrs['autocomplete_fields'] = autocomplete_fields
     if autocomplete_exclude is not None:
         attrs['autocomplete_exclude'] = autocomplete_exclude
+    if autocomplete_names is not None:
+        attrs['autocomplete_names'] = autocomplete_names
 
     # If parent form class already has an inner Meta, the Meta we're
     # creating needs to inherit from the parent's inner meta.

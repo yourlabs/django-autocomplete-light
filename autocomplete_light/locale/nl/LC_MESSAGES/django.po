@@ -1,0 +1,38 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-16 00:39+0100\n"
+"PO-Revision-Date: 2014-02-16 00:39+0100\n"
+"Last-Translator: Thijs Triemstra <info@collab.nl>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: forms.py:51
+msgid ""
+" Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr ""
+" Houd \"Control\", of \"Command\" op een Mac, ingedrukt om meerdere te "
+"selecteren."
+
+#: widgets.py:185
+msgid "type some text to search in this autocomplete"
+msgstr "voer tekst in om te zoeken in deze autocomplete"
+
+#: autocomplete/base.py:172
+msgid "no matches found"
+msgstr "geen matches gevonden"
+
+#: templates/autocomplete_light/widget.html:28
+msgid "Add another"
+msgstr "Voeg toe"

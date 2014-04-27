@@ -57,7 +57,7 @@ else:
 
 setup(
     name='django-autocomplete-light',
-    version='2.0.0a9',
+    version='2.0.0a15',
     description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',
@@ -71,6 +71,18 @@ setup(
     cmdclass={'test': RunTests},
     install_requires=[
         'six>=1.4',
+    ],
+    extras_require={
+        'Tags': 'django-taggit',
+        'Generic m2m': 'django-generic-m2m',
+    },
+    tests_require=[
+        'django',
+        'selenium',
+        'django-cities-light',
+        'mock',
+        'lxml',
+        'cssselect',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',

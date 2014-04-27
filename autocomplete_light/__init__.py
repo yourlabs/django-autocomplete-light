@@ -7,6 +7,8 @@ from .autocomplete import *
 
 from .widgets import WidgetBase, ChoiceWidget, MultipleChoiceWidget, TextWidget
 
+from .contrib.taggit_field import TaggitWidget, TaggitField
+
 from .forms import *
 
 from .fields import *
@@ -19,6 +21,9 @@ else:
     from .contrib.taggit_field import TaggitField, TaggitWidget
 
 from .views import CreateView, RegistryView, AutocompleteView
-from .exceptions import AutocompleteNotRegistered
+from .exceptions import (AutocompleteNotRegistered,
+                         NoGenericAutocompleteRegistered,
+                         AutocompleteArgNotUnderstood,
+                         AutocompleteLightException)
 
 from .settings import *

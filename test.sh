@@ -10,28 +10,17 @@ CLEAN_VIRTUALENV="${CLEAN_VIRTUALENV:-0}"
 DJANGO_TAGGIT="${DJANGO_TAGGIT:-1}"
 DJANGO_GENERIC_M2M="${DJANGO_GENERIC_M2M:-1}"
 PYTHON_VERSION="${PYTHON_VERSION:-3.3}"
-DJANGO_VERSION="${DJANGO_VERSION:-1.5}"
-POSTGRES_USER="${POSTGRES_USER:-postgres}"
+DJANGO_VERSION="${DJANGO_VERSION:-1.6.1}"
 # for debug, it could be -e /dev/stdout
 XVFB_FLAGS="${XVFB_FLAGS:-}"
-export DATABASE_NAME="autocomplete_light_test_${BUILD_ID}${PYTHON_VERSION}${DJANGO_VERSION}${DJANGO_TAGGIT}${DJANGO_GENERIC_M2M}"
-export DATABASE_NAME="${DATABASE_NAME//[._-]}"
-
-function clean {
-    psql -c "drop database if exists $DATABASE_NAME;" -U $POSTGRES_USER
-}
-trap 'clean; exit' SIGINT SIGQUIT
 
 # Make a unique env path for this configuration
 ENV_PATH="$WORKSPACE/test_env"
 
-psql -c "drop database if exists $DATABASE_NAME;" -U $POSTGRES_USER
-psql -c "create database $DATABASE_NAME;" -U $POSTGRES_USER
-
 # Get real django version
 [ "$DJANGO_VERSION" = "1.4" ] && DJANGO_VERSION="1.4.10"
 [ "$DJANGO_VERSION" = "1.5" ] && DJANGO_VERSION="1.5.5"
-[ "$DJANGO_VERSION" = "1.6" ] && DJANGO_VERSION="1.6"
+[ "$DJANGO_VERSION" = "1.6" ] && DJANGO_VERSION="1.6.1"
 
 # Clean virtualenv if necessary
 [ "$CLEAN_VIRTUALENV" = "1" ] && rm -rf $ENV_PATH
@@ -53,15 +42,17 @@ source $ENV_PATH/bin/activate
 pip install django-cities-light==2.1.8
 pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
     -e $WORKSPACE \
-    -r $WORKSPACE/test_project/requirements.txt \
     -r $WORKSPACE/test_project/test_requirements.txt \
     django==$DJANGO_VERSION
 
 cd $WORKSPACE
-xvfb-run -a $XVFB_FLAGS test_project/manage.py test autocomplete_light --noinput --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
+# NOTE: pg_virtualenv sets PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT
+if hash pg_virtualenv 2>/dev/null; then
+    PG_VIRTUALENV=pg_virtualenv
+fi
+
+$PG_VIRTUALENV xvfb-run -a $XVFB_FLAGS test_project/manage.py test autocomplete_light --noinput --liveserver=localhost:9000-9200 --settings=test_project.settings_postgres
 
 RET="$?"
-
-clean
 
 exit $RET

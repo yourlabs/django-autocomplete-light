@@ -27,10 +27,14 @@ jQuery.fn.getSelectionStart = function(){
     var pos = input.value.length;
  
     if (input.createTextRange) {
-        var r = document.selection.createRange().duplicate();
-        r.moveEnd('character', input.value.length);
+        if (window.getSelection) {
+            var r = window.getSelection(); //IE11
+        } else {
+            var r = document.selection.createRange().duplicate();
+            r.moveEnd('character', input.value.length);
+        }
         if (r.text == '')
-        pos = input.value.length;
+            pos = input.value.length;
         pos = input.value.lastIndexOf(r.text);
     } else if(typeof(input.selectionStart)!="undefined")
     pos = input.selectionStart;

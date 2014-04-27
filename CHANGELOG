@@ -1,4 +1,32 @@
-2.0.a9:
+2.0.0a15:
+
+    - Honor Meta.widgets,
+    - Added .modern-style class for autocomplete widget,
+
+2.0.0a14: Added missing extensions to MANIFEST
+
+2.0.0a13: Fix #244: Added ajax loading in input.autocomplete.
+
+2.0.0a12: !! BC BREAK !! Renamed input_attrs to attrs to be consistent
+                         with django.
+
+2.0.0a11:
+
+    - #241 IE11 compatibility fix on text autocomplete contributed by Jonathan
+      Wiklund (@MaZZly)
+      
+
+2.0.0a10:
+
+    - Implemented autocomplete_names support to override the default
+      Autocomplete class used for a given model form field,
+    - Make the first Autocomplete class the default autocomplete (for generic
+      and model).
+    - Implemented lazy autocompletes: you can refer to an autocomplete class
+      before it is discovered.
+    - Import TaggitField and TaggitWidget in autocomplete_light.
+
+2.0.0a9:
 
     - Fix #219: autocompletes now convert None value to an empty list, as
       Autocomplete promises that values is a list. (Fixed gfk in inlines)

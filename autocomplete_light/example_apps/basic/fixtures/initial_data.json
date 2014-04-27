@@ -1,0 +1,27 @@
+[
+{
+    "pk": 1, 
+    "model": "basic.gfkmodel", 
+    "fields": {
+        "for_inline": null, 
+        "noise": null, 
+        "name": "one", 
+        "content_type": null, 
+        "object_id": null
+    }
+},
+{
+    "pk": 2, 
+    "model": "basic.gfkmodel", 
+    "fields": {
+        "for_inline": null, 
+        "noise": null, 
+        "name": "two", 
+        "content_type": [
+            "basic", 
+            "gfkmodel"
+        ], 
+        "object_id": 1
+    }
+}
+]

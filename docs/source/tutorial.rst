@@ -25,13 +25,17 @@ Register an Autocomplete for your model in
             'placeholder': 'Other model name ?',
             # This will set the yourlabs.Autocomplete.minimumCharacters
             # options, the naming conversion is handled by jQuery
-            'data-widget-minimum-characters': 1,
+            'data-autocomplete-minimum-characters': 1,
         },
         # This will set the data-widget-maximum-values attribute on the
         # widget container element, and will be set to
         # yourlabs.Widget.maximumValues (jQuery handles the naming
         # conversion).
-        widget_attrs={'data-widget-maximum-values', 4},
+        widget_attrs={
+            'data-widget-maximum-values': 4,
+            # Enable modern-style widget !
+            'class': 'modern-style',
+        },
     )
 
 :py:meth:`AutocompleteView.get()
@@ -132,6 +136,19 @@ Then, you can use :py:class:`autocomplete_light.ModelForm
 
     class OrderModelForm(autocomplete_light.ModelForm):
         class Meta:
+            model = Order
+
+Note that the first Autocomplete class registered for a model becomes the
+default Autocomplete for that model. If you have registered several
+Autocomplete classes for a given model, you probably want to use a different
+Autocomplete class depending on the form using 
+:py:attr:`Meta.autocomplete_names <autocomplete_light.forms.ModelForm.autocomplete_names>`:
+
+.. code-block:: python
+
+    class OrderModelForm(autocomplete_light.ModelForm):
+        class Meta:
+            autocomplete_names = {'company': 'PublicCompanyAutocomplete'}
             model = Order
 
 :py:class:`autocomplete_light.ModelForm <autocomplete_light.forms.ModelForm>`

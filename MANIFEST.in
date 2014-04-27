@@ -1,2 +1,2 @@
 include *.rst *.txt README LICENSE AUTHORS CHANGELOG
-recursive-include autocomplete_light *.html *.css *.js *.py *.po *.mo
+recursive-include autocomplete_light *.html *.css *.js *.py *.po *.mo *.json *.png *.gif

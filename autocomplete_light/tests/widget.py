@@ -65,18 +65,6 @@ class WidgetTestCase(LiveServerTestCase):
             self.setup_test_case()
         self.__class__.test_case_setup_done = True
 
-    def wait_for_selector_change(self, selector):
-        self.wait_for_selector(selector)
-        initial = self.selenium.find_element_by_css_selector(selector)
-
-        def f(selenium):
-            try:
-                return selenium.find_element_by_css_selector(selector) != initial
-            except NoSuchElementException:
-                return False
-
-        self.wait.until(f)
-
     def open_url(self, url):
         self.selenium.get('%s%s' % (self.live_server_url, url))
 
@@ -224,6 +212,18 @@ class ActivateAutocompleteInBlankFormTestCase(WidgetTestCase):
 
     def test_autocomplete_has_four_choices(self):
         self.assertEqual(4, len(self.autocomplete_choices()))
+
+class XhrPendingTestCase(WidgetTestCase):
+    def setup_test_case(self):
+        self.login()
+        self.open_url('/admin/basic/fkmodel/add/')
+
+    def test_xhr_pending(self):
+        self.send_keys('ja')
+        self.selenium.find_element_by_css_selector(
+            'input[name=%s-autocomplete]' % self.autocomplete_name)
+        self.selenium.find_element_by_css_selector(
+            'input:not(.xhr-pending)[name=%s-autocomplete]' % self.autocomplete_name)
 
 
 class SelectChoiceInEmptyFormTestCase(WidgetTestCase):

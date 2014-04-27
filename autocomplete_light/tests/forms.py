@@ -1,5 +1,7 @@
 import unittest
 
+import lxml.html
+
 from django import VERSION
 from django import http
 from django import forms
@@ -122,6 +124,21 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertExpectedFormField()
         self.assertIsAutocomplete('noise')
         self.assertInForm('name')
+
+    def test_widget_override(self):
+        class ModelForm(autocomplete_light.ModelForm):
+            class Meta:
+                model = self.model_class
+                widgets = {'relation': self.widget_class(widget_attrs={
+                    'class': 'test-class', 'data-foo': 'bar'})}
+
+        self.form = ModelForm()
+
+        et = lxml.html.fromstring(self.form.as_p())
+        attrib = et.cssselect('.autocomplete-light-widget.relation')[0].attrib
+        self.assertEquals(attrib['data-foo'], 'bar')
+        self.assertIn('test-class', attrib['class'])
+
 
     def test_meta_exclude_name(self):
         class ModelForm(autocomplete_light.ModelForm):
@@ -267,6 +284,22 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertNotInForm('name')
         self.assertExpectedFormField()
         self.assertIsAutocomplete('noise')
+
+    def test_modelform_factory_autocomplete_names(self):
+        SpecialAutocomplete = self.get_new_autocomplete_class()
+        autocomplete_light.registry.register(SpecialAutocomplete)
+
+        ModelForm = autocomplete_light.modelform_factory(self.model_class,
+            autocomplete_names={'relation': 'SpecialAutocomplete'})
+
+        self.form = ModelForm()
+
+        self.assertInForm('name')
+        self.assertIsAutocomplete('relation')
+        self.assertIsAutocomplete('noise')
+
+        self.assertTrue(issubclass(self.form.fields['relation'].autocomplete,
+                                   SpecialAutocomplete))
 
     def test_empty_registry(self):
         registry = autocomplete_light.AutocompleteRegistry()
@@ -419,6 +452,19 @@ else:
         def test_empty_registry(self):
             pass
 
+        def test_widget_override(self):
+            class ModelForm(autocomplete_light.ModelForm):
+                class Meta:
+                    model = self.model_class
+                    widgets = {'relation': self.widget_class(attrs={
+                        'class': 'test-class', 'data-foo': 'bar'})}
+
+            self.form = ModelForm()
+
+            et = lxml.html.fromstring(self.form.as_p())
+            attrib = et.cssselect('input[name=relation].autocomplete')[0].attrib
+            self.assertEquals(attrib['data-foo'], 'bar')
+            self.assertIn('test-class', attrib['class'])
 
 try:
     import genericm2m

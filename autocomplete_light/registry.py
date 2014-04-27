@@ -24,7 +24,9 @@ import six
 from django.db import models
 
 from .autocomplete import AutocompleteModelBase, AutocompleteInterface
-from .exceptions import AutocompleteNotRegistered, AutocompleteArgNotUnderstood
+from .exceptions import (AutocompleteNotRegistered,
+                         AutocompleteArgNotUnderstood,
+                         NoGenericAutocompleteRegistered)
 
 __all__ = ('AutocompleteRegistry', 'registry', 'register', 'autodiscover')
 
@@ -71,6 +73,9 @@ class AutocompleteRegistry(dict):
 
     def autocomplete_for_generic(self):
         """ Return the default generic autocomplete. """
+        if self.default_generic is None:
+            raise NoGenericAutocompleteRegistered(self)
+
         return self.default_generic
 
     def unregister(self, name):

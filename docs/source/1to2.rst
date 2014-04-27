@@ -82,6 +82,35 @@ consider the :ref:`DRY breaking <dry-break>` implications (which are
 not specific to django-autocomplete-light, but Django's design in
 general).
 
+Specification of the Autocomplete class to use
+----------------------------------------------
+
+New rules are:
+
+- if an Autocomplete class was registered for a model then it becomes the
+  default Autocomplete class for autocompletion on that model,
+- other Autocomplete classes registered for a model will not be used by default
+
+You can still define the Autocomplete class you want in the field definition:
+
+.. code-block:: python
+
+    class FooForm(autocomplete_light.ModelForm):
+        bar = autocomplete_light.ModelChoiceField('SpecialBarAutocomplete')
+
+        class Meta:
+            model = Foo
+
+But this will break some :ref:`break django DRY logic<dry-break>`. Instead, 
+this won't break DRY:
+
+.. code-block:: python
+
+    class FooForm(autocomplete_light.ModelForm):
+        class Meta:
+            model = Foo
+            autocomplete_names = {'bar': 'SpecialBarAutocomplete'}
+
 Python class re-organisation
 ----------------------------
 
@@ -121,7 +150,7 @@ Should now be:
 
     class PersonAutocomplete(autocomplete_light.AutocompleteModelBase):
         model = Person
-        input_attrs = {
+        attrs = {
             'data-autcomplete-minimum-characters': 0,
             'placeholder': 'foo',
         }
@@ -129,7 +158,7 @@ Should now be:
 
 As you probably understand already magic inside
 ``autocomplete_js_attributes`` and ``widget_js_attributes`` is gone,
-we're just setting plain simple HTML attributes now with :py:attr:`input_attrs <autocomplete_light.registry.AutocompleteBase.input_attrs>`.
+we're just setting plain simple HTML attributes now with :py:attr:`attrs <autocomplete_light.registry.AutocompleteBase.attrs>`.
 
 Also notice the other two differences which are detailed below:
 

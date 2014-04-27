@@ -1,3 +1,80 @@
+How to run tests
+----------------
+
+You should not try to ``test autocomplete_light`` from your own project because
+tests depend on example apps to be present in ``INSTALLED_APPS``. You may use
+the provided ``test_project`` which is prepared to run all testst.
+
+Install a version from git, ie::
+
+    pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=autocomplete_light
+
+From there you have two choices:
+
+- either go in ``env/src/autocomplete_light/test_project`` and run
+  ``./manage.py test autocomplete_light``,
+- either go in ``env/src/autocomplete_light/`` and run ``tox`` after installing
+  it from pip.
+
+If you're trying to run a buildbot then you can use ``test.sh`` and use that
+buildbot configuration to enable CI on the 28 supported configurations:
+
+.. code-block:: python
+
+    def make_build(python, django, genericm2m, taggit):
+        name = 'py%s-dj%s' % (python, django)
+    
+        if genericm2m != '0':
+            name += '-genericm2m'
+        if taggit != '0':
+            name += '-taggit'
+    
+        slavenames = ['example-slave']
+        if python == '2.7':
+            slavenames.append('gina')
+    
+        factory = BuildFactory()
+        # check out the source
+        factory.addStep(Git(repourl='https://github.com/yourlabs/django-autocomplete-light.git', mode='incremental'))
+        # run the tests (note that this will require that 'trial' is installed)
+        factory.addStep(ShellCommand(command=["./test.sh"], timeout=3600))
+    
+        c['builders'].append(
+            BuilderConfig(name=name,
+                slavenames=slavenames,
+                factory=factory,
+                env={
+                    'DJANGO_VERSION': django,
+                    'PYTHON_VERSION': python,
+                    'DJANGO_GENERIC_M2M': genericm2m,
+                    'DJANGO_TAGGIT': taggit,
+                }
+            )
+        )
+    
+        c['schedulers'].append(SingleBranchScheduler(
+                            name="all-%s" % name,
+                            change_filter=filter.ChangeFilter(branch='v2'),
+                            treeStableTimer=None,
+                            builderNames=[name]))
+        c['schedulers'].append(ForceScheduler(
+                            name="force-%s" % name,
+                            builderNames=[name]))
+    
+    
+    c['builders'] = []
+    djangos = ['1.4', '1.5', '1.6']
+    pythons = ['2.7', '3.3']
+    
+    for python in pythons:
+        for django in djangos:
+            if python == '3.3' and django == '1.4':
+                continue
+    
+            for genericm2m in ['0','1']:
+                for taggit in ['0','1']:
+                    make_build(python, django, genericm2m, taggit)
+    
 Why not use Widget.Media ?
 --------------------------
 

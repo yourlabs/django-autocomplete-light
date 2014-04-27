@@ -2,24 +2,24 @@ language: python
 matrix:
   exclude:
     - python: "3.3"
-      env: REQ="django==1.4.10 django-taggit django-generic-m2m"
+      env: REQ="django<1.5 django-taggit django-generic-m2m"
     - python: "2.7"
-      env: REQ="django==1.6 django-generic-m2m"
+      env: REQ="django<1.7 django-generic-m2m"
     - python: "2.7"
-      env: REQ="django==1.6"
+      env: REQ="django<1.7"
     - python: "2.7"
-      env: REQ="django==1.6 django-taggit"
+      env: REQ="django<1.7 django-taggit"
 python:
   - "2.7"
   - "3.3"
 env:
   matrix:
-    - REQ="django>=1.4.10 django-taggit django-generic-m2m"
-    - REQ="django>=1.5.5 django-taggit django-generic-m2m"
-    - REQ="django>=1.6 django-taggit django-generic-m2m"
-    - REQ="django==1.6 django-generic-m2m"
-    - REQ="django==1.6"
-    - REQ="django==1.6 django-taggit"
+    - REQ="django<1.5 django-taggit django-generic-m2m"
+    - REQ="django<1.6 django-taggit django-generic-m2m"
+    - REQ="django<1.7 django-taggit django-generic-m2m"
+    - REQ="django<1.7 django-generic-m2m"
+    - REQ="django<1.7"
+    - REQ="django<1.7 django-taggit"
 install:
   - pip install $REQ
   - pip install pep8 --use-mirrors

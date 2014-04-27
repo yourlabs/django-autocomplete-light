@@ -1,3 +1,4 @@
+-r requirements.txt
 mock
 psycopg2
 selenium==2.37.2
