@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django import template
 from django.utils import safestring
 
@@ -11,7 +13,7 @@ def autocomplete_light_data_attributes(attributes, prefix=''):
     for key, value in attributes.items():
         html.append('data-%s%s="%s"' % (prefix, key.replace('_', '-'), value))
 
-    return safestring.mark_safe(u' '.join(html))
+    return safestring.mark_safe(' '.join(html))
 
 
 @register.filter

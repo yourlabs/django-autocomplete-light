@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import unittest
 from collections import OrderedDict
 
@@ -33,4 +35,4 @@ class DataAttributesTestCase(unittest.TestCase):
             result = autocomplete_light_data_attributes(test['fixture'],
                 test.get('prefix', ''))
             self.assertEqual(result, test['expected'],
-                u'Got %s for %s' % (result, test))
+                'Got %s for %s' % (result, test))

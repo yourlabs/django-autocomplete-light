@@ -7,4 +7,4 @@ class Dummy(models.Model):
     region = models.ForeignKey('cities_light.region')
 
     def __unicode__(self):
-        return u'%s %s' % (self.country, self.region)
+        return '%s %s' % (self.country, self.region)
