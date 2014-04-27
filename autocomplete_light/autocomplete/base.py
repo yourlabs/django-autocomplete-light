@@ -150,8 +150,9 @@ class AutocompleteBase(AutocompleteInterface):
         Return the url to use when adding another element
         """
         if self.add_another_url_name:
-            return urlresolvers.reverse(self.add_another_url_name,
-                                        kwargs=self.add_another_url_kwargs)
+            url = urlresolvers.reverse(self.add_another_url_name,
+                                       kwargs=self.add_another_url_kwargs)
+            return url + '?_popup=1'
         else:
             return None
 
