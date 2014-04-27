@@ -68,7 +68,7 @@ Create a basic list-backed autocomplete class
 
 Class attributes are thread safe because
 :py:func:`~autocomplete_light.registry.register`
-always create a class copy. So, registering a custom Autocomplete class for
+always creates a class copy. Hence, registering a custom Autocomplete class for
 your model in ``your_app/autocomplete_light_registry.py`` could look like this:
 
 .. code-block:: python
@@ -148,8 +148,8 @@ See :ref:`autocomplete-design` for details.
             name='OsAutocomplete', choices=['Linux', 'BSD', 'Minix'],
             autocomplete_template='your_autocomplete_box.html')
 
-Create a basic model autocomplete class
-````````````````````````````````````````
+Creating a basic model autocomplete class
+`````````````````````````````````````````
 
 Registering a custom Autocomplete class for your model in
 ``your_app/autocomplete_light_registry.py`` can look like this:
