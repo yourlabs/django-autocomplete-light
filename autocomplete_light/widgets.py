@@ -191,7 +191,7 @@ class WidgetBase(object):
         return attrs
 
     def build_widget_attrs(self, name=None):
-        attrs = getattr(self.autocomplete, 'widget_attrs', {})
+        attrs = getattr(self.autocomplete, 'widget_attrs', {}).copy()
         attrs.update(self.widget_attrs)
 
         if 'class' not in attrs:
