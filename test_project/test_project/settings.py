@@ -1,5 +1,11 @@
 # Django settings for test_project project.
 import os.path
+import django
+
+if django.VERSION < (1, 7):
+    SOUTH_MIGRATIONS_MODULES = {
+        'cities_light': 'cities_light.south_migrations',
+    }
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -92,7 +98,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
 
-    'south',
     'cities_light',
 
     'autocomplete_light',
@@ -105,6 +110,11 @@ INSTALLED_APPS = (
 
     'navigation_autocomplete',
 )
+
+
+if django.VERSION < (1, 7):
+    INSTALLED_APPS += ('south',)
+
 
 try:
     import genericm2m

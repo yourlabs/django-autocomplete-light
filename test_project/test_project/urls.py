@@ -1,8 +1,11 @@
+import django
+
 from django.conf.urls import patterns, include, url
 from django.views import generic
 
-import autocomplete_light
-autocomplete_light.autodiscover()
+if django.VERSION < (1, 7):
+    import autocomplete_light
+    autocomplete_light.autodiscover()
 
 from django.contrib import admin
 admin.autodiscover()

@@ -10,8 +10,8 @@ Or the development version::
 
     pip install -e git+https://github.com/yourlabs/django-autocomplete-light@v2#egg=autocomplete_light
 
-Append ``'autocomplete_light'`` to ``settings.INSTALLED_APPS``
---------------------------------------------------------------
+Append ``'autocomplete_light'`` to ``settings.INSTALLED_APPS`` *before* ``django.contrib.admin``
+------------------------------------------------------------------------------------------------
 
 Enable templates and static files by adding ``autocomplete_light`` to
 `settings.INSTALLED_APPS
@@ -25,8 +25,8 @@ editable in ``settings.py``, it can look like this:
         'autocomplete_light',
     ]
 
-Call ``autocomplete_light.autodiscover()`` *before* ``admin.autodiscover()``
-----------------------------------------------------------------------------
+Call ``autocomplete_light.autodiscover()`` *before* ``admin.autodiscover()`` (If django < 1.7)
+----------------------------------------------------------------------------------------------
 
 In ``urls.py``, call ``autocomplete_light.autodiscover()`` before
 ``admin.autodiscover()`` **and before any import of a form with

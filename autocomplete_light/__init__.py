@@ -27,3 +27,5 @@ from .exceptions import (AutocompleteNotRegistered,
                          AutocompleteLightException)
 
 from .settings import *
+
+default_app_config = 'autocomplete_light.apps.AutocompleteLightConfig'

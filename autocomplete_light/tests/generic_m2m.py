@@ -1,6 +1,7 @@
 from autocomplete.case import *
 from autocomplete.generic import AutocompleteGenericMock, AutocompleteGenericTestCase
 
+import django
 from django import http
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, Group, Permission
@@ -18,6 +19,9 @@ class FormMock(GenericModelForm):
 
     class Meta:
         model = ModelGroup
+
+        if django.VERSION < (1, 7):
+            fields = '__all__'
 
 
 class AutocompleteGenericM2MTestCase(AutocompleteTestCase):

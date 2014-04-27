@@ -1,4 +1,7 @@
 import unittest
+import autocomplete_light
+
+autocomplete_light.autodiscover()
 
 import lxml.html
 
@@ -101,7 +104,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertExpectedFormField()
         self.assertIsAutocomplete('noise')
 
-    @unittest.skipUnless(VERSION[0] >= 1 and VERSION[1] >= 6, 'Django >= 1.6')
+    @unittest.skipUnless(VERSION >= (1, 6), 'Django >= 1.6')
     def test_appropriate_field_on_modelform_with_all(self):
         class ModelForm(autocomplete_light.ModelForm):
             class Meta:
@@ -138,7 +141,6 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         attrib = et.cssselect('.autocomplete-light-widget.relation')[0].attrib
         self.assertEquals(attrib['data-foo'], 'bar')
         self.assertIn('test-class', attrib['class'])
-
 
     def test_meta_exclude_name(self):
         class ModelForm(autocomplete_light.ModelForm):
@@ -217,7 +219,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         autocomplete_light.registry.register(SpecialAutocomplete)
 
         class ModelForm(autocomplete_light.ModelForm):
-            class Meta:
+            class Meta(DjangoCompatMeta):
                 model = self.model_class
                 autocomplete_names = {
                     'relation': 'SpecialAutocomplete'
@@ -454,7 +456,7 @@ else:
 
         def test_widget_override(self):
             class ModelForm(autocomplete_light.ModelForm):
-                class Meta:
+                class Meta(DjangoCompatMeta):
                     model = self.model_class
                     widgets = {'relation': self.widget_class(attrs={
                         'class': 'test-class', 'data-foo': 'bar'})}
