@@ -232,7 +232,7 @@ def _autodiscover(registry):
         try:
             mod = import_module(app)
         except ImportError:
-            #not all entries in INSTALLED_APPS are have to be modules
+            # not all entries in INSTALLED_APPS are have to be modules
             continue
         # Attempt to import the app's admin module.
         try:
