@@ -61,4 +61,4 @@ from .autocomplete.model import AutocompleteModelTestCase
 from .autocomplete.template import AutocompleteModelTemplateTestCase
 from .autocomplete.search_fields import (AutocompleteSearchFieldsTestCase,
         AutocompleteGenericSearchFieldsTestCase)
-from autocomplete.get_add_another_url import GetAddAnotherUrlTestCase
+from .autocomplete.get_add_another_url import GetAddAnotherUrlTestCase
