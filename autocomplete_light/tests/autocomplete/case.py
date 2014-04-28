@@ -1,4 +1,4 @@
-from __future__ import unicode_literals, absolute_import
+from __future__ import unicode_literals
 
 import unittest
 
@@ -7,7 +7,7 @@ from django import forms
 from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 
-from example_apps.autocomplete_test_case_app.models import User, Group
+from ...example_apps.autocomplete_test_case_app.models import User, Group
 
 import autocomplete_light
 
