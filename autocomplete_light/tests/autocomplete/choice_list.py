@@ -81,14 +81,14 @@ class AutocompleteChoiceListTestCase(AutocompleteTestCase):
         return (
             {
                 'fixture': make_get_request('q=t'),
-                'expected': u''.join([
+                'expected': ''.join([
                     '<span data-value="10">Ten</span>',
                     '<span data-value="3">Three</span>',
                 ])
             },
             {
                 'fixture': make_get_request(),
-                'expected': u''.join([
+                'expected': ''.join([
                     '<span data-value="4">Four</span>',
                     '<span data-value="1">One</span>',
                 ])
@@ -115,7 +115,7 @@ class AutocompleteChoiceListTestCase(AutocompleteTestCase):
             {
                 'fixture': 'x=4&x=10',
                 'expected_valid': True,
-                'expected_data': [u'4', u'10'],
+                'expected_data': ['4', '10'],
             },
             {
                 'fixture': 'x=abc&x=2',

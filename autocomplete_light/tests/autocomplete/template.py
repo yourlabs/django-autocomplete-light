@@ -12,14 +12,14 @@ class AutocompleteMock(autocomplete_light.AutocompleteModelTemplate):
     choices = User.objects.all()
     search_fields = ('username', 'email')
 
-    choice_template = u'<li data-value="{{ choice.pk }}">{{ choice }}</li>'
-    autocomplete_template = u''.join([
-        u'{% load autocomplete_light_tags %}',
-        u'<ul>',
-        u'{% for choice in choices %}',
-        u'{{ choice|autocomplete_light_choice_html:autocomplete }}',
-        u'{% endfor %}',
-        u'</ul>',
+    choice_template = '<li data-value="{{ choice.pk }}">{{ choice }}</li>'
+    autocomplete_template = ''.join([
+        '{% load autocomplete_light_tags %}',
+        '<ul>',
+        '{% for choice in choices %}',
+        '{{ choice|autocomplete_light_choice_html:autocomplete }}',
+        '{% endfor %}',
+        '</ul>',
     ])
 
     def render_template_context(self, template, extra_context=None):
@@ -58,24 +58,24 @@ class AutocompleteModelTemplateTestCase(AutocompleteTestCase):
         return (
             {
                 'fixture': make_get_request('q=j'),
-                'expected': u''.join([
-                    u'<ul>',
-                    u'<li data-value="%s">%s</li>' % (
+                'expected': ''.join([
+                    '<ul>',
+                    '<li data-value="%s">%s</li>' % (
                         self.jack.pk, force_text(self.jack)),
-                    u'<li data-value="%s">%s</li>' % (
+                    '<li data-value="%s">%s</li>' % (
                         self.james.pk, force_text(self.james)),
-                    u'</ul>',
+                    '</ul>',
                 ])
             },
             {
                 'fixture': make_get_request(),
-                'expected': u''.join([
-                    u'<ul>',
-                    u'<li data-value="%s">%s</li>' % (
+                'expected': ''.join([
+                    '<ul>',
+                    '<li data-value="%s">%s</li>' % (
                         self.abe.pk, force_text(self.abe)),
-                    u'<li data-value="%s">%s</li>' % (
+                    '<li data-value="%s">%s</li>' % (
                         self.jack.pk, force_text(self.jack)),
-                    u'</ul>',
+                    '</ul>',
                 ])
             },
         )
