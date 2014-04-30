@@ -6,6 +6,7 @@ from django import http
 from django import forms
 from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
+from six import string_types
 
 from ...example_apps.autocomplete_test_case_app.models import User, Group
 
@@ -117,8 +118,7 @@ class AutocompleteTestCase(TestCase):
             if valid:
                 data = form.cleaned_data['x']
 
-                self.assertEqual(
-                    str(data), str(test['expected_data']),
+                self.assertEqual(string_types(data), string_types(test['expected_data']),
                     'Unexepected data: %s for test %s %s' % (
                         data, self.__class__.__name__, test)
                 )
