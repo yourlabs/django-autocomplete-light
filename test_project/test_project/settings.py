@@ -2,10 +2,6 @@
 import os.path
 import django
 
-SOUTH_MIGRATION_MODULES = {
-    'cities_light': 'cities_light.south_migrations',
-}
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -66,10 +62,6 @@ LOGGING = {
             'level':'DEBUG',
         },
     }
-}
-
-SOUTH_MIGRATIONS_MODULES = {
-    'taggit': 'taggit.south_migrations',
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -135,4 +127,5 @@ TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
 
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
+    'cities_light': 'cities_light.south_migrations',
 }
