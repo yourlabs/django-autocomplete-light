@@ -58,7 +58,7 @@ class GenericModelChoiceField(fields.Field):
         valid = self.widget.autocomplete(values=value).validate_values()
 
         if not valid:
-            raise forms.ValidationError(u'%s cannot validate %s' % (
+            raise forms.ValidationError('%s cannot validate %s' % (
                 self, value))
 
     def prepare_value(self, value):
@@ -86,7 +86,7 @@ class GenericModelChoiceField(fields.Field):
         try:
             content_type = ContentType.objects.get_for_id(content_type_id)
         except ContentType.DoesNotExist:
-            raise forms.ValidationError(u'Wrong content type')
+            raise forms.ValidationError('Wrong content type')
         else:
             model = content_type.model_class()
 

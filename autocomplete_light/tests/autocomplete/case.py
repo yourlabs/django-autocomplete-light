@@ -1,9 +1,12 @@
+from __future__ import unicode_literals
+
 import unittest
 
 from django import http
 from django import forms
 from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
+from six import text_type
 
 from ...example_apps.autocomplete_test_case_app.models import User, Group
 
@@ -61,7 +64,7 @@ class AutocompleteTestCase(TestCase):
 
     def assert_validate_success(self, result, test):
         self.assertEqual(result, test['expected'],
-            u'Got %s for test %s %s' % (result, self.__class__.__name__,
+            'Got %s for test %s %s' % (result, self.__class__.__name__,
                 test))
 
     def test_validate(self):
@@ -84,7 +87,7 @@ class AutocompleteTestCase(TestCase):
 
     def assert_html_equals(self, result, test):
         self.assertEqual(result, test['expected'],
-            u'Got %s for test %s %s' % (result, self.__class__.__name__,
+            'Got %s for test %s %s' % (result, self.__class__.__name__,
                 test))
 
     def test_widget(self):
@@ -108,15 +111,14 @@ class AutocompleteTestCase(TestCase):
 
             self.assertEqual(
                 valid, test['expected_valid'],
-                u'Unexepected valid: %s for test %s %s' % (
+                'Unexepected valid: %s for test %s %s' % (
                     valid, self.__class__.__name__, test)
             )
 
             if valid:
                 data = form.cleaned_data['x']
 
-                self.assertEqual(
-                    str(data), str(test['expected_data']),
-                    u'Unexepected data: %s for test %s %s' % (
+                self.assertEqual(text_type(data), text_type(test['expected_data']),
+                    'Unexepected data: %s for test %s %s' % (
                         data, self.__class__.__name__, test)
                 )

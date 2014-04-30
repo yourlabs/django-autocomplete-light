@@ -17,7 +17,7 @@ class Artist(models.Model):
     genre = models.ForeignKey(Genre)
 
     def __unicode__(self):
-        return u'%s %s' % (self.name, self.genre)
+        return '%s %s' % (self.name, self.genre)
 
     class Meta:
         ordering = ('name',)

@@ -63,7 +63,7 @@ class ModelChoiceFieldTestCase(BaseTestCase):
     def test_automatic_field_choices(self):
         test = self.field_class(self.TestAutocomplete, required=True)
         self.assertEqual(list(test.choices),
-                         [(u'', u'---------'), (1, u'public'), (3, u'linked')])
+                         [('', '---------'), (1, 'public'), (3, 'linked')])
 
 
 class ModelMultipleChoiceFieldTestCase(ModelChoiceFieldTestCase):
@@ -77,7 +77,7 @@ class ModelMultipleChoiceFieldTestCase(ModelChoiceFieldTestCase):
     def test_automatic_field_choices(self):
         test = self.field_class(self.TestAutocomplete, required=True)
         self.assertEqual(list(test.choices),
-                         [(1, u'public'), (3, u'linked')])
+                         [(1, 'public'), (3, 'linked')])
 
     def test_select_choice(self):
         class TestForm(forms.Form):

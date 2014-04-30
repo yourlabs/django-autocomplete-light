@@ -296,7 +296,7 @@ class TextWidget(WidgetBase, forms.TextInput):
 
         def update_attrs(source, prefix=''):
             for key, value in source.items():
-                key = u'data-%s%s' % (prefix, key.replace('_', '-'))
+                key = 'data-%s%s' % (prefix, key.replace('_', '-'))
                 attrs[key] = value
 
         update_attrs(self.widget_js_attributes, 'widget-')

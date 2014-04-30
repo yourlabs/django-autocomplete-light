@@ -139,9 +139,9 @@ class AutocompleteBase(AutocompleteInterface):
         will use that instead of the default
         ``autocomplete_light/widget.html``.
     """
-    choice_html_format = u'<span data-value="%s">%s</span>'
-    empty_html_format = u'<span class="block"><em>%s</em></span>'
-    autocomplete_html_format = u'%s'
+    choice_html_format = '<span data-value="%s">%s</span>'
+    empty_html_format = '<span class="block"><em>%s</em></span>'
+    autocomplete_html_format = '%s'
     add_another_url_name = None
     add_another_url_kwargs = None
 
