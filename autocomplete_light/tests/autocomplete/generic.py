@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from .case import *
 
 from django.contrib.contenttypes.models import ContentType
