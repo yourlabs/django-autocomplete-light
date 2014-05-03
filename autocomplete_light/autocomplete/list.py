@@ -61,7 +61,8 @@ class AutocompleteList(object):
         for choice in self.choices:
 
             if (not self.startswith and q in force_text(choice).lower()) \
-                    or (self.startswith and force_text(choice).lower().startswith(q)):
+                    or (self.startswith
+                        and force_text(choice).lower().startswith(q)):
 
                 requests_choices.append(choice)
 

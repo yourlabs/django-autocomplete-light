@@ -64,7 +64,8 @@ class AutocompleteChoiceList(AutocompleteList):
             m2 = force_text(choice[1]).lower()
 
             if (not self.startswith and (q in m1 or q in m2)) \
-                    or (self.startswith and (m1.startswith(q) or m2.startswith(q))):
+                    or (self.startswith
+                        and (m1.startswith(q) or m2.startswith(q))):
 
                 requests_choices.append(choice)
 
