@@ -31,8 +31,14 @@ class AutocompleteChoiceList(AutocompleteList):
 
         :py:meth:`~.choice_list.AutocompleteChoiceList.order_choices` will use
         this against :py:attr:`choices` as an argument :py:func:`sorted`.
+
+    .. py:attribute:: startswith
+
+        Boolean. Whether search only from start position or not.
     """
     order_by = lambda cls, choice: force_text(choice[1]).lower()
+
+    startswith = False
 
     def choices_for_values(self):
         """
@@ -55,8 +61,10 @@ class AutocompleteChoiceList(AutocompleteList):
         q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
-            m = force_text(choice[0]).lower() + force_text(choice[1]).lower()
-            if q in m:
+            m1 = force_text(choice[0]).lower()
+            m2 = force_text(choice[1]).lower()
+            if (not self.startswith and (q in m1 or q in m2)) or \
+                (self.startswith and (m1.startswith(q) or m2.startswith(q))):
                 requests_choices.append(choice)
 
         return self.order_choices(requests_choices)[0:self.limit_choices]
