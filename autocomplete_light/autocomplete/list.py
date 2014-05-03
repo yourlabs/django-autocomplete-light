@@ -59,8 +59,10 @@ class AutocompleteList(object):
         q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
-            if (not self.startswith and q in force_text(choice).lower()) or \
-                (self.startswith and force_text(choice).lower().startswith(q)):
+
+            if (not self.startswith and q in force_text(choice).lower()) \
+                    or (self.startswith and force_text(choice).lower().startswith(q)):
+
                 requests_choices.append(choice)
 
         return self.order_choices(requests_choices)[0:self.limit_choices]

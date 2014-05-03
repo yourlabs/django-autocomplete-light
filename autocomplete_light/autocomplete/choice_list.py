@@ -59,10 +59,13 @@ class AutocompleteChoiceList(AutocompleteList):
         q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
+
             m1 = force_text(choice[0]).lower()
             m2 = force_text(choice[1]).lower()
-            if (not self.startswith and (q in m1 or q in m2)) or \
-                (self.startswith and (m1.startswith(q) or m2.startswith(q))):
+
+            if (not self.startswith and (q in m1 or q in m2)) \
+                    or (self.startswith and (m1.startswith(q) or m2.startswith(q))):
+
                 requests_choices.append(choice)
 
         return self.order_choices(requests_choices)[0:self.limit_choices]
