@@ -38,8 +38,6 @@ class AutocompleteChoiceList(AutocompleteList):
     """
     order_by = lambda cls, choice: force_text(choice[1]).lower()
 
-    startswith = False
-
     def choices_for_values(self):
         """
         Return any :py:attr:`choices` that is in :py:attr:`values`.

@@ -23,6 +23,10 @@ class AutocompleteList(object):
         :py:meth:`~.list.AutocompleteList.order_choices` will use this against
         :py:attr:`choices` as an argument :py:func:`sorted`.
 
+    .. py:attribute:: startswith
+
+        Boolean. Whether search only from start position or not.
+
     It was mainly used as a starter for me when doing test-driven development
     and to ensure that the Autocomplete pattern would be concretely simple and
     yet powerful.
@@ -30,6 +34,7 @@ class AutocompleteList(object):
 
     limit_choices = 20
     order_by = lambda cls, choice: force_text(choice).lower()
+    startswith = False
 
     def choices_for_values(self):
         """
@@ -54,7 +59,8 @@ class AutocompleteList(object):
         q = self.request.GET.get('q', '').lower().strip()
 
         for choice in self.choices:
-            if q in force_text(choice).lower():
+            if (not self.startswith and q in force_text(choice).lower()) or \
+                (self.startswith and force_text(choice).lower().startswith(q)):
                 requests_choices.append(choice)
 
         return self.order_choices(requests_choices)[0:self.limit_choices]
