@@ -41,7 +41,8 @@ class AutocompleteChoiceList(AutocompleteList):
         values_choices = []
 
         for choice in self.choices:
-            current = force_text(choice[0]) if isinstance(choice[0], int) else choice[0]
+            current = force_text(choice[0]) if isinstance(choice[0], int) \
+                else choice[0]
             if current in self.values:
                 values_choices.append(choice)
 
