@@ -41,7 +41,7 @@ class AutocompleteChoiceList(AutocompleteList):
         values_choices = []
 
         for choice in self.choices:
-            if choice[0] in self.values:
+            if force_text(choice[0]) in self.values:
                 values_choices.append(choice)
 
         return self.order_choices(values_choices)
