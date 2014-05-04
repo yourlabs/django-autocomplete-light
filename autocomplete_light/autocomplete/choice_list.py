@@ -43,9 +43,9 @@ class AutocompleteChoiceList(AutocompleteList):
         int_values = self.values and isinstance(self.values[0], int)
 
         for choice in self.choices:
-        	current = force_text(choice[0]) \
-            	if isinstance(choice[0], int) and not int_values \
-            	else choice[0]
+            current = force_text(choice[0]) \
+                if isinstance(choice[0], int) and not int_values \
+                else choice[0]
             if current in self.values:
                 values_choices.append(choice)
 
