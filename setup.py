@@ -35,25 +35,10 @@ class RunTests(Command):
         os.chdir(this_dir)
 
 if 'sdist' in sys.argv:
-    # clear compiled mo files before building the distribution
-    walk = os.walk(os.path.join(os.getcwd(), 'autocomplete_light/locale'))
-    for dirpath, dirnames, filenames in walk:
-        if not filenames:
-            continue
-
-        if 'django.mo' in filenames:
-            os.unlink(os.path.join(dirpath, 'django.mo'))
-else:
-    # if django is there, compile the po files to mo
-    try:
-        import django
-    except ImportError:
-        pass
-    else:
-        dir = os.getcwd()
-        os.chdir(os.path.join(dir, 'autocomplete_light'))
-        os.system('django-admin.py compilemessages')
-        os.chdir(dir)
+    dir = os.getcwd()
+    os.chdir(os.path.join(dir, 'autocomplete_light'))
+    os.system('django-admin.py compilemessages')
+    os.chdir(dir)
 
 setup(
     name='django-autocomplete-light',
