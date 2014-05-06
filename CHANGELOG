@@ -1,3 +1,5 @@
+2.0.0a17: #280: do not depend on django on install.
+
 2.0.0a16:
 
     - #252: Not all INSTALLED_APPS are modules (Django 1.7),
