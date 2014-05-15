@@ -1,9 +1,0 @@
-{% extends "admin/base.html" %}
-{% load admin_static %}
-
-{% block extrahead %}
-<script>window.jQuery || document.write('<script src="{% static 'jquery.js' %}">\x3C/script>')</script>
-
-{% include 'autocomplete_light/static.html' %}
-{{block.super}}
-{% endblock %}
