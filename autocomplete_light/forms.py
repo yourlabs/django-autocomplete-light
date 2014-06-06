@@ -434,9 +434,13 @@ def modelform_factory(model, autocomplete_fields=None,
 
     # If parent form class already has an inner Meta, the Meta we're
     # creating needs to inherit from the parent's inner meta.
-    parent = (object,)
     if hasattr(kwargs['form'], 'Meta'):
         parent = (kwargs['form'].Meta, object)
+    else:
+        parent = (object, )
+        # 'exclude' or 'fields' is required for Django 1.7+.
+        attrs['exclude'] = []
+
     Meta = type(str('Meta'), parent, attrs)
 
     kwargs['form'] = type(kwargs['form'].__name__, (kwargs['form'],),
