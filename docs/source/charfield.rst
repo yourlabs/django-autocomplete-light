@@ -33,17 +33,17 @@ Example
 
 This demonstrates a working usage of TextWidget:
 
-.. literalinclude:: ../../test_project/charfield_autocomplete/forms.py
+.. literalinclude:: ../../autocomplete_light/example_apps/charfield_autocomplete/forms.py
    :language: python
 
 FTR, using the form in the admin is still as easy:
 
-.. literalinclude:: ../../test_project/charfield_autocomplete/admin.py
+.. literalinclude:: ../../autocomplete_light/example_apps/charfield_autocomplete/admin.py
    :language: python
 
 So is registering an Autocomplete for Tag:
 
-.. literalinclude:: ../../test_project/charfield_autocomplete/autocomplete_light_registry.py
+.. literalinclude:: ../../autocomplete_light/example_apps/charfield_autocomplete/autocomplete_light_registry.py
    :language: python
 
 Django-tagging
@@ -52,7 +52,7 @@ Django-tagging
 This demonstrates the models setup used for the above example, using
 django-taggit, which provides a normal CharField behaviour:
 
-.. literalinclude:: ../../test_project/charfield_autocomplete/models.py
+.. literalinclude:: ../../autocomplete_light/example_apps/charfield_autocomplete/models.py
    :language: python
 
 Django-taggit
