@@ -21,7 +21,7 @@ Specifications
 
 Consider such a model:
 
-.. literalinclude:: ../../test_project/non_admin_add_another/models.py
+.. literalinclude:: ../../autocomplete_light/example_apps/non_admin_add_another/models.py
 
 And we want to have add/update views outside the admin, with autocompletes for
 relations as well as a ``+``/add-another button just like in the admin.
@@ -48,7 +48,7 @@ Note that you could also use ``autocomplete_light.CreateView`` which simply
 wraps around ``django.views.generic.edit.CreateView.form_valid()`` to do that,
 example usage:
 
-.. literalinclude:: ../../test_project/non_admin_add_another/urls.py
+.. literalinclude:: ../../autocomplete_light/example_apps/non_admin_add_another/urls.py
 
 .. Note::
     It is not mandatory to use url namespaces.
@@ -59,4 +59,4 @@ Autocompletes
 Simply register an Autocomplete for widget, with an ``add_another_url_name``
 argument, for example:
 
-.. literalinclude:: ../../test_project/non_admin_add_another/autocomplete_light_registry.py
+.. literalinclude:: ../../autocomplete_light/example_apps/non_admin_add_another/autocomplete_light_registry.py
