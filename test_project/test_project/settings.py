@@ -219,3 +219,9 @@ LOGGING = {
 }
 
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+
+SOUTH_MIGRATION_MODULES = {
+    'cities_light': 'cities_light.south_migrations',
+    'taggit': 'taggit.south_migrations',
+}
+
