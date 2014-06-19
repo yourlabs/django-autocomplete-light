@@ -38,12 +38,15 @@ class GenericModelForm(forms.ModelForm):
         for field in self._meta.model._meta.virtual_fields:
             value = self.cleaned_data.get(field.name, None)
 
-            if value:
-                setattr(self.instance, field.name, value)
+            setattr(self.instance, field.name, value)
 
+            if value:
                 self.cleaned_data[field.ct_field] = \
                     ContentType.objects.get_for_model(value)
                 self.cleaned_data[field.fk_field] = value.pk
+            else:
+                self.cleaned_data[field.ct_field] = None
+                self.cleaned_data[field.fk_field] = None
 
 
 class GenericModelChoiceField(fields.Field):
