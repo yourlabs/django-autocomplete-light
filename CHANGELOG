@@ -1,3 +1,5 @@
+1.4.14: Fix #292: It is now possible to clear null-able GFKs using the form.
+
 1.4.13: Fix #243: IE11 compatability on text widget contributed by Jonathan
                   Wiklund (@MaZZly)
 
