@@ -43,6 +43,7 @@ class GenericModelFormTestCase(unittest.TestCase):
                 'form_class': OptionnalTaggedItemForm,
             },
             {
+                'content_object': None,
                 'tag': 'bar',
                 'valid': True,
                 'form_class': OptionnalTaggedItemForm,
@@ -53,7 +54,7 @@ class GenericModelFormTestCase(unittest.TestCase):
             if 'data' not in test.keys():
                 test['data'] = {'tag': test.get('tag', None)}
 
-                if 'content_object' in test.keys():
+                if test.get('content_object', None):
                     test['data']['content_object'] = '%s-%s' % (
                         ContentType.objects.get_for_model(test['content_object']).pk,
                         test['content_object'].pk)
