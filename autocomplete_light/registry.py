@@ -178,12 +178,17 @@ class AutocompleteRegistry(dict):
 def _autodiscover(registry):
     """See documentation for autodiscover (without the underscore)"""
     import copy
+    from django import get_version
     from django.conf import settings
+    from django.apps import apps
     from django.utils.importlib import import_module
     from django.utils.module_loading import module_has_submodule
 
-    for app in settings.INSTALLED_APPS:
-        mod = import_module(app)
+    apps = ((app.module, app.module.__name__)
+            for app in apps.app_configs.values()) if get_version() > '1.7' \
+        else ((import_module(app), app) for app in settings.INSTALLED_APPS)
+
+    for mod, app in apps:
         # Attempt to import the app's admin module.
         try:
             before_import_registry = copy.copy(registry)
