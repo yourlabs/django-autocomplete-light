@@ -1,6 +1,6 @@
 import autocomplete_light
 
-from models import Fly
+from .models import Fly
 
 
 class FlyForm(autocomplete_light.ModelForm):
