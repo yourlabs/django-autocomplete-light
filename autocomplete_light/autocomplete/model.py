@@ -79,7 +79,7 @@ class AutocompleteModel(object):
         """
         assert self.choices is not None, 'choices should be a queryset'
         return self.order_choices(self.choices.filter(
-            pk__in=self.values or []))
+            pk__in=[x for x in self.values if x]))
 
     def choices_for_request(self):
         """
