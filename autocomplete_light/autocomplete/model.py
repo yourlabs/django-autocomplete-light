@@ -4,8 +4,6 @@ import six
 from django.utils.encoding import force_text
 from django.db.models import Q
 
-from ..settings import DEFAULT_SEARCH_FIELDS
-
 __all__ = ('AutocompleteModel', )
 
 
@@ -44,7 +42,7 @@ class AutocompleteModel(object):
     """
     limit_choices = 20
     choices = None
-    search_fields = DEFAULT_SEARCH_FIELDS
+    search_fields = None
     split_words = False
     order_by = None
 
