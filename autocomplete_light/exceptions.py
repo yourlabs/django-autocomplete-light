@@ -25,6 +25,15 @@ class AutocompleteArgNotUnderstood(AutocompleteLightException):
         super(AutocompleteArgNotUnderstood, self).__init__(msg)
 
 
+class UnconfiguredSearchFieldsException(Exception):
+    """
+    Raised by :func:`AutocompleteRegistry._register_model_autocomplete` when no
+    :attr:`search_fields` were provided and could not be determined
+    automatically.
+    """
+    pass
+
+
 class NoGenericAutocompleteRegistered(AutocompleteLightException):
     """
     Raised by AutocompleteRegistry.autocomplete_for_generic when no generic

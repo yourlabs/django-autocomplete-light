@@ -21,12 +21,14 @@ It looks like this:
 """
 import six
 
+from django.contrib import admin
 from django.db import models
 
-from .autocomplete import AutocompleteModelBase, AutocompleteInterface
-from .exceptions import (AutocompleteNotRegistered,
-                         AutocompleteArgNotUnderstood,
-                         NoGenericAutocompleteRegistered)
+from .autocomplete import AutocompleteInterface, AutocompleteModelBase
+from .exceptions import (AutocompleteArgNotUnderstood,
+                         AutocompleteNotRegistered,
+                         NoGenericAutocompleteRegistered,
+                         UnconfiguredSearchFieldsException)
 
 try:
     from django.utils.module_loading import autodiscover_modules
@@ -173,12 +175,20 @@ class AutocompleteRegistry(dict):
 
         if base.search_fields is None and 'search_fields' not in kwargs:
             try:
-                model._meta.get_field('name')
-            except:
-                raise Exception('Add search_fields kwargs to .register(%s)'
-                                % model.__name__)
-            else:
-                kwargs['search_fields'] = ['name']
+                search_fields = admin.site._registry[model].search_fields
+            except KeyError:
+                search_fields = ()
+            if not search_fields:
+                # Use 'name' and/or 'title' fields.
+                model_fields = model._meta.get_all_field_names()
+                search_fields = tuple(
+                    f for f in model_fields if f in ('name', 'title')
+                )
+            if not search_fields:
+                raise UnconfiguredSearchFieldsException(
+                    'Add search_fields kwargs to .register(%s)'
+                    % model.__name__)
+            kwargs['search_fields'] = search_fields
 
         kwargs.update({'model': model})
 
