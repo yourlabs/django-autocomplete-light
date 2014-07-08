@@ -43,7 +43,17 @@ class AutocompleteModel(object):
         or an iterable (ie. list, tuple).
     """
     limit_choices = 20
-    choices = None
+    @property
+    def choices(self):
+        if hasattr(self, '_choices'):
+            return self._choices
+        try:
+            return self.model_field.queryset
+        except AttributeError:
+            return self.model._default_manager.all()
+    @choices.setter
+    def _choices_set(self, v):
+        self._choices = v
     search_fields = DEFAULT_SEARCH_FIELDS
     split_words = False
     order_by = None

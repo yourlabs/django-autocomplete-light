@@ -30,11 +30,11 @@ class FieldBase(object):
                     autocomplete_js_attributes, extra_context)
         kwargs['widget'] = widget
 
-        parents = super(FieldBase, self).__self_class__.__bases__
-        if ((forms.ModelChoiceField in parents or
-                forms.ModelMultipleChoiceField in parents)
-                and isinstance(self.autocomplete.choices, QuerySet)):
-            kwargs['queryset'] = self.autocomplete.choices
+        if 'queryset' not in kwargs:
+            parents = super(FieldBase, self).__self_class__.__bases__
+            if (forms.ModelChoiceField in parents or
+                    forms.ModelMultipleChoiceField in parents):
+                kwargs['queryset'] = self.autocomplete.choices
 
         super(FieldBase, self).__init__(*args, **kwargs)
 
@@ -88,13 +88,24 @@ class MultipleChoiceField(ChoiceField, forms.MultipleChoiceField):
 class ModelChoiceField(FieldBase, forms.ModelChoiceField):
     widget = ChoiceWidget
 
+    def __init__(self, autocomplete=None, registry=None, widget=None,
+            widget_js_attributes=None, autocomplete_js_attributes=None,
+            extra_context=None, *args, **kwargs):
 
-class ModelMultipleChoiceField(FieldBase,
+        super(ModelChoiceField, self).__init__(autocomplete, registry, widget,
+                widget_js_attributes, autocomplete_js_attributes,
+                extra_context, *args, **kwargs)
+
+        # Store ourself in the autocomplete, for AutocompleteModel.choices.
+        self.autocomplete.model_field = self
+
+
+class ModelMultipleChoiceField(ModelChoiceField,
         forms.ModelMultipleChoiceField):
     widget = MultipleChoiceWidget
 
 
-class GenericModelChoiceField(FieldBase, forms.Field):
+class GenericModelChoiceField(ModelChoiceField, forms.Field):
     """
     Simple form field that converts strings to models.
     """
