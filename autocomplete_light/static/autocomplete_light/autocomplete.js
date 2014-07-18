@@ -312,6 +312,7 @@ yourlabs.Autocomplete.prototype.boxMouseleave = function(e) {
 
 // When mouse clicks in the box:
 yourlabs.Autocomplete.prototype.boxClick = function(e) {
+    e.stopImmediatePropagation(); // avoid issues with nested autocompletes
     var current = this.box.find('.' + this.hilightClass);
     
     this.input.trigger('selectChoice', [current, this]);
