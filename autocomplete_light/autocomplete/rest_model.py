@@ -1,6 +1,7 @@
 import urllib
 
 from django import http
+from django.utils.http import urlencode as django_urlencode
 
 try:
     import json
@@ -30,7 +31,7 @@ class AutocompleteRestModel(AutocompleteModel):
         By default, return self.source_url with the data dict returned by
         get_source_url_data().
         """
-        return '%s?%s' % (self.source_url, urllib.urlencode(
+        return '%s?%s' % (self.source_url, django_urlencode(
             self.get_source_url_data(limit)))
 
     def get_source_url_data(self, limit):
