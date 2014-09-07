@@ -450,7 +450,7 @@ yourlabs.Autocomplete.prototype.move = function(e) {
     }
 
     // If not KEY_UP or KEY_DOWN, then return.
-    if (e.keyCode == 38) var way = 'up';
+    if (e.keyCode == 38 && !e.shiftKey) var way = 'up';
     else if (e.keyCode == 40) var way = 'down';
     else return;
 
