@@ -425,6 +425,8 @@ def modelform_factory(model, autocomplete_fields=None,
 
     attrs = {'model': model}
 
+    attrs['exclude'] = ('', )
+
     if autocomplete_fields is not None:
         attrs['autocomplete_fields'] = autocomplete_fields
     if autocomplete_exclude is not None:
