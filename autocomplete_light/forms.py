@@ -118,4 +118,7 @@ def modelform_factory(model, autocomplete_exclude=None, registry=None,
     if 'form' not in kwargs.keys():
         kwargs['form'] = FixedModelForm
 
+    if 'fields' not in kwargs.keys() and 'exclude' not in kwargs.keys():
+        kwargs['exclude'] = ('', )
+
     return django_modelform_factory(model, **kwargs)
