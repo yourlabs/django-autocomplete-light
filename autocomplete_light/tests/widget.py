@@ -37,7 +37,7 @@ else:
 
 
 if os.environ.get('TRAVIS', False):
-    WAIT_TIME = 300
+    WAIT_TIME = 30
 elif os.environ.get('BUILD_ID', False):  #  Jenkins build server
     WAIT_TIME = 30
 else:
