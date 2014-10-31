@@ -29,9 +29,11 @@ if VERSION[0] == 1 and VERSION[1] < 7:
                 "Failed to shutdown the live test server in 2 seconds. The "
                 "server might be stuck or generating a slow response.")
     StoppableWSGIServer.shutdown = patient_shutdown
+
+    from django.test import LiveServerTestCase
 else:
     # LiveServerTestCase doesn't serve static files in 1.7 anymore
-    from django.contrib.staticfiles.testing import StaticLiveServerCase as LiveServerTestCase
+    from django.contrib.staticfiles.testing import StaticLiveServerTestCase as LiveServerTestCase
 
 
 if os.environ.get('TRAVIS', False):
@@ -44,7 +46,7 @@ else:
 
 class WidgetTestCase(LiveServerTestCase):
     autocomplete_name = 'relation'
-    fixtures = ['basic_fk_model_test_case.json', 'initial_data.json']
+    fixtures = ['basic_fk_model_test_case.json', 'test_user.json']
     test_case_setup_done = False
 
     @classmethod
@@ -89,6 +91,9 @@ class WidgetTestCase(LiveServerTestCase):
         self.selenium.find_element_by_css_selector('input[name=username]').send_keys('test')
         self.selenium.find_element_by_css_selector('input[name=password]').send_keys('test')
         self.submit()
+
+        # wait for page load
+        self.selenium.find_elements_by_css_selector('#navigation-autocomplete')
 
     def deck_choice_elements(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
@@ -168,10 +173,12 @@ class WidgetTestCase(LiveServerTestCase):
         return self.selenium.find_element_by_xpath(xpath)
 
     def set_implicit_wait(self):
-        self.selenium.implicitly_wait(300 if os.environ.get('TRAVIS', False) else 5)
+        self.selenium.implicitly_wait(WAIT_TIME)
+        self.selenium.set_page_load_timeout(WAIT_TIME)
 
     def unset_implicit_wait(self):
         self.selenium.implicitly_wait(0)
+        self.selenium.set_page_load_timeout(0)
 
     def select_values(self):
         self.select  # wait for select

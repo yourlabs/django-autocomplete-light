@@ -20,7 +20,7 @@ class LazyAutocomplete(autocomplete_light.AutocompleteModelBase):
 
 class WidgetBaseTestCase(TestCase):
     widget_class = autocomplete_light.WidgetBase
-    fixtures = ['security_test.json']
+    fixtures = ['security_test']
 
     def autocomplete_input(self, et):
         return CSSSelector('input.autocomplete')(et)[0]

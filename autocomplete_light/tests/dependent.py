@@ -4,7 +4,7 @@ from .widget import WidgetTestCase
 
 
 class DependentAutocompleteTestCase(WidgetTestCase):
-    fixtures = ['dependent_autocomplete_test_case.json', 'initial_data.json']
+    fixtures = ['dependent_autocomplete_test_case.json', 'test_user.json']
 
 
 class DependentAutocompleteEmptyFormTestCase(DependentAutocompleteTestCase):
