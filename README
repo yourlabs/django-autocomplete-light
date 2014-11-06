@@ -4,17 +4,12 @@
     :target: https://crate.io/packages/django-autocomplete-light
 .. image:: https://pypip.in/v/django-autocomplete-light/badge.png   
     :target: https://crate.io/packages/django-autocomplete-light
-.. image:: https://coveralls.io/repos/yourlabs/django-autocomplete-light/badge.png 
-    :target: https://coveralls.io/r/yourlabs/django-autocomplete-light
 
 django-autocomplete-light's purpose is to enable autocompletes quickly and
 properly in a django project: it is the fruit of **years of R&D**. It was
 designed for Django so that every part overridable or reusable independently.
 It is stable, tested, documented and fully supported: it tries to be a good
 neighbour in Django ecosystem.
-
-**WARNING** you are currently on the v2 branch where new development happens.
-            master (v1) is still supported for BC.
 
 Features
 --------
@@ -23,36 +18,29 @@ Features include:
 
 - charfield, foreign key, many to many autocomplete widgets,
 - generic foreign key, generic many to many autocomplete widgets,
-- remote API backed-autocompletes,
 - django template engine support for autocompletes, enabling you to include
   images etc ...
 - 100% overridable HTML, CSS, Python and Javascript: there is no variable
   hidden far down in the scope anywhere.
 - add-another popup supported outside the admin too.
-- keyboard is supported with enter, tab and
-  arrows by default.
+- keyboard is supported with enter, tab and arrows by default.
+- Django 1.7, Python3 support
 
 Each feature has a live example and is fully documented. It is also designed
 and documented so that you create your own awesome features too.
 
-v2
---
-
-`v2 branch <https://github.com/yourlabs/django-autocomplete-light/tree/v2>`_ is
-under active development. You might want to use that instead, since it's much
-easier to work with and supports python3.
-
-In this case, please refer to the `v2 documentation
-<http://django-autocomplete-light.readthedocs.org/en/v2/>`_.
+Upgrade from 1.x.x
+------------------
 
 **To upgrade to v2**, please enjoy the `v1 to v2 upgrade instructions
-<http://django-autocomplete-light.readthedocs.org/en/v2/1to2.html>`_ (documented with love !).
+<http://django-autocomplete-light.readthedocs.org/en/stable-2.x.x/1to2.html>`_
+(documented with love !).
 
 - the Autocomplete class design hasn't changed at all.
 - ``yourlabsWidget()`` doesn't parses ``data-*`` options the same,
 - the django/form python code has been re-organised ie.
   ``get_widgets_dict()`` is gone and ``autocomplete_light.ModelForm``
-  wraps around all features.
+  wraps around all features by default.
 
 Resources
 ---------
