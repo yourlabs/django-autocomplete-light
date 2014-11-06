@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 """
-The provided widgets are ment to rely on an Autocomplete class.
+The provided widgets are meant to rely on an Autocomplete class.
 
 - :py:class:`ChoiceWidget` :py:class:`django:django.forms.Select`
 
