@@ -1,3 +1,11 @@
+2.0.2
+
+    - #334: Fixed display of autocomplete with clearfix (by @madEng84)
+    - #336: Added compiled po files
+    - #335: Removed debug statement
+
+2.0.1: Initial stable release
+
 2.0.0a18: #292: Enable clear-ing nullable GFKs with the form.
 
 2.0.0a17: #280: Do not depend on django on install.
