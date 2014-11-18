@@ -223,7 +223,6 @@ $.fn.yourlabsTextWidget = function(overrides) {
 
 $(document).ready(function() {
     $('body').on('initialize', 'input[data-widget-bootstrap=text]', function() {
-        console.log('hi')
         /*
         Only setup autocompletes on inputs which have
         data-widget-bootstrap=text, if you want to initialize some
