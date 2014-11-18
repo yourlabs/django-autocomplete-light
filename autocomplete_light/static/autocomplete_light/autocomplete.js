@@ -506,7 +506,7 @@ yourlabs.Autocomplete.prototype.fixPosition = function() {
 
     this.input.parents().filter(function() {
         return $(this).css('overflow') === 'hidden';
-    }).first().css('overflow', 'visible');
+    }).first().css('overflow', 'visible').addClass('autocomplete-light-clearfix');
 	
     this.box.insertAfter(this.input).css(
             {top: pos.top + pos.height, left: pos.left});
