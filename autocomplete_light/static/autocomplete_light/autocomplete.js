@@ -636,7 +636,8 @@ $.fn.yourlabsAutocomplete = function(overrides) {
         // Extend the instance with data-autocomplete-* overrides
         for (var key in this.data()) {
             if (!key) continue;
-            if (key.substr(0, 12) != 'autocomplete') continue;
+            if (key.substr(0, 12) != 'autocomplete' or key.length == 12) 
+                continue;
             var newKey = key.replace('autocomplete', '');
             var newKey = newKey.charAt(0).toLowerCase() + newKey.slice(1);
             autocomplete[newKey] = this.data(key);
