@@ -306,7 +306,7 @@ $.fn.yourlabsWidget = function(overrides) {
         // Extend the instance with data-widget-* overrides
         for (var key in this.data()) {
             if (!key) continue;
-            if (key.substr(0, 6) != 'widget' or key.length == 6) continue;
+            if (key.substr(0, 6) != 'widget' || key == 'widget') continue;
             var newKey = key.replace('widget', '');
             var newKey = newKey.charAt(0).toLowerCase() + newKey.slice(1);
             widget[newKey] = this.data(key);
