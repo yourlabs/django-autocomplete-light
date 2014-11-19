@@ -1,3 +1,5 @@
+2.0.3: #337: Fixed error in text_widget.js
+
 2.0.2
 
     - #334: Fixed display of autocomplete with clearfix (by @madEng84)
