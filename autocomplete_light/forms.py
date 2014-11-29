@@ -352,13 +352,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 continue
 
             # Check needed for compatibility with django-hstore
-            if hasattr(field, 'fk_field'):
-                new_class.base_fields[field.name] = GenericModelChoiceField(
-                    widget=widgets.get(field.name, None),
-                    autocomplete=cls.get_generic_autocomplete(meta, field.name),
-                    required=not meta.model._meta.get_field_by_name(
-                        field.fk_field)
-                )
+            if not hasattr(field, 'fk_field'):
+                continue
+
+            new_class.base_fields[field.name] = GenericModelChoiceField(
+                widget=widgets.get(field.name, None),
+                autocomplete=cls.get_generic_autocomplete(meta, field.name),
+                required=not meta.model._meta.get_field_by_name(
+                    field.fk_field)
+            )
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
