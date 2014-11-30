@@ -113,6 +113,10 @@ class VirtualFieldHandlingMixin(forms.BaseModelForm):
             if value:
                 setattr(self.instance, field.name, value)
 
+                # Required for django-hstore support
+                if not hasattr(value, '_meta'):
+                    continue
+
                 self.cleaned_data[field.ct_field] = \
                     ContentType.objects.get_for_model(value)
                 self.cleaned_data[field.fk_field] = value.pk
