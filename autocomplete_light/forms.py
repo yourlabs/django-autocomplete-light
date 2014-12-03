@@ -113,6 +113,10 @@ class VirtualFieldHandlingMixin(forms.BaseModelForm):
             if value:
                 setattr(self.instance, field.name, value)
 
+                # Required for django-hstore support
+                if not hasattr(value, '_meta'):
+                    continue
+
                 self.cleaned_data[field.ct_field] = \
                     ContentType.objects.get_for_model(value)
                 self.cleaned_data[field.fk_field] = value.pk
@@ -349,6 +353,10 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         # Add generic fk and m2m autocompletes
         for field in meta.model._meta.virtual_fields:
             if cls.skip_field(meta, field):
+                continue
+
+            # Check needed for compatibility with django-hstore
+            if not hasattr(field, 'fk_field'):
                 continue
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
