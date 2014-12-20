@@ -154,7 +154,7 @@ class RegistryGetAutocompleteFromArgTestCase(unittest.TestCase):
         self.assertTrue(issubclass(a, Generic))
 
 
-@unittest.skipIf(django.VERSION < 1.7, 'require django 1.7')
+@unittest.skipIf(django.VERSION < (1, 7), 'require django 1.7')
 class AppConfigSupportTestCase(unittest.TestCase):
     def test_appconfig_with_registry_file(self):
         self.assertIsInstance(autocomplete_light.registry['AppConfigWithRegistryAutocomplete'](),
