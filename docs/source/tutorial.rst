@@ -38,6 +38,13 @@ Register an Autocomplete for your model in
         },
     )
 
+.. note::
+
+    If using **Django >= 1.7**, you might as well do :py:func:`register()
+    <autocomplete_light.registry.register>` calls directly in your
+    ``AppConfig.ready()`` as demonstrated in example app:
+    ``autocomplete_light.example_apps.app_config_without_registry_file``
+
 :py:meth:`AutocompleteView.get()
 <autocomplete_light.views.AutocompleteView.get>` can proxy
 :py:meth:`PersonAutocomplete.autocomplete_html()
