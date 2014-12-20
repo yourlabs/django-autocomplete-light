@@ -28,6 +28,11 @@ from .exceptions import (AutocompleteNotRegistered,
                          AutocompleteArgNotUnderstood,
                          NoGenericAutocompleteRegistered)
 
+try:
+    from django.utils.module_loading import autodiscover_modules
+except ImportError:
+    autodiscover_modules = None
+
 __all__ = ('AutocompleteRegistry', 'registry', 'register', 'autodiscover')
 
 
@@ -284,7 +289,17 @@ def autodiscover():
     :py:meth:`AutocompleteRegistry.register()` for details on how these
     autocomplete classes are generated.
     """
-    _autodiscover(registry)
+    if autodiscover_modules:
+        # this serves to support rollback
+        class Site(object):
+            def __init__(self, registry):
+                self._registry = registry
+        site = Site(registry)
+
+        autodiscover_modules('autocomplete_light_registry',
+                             register_to=site)
+    else:
+        _autodiscover(registry)
 
 
 def register(*args, **kwargs):

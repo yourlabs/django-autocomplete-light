@@ -1,0 +1,1 @@
+default_app_config = 'autocomplete_light.example_apps.app_config_without_registry_file.apps.AppConfigWithoutRegistryFile'

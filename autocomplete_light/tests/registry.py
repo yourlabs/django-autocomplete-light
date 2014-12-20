@@ -1,5 +1,6 @@
 import unittest
 
+import django
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -151,3 +152,14 @@ class RegistryGetAutocompleteFromArgTestCase(unittest.TestCase):
     def test_default_generic(self):
         a = self.registry.get_autocomplete_from_arg()
         self.assertTrue(issubclass(a, Generic))
+
+
+@unittest.skipIf(django.VERSION < 1.7, 'require django 1.7')
+class AppConfigSupportTestCase(unittest.TestCase):
+    def test_appconfig_with_registry_file(self):
+        self.assertIsInstance(autocomplete_light.registry['AppConfigWithRegistryAutocomplete'](),
+                             autocomplete_light.AutocompleteListBase)
+
+    def test_appconfig_without_registry_file(self):
+        self.assertIsInstance(autocomplete_light.registry['AppConfigWithoutRegistryAutocomplete'](),
+                              autocomplete_light.AutocompleteListBase)

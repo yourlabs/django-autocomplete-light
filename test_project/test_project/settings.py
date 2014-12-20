@@ -113,6 +113,11 @@ INSTALLED_APPS = (
 
 if django.VERSION < (1, 7):
     INSTALLED_APPS += ('south',)
+elif django.VERSION >= (1, 7):
+    INSTALLED_APPS += (
+        'autocomplete_light.example_apps.app_config_with_registry_file',
+        'autocomplete_light.example_apps.app_config_without_registry_file.apps.AppConfigWithoutRegistryFile',
+    )
 
 
 try:

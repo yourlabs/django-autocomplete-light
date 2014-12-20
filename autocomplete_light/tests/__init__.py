@@ -16,7 +16,8 @@ from .fields import ChoiceFieldTestCase, MultipleChoiceFieldTestCase
 
 from .registry import (
     RegistryTestCase,
-    RegistryGetAutocompleteFromArgTestCase
+    RegistryGetAutocompleteFromArgTestCase,
+    AppConfigSupportTestCase,
 )
 
 from .templatetags import DataAttributesTestCase
