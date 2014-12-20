@@ -1,3 +1,5 @@
+2.0.4: #347: Django 1.7 AppConfig support
+
 2.0.3: #337: Fixed error in text_widget.js
 
 2.0.2
