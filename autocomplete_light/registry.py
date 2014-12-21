@@ -287,14 +287,7 @@ def autodiscover():
     autocomplete classes are generated.
     """
     if autodiscover_modules:
-        # this serves to support rollback
-        class Site(object):
-            def __init__(self, registry):
-                self._registry = registry
-        site = Site(registry)
-
-        autodiscover_modules('autocomplete_light_registry',
-                             register_to=site)
+        autodiscover_modules('autocomplete_light_registry')
     else:
         _autodiscover(registry)
 
