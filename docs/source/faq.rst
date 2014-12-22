@@ -1,3 +1,23 @@
+RemovedInDjango18Warning: Creating a ModelForm without either the 'fields' attribute or the 'exclude' attribute is deprecated - form YourForm needs updating
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+It's very common for users who are not actively following Django 1.7
+development and Django security matters (even though they should!) to report
+the following warning as a problem with django-autocomplete-light::
+
+    autocomplete_light/forms.py:266: RemovedInDjango18Warning: Creating a ModelForm without either the 'fields' attribute or the 'exclude' attribute is deprecated - form YourForm needs updating
+
+This is a **new security feature from Django**, and has **nothing to do with
+django-autocomplete-light**. As the message clearly states, it is **deprecated
+to create a ModelForm without either the 'fields' attribute or the 'exclude'
+attribute**.
+
+**Solution**: pass ``fields = '__all__'``.
+
+See `Django documentation on "Selecting the fields to use"
+<https://docs.djangoproject.com/en/dev/topics/forms/modelforms/#selecting-the-fields-to-use>`_
+for details.
+
 How to run tests
 ----------------
 
