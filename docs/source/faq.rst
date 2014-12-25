@@ -1,3 +1,23 @@
+Can't see admin add-another ``+`` button when overriding a ``ModelChoiceField``
+-------------------------------------------------------------------------------
+
+It's common for users to report that the ``+``/add-another button disappears
+when using a ``ModelForm`` with an overriden ``ModelChoiceField``. This is actually
+a `Django issue
+<http://stackoverflow.com/questions/18602563/django-modelchoicefield-has-no-plus-button>`_.
+
+As a workaround, 2.0.6 allows using ``Autocomplete.add_another_url_name`` in
+the admin, ie.::
+
+    autocomplete_light.register(YourModel, add_another_url_name='admin:yourapp_yourmodel_add')
+
+While using :ref:`addanother` has been supported for years, support for using
+it as a workaround in Django admin is currently experimental. You can obviously
+imagine the problem if such an Autocomplete is used for a user which has no
+access to the admin: the plus button will fail.
+
+Your input is very welcome on this matter.
+
 RemovedInDjango18Warning: Creating a ModelForm without either the 'fields' attribute or the 'exclude' attribute is deprecated - form YourForm needs updating
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
