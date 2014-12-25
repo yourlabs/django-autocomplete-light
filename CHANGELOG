@@ -1,3 +1,5 @@
+2.0.6: #282: add-another in admin too (see message for 02a555cef3d)
+
 2.0.5: Code removal
 
 2.0.4: #347: Django 1.7 AppConfig support
