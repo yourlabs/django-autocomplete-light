@@ -5,10 +5,11 @@ matrix:
     # Python 3 is not supported with Django < 1.5.
     - python: "3.4"
       env: REQ="django<1.5 django-taggit django-generic-m2m"
-    - python: "2.7"
-      env: REQ="django<1.8 django-generic-m2m"
+    # Skip specific / single combinations for Python 2.
     - python: "2.7"
       env: REQ="django<1.8"
+    - python: "2.7"
+      env: REQ="django<1.8 django-generic-m2m"
     - python: "2.7"
       env: REQ="django<1.8 django-taggit"
 python:
@@ -19,9 +20,10 @@ env:
     - REQ="django<1.5 django-taggit django-generic-m2m"
     - REQ="django<1.6 django-taggit django-generic-m2m"
     - REQ="django<1.7 django-taggit django-generic-m2m"
+    # Current stable Django.
+    - REQ="django<1.8"
     - REQ="django<1.8 django-taggit django-generic-m2m"
     - REQ="django<1.8 django-generic-m2m"
-    - REQ="django<1.8"
     - REQ="django<1.8 django-taggit"
 install:
   - pip install $REQ
