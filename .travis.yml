@@ -25,6 +25,8 @@ env:
     - REQ="django<1.8 django-taggit django-generic-m2m"
     - REQ="django<1.8 django-generic-m2m"
     - REQ="django<1.8 django-taggit"
+    # django-master.
+    - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
   - pip install $REQ
   - pip install pep8 --use-mirrors
