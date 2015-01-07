@@ -1,0 +1,5 @@
+[report]
+omit = 
+    */autocomplete_light/example_apps/*
+    */autocomplete_light/tests/*
+    */test_project/*
