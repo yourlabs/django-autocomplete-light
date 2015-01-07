@@ -29,7 +29,7 @@ install:
   - pip install -r test_project/requirements.txt
   - pip install -r test_project/test_requirements.txt
   - pip install -e . --use-mirrors
-  - pip install selenium
+  - pip install selenium coveralls
   - pip freeze
 before_script:
   - "pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light"
@@ -38,7 +38,9 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 script:
-    - test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres
+  - coverage run --source=autocomplete_light test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres
+after_success:
+  - coveralls
 notifications:
   irc: 
     channels: 

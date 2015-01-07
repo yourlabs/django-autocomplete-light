@@ -4,6 +4,8 @@
     :target: https://crate.io/packages/django-autocomplete-light
 .. image:: https://pypip.in/v/django-autocomplete-light/badge.png   
     :target: https://crate.io/packages/django-autocomplete-light
+.. image:: https://coveralls.io/repos/yourlabs/django-autocomplete-light/badge.png?branch=stable/2.x.x
+    :target: https://coveralls.io/r/yourlabs/django-autocomplete-light?branch=stable/2.x.x
 
 django-autocomplete-light's purpose is to enable autocompletes quickly and
 properly in a django project: it is the fruit of **years of R&D**. It was
