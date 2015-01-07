@@ -1,9 +1,0 @@
-<h1>{{ object }}</h1>
-
-<p>
-This would be your get_absolute_url for the object.
-</p>
-
-{% if request.user.is_staff %}
-<a href="{{ object.get_absolute_update_url }}">Update</a>
-{% endif %}

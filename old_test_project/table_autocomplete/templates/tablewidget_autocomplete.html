@@ -1,7 +1,0 @@
-{% load autocomplete_light_tags %}
-
-<table>
-    {% for choice in choices %}
-        {{ choice|autocomplete_light_choice_html:autocomplete }}
-    {% endfor %}
-</table>
