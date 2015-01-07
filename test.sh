@@ -9,8 +9,8 @@ WORKSPACE="${WORKSPACE:-$(pwd)}"
 CLEAN_VIRTUALENV="${CLEAN_VIRTUALENV:-0}"
 DJANGO_TAGGIT="${DJANGO_TAGGIT:-1}"
 DJANGO_GENERIC_M2M="${DJANGO_GENERIC_M2M:-1}"
-PYTHON_VERSION="${PYTHON_VERSION:-3.3}"
-DJANGO_VERSION="${DJANGO_VERSION:-1.6.1}"
+PYTHON_VERSION="${PYTHON_VERSION:-3.4}"
+DJANGO_VERSION="${DJANGO_VERSION:-1.7}"
 # for debug, it could be -e /dev/stdout
 XVFB_FLAGS="${XVFB_FLAGS:-}"
 
@@ -18,9 +18,13 @@ XVFB_FLAGS="${XVFB_FLAGS:-}"
 ENV_PATH="$WORKSPACE/test_env"
 
 # Get real django version
-[ "$DJANGO_VERSION" = "1.4" ] && DJANGO_VERSION="1.4.10"
-[ "$DJANGO_VERSION" = "1.5" ] && DJANGO_VERSION="1.5.5"
-[ "$DJANGO_VERSION" = "1.6" ] && DJANGO_VERSION="1.6.1"
+case "$DJANGO_VERSION" in
+    1.4) django_dep='django>1.4,<1.5' ;;
+    1.5) django_dep='django>1.5,<1.6' ;;
+    1.6) django_dep='django>1.6,<1.7' ;;
+    1.7) django_dep='django>1.7,<1.8' ;;
+    *)   django_dep="django==$DJANGO_VERSION" ;;
+esac
 
 # Clean virtualenv if necessary
 [ "$CLEAN_VIRTUALENV" = "1" ] && rm -rf $ENV_PATH
@@ -38,12 +42,10 @@ source $ENV_PATH/bin/activate
 
 [ "$DJANGO_GENERIC_M2M" = "1" ] && DJANGO_GENERIC_M2M=django-generic-m2m || DJANGO_GENERIC_M2M=""
 
-# 2.1.7 has a bad migration
-pip install django-cities-light==2.1.8
+pip install $django_dep
 pip install $DJANGO_TAGGIT $DJANGO_GENERIC_M2M \
     -e $WORKSPACE \
-    -r $WORKSPACE/test_project/test_requirements.txt \
-    django==$DJANGO_VERSION
+    -r $WORKSPACE/test_project/test_requirements.txt
 
 cd $WORKSPACE
 # NOTE: pg_virtualenv sets PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT
