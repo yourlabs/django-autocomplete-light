@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 from .case import *
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import Permission
+
+from cities_light.models import City
 
 from ...example_apps.autocomplete_test_case_app.models import User, Group
 
@@ -133,7 +134,7 @@ class AutocompleteGenericTestCase(AutocompleteTestCase):
             {
                 'form_class': FormMock,
                 'fixture': 'x=%s-2' % ContentType.objects.get_for_model(
-                    Permission).pk,
+                    City).pk,
                 'expected_valid': False,
             },
         )
