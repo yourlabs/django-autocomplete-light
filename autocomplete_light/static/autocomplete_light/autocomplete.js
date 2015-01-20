@@ -509,7 +509,7 @@ yourlabs.Autocomplete.prototype.fixPosition = function() {
     }).first().css('overflow', 'visible').addClass('autocomplete-light-clearfix');
 	
     this.box.insertAfter(this.input).css(
-            {top: pos.top + pos.height, left: pos.left});
+            {top: pos.height, left: pos.left});
 }
 
 // Proxy fetch(), with some sanity checks.
