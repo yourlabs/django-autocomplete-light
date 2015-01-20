@@ -19,10 +19,10 @@ ENV_PATH="$WORKSPACE/test_env"
 
 # Get real django version
 case "$DJANGO_VERSION" in
-    1.4) django_dep='django>1.4,<1.5' ;;
-    1.5) django_dep='django>1.5,<1.6' ;;
-    1.6) django_dep='django>1.6,<1.7' ;;
-    1.7) django_dep='django>1.7,<1.8' ;;
+    1.4) django_dep='django>=1.4,<1.5' ;;
+    1.5) django_dep='django>=1.5,<1.6' ;;
+    1.6) django_dep='django>=1.6,<1.7' ;;
+    1.7) django_dep='django>=1.7,<1.8' ;;
     *)   django_dep="django==$DJANGO_VERSION" ;;
 esac
 
