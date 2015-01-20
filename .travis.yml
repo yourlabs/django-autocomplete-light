@@ -1,27 +1,37 @@
 sudo: false
 language: python
 matrix:
-  exclude:
-    - python: "3.3"
-      env: REQ="django<1.5 django-taggit django-generic-m2m"
+  allow_failures:
+    - python: "3.4"
+      env: REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
     - python: "2.7"
-      env: REQ="django<1.8 django-generic-m2m"
+      env: REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
+  exclude:
+    # Python 3 is not supported with Django < 1.5.
+    - python: "3.4"
+      env: REQ="django<1.5 django-taggit django-generic-m2m"
+    # Skip specific / single combinations for Python 2.
     - python: "2.7"
       env: REQ="django<1.8"
+    - python: "2.7"
+      env: REQ="django<1.8 django-generic-m2m"
     - python: "2.7"
       env: REQ="django<1.8 django-taggit"
 python:
   - "2.7"
-  - "3.3"
+  - "3.4"
 env:
   matrix:
     - REQ="django<1.5 django-taggit django-generic-m2m"
     - REQ="django<1.6 django-taggit django-generic-m2m"
     - REQ="django<1.7 django-taggit django-generic-m2m"
+    # Current stable Django.
+    - REQ="django<1.8"
     - REQ="django<1.8 django-taggit django-generic-m2m"
     - REQ="django<1.8 django-generic-m2m"
-    - REQ="django<1.8"
     - REQ="django<1.8 django-taggit"
+    # django-master.
+    - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
   - pip install $REQ
   - pip install pep8 --use-mirrors
