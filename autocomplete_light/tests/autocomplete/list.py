@@ -17,6 +17,11 @@ class AutocompleteListMock(autocomplete_light.AutocompleteListBase):
 class AutocompleteListTestCase(AutocompleteTestCase):
     autocomplete_mock = AutocompleteListMock
 
+    def test_empty_list_choices(self):
+        mock = self.autocomplete_mock(request=make_get_request('q=t'))
+        mock.choices = []
+        mock.choices_for_request()
+
     def get_choices_for_values_tests(self):
         tests = (
             {
