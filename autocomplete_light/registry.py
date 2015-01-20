@@ -177,7 +177,7 @@ class AutocompleteRegistry(dict):
         if base.search_fields is None and 'search_fields' not in kwargs:
             try:
                 search_fields = admin.site._registry[model].search_fields
-            except KeyError:
+            except (KeyError, AttributeError):
                 search_fields = ()
             if not search_fields:
                 # Use 'name' and/or 'title' fields.
