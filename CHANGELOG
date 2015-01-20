@@ -1,3 +1,13 @@
+2.0.7:
+
+    - Removed unused module (autocomplete_light.generic),
+    - choices_for_request: assert that search_fields is not a string
+    - #354: Choices=[] should not crash.
+    - also: cleaned 2.x, code coverage increase
+    - also: stable/2.x.x deprecated in favor of master
+    - also: tests against django (1.8) master enabled but allowed to fail
+    - also: promoted @blueyed to core-dev, rock'on B)
+
 2.0.6: #282: add-another in admin too (see message for 02a555cef3d)
 
 2.0.5: Code removal
