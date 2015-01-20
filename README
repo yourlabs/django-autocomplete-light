@@ -43,6 +43,9 @@ Upgrade from 1.x.x
 - the django/form python code has been re-organised ie.
   ``get_widgets_dict()`` is gone and ``autocomplete_light.ModelForm``
   wraps around all features by default.
+- use ``autocomplete_light.ModelForm`` instead of
+  ``autocomplete_light.GenericModelForm`` - generic foreign keys and
+  django-generic-m2m are supported by default if installed.
 
 Resources
 ---------
