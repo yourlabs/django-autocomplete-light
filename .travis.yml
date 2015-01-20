@@ -1,6 +1,9 @@
 sudo: false
 language: python
 matrix:
+  allow_failures:
+    - python: "3.4"
+      env: REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
   exclude:
     # Python 3 is not supported with Django < 1.5.
     - python: "3.4"
