@@ -48,7 +48,7 @@ class AutocompleteList(object):
         Return any :py:attr:`choices` that contains the search string. It is
         case insensitive and ignores spaces.
         """
-        assert self.choices, 'autocomplete.choices is not set'
+        assert self.choices is not None, 'autocomplete.choices is not set'
 
         requests_choices = []
         q = self.request.GET.get('q', '').lower().strip()
