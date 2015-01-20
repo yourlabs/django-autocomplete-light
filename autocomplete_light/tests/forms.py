@@ -5,15 +5,11 @@ autocomplete_light.autodiscover()
 
 import lxml.html
 
-from django import VERSION
-from django import http
-from django import forms
-from django.utils import translation
-from django.utils.encoding import force_text
+from django import forms, http, VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory
-
-import autocomplete_light
+from django.utils import translation
+from django.utils.encoding import force_text
 
 from ..example_apps.basic.forms import (DjangoCompatMeta, FkModelForm,
                                         GfkModelForm, GmtmModelForm, MtmModelForm, OtoModelForm,
