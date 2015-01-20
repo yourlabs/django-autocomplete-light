@@ -11,7 +11,6 @@ from django.test import TestCase
 import autocomplete_light
 
 from ..example_apps.basic.models import FkModel
-from ..example_apps.security_test.models import Item
 
 
 class LazyAutocomplete(autocomplete_light.AutocompleteModelBase):

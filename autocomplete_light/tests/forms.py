@@ -15,9 +15,11 @@ from django.forms.models import modelform_factory
 
 import autocomplete_light
 
-from ..example_apps.basic.admin import *
-from ..example_apps.basic.models import *
-from ..example_apps.basic.forms import *
+from ..example_apps.basic.forms import (DjangoCompatMeta, FkModelForm,
+                                        GfkModelForm, GmtmModelForm, MtmModelForm, OtoModelForm,
+                                        TaggitModelForm)
+from ..example_apps.basic.models import (FkModel, GfkModel, GmtmModel,
+                                         MtmModel, OtoModel, TaggitModel)
 
 
 class SelectMultipleHelpTextRemovalMixinTestCase(unittest.TestCase):
@@ -441,7 +443,7 @@ class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase)
 
 
 try:
-    from taggit.models import Tag
+    from taggit.models import Tag  # noqa
 except ImportError:
     class TaggitModelFormTestCase(object):
         pass
@@ -482,7 +484,7 @@ else:
             self.assertIn('test-class', attrib['class'])
 
 try:
-    import genericm2m
+    import genericm2m  # noqa
 except ImportError:
     class GmtmModelFormTestCase(object):
         pass

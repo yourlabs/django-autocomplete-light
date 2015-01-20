@@ -9,8 +9,6 @@ except ImportError:  # python2
     from mock import Mock, MagicMock, patch
 
 from django.utils.encoding import force_text
-from django import forms
-from django import http
 from django.test import RequestFactory
 from django.core.urlresolvers import reverse
 from django.test import Client
