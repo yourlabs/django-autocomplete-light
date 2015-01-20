@@ -89,6 +89,8 @@ class AutocompleteModel(object):
         """
         assert self.choices is not None, 'choices should be a queryset'
         assert self.search_fields, 'autocomplete.search_fields must be set'
+        assert not isinstance(self.search_fields, six.string_types), \
+            'autocomplete.search_fields must not be a string'
         q = self.request.GET.get('q', '')
         exclude = self.request.GET.getlist('exclude')
 
