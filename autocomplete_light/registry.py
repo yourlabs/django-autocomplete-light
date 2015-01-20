@@ -29,6 +29,7 @@ from .exceptions import (AutocompleteArgNotUnderstood,
                          AutocompleteNotRegistered,
                          NoGenericAutocompleteRegistered,
                          UnconfiguredSearchFieldsException)
+from .settings import DEFAULT_SEARCH_FIELDS
 
 try:
     from django.utils.module_loading import autodiscover_modules
@@ -182,7 +183,7 @@ class AutocompleteRegistry(dict):
                 # Use 'name' and/or 'title' fields.
                 model_fields = model._meta.get_all_field_names()
                 search_fields = tuple(
-                    f for f in model_fields if f in ('name', 'title')
+                    f for f in model_fields if f in (DEFAULT_SEARCH_FIELDS)
                 )
             if not search_fields:
                 raise UnconfiguredSearchFieldsException(
