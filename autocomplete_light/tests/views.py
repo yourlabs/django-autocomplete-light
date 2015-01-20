@@ -116,7 +116,7 @@ class AutocompleteViewTestCase(unittest.TestCase):
         request = RequestFactory().post(
             reverse('autocomplete_light_autocomplete', args=['UserAutocomplete']))
 
-        response = autocomplete_light.AutocompleteView.as_view()(request,
+        autocomplete_light.AutocompleteView.as_view()(request,
             autocomplete='UserAutocomplete')
 
         autocomplete_light.registry.__getitem__.assert_called_with('UserAutocomplete')
