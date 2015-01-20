@@ -21,31 +21,31 @@ For now, the script is composed of these parts:
 jQuery.fn.getSelectionStart = function(){
     // Written by jQuery4U
     // http://www.jquery4u.com/snippets/6-jquery-cursor-functions/#.UDPQ9xXtFw8
-    if(this.lengh == 0) return -1;
-    input = this[0];
- 
-    var pos = input.value.length;
- 
-    if (input.createTextRange) {
+    if(this.lengh == 0) return -1;
+    input = this[0];
+
+    var pos = input.value.length;
+
+    if (input.createTextRange) {
         if (window.getSelection) {
             var r = window.getSelection(); //IE11
         } else {
             var r = document.selection.createRange().duplicate();
             r.moveEnd('character', input.value.length);
         }
-        if (r.text == '')
-            pos = input.value.length;
-        pos = input.value.lastIndexOf(r.text);
-    } else if(typeof(input.selectionStart)!="undefined")
-    pos = input.selectionStart;
- 
-    return pos;
+        if (r.text == '')
+            pos = input.value.length;
+        pos = input.value.lastIndexOf(r.text);
+    } else if(typeof(input.selectionStart)!="undefined")
+    pos = input.selectionStart;
+
+    return pos;
 }
 
 jQuery.fn.getCursorPosition = function(){
     // Written by jQuery4U
-    if(this.lengh == 0) return -1;
-    return $(this).getSelectionStart();
+    if(this.lengh == 0) return -1;
+    return $(this).getSelectionStart();
 }
 
 // Return the word on which the cursor is on.
@@ -154,7 +154,7 @@ yourlabs.TextWidget.prototype.initialize = function() {
 // Destroy the widget. Takes a widget element because a cloned widget element
 // will be dirty, ie. have wrong .input and .widget properties.
 yourlabs.TextWidget.prototype.destroy = function(input) {
-    input 
+    input
         .unbind('selectChoice')
         .yourlabsAutocomplete('destroy');
 }
