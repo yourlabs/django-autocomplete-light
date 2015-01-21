@@ -11,7 +11,6 @@ from django.test import TestCase
 import autocomplete_light
 
 from ..example_apps.basic.models import FkModel
-from ..example_apps.security_test.models import Item
 
 
 class LazyAutocomplete(autocomplete_light.AutocompleteModelBase):
@@ -37,12 +36,12 @@ class WidgetBaseTestCase(TestCase):
         self.assertEqual(widget.autocomplete.model, FkModel)
 
     def test_widget_js_attributes_deprecation(self):
-        with self.assertRaises(PendingDeprecationWarning) as context:
-            widget = self.widget_class(widget_js_attributes={'foo': 'bar'})
+        with self.assertRaises(PendingDeprecationWarning):
+            self.widget_class(widget_js_attributes={'foo': 'bar'})
 
     def test_autocomplete_js_attributes_deprecation(self):
-        with self.assertRaises(PendingDeprecationWarning) as context:
-            widget = self.widget_class(autocomplete_js_attributes={'foo': 'bar'})
+        with self.assertRaises(PendingDeprecationWarning):
+            self.widget_class(autocomplete_js_attributes={'foo': 'bar'})
 
     @mock.patch('autocomplete_light.widgets.render_to_string')
     def test_widget_template(self, render_to_string):
