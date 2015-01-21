@@ -1,12 +1,10 @@
 from __future__ import unicode_literals
 
-from .case import *
-
+from cities_light.models import City
 from django.contrib.contenttypes.models import ContentType
 
-from cities_light.models import City
-
-from ...example_apps.autocomplete_test_case_app.models import User, Group
+from ...example_apps.autocomplete_test_case_app.models import Group, User
+from .case import *
 
 
 class AutocompleteGenericMock(autocomplete_light.AutocompleteGenericBase):
@@ -143,4 +141,3 @@ class AutocompleteGenericTestCase(AutocompleteTestCase):
         class MyGeneric(autocomplete_light.AutocompleteGenericBase):
             choices = [Group.objects.all()]
         self.assertEqual(MyGeneric.search_fields, [('name',)])
-
