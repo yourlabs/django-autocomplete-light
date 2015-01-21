@@ -33,8 +33,6 @@ env:
     # django-master.
     - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
-  # Speedup build of lxml etc. Wheels are problematic (https://bugs.launchpad.net/lxml/+bug/1176147).
-  - export CFLAGS=-O0
   # Create wheels (skips existing ones from the cached wheelhouse).
   - export PIP_FIND_LINKS=$PWD/wheelhouse/
   - pip install -U pip
