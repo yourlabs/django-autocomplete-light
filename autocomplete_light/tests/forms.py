@@ -12,10 +12,25 @@ from django.utils import translation
 from django.utils.encoding import force_text
 
 from ..example_apps.basic.forms import (DjangoCompatMeta, FkModelForm,
-                                        GfkModelForm, GmtmModelForm, MtmModelForm, OtoModelForm,
-                                        TaggitModelForm)
-from ..example_apps.basic.models import (FkModel, GfkModel, GmtmModel,
-                                         MtmModel, OtoModel, TaggitModel)
+                                        GfkModelForm, MtmModelForm,
+                                        OtoModelForm)
+from ..example_apps.basic.models import FkModel, GfkModel, MtmModel, OtoModel
+
+try:
+    from ..example_apps.basic.forms import GmtmModelForm
+except ImportError:
+    GmtmModelForm = None
+    GmtmModel = None
+else:
+    from ..example_apps.basic.models import GmtmModel
+
+try:
+    from ..example_apps.basic.forms import TaggitModelForm
+except ImportError:
+    TaggitModelForm = None
+    TaggitModel = None
+else:
+    from ..example_apps.basic.models import TaggitModel
 
 
 class SelectMultipleHelpTextRemovalMixinTestCase(unittest.TestCase):
@@ -438,59 +453,50 @@ class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase)
     autocomplete_name = 'MtmModelAutocomplete'
 
 
-try:
-    from taggit.models import Tag  # noqa
-except ImportError:
-    class TaggitModelFormTestCase(object):
+@unittest.skipIf(TaggitModelForm is None, "taggit is not available.")
+class TaggitModelFormTestCase(ModelFormBaseTestCase):
+    model_class = TaggitModel
+    model_form_class = TaggitModelForm
+    field_class = autocomplete_light.TaggitField
+    widget_class = autocomplete_light.TaggitWidget
+    autocomplete_name = 'TagAutocomplete'
+
+    def setUp(self):
+        self.james = 'james'
+        self.janis = 'janis'
+        self.test_instance = self.model_class.objects.create(name='test')
+
+    def form_value(self, model):
+        return 'relation=%s' % model
+
+    def field_value(self, model):
+        return model.relation.all().values_list('name', flat=True)[0]
+
+    def test_empty_registry(self):
         pass
-else:
-    class TaggitModelFormTestCase(ModelFormBaseTestCase):
-        model_class = TaggitModel
-        model_form_class = TaggitModelForm
-        field_class = autocomplete_light.TaggitField
-        widget_class = autocomplete_light.TaggitWidget
-        autocomplete_name = 'TagAutocomplete'
 
-        def setUp(self):
-            self.james = 'james'
-            self.janis = 'janis'
-            self.test_instance = self.model_class.objects.create(name='test')
+    def test_widget_override(self):
+        class ModelForm(autocomplete_light.ModelForm):
+            class Meta(DjangoCompatMeta):
+                model = self.model_class
+                widgets = {'relation': self.widget_class(attrs={
+                    'class': 'test-class', 'data-foo': 'bar'})}
 
-        def form_value(self, model):
-            return 'relation=%s' % model
+        self.form = ModelForm()
 
-        def field_value(self, model):
-            return model.relation.all().values_list('name', flat=True)[0]
+        et = lxml.html.fromstring(self.form.as_p())
+        attrib = et.cssselect('input[name=relation].autocomplete')[0].attrib
+        self.assertEquals(attrib['data-foo'], 'bar')
+        self.assertIn('test-class', attrib['class'])
 
-        def test_empty_registry(self):
-            pass
 
-        def test_widget_override(self):
-            class ModelForm(autocomplete_light.ModelForm):
-                class Meta(DjangoCompatMeta):
-                    model = self.model_class
-                    widgets = {'relation': self.widget_class(attrs={
-                        'class': 'test-class', 'data-foo': 'bar'})}
+@unittest.skipIf(GmtmModelForm is None, "genericm2m is not available.")
+class GmtmModelFormTestCase(MultipleRelationTestCaseMixin,
+        GenericModelFormTestCaseMixin,
+        ModelFormBaseTestCase):
+    model_class = GmtmModel
+    model_form_class = GmtmModelForm
+    field_class = autocomplete_light.GenericModelMultipleChoiceField
 
-            self.form = ModelForm()
-
-            et = lxml.html.fromstring(self.form.as_p())
-            attrib = et.cssselect('input[name=relation].autocomplete')[0].attrib
-            self.assertEquals(attrib['data-foo'], 'bar')
-            self.assertIn('test-class', attrib['class'])
-
-try:
-    import genericm2m  # noqa
-except ImportError:
-    class GmtmModelFormTestCase(object):
-        pass
-else:
-    class GmtmModelFormTestCase(MultipleRelationTestCaseMixin,
-            GenericModelFormTestCaseMixin,
-            ModelFormBaseTestCase):
-        model_class = GmtmModel
-        model_form_class = GmtmModelForm
-        field_class = autocomplete_light.GenericModelMultipleChoiceField
-
-        def field_value(self, model):
-            return getattr(model, 'relation').all().generic_objects()[0]
+    def field_value(self, model):
+        return getattr(model, 'relation').all().generic_objects()[0]
