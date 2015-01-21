@@ -38,9 +38,15 @@ install:
   # Create wheels (skips existing ones from the cached wheelhouse).
   - export PIP_FIND_LINKS=$PWD/wheelhouse/
   - pip install -U pip
-  - pip wheel $REQ pep8 coveralls
+
+  # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
+  - if [[ $REQ != "django<1.5 django-taggit django-generic-m2m" ]]; then pip wheel $REQ; fi
+  - pip wheel pep8 coveralls
   - pip wheel -r test_project/test_requirements.txt
+
   # Install from wheelhouse.
+  # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
+  - if [[ $REQ == "django<1.5 django-taggit django-generic-m2m" ]]; then pip install $REQ; fi
   - export PIP_NO_INDEX=1
   - pip install $REQ pep8 coveralls
   - pip install -r test_project/test_requirements.txt
