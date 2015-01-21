@@ -79,6 +79,9 @@ before_script:
   - RUN_TESTS="tox -- autocomplete_light"
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
+before_install:
+  - npm install phantomjs
+  - phantomjs --version
 script:
   - ls -lat $PWD/wheelhouse
   # Run pep8 or the tests.
