@@ -54,6 +54,9 @@ install:
 before_script:
   - "pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light"
   - psql -c 'create database autocomplete_light_test;' -U postgres
+before_install:
+  - npm install phantomjs
+  - phantomjs --version
 script:
   - coverage run --source=autocomplete_light test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres
 after_success:
