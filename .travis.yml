@@ -33,6 +33,8 @@ env:
     # django-master.
     - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
+  # Speedup build of lxml etc. Wheels are problematic (https://bugs.launchpad.net/lxml/+bug/1176147).
+  - export CFLAGS=-O0
   - pip install $REQ
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
