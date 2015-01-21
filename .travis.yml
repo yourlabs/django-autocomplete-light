@@ -35,13 +35,16 @@ env:
 install:
   # Speedup build of lxml etc. Wheels are problematic (https://bugs.launchpad.net/lxml/+bug/1176147).
   - export CFLAGS=-O0
-  - pip install $REQ
-  - pip install pep8 --use-mirrors
-  - pip install https://github.com/dcramer/pyflakes/tarball/master
-  - pip install -r test_project/requirements.txt
+  # Create wheels (skips existing ones from the cached wheelhouse).
+  - export PIP_FIND_LINKS=$PWD/wheelhouse/
+  - pip install -U pip
+  - pip wheel $REQ pep8 coveralls
+  - pip wheel -r test_project/test_requirements.txt
+  # Install from wheelhouse.
+  - export PIP_NO_INDEX=1
+  - pip install $REQ pep8 coveralls
   - pip install -r test_project/test_requirements.txt
-  - pip install -e . --use-mirrors
-  - pip install coveralls
+  - pip install -e .
   - pip freeze
 before_script:
   - "pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light"
@@ -54,8 +57,13 @@ script:
 after_success:
   - coveralls
 notifications:
-  irc: 
-    channels: 
+  irc:
+    channels:
       - "irc.freenode.org#yourlabs"
     template:
       - "%{repository} (%{commit} %{author}) : %{message} %{build_url} %{compare_url}"
+
+# Persistent cache across builds (http://docs.travis-ci.com/user/caching/).
+cache:
+  directories:
+    $PWD/wheelhouse/
