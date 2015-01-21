@@ -33,7 +33,10 @@ env:
     # django-master.
     - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
-  - pip install $REQ
+  - pip install -U pip
+  - export PIP_TRUSTED_HOST=codeprobe.de
+  - export PIP_FIND_LINKS=https://codeprobe.de/pip-wheelhouse/
+  - pip install -vvv $REQ
   - pip install pep8 --use-mirrors
   - pip install https://github.com/dcramer/pyflakes/tarball/master
   - pip install -r test_project/requirements.txt
