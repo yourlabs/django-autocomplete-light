@@ -21,6 +21,9 @@ python:
   - "2.7"
   - "3.4"
 env:
+  global:
+    # Create wheels (skips existing ones from the cached wheelhouse).
+    - export PIP_FIND_LINKS=$PWD/wheelhouse/
   matrix:
     - REQ="django<1.5 django-taggit django-generic-m2m"
     - REQ="django<1.6 django-taggit django-generic-m2m"
@@ -33,8 +36,6 @@ env:
     # django-master.
     - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
-  # Create wheels (skips existing ones from the cached wheelhouse).
-  - export PIP_FIND_LINKS=$PWD/wheelhouse/
   - pip install -U pip
 
   # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
