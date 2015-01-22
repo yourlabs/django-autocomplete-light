@@ -10,6 +10,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory
 from django.utils import translation
 from django.utils.encoding import force_text
+from django.test import TestCase
 
 from ..example_apps.basic.forms import (DjangoCompatMeta, FkModelForm,
                                         GfkModelForm, MtmModelForm,
@@ -33,7 +34,7 @@ else:
     from ..example_apps.basic.models import TaggitModel
 
 
-class SelectMultipleHelpTextRemovalMixinTestCase(unittest.TestCase):
+class SelectMultipleHelpTextRemovalMixinTestCase(TestCase):
     def test_help_text_removed(self):
         class ModelForm(forms.ModelForm):
             class Meta(DjangoCompatMeta):
@@ -57,7 +58,7 @@ class SelectMultipleHelpTextRemovalMixinFrTestCase(
         translation.activate('fr_FR')
 
 
-class BaseModelFormTestCase(unittest.TestCase):
+class BaseModelFormTestCase(TestCase):
     def setUp(self):
         self.james = self.model_class.objects.create(name='James')
         self.janis = self.model_class.objects.create(name='Janis')

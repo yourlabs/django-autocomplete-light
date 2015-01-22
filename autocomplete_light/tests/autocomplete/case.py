@@ -1,16 +1,13 @@
 from __future__ import unicode_literals
 
-import unittest
-
+import autocomplete_light  # noqa
+from django import forms  # noqa
 from django import http
-from django import forms
-from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
+from django.test import TestCase
 from six import text_type
 
-from ...example_apps.autocomplete_test_case_app.models import User, Group
-
-import autocomplete_light
+from ...example_apps.autocomplete_test_case_app.models import Group, User
 
 
 def make_get_request(query=''):

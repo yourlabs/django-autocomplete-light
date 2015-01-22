@@ -3,6 +3,7 @@ import unittest
 import django
 from django.contrib.auth.models import User
 from django.db import models
+from django.test import TestCase
 
 import autocomplete_light
 
@@ -28,7 +29,7 @@ class Generic(autocomplete_light.AutocompleteGenericBase):
     )
 
 
-class RegistryTestCase(unittest.TestCase):
+class RegistryTestCase(TestCase):
     def setUp(self):
         self.registry = autocomplete_light.AutocompleteRegistry()
 
@@ -127,7 +128,7 @@ class RegistryTestCase(unittest.TestCase):
             self.registry.autocomplete_for_generic(), FirstAutocomplete))
 
 
-class RegistryGetAutocompleteFromArgTestCase(unittest.TestCase):
+class RegistryGetAutocompleteFromArgTestCase(TestCase):
     def setUp(self):
         self.registry = autocomplete_light.AutocompleteRegistry()
         self.registry.register(Foo)
@@ -155,7 +156,7 @@ class RegistryGetAutocompleteFromArgTestCase(unittest.TestCase):
 
 
 @unittest.skipIf(django.VERSION < (1, 7), 'require django 1.7')
-class AppConfigSupportTestCase(unittest.TestCase):
+class AppConfigSupportTestCase(TestCase):
     def test_appconfig_with_registry_file(self):
         self.assertIsInstance(autocomplete_light.registry['AppConfigWithRegistryAutocomplete'](),
                              autocomplete_light.AutocompleteListBase)
