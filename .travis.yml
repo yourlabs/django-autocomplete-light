@@ -21,6 +21,9 @@ python:
   - "2.7"
   - "3.4"
 env:
+  global:
+    # Create wheels (skips existing ones from the cached wheelhouse).
+    - export PIP_FIND_LINKS=$PWD/wheelhouse/
   matrix:
     - REQ="django<1.5 django-taggit django-generic-m2m"
     - REQ="django<1.6 django-taggit django-generic-m2m"
@@ -33,15 +36,20 @@ env:
     # django-master.
     - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
-  # Speedup build of lxml etc. Wheels are problematic (https://bugs.launchpad.net/lxml/+bug/1176147).
-  - export CFLAGS=-O0
-  - pip install $REQ
-  - pip install pep8 --use-mirrors
-  - pip install https://github.com/dcramer/pyflakes/tarball/master
-  - pip install -r test_project/requirements.txt
+  - pip install -U pip
+
+  # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
+  - if [[ $REQ != "django<1.5 django-taggit django-generic-m2m" ]]; then pip wheel $REQ; fi
+  - pip wheel pep8 coveralls
+  - pip wheel -r test_project/test_requirements.txt
+
+  # Install from wheelhouse.
+  # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
+  - if [[ $REQ == "django<1.5 django-taggit django-generic-m2m" ]]; then pip install $REQ; fi
+  - export PIP_NO_INDEX=1
+  - pip install $REQ pep8 coveralls
   - pip install -r test_project/test_requirements.txt
-  - pip install -e . --use-mirrors
-  - pip install coveralls
+  - pip install -e .
   - pip freeze
 before_script:
   - "pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light"
@@ -54,8 +62,13 @@ script:
 after_success:
   - coveralls
 notifications:
-  irc: 
-    channels: 
+  irc:
+    channels:
       - "irc.freenode.org#yourlabs"
     template:
       - "%{repository} (%{commit} %{author}) : %{message} %{build_url} %{compare_url}"
+
+# Persistent cache across builds (http://docs.travis-ci.com/user/caching/).
+cache:
+  directories:
+    $PWD/wheelhouse/
