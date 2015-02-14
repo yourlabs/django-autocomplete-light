@@ -34,11 +34,11 @@ else:
     from ..example_apps.basic.models import TaggitModel
 
 
-from ..example_apps.unuseable_virtualfield.models import HasVotes
-
-
+@unittest.skipIf(VERSION < (1, 5), 'Django < 1.5')
 class TestUnuseableVirtualfield(TestCase):
     def test_modelform_factory(self):
+        from ..example_apps.unuseable_virtualfield.models import HasVotes
+
         class MyForm(autocomplete_light.ModelForm):
             class Meta(DjangoCompatMeta):
                 model = HasVotes

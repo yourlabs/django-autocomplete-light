@@ -97,7 +97,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 
     'cities_light',
-    'vote',
 
     'autocomplete_light',
     'autocomplete_light.example_apps.basic',
@@ -107,7 +106,6 @@ INSTALLED_APPS = (
     'autocomplete_light.example_apps.dependant_autocomplete',
     'autocomplete_light.example_apps.non_admin_add_another',
     'autocomplete_light.example_apps.create_choice_on_the_fly',
-    'autocomplete_light.example_apps.unuseable_virtualfield',
 
     'navigation_autocomplete',
 )
@@ -121,6 +119,11 @@ elif django.VERSION >= (1, 7):
         'autocomplete_light.example_apps.app_config_without_registry_file.apps.AppConfigWithoutRegistryFile',
     )
 
+if django.VERSION >= (1, 5):
+    INSTALLED_APPS += (
+        'vote',
+        'autocomplete_light.example_apps.unuseable_virtualfield',
+    )
 
 try:
     import genericm2m
