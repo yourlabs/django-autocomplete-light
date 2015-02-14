@@ -300,7 +300,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         # autocomplete_fields/exclude
         fields = getattr(meta, 'fields', [])
 
-        for field in fields:
+        # Using or [] because fields might be None in some django versions.
+        for field in fields or []:
             model_field = getattr(meta.model._meta.virtual_fields, field, None)
 
             if model_field is None:
