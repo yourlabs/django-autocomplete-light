@@ -29,7 +29,9 @@ class AutocompleteList(object):
     """
 
     limit_choices = 20
-    order_by = lambda cls, choice: force_text(choice).lower()
+
+    def order_by(cls, choice):
+        return force_text(choice).lower()
 
     def choices_for_values(self):
         """
