@@ -34,6 +34,17 @@ else:
     from ..example_apps.basic.models import TaggitModel
 
 
+from ..example_apps.unuseable_virtualfield.models import HasVotes
+
+
+class TestUnuseableVirtualfield(TestCase):
+    def test_modelform_factory(self):
+        class MyForm(autocomplete_light.ModelForm):
+            class Meta(DjangoCompatMeta):
+                model = HasVotes
+        MyForm()
+
+
 class SelectMultipleHelpTextRemovalMixinTestCase(TestCase):
     def test_help_text_removed(self):
         class ModelForm(forms.ModelForm):

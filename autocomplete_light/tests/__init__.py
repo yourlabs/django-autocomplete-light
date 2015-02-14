@@ -9,7 +9,8 @@ from .forms import (
     GfkModelFormTestCase,
     MtmModelFormTestCase,
     GmtmModelFormTestCase,
-    TaggitModelFormTestCase
+    TaggitModelFormTestCase,
+    TestUnuseableVirtualfield
 )
 
 from .fields import ChoiceFieldTestCase, MultipleChoiceFieldTestCase

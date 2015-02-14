@@ -106,6 +106,7 @@ INSTALLED_APPS = (
     'autocomplete_light.example_apps.dependant_autocomplete',
     'autocomplete_light.example_apps.non_admin_add_another',
     'autocomplete_light.example_apps.create_choice_on_the_fly',
+    'autocomplete_light.example_apps.unuseable_virtualfield',
 
     'navigation_autocomplete',
 )
