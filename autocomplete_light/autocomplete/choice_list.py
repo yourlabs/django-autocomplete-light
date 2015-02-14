@@ -32,7 +32,8 @@ class AutocompleteChoiceList(AutocompleteList):
         :py:meth:`~.choice_list.AutocompleteChoiceList.order_choices` will use
         this against :py:attr:`choices` as an argument :py:func:`sorted`.
     """
-    order_by = lambda cls, choice: force_text(choice[1]).lower()
+    def order_by(cls, choice):
+        return force_text(choice[1]).lower()
 
     def choices_for_values(self):
         """
