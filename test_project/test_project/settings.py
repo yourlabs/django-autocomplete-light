@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 
     'cities_light',
+    'vote',
 
     'autocomplete_light',
     'autocomplete_light.example_apps.basic',
