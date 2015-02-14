@@ -1,4 +1,5 @@
 import unittest
+import mock
 import autocomplete_light
 
 autocomplete_light.autodiscover()
@@ -257,7 +258,17 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
                                    SpecialAutocomplete))
 
     def test_modelform_factory(self):
-        self.form = autocomplete_light.modelform_factory(self.model_class)()
+        self.form = autocomplete_light.modelform_factory(self.model_class,
+                fields='__all__')()
+
+        self.assertExpectedFormField()
+
+    def test_modelform_factory_does_not_warn(self):
+        # fix for #257
+        with mock.patch('warnings.warn') as warn:
+            self.form = autocomplete_light.modelform_factory(self.model_class,
+                    fields='__all__')()
+            self.assertEqual(warn.call_count, 0)
 
         self.assertExpectedFormField()
 

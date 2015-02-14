@@ -442,6 +442,13 @@ def modelform_factory(model, autocomplete_fields=None,
         parent = (kwargs['form'].Meta, object)
     Meta = type(str('Meta'), parent, attrs)
 
+    # We have to handle Meta.fields/Meta.exclude here because else Django will
+    # raise a warning.
+    if 'fields' in kwargs:
+        Meta.fields = kwargs.pop('fields')
+    if 'exclude' in kwargs:
+        Meta.exclude = kwargs.pop('exclude')
+
     kwargs['form'] = type(kwargs['form'].__name__, (kwargs['form'],),
             {'Meta': Meta})
 
