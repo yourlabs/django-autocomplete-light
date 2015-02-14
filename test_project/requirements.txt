@@ -1,3 +1,4 @@
 south
 django-cities-light
 django
+django-vote

@@ -119,6 +119,11 @@ elif django.VERSION >= (1, 7):
         'autocomplete_light.example_apps.app_config_without_registry_file.apps.AppConfigWithoutRegistryFile',
     )
 
+if django.VERSION >= (1, 5):
+    INSTALLED_APPS += (
+        'vote',
+        'autocomplete_light.example_apps.unuseable_virtualfield',
+    )
 
 try:
     import genericm2m
