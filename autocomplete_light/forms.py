@@ -98,7 +98,8 @@ class VirtualFieldHandlingMixin(forms.BaseModelForm):
         # do what model_to_dict doesn't
         for field in self._meta.model._meta.virtual_fields:
             try:
-                self.initial[field.name] = getattr(self.instance, field.name, None)
+                self.initial[field.name] = getattr(self.instance, field.name,
+                        None)
             except:
                 continue
 
