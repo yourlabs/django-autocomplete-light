@@ -280,10 +280,10 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             # skip reverse generic foreign key
             return True
 
-        all_fields = set(getattr(meta, 'fields', [])) | set(getattr(meta,
-            'autocomplete_fields', []))
-        all_exclude = set(getattr(meta, 'exclude', [])) | set(getattr(meta,
-            'autocomplete_exclude', []))
+        all_fields = set(getattr(meta, 'fields', []) or []) | set(
+            getattr(meta, 'autocomplete_fields', []))
+        all_exclude = set(getattr(meta, 'exclude', []) or []) | set(
+            getattr(meta, 'autocomplete_exclude', []))
 
         if getattr(meta, 'fields', None) == '__all__':
             return field.name in all_exclude
