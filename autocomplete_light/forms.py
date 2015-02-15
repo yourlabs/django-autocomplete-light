@@ -280,10 +280,10 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             # skip reverse generic foreign key
             return True
 
-        all_fields = set(getattr(meta, 'fields', [])) | set(getattr(meta,
-            'autocomplete_fields', []))
-        all_exclude = set(getattr(meta, 'exclude', [])) | set(getattr(meta,
-            'autocomplete_exclude', []))
+        all_fields = set(getattr(meta, 'fields', []) or []) | set(
+            getattr(meta, 'autocomplete_fields', []))
+        all_exclude = set(getattr(meta, 'exclude', []) or []) | set(
+            getattr(meta, 'autocomplete_exclude', []))
 
         if getattr(meta, 'fields', None) == '__all__':
             return field.name in all_exclude
@@ -300,7 +300,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         # autocomplete_fields/exclude
         fields = getattr(meta, 'fields', [])
 
-        for field in fields:
+        # Using or [] because fields might be None in some django versions.
+        for field in fields or []:
             model_field = getattr(meta.model._meta.virtual_fields, field, None)
 
             if model_field is None:
@@ -442,6 +443,13 @@ def modelform_factory(model, autocomplete_fields=None,
     if hasattr(kwargs['form'], 'Meta'):
         parent = (kwargs['form'].Meta, object)
     Meta = type(str('Meta'), parent, attrs)
+
+    # We have to handle Meta.fields/Meta.exclude here because else Django will
+    # raise a warning.
+    if 'fields' in kwargs:
+        Meta.fields = kwargs.pop('fields')
+    if 'exclude' in kwargs:
+        Meta.exclude = kwargs.pop('exclude')
 
     kwargs['form'] = type(kwargs['form'].__name__, (kwargs['form'],),
             {'Meta': Meta})
