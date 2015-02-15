@@ -1,6 +1,6 @@
 2.0.8:
 
-    - #257: Beat the crap out of RemovedInDjango18Warning deprecation warnings.
+    - #257: Got rid of RemovedInDjango18Warning deprecation warnings.
     - #371: Skip unuseable virtualfields, like VoteManager for django-vote. 
     - #372: New PEP8 E731 support.
 
