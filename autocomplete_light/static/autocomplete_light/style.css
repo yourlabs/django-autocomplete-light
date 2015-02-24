@@ -154,16 +154,10 @@ input.autocomplete.xhr-pending {
 }
 
 /* These lines are important to avoid style change to the underlying divs */
-.autocomplete-light-clearfix:before,
 .autocomplete-light-clearfix:after {
-    content: " "; 
+    content: "";
     display: table; 
-}
-.autocomplete-light-clearfix:after {
     clear: both;
-}
-.autocomplete-light-clearfix {
-    *zoom: 1;
 }
 
 /* grappelli specific */
