@@ -32,8 +32,8 @@ class FieldBase(object):
 
         parents = super(FieldBase, self).__self_class__.__bases__
         if ((forms.ModelChoiceField in parents or
-                forms.ModelMultipleChoiceField in parents)
-                and isinstance(self.autocomplete.choices, QuerySet)):
+                forms.ModelMultipleChoiceField in parents) and
+                isinstance(self.autocomplete.choices, QuerySet)):
             kwargs['queryset'] = self.autocomplete.choices
 
         super(FieldBase, self).__init__(*args, **kwargs)
