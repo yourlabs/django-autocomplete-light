@@ -87,14 +87,10 @@ class WidgetTestCase(LiveServerTestCase):
         self.selenium.find_element_by_css_selector(selector).click()
 
     def login(self):
+        self.client.login(username='test', password='test')
+        cookie = self.client.cookies['sessionid']
         self.open_url('/admin/')
-        self.selenium.find_element_by_css_selector('input[name=username]').send_keys('test')
-        self.selenium.find_element_by_css_selector('input[name=password]').send_keys('test')
-        self.submit()
-
-        # Wait for page load.
-        ui.WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.title_contains('Site administration'))
+        self.selenium.add_cookie({'name': 'sessionid', 'value': cookie.value, 'secure': False, 'path': '/'})
 
     def deck_choice_elements(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
