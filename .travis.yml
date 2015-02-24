@@ -30,7 +30,7 @@ env:
     - REQ="django<1.7 django-taggit django-generic-m2m"
     # Current stable Django.
     - REQ="django<1.8"
-    - REQ="django<1.8 django-taggit django-generic-m2m"
+    - REQ="django<1.8 django-taggit django-generic-m2m coveralls"
     - REQ="django<1.8 django-generic-m2m"
     - REQ="django<1.8 django-taggit"
     # django-master.
@@ -47,7 +47,7 @@ install:
   # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
   - if [[ $REQ == "django<1.5 django-taggit django-generic-m2m" ]]; then pip install $REQ; fi
   - export PIP_NO_INDEX=1
-  - pip install $REQ pep8 coveralls
+  - pip install $REQ pep8
   - pip install -r test_project/test_requirements.txt
   - pip install -e .
   - pip freeze
@@ -60,7 +60,7 @@ before_install:
 script:
   - coverage run --source=autocomplete_light test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres
 after_success:
-  - coveralls
+  - which coveralls 2>/dev/null && { coveralls; return $?; } || true
 notifications:
   irc:
     channels:
