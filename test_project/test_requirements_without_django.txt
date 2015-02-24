@@ -1,0 +1,7 @@
+# Test requirements without Django, to work around https://github.com/pypa/pip/issues/2367.
+-r requirements_without_django.txt
+mock
+psycopg2
+selenium
+lxml
+cssselect

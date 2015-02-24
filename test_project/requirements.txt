@@ -1,4 +1,2 @@
-south
-django-cities-light
+-r requirements_without_django.txt
 django
-django-vote
