@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import os
 
 from django import VERSION
-from django.test import LiveServerTestCase
 
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
