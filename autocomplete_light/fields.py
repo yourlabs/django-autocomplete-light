@@ -32,7 +32,7 @@ class FieldBase(object):
 
         # Does the subclass have ModelChoiceField or ModelMultipleChoiceField
         # as a direct base class?
-        parents = super(FieldBase, self).__self_class__.__bases__
+        parents = type(self).__bases__
         if ((forms.ModelChoiceField in parents or
                 forms.ModelMultipleChoiceField in parents) and
                 isinstance(self.autocomplete.choices, QuerySet)):
