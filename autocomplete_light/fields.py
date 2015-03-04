@@ -30,6 +30,8 @@ class FieldBase(object):
                     autocomplete_js_attributes, extra_context)
         kwargs['widget'] = widget
 
+        # Does the subclass have ModelChoiceField or ModelMultipleChoiceField
+        # as a direct base class?
         parents = super(FieldBase, self).__self_class__.__bases__
         if ((forms.ModelChoiceField in parents or
                 forms.ModelMultipleChoiceField in parents) and
