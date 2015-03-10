@@ -18,6 +18,13 @@ matrix:
       env: REQ="django<1.8 django-generic-m2m"
     - python: "2.7"
       env: REQ="django<1.8 django-taggit"
+    # Skip specific / single combinations for PyPy
+    - python: "pypy"
+      env: REQ="django<1.8"
+    - python: "pypy"
+      env: REQ="django<1.8 django-generic-m2m"
+    - python: "pypy"
+      env: REQ="django<1.8 django-taggit"
 python:
   - "2.7"
   - "3.4"
