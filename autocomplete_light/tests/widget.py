@@ -3,12 +3,12 @@ from __future__ import unicode_literals
 import os
 
 from django import VERSION
-from django.test import LiveServerTestCase
 
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.support import ui
+from selenium.webdriver.support import expected_conditions as EC
 
 
 if VERSION[0] == 1 and VERSION[1] < 7:
@@ -92,8 +92,9 @@ class WidgetTestCase(LiveServerTestCase):
         self.selenium.find_element_by_css_selector('input[name=password]').send_keys('test')
         self.submit()
 
-        # wait for page load
-        self.selenium.find_elements_by_css_selector('#navigation-autocomplete')
+        # Wait for page load.
+        ui.WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.title_contains('Site administration'))
 
     def deck_choice_elements(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
