@@ -2,3 +2,4 @@
 south
 django-cities-light
 django-vote
+django-autocomplete-light

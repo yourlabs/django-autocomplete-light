@@ -1,2 +1,1 @@
 -r requirements_without_django.txt
-django
