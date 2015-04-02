@@ -28,12 +28,11 @@ env:
     - REQ="django<1.5 django-taggit django-generic-m2m"
     - REQ="django<1.6 django-taggit django-generic-m2m"
     - REQ="django<1.7 django-taggit django-generic-m2m"
-    - REQ="django<1.8 django-taggit django-generic-m2m"
     # Current stable Django.
-    - REQ="django<1.9"
-    - REQ="django<1.9 django-taggit django-generic-m2m"
-    - REQ="django<1.9 django-generic-m2m"
-    - REQ="django<1.9 django-taggit"
+    - REQ="django<1.8"
+    - REQ="django<1.8 django-taggit django-generic-m2m"
+    - REQ="django<1.8 django-generic-m2m"
+    - REQ="django<1.8 django-taggit"
     # django-master.
     - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
