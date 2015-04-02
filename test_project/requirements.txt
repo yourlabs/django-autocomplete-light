@@ -1,5 +1,1 @@
-south
-django-cities-light
-django
-django-vote
-django-autocomplete-light
+-r requirements_without_django.txt
