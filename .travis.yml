@@ -58,7 +58,7 @@ before_install:
   - npm install phantomjs
   - phantomjs --version
 script:
-  - coverage run --source=autocomplete_light test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres
+  - coverage run --source=autocomplete_light test_project/manage.py test --verbose=2 --traceback autocomplete_light --settings=test_project.settings_postgres
 after_success:
   - coveralls
 notifications:
