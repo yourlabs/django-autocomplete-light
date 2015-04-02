@@ -46,7 +46,8 @@ class TestUnuseableVirtualfield(TestCase):
         MyForm()
 
 
-class SelectMultipleHelpTextRemovalMixinTestCase(TestCase):
+@unittest.skipIf(VERSION < (1, 8), 'Django < 1.8')
+class SelectMultipleHelpTextRemovalMixin(object):
     def test_help_text_removed(self):
         class ModelForm(forms.ModelForm):
             class Meta(DjangoCompatMeta):
@@ -64,13 +65,13 @@ class SelectMultipleHelpTextRemovalMixinTestCase(TestCase):
 
 
 class SelectMultipleHelpTextRemovalMixinFrTestCase(
-        SelectMultipleHelpTextRemovalMixinTestCase):
+        SelectMultipleHelpTextRemovalMixin, TestCase):
 
     def setUp(self):
         translation.activate('fr_FR')
 
 
-class BaseModelFormTestCase(TestCase):
+class BaseModelFormMixin(object):
     def setUp(self):
         self.james = self.model_class.objects.create(name='James')
         self.janis = self.model_class.objects.create(name='Janis')
@@ -80,7 +81,7 @@ class BaseModelFormTestCase(TestCase):
         self.model_class.objects.all().delete()
 
 
-class ModelFormBaseTestCase(BaseModelFormTestCase):
+class ModelFormBaseMixin(BaseModelFormMixin):
     widget_class = autocomplete_light.ChoiceWidget
 
     def get_new_autocomplete_class(self):
@@ -132,7 +133,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def test_appropriate_field_with_modelformfactory(self):
         form_class = modelform_factory(self.model_class,
-                form=self.model_form_class)
+                form=self.model_form_class, exclude=[])
         self.form = form_class()
 
         self.assertExpectedFormField()
@@ -155,7 +156,8 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
             return f.formfield(**kwargs)
 
         form_class = modelform_factory(self.model_class,
-                form=self.model_form_class, formfield_callback=cb)
+                form=self.model_form_class, formfield_callback=cb,
+                exclude=[])
         self.form = form_class()
 
         self.assertExpectedFormField()
@@ -269,11 +271,12 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
                                    SpecialAutocomplete))
 
     def test_modelform_factory(self):
-        self.form = autocomplete_light.modelform_factory(self.model_class)()
+        self.form = autocomplete_light.modelform_factory(self.model_class,
+                exclude=[])()
 
         self.assertExpectedFormField()
 
-    @unittest.skipUnless(VERSION >= (1, 6), 'Django >= 1.6')
+    @unittest.skipUnless((1, 8) >= VERSION >= (1, 6), 'Django >= 1.6')
     def test_modelform_factory_does_not_warn(self):
         # fix for #257
         with mock.patch('warnings.warn') as warn:
@@ -314,7 +317,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
 
     def test_modelform_factory_autocomplete_exclude_relation(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,
-                autocomplete_exclude=['relation'])()
+                autocomplete_exclude=['relation'], exclude=[])()
 
         self.assertNotIsAutocomplete('relation')
         self.assertInForm('name')
@@ -341,7 +344,8 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         autocomplete_light.registry.register(SpecialAutocomplete)
 
         ModelForm = autocomplete_light.modelform_factory(self.model_class,
-            autocomplete_names={'relation': 'SpecialAutocomplete'})
+            autocomplete_names={'relation': 'SpecialAutocomplete'}, 
+            exclude=[])
 
         self.form = ModelForm()
 
@@ -389,7 +393,7 @@ class ModelFormBaseTestCase(BaseModelFormTestCase):
         self.assertEqual(self.field_value(result), self.janis)
 
 
-class GenericModelFormTestCaseMixin(object):
+class GenericModelFormMixin(object):
     autocomplete_name = 'A'
 
 
@@ -413,7 +417,7 @@ class GenericModelFormTestCaseMixin(object):
 
     def test_modelform_factory_autocomplete_exclude_relation(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,
-                autocomplete_exclude=['relation'])()
+                autocomplete_exclude=['relation'], exclude=[])()
 
         self.assertNotInForm('relation')
         self.assertInForm('name')
@@ -441,35 +445,36 @@ class GenericModelFormTestCaseMixin(object):
         return 'relation=%s-%s' % (ContentType.objects.get_for_model(model).pk, model.pk)
 
 
-class MultipleRelationTestCaseMixin(ModelFormBaseTestCase):
+class MultipleRelationMixin(ModelFormBaseMixin):
     widget_class = autocomplete_light.MultipleChoiceWidget
 
     def field_value(self, model):
-        return super(MultipleRelationTestCaseMixin, self).field_value(model).all()[0]
+        return super(MultipleRelationMixin, self).field_value(model).all()[0]
 
 
-class FkModelFormTestCase(ModelFormBaseTestCase):
+class FkModelFormTestCase(ModelFormBaseMixin, TestCase):
     model_class = FkModel
     model_form_class = FkModelForm
     field_class = autocomplete_light.ModelChoiceField
     autocomplete_name = 'FkModelAutocomplete'
 
 
-class OtoModelFormTestCase(ModelFormBaseTestCase):
+class OtoModelFormTestCase(ModelFormBaseMixin, TestCase):
     model_class = OtoModel
     model_form_class = OtoModelForm
     field_class = autocomplete_light.ModelChoiceField
     autocomplete_name = 'OtoModelAutocomplete'
 
 
-class GfkModelFormTestCase(GenericModelFormTestCaseMixin,
-        ModelFormBaseTestCase):
+class GfkModelFormTestCase(GenericModelFormMixin,
+        ModelFormBaseMixin, TestCase):
     model_class = GfkModel
     model_form_class = GfkModelForm
     field_class = autocomplete_light.GenericModelChoiceField
 
 
-class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase):
+class MtmModelFormTestCase(MultipleRelationMixin, ModelFormBaseMixin,
+        TestCase):
     model_class = MtmModel
     model_form_class = MtmModelForm
     field_class = autocomplete_light.ModelMultipleChoiceField
@@ -477,7 +482,7 @@ class MtmModelFormTestCase(MultipleRelationTestCaseMixin, ModelFormBaseTestCase)
 
 
 @unittest.skipIf(TaggitModelForm is None, "taggit is not available.")
-class TaggitModelFormTestCase(ModelFormBaseTestCase):
+class TaggitModelFormTestCase(ModelFormBaseMixin, TestCase):
     model_class = TaggitModel
     model_form_class = TaggitModelForm
     field_class = autocomplete_light.TaggitField
@@ -514,9 +519,9 @@ class TaggitModelFormTestCase(ModelFormBaseTestCase):
 
 
 @unittest.skipIf(GmtmModelForm is None, "genericm2m is not available.")
-class GmtmModelFormTestCase(MultipleRelationTestCaseMixin,
-        GenericModelFormTestCaseMixin,
-        ModelFormBaseTestCase):
+class GmtmModelFormTestCase(MultipleRelationMixin,
+        GenericModelFormMixin,
+        ModelFormBaseMixin, TestCase):
     model_class = GmtmModel
     model_form_class = GmtmModelForm
     field_class = autocomplete_light.GenericModelMultipleChoiceField
