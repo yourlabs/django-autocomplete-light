@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import os
+import unittest
 
 from django import VERSION
 
@@ -51,6 +52,8 @@ class WidgetTestCase(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
+        if os.environ.get('TESTS_SKIP_LIVESERVER', False):
+            raise unittest.SkipTest('TESTS_SKIP_LIVESERVER enabled')
         cls.selenium = webdriver.Firefox()
         cls.selenium.implicitly_wait(WAIT_TIME)
         super(WidgetTestCase, cls).setUpClass()
