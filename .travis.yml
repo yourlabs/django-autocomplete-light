@@ -6,6 +6,7 @@ matrix:
       env: REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
     - python: "2.7"
       env: REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
+    - python: "pypy"
   exclude:
     # Python 3 is not supported with Django < 1.5.
     - python: "3.4"
@@ -17,9 +18,22 @@ matrix:
       env: REQ="django<1.8 django-generic-m2m"
     - python: "2.7"
       env: REQ="django<1.8 django-taggit"
+    # Skip specific / single combinations for PyPy
+    - python: "pypy"
+      env:  REQ="django<1.5 django-taggit django-generic-m2m"
+    - python: "pypy"
+      env: REQ="django<1.6 django-taggit django-generic-m2m"
+    - python: "pypy"
+      env: REQ="django<1.7 django-taggit django-generic-m2m"
+    # Current stable Django.
+    - python: "pypy"
+      env: REQ="django<1.8 django-generic-m2m"
+    - python: "pypy"
+      env: REQ="django<1.8 django-taggit"
 python:
   - "2.7"
   - "3.4"
+  - "pypy"
 env:
   global:
     # Create wheels (skips existing ones from the cached wheelhouse).
