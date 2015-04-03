@@ -9,7 +9,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.support import ui
-from selenium.webdriver.support import expected_conditions as EC
 
 
 if VERSION[0] == 1 and VERSION[1] < 7:
