@@ -36,6 +36,8 @@ env:
     - TESTS_SKIP_LIVESERVER=1 REQ="django<1.8 django-taggit"
     # django-master.
     - TESTS_SKIP_LIVESERVER=1 REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
+
+    - REQ="pep8"
 install:
   - pip install -U pip
 
@@ -48,12 +50,12 @@ install:
   # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
   - if [[ $REQ == "django<1.5 django-taggit django-generic-m2m" ]]; then pip install $REQ; fi
   - export PIP_NO_INDEX=1
-  - pip install $REQ pep8
+  - pip install $REQ
   - pip install -r test_project/test_requirements.txt
   - pip install -e .
   - pip freeze
 before_script:
-  - "pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light"
+  - which pep8 && { pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light; return $?; } || true
   - psql -c 'create database autocomplete_light_test;' -U postgres
 before_install:
   - "export DISPLAY=:99.0"
