@@ -3,13 +3,13 @@ language: python
 matrix:
   allow_failures:
     - python: "3.4"
-      env: REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
+      env: TESTS_SKIP_LIVESERVER=1 REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
     - python: "2.7"
-      env: REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
+      env: TESTS_SKIP_LIVESERVER=1 REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
   exclude:
     # Python 3 is not supported with Django < 1.5.
     - python: "3.4"
-      env: REQ="django<1.5 django-taggit django-generic-m2m"
+      env: TESTS_SKIP_LIVESERVER=1 REQ="django<1.5 django-taggit django-generic-m2m"
     # Skip specific / single combinations for Python 2.
     - python: "2.7"
       env: REQ="django<1.8"
@@ -25,16 +25,17 @@ env:
     # Create wheels (skips existing ones from the cached wheelhouse).
     - export PIP_FIND_LINKS=$PWD/wheelhouse/
   matrix:
-    - REQ="django<1.5 django-taggit django-generic-m2m"
-    - REQ="django<1.6 django-taggit django-generic-m2m"
-    - REQ="django<1.7 django-taggit django-generic-m2m"
+    - TESTS_SKIP_LIVESERVER=1 REQ="django<1.5 django-taggit django-generic-m2m"
+    - TESTS_SKIP_LIVESERVER=1 REQ="django<1.6 django-taggit django-generic-m2m"
+    - TESTS_SKIP_LIVESERVER=1 REQ="django<1.7 django-taggit django-generic-m2m"
     # Current stable Django.
-    - REQ="django<1.8"
-    - REQ="django<1.8 django-taggit django-generic-m2m coveralls"
-    - REQ="django<1.8 django-generic-m2m"
-    - REQ="django<1.8 django-taggit"
+    - TESTS_SKIP_LIVESERVER=1 REQ="django<1.8"
+    - REQ="django<1.8 django-taggit django-generic-m2m"
+    - TESTS_SKIP_LIVESERVER=1 REQ="django<1.8 django-taggit django-generic-m2m"
+    - TESTS_SKIP_LIVESERVER=1 REQ="django<1.8 django-generic-m2m"
+    - TESTS_SKIP_LIVESERVER=1 REQ="django<1.8 django-taggit"
     # django-master.
-    - REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
+    - TESTS_SKIP_LIVESERVER=1 REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
 install:
   - pip install -U pip
 
