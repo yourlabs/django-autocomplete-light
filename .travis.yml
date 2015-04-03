@@ -58,7 +58,7 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 script:
-  - coverage run --source=autocomplete_light test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres
+  - which coveralls 2>/dev/null && { coverage run --source=autocomplete_light test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres; return $?; } || test_project/manage.py test --traceback autocomplete_light --settings=test_project.settings_postgres
 after_success:
   - which coveralls 2>/dev/null && { coveralls; return $?; } || true
 notifications:
