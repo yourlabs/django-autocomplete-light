@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import os
+import unittest
 
 from django import VERSION
 
@@ -8,7 +9,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.support import ui
-from selenium.webdriver.support import expected_conditions as EC
 
 
 if VERSION[0] == 1 and VERSION[1] < 7:
@@ -51,6 +51,8 @@ class WidgetTestCase(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
+        if os.environ.get('TESTS_SKIP_LIVESERVER', False):
+            raise unittest.SkipTest('TESTS_SKIP_LIVESERVER enabled')
         cls.selenium = webdriver.Firefox()
         cls.selenium.implicitly_wait(WAIT_TIME)
         super(WidgetTestCase, cls).setUpClass()
@@ -87,14 +89,10 @@ class WidgetTestCase(LiveServerTestCase):
         self.selenium.find_element_by_css_selector(selector).click()
 
     def login(self):
+        self.client.login(username='test', password='test')
+        cookie = self.client.cookies['sessionid']
         self.open_url('/admin/')
-        self.selenium.find_element_by_css_selector('input[name=username]').send_keys('test')
-        self.selenium.find_element_by_css_selector('input[name=password]').send_keys('test')
-        self.submit()
-
-        # Wait for page load.
-        ui.WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.title_contains('Site administration'))
+        self.selenium.add_cookie({'name': 'sessionid', 'value': cookie.value, 'secure': False, 'path': '/'})
 
     def deck_choice_elements(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
