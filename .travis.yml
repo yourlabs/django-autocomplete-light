@@ -39,8 +39,6 @@ env:
 
     - REQ="pep8"
 install:
-  - pip install -U pip
-
   # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
   - if [[ $REQ != "django<1.5 django-taggit django-generic-m2m" ]]; then pip wheel $REQ; fi
   - pip wheel pep8 coveralls
