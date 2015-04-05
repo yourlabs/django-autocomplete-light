@@ -11,3 +11,5 @@ docs/docs
 __pycache__
 *.mo
 test_env/
+.coverage
+.tox

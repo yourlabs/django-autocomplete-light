@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
 
 class GetAddAnotherUrlTestCase(test.TestCase):
-    urls = 'autocomplete_light.tests.autocomplete.get_add_another_url'
+    urls = 'autocomplete_light.tests.autocomplete.test_get_add_another_url'
 
     def generate_url(self, name, kwargs=None):
         class TestAutocomplete(autocomplete_light.AutocompleteBase):

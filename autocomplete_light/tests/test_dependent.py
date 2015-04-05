@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from .widget import WidgetTestCase
+from .test_widget import WidgetTestCase
 
 
 class DependentAutocompleteTestCase(WidgetTestCase):

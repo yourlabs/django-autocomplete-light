@@ -141,8 +141,6 @@ else:
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
-TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
-
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
     'cities_light': 'cities_light.south_migrations',

@@ -17,3 +17,4 @@ class DummyForm(autocomplete_light.ModelForm):
 
     class Meta:
         model = Dummy
+        exclude = []

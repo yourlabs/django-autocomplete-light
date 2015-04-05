@@ -17,7 +17,7 @@ class LazyAutocomplete(autocomplete_light.AutocompleteModelBase):
     pass
 
 
-class WidgetBaseTestCase(TestCase):
+class WidgetBaseMixin(object):
     widget_class = autocomplete_light.WidgetBase
     fixtures = ['security_test']
 
@@ -161,15 +161,15 @@ class WidgetBaseTestCase(TestCase):
         self.assertEqual(int(choices[0].attrib['data-value']), 1)
 
 
-class ChoiceWidgetTestCase(WidgetBaseTestCase):
+class ChoiceWidgetTestCase(WidgetBaseMixin, TestCase):
     widget_class = autocomplete_light.ChoiceWidget
 
 
-class MultipleChoiceWidgetTestCase(WidgetBaseTestCase):
+class MultipleChoiceWidgetTestCase(WidgetBaseMixin, TestCase):
     widget_class = autocomplete_light.MultipleChoiceWidget
 
 
-class TextWidgetTestCase(WidgetBaseTestCase):
+class TextWidgetTestCase(WidgetBaseMixin, TestCase):
     widget_class = autocomplete_light.TextWidget
 
     def autocomplete_input(self, et):
