@@ -156,7 +156,7 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
 
     def save(self, commit=True):
         """
-        Save the form and particularely the generic many to many relations.
+        Save the form and the generic many to many relations in particular.
         """
         instance = super(GenericM2MRelatedObjectDescriptorHandlingMixin,
                 self).save(commit=commit)
@@ -399,7 +399,7 @@ class ModelForm(six.with_metaclass(ModelFormMetaclass,
 
     .. py:attribute:: autocomplete_fields
 
-        A list field names on which you want automatic autocomplete fields.
+        A list of field names on which you want automatic autocomplete fields.
 
     .. py:attribute:: autocomplete_exclude
 
