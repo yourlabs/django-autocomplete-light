@@ -2,21 +2,8 @@ sudo: false
 language: python
 matrix:
   allow_failures:
-    - python: "3.4"
-      env: TESTS_SKIP_LIVESERVER=1 REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
-    - python: "2.7"
-      env: TESTS_SKIP_LIVESERVER=1 REQ="-e git+https://github.com/django/django.git@master#egg=django django-taggit django-generic-m2m"
-  exclude:
-    # Python 3 is not supported with Django < 1.5.
-    - python: "3.4"
-      env: TESTS_SKIP_LIVESERVER=1 REQ="django<1.5 django-taggit django-generic-m2m"
-    # Skip specific / single combinations for Python 2.
-    - python: "2.7"
-      env: REQ="django<1.8"
-    - python: "2.7"
-      env: REQ="django<1.8 django-generic-m2m"
-    - python: "2.7"
-      env: REQ="django<1.8 django-taggit"
+    - env: TOXENV=py27-master
+    - env: TOXENV=py34-master
 python:
   - "3.4"
 env:
