@@ -53,8 +53,8 @@ before_script:
 script:
   # Run pep8 or the tests.
   - which pep8 && { pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light; return $?; } || travis_retry $RUN_TESTS
-  - cat .tox/$TOXENV/log/*.log
-  - rm .tox/$TOXENV/log/*.log
+  - test -n "$TOXENV" && cat .tox/$TOXENV/log/*.log || true
+  - test -n "$TOXENV" && rm .tox/$TOXENV/log/*.log || true
 after_success:
   - command -v coveralls && { coveralls; return $?; } || true
 notifications:
