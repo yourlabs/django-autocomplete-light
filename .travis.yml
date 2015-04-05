@@ -39,7 +39,7 @@ env:
     - REQ="pep8"
 install:
   # Create wheelhouse / cache.
-  - pip wheel pep8 psycopg2 tox $REQ
+  - pip wheel psycopg2 tox $REQ
   - pip wheel -r test_project/test_requirements_without_django.txt
 
   # Install from wheelhouse.
