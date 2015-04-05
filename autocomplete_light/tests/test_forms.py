@@ -46,7 +46,6 @@ class TestUnuseableVirtualfield(TestCase):
         MyForm()
 
 
-@unittest.skipIf(VERSION < (1, 8), 'Django < 1.8')
 class SelectMultipleHelpTextRemovalMixin(object):
     def test_help_text_removed(self):
         class ModelForm(forms.ModelForm):
@@ -61,7 +60,9 @@ class SelectMultipleHelpTextRemovalMixin(object):
         form = ModelForm()
         my_help_text = force_text(form.fields['relation'].help_text).strip()
 
-        self.assertNotIn(help_text, my_help_text)
+        # If help_text is not empty (which is wasn't before Django 1.8 fixed
+        # #9321), test that it's empty in autocomplete_light's ModelForm.
+        assert not help_text or help_text not in my_help_text
 
 
 class SelectMultipleHelpTextRemovalMixinFrTestCase(
