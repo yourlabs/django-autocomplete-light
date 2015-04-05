@@ -57,7 +57,6 @@ install:
 
   # Install from wheelhouse.
   - pip install psycopg2 tox $REQ
-  - export PIP_NO_INDEX=1
   - pip freeze
 before_script:
   - which pep8 || psql -c 'create database autocomplete_light_test;' -U postgres
