@@ -22,7 +22,6 @@ env:
     - TOXENV=py27-django18-taggit
     - TOXENV=py27-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= REQ="pytest-cov"
     - TOXENV=py27-django18-genericm2m
-    - TOXENV=py27-django19-taggit-genericm2m
     - TOXENV=py27-master
 
     - TOXENV=py34-django15-taggit-genericm2m
@@ -33,7 +32,6 @@ env:
     - TOXENV=py34-django18-taggit
     - TOXENV=py34-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= REQ="pytest-cov"
     - TOXENV=py34-django18-genericm2m
-    - TOXENV=py34-django19-taggit-genericm2m
     - TOXENV=py34-master
 
     - REQ="pep8"
