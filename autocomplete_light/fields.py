@@ -5,7 +5,10 @@ from django import forms
 from django.db import models
 from django.db.models.query import QuerySet
 from django import forms
-from django.contrib.contenttypes.generic import GenericForeignKey
+try:
+    from django.contrib.contenttypes.fields import GenericForeignKey
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from .registry import registry as default_registry
