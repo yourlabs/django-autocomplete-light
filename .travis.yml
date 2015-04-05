@@ -47,7 +47,7 @@ install:
   # NOTE: Django 1.4 wheel is broken; skip it (https://github.com/django/django/pull/2438).
   - if [[ $REQ == "django<1.5 django-taggit django-generic-m2m" ]]; then pip install $REQ; fi
   - export PIP_NO_INDEX=1
-  - pip install $REQ psycopg2 -r test_project/test_requirements.txt
+  - pip install $REQ psycopg2 -r test_project/test_requirements_without_django.txt
   - pip install -e .
   - pip freeze
 before_script:
