@@ -49,8 +49,7 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 before_script:
-  - which pep8 || psql -c 'create database autocomplete_light_test;' -U postgres
-  - RUN_TESTS="tox -- autocomplete_light --ds=test_project.settings_postgres"
+  - RUN_TESTS="tox -- autocomplete_light --ds=test_project.settings"
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 script:
