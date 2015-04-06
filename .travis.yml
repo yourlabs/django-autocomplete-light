@@ -21,7 +21,7 @@ install:
   - PIP_INSTALL=bin/travis_pip_install
   - printf '#!/bin/sh\n' > $PIP_INSTALL
   - declare -f travis_retry >> $PIP_INSTALL
-  - printf '\necho "=====\nUsing pip-wrapper: $@\n=====\n" >&2\n' >> $PIP_INSTALL
+  - printf '\necho "=====\nUsing pip-wrapper: \"$@\"\n=====\n" >&2\n' >> $PIP_INSTALL
 
   # First try to install from wheelhouse.
   - printf 'pip install --no-index --find-links=${PIP_WHEELHOUSE} "$@"\n' >> $PIP_INSTALL
