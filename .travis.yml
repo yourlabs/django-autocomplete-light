@@ -9,7 +9,7 @@ python:
 env:
   global:
     # Create wheels (skips existing ones from the cached wheelhouse).
-    - export PIP_FIND_LINKS=$PWD/wheelhouse/
+    - export PIP_FIND_LINKS=$PWD/wheelhouse/$TOXENV
     - TESTS_SKIP_LIVESERVER=1
   matrix:
     - TOXENV=py27-django14-taggit-genericm2m
@@ -37,8 +37,8 @@ env:
     - REQ="pep8"
 install:
   # Create wheelhouse / cache.
-  - pip wheel psycopg2 tox $REQ
-  - pip wheel -r test_project/test_requirements_without_django.txt
+  - pip wheel --wheel-dir wheelhouse/$TOXENV psycopg2 tox $REQ
+  - pip wheel --wheel-dir wheelhouse/$TOXENV -r test_project/test_requirements_without_django.txt
 
   # Install from wheelhouse.
   - pip install psycopg2 tox $REQ
@@ -67,5 +67,5 @@ notifications:
 # Persistent cache across builds (http://docs.travis-ci.com/user/caching/).
 cache:
   directories:
-    $PWD/wheelhouse/
+    $PWD/wheelhouse/$TOXENV/
     $PWD/.tox/$TOXENV/
