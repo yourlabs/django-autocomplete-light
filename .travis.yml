@@ -56,6 +56,7 @@ install:
   - pip wheel --wheel-dir $PIP_WHEELHOUSE -r test_project/test_requirements_without_django.txt
 
   # Install from wheelhouse (only).
+  - export PIP_NO_INDEX=1
   - which pep8 || pip install psycopg2 tox
   - pip install $REQ
   - pip freeze
