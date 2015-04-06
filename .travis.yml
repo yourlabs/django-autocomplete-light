@@ -46,7 +46,7 @@ install:
 
   # Install packages through wheels.
   - which pep8 || travis_pip_install psycopg2 tox
-  - [[ -n "$REQ" ]] && travis_pip_install $REQ
+  - test "$REQ" && travis_pip_install $REQ
 
   - pip freeze
 before_install:
