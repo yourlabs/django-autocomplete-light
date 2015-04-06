@@ -20,11 +20,15 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
 from django.db.models import ForeignKey, OneToOneField, ManyToManyField
-from django.contrib.contenttypes.generic import (GenericForeignKey,
-                                                 GenericRelation)
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
+try:
+    from django.contrib.contenttypes.fields import (GenericForeignKey,
+                                                    GenericRelation)
+except ImportError:
+    from django.contrib.contenttypes.generic import (GenericForeignKey,
+                                                     GenericRelation)
 
 try:
     from genericm2m.models import RelatedObjectsDescriptor
