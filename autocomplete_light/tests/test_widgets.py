@@ -8,7 +8,7 @@ except ImportError:  # python2
 
 from django.test import TestCase
 
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 
 from ..example_apps.basic.models import FkModel
 

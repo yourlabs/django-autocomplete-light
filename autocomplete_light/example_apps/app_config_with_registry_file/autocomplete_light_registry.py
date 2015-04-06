@@ -1,4 +1,4 @@
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 
 
 class AppConfigWithRegistryAutocomplete(

@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-import autocomplete_light  # noqa
+import autocomplete_light.shortcuts as autocomplete_light  # noqa
 from django import forms  # noqa
 from django import http
 from django.contrib.contenttypes.models import ContentType

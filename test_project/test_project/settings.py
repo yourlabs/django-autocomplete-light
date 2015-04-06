@@ -94,11 +94,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'autocomplete_light',
     'django.contrib.admin',
-
     'cities_light',
 
-    'autocomplete_light',
     'autocomplete_light.example_apps.basic',
     'autocomplete_light.example_apps.music',
     'autocomplete_light.example_apps.autocomplete_test_case_app',

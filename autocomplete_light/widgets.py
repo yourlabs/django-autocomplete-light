@@ -129,8 +129,7 @@ class WidgetBase(object):
     def __init__(self, autocomplete=None, widget_js_attributes=None,
                  autocomplete_js_attributes=None, extra_context=None,
                  registry=None, widget_template=None, widget_attrs=None):
-
-        self.registry = default_registry if registry is None else registry
+        self._registry = registry
         self._autocomplete = None
         self.autocomplete_arg = autocomplete
 
@@ -148,6 +147,13 @@ class WidgetBase(object):
         if widget_js_attributes is not None:
             raise PendingDeprecationWarning('widget_js_attributes are'
                     'deprecated in favor of widget_attrs')
+
+    @property
+    def registry(self):
+        if self._registry is None:
+            from autocomplete_light.registry import registry
+            self._registry = registry
+        return self._registry
 
     def render(self, name, value, attrs=None):
         widget_attrs = self.build_widget_attrs(name)

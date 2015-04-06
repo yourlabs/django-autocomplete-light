@@ -23,7 +23,6 @@ import six
 
 from django.db import models
 
-from .autocomplete import AutocompleteModelBase, AutocompleteInterface
 from .exceptions import (AutocompleteNotRegistered,
                          AutocompleteArgNotUnderstood,
                          NoGenericAutocompleteRegistered)
@@ -63,9 +62,6 @@ class AutocompleteRegistry(dict):
         self._models = {}
         self.default_generic = None
         self.autocomplete_model_base = autocomplete_model_base
-
-        if self.autocomplete_model_base is None:
-            self.autocomplete_model_base = AutocompleteModelBase
 
     def autocomplete_for_model(self, model):
         """
@@ -164,6 +160,9 @@ class AutocompleteRegistry(dict):
             name = '%sAutocomplete' % model.__name__
 
         if autocomplete is None:
+            if self.autocomplete_model_base is None:
+                from .autocomplete.shortcuts import AutocompleteModelBase
+                self.autocomplete_model_base = AutocompleteModelBase
             base = self.autocomplete_model_base
         else:
             base = autocomplete
@@ -212,6 +211,7 @@ class AutocompleteRegistry(dict):
             raise AutocompleteNotRegistered(name, self)
 
     def get_autocomplete_from_arg(self, arg=None):
+        from .autocomplete.base import AutocompleteInterface
         if isinstance(arg, six.string_types):
             return self[arg]
         elif isinstance(arg, type) and issubclass(arg, models.Model):

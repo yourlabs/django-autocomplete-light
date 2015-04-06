@@ -10,9 +10,7 @@ try:
 except ImportError:
     taggit = None
 
-import autocomplete_light
-
-autocomplete_light.autodiscover()
+import autocomplete_light.shortcuts as autocomplete_light
 
 from .models import *
 

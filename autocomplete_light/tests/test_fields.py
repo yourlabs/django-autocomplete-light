@@ -4,7 +4,7 @@ from django.test import TestCase
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 
 from ..example_apps.security_test.models import Item
 from ..example_apps.basic.models import GfkModel

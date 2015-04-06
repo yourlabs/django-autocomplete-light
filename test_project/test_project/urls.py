@@ -2,14 +2,16 @@ import django
 
 from django.conf.urls import patterns, include, url
 from django.views import generic
+from django.contrib import admin
+
 
 if django.VERSION < (1, 7):
-    import autocomplete_light
+    import autocomplete_light.shortcuts as autocomplete_light
     autocomplete_light.autodiscover()
 
-from django.contrib import admin
-admin.autodiscover()
-
+    from django.contrib import admin
+    admin.autodiscover()
+ 
 try:
     from hvad_autocomplete import urls as hvad
 except ImportError:

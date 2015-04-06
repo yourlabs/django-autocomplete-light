@@ -1,8 +1,11 @@
 import unittest
 import mock
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 
-autocomplete_light.autodiscover()
+try:
+    from unittest import mock
+except ImportError:  # python2
+    import mock
 
 import lxml.html
 
@@ -253,7 +256,7 @@ class ModelFormBaseMixin(BaseModelFormMixin):
 
     def test_meta_autocomplete_names(self):
         SpecialAutocomplete = self.get_new_autocomplete_class()
-        autocomplete_light.registry.register(SpecialAutocomplete)
+        autocomplete_light.register(SpecialAutocomplete)
 
         class ModelForm(autocomplete_light.ModelForm):
             class Meta(DjangoCompatMeta):
@@ -270,6 +273,8 @@ class ModelFormBaseMixin(BaseModelFormMixin):
 
         self.assertTrue(issubclass(self.form.fields['relation'].autocomplete,
                                    SpecialAutocomplete))
+        autocomplete_light.registry.unregister('SpecialAutocomplete')
+
 
     def test_modelform_factory(self):
         self.form = autocomplete_light.modelform_factory(self.model_class,

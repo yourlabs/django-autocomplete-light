@@ -19,7 +19,7 @@ except ImportError:
 else:
     User = get_user_model()
 
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 
 
 class RegistryViewTestCase(TestCase):
@@ -47,11 +47,7 @@ class RegistryViewTestCase(TestCase):
 
         self.anonymous = Client()
 
-        self.old_registry = autocomplete_light.registry
-        autocomplete_light.registry = autocomplete_light.AutocompleteRegistry()
-
-    def tearDown(self):
-        autocomplete_light.registry = self.old_registry
+        self.registry = autocomplete_light.AutocompleteRegistry()
 
     def test_requires_superuser(self):
         response = self.anonymous.get(reverse('autocomplete_light_registry'))
@@ -72,9 +68,12 @@ class RegistryViewTestCase(TestCase):
                 autocomplete_light.registry.items())
 
     def test_output(self):
-        autocomplete_light.registry.register(User)
+        self.registry.register(User)
 
-        response = self.superuser.get(reverse('autocomplete_light_registry'))
+        with patch('autocomplete_light.views.RegistryView.get_registry') as p:
+            p.return_value = self.registry
+
+            response = self.superuser.get(reverse('autocomplete_light_registry'))
 
         self.assertIn('List of your 1 registered autocompletes', force_text(response.content))
         self.assertIn(reverse('autocomplete_light_autocomplete',
@@ -89,42 +88,41 @@ class AutocompleteViewTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_get(self):
-        self.old_registry = autocomplete_light.registry
+        registry = MagicMock()
+        registry.__getitem__.return_value.return_value.autocomplete_html.return_value = 'foo'
 
-        autocomplete_light.registry = MagicMock()
-        autocomplete_light.registry.__getitem__.return_value.return_value.autocomplete_html.return_value = 'foo'
+        with patch('autocomplete_light.views.AutocompleteView.get_registry') as p:
+            p.return_value = registry
 
-        request = RequestFactory().get(
-            reverse('autocomplete_light_autocomplete', args=['UserAutocomplete']))
+            request = RequestFactory().get(
+                reverse('autocomplete_light_autocomplete', args=['UserAutocomplete']))
 
-        response = autocomplete_light.AutocompleteView.as_view()(request,
-            autocomplete='UserAutocomplete')
+            response = autocomplete_light.AutocompleteView.as_view()(request,
+                autocomplete='UserAutocomplete')
 
-        autocomplete_light.registry.__getitem__.assert_called_with('UserAutocomplete')
-        autocomplete_light.registry.__getitem__.return_value.assert_called_with(request=request)
-        autocomplete_light.registry.__getitem__.return_value.return_value.autocomplete_html.assert_called_with()
+        registry.__getitem__.assert_called_with('UserAutocomplete')
+        registry.__getitem__.return_value.assert_called_with(request=request)
+        registry.__getitem__.return_value.return_value.autocomplete_html.assert_called_with()
 
         self.assertIn('foo', force_text(response.content))
 
-        autocomplete_light.registry = self.old_registry
-
     def test_post(self):
-        self.old_registry = autocomplete_light.registry
-        autocomplete_light.registry = MagicMock()
+        registry = MagicMock()
 
-        request = RequestFactory().post(
-            reverse('autocomplete_light_autocomplete', args=['UserAutocomplete']))
+        with patch('autocomplete_light.views.AutocompleteView.get_registry') as p:
+            p.return_value = registry
 
-        autocomplete_light.AutocompleteView.as_view()(request,
-            autocomplete='UserAutocomplete')
+            request = RequestFactory().post(
+                reverse('autocomplete_light_autocomplete', args=['UserAutocomplete']))
 
-        autocomplete_light.registry.__getitem__.assert_called_with('UserAutocomplete')
-        autocomplete_light.registry.__getitem__.return_value.assert_called_with()
-
-        autocomplete_light.registry.__getitem__.return_value.return_value.post.assert_called_with(request,
+            autocomplete_light.AutocompleteView.as_view()(request,
                 autocomplete='UserAutocomplete')
 
-        autocomplete_light.registry = self.old_registry
+        registry.__getitem__.assert_called_with('UserAutocomplete')
+        registry.__getitem__.return_value.assert_called_with()
+
+        registry.__getitem__.return_value.return_value.post.assert_called_with(request,
+                autocomplete='UserAutocomplete')
 
 
 class CreateViewTestCase(TestCase):

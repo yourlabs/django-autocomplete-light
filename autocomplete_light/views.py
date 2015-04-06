@@ -3,12 +3,20 @@ from django.views import generic
 from django.views.generic import base
 from django.utils.encoding import force_text
 
-import autocomplete_light
+from autocomplete_light.exceptions import AutocompleteNotRegistered
 
 __all__ = ['AutocompleteView', 'RegistryView', 'CreateView']
 
 
-class RegistryView(base.TemplateView):
+class GetRegistryMixin(object):
+    def get_registry(self):
+        if getattr(self, '_registry', None) is None:
+            from autocomplete_light.registry import registry
+            self._registry = registry
+        return self._registry
+
+
+class RegistryView(GetRegistryMixin, base.TemplateView):
     template_name = 'autocomplete_light/registry.html'
 
     def get(self, request, *args, **kwargs):
@@ -18,12 +26,12 @@ class RegistryView(base.TemplateView):
 
     def get_context_data(self, **kwargs):
         return {
-            'registry': autocomplete_light.registry,
-            'registry_items': autocomplete_light.registry.items(),
+            'registry': self.get_registry(),
+            'registry_items': self.get_registry().items(),
         }
 
 
-class AutocompleteView(generic.View):
+class AutocompleteView(GetRegistryMixin, generic.View):
     """Simple view that routes the request to the appropriate autocomplete."""
 
     def get(self, request, *args, **kwargs):
@@ -46,9 +54,8 @@ class AutocompleteView(generic.View):
         fill the autocomplete suggestion box.
         """
         try:
-            autocomplete_class = autocomplete_light.registry[
-                kwargs['autocomplete']]
-        except autocomplete_light.AutocompleteNotRegistered:
+            autocomplete_class = self.get_registry()[kwargs['autocomplete']]
+        except AutocompleteNotRegistered:
             return http.HttpResponseNotFound()
         autocomplete = autocomplete_class(request=request)
         return http.HttpResponse(autocomplete.autocomplete_html())
@@ -60,8 +67,7 @@ class AutocompleteView(generic.View):
         This is the key to communication between the autocomplete and the
         widget in javascript. You can use it to create results and such.
         """
-        autocomplete_class = autocomplete_light.registry[
-            kwargs['autocomplete']]
+        autocomplete_class = self.get_registry()[kwargs['autocomplete']]
         autocomplete = autocomplete_class()
         return autocomplete.post(request, *args, **kwargs)
 

@@ -1,6 +1,6 @@
 from django import http
 
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 
 from .models import Fly
 

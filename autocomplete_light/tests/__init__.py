@@ -1,2 +1,0 @@
-import autocomplete_light
-autocomplete_light.autodiscover()
