@@ -69,6 +69,8 @@ before_script:
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 script:
+  - ls -lat $PWD/wheelhouse/$TOXENV
+  - ls -lat $PWD/.tox/$TOXENV
   # Run pep8 or the tests.
   - which pep8 && { pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light; return $?; } || $RUN_TESTS
   - test -n "$TOXENV" && cat .tox/$TOXENV/log/*.log || true
