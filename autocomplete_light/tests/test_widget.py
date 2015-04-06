@@ -5,6 +5,11 @@ import unittest
 
 from django import VERSION
 
+try:
+    from taggit.models import Tag
+except ImportError:
+    Tag = None
+
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
@@ -45,6 +50,7 @@ else:
 
 
 class WidgetTestCase(LiveServerTestCase):
+    input_name_suffix = '-autocomplete'
     autocomplete_name = 'relation'
     fixtures = ['basic_fk_model_test_case.json', 'test_user.json']
     test_case_setup_done = False
@@ -82,7 +88,8 @@ class WidgetTestCase(LiveServerTestCase):
 
         for key in keys:
             self.selenium.find_element_by_css_selector(
-                'input[name=%s-autocomplete]' % autocomplete_name
+                'input[name=%s%s]' % (autocomplete_name,
+                    self.input_name_suffix)
                 ).send_keys(key)
 
     def submit(self, name=None):
@@ -109,7 +116,8 @@ class WidgetTestCase(LiveServerTestCase):
         autocomplete_name = autocomplete_name or self.autocomplete_name
 
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
+            '//*[@id="id_%s%s"]/' % (autocomplete_name,
+                self.input_name_suffix),
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -121,7 +129,8 @@ class WidgetTestCase(LiveServerTestCase):
         autocomplete_name = autocomplete_name or self.autocomplete_name
 
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
+            '//*[@id="id_%s%s"]/' % (autocomplete_name,
+                self.input_name_suffix),
             'preceding-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -134,7 +143,8 @@ class WidgetTestCase(LiveServerTestCase):
         autocomplete_name = autocomplete_name or self.autocomplete_name
 
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
+            '//*[@id="id_%s%s"]/' % (autocomplete_name,
+                self.input_name_suffix),
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -151,7 +161,8 @@ class WidgetTestCase(LiveServerTestCase):
         autocomplete_name = autocomplete_name or self.autocomplete_name
 
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
+            '//*[@id="id_%s%s"]/' % (autocomplete_name,
+                self.input_name_suffix),
             'following-sibling::',
             'span[contains(',
                 'concat(" ", normalize-space(@class), " "), ',
@@ -164,13 +175,15 @@ class WidgetTestCase(LiveServerTestCase):
         autocomplete_name = autocomplete_name or self.autocomplete_name
 
         return self.selenium.find_element_by_css_selector(
-                'input[name=%s-autocomplete]' % autocomplete_name)
+                'input[name=%s%s]' % (autocomplete_name,
+                    self.input_name_suffix))
 
     def select(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
 
         xpath = ''.join([
-            '//*[@id="id_%s-autocomplete"]/' % autocomplete_name,
+            '//*[@id="id_%s%s"]/' % (autocomplete_name,
+                self.input_name_suffix),
             'following-sibling::',
             'select'])
 
@@ -258,6 +271,24 @@ class SelectChoiceInEmptyFormTestCase(WidgetTestCase):
 
     def test_hidden_select_value(self):
         self.assertEqual(self.select_values(), ['4'])
+
+
+@unittest.skipIf(Tag is None, 'django-taggit not installed')
+class TextWidgetWithTaggitForm(WidgetTestCase):
+    input_name_suffix = ''
+
+    def setup_test_case(self):
+        Tag.objects.create(name='foo & bar')
+        self.login()
+        self.open_url('/admin/basic/taggitmodel/add/')
+
+    def test_ampersand(self):
+        self.send_keys('foo & bar')
+        ui.WebDriverWait(self.selenium, WAIT_TIME).until(
+            lambda x: self.hilighted_choice())
+
+        self.send_keys([Keys.TAB])
+        assert 'foo & bar' == self.input().get_attribute('value')
 
 
 class WidgetInitialStatusInEditForm(WidgetTestCase):
