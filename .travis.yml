@@ -49,14 +49,17 @@ install:
 
   # Create wheels (skips existing ones from the cached wheelhouse).
   - PIP_WHEELHOUSE=$PWD/wheelhouse/$TOXENV
-  - export PIP_FIND_LINKS=$PIP_WHEELHOUSE
   - mkdir -p $PIP_WHEELHOUSE
+  - export PIP_FIND_LINKS=file://$PIP_WHEELHOUSE
   # Create wheelhouse / cache.
-  - pip wheel --wheel-dir $PIP_WHEELHOUSE psycopg2 tox $REQ
+  - which pep8 || pip wheel --wheel-dir $PIP_WHEELHOUSE psycopg2 tox
+  - pip wheel --wheel-dir $PIP_WHEELHOUSE $REQ
   - pip wheel --wheel-dir $PIP_WHEELHOUSE -r test_project/test_requirements_without_django.txt
 
-  # Install from wheelhouse.
-  - pip install psycopg2 tox $REQ
+  # Install from wheelhouse (only).
+  - export PIP_NO_INDEX=1
+  - which pep8 || pip install psycopg2 tox
+  - pip install $REQ
   - pip freeze
 before_install:
   - "export DISPLAY=:99.0"
