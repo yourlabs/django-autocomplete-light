@@ -42,7 +42,7 @@ install:
   - declare -f travis_retry >> bin/travis_retry_pip
   - printf '\necho "Using pip-wrapper.." >&2\ntravis_retry pip "$@"' >> bin/travis_retry_pip
   - chmod +x bin/travis_retry_pip
-  - sed -i.bak 's/^\[testenv\]/\0\ninstall_command = travis_retry_pip install --no-index {opts} {packages}/' tox.ini
+  - sed -i.bak 's/^\[testenv\]/\0\ninstall_command = travis_retry_pip install {opts} {packages}/' tox.ini
   - diff tox.ini tox.ini.bak && false || true
   - sed -i.bak 's/whitelist_externals =/\0\n    travis_retry_pip/' tox.ini
   - diff tox.ini tox.ini.bak && false || true
