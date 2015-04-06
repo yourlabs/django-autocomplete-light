@@ -23,17 +23,6 @@ from django.db.models import ForeignKey, OneToOneField, ManyToManyField
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 
-try:
-    from genericm2m.models import RelatedObjectsDescriptor
-except ImportError:
-    RelatedObjectsDescriptor = None
-
-try:
-    from taggit.managers import TaggableManager
-except ImportError:
-    class TaggableManager(object):
-        pass
-
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
 from .contrib.taggit_field import TaggitField
@@ -141,6 +130,8 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
         Yield name, field for each RelatedObjectsDescriptor of the model of
         this ModelForm.
         """
+        from genericm2m.models import RelatedObjectsDescriptor
+
         for name, field in self.fields.items():
             if not isinstance(field, GenericModelMultipleChoiceField):
                 continue
@@ -205,6 +196,12 @@ class FormfieldCallback(object):
         self.default = default or _default
 
     def __call__(self, model_field, **kwargs):
+        try:
+            from taggit.managers import TaggableManager
+        except ImportError:
+            class TaggableManager(object):
+                pass
+
         if (self.autocomplete_exclude and
                 model_field.name in self.autocomplete_exclude):
             pass
@@ -304,11 +301,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def clean_meta(cls, meta):
         try:
-            from django.contrib.contenttypes.fields import (GenericForeignKey,
-                                                            GenericRelation)
+            from django.contrib.contenttypes.fields import GenericForeignKey
         except ImportError:
-            from django.contrib.contenttypes.generic import (GenericForeignKey,
-                                                             GenericRelation)
+            from django.contrib.contenttypes.generic import GenericForeignKey
+
+        try:
+            from genericm2m.models import RelatedObjectsDescriptor
+        except ImportError:
+            RelatedObjectsDescriptor = None
+
         # All virtual fields/excludes must be move to
         # autocomplete_fields/exclude
         fields = getattr(meta, 'fields', [])
@@ -337,11 +338,10 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def pre_new(cls, meta):
         try:
-            from django.contrib.contenttypes.fields import (GenericForeignKey,
-                                                            GenericRelation)
+            from django.contrib.contenttypes.fields import GenericForeignKey
         except ImportError:
-            from django.contrib.contenttypes.generic import (GenericForeignKey,
-                                                             GenericRelation)
+            from django.contrib.contenttypes.generic import GenericForeignKey
+
         exclude = tuple(getattr(meta, 'exclude', []))
         add_exclude = []
 
@@ -361,6 +361,11 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def post_new(cls, new_class, meta):
         cls.add_generic_fk_fields(new_class, meta)
+
+        try:
+            from genericm2m.models import RelatedObjectsDescriptor
+        except ImportError:
+            RelatedObjectsDescriptor = None
 
         if RelatedObjectsDescriptor:
             # if genericm2m is installed
@@ -389,6 +394,11 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
+        try:
+            from genericm2m.models import RelatedObjectsDescriptor
+        except ImportError:
+            RelatedObjectsDescriptor = None
+
         widgets = getattr(meta, 'widgets', {})
 
         for field in meta.model.__dict__.values():
