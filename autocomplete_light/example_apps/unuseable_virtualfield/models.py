@@ -1,6 +1,6 @@
 from django.db import models
 
-from vote.managers import VotableManager
+from .vote_models import VotableManager
 
 
 class HasVotes(models.Model):

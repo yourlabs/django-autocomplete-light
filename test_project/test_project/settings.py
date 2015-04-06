@@ -120,7 +120,6 @@ elif django.VERSION >= (1, 7):
 
 if django.VERSION >= (1, 5):
     INSTALLED_APPS += (
-        'vote',
         'autocomplete_light.example_apps.unuseable_virtualfield',
     )
 

@@ -1,4 +1,3 @@
 # Requirements without Django, to work around https://github.com/pypa/pip/issues/2367.
 south
 django-cities-light
-django-vote
