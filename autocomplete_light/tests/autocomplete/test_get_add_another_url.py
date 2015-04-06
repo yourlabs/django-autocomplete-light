@@ -1,7 +1,11 @@
 import mock
 
 from django import test
-from django.test import override_settings
+
+try:
+    from django.test import override_settings
+except ImportError:
+    override_settings = None
 
 import autocomplete_light.shortcuts as autocomplete_light
 
@@ -18,7 +22,6 @@ urlpatterns = [
 ]
 
 
-@override_settings(ROOT_URLCONF='autocomplete_light.tests.autocomplete.test_get_add_another_url')
 class GetAddAnotherUrlTestCase(test.TestCase):
 
     def generate_url(self, name, kwargs=None):
@@ -35,3 +38,8 @@ class GetAddAnotherUrlTestCase(test.TestCase):
     def test_with_kwargs(self):
         self.assertEquals(self.generate_url('test_onekwarg', {'param': 'bar'}),
                           '/onekwarg/bar/?_popup=1')
+
+if override_settings:
+    GetAddAnotherUrlTestCase = override_settings(ROOT_URLCONF='autocomplete_light.tests.autocomplete.test_get_add_another_url')(GetAddAnotherUrlTestCase)
+else:
+    GetAddAnotherUrlTestCase.urls = 'autocomplete_light.tests.autocomplete.test_get_add_another_url'
