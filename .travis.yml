@@ -10,28 +10,7 @@ env:
   global:
     - TESTS_SKIP_LIVESERVER=1
   matrix:
-    - TOXENV=py27-django14-taggit-genericm2m
-    - TOXENV=py27-django15-taggit-genericm2m
-    - TOXENV=py27-django16-taggit-genericm2m
-    - TOXENV=py27-django17-taggit-genericm2m
-
-    # Current stable Django.
-    - TOXENV=py27-django18
-    - TOXENV=py27-django18-taggit
     - TOXENV=py27-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= REQ="pytest-cov"
-    - TOXENV=py27-django18-genericm2m
-    - TOXENV=py27-djangomaster
-
-    - TOXENV=py34-django15-taggit-genericm2m
-    - TOXENV=py34-django16-taggit-genericm2m
-    - TOXENV=py34-django17-taggit-genericm2m
-    # Current stable Django.
-    - TOXENV=py34-django18
-    - TOXENV=py34-django18-taggit
-    - TOXENV=py34-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= REQ="pytest-cov"
-    - TOXENV=py34-django18-genericm2m
-    - TOXENV=py34-djangomaster
-
     - TOXENV=none REQ="pep8"
 install:
   # Create pip wrapper script, using travis_retry (a function) and
