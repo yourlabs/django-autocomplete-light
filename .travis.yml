@@ -69,7 +69,6 @@ script:
   # Run pep8 or the tests.
   - which pep8 && { pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light; return $?; } || $RUN_TESTS
   - test -n "$TOXENV" && cat .tox/$TOXENV/log/*.log || true
-  - test -n "$TOXENV" && rm .tox/$TOXENV/log/*.log || true
 after_success:
   - command -v coveralls && { coveralls; return $?; } || true
 notifications:
@@ -82,5 +81,7 @@ notifications:
 # Persistent cache across builds (http://docs.travis-ci.com/user/caching/).
 cache:
   directories:
-    $PWD/wheelhouse/$TOXENV/
-    $PWD/.tox/$TOXENV/
+    - $PWD/wheelhouse/$TOXENV
+    - $PWD/.tox/$TOXENV
+before_cache:
+  - rm -f .tox/$TOXENV/log/*.log
