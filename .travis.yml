@@ -18,27 +18,37 @@ install:
   # inject it into tox.ini.
   - mkdir -p bin
   - PATH=$PWD/bin:$PATH
-  - printf '#!/bin/sh\n' > bin/travis_retry_pip
-  - declare -f travis_retry >> bin/travis_retry_pip
-  - printf '\necho "Using pip-wrapper.." >&2\ntravis_retry pip "$@"' >> bin/travis_retry_pip
-  - chmod +x bin/travis_retry_pip
-  - sed -i.bak 's/^\[testenv\]/\0\ninstall_command = travis_retry_pip install {opts} {packages}/' tox.ini
+  - PIP_INSTALL=bin/travis_pip_install
+  - printf '#!/bin/sh\n' > $PIP_INSTALL
+  - declare -f travis_retry >> $PIP_INSTALL
+  - printf '\necho "=====\nUsing pip-wrapper: $@\n=====\n" >&2\n' >> $PIP_INSTALL
+
+  # First try to install from wheelhouse.
+  - printf 'pip install --no-index --find-links=${PIP_WHEELHOUSE} "$@"\n' >> $PIP_INSTALL
+  # Then upgrade in case of outdated wheelhouse.
+  - printf 'pip install --upgrade "$@"\n' >> $PIP_INSTALL
+  # ..and add the new/current wheel.
+  - printf 'pip wheel --wheel-dir=${PIP_WHEELHOUSE} "$@"\n' >> $PIP_INSTALL
+  - printf 'travis_retry pip "$@"\n' >> $PIP_INSTALL
+
+  - chmod +x $PIP_INSTALL
+
+  - sed -i.bak 's/^\[testenv\]/\0\ninstall_command = travis_pip_install {opts} {packages}/' tox.ini
   - diff tox.ini tox.ini.bak && false || true
-  - sed -i.bak 's/whitelist_externals =/\0\n    travis_retry_pip/' tox.ini
+  - sed -i.bak 's/whitelist_externals =/\0\n    travis_pip_install/' tox.ini
   - diff tox.ini tox.ini.bak && false || true
+
+  - cat $PIP_INSTALL
+  - cat tox.ini
 
   # Create wheels (skips existing ones from the cached wheelhouse).
-  - PIP_WHEELHOUSE=$PWD/wheelhouse
-  - export PIP_FIND_LINKS=file://$PIP_WHEELHOUSE
-  # Create wheelhouse / cache.
-  - which pep8 || pip wheel --wheel-dir $PIP_WHEELHOUSE psycopg2 tox
-  - pip wheel --wheel-dir $PIP_WHEELHOUSE $REQ
-  - pip wheel --wheel-dir $PIP_WHEELHOUSE -r test_project/test_requirements_without_django.txt
+  - export PIP_WHEELHOUSE=$PWD/wheelhouse
 
-  # Install from wheelhouse (only).
-  - export PIP_NO_INDEX=1
-  - which pep8 || pip install psycopg2 tox
-  - pip install $REQ
+  # Install packages through wheels.
+  - which pep8 || travis_pip_install psycopg2 tox
+  - [[ -n "$REQ" ]] && travis_pip_install $REQ
+  - travis_pip_install -r test_project/test_requirements_without_django.txt
+
   - pip freeze
 before_install:
   - "export DISPLAY=:99.0"
