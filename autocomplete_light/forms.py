@@ -130,7 +130,10 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
         Yield name, field for each RelatedObjectsDescriptor of the model of
         this ModelForm.
         """
-        from genericm2m.models import RelatedObjectsDescriptor
+        try:
+            from genericm2m.models import RelatedObjectsDescriptor
+        except ImportError:
+            return
 
         for name, field in self.fields.items():
             if not isinstance(field, GenericModelMultipleChoiceField):
