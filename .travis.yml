@@ -32,7 +32,7 @@ env:
     - TOXENV=py34-django18-genericm2m
     - TOXENV=py34-djangomaster
 
-    - REQ="pep8"
+    - TOXENV=none REQ="pep8"
 install:
   # Create wheels (skips existing ones from the cached wheelhouse).
   - export PIP_FIND_LINKS=$PWD/wheelhouse/$TOXENV
