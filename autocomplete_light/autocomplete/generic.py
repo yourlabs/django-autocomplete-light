@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 import six
 
-from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
 import autocomplete_light
@@ -90,6 +89,7 @@ class AutocompleteGeneric(six.with_metaclass(AutocompleteGenericMetaClass,
             except ValueError:
                 return False
 
+            from django.contrib.contenttypes.models import ContentType
             try:
                 content_type = ContentType.objects.get_for_id(content_type_id)
             except ContentType.DoesNotExist:
@@ -147,6 +147,7 @@ class AutocompleteGeneric(six.with_metaclass(AutocompleteGenericMetaClass,
         values_choices = []
 
         for queryset in self.choices:
+            from django.contrib.contenttypes.models import ContentType
             ctype = ContentType.objects.get_for_model(queryset.model).pk
 
             try:
