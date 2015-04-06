@@ -53,7 +53,12 @@ class WidgetTestCase(LiveServerTestCase):
     def setUpClass(cls):
         if os.environ.get('TESTS_SKIP_LIVESERVER', False):
             raise unittest.SkipTest('TESTS_SKIP_LIVESERVER enabled')
-        cls.selenium = webdriver.PhantomJS()
+
+        if os.environ.get('TESTS_USE_PHANTOMJS', False):
+            cls.selenium = webdriver.PhantomJS()
+        else:
+            cls.selenium = webdriver.Firefox()
+
         cls.selenium.implicitly_wait(WAIT_TIME)
         super(WidgetTestCase, cls).setUpClass()
 
