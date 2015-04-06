@@ -1,7 +1,7 @@
 from .widgets import WidgetBase, ChoiceWidget, MultipleChoiceWidget, TextWidget
 
 from .autocomplete.shortcuts import *
-    
+
 from .contrib.taggit_field import TaggitWidget, TaggitField
 
 from .forms import *

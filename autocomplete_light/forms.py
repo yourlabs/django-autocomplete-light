@@ -188,7 +188,8 @@ class FormfieldCallback(object):
         self.autocomplete_exclude = getattr(meta, 'autocomplete_exclude', None)
         self.autocomplete_fields = getattr(meta, 'autocomplete_fields', None)
         self.autocomplete_names = getattr(meta, 'autocomplete_names', {})
-        self.autocomplete_registry = getattr(meta, 'autocomplete_registry', None)
+        self.autocomplete_registry = getattr(meta, 'autocomplete_registry',
+                None)
 
         def _default(model_field, **kwargs):
             return model_field.formfield(**kwargs)
@@ -215,8 +216,9 @@ class FormfieldCallback(object):
                 autocomplete = self.autocomplete_registry.get(
                     self.autocomplete_names[model_field.name])
             else:
-                autocomplete = self.autocomplete_registry.autocomplete_for_model(
-                    model_field.rel.to)
+                autocomplete = \
+                    self.autocomplete_registry.autocomplete_for_model(
+                        model_field.rel.to)
 
             if autocomplete is not None:
                 kwargs['autocomplete'] = autocomplete
@@ -262,8 +264,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             cls.pre_new(meta)
 
             if not isinstance(formfield_callback, FormfieldCallback):
-                attrs['formfield_callback'] = FormfieldCallback(formfield_callback,
-                    meta)
+                attrs['formfield_callback'] = FormfieldCallback(
+                    formfield_callback, meta)
 
         new_class = super(ModelFormMetaclass, cls).__new__(cls, name, bases,
                 attrs)
@@ -379,7 +381,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         for field in meta.model._meta.virtual_fields:
             if cls.skip_field(meta, field):
                 continue
-            
+
             if hasattr(meta.model._meta, 'get_field'):
                 _field = meta.model._meta.get_field(field.fk_field)
             else:
