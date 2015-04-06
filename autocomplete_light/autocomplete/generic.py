@@ -17,7 +17,7 @@ class AutocompleteGenericMetaClass(type):
 
         if attrs.get('__module__',
                 '').startswith('autocomplete_light.autocomplete'):
-            # we are defining own of our own classes
+            # We are defining one of our own classes.
             return new_class
 
         if not new_class.search_fields:
