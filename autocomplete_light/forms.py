@@ -376,15 +376,15 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 continue
             
             if hasattr(meta.model._meta, 'get_field'):
-                field = meta.model._meta.get_field(field.fk_field)
+                _field = meta.model._meta.get_field(field.fk_field)
             else:
                 # Pre django 1.9 support
-                field = meta.model._meta.get_field_by_name(field.fk_field)
+                _field = meta.model._meta.get_field_by_name(field.fk_field)
 
             new_class.base_fields[field.name] = GenericModelChoiceField(
                 widget=widgets.get(field.name, None),
                 autocomplete=cls.get_generic_autocomplete(meta, field.name),
-                required=not field
+                required=not _field
             )
 
     @classmethod
