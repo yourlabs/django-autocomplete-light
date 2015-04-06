@@ -53,7 +53,7 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 before_script:
-  - RUN_TESTS="tox -- autocomplete_light --ds=test_project.settings"
+  - RUN_TESTS="tox -- autocomplete_light --ds=test_project.settings.postgres"
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 script:
