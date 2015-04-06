@@ -75,13 +75,13 @@ install:
   - if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
 
   - pip freeze
-before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
 before_script:
   - RUN_TESTS="tox -- autocomplete_light"
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
+before_install:
+  - npm install phantomjs
+  - phantomjs --version
 script:
   - ls -lat $PWD/wheelhouse
   # Run pep8 or the tests.
