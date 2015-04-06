@@ -17,6 +17,7 @@ env:
     - TOXENV=py27-django15-taggit-genericm2m
     - TOXENV=py27-django16-taggit-genericm2m
     - TOXENV=py27-django17-taggit-genericm2m
+    - TOXENV=pypy-djangostable
 
     # Current stable Django.
     - TOXENV=py27-django18
