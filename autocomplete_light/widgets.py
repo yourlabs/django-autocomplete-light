@@ -16,10 +16,14 @@ template.
 """
 
 from django import forms
-from django.forms.util import flatatt
 from django.utils import safestring
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
+
+try:
+    from django.forms.utils import flatatt
+except ImportError:
+    from django.forms.util import flatatt
 
 from .registry import registry as default_registry
 
