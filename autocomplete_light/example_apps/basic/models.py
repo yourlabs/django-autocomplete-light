@@ -1,7 +1,10 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+try:
+    from django.contrib.contenttypes.fields import GenericForeignKey
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericForeignKey
 
 try:
     from genericm2m.models import RelatedObjectsDescriptor
@@ -56,7 +59,7 @@ class GfkModel(models.Model):
 
     content_type = models.ForeignKey(ContentType, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
-    relation = generic.GenericForeignKey('content_type', 'object_id')
+    relation = GenericForeignKey('content_type', 'object_id')
 
     noise = models.ForeignKey('FkModel', null=True, blank=True)
 
@@ -103,7 +106,7 @@ class FullModel(models.Model):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    gfk = generic.GenericForeignKey("content_type", "object_id")
+    gfk = GenericForeignKey("content_type", "object_id")
 
     if RelatedObjectsDescriptor:
         gmtm = RelatedObjectsDescriptor()
