@@ -279,11 +279,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     @classmethod
     def skip_field(cls, meta, field):
         try:
-            from django.contrib.contenttypes.fields import (GenericForeignKey,
-                                                            GenericRelation)
+            from django.contrib.contenttypes.fields import GenericRelation
         except ImportError:
-            from django.contrib.contenttypes.generic import (GenericForeignKey,
-                                                             GenericRelation)
+            from django.contrib.contenttypes.generic import GenericRelation
 
         if isinstance(field, GenericRelation):
             # skip reverse generic foreign key
