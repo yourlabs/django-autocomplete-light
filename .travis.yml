@@ -48,8 +48,7 @@ install:
   - diff tox.ini tox.ini.bak && false || true
 
   # Create wheels (skips existing ones from the cached wheelhouse).
-  - PIP_WHEELHOUSE=$PWD/wheelhouse/$TOXENV
-  - mkdir -p $PIP_WHEELHOUSE
+  - PIP_WHEELHOUSE=$PWD/wheelhouse
   - export PIP_FIND_LINKS=file://$PIP_WHEELHOUSE
   # Create wheelhouse / cache.
   - which pep8 || pip wheel --wheel-dir $PIP_WHEELHOUSE psycopg2 tox
@@ -68,8 +67,7 @@ before_script:
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 script:
-  - ls -lat $PWD/wheelhouse/$TOXENV
-  - ls -lat $PWD/.tox/$TOXENV
+  - ls -lat $PWD/wheelhouse
   # Run pep8 or the tests.
   - which pep8 && { pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light; return $?; } || $RUN_TESTS
   - test -n "$TOXENV" && cat .tox/$TOXENV/log/*.log || true
@@ -85,7 +83,6 @@ notifications:
 # Persistent cache across builds (http://docs.travis-ci.com/user/caching/).
 cache:
   directories:
-    - $PWD/wheelhouse/$TOXENV
-    - $PWD/.tox/$TOXENV
+    - $PWD/wheelhouse
 before_cache:
   - rm -f .tox/$TOXENV/log/*.log
