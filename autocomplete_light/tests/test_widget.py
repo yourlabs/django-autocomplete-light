@@ -53,7 +53,7 @@ class WidgetTestCase(LiveServerTestCase):
     def setUpClass(cls):
         if os.environ.get('TESTS_SKIP_LIVESERVER', False):
             raise unittest.SkipTest('TESTS_SKIP_LIVESERVER enabled')
-        cls.selenium = webdriver.Firefox()
+        cls.selenium = webdriver.PhantomJS()
         cls.selenium.implicitly_wait(WAIT_TIME)
         super(WidgetTestCase, cls).setUpClass()
 
@@ -350,4 +350,10 @@ class InlineSelectChoiceTestCase(SelectChoiceInEmptyFormTestCase):
         orig_input = self.input().find_element_by_xpath(
             'ancestor::tr/td[@class="original"]')
 
-        self.assertEqual(orig_input.size['width'], 0)
+        # XXX: workaround for PhantomJS (1.9.8) behaving not like Firefox..
+        # .size is {'width': 1, 'height': 35} with PhantomJS.
+        # With Firefox .value_of_css_property('width') is '0px' (not 'height).
+        if isinstance(self.selenium, webdriver.PhantomJS):
+            self.assertEqual(orig_input.value_of_css_property('height'), '0px')
+        else:
+            self.assertEqual(orig_input.size['width'], 0)
