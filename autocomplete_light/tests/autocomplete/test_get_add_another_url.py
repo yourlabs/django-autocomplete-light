@@ -1,4 +1,7 @@
-import mock
+try:
+    from unittest import mock
+except ImportError:  # python2
+    import mock
 
 from django import test
 
