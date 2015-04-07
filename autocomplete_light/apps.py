@@ -1,7 +1,4 @@
-import six
-
 from django.apps import AppConfig
-from django.core import checks
 
 
 class AutocompleteLightConfig(AppConfig):

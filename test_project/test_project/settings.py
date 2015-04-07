@@ -105,7 +105,9 @@ INSTALLED_APPS = (
     'autocomplete_light.example_apps.dependant_autocomplete',
     'autocomplete_light.example_apps.non_admin_add_another',
     'autocomplete_light.example_apps.create_choice_on_the_fly',
-    'autocomplete_light.example_apps.incompatible_widget_and_form_field',
+    # This app is used for tests, and cannot be installed by default, because
+    # it would raise a warning (W001).
+    # 'autocomplete_light.example_apps.incompatible_widget_and_form_field',
 
     'navigation_autocomplete',
 )
