@@ -15,6 +15,7 @@ from __future__ import unicode_literals
 
 import six
 
+from django.contrib import admin
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
@@ -26,7 +27,7 @@ from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
 from .contrib.taggit_field import TaggitField
-from .widgets import ChoiceWidget, MultipleChoiceWidget
+from .widgets import WidgetBase, ChoiceWidget, MultipleChoiceWidget
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
@@ -215,6 +216,25 @@ class FormfieldCallback(object):
             pass
 
         elif hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
+            model = model_field.rel.to
+            if admin.site.is_registered(model):
+                # I hope this blows up one day, because it would be so
+                # cool to register several ModelAdmin for the same Model
+                # in the same Admin site.
+                options = admin.site._registry[model]
+                formfield_overrides = getattr(overrides, 'formfield_overrides', None)
+
+                if formfield_overrides:
+                    if type(model_field) in formfield_overrides:
+                        widget = formfield_overrides[type(model_field)].get(
+                            'widget', None)
+
+                        # If the widget you will want in the future is not an
+                        # Autocomplete widget then it shouldn't have an
+                        # Autocomplete form class.
+                        if widget and not issubclass(widget, WidgetBase):
+                            raise Exception('Your future is wrong.')
+
             if model_field.name in self.autocomplete_names:
                 autocomplete = self.autocomplete_registry.get(
                     self.autocomplete_names[model_field.name])
