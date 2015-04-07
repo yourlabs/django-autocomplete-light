@@ -263,8 +263,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
                 from autocomplete_light.registry import registry
                 meta.autocomplete_registry = registry
 
-            cls.clean_meta(meta)
-            cls.pre_new(meta)
+            if getattr(meta, 'model', None):
+                cls.clean_meta(meta)
+                cls.pre_new(meta)
 
             if not isinstance(formfield_callback, FormfieldCallback):
                 attrs['formfield_callback'] = FormfieldCallback(
@@ -273,7 +274,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         new_class = super(ModelFormMetaclass, cls).__new__(cls, name, bases,
                 attrs)
 
-        if meta is not None:
+        if meta is not None and getattr(meta, 'model', None):
             cls.post_new(new_class, meta)
 
         return new_class

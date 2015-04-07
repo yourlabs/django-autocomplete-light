@@ -398,6 +398,11 @@ class ModelFormBaseMixin(BaseModelFormMixin):
         result = form.save()
         self.assertEqual(self.field_value(result), self.janis)
 
+    def test_modelform_without_model(self):
+        class DefaultForm(autocomplete_light.ModelForm):
+            class Meta:
+                pass
+
 
 class GenericModelFormMixin(object):
     autocomplete_name = 'A'
