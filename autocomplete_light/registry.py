@@ -136,11 +136,11 @@ class AutocompleteRegistry(dict):
         # YourBaseAutocomplete
         derivate_name = model and autocomplete
 
-        if not model:
+        if autocomplete and not model:
             try:
                 model = autocomplete.choices.model
             except AttributeError:
-                pass
+                model = getattr(autocomplete, 'model', None)
 
         if model:
             autocomplete = self._register_model_autocomplete(model,

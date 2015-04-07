@@ -154,6 +154,20 @@ class RegistryGetAutocompleteFromArgTestCase(TestCase):
         a = self.registry.get_autocomplete_from_arg()
         self.assertTrue(issubclass(a, Generic))
 
+    def test_model_picked_up_from_autocomplete_class(self):
+        # GitHub issue #313
+        class TestModel(models.Model):
+            name = models.CharField(max_length=100)
+
+        class XAutocomplete(autocomplete_light.AutocompleteModelBase):
+            model = TestModel
+
+        self.registry.register(XAutocomplete)
+        result = self.registry.get_autocomplete_from_arg(TestModel)
+
+        assert result
+        assert issubclass(result, XAutocomplete)
+
     def test_registering_autocomplete_without_model_name_as_prefix(self):
         class Base(autocomplete_light.AutocompleteModelBase):
             pass
