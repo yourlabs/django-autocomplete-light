@@ -23,7 +23,11 @@ import six
 
 from django.db import models
 from django.utils.functional import curry
-from django.core import checks
+
+try:
+    from django.core import checks
+except ImportError:
+    checks = None
 
 from .exceptions import (AutocompleteNotRegistered,
                          AutocompleteArgNotUnderstood,
@@ -65,7 +69,8 @@ class AutocompleteRegistry(dict):
         self.default_generic = None
         self.autocomplete_model_base = autocomplete_model_base
 
-        checks.register(curry(self.admin_formfield_widget_compatibility))
+        if checks is not None:
+            checks.register(curry(self.admin_formfield_widget_compatibility))
 
     def autocomplete_for_model(self, model):
         """

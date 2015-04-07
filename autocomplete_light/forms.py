@@ -23,6 +23,7 @@ from django import forms
 from django.db.models import ForeignKey, OneToOneField, ManyToManyField
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
+from django.core.exceptions import ImproperlyConfigured
 
 from .fields import (ModelChoiceField, ModelMultipleChoiceField,
         GenericModelChoiceField, GenericModelMultipleChoiceField)
