@@ -3,8 +3,8 @@ from django.core import checks
 from django.utils.functional import curry
 
 W001 = checks.Warning(
-        "You are trying to use formfield_overrides for a 'widget', "
-        "which is not compatible with autocomplete_light's form.",
+    "You are trying to use formfield_overrides for a 'widget', "
+    "which is not compatible with autocomplete_light's form.",
     id='autocomplete_light.W001',
 )
 
@@ -15,7 +15,7 @@ def check_admin_formfield_widget_compatibility(app_configs, **kwargs):
     from django.contrib.admin import site
     from autocomplete_light.widgets import WidgetBase
     from autocomplete_light.forms import (ModelForm,
-            get_model_field_form_class)
+                                          get_model_field_form_class)
 
     we_override = []
     for formf, dbfield in get_model_field_form_class().items():
