@@ -84,6 +84,13 @@ SECRET_KEY = '^le6=#%$1z63o!#z^qr(r+^ix&iqx)@h*u$@8$bu&n8cv6m)go'
 
 ROOT_URLCONF = 'test_project.urls'
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'test_project.wsgi.application'
 

@@ -18,7 +18,7 @@ except ImportError:
     # django 1.6 not support by hvad
     hvad = None
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^navigation/', include('navigation_autocomplete.urls')),
@@ -26,9 +26,12 @@ urlpatterns = patterns('',
         include('autocomplete_light.example_apps.security_test.urls')),
     url(r'^non_admin_add_another/',
         include('autocomplete_light.example_apps.non_admin_add_another.urls')),
-    (r'^favicon.ico', generic.RedirectView.as_view(url='http://mozilla.org/favicon.ico')),
-    (r'^$', generic.TemplateView.as_view(template_name='index.html'))
-)
+    url(r'^favicon.ico', generic.RedirectView.as_view(url='http://mozilla.org/favicon.ico')),
+    url(r'^$', generic.TemplateView.as_view(template_name='index.html'))
+]
+
+if django.VERSION < (1, 9):
+    urlpatterns = patterns('', *urlpatterns)
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns += staticfiles_urlpatterns()
