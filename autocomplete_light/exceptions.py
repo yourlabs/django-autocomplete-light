@@ -1,6 +1,10 @@
+from django.core.exceptions import ImproperlyConfigured
+
+
 class AutocompleteLightException(Exception):
     """ Base Exception for all exceptions of this module. """
     pass
+
 
 
 class AutocompleteNotRegistered(AutocompleteLightException):

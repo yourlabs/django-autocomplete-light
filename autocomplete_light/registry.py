@@ -22,6 +22,8 @@ It looks like this:
 import six
 
 from django.db import models
+from django.utils.functional import curry
+from django.core import checks
 
 from .exceptions import (AutocompleteNotRegistered,
                          AutocompleteArgNotUnderstood,
@@ -62,6 +64,8 @@ class AutocompleteRegistry(dict):
         self._models = {}
         self.default_generic = None
         self.autocomplete_model_base = autocomplete_model_base
+
+        checks.register(curry(self.admin_formfield_widget_compatibility))
 
     def autocomplete_for_model(self, model):
         """
@@ -212,6 +216,7 @@ class AutocompleteRegistry(dict):
 
     def get_autocomplete_from_arg(self, arg=None):
         from .autocomplete.base import AutocompleteInterface
+
         if isinstance(arg, six.string_types):
             return self[arg]
         elif isinstance(arg, type) and issubclass(arg, models.Model):
@@ -224,6 +229,38 @@ class AutocompleteRegistry(dict):
             return self.default_generic
         else:
             raise AutocompleteArgNotUnderstood(arg, self)
+
+    def admin_formfield_widget_compatibility(self, app_configs, **kwargs):
+        errors = []
+        from django.contrib.admin import site
+        from autocomplete_light.widgets import WidgetBase
+        from autocomplete_light.forms import (ModelForm,
+                get_model_field_form_class)
+
+        from autocomplete_light.example_apps.incompatible_widget_and_form_field.models import Film
+
+        we_override = []
+        for formf, dbfield in get_model_field_form_class().items():
+            we_override += dbfield
+
+        for model, model_admin in six.iteritems(site._registry):
+            formfield_overrides = getattr(model_admin, 'formfield_overrides', None)
+            form = getattr(model_admin, 'form', None)
+
+            if not formfield_overrides or not issubclass(form, ModelForm):
+                continue
+
+            for formfield_override_field, opts in formfield_overrides.items():
+                if formfield_override_field in we_override:
+                    widget = opts.get('widget', None)
+
+                    if not widget:
+                        continue
+
+                    if not issubclass(widget, WidgetBase):
+                        errors.append(checks.Critical('no future yu punk'))
+        return errors
+    admin_formfield_widget_compatibility.tags = ['admin']
 
 
 def _autodiscover(registry):

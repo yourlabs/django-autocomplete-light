@@ -31,10 +31,35 @@ from .widgets import WidgetBase, ChoiceWidget, MultipleChoiceWidget
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
-'GenericM2MRelatedObjectDescriptorHandlingMixin']
+'GenericM2MRelatedObjectDescriptorHandlingMixin',
+'get_formclass_for_model_field']
 
 # OMG #9321 why do we have to hard-code this ?
 M = _('Hold down "Control", or "Command" on a Mac, to select more than one.')
+
+
+def get_model_field_form_class():
+    ret = {
+        ModelChoiceField: (OneToOneField, ForeignKey),
+        ModelMultipleChoiceField: (ManyToManyField,),
+    }
+
+    try:
+        from taggit.managers import TaggableManager
+    except ImportError:
+        pass
+    else:
+        ret[TaggitField] = (TaggableManager,)
+
+    return ret
+
+
+def get_formclass_for_model_field(model_field):
+    for form_field_class, model_field_class in \
+            get_model_field_form_class().items():
+
+        if isinstance(model_field, model_field_class):
+            return form_field_class
 
 
 class SelectMultipleHelpTextRemovalMixin(forms.BaseModelForm):
@@ -216,25 +241,6 @@ class FormfieldCallback(object):
             pass
 
         elif hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
-            model = model_field.rel.to
-            if admin.site.is_registered(model):
-                # I hope this blows up one day, because it would be so
-                # cool to register several ModelAdmin for the same Model
-                # in the same Admin site.
-                options = admin.site._registry[model]
-                formfield_overrides = getattr(overrides, 'formfield_overrides', None)
-
-                if formfield_overrides:
-                    if type(model_field) in formfield_overrides:
-                        widget = formfield_overrides[type(model_field)].get(
-                            'widget', None)
-
-                        # If the widget you will want in the future is not an
-                        # Autocomplete widget then it shouldn't have an
-                        # Autocomplete form class.
-                        if widget and not issubclass(widget, WidgetBase):
-                            raise Exception('Your future is wrong.')
-
             if model_field.name in self.autocomplete_names:
                 autocomplete = self.autocomplete_registry.get(
                     self.autocomplete_names[model_field.name])
@@ -244,17 +250,10 @@ class FormfieldCallback(object):
                         model_field.rel.to)
 
             if autocomplete is not None:
-                kwargs['autocomplete'] = autocomplete
+                kwargs.setdefault('autocomplete', autocomplete)
 
-                if isinstance(model_field, (OneToOneField, ForeignKey)):
-                    kwargs['form_class'] = ModelChoiceField
-                elif isinstance(model_field, ManyToManyField):
-                    kwargs['form_class'] = ModelMultipleChoiceField
-                elif isinstance(model_field, TaggableManager):
-                    kwargs['form_class'] = TaggitField
-                else:
-                    # none of our concern
-                    kwargs.pop('form_class')
+            kwargs.setdefault('form_class',
+                get_formclass_for_model_field(model_field))
 
         return self.default(model_field, **kwargs)
 
