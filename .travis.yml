@@ -4,6 +4,7 @@ matrix:
   allow_failures:
     - env: TOXENV=py27-djangomaster
     - env: TOXENV=py34-djangomaster
+    - env: TOXENV=checkqa
 python:
   - "3.4"
 env:
@@ -11,7 +12,6 @@ env:
     - TESTS_SKIP_LIVESERVER=1
     - TESTS_USE_PHANTOMJS=1
     - PIP_DISABLE_PIP_VERSION_CHECK=true
-    - BASEREQ="tox"
     - USE_POSTGRES=0
   matrix:
     - TOXENV=py27-django14-taggit-genericm2m
@@ -37,7 +37,8 @@ env:
     - TOXENV=py34-django18-genericm2m
     - TOXENV=py34-djangomaster
 
-    - BASEREQ="pep8"
+    - TOXENV=checkqa
+    - TOXENV=pep8
 install:
   # Create pip wrapper script, using travis_retry (a function) and
   # inject it into tox.ini.
@@ -73,7 +74,7 @@ install:
   # Create wheels (skips existing ones from the cached wheelhouse).
   - export PIP_WHEELHOUSE=$PWD/wheelhouse
 
-  - travis_pip_install $BASEREQ
+  - travis_pip_install tox
   - if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
 
   - pip freeze
@@ -85,10 +86,10 @@ before_install:
   - npm install phantomjs
   - phantomjs --version
 script:
-  - ls -lat $PWD/wheelhouse
-  # Run pep8 or the tests.
-  - which pep8 && { pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light; return $?; } || $RUN_TESTS
-  - ls -lat $PWD/wheelhouse
+  - ls -la $PWD/wheelhouse > /tmp/wheelhouse.before
+  - $RUN_TESTS
+  - ls -la $PWD/wheelhouse > /tmp/wheelhouse.after
+  - diff /tmp/wheelhouse.before /tmp/wheelhouse.after
   - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
   - command -v coveralls && { coveralls; return $?; } || true
