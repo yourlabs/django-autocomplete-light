@@ -130,6 +130,12 @@ class AutocompleteRegistry(dict):
 
         model, autocomplete = self.__class__.extract_args(*args)
 
+        # If calling register(YourBaseAutocomplete, YourModel) then you want
+        # the autocomplete name to be YourModelYourBaseAutocomplete, but if
+        # calling register(YourBaseAutocomplete) then name should be
+        # YourBaseAutocomplete
+        derivate_name = model and autocomplete
+
         if not model:
             try:
                 model = autocomplete.choices.model
@@ -138,7 +144,7 @@ class AutocompleteRegistry(dict):
 
         if model:
             autocomplete = self._register_model_autocomplete(model,
-                autocomplete, **kwargs)
+                autocomplete, derivate_name, **kwargs)
         else:
             name = kwargs.get('name', autocomplete.__name__)
             autocomplete = type(str(name), (autocomplete,), kwargs)
@@ -147,15 +153,18 @@ class AutocompleteRegistry(dict):
         return autocomplete
 
     def _register_model_autocomplete(self, model, autocomplete=None,
-                                    name=None, **kwargs):
-
+                                     derivate_name=False, name=None, **kwargs):
         if name is not None:
             pass
+
         elif autocomplete is not None:
             if autocomplete.__name__.find(model.__name__) == 0:
-                name = autocomplete.__name__
-            else:
+                derivate_name = False
+
+            if derivate_name:
                 name = '%s%s' % (model.__name__, autocomplete.__name__)
+            else:
+                name = autocomplete.__name__
         else:
             name = '%sAutocomplete' % model.__name__
 

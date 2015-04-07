@@ -154,6 +154,17 @@ class RegistryGetAutocompleteFromArgTestCase(TestCase):
         a = self.registry.get_autocomplete_from_arg()
         self.assertTrue(issubclass(a, Generic))
 
+    def test_registering_autocomplete_without_model_name_as_prefix(self):
+        class Base(autocomplete_light.AutocompleteModelBase):
+            pass
+
+        class BarAutocomplete(Base):
+            model = Foo
+            choices = Foo.objects.all()
+
+        self.registry.register(BarAutocomplete)
+        assert 'BarAutocomplete' in self.registry
+
 
 @unittest.skipIf(django.VERSION < (1, 7), 'require django 1.7')
 class AppConfigSupportTestCase(TestCase):
