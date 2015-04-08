@@ -84,10 +84,23 @@ SECRET_KEY = '^le6=#%$1z63o!#z^qr(r+^ix&iqx)@h*u$@8$bu&n8cv6m)go'
 
 ROOT_URLCONF = 'test_project.urls'
 
+TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth',
+ 'django.template.context_processors.debug',
+ 'django.template.context_processors.i18n',
+ 'django.template.context_processors.media',
+ 'django.template.context_processors.static',
+ 'django.template.context_processors.tz',
+ 'django.contrib.messages.context_processors.messages')
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': TEMPLATE_CONTEXT_PROCESSORS,
+        },
+        'DIRS': TEMPLATE_DIRS,
     },
 ]
 
