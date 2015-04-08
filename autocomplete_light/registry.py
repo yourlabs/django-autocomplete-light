@@ -1,5 +1,12 @@
 from __future__ import unicode_literals
 
+import six
+from django.db import models
+
+from .exceptions import (AutocompleteArgNotUnderstood,
+                         AutocompleteNotRegistered,
+                         NoGenericAutocompleteRegistered)
+
 """
 The registry module provides tools to maintain a registry of autocompletes.
 
@@ -19,13 +26,8 @@ It looks like this:
 
     Module-level instance of :py:class:`AutocompleteRegistry`.
 """
-import six
 
-from django.db import models
 
-from .exceptions import (AutocompleteNotRegistered,
-                         AutocompleteArgNotUnderstood,
-                         NoGenericAutocompleteRegistered)
 
 try:
     from django.utils.module_loading import autodiscover_modules

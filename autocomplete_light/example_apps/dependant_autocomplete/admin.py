@@ -1,9 +1,8 @@
+import autocomplete_light
 from django.contrib import admin
 
-import autocomplete_light
-
-from .models import Dummy
 from .forms import DummyForm
+from .models import Dummy
 
 
 class DummyInline(admin.TabularInline):

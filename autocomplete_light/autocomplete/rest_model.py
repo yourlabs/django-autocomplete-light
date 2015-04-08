@@ -2,13 +2,14 @@ import urllib
 
 from django import http
 
+from .model import AutocompleteModel
+
 try:
     import json
 except ImportError:
     from django.utils import simplejson as json
 
 
-from .model import AutocompleteModel
 
 
 class AutocompleteRestModel(AutocompleteModel):

@@ -1,16 +1,17 @@
-from lxml.html import etree
+import autocomplete_light.shortcuts as autocomplete_light
+from django.test import TestCase
 from lxml.cssselect import CSSSelector
+from lxml.html import etree
+
+from ..example_apps.basic.models import FkModel
 
 try:
     from unittest import mock
 except ImportError:  # python2
     import mock
 
-from django.test import TestCase
 
-import autocomplete_light.shortcuts as autocomplete_light
 
-from ..example_apps.basic.models import FkModel
 
 
 class LazyAutocomplete(autocomplete_light.AutocompleteModelBase):

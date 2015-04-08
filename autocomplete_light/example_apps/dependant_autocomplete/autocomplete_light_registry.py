@@ -1,5 +1,4 @@
 import autocomplete_light.shortcuts as autocomplete_light
-
 from cities_light.models import Country, Region
 
 autocomplete_light.register(Country, search_fields=('name', 'name_ascii',),

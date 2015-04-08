@@ -1,5 +1,8 @@
 from django.contrib import admin
 
+from .forms import *
+from .models import *
+
 try:
     import genericm2m
 except ImportError:
@@ -10,8 +13,6 @@ try:
 except ImportError:
     taggit = None
 
-from .models import *
-from .forms import *
 
 
 models = [FkModel, OtoModel, MtmModel, GfkModel]

@@ -1,10 +1,9 @@
 from __future__ import unicode_literals
-import six
 
+import six
 from django import forms
 from django.db import models
 from django.db.models.query import QuerySet
-from django import forms
 
 from .registry import registry as default_registry
 from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget

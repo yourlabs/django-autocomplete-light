@@ -11,6 +11,9 @@ Note that you still need to register an autocomplete for the Tag model.
 """
 import six
 
+from ..fields import FieldBase
+from ..widgets import TextWidget
+
 try:
     from taggit.forms import TagField as TaggitTagField
     from taggit.utils import edit_string_for_tags
@@ -19,8 +22,6 @@ except ImportError:
         pass
     edit_string_for_tags = None
 
-from ..fields import FieldBase
-from ..widgets import TextWidget
 
 
 class TaggitWidget(TextWidget):

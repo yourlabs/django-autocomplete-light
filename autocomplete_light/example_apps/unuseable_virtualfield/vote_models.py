@@ -1,6 +1,15 @@
+from collections import defaultdict
+from functools import wraps
+
 import django
+import six
 from django.conf import settings
-from django.db import transaction, IntegrityError
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.db import IntegrityError, models, transaction
+from django.db.models import Count
+from django.db.models.query import QuerySet
+from django.utils.translation import ugettext_lazy as _
 
 # Django 1.5 add support for custom auth user model
 if django.VERSION >= (1, 5):
@@ -24,9 +33,6 @@ except AttributeError:
         else:
             transaction.savepoint_commit(sid, using=using)
 
-from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
 
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey
@@ -69,19 +75,11 @@ class Vote(models.Model):
             
         return cls.objects.filter(**kwargs)
 
-import six
-from collections import defaultdict
-from django.db import models
-from django.db.models import Count
-from django.db.models.query import QuerySet
-from django.contrib.contenttypes.models import ContentType
-from django.utils.translation import ugettext_lazy as _
 try:
     from django.contrib.contenttypes.fields import GenericRelation
 except ImportError:
     from django.contrib.contenttypes.generic import GenericRelation
 
-from functools import wraps
 
 def instance_required(func):
     @wraps(func)

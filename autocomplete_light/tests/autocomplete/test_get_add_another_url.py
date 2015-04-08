@@ -3,6 +3,7 @@ try:
 except ImportError:  # python2
     import mock
 
+import autocomplete_light.shortcuts as autocomplete_light
 from django import test
 
 try:
@@ -10,7 +11,6 @@ try:
 except ImportError:
     override_settings = None
 
-import autocomplete_light.shortcuts as autocomplete_light
 
 
 try:

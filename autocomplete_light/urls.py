@@ -10,6 +10,9 @@ autocomplete_light_registry
     authenticated as superuser.
 """
 from django import VERSION
+from django.views.generic.base import TemplateView
+
+from .views import AutocompleteView, RegistryView
 
 try:
     from django.conf.urls import patterns, url
@@ -17,9 +20,7 @@ except ImportError:
     # Django < 1.5
     from django.conf.urls.defaults import patterns, url
 
-from django.views.generic.base import TemplateView
 
-from .views import AutocompleteView, RegistryView
 
 
 urlpatterns = [

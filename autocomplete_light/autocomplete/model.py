@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
-import six
 
-from django.utils.encoding import force_text
+import six
 from django.db.models import Q
+from django.utils.encoding import force_text
 
 from ..settings import DEFAULT_SEARCH_FIELDS
 

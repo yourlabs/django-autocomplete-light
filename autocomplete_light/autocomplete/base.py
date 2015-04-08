@@ -1,12 +1,11 @@
 from __future__ import unicode_literals
 
-from django.utils.encoding import force_text
+import six
 from django.core import urlresolvers
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
-
-import six
 
 __all__ = ('AutocompleteInterface', 'AutocompleteBase')
 

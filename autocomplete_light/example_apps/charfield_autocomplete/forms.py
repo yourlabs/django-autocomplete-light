@@ -1,7 +1,5 @@
-from django import forms
-
 import autocomplete_light
-
+from django import forms
 from models import Taggable
 
 
