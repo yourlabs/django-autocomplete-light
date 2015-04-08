@@ -86,10 +86,10 @@ before_install:
   - npm install phantomjs
   - phantomjs --version
 script:
-  - ls -la $PWD/wheelhouse > /tmp/wheelhouse.before
+  - ls -l $PWD/wheelhouse > /tmp/wheelhouse.before
   - $RUN_TESTS
-  - ls -la $PWD/wheelhouse > /tmp/wheelhouse.after
-  - diff /tmp/wheelhouse.before /tmp/wheelhouse.after
+  - ls -l $PWD/wheelhouse > /tmp/wheelhouse.after
+  - diff /tmp/wheelhouse.before /tmp/wheelhouse.after || true
   - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
   - command -v coveralls && { coveralls; return $?; } || true
