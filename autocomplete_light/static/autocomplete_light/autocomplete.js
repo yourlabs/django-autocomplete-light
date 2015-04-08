@@ -328,7 +328,7 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
         // Don't handle keypresses on hidden inputs (ie. with limited choices)
         return;
 
-    switch(e.keyCode) {
+    switch(e.which) {
         case 40: // down arrow
         case 38: // up arrow
         case 16: // shift
@@ -369,7 +369,7 @@ yourlabs.Autocomplete.prototype.inputKeydown = function(e) {
     if (!this.input.is(':visible')) return;
 
     // Avoid double call to move().
-    this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
+    this.suppressKeyPressRepeat = ~$.inArray(e.which, [40,38,9,13,27])
 
     this.move(e);
 }
@@ -445,13 +445,13 @@ yourlabs.Autocomplete.prototype.move = function(e) {
 
     // Prevent default browser behaviours on TAB and RETURN if a choice is
     // hilighted.
-    if ($.inArray(e.keyCode, [9,13]) > -1 && current.length) {
+    if ($.inArray(e.which, [9,13]) > -1 && current.length) {
         e.preventDefault();
     }
 
     // If not KEY_UP or KEY_DOWN, then return.
-    if (e.keyCode == 38 && !e.shiftKey) var way = 'up';
-    else if (e.keyCode == 40 && !e.shiftKey) var way = 'down';
+    if (e.which == 38) var way = 'up';
+    else if (e.which == 40) var way = 'down';
     else return;
 
     // The first and last choices. If the user presses down on the last
