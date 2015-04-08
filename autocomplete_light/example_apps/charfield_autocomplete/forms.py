@@ -7,5 +7,5 @@ class TaggableForm(forms.ModelForm):
     class Meta:
         model = Taggable
         widgets = {
-        	'tags': autocomplete_light.TextWidget('TagAutocomplete'),
-       	}
+            'tags': autocomplete_light.TextWidget('TagAutocomplete'),
+        }

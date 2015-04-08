@@ -19,9 +19,6 @@ try:
 except ImportError:  # python2
     import mock
 
-
-
-
 try:
     from ..example_apps.basic.forms import GmtmModelForm
 except ImportError:
