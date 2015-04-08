@@ -6,7 +6,6 @@ class AutocompleteLightException(Exception):
     pass
 
 
-
 class AutocompleteNotRegistered(AutocompleteLightException):
     """ Attemps to drive the user to debug his registry. """
     def __init__(self, name, registry):
