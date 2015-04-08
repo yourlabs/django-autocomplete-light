@@ -64,7 +64,7 @@ install:
   - sed -i.bak 's/whitelist_externals =/\0\n    travis_pip_install/' tox.ini
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
   # Inject wheel dependency into tox.ini, for travis_pip_install.
-  - sed -i.bak -e 's/deps =/\0\n    wheel/' tox.ini
+  - sed -i.bak -e 's/deps =.*/\0\n    wheel/' tox.ini
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
   # Conditionally inject postgres dependency and DSM setting into tox.ini.
   - if [ "$USE_POSTGRES" = 1 ]; then sed -i.bak -e 's/deps =/\0\n    psycopg2/' -e 's/DJANGO_SETTINGS_MODULE=test_project.settings/\0_postgres/' tox.ini && diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true; fi
