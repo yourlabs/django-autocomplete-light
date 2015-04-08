@@ -36,6 +36,7 @@ env:
     - TOXENV=py34-django18-genericm2m
     - TOXENV=py34-djangomaster
 
+    - TOXENV=checkqa-python2
     - TOXENV=checkqa
 install:
   # Create pip wrapper script, using travis_retry (a function) and
