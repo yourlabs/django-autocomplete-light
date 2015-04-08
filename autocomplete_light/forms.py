@@ -25,7 +25,7 @@ from django.utils.translation import ugettext_lazy as _
 from .contrib.taggit_field import TaggitField
 from .fields import (GenericModelChoiceField, GenericModelMultipleChoiceField,
                      ModelChoiceField, ModelMultipleChoiceField)
-from .widgets import ChoiceWidget, MultipleChoiceWidget
+from .widgets import MultipleChoiceWidget
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',

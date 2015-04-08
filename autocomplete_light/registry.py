@@ -27,8 +27,6 @@ It looks like this:
     Module-level instance of :py:class:`AutocompleteRegistry`.
 """
 
-
-
 try:
     from django.utils.module_loading import autodiscover_modules
 except ImportError:

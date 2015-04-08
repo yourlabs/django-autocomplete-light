@@ -23,7 +23,6 @@ except ImportError:
     edit_string_for_tags = None
 
 
-
 class TaggitWidget(TextWidget):
     def render(self, name, value, attrs=None):
         if value is not None and not isinstance(value, six.string_types):

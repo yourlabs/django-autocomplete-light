@@ -1,4 +1,4 @@
-from .base import AutocompleteBase, AutocompleteInterface
+from .base import AutocompleteBase
 from .choice_list import AutocompleteChoiceList
 from .generic import AutocompleteGeneric
 from .list import AutocompleteList

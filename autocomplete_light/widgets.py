@@ -5,8 +5,6 @@ from django.template.loader import render_to_string
 from django.utils import safestring
 from django.utils.translation import ugettext_lazy as _
 
-from .registry import registry as default_registry
-
 """
 The provided widgets are meant to rely on an Autocomplete class.
 

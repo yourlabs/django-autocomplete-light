@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models.query import QuerySet
 
 from .registry import registry as default_registry
-from .widgets import ChoiceWidget, MultipleChoiceWidget, TextWidget
+from .widgets import ChoiceWidget, MultipleChoiceWidget
 
 __all__ = ['FieldBase', 'ChoiceField', 'MultipleChoiceField',
     'ModelChoiceField', 'ModelMultipleChoiceField', 'GenericModelChoiceField',

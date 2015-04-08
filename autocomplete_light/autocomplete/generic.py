@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 import autocomplete_light
 import six
-from django.db.models import Q
 
 from ..settings import DEFAULT_SEARCH_FIELDS
 from .model import AutocompleteModel

@@ -10,8 +10,6 @@ except ImportError:
     from django.utils import simplejson as json
 
 
-
-
 class AutocompleteRestModel(AutocompleteModel):
     widget_js_attributes = {'bootstrap': 'rest_model'}
 
