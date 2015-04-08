@@ -1,3 +1,55 @@
+2.1.0rc1: Friendship release
+
+    BACKWARD COMPATIBILITY BREAK
+
+    There was a bug which caused registering an autocomplete with a model
+    attribute to be renamed by the registry to prefix the autocomplete name
+    with the model name. This should not be the case anymore, but some
+    autocomplete names might have changed in your project if you've been
+    working around that bug by using the buggy name rather than forcing name=
+    uppon registration. Example:
+
+    class Foo(YourBaseAutocomplete):
+        model = Bar
+    autocomplete_light.register(Foo)
+
+    The above example Would cause 'FooBar' to be registered, but now it's just
+    'Foo' as expected. So if you're using 'FooBar' instead of 'Foo' anywhere it
+    should break. See #323 / 255263e61 for gory details.
+
+    DEPRECATION WARNING
+
+    Because Django 1.9 is so sharp on import, ``import autocomplete_light``
+    should become ``import autocomplete_light.shortcuts as autocomplete_light``
+    in your projects. Backward compatibility will be maintained, but you don't
+    get all the shortcuts from ``import autocomplete_light`` anymore starting
+    Django 1.9.
+
+    - Django 1.8, 1.9 support: fixed warnings, use pytest-django
+    - #383: Support ModelForms without Meta.model
+    - #313: Model not acquired from AutocompleteModelBase
+    - #323: Only derivate the autocomplete name if both model and autocomplete
+      are passed
+    - #378: Be friendly with special html chars in values (David Aurelio)
+    - #381: The "open parentheses" (shift+9) cannot be typed on autocomplete
+      field.
+    - #380: PyPy support: PyPy2 tests passes without genericm2m and without
+      taggit.  PyPy3 tests won't run because lxml won't install. (Piet Delport)
+    - #374: Update clear-fix with latest version,
+    - Also Daniel Hahler made an outstanding job in the test area, builds are a
+      lot faster, using tox, pytest-django.
+    - Daniel Hahler is the second owner of YourLabs org, way to go !
+
+    So we got 7 bugs fixed, PyPy support, Django 1.8 and Django 1.9 support (we
+    support 1.4 to 1.9 now).
+    
+    Thanks a lot to Daniel Hahler for having couch-hosted me the last 7 days in
+    Berlin, we've been hacking like crazy, it was really awesome, I went there
+    for some hacking and now I know I have a friend for life.
+
+    See you for the next django-autocomplete-light sprint ;) Who's hosting BTW
+    ?
+
 2.0.9:
 
     - #257: Got rid of RemovedInDjango18Warning deprecation warnings.
