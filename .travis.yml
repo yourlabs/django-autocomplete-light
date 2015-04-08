@@ -4,7 +4,6 @@ matrix:
   allow_failures:
     - env: TOXENV=py27-djangomaster
     - env: TOXENV=py34-djangomaster
-    - env: TOXENV=checkqa
 python:
   - "3.4"
 env:
@@ -38,7 +37,6 @@ env:
     - TOXENV=py34-djangomaster
 
     - TOXENV=checkqa
-    - TOXENV=pep8
 install:
   # Create pip wrapper script, using travis_retry (a function) and
   # inject it into tox.ini.
