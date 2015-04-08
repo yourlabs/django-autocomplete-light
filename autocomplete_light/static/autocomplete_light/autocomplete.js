@@ -338,7 +338,7 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
 
         case 9: // tab
         case 13: // enter
-            if (!this.box.is(':visible')) return
+            if (!this.box.is(':visible')) return;
             
             var choice = this.box.find('.' + this.hilightClass);
 
@@ -355,7 +355,7 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
             break
 
         case 27: // escape
-            if (!this.box.is(':visible')) return
+            if (!this.box.is(':visible')) return;
             this.hide()
             break
 
@@ -625,7 +625,7 @@ $.fn.yourlabsAutocomplete = function(overrides) {
             autocomplete.destroy(this);
             this.removeData('autocomplete');
         }
-        return
+        return;
     }
 
     // Disable the browser's autocomplete features on that input.
