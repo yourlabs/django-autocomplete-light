@@ -1,12 +1,10 @@
+import autocomplete_light
 from django import VERSION
 from django.conf.urls import patterns, url
 from django.views import generic
 
-import autocomplete_light
-
 from .forms import NonAdminAddAnotherModelForm
 from .models import NonAdminAddAnotherModel
-
 
 urlpatterns = [
     url(r'$', autocomplete_light.CreateView.as_view(

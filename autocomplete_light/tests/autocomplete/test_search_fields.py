@@ -1,6 +1,5 @@
+from ...example_apps.music.models import Artist, Genre
 from .case import *
-
-from ...example_apps.music.models import  Artist, Genre
 
 
 class AutocompleteModelMock(autocomplete_light.AutocompleteModelBase):

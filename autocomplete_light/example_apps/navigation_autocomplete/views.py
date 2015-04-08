@@ -1,8 +1,7 @@
+from cities_light.models import City, Country, Region
 from django import shortcuts
+from django.contrib.auth.models import Group, User
 from django.db.models import Q
-from django.contrib.auth.models import User, Group
-
-from cities_light.models import Country, Region, City
 
 
 def navigation_autocomplete(request,

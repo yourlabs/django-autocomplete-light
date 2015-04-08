@@ -1,16 +1,16 @@
 from __future__ import unicode_literals
 
+import autocomplete_light.shortcuts as autocomplete_light
 import six
+from django.core.urlresolvers import reverse
+from django.test import Client, RequestFactory, TestCase
+from django.utils.encoding import force_text
 
 try:
     from unittest.mock import Mock, MagicMock, patch
 except ImportError:  # python2
     from mock import Mock, MagicMock, patch
 
-from django.utils.encoding import force_text
-from django.test import RequestFactory
-from django.core.urlresolvers import reverse
-from django.test import Client, TestCase
 try:
     from django.contrib.auth import get_user_model
 except ImportError:
@@ -19,7 +19,6 @@ except ImportError:
 else:
     User = get_user_model()
 
-import autocomplete_light.shortcuts as autocomplete_light
 
 
 class RegistryViewTestCase(TestCase):

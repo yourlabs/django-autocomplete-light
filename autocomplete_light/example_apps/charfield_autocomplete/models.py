@@ -1,7 +1,6 @@
-from django.db import models
-
-from tagging.fields import TagField
 import tagging
+from django.db import models
+from tagging.fields import TagField
 
 
 class Taggable(models.Model):
