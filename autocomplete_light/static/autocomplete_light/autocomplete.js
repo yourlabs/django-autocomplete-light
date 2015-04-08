@@ -59,7 +59,7 @@ Also, note that this script is composed of two main parts:
 if (window.yourlabs === undefined) window.yourlabs = {};
 
 // Fix #25: Prevent accidental inclusion of autocomplete_light/static.html
-if (window.yourlabs.Autocomplete !== undefined) 
+if (window.yourlabs.Autocomplete !== undefined)
     console.log('WARNING ! You are loading autocomplete.js **again**.');
 
 yourlabs.getInternetExplorerVersion = function()
@@ -92,12 +92,12 @@ $.fn.yourlabsRegistry = function(key, value) {
     if ($.fn.yourlabsRegistry.guid === undefined) {
         $.fn.yourlabsRegistry.guid = function() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-                /[xy]/g, 
+                /[xy]/g,
                 function(c) {
                     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
                     return v.toString(16);
                 }
-            ); 
+            );
         };
     }
 
@@ -112,7 +112,7 @@ $.fn.yourlabsRegistry = function(key, value) {
     if (value !== undefined) {
         $.fn.yourlabsRegistry.data[id] = value;
     }
-    
+
     return $.fn.yourlabsRegistry.data[id];
 };
 
@@ -263,7 +263,7 @@ yourlabs.Autocomplete.prototype.initialize = function() {
         .on('mouseenter', this.choiceSelector, $.proxy(this.boxMouseenter, this))
         .on('mouseleave', this.choiceSelector, $.proxy(this.boxMouseleave, this))
         .on('click', this.choiceSelector, $.proxy(this.boxClick, this));
-    
+
     /*
     Initially - empty data queried
     */
@@ -297,7 +297,7 @@ yourlabs.Autocomplete.prototype.boxMouseenter = function(e) {
 
     this.input.trigger('dehilightChoice',
         [current, this]);
-    
+
     // ... and then sent the hilight signal for the choice.
     this.input.trigger('hilightChoice',
         [$(e.currentTarget), this]);
@@ -313,7 +313,7 @@ yourlabs.Autocomplete.prototype.boxMouseleave = function(e) {
 // When mouse clicks in the box:
 yourlabs.Autocomplete.prototype.boxClick = function(e) {
     var current = this.box.find('.' + this.hilightClass);
-    
+
     this.input.trigger('selectChoice', [current, this]);
 };
 
@@ -339,7 +339,7 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
         case 9: // tab
         case 13: // enter
             if (!this.box.is(':visible')) return;
-            
+
             var choice = this.box.find('.' + this.hilightClass);
 
             if (!choice.length) {
@@ -347,7 +347,7 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
                 // on next element.
                 return;
             }
-            
+
             e.preventDefault();
             e.stopPropagation();
 
@@ -416,10 +416,10 @@ yourlabs.Autocomplete.prototype.show = function(html) {
         }
         return;
     }
-    
+
     var current = this.box.find('.' + this.hilightClass);
     var first = this.box.find(this.choiceSelector + ':first');
-    if (first && !current.length) { 
+    if (first && !current.length) {
         first.addClass(this.hilightClass);
     }
 
@@ -454,8 +454,8 @@ yourlabs.Autocomplete.prototype.move = function(e) {
     //       charCode is 0 for arrow keys.
     //       Ref: http://stackoverflow.com/a/12046935/15690
     var way;
-    if (e.keyCode == 38 && e.charCode == 0) way = 'up';
-    else if (e.keyCode == 40 && e.charCode == 0) way = 'down';
+    if (e.keyCode == 38 && !e.charCode) way = 'up';
+    else if (e.keyCode == 40 && !e.charCode) way = 'down';
     else return;
 
     // The first and last choices. If the user presses down on the last
@@ -511,7 +511,7 @@ yourlabs.Autocomplete.prototype.fixPosition = function() {
     this.input.parents().filter(function() {
         return $(this).css('overflow') === 'hidden';
     }).first().css('overflow', 'visible').addClass('autocomplete-light-clearfix');
-	
+
     this.box.insertAfter(this.input).css(
             {top: pos.top + pos.height, left: pos.left});
 };
@@ -643,7 +643,7 @@ $.fn.yourlabsAutocomplete = function(overrides) {
         // Extend the instance with data-autocomplete-* overrides
         for (var key in this.data()) {
             if (!key) continue;
-            if (key.substr(0, 12) != 'autocomplete' || key == 'autocomplete') 
+            if (key.substr(0, 12) != 'autocomplete' || key == 'autocomplete')
                 continue;
             var newKey = key.replace('autocomplete', '');
             newKey = newKey.charAt(0).toLowerCase() + newKey.slice(1);
