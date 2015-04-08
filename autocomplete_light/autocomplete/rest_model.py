@@ -1,4 +1,5 @@
 import urllib
+import six
 
 from django import http
 
@@ -65,7 +66,7 @@ class AutocompleteRestModel(AutocompleteModel):
 
     def choices_for_request(self):
         choices = super(AutocompleteRestModel, self).choices_for_request()
-        unicodes = [unicode(choice) for choice in choices]
+        unicodes = [str(choice) for choice in choices]
 
         slots = self.limit_choices - len(choices)
 
@@ -74,7 +75,7 @@ class AutocompleteRestModel(AutocompleteModel):
 
             for choice in self.get_remote_choices(slots):
                 # avoid data that's already in local
-                if unicode(choice) in unicodes:
+                if str(choice) in unicodes:
                     continue
 
                 choices.append(choice)
@@ -170,7 +171,7 @@ class AutocompleteRestModel(AutocompleteModel):
             model = model_class(**unique_data)
 
         for key, value in data.items():
-            is_string = isinstance(value, basestring)
+            is_string = isinstance(value, six.string_types)
             field = model_class._meta.get_field_by_name(key)[0]
 
             if getattr(field, 'rel', None) and is_string:
