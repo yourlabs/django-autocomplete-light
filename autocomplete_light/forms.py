@@ -490,6 +490,11 @@ def modelform_factory(model, autocomplete_fields=None,
         Meta.fields = kwargs.pop('fields')
     if 'exclude' in kwargs:
         Meta.exclude = kwargs.pop('exclude')
+    else:
+        # To prevent RemovedInDjango18Warning:
+        # Calling modelform_factory without defining 'fields' or 'exclude'
+        # explicitly is deprecated
+        Meta.exclude = []
 
     kwargs['form'] = type(kwargs['form'].__name__, (kwargs['form'],),
             {'Meta': Meta})
