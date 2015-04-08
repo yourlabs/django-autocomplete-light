@@ -1,3 +1,5 @@
+2.1.0rc2: Maintain BC again in autocomplete_light ns until dj19
+
 2.1.0rc1: Friendship release
 
     BACKWARD COMPATIBILITY BREAK
