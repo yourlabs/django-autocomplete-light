@@ -1,5 +1,10 @@
 from __future__ import unicode_literals
 
+from django import forms
+from django.template.loader import render_to_string
+from django.utils import safestring
+from django.utils.translation import ugettext_lazy as _
+
 """
 The provided widgets are meant to rely on an Autocomplete class.
 
@@ -15,17 +20,12 @@ The choice autocomplete widget renders from autocomplete_light/widget.html
 template.
 """
 
-from django import forms
-from django.utils import safestring
-from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _
 
 try:
     from django.forms.utils import flatatt
 except ImportError:
     from django.forms.util import flatatt
 
-from .registry import registry as default_registry
 
 __all__ = ['WidgetBase', 'ChoiceWidget', 'MultipleChoiceWidget', 'TextWidget']
 

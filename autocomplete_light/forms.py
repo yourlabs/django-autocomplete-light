@@ -14,19 +14,18 @@ for django bug #9321 or even added security.
 from __future__ import unicode_literals
 
 import six
-
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django import forms
-from django.db.models import ForeignKey, OneToOneField, ManyToManyField
+from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
+from django.db.models import ForeignKey, ManyToManyField, OneToOneField
 from django.forms.models import modelform_factory as django_modelform_factory
 from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext_lazy as _
 
-from .fields import (ModelChoiceField, ModelMultipleChoiceField,
-        GenericModelChoiceField, GenericModelMultipleChoiceField)
 from .contrib.taggit_field import TaggitField
-from .widgets import ChoiceWidget, MultipleChoiceWidget
+from .fields import (GenericModelChoiceField, GenericModelMultipleChoiceField,
+                     ModelChoiceField, ModelMultipleChoiceField)
+from .widgets import MultipleChoiceWidget
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',

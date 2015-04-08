@@ -1,11 +1,10 @@
 import unittest
 
+import autocomplete_light.shortcuts as autocomplete_light
 import django
 from django.contrib.auth.models import User
 from django.db import models
 from django.test import TestCase
-
-import autocomplete_light.shortcuts as autocomplete_light
 
 
 class Noname(models.Model):

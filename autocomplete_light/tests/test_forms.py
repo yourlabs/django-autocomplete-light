@@ -1,24 +1,23 @@
 import unittest
+
 import autocomplete_light.shortcuts as autocomplete_light
-
-try:
-    from unittest import mock
-except ImportError:  # python2
-    import mock
-
 import lxml.html
-
 from django import forms, http, VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import modelform_factory
+from django.test import TestCase
 from django.utils import translation
 from django.utils.encoding import force_text
-from django.test import TestCase
 
 from ..example_apps.basic.forms import (DjangoCompatMeta, FkModelForm,
                                         GfkModelForm, MtmModelForm,
                                         OtoModelForm)
 from ..example_apps.basic.models import FkModel, GfkModel, MtmModel, OtoModel
+
+try:
+    from unittest import mock
+except ImportError:  # python2
+    import mock
 
 try:
     from ..example_apps.basic.forms import GmtmModelForm

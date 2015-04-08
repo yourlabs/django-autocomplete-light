@@ -11,7 +11,6 @@ env:
     - TESTS_SKIP_LIVESERVER=1
     - TESTS_USE_PHANTOMJS=1
     - PIP_DISABLE_PIP_VERSION_CHECK=true
-    - BASEREQ="tox"
     - USE_POSTGRES=0
   matrix:
     - TOXENV=py27-django14-taggit-genericm2m
@@ -37,7 +36,8 @@ env:
     - TOXENV=py34-django18-genericm2m
     - TOXENV=py34-djangomaster
 
-    - BASEREQ="pep8"
+    - TOXENV=checkqa-python2
+    - TOXENV=checkqa
 install:
   # Create pip wrapper script, using travis_retry (a function) and
   # inject it into tox.ini.
@@ -63,7 +63,7 @@ install:
   - sed -i.bak 's/whitelist_externals =/\0\n    travis_pip_install/' tox.ini
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
   # Inject wheel dependency into tox.ini, for travis_pip_install.
-  - sed -i.bak -e 's/deps =/\0\n    wheel/' tox.ini
+  - sed -i.bak -e 's/deps =.*/\0\n    wheel/' tox.ini
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
   # Conditionally inject postgres dependency and DSM setting into tox.ini.
   - if [ "$USE_POSTGRES" = 1 ]; then sed -i.bak -e 's/deps =/\0\n    psycopg2/' -e 's/DJANGO_SETTINGS_MODULE=test_project.settings/\0_postgres/' tox.ini && diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true; fi
@@ -73,7 +73,7 @@ install:
   # Create wheels (skips existing ones from the cached wheelhouse).
   - export PIP_WHEELHOUSE=$PWD/wheelhouse
 
-  - travis_pip_install $BASEREQ
+  - travis_pip_install tox
   - if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
 
   - pip freeze
@@ -85,10 +85,10 @@ before_install:
   - npm install phantomjs
   - phantomjs --version
 script:
-  - ls -lat $PWD/wheelhouse
-  # Run pep8 or the tests.
-  - which pep8 && { pep8 --exclude=example_apps,tests,migrations --ignore=E124,E128 autocomplete_light; return $?; } || $RUN_TESTS
-  - ls -lat $PWD/wheelhouse
+  - ls -l $PWD/wheelhouse > /tmp/wheelhouse.before
+  - $RUN_TESTS
+  - ls -l $PWD/wheelhouse > /tmp/wheelhouse.after
+  - diff /tmp/wheelhouse.before /tmp/wheelhouse.after || true
   - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
   - command -v coveralls && { coveralls; return $?; } || true

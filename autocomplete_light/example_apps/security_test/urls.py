@@ -1,11 +1,9 @@
 from django import VERSION
-from django.conf.urls import url, patterns
-
+from django.conf.urls import patterns, url
 from django.views import generic
 
+from .forms import AutocompleteItemForm, DjangoItemForm
 from .models import Item
-from .forms import DjangoItemForm, AutocompleteItemForm
-
 
 urlpatterns = [
     url(r'autocomplete/(?P<pk>\d+)/', generic.UpdateView.as_view(

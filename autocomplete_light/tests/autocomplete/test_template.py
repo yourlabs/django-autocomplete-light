@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
 
+from django.template import Context, Template
 from django.utils.encoding import force_text
-from django.template import Template, Context
 
+from ...example_apps.autocomplete_test_case_app.models import Group, User
 from .case import *
-from ...example_apps.autocomplete_test_case_app.models import User, Group
 
 
 class AutocompleteMock(autocomplete_light.AutocompleteModelTemplate):

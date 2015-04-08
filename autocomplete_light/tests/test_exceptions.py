@@ -1,7 +1,6 @@
-from django.test import TestCase
-from django.conf.urls import patterns
-
 import autocomplete_light.shortcuts as autocomplete_light
+from django.conf.urls import patterns
+from django.test import TestCase
 
 no_urls = ['']
 

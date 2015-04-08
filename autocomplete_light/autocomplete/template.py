@@ -1,5 +1,3 @@
-import types
-
 from django.template import loader
 
 from .base import AutocompleteBase

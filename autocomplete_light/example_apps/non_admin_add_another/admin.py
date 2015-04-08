@@ -1,6 +1,5 @@
-from django.contrib import admin
-
 import autocomplete_light
+from django.contrib import admin
 
 from .models import NonAdminAddAnotherModel
 

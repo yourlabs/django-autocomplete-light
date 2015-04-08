@@ -1,10 +1,10 @@
-from .base import AutocompleteBase, AutocompleteInterface
+from .base import AutocompleteBase
+from .choice_list import AutocompleteChoiceList
+from .generic import AutocompleteGeneric
 from .list import AutocompleteList
 from .model import AutocompleteModel
-from .choice_list import AutocompleteChoiceList
-from .template import AutocompleteTemplate
-from .generic import AutocompleteGeneric
 from .rest_model import AutocompleteRestModel
+from .template import AutocompleteTemplate
 
 
 class AutocompleteListBase(AutocompleteList, AutocompleteBase):

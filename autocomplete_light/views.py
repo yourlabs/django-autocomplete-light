@@ -1,9 +1,8 @@
+from autocomplete_light.exceptions import AutocompleteNotRegistered
 from django import http
+from django.utils.encoding import force_text
 from django.views import generic
 from django.views.generic import base
-from django.utils.encoding import force_text
-
-from autocomplete_light.exceptions import AutocompleteNotRegistered
 
 __all__ = ['AutocompleteView', 'RegistryView', 'CreateView']
 
