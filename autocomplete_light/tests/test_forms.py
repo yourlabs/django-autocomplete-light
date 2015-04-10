@@ -401,6 +401,16 @@ class ModelFormBaseMixin(BaseModelFormMixin):
             class Meta:
                 pass
 
+        class MyForm(DefaultForm):
+            class Meta:
+                model = self.model_class
+                exclude = []
+
+        self.form = MyForm()
+
+        self.assertExpectedFormField()
+        self.assertIsAutocomplete('noise')
+
 
 class GenericModelFormMixin(object):
     autocomplete_name = 'A'
