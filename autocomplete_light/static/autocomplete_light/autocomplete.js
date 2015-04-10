@@ -450,8 +450,11 @@ yourlabs.Autocomplete.prototype.move = function(e) {
     }
 
     // If not KEY_UP or KEY_DOWN, then return.
-    if (e.keyCode == 38 && !e.shiftKey) var way = 'up';
-    else if (e.keyCode == 40 && !e.shiftKey) var way = 'down';
+    // NOTE: with Webkit, both keyCode and charCode are set to 38/40 for &/(.
+    //       charCode is 0 for arrow keys.
+    //       Ref: http://stackoverflow.com/a/12046935/15690
+    if (e.keyCode == 38 && e.charCode == 0) var way = 'up';
+    else if (e.keyCode == 40 && e.charCode == 0) var way = 'down';
     else return;
 
     // The first and last choices. If the user presses down on the last
