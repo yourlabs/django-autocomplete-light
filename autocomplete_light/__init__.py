@@ -1,9 +1,9 @@
 """
 Provide tools to enable nice autocompletes in your Django project.
 """
-from django import VERSION
+import django
 
-if VERSION < (1, 9):
+if django.VERSION < (1, 9):
     from .shortcuts import *  # noqa
 else:
     from .views import *  # noqa
