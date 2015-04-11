@@ -396,6 +396,20 @@ class ModelFormBaseMixin(BaseModelFormMixin):
         result = form.save()
         self.assertEqual(self.field_value(result), self.janis)
 
+    def test_meta_in_parent(self):
+        class DefaultForm(autocomplete_light.ModelForm):
+            class Meta:
+                model = self.model_class
+                exclude = []
+
+        class MyForm(DefaultForm):
+            pass
+
+        self.form = MyForm()
+
+        self.assertExpectedFormField()
+        self.assertIsAutocomplete('noise')
+
     def test_modelform_without_model(self):
         class DefaultForm(autocomplete_light.ModelForm):
             class Meta:
