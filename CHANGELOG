@@ -1,3 +1,10 @@
+2.1.0rc3
+
+    - PEP396: autocomplete_light.__version__.
+    - #401: Easy to subclass FieldBase for custom ModelChoiceField (@smcoll),
+    - #397: Support defining Meta in a ModelForm's parent.
+    - #394: Add comment about keyCode issue with Webkit; check for charCode==0
+
 2.1.0rc2: Maintain BC again in autocomplete_light ns until dj19
 
 2.1.0rc1: Friendship release
