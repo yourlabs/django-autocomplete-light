@@ -28,8 +28,8 @@ class FieldBase(object):
         kwargs['widget'] = widget
 
         # Does the subclass have ModelChoiceField or ModelMultipleChoiceField
-        # as a direct base class?
-        parents = type(self).__bases__
+        # as a base class?
+        parents = type(self).__mro__
         if ((forms.ModelChoiceField in parents or
                 forms.ModelMultipleChoiceField in parents) and
                 isinstance(self.autocomplete.choices, QuerySet)):
