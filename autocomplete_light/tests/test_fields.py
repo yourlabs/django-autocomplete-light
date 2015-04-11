@@ -90,6 +90,44 @@ class ModelMultipleChoiceFieldTestCase(ModelChoiceFieldTestCase):
                          self.CLEANED_VALUE[0])
 
 
+class CustomModelChoiceField(forms.ModelChoiceField):
+    pass
+
+
+class CustomModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    pass
+
+
+class CustomAutocompleteModelChoiceField(autocomplete_light.FieldBase,
+                                         CustomModelChoiceField):
+    """ Autocomplete form field which inherently, but not directly, inherits
+    forms.ModelChoiceField
+    """
+    widget = autocomplete_light.ChoiceWidget
+
+
+class CustomAutocompleteModelMultipleChoiceField(autocomplete_light.FieldBase,
+                                                 CustomModelMultipleChoiceField):
+    """ Autocomplete form field which inherently, but not directly, inherits
+    forms.ModelMultipleChoiceField
+    """
+    widget = autocomplete_light.MultipleChoiceWidget
+
+
+class CustomModelFieldTestCase(ModelChoiceFieldTestCase):
+    """ Regression test for a custom ModelChoiceField
+    https://github.com/yourlabs/django-autocomplete-light/issues/379
+    """
+    field_class = CustomAutocompleteModelChoiceField
+
+
+class CustomMultipleModelFieldTestCase(ModelMultipleChoiceFieldTestCase):
+    """ Regression test for a custom ModelMultipleChoiceField
+    https://github.com/yourlabs/django-autocomplete-light/issues/379
+    """
+    field_class = CustomAutocompleteModelMultipleChoiceField
+
+
 class GenericModelChoiceFieldTestCase(BaseMixin, TestCase):
     field_class = autocomplete_light.GenericModelChoiceField
     fixtures = ['basic_gfk_gmtm.json']
