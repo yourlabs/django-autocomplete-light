@@ -254,6 +254,14 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         """
         meta = attrs.get('Meta', None)
 
+        # Maybe the parent has a meta ?
+        if meta is None:
+            for parent in bases + type(cls).__mro__:
+                meta = getattr(parent, 'Meta', None)
+
+                if meta is not None:
+                    break
+
         # use our formfield_callback to add autocompletes if not already used
         formfield_callback = attrs.get('formfield_callback', None)
 
