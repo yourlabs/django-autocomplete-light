@@ -39,8 +39,8 @@ class AutocompleteModel(object):
 
     .. py:attribute:: order_by
 
-        If set, it will be used to order choices. It can be a single field name
-        or an iterable (ie. list, tuple).
+        If set, it will be used to order choices in the deck. It can be a single
+        field name or an iterable (ie. list, tuple).
     """
     limit_choices = 20
     choices = None

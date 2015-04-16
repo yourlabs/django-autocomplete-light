@@ -40,6 +40,13 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
                     self.john,
                 ]
             },
+            {
+                'fixture': [4, 1],
+                'expected': [
+                    self.john,
+                    self.abe,
+                ]
+            },
         )
 
     def get_choices_for_request_tests(self):
