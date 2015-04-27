@@ -1,3 +1,7 @@
+2.1.0rc4
+
+    - #331: Fixed reverse order of items in deck, by @smcoll.
+
 2.1.0rc3
 
     - PEP396: autocomplete_light.__version__.
