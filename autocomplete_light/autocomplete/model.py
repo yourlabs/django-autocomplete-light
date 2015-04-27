@@ -69,10 +69,10 @@ class AutocompleteModel(object):
         if self.values:
             # Order in the user selection order when self.values is set.
             clauses = ' '.join(['WHEN id=%s THEN %s' % (pk, i) for i, pk in
-                enumerate(self.values)])
+                    enumerate(self.values)])
             ordering = 'CASE %s END' % clauses
             return choices.extra(
-                    select={'ordering': ordering}, order_by=('ordering',))
+                select={'ordering': ordering}, order_by=('ordering',))
 
         if self.order_by is None:
             return choices
