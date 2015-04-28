@@ -1,3 +1,7 @@
+2.1.1 Not sure how the 2.1.0 release got on PyPi, marked "hidden", bumping and
+      uploading a new version rather than removing it as it might have already
+      been deployed somewhere.
+
 2.1.0 Final release.
 
 2.1.0rc4
