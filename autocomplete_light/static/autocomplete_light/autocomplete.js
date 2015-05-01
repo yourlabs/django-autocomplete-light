@@ -262,7 +262,7 @@ yourlabs.Autocomplete.prototype.initialize = function() {
     this.box
         .on('mouseenter', this.choiceSelector, $.proxy(this.boxMouseenter, this))
         .on('mouseleave', this.choiceSelector, $.proxy(this.boxMouseleave, this))
-        .on('click', this.choiceSelector, $.proxy(this.boxClick, this));
+        .on('mousedown', this.choiceSelector, $.proxy(this.boxClick, this));
 
     /*
     Initially - empty data queried
