@@ -50,7 +50,7 @@ Instanciate a Widget.
 yourlabs.Widget = function(widget) {
     // These attributes where described above.
     this.widget = widget;
-    this.input = this.widget.find('input');
+    this.input = this.widget.find('input[data-autocomplete-url]');
     this.select = this.widget.find('select');
     this.deck = this.widget.find('.deck');
     this.choiceTemplate = this.widget.find('.choice-template .choice');
