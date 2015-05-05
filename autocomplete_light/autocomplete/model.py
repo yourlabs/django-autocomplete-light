@@ -75,8 +75,8 @@ class AutocompleteModel(object):
                 pass
 
             # Order in the user selection order when self.values is set.
-            clauses = ' '.join(['WHEN %s="%s" THEN %s' % (pk_name, pk, i) for i, pk in
-                    enumerate(self.values)])
+            clauses = ' '.join(['WHEN %s="%s" THEN %s' % (pk_name, pk, i)
+                for i, pk in enumerate(self.values)])
             ordering = 'CASE %s END' % clauses
             return choices.extra(
                 select={'ordering': ordering}, order_by=('ordering',))
