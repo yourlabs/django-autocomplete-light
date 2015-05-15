@@ -44,17 +44,18 @@ install:
   - mkdir -p bin
   - PATH=$PWD/bin:$PATH
   - PIP_INSTALL=bin/travis_pip_install
+  - PIP_WHEELHOUSE=$PWD/wheelhouse
   - printf '#!/bin/bash -x\n' > $PIP_INSTALL
   - declare -f travis_retry >> $PIP_INSTALL
   - printf '\necho "=====\nUsing pip-wrapper for \"$@\"\n=====\n" >&2\n' >> $PIP_INSTALL
   # Handle "pip install -e" for usedevelop from tox.
   - printf '\nif [ "$1" = "-e" ]; then pip install "$@"; exit $?; fi\n' >> $PIP_INSTALL
   # First try to install from wheelhouse.
-  - printf 'for i in "$@"; do pip install --no-index --find-links=${PIP_WHEELHOUSE} "$i"; done\n' >> $PIP_INSTALL
+  - printf "for i in \"\$@\"; do pip install --no-index --find-links=${PIP_WHEELHOUSE} \"\$i\"; done\n" >> $PIP_INSTALL
   # Then upgrade in case of outdated wheelhouse.
   - printf 'for i in "$@"; do travis_retry pip install --upgrade "$i"; done\n' >> $PIP_INSTALL
   # ..and add the new/current wheels.
-  - printf 'pip wheel --wheel-dir=${PIP_WHEELHOUSE} --find-links=${PIP_WHEELHOUSE} "$@"\n' >> $PIP_INSTALL
+  - printf "pip wheel --wheel-dir=${PIP_WHEELHOUSE} --find-links=${PIP_WHEELHOUSE} \"\$@\"\n" >> $PIP_INSTALL
   - chmod +x $PIP_INSTALL
 
   # Adjust tox.ini.
@@ -69,9 +70,6 @@ install:
   - if [ "$USE_POSTGRES" = 1 ]; then sed -i.bak -e 's/deps =/\0\n    psycopg2/' -e 's/DJANGO_SETTINGS_MODULE=test_project.settings/\0_postgres/' tox.ini && diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true; fi
   - cat $PIP_INSTALL
   - cat tox.ini
-
-  # Create wheels (skips existing ones from the cached wheelhouse).
-  - export PIP_WHEELHOUSE=$PWD/wheelhouse
 
   - travis_pip_install tox
   - if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
