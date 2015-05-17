@@ -79,7 +79,8 @@ class AutocompleteModel(object):
                 for i, pk in enumerate(self.values)])
             ordering = 'CASE %s END' % clauses
             return choices.extra(
-                select={'ordering': ordering}, order_by=('ordering',))
+                select={'ordering': ordering},
+                order_by=('ordering',)+tuple(self.order_by))
 
         if self.order_by is None:
             return choices
