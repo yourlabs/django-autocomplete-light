@@ -9,3 +9,12 @@ class User(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=100)
+
+
+class NonIntegerPk(models.Model):
+    name = models.CharField(primary_key=True, max_length=10)
+    relation = models.ForeignKey('self', null=True, blank=True)
+    noise = models.ForeignKey('basic.FkModel', null=True, blank=True)
+
+    for_inline = models.ForeignKey('self', null=True, blank=True,
+                                   related_name='inline')
