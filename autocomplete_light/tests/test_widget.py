@@ -328,7 +328,7 @@ class RemoveChoiceInEditFormTestCase(WidgetTestCase):
         self.set_implicit_wait()
 
     def test_admin_change_link_has_no_href(self):
-        change_link = self.selenium.find_element_by_id('change_id_relation')
+        change_link = self.selenium.find_element_by_id('change_id_%s' % self.autocomplete_name)
         href = change_link.get_attribute('href')
         assert href is None
 
