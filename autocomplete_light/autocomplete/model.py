@@ -67,9 +67,16 @@ class AutocompleteModel(object):
         Order choices using :py:attr:`order_by` option if it is set.
         """
         if self.values:
+            pk_name = "id"
+            try:
+                if len(choices) > 0:
+                    pk_name = choices[0]._meta.pk.name
+            except:
+                pass
+
             # Order in the user selection order when self.values is set.
-            clauses = ' '.join(['WHEN id=%s THEN %s' % (pk, i) for i, pk in
-                    enumerate(self.values)])
+            clauses = ' '.join(['WHEN %s="%s" THEN %s' % (pk_name, pk, i)
+                for i, pk in enumerate(self.values)])
             ordering = 'CASE %s END' % clauses
             return choices.extra(
                 select={'ordering': ordering}, order_by=('ordering',))
