@@ -66,6 +66,9 @@ class AutocompleteModel(object):
         """
         Order choices using :py:attr:`order_by` option if it is set.
         """
+        if isinstance(self.order_by, six.string_types):
+            self.order_by = (self.order_by,)
+
         if self.values:
             pk_name = "id"
             try:
@@ -78,15 +81,17 @@ class AutocompleteModel(object):
             clauses = ' '.join(['WHEN %s="%s" THEN %s' % (pk_name, pk, i)
                 for i, pk in enumerate(self.values)])
             ordering = 'CASE %s END' % clauses
+
+            _order_by = ('ordering',)
+            if self.order_by:
+                _order_by += self.order_by
+
             return choices.extra(
                 select={'ordering': ordering},
-                order_by=('ordering',)+tuple(self.order_by))
+                order_by=_order_by)
 
         if self.order_by is None:
             return choices
-
-        if isinstance(self.order_by, six.string_types):
-            return choices.order_by(self.order_by)
 
         return choices.order_by(*self.order_by)
 
