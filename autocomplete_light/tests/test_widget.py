@@ -272,6 +272,11 @@ class SelectChoiceInEmptyFormTestCase(WidgetTestCase):
     def test_hidden_select_value(self):
         self.assertEqual(self.select_values(), ['4'])
 
+    def test_admin_change_link_update(self):
+        change_link = self.selenium.find_element_by_id('change_id_%s' % self.autocomplete_name)
+        href = change_link.get_attribute('href')
+        assert href.endswith('/admin/basic/fkmodel/4/?_to_field=id&_popup=1')
+
 
 @unittest.skipIf(Tag is None, 'django-taggit not installed')
 class TextWidgetWithTaggitForm(WidgetTestCase):
@@ -321,6 +326,11 @@ class RemoveChoiceInEditFormTestCase(WidgetTestCase):
         self.unset_implicit_wait()
         self.assertEqual(0, len(self.deck_choices()))
         self.set_implicit_wait()
+
+    def test_admin_change_link_has_no_href(self):
+        change_link = self.selenium.find_element_by_id('change_id_relation')
+        href = change_link.get_attribute('href')
+        assert href is None
 
 
 class KeyboardTestCase(WidgetTestCase):
