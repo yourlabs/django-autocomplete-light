@@ -13,6 +13,8 @@ from ..example_apps.basic.forms import (DjangoCompatMeta, FkModelForm,
                                         GfkModelForm, MtmModelForm,
                                         OtoModelForm)
 from ..example_apps.basic.models import FkModel, GfkModel, MtmModel, OtoModel
+from ..example_apps.autocomplete_test_case_app.models import NonIntegerPk
+from ..example_apps.autocomplete_test_case_app.forms import NonIntegerPkForm
 
 try:
     from unittest import mock
@@ -561,3 +563,10 @@ class GmtmModelFormTestCase(MultipleRelationMixin,
 
     def field_value(self, model):
         return getattr(model, 'relation').all().generic_objects()[0]
+
+
+class NonIntegerPkTestCase(ModelFormBaseMixin, TestCase):
+    model_class = NonIntegerPk
+    model_form_class = NonIntegerPkForm
+    field_class = autocomplete_light.ModelChoiceField
+    autocomplete_name = 'NonIntegerPkAutocomplete'
