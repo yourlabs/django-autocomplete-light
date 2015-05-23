@@ -6,5 +6,3 @@ lxml
 cssselect
 pytest
 pytest-django
-django-hstore
-psycopg2

@@ -35,6 +35,10 @@ env:
     - TOXENV=py34-django18-genericm2m
     - TOXENV=py34-djangomaster
 
+    # With hstore
+    - TOXENV=py27-django18-genericm2m-hstore
+    - TOXENV=py34-django18-genericm2m-hstore
+
     - TOXENV=checkqa-python2
     - TOXENV=checkqa
 install:
