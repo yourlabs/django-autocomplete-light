@@ -49,8 +49,6 @@ class FieldBase(object):
         """
         Wrap around Autocomplete.validate_values().
         """
-        super(FieldBase, self).validate(value)
-
         # FIXME: we might actually want to change the Autocomplete API to
         # support python values instead of raw values, that would probably be
         # more performant.
