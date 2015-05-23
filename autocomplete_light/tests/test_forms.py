@@ -37,6 +37,20 @@ except ImportError:
 else:
     from ..example_apps.basic.models import TaggitModel
 
+try:
+    import django_hstore
+except ImportError:
+    django_hstore = None
+
+if django_hstore:
+    from autocomplete_light.example_apps.hstore_example.forms import \
+            HstoreModelForm
+
+@unittest.skipIf(django_hstore is None, 'hstore not installed')
+class TestHstore(TestCase):
+    def test_form(self):
+        HstoreModelForm()
+
 
 @unittest.skipIf(VERSION < (1, 5), 'Django < 1.5')
 class TestUnuseableVirtualfield(TestCase):
