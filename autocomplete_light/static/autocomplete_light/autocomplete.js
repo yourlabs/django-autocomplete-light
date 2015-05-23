@@ -248,12 +248,29 @@ the constructor, setup is done in this method. This allows to:
 - and *then* setup the instance.
  */
 yourlabs.Autocomplete.prototype.initialize = function() {
+    var ie = yourlabs.getInternetExplorerVersion();
+
     this.input
         .on('blur.autocomplete', $.proxy(this.inputBlur, this))
-        .on('click.autocomplete', $.proxy(this.inputClick, this))
-        .on('keypress.autocomplete', $.proxy(this.inputKeypress, this))
-        .on('keyup.autocomplete', $.proxy(this.inputKeyup, this))
-        .on('keydown.autocomplete', $.proxy(this.inputKeydown, this));
+        .on('focus.autocomplete', $.proxy(this.inputClick, this))
+        .on('keydown.autocomplete', $.proxy(this.inputKeyup, this));
+
+    if (ie == -1 || ie > 9) {
+        this.input.on('input.autocomplete', $.proxy(this.refresh, this));
+    }
+    else
+    {
+        var events = [
+            'keyup.autocomplete',
+            'keypress.autocomplete',
+            'cut.autocomplete',
+            'paste.autocomplete'
+        ]
+
+        this.input.on(events.join(' '), function($e) {
+            $.proxy(this.inputKeyup, this);
+        })
+    }
 
     /*
     Bind mouse events to fire signals. Because the same signals will be
@@ -274,10 +291,11 @@ yourlabs.Autocomplete.prototype.initialize = function() {
 yourlabs.Autocomplete.prototype.destroy = function(input) {
     input
         .unbind('blur.autocomplete')
-        .unbind('click.autocomplete')
+        .unbind('focus.autocomplete')
+        .unbind('input.autocomplete')
+        .unbind('keydown.autocomplete')
         .unbind('keypress.autocomplete')
         .unbind('keyup.autocomplete')
-        .unbind('keydown.autocomplete');
 };
 
 yourlabs.Autocomplete.prototype.inputBlur = function(e) {
@@ -334,6 +352,7 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
         case 16: // shift
         case 17: // ctrl
         case 18: // alt
+            this.move(e);
             break;
 
         case 9: // tab
@@ -362,27 +381,6 @@ yourlabs.Autocomplete.prototype.inputKeyup = function(e) {
         default:
             this.refresh();
     }
-};
-
-yourlabs.Autocomplete.prototype.inputKeydown = function(e) {
-    // Don't handle keypresses on hidden inputs (ie. with limited choices)
-    if (!this.input.is(':visible')) return;
-
-    // Avoid double call to move().
-    this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27]);
-
-    this.move(e);
-};
-
-// This function is in charge of keyboard usage.
-yourlabs.Autocomplete.prototype.inputKeypress = function(e) {
-    // Don't handle keypresses on hidden inputs (ie. with limited choices)
-    if (!this.input.is(':visible')) return;
-
-    // Return if it already handled by inputKeydown.
-    if (this.suppressKeyPressRepeat) return;
-
-    this.move(e);
 };
 
 // This function is in charge of ensuring that a relevant autocomplete is
