@@ -55,6 +55,44 @@ Also, note that this script is composed of two main parts:
 `$.fn.yourlabsAutocomplete`
 */
 
+if (window.findPosX === undefined) {
+    window.findPosX = function(obj) {
+        var curleft = 0;
+        if (obj.offsetParent) {
+            while (obj.offsetParent) {
+                curleft += obj.offsetLeft - ((isOpera) ? 0 : obj.scrollLeft);
+                obj = obj.offsetParent;
+            }
+            // IE offsetParent does not include the top-level
+            if (isIE && obj.parentElement){
+                curleft += obj.offsetLeft - obj.scrollLeft;
+            }
+        } else if (obj.x) {
+            curleft += obj.x;
+        }
+        return curleft;
+    }
+}
+
+if (window.findPosY === undefined) {
+    window.findPosY = function(obj) {
+        var curtop = 0;
+        if (obj.offsetParent) {
+            while (obj.offsetParent) {
+                curtop += obj.offsetTop - ((isOpera) ? 0 : obj.scrollTop);
+                obj = obj.offsetParent;
+            }
+            // IE offsetParent does not include the top-level
+            if (isIE && obj.parentElement){
+                curtop += obj.offsetTop - obj.scrollTop;
+            }
+        } else if (obj.y) {
+            curtop += obj.y;
+        }
+        return curtop;
+    }
+}
+
 // Our class will live in the yourlabs global namespace.
 if (window.yourlabs === undefined) window.yourlabs = {};
 
@@ -237,6 +275,12 @@ yourlabs.Autocomplete = function (input) {
 
     // The autocomplete box HTML.
     this.box = $('<span class="yourlabs-autocomplete"></span>');
+
+    /*
+    We'll append the box to the container and calculate an absolute position
+    every time the autocomplete is shown in the fixPosition method.
+    */
+    this.container = $('body');
 };
 
 /*
@@ -499,19 +543,22 @@ yourlabs.Autocomplete.prototype.move = function(e) {
         [target, this]);
 };
 
-// Calculate and set the outer container's absolute positionning.
+/*
+Calculate and set the outer container's absolute positionning. We're copying
+the system from Django admin's JS widgets like the date calendar, which means:
+
+- the autocomplete box is an element appended to this.co,
+- 
+*/
 yourlabs.Autocomplete.prototype.fixPosition = function() {
-    // Insert the autocomplete container after the input.
-    var pos = $.extend({}, this.input.position(), {
-        height: this.input.outerHeight()
+    var el = this.input.get(0)
+
+    this.box.appendTo(this.container).css({
+        position: 'absolute',
+        minWidth: parseInt(this.input.outerWidth()),
+        top: (findPosY(el) + this.input.outerHeight()) + 'px',
+        left: findPosX(el) + 'px'
     });
-
-    this.input.parents().filter(function() {
-        return $(this).css('overflow') === 'hidden';
-    }).first().css('overflow', 'visible').addClass('autocomplete-light-clearfix');
-
-    this.box.insertAfter(this.input).css(
-            {top: pos.top + pos.height, left: pos.left});
 };
 
 // Proxy fetch(), with some sanity checks.

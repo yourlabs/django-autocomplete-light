@@ -186,7 +186,7 @@ class WidgetBase(object):
         if 'class' not in attrs.keys():
             attrs['class'] = ''
 
-        attrs['class'] += ' autocomplete'
+        attrs['class'] += ' autocomplete vTextField'
 
         attrs.setdefault('data-autocomplete-choice-selector', '[data-value]')
         attrs.setdefault('data-autocomplete-url',
