@@ -79,6 +79,8 @@ yourlabs.Widget.prototype.initializeAutocomplete = function() {
 
 // Bind Autocomplete.selectChoice signal to Widget.selectChoice()
 yourlabs.Widget.prototype.bindSelectChoice = function() {
+    var widget = this;
+
     this.input.bind('selectChoice', function(e, choice) {
         if (!choice.length)
             return // placeholder: create choice here
@@ -87,6 +89,8 @@ yourlabs.Widget.prototype.bindSelectChoice = function() {
             ).yourlabsWidget();
 
         widget.selectChoice(choice);
+
+        widget.widget.trigger('widgetSelectChoice', [choice, widget]);
     });
 };
 
@@ -230,6 +234,8 @@ yourlabs.Widget.prototype.deselectChoice = function(choice) {
 
     this.updateAutocompleteExclude();
     this.resetDisplay();
+
+    this.widget.trigger('widgetDeselectChoice', [choice, this]);
 };
 
 yourlabs.Widget.prototype.updateAutocompleteExclude = function() {
@@ -363,6 +369,34 @@ $(document).ready(function() {
 
     $('.autocomplete-light-widget:not([id*="__prefix__"])').each(function() {
         $(this).trigger('initialize');
+    });
+
+    $(document).bind('widgetDeselectChoice', function(e, choice, widget) {
+        /*
+        Unset the .change-related link when an item is selected.
+
+        For django 1.8 admin support.
+        */
+        var next = widget.widget.next();
+        var template = next.attr('data-href-template');
+
+        if (template && next.is('.change-related') && next.attr('href')) {
+            next.removeAttr('href');
+        }
+    });
+
+    $(document).bind('widgetSelectChoice', function(e, choice, widget) {
+        /*
+        Set the .change-related link when an item is selected.
+
+        For django 1.8 admin support.
+        */
+        var next = widget.widget.next();
+        var template = next.attr('data-href-template');
+
+        if (template && next.is('.change-related')) {
+            next.attr('href', template.replace('__fk__', widget.getValue(choice)));
+        }
     });
 
     $(document).bind('DOMNodeInserted', function(e) {
