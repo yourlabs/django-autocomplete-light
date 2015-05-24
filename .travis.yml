@@ -11,7 +11,6 @@ env:
     - TESTS_SKIP_LIVESERVER=1
     - TESTS_USE_PHANTOMJS=1
     - PIP_DISABLE_PIP_VERSION_CHECK=true
-    - USE_POSTGRES=0
   matrix:
     - TOXENV=py27-django14-taggit-genericm2m
     - TOXENV=py27-django15-taggit-genericm2m
@@ -45,17 +44,19 @@ install:
   - PATH=$PWD/bin:$PATH
   - PIP_INSTALL=bin/travis_pip_install
   - PIP_WHEELHOUSE=$PWD/wheelhouse
+  - if echo $TOXENV | grep -q py27; then PIP=pip; else PIP=pip3; fi
   - printf '#!/bin/bash -x\n' > $PIP_INSTALL
   - declare -f travis_retry >> $PIP_INSTALL
   - printf '\necho "=====\nUsing pip-wrapper for \"$@\"\n=====\n" >&2\n' >> $PIP_INSTALL
+  - printf "\nPIP=$PIP" >> $PIP_INSTALL
   # Handle "pip install -e" for usedevelop from tox.
-  - printf '\nif [ "$1" = "-e" ]; then pip install "$@"; exit $?; fi\n' >> $PIP_INSTALL
+  - printf '\nif [ "$1" = "-e" ]; then $PIP install "$@"; exit $?; fi\n' >> $PIP_INSTALL
   # First try to install from wheelhouse.
-  - printf "for i in \"\$@\"; do pip install --no-index --find-links=${PIP_WHEELHOUSE} \"\$i\"; done\n" >> $PIP_INSTALL
+  - printf "for i in \"\$@\"; do $PIP install --no-index --find-links=${PIP_WHEELHOUSE} \"\$i\"; done\n" >> $PIP_INSTALL
   # Then upgrade in case of outdated wheelhouse.
-  - printf 'for i in "$@"; do travis_retry pip install --upgrade "$i"; done\n' >> $PIP_INSTALL
+  - printf 'for i in "$@"; do travis_retry $PIP install --upgrade "$i"; done\n' >> $PIP_INSTALL
   # ..and add the new/current wheels.
-  - printf "pip wheel --wheel-dir=${PIP_WHEELHOUSE} --find-links=${PIP_WHEELHOUSE} \"\$@\"\n" >> $PIP_INSTALL
+  - printf "$PIP wheel --wheel-dir=${PIP_WHEELHOUSE} --find-links=${PIP_WHEELHOUSE} \"\$@\"\n" >> $PIP_INSTALL
   - chmod +x $PIP_INSTALL
 
   # Adjust tox.ini.
@@ -66,15 +67,13 @@ install:
   # Inject wheel dependency into tox.ini, for travis_pip_install.
   - sed -i.bak -e 's/deps =.*/\0\n    wheel/' tox.ini
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
-  # Conditionally inject postgres dependency and DSM setting into tox.ini.
-  - if [ "$USE_POSTGRES" = 1 ]; then sed -i.bak -e 's/deps =/\0\n    psycopg2/' -e 's/DJANGO_SETTINGS_MODULE=test_project.settings/\0_postgres/' tox.ini && diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true; fi
   - cat $PIP_INSTALL
   - cat tox.ini
 
   - travis_pip_install tox
   - if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
 
-  - pip freeze
+  - $PIP freeze
 before_script:
   - RUN_TESTS="tox -- autocomplete_light"
   # Run tests either with or without coverage (being installed).
