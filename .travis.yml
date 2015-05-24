@@ -11,7 +11,6 @@ env:
     - TESTS_SKIP_LIVESERVER=1
     - TESTS_USE_PHANTOMJS=1
     - PIP_DISABLE_PIP_VERSION_CHECK=true
-    - USE_POSTGRES=0
   matrix:
     - TOXENV=py27-django14-taggit-genericm2m
     - TOXENV=py27-django15-taggit-genericm2m
@@ -66,8 +65,6 @@ install:
   # Inject wheel dependency into tox.ini, for travis_pip_install.
   - sed -i.bak -e 's/deps =.*/\0\n    wheel/' tox.ini
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
-  # Conditionally inject postgres dependency and DSM setting into tox.ini.
-  - if [ "$USE_POSTGRES" = 1 ]; then sed -i.bak -e 's/deps =/\0\n    psycopg2/' -e 's/DJANGO_SETTINGS_MODULE=test_project.settings/\0_postgres/' tox.ini && diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true; fi
   - cat $PIP_INSTALL
   - cat tox.ini
 
