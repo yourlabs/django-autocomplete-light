@@ -16,6 +16,8 @@ env:
     - TOXENV=py27-django15-taggit-genericm2m
     - TOXENV=py27-django16-taggit-genericm2m
     - TOXENV=py27-django17-taggit-genericm2m
+    - TOXENV=py27-django18-taggit-genericm2m-postgresql
+    - TOXENV=py27-django18-taggit-genericm2m-mysql
     - TOXENV=pypy-djangostable
 
     # Current stable Django.
@@ -75,6 +77,8 @@ install:
 
   - pip freeze
 before_script:
+  - if echo "$TOXENV" | grep mysql; then mysql -e 'create database autocomplete_light_test;'; fi
+  - if echo "$TOXENV" | grep postgresql; then psql -c 'create database autocomplete_light_test;' -U postgres; fi
   - RUN_TESTS="tox -- autocomplete_light"
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
