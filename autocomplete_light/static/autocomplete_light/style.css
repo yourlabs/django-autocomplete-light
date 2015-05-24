@@ -8,7 +8,6 @@
     left: 0;
     z-index: 1000;
     display: none;
-    float: left;
     min-width: 160px;
     padding: 5px 0;
     margin: 2px 0 0;
@@ -77,7 +76,6 @@
 .autocomplete-light-widget input:focus {
     margin: 0;
     outline: 0;
-    width: 230px;
 }
 
 .autocomplete-light-widget {
@@ -158,11 +156,6 @@ input.autocomplete.xhr-pending {
     content: "";
     display: table; 
     clear: both;
-}
-
-/* grappelli specific */
-fieldset.grp-module .grp-row {
-    overflow: visible !important;
 }
 
 /* credit: http://www.csslab.cl/2008/01/30/ventana-modal-solo-con-css/ */

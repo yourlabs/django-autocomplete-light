@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'autocomplete_light.example_apps.create_choice_on_the_fly',
 
     'navigation_autocomplete',
+    'admin_autocomplete_in_row',
 )
 
 
@@ -176,4 +177,5 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
     'cities_light': 'cities_light.south_migrations',
+    'admin_autocomplete_in_row': 'ignore',
 }
