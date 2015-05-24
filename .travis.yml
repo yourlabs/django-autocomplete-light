@@ -54,7 +54,9 @@ install:
   # Then upgrade in case of outdated wheelhouse.
   - printf 'for i in "$@"; do travis_retry pip install --upgrade "$i"; done\n' >> $PIP_INSTALL
   # ..and add the new/current wheels.
-  - printf "pip wheel --wheel-dir=${PIP_WHEELHOUSE} --find-links=${PIP_WHEELHOUSE} \"\$@\"\n" >> $PIP_INSTALL
+  # This has been failing for a week
+  #- printf "pip wheel --wheel-dir=${PIP_WHEELHOUSE} --find-links=${PIP_WHEELHOUSE} \"\$@\"\n" >> $PIP_INSTALL
+  - printf "pip install \"\$@\"\n" >> $PIP_INSTALL
   - chmod +x $PIP_INSTALL
 
   # Adjust tox.ini.
