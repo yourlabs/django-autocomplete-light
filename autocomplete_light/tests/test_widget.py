@@ -114,16 +114,8 @@ class WidgetTestCase(LiveServerTestCase):
 
     def autocomplete(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
-
-        xpath = ''.join([
-            '//*[@id="id_%s%s"]/' % (autocomplete_name,
-                self.input_name_suffix),
-            'following-sibling::',
-            'span[contains(',
-                'concat(" ", normalize-space(@class), " "), ',
-                '" yourlabs-autocomplete ")',
-            ']'])
-        return self.selenium.find_element_by_xpath(xpath)
+        return self.selenium.find_element_by_css_selector(
+            '.yourlabs-autocomplete[data-input-id="id_'+autocomplete_name+'-autocomplete"]')
 
     def deck_choices(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
@@ -141,35 +133,13 @@ class WidgetTestCase(LiveServerTestCase):
 
     def hilighted_choice(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
-
-        xpath = ''.join([
-            '//*[@id="id_%s%s"]/' % (autocomplete_name,
-                self.input_name_suffix),
-            'following-sibling::',
-            'span[contains(',
-                'concat(" ", normalize-space(@class), " "), ',
-                '" yourlabs-autocomplete ")',
-            ']',
-            '/*[contains(',
-                'concat(" ", normalize-space(@class), " "), ',
-                '" hilight ")',
-            ']'])
-
-        return self.selenium.find_element_by_xpath(xpath)
+        return self.selenium.find_element_by_css_selector(
+            '.yourlabs-autocomplete[data-input-id="id_'+autocomplete_name+'-autocomplete"] .hilight')
 
     def autocomplete_choices(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name
-
-        xpath = ''.join([
-            '//*[@id="id_%s%s"]/' % (autocomplete_name,
-                self.input_name_suffix),
-            'following-sibling::',
-            'span[contains(',
-                'concat(" ", normalize-space(@class), " "), ',
-                '" yourlabs-autocomplete ")',
-            ']/*[@data-value]'])
-
-        return self.selenium.find_elements_by_xpath(xpath)
+        return self.selenium.find_elements_by_css_selector(
+            '.yourlabs-autocomplete[data-input-id="id_'+autocomplete_name+'-autocomplete"] [data-value]')
 
     def input(self, autocomplete_name=None):
         autocomplete_name = autocomplete_name or self.autocomplete_name

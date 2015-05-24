@@ -274,7 +274,8 @@ yourlabs.Autocomplete = function (input) {
     this.lastData = {};
 
     // The autocomplete box HTML.
-    this.box = $('<span class="yourlabs-autocomplete"></span>');
+    this.box = $('<span class="yourlabs-autocomplete" ' +
+        'data-input-id="' + this.input.attr('id') + '"></span>');
 
     /*
     We'll append the box to the container and calculate an absolute position
