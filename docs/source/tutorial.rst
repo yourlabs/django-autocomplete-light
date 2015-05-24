@@ -13,11 +13,11 @@ Register an Autocomplete for your model in
 
 .. code-block:: python
 
-    import autocomplete_light
+    import autocomplete_light.shortcuts as al
     from models import Person
 
     # This will generate a PersonAutocomplete class
-    autocomplete_light.register(Person, 
+    al.register(Person,
         # Just like in ModelAdmin.search_fields
         search_fields=['^first_name', 'last_name'],
         attrs={

@@ -73,12 +73,12 @@ your model in ``your_app/autocomplete_light_registry.py`` could look like this:
 
 .. code-block:: python
 
-    import autocomplete_light
+    import autocomplete_light.shortcuts as al
 
-    class OsAutocomplete(autocomplete_light.AutocompleteListBase):
+    class OsAutocomplete(al.AutocompleteListBase):
         choices = ['Linux', 'BSD', 'Minix']
 
-    autocomplete_light.register(OsAutocomplete)
+    al.register(OsAutocomplete)
 
 First, we imported ``autocomplete_light``'s module. It should contain
 everything you need.
@@ -111,13 +111,13 @@ of :py:class:`~autocomplete_light.autocomplete.AutocompleteListBase`:
 
 .. code-block:: python
 
-    import autocomplete_light
+    import autocomplete_light.shortcuts as al
 
-    class OsAutocomplete(autocomplete_light.AutocompleteListTemplate):
+    class OsAutocomplete(al.AutocompleteListTemplate):
         choices = ['Linux', 'BSD', 'Minix']
         autocomplete_template = 'your_autocomplete_box.html'
 
-    autocomplete_light.register(OsAutocomplete)
+    al.register(OsAutocomplete)
 
 Inheriting from
 :py:class:`~autocomplete_light.autocomplete.AutocompleteListTemplate` instead

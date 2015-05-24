@@ -19,8 +19,8 @@ supported by autocomplete_light as of 1.0.25. First you need to register the tag
 First register the tag::
 
     from taggit.models import Tag
-    import autocomplete_light
-    autocomplete_light.register(Tag)
+    import autocomplete_light.shortcuts as al
+    al.register(Tag)
 
 Every form which should have the autocomplete taggit widget should look like::
     

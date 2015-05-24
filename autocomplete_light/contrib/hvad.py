@@ -1,27 +1,27 @@
 """
 This is how to enable `language()` for one Autocomplete::
 
-    import autocomplete_light
-    from autocomplete_light.contrib.hvad import AutocompleteModelBase
+    import autocomplete_light.shortcuts as al
+    from al.contrib.hvad import AutocompleteModelBase
 
-    autocomplete_light.register(YourModel, AutocompleteModelBase)
+    al.register(YourModel, AutocompleteModelBase)
 
 Or, enable it globally by updating your `autodiscover()` call like this::
 
-    import autocomplete_light
-    from autocomplete_light.contrib.hvad import AutocompleteModelBase
-    autocomplete_light.registry.autocomplete_model_base = AutocompleteModelBase
-    autocomplete_light.autodiscover()
+    import autocomplete_light.shortcuts as al
+    from al.contrib.hvad import AutocompleteModelBase
+    al.registry.autocomplete_model_base = AutocompleteModelBase
+    al.autodiscover()
 
 In that case, you can just register as usual::
 
-    autocomplete_light.register(YourTranslatableModel)
+    al.register(YourTranslatableModel)
 """
 
-import autocomplete_light
+import autocomplete_light.shortcuts as al
 
 
-class AutocompleteModel(autocomplete_light.AutocompleteModel):
+class AutocompleteModel(al.AutocompleteModel):
     """ Ensure that `.language()` is called. """
     def __init__(self, request=None, values=None):
         """
@@ -33,13 +33,11 @@ class AutocompleteModel(autocomplete_light.AutocompleteModel):
         super(AutocompleteModel, self).__init__(request, values)
 
 
-class AutocompleteModelBase(AutocompleteModel,
-                            autocomplete_light.AutocompleteBase):
+class AutocompleteModelBase(AutocompleteModel, al.AutocompleteBase):
     """ Drop-in replacement for AutocompleteModelBase """
     pass
 
 
-class AutocompleteModelTemplate(AutocompleteModel,
-                                autocomplete_light.AutocompleteTemplate):
+class AutocompleteModelTemplate(AutocompleteModel, al.AutocompleteTemplate):
     """ Drop-in replacement for AutocompleteModelTemplate """
     pass

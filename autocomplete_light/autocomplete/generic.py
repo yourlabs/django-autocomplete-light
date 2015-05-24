@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-import autocomplete_light
+from autocomplete_light.fields import GenericModelChoiceField
 import six
 
 from ..settings import DEFAULT_SEARCH_FIELDS
@@ -70,7 +70,7 @@ class AutocompleteGeneric(six.with_metaclass(AutocompleteGenericMetaClass,
         to return a string containing the content type id and object id of the
         result.
         """
-        field = autocomplete_light.GenericModelChoiceField()
+        field = GenericModelChoiceField()
         return field.prepare_value(choice)
 
     def validate_values(self):

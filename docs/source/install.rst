@@ -25,8 +25,8 @@ editable in ``settings.py``. For example:
         'autocomplete_light',
     ]
 
-If using Django < 1.7, call ``autocomplete_light.autodiscover()`` *before* ``admin.autodiscover()``
----------------------------------------------------------------------------------------------------
+Django < 1.7 support: call ``autocomplete_light.autodiscover()`` *before* ``admin.autodiscover()``
+--------------------------------------------------------------------------------------------------
 
 In ``urls.py``, call ``autocomplete_light.autodiscover()`` before
 ``admin.autodiscover()`` **and before any import of a form with
@@ -34,9 +34,9 @@ autocompletes**. It might look like this:
 
 .. code-block:: python
 
-    import autocomplete_light
+    import autocomplete_light.shortcuts as al
     # import every app/autocomplete_light_registry.py
-    autocomplete_light.autodiscover()
+    al.autodiscover()
 
     import admin
     admin.autodiscover()
@@ -46,8 +46,8 @@ say ``SomeForm``, this will work:
 
 .. code-block:: python
 
-    import autocomplete_light
-    autocomplete_light.autodiscover()
+    import autocomplete_light.shortcuts as al
+    al.autodiscover()
 
     from yourapp.views import SomeCreateView
 
@@ -57,8 +57,8 @@ But this won't:
 
     from yourapp.views import SomeCreateView
 
-    import autocomplete_light
-    autocomplete_light.autodiscover()
+    import autocomplete_light.shortcuts as al
+    al.autodiscover()
 
 That is because auto-discovery of autocomplete classes should happen before
 definition of forms using autocompletes.

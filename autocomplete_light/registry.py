@@ -47,10 +47,9 @@ class AutocompleteRegistry(dict):
         :py:class:`~.autocomplete.AutocompleteModelBase`. You can override
         it just before calling autodiscover() in urls.py as such::
 
-            import autocomplete_light
-            autocomplete_light.registry.autocomplete_model_base = \
-                autocomplete_light.AutocompleteModelTemplate
-            autocomplete_light.autodiscover()
+            import autocomplete_light.shortcuts as al
+            al.registry.autocomplete_model_base = al.AutocompleteModelTemplate
+            al.autodiscover()
     """
 
     def __init__(self, autocomplete_model_base=None):
@@ -285,9 +284,9 @@ def autodiscover():
     Where autocomplete_light_registry.py contains something like::
 
         from models import City, Country
-        import autocomplete_light
-        autocomplete_light.register(City)
-        autocomplete_light.register(Country)
+        import autocomplete_light.shortcuts as al
+        al.register(City)
+        al.register(Country)
 
     When ``autodiscover()`` imports
     ``cities_light.autocomplete_light_registry``, both ``CityAutocomplete`` and

@@ -1,6 +1,6 @@
-import autocomplete_light
+import autocomplete_light.shortcuts as al
 
 from .models import NonAdminAddAnotherModel
 
-NonAdminAddAnotherModelForm = autocomplete_light.modelform_factory(
-    NonAdminAddAnotherModel, exclude=[])
+NonAdminAddAnotherModelForm = al.modelform_factory(NonAdminAddAnotherModel,
+        exclude=[])
