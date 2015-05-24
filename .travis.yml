@@ -79,8 +79,6 @@ install:
 before_script:
   - if echo "$TOXENV" | grep mysql; then mysql -e 'create database autocomplete_light_test;'; fi
   - if echo "$TOXENV" | grep postgresql; then psql -c 'create database autocomplete_light_test;' -U postgres; fi
-  - if echo "$TOXENV" | grep sql; then test_project/manage.py syncdb --noinput; fi
-  - if echo "$TOXENV" | grep sql; then test_project/manage.py migrate --noinput || true; fi
   - RUN_TESTS="tox -- autocomplete_light"
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
