@@ -1,3 +1,92 @@
+2.2.0rc1
+
+    PENDING BREAK WARNING, Django >= 1.9.
+
+    The good old ``import autocomplete_light`` API support will be dropped with
+    Django 1.9. All imports have moved to ``autocomplete_light.shortcuts`` and
+    importing ``autocomplete_light`` will work until the project is used with
+    Django 1.9.
+
+    To be forward compatible with Django master (>=1.9) support, replace::
+
+        import autocomplete_light
+
+    By:
+
+        from autocomplete_light import shortcuts as al
+
+    This will also make your scripts a lot shorter.
+
+    CSS BREAK
+
+    We've moved back to pre-1.1.10 CSS positioning. This means appending the
+    autocomplete box to an arbitrary DOM element (body by default) and using
+    calculating the ``top`` and ``bottom`` attribute in javascript with
+    ``yourlabs.Autocomplete.fixPosition()`` pretty much like Django admin's
+    calendar widget does. While blunt, this change should help the widget being
+    more compatible across Django admin themes.
+
+    While this positioning system has been used since around 2005 in Django
+    when Adrian Holovaty open sourced admin media in commit dd5320d, it has
+    never been documented that's it's a good system that works well and there's
+    no reason to break backward compatibility in Django admin for that
+    - note to Django admin template customizers.
+
+    JS BREAK
+
+    Javascript ``yourlabs.Autocomplete`` object does not bind to the same
+    events as it used too. Event handling has been backported from twitter
+    typeahead and tested on firefox and android (#411).
+
+    PYTHON BREAK
+
+    The form field doesn't call ``super().validate()`` anymore and now
+    completely relies on ``AutocompleteInterface.validate_values()``. This was
+    how ``django-autocomplete-light`` was initially designed for, kudos to
+    @zhiyajun11 for pointing it out ! This optimises code which was doing
+    validation twice and gives the flexibility it was initially designed for
+    from within the Autocomplete class (#410).
+
+    SQL BREAK
+
+    Model Autocompletes now generate custom SQL be able to save the order in
+    which users have filled an autocomplete field. This actually comes from the
+    last 2.x version.
+
+    CHANGES
+
+    Most users won't notice the break except maybe the CSS ones and of course
+    also for Django 1.9 users.
+
+    - #419: ANSI SQL compliance (@sbaum)
+    - #413: Exception when using models having primary key names different from
+      id.
+    - #412: Support models with a pk different than "id" and non-numeric.
+      (@mhuailin)
+    - #411: Android compatibility (js bind changes).
+    - #410: Removed double validation by not calling suport of ``Field.validate()``.
+    - #408: Support Django 1.8 change-link.
+    - #409: Compatibility with non-autocomplete inputs present in the widget
+      (@SebCorbin)
+
+    CONTRIBUTING CHANGES
+
+    Pip wheel has been temporarely disabled because django-autoslug broke it,
+    any help here is welcome, I did my best in the various fix/*wheel*
+    branches but Travis won xD
+    There's a  mission to extract the JS part and package it as a standalone
+    jQuery library to get more pull requests on the JS / CSS part. It sounds
+    like a pretty good start in the JS / UI testing and packaging world. Any
+    help there is welcome.
+    CI now has tests against MySQL and PostgreSQL since we're generating custom
+    SQL.
+
+    Again welcome to new contributors @mhuailin and @SebCorbin and thanks all
+    for reporting issues on GitHub with all needed details and forks which make
+    it easy to reproduce.
+
+    And thanks to @blueyed who helped sinking this year's backlog like crazy.
+
 2.1.1 Not sure how the 2.1.0 release got on PyPi, marked "hidden", bumping and
       uploading a new version rather than removing it as it might have already
       been deployed somewhere.
