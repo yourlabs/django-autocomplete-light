@@ -45,19 +45,12 @@ install:
   - mkdir -p bin
   - PATH=$PWD/bin:$PATH
   - PIP_INSTALL=bin/travis_pip_install
-  - PIP_WHEELHOUSE=$PWD/wheelhouse
-  - printf '#!/bin/bash -x\n' > $PIP_INSTALL
+  - printf '#!/bin/bash\n' > $PIP_INSTALL
   - declare -f travis_retry >> $PIP_INSTALL
   - printf '\necho "=====\nUsing pip-wrapper for \"$@\"\n=====\n" >&2\n' >> $PIP_INSTALL
   # Handle "pip install -e" for usedevelop from tox.
   - printf '\nif [ "$1" = "-e" ]; then pip install "$@"; exit $?; fi\n' >> $PIP_INSTALL
-  # First try to install from wheelhouse.
-  - printf "for i in \"\$@\"; do pip install --no-index --find-links=${PIP_WHEELHOUSE} \"\$i\"; done\n" >> $PIP_INSTALL
-  # Then upgrade in case of outdated wheelhouse.
-  - printf 'for i in "$@"; do travis_retry pip install --upgrade "$i"; done\n' >> $PIP_INSTALL
-  # ..and add the new/current wheels.
-  # This has been failing for a week
-  #- printf "pip wheel --wheel-dir=${PIP_WHEELHOUSE} --find-links=${PIP_WHEELHOUSE} \"\$@\"\n" >> $PIP_INSTALL
+  # Install using "pip install".
   - printf "pip install \"\$@\"\n" >> $PIP_INSTALL
   - chmod +x $PIP_INSTALL
 
@@ -66,10 +59,6 @@ install:
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
   - sed -i.bak 's/whitelist_externals =/\0\n    travis_pip_install/' tox.ini
   - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
-  # Inject wheel dependency into tox.ini, for travis_pip_install.
-  - sed -i.bak -e 's/deps =.*/\0\n    wheel/' tox.ini
-  - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
-  - cat $PIP_INSTALL
   - cat tox.ini
 
   - travis_pip_install tox
@@ -83,12 +72,15 @@ before_script:
   # Run tests either with or without coverage (being installed).
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 before_install:
+  # Upgrade pip to 7.x for automatic installing from wheels.
+  - pip install -U pip
+  - pip --version
   - npm install phantomjs
   - phantomjs --version
 script:
-  - ls -l $PWD/wheelhouse > /tmp/wheelhouse.before
+  - find $HOME/.cache/pip -ls > /tmp/wheelhouse.before
   - $RUN_TESTS
-  - ls -l $PWD/wheelhouse > /tmp/wheelhouse.after
+  - find $HOME/.cache/pip -ls > /tmp/wheelhouse.after
   - diff /tmp/wheelhouse.before /tmp/wheelhouse.after || true
   - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
@@ -103,6 +95,6 @@ notifications:
 # Persistent cache across builds (http://docs.travis-ci.com/user/caching/).
 cache:
   directories:
-    - $PWD/wheelhouse
+    - $HOME/.cache/pip
 before_cache:
   - rm -f .tox/$TOXENV/log/*.log
