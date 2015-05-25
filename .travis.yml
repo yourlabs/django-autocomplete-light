@@ -73,9 +73,8 @@ before_script:
   - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 before_install:
   # Upgrade pip to 7.x for automatic installing from wheels.
-  - pip install -U pip
-  - pip --version
-  - npm install phantomjs
+  - travis_retry pip install 'pip>7'
+  - travis_retry npm install phantomjs
   - phantomjs --version
 script:
   - find $HOME/.cache/pip -ls > /tmp/wheelhouse.before
@@ -97,4 +96,4 @@ cache:
   directories:
     - $HOME/.cache/pip
 before_cache:
-  - rm -f .tox/$TOXENV/log/*.log
+  - rm -f $HOME/.cache/pip/log/debug.log
