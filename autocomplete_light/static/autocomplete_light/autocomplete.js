@@ -55,6 +55,14 @@ Also, note that this script is composed of two main parts:
 `$.fn.yourlabsAutocomplete`
 */
 
+if (window.isOpera === undefined) {
+    var isOpera = (navigator.userAgent.indexOf("Opera")>=0) && parseFloat(navigator.appVersion);
+}
+
+if (window.isIE === undefined) {
+    var isIE = ((document.all) && (!isOpera)) && parseFloat(navigator.appVersion.split("MSIE ")[1].split(";")[0]);
+}
+
 if (window.findPosX === undefined) {
     window.findPosX = function(obj) {
         var curleft = 0;
