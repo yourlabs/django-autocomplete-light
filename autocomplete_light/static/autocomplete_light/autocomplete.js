@@ -562,11 +562,16 @@ the system from Django admin's JS widgets like the date calendar, which means:
 yourlabs.Autocomplete.prototype.fixPosition = function() {
     var el = this.input.get(0)
 
+    var zIndex = this.input.parents().filter(function() {
+        return $(this).css('z-index') != 'auto';
+    }).first().css('z-index');
+
     this.box.appendTo(this.container).css({
         position: 'absolute',
         minWidth: parseInt(this.input.outerWidth()),
         top: (findPosY(el) + this.input.outerHeight()) + 'px',
-        left: findPosX(el) + 'px'
+        left: findPosX(el) + 'px',
+        zIndex: zIndex
     });
 };
 
