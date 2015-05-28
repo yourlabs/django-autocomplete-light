@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import pytest
+
 import autocomplete_light.shortcuts as autocomplete_light
 from django import forms
 from django.contrib.contenttypes.models import ContentType
@@ -13,6 +15,7 @@ class BaseMixin(object):
     GOOD_VALUE = 'b'
     CLEANED_VALUE = 'b'
     BAD_VALUE = 'xx'
+    EMPTY_VALUE = None
 
     class TestAutocomplete(autocomplete_light.AutocompleteListBase):
         choices = ['a', 'b', 'c']
@@ -27,6 +30,12 @@ class BaseMixin(object):
 
         with self.assertRaises(forms.ValidationError):
             test.validate(self.BAD_VALUE)
+
+    def test_validate_required(self):
+        test = self.field_class(self.TestAutocomplete, required=True)
+
+        with pytest.raises(forms.ValidationError):
+            test.validate(self.EMPTY_VALUE)
 
     def test_select_choice(self):
         class TestForm(forms.Form):

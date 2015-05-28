@@ -47,8 +47,12 @@ class FieldBase(object):
 
     def validate(self, value):
         """
-        Wrap around Autocomplete.validate_values().
+        Wrap around forms.Field and Autocomplete.validate_values().
+
+        Field.validate_values() handles the required option.
         """
+        forms.Field.validate(self, value)
+
         # FIXME: we might actually want to change the Autocomplete API to
         # support python values instead of raw values, that would probably be
         # more performant.
