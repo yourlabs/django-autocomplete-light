@@ -1,3 +1,18 @@
+2.2.0rc3
+
+    - #429: handle required=True in form fields again, regression introduced
+      in rc1's python BC break.
+    - #426: handle z-index since we're absolutely-positioning in 2.2.x
+
+Thanks a lot to the rc tester community
+
+2.2.0rc2
+
+    - #425: fixed blunt JS errors.
+    - Do not add pip debug log (~/.cache/pip/log/debug.log) to Travis cache.
+    - Just install 'pip>7', potentially using an updated version on Travis.
+    - Use travis_retry with "pip install", and also for `npm install`.
+
 2.2.0rc1
 
     PENDING BREAK WARNING, Django >= 1.9.
