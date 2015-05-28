@@ -1,3 +1,7 @@
+2.2.0rc4
+
+    @lucky-user contributed Opera/Chromium improved support.
+
 2.2.0rc3
 
     - #429: handle required=True in form fields again, regression introduced
