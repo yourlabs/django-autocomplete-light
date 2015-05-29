@@ -288,8 +288,14 @@ yourlabs.Autocomplete = function (input) {
     /*
     We'll append the box to the container and calculate an absolute position
     every time the autocomplete is shown in the fixPosition method.
+
+    By default, this traverses this.input's parents to find the nearest parent
+    with an 'absolute' or 'fixed' position. This prevents scrolling / resizing
+    issues that we'd have by boldly using <body>.
     */
-    this.container = $('body');
+    this.container = this.input.parents().filter(function() {
+        return ['absolute', 'fixed'].indexOf($(this).css('position')) > -1;
+    }).first();
 };
 
 /*
