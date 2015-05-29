@@ -316,6 +316,10 @@ yourlabs.Autocomplete.prototype.initialize = function() {
         .on('focus.autocomplete', $.proxy(this.inputClick, this))
         .on('keydown.autocomplete', $.proxy(this.inputKeyup, this));
 
+    $(window).on('resize', $.proxy(function() {
+        if (this.box.is(':visible')) this.fixPosition();
+    }, this));
+
     if (ie == -1 || ie > 9) {
         this.input.on('input.autocomplete', $.proxy(this.refresh, this));
     }
