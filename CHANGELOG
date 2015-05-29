@@ -1,3 +1,7 @@
+2.2.0rc7
+
+    - call fixPosition() on window resize if the autocomplete box is shown.
+
 2.2.0rc6
 
     - #431 strikes again, default to body when it can't find a relevant
