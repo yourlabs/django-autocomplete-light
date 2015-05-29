@@ -42,7 +42,7 @@ if 'sdist' in sys.argv:
 
 setup(
     name='django-autocomplete-light',
-    version='2.2.0rc5',
+    version='2.2.0rc6',
     description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',

@@ -1,3 +1,8 @@
+2.2.0rc6
+
+    - #431 strikes again, default to body when it can't find a relevant
+      container.
+
 2.2.0rc5
 
     - Reduce default latency because hardware is better.
