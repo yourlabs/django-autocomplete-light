@@ -290,12 +290,14 @@ yourlabs.Autocomplete = function (input) {
     every time the autocomplete is shown in the fixPosition method.
 
     By default, this traverses this.input's parents to find the nearest parent
-    with an 'absolute' or 'fixed' position. This prevents scrolling / resizing
-    issues that we'd have by boldly using <body>.
+    with an 'absolute' or 'fixed' position. This prevents scrolling issues. If
+    we can't find a parent that would be correct to append to, default to
+    <body>.
     */
     this.container = this.input.parents().filter(function() {
         return ['absolute', 'fixed'].indexOf($(this).css('position')) > -1;
     }).first();
+    if (!this.container.length) this.container = $('body');
 };
 
 /*
