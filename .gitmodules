@@ -1,0 +1,3 @@
+[submodule "jquery-autocomplete-light"]
+	path = jquery-autocomplete-light
+	url = https://github.com/yourlabs/jquery-autocomplete-light.git
