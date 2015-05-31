@@ -356,18 +356,3 @@ class InlineSelectChoiceTestCase(SelectChoiceInEmptyFormTestCase):
         self.selenium.find_element_by_css_selector('.add-row a').click()
         self.send_keys('ja')
         self.autocomplete_choices()[1].click()
-
-    def test_original_input_is_invisible(self):
-        """Test that the original input is not visible (width=0).
-        Ref: https://github.com/yourlabs/django-autocomplete-light/pull/334#issuecomment-75745309
-        """
-        orig_input = self.input().find_element_by_xpath(
-            'ancestor::tr/td[@class="original"]')
-
-        # XXX: workaround for PhantomJS (1.9.8) behaving not like Firefox..
-        # .size is {'width': 1, 'height': 35} with PhantomJS.
-        # With Firefox .value_of_css_property('width') is '0px' (not 'height).
-        if isinstance(self.selenium, webdriver.PhantomJS):
-            self.assertEqual(orig_input.value_of_css_property('height'), '0px')
-        else:
-            self.assertEqual(orig_input.size['width'], 0)
