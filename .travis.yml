@@ -9,7 +9,7 @@ python:
 env:
   global:
     - TESTS_SKIP_LIVESERVER=1
-    - TESTS_USE_PHANTOMJS=1
+    - TESTS_WEBDRIVER=PhantomJS
     - PIP_DISABLE_PIP_VERSION_CHECK=true
   matrix:
     - TOXENV=py27-django14-taggit-genericm2m
