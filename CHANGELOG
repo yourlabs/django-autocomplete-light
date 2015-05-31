@@ -1,3 +1,8 @@
+2.2.0rc8
+
+    - #408: Django admin's new edit link was implemented in such a way that
+      it's unable to generate itself properly server-side on initial rendering.
+
 2.2.0rc7
 
     - call fixPosition() on window resize if the autocomplete box is shown.
