@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^non_admin_add_another/',
         include('autocomplete_light.example_apps.non_admin_add_another.urls')),
     url(r'^favicon.ico', generic.RedirectView.as_view(url='http://mozilla.org/favicon.ico')),
-    url(r'^$', generic.TemplateView.as_view(template_name='index.html'))
+    url(r'^$', generic.TemplateView.as_view(template_name='index.html')),
+    url(r'^bootstrap_modal/', include('bootstrap_modal.urls')),
 ]
 
 if django.VERSION < (1, 9):

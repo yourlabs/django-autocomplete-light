@@ -142,6 +142,7 @@ INSTALLED_APPS = (
 
     'navigation_autocomplete',
     'admin_autocomplete_in_row',
+    'bootstrap_modal'
 )
 
 
