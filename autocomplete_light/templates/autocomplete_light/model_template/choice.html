@@ -1,6 +1,7 @@
 {% load i18n l10n %}
 {% load static %}
 
+{% spaceless %}
 <span class="block" data-value="{{ choice.pk|unlocalize }}">
     {{ choice }}
     {% with choice.get_absolute_url as url %}
@@ -17,3 +18,4 @@
         {% endif %}
     {% endwith %}
 </span>
+{% endspaceless %}
