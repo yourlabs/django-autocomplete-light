@@ -1,3 +1,11 @@
+2.2.0
+
+    - #318: Remove extra spaces rendered in choices.
+    - #438: Hide autocomplete on scroll in Firefox because it bugs (temp fix).
+    - #432: New bootstrap_modal test_app by @lucky-user.
+    - #118: Extracted JS into a standalone jquery-plugin:
+            https://github.com/yourlabs/jquery-autocomplete-light
+
 2.2.0rc8
 
     - #408: Django admin's new edit link was implemented in such a way that
