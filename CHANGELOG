@@ -1,3 +1,13 @@
+2.2.1
+
+    Django 1.8 admin support hacks broke create_choices_on_the_fly example and
+    probably some other wicked JS things in user projects.
+
+    Note that we have also extracted django admin specific hooks from widget.js
+    into django_admin.js. So if you have custom JS loading in the admin instead
+    of `{% include 'autocomplete_light/static.html' %}` then you should update
+    it to include django_admin.js in django admin.
+
 2.2.0
 
     - #318: Remove extra spaces rendered in choices.
