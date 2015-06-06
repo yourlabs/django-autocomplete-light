@@ -77,7 +77,8 @@ ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
-STATIC_URL = '/static/'
+STATIC_URL = '/public/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '^le6=#%$1z63o!#z^qr(r+^ix&iqx)@h*u$@8$bu&n8cv6m)go'
