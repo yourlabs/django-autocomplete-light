@@ -177,3 +177,11 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
 
         with pytest.raises(Exception):
             len(results)
+
+    def test_ambiguous_column_name(self):
+        class Test(autocomplete_light.AutocompleteModelBase):
+            choices = NonIntegerPk.objects.select_related('noise')
+
+        fixture = Test(values=[NonIntegerPk.objects.create(name='bal').pk])
+        # Call len to force evaluate queryset
+        len(fixture.choices_for_values())
