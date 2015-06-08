@@ -1,8 +1,10 @@
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
+import pytest
+
 from django.utils.encoding import force_text
 
+from autocomplete_light.example_apps.autocomplete_test_case_app.models import NonIntegerPk
 from .case import *
 
 
@@ -165,3 +167,13 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
                 'expected_valid': False,
             },
         )
+
+    def test_queryset_mistake(self):
+        class Test(autocomplete_light.AutocompleteModelBase):
+            choices = NonIntegerPk.objects.select_related('artist')
+
+        fixture = Test(values=[NonIntegerPk.objects.create(name='bal').pk])
+        results = fixture.choices_for_values()
+
+        with pytest.raises(Exception):
+            len(results)

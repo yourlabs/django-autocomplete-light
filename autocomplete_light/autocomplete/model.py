@@ -70,12 +70,8 @@ class AutocompleteModel(object):
             self.order_by = (self.order_by,)
 
         if self.values:
-            pk_name = "id"
-            try:
-                if len(choices) > 0:
-                    pk_name = choices[0]._meta.pk.name
-            except:
-                pass
+            pk_name = ('id' if not getattr(choices.model._meta, 'pk', None)
+                    else choices.model._meta.pk.name)
 
             # Order in the user selection order when self.values is set.
             clauses = ' '.join(['WHEN %s=\'%s\' THEN %s' % (pk_name, pk, i)
