@@ -1,3 +1,8 @@
+2.2.2
+
+    #422: Ambiguous column names in AutocompleteModelBase.
+    Also removed a generic exception expect/pass.
+
 2.2.1
 
     Django 1.8 admin support hacks broke create_choices_on_the_fly example and
