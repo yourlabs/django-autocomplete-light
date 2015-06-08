@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import pytest
 
+from django import VERSION
 from django.utils.encoding import force_text
 
 from autocomplete_light.example_apps.autocomplete_test_case_app.models import NonIntegerPk
@@ -168,6 +169,7 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
             },
         )
 
+    @unittest.skipIf(VERSION < (1, 8), 'Django < 1.8')
     def test_queryset_mistake(self):
         class Test(autocomplete_light.AutocompleteModelBase):
             choices = NonIntegerPk.objects.select_related('artist')
