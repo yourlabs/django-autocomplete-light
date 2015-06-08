@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import unittest
 import pytest
 
 from django import VERSION
