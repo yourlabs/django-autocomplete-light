@@ -18,3 +18,7 @@ class NonIntegerPk(models.Model):
 
     for_inline = models.ForeignKey('self', null=True, blank=True,
                                    related_name='inline')
+
+
+class SubGroup(Group):
+    pass

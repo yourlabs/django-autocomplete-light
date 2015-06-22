@@ -6,7 +6,7 @@ import pytest
 from django import VERSION
 from django.utils.encoding import force_text
 
-from autocomplete_light.example_apps.autocomplete_test_case_app.models import NonIntegerPk
+from autocomplete_light.example_apps.autocomplete_test_case_app.models import NonIntegerPk, SubGroup
 from .case import *
 
 
@@ -188,3 +188,12 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
         fixture = Test(values=[NonIntegerPk.objects.create(name='bal').pk])
         # Call len to force evaluate queryset
         len(fixture.choices_for_values())
+
+    def test_inherited_model_ambiguous_column_name(self):
+        subgroup = SubGroup.objects.create(name='test')
+
+        class Test(autocomplete_light.AutocompleteModelBase):
+            choices = SubGroup.objects.all()
+
+        fixture = Test(values=[subgroup.pk])
+        assert fixture.choices_for_values()[0] == subgroup
