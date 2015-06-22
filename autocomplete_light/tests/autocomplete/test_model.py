@@ -6,7 +6,7 @@ import pytest
 from django import VERSION
 from django.utils.encoding import force_text
 
-from autocomplete_light.example_apps.autocomplete_test_case_app.models import NonIntegerPk
+from autocomplete_light.example_apps.autocomplete_test_case_app.models import NonIntegerPk, SubGroup
 from .case import *
 
 
@@ -186,5 +186,13 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
             choices = NonIntegerPk.objects.select_related('noise')
 
         fixture = Test(values=[NonIntegerPk.objects.create(name='bal').pk])
+        # Call len to force evaluate queryset
+        len(fixture.choices_for_values())
+
+    def test_inherited_model_ambiguous_column_name(self):
+        class Test(autocomplete_light.AutocompleteModelBase):
+            choices = SubGroup.objects.all()
+
+        fixture = Test(values=[SubGroup.objects.create(name='test')])
         # Call len to force evaluate queryset
         len(fixture.choices_for_values())
