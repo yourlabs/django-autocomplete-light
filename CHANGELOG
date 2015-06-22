@@ -1,3 +1,17 @@
+2.2.3
+
+    #447: Ambiguous column names strikes again. This time we're using the
+    .column field attribute and covered a couple of cases including model
+    inheritance.
+    yourlabs/jquery-autocomplete-light#4 fixed clearInputOnSelectChoice
+    behaviour by @RaphaelKimmig:
+
+    - by clearing autocomplete.value as well as input.val we make sure that
+      subsequent clicks will not open the autocomplete filtered by a value that
+      is no longer visible to the user
+    - by clearing the input before triggering the focus we make sure the
+      minimumCharacters settings is honored
+
 2.2.2
 
     #422: Ambiguous column names in AutocompleteModelBase.
