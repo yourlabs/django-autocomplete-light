@@ -6,7 +6,8 @@ import pytest
 from django import VERSION
 from django.utils.encoding import force_text
 
-from autocomplete_light.example_apps.autocomplete_test_case_app.models import NonIntegerPk, SubGroup
+from autocomplete_light.example_apps.autocomplete_test_case_app.models import (
+        NonIntegerPk, SubGroup, CustomSchema)
 from .case import *
 
 
@@ -197,3 +198,12 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
 
         fixture = Test(values=[subgroup.pk])
         assert fixture.choices_for_values()[0] == subgroup
+
+    def test_custom_table_and_name(self):
+        obj = CustomSchema.objects.create(name='test')
+
+        class Test(autocomplete_light.AutocompleteModelBase):
+            choices = CustomSchema.objects.all()
+
+        fixture = Test(values=[obj.pk])
+        assert fixture.choices_for_values()[0] == obj

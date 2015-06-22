@@ -71,7 +71,7 @@ class AutocompleteModel(object):
 
         if self.values:
             pk_name = ('id' if not getattr(choices.model._meta, 'pk', None)
-                    else choices.model._meta.pk.attname)
+                    else choices.model._meta.pk.column)
             pk_name = '%s.%s' % (choices.model._meta.db_table, pk_name)
 
             # Order in the user selection order when self.values is set.

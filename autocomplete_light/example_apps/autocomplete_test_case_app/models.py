@@ -22,3 +22,10 @@ class NonIntegerPk(models.Model):
 
 class SubGroup(Group):
     pass
+
+
+class CustomSchema(models.Model):
+    name = models.CharField(primary_key=True, max_length=10, db_column='bar')
+
+    class Meta:
+        db_table = 'foobar'
