@@ -1,9 +1,7 @@
+.. image:: https://badge.fury.io/py/django-autocomplete-light.png
+   :target: http://badge.fury.io/py/django-autocomplete-light
 .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
     :target: http://travis-ci.org/yourlabs/django-autocomplete-light
-.. image:: https://pypip.in/d/django-autocomplete-light/badge.png
-    :target: https://crate.io/packages/django-autocomplete-light
-.. image:: https://pypip.in/v/django-autocomplete-light/badge.png   
-    :target: https://crate.io/packages/django-autocomplete-light
 .. image:: https://coveralls.io/repos/yourlabs/django-autocomplete-light/badge.png?branch=stable/2.x.x
     :target: https://coveralls.io/r/yourlabs/django-autocomplete-light?branch=stable/2.x.x
 
