@@ -20,6 +20,10 @@ class NonIntegerPk(models.Model):
                                    related_name='inline')
 
 
+class CustomIntegerPk(models.Model):
+    id = models.IntegerField(primary_key=True)
+
+
 class SubGroup(Group):
     pass
 
