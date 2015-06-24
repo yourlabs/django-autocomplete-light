@@ -7,7 +7,7 @@ from django import VERSION
 from django.utils.encoding import force_text
 
 from autocomplete_light.example_apps.autocomplete_test_case_app.models import (
-        NonIntegerPk, SubGroup, CustomSchema)
+        NonIntegerPk, SubGroup, CustomSchema, CustomIntegerPk)
 from .case import *
 
 
@@ -207,3 +207,12 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
 
         fixture = Test(values=[obj.pk])
         assert fixture.choices_for_values()[0] == obj
+
+    def test_primary_key_zero(self):
+        obj = CustomIntegerPk.objects.create(id=0)
+
+        class Test(autocomplete_light.AutocompleteModelBase):
+            choices = CustomIntegerPk.objects.all()
+
+        fixture = Test(values=[obj.pk])
+        self.assertEqual(list(fixture.choices_for_values()), [obj])
