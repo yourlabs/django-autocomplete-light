@@ -216,3 +216,10 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
 
         fixture = Test(values=[obj.pk])
         self.assertEqual(list(fixture.choices_for_values()), [obj])
+
+    def test_list_ordering(self):
+        class Fixture(AutocompleteModelMock):
+            order_by = ['id']
+
+        fixture = Fixture(values=[1, 4])
+        self.assertEqual(list(fixture.choices_for_values()), [self.abe, self.john])

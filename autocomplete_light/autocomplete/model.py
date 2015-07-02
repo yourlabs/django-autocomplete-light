@@ -81,7 +81,9 @@ class AutocompleteModel(object):
 
             _order_by = ('ordering',)
             if self.order_by:
-                _order_by += self.order_by
+                # safe concatenation of list/tuple
+                # thanks lvh from #python@freenode
+                _order_by = set(_order_by) | set(self.order_by)
 
             return choices.extra(
                 select={'ordering': ordering},
