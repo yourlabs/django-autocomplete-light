@@ -1,5 +1,23 @@
 Upgrading from django-autocomplete-light v1 to v2
-=================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please enjoy this v1 to v2 upgrade instructions to upgrade from DAL 1.x to 2.x
+(documented with love !).
+
+Quick upgrade
+=============
+
+- the Autocomplete class design hasn't changed at all.
+- ``yourlabsWidget()`` doesn't parses ``data-*`` options the same,
+- the django/form python code has been re-organised ie.
+  ``get_widgets_dict()`` is gone and ``autocomplete_light.ModelForm``
+  wraps around all features by default.
+- use ``autocomplete_light.ModelForm`` instead of
+  ``autocomplete_light.GenericModelForm`` - generic foreign keys and
+  django-generic-m2m are supported by default if installed.
+
+Detailed upgrade
+================
 
 You should not use widget directly anymore
 ------------------------------------------

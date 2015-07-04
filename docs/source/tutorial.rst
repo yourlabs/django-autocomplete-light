@@ -1,5 +1,5 @@
-Tutorial
-========
+Quick start: adding simple autocompletes
+========================================
 
 .. _quick-start:
 
