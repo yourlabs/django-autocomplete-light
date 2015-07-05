@@ -4,13 +4,13 @@ Install the ``django-autocomplete-light>=2.0.0pre`` package with pip
 Install the stable release, preferably in a `virtualenv
 <http://virtualenv.org>`_::
 
-    pip install 'django-autocomplete-light>=2.0.0a1'
+    pip install 'django-autocomplete-light
 
 Or the development version::
 
-    pip install -e git+https://github.com/yourlabs/django-autocomplete-light@v2#egg=autocomplete_light
+    pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=autocomplete_light
 
-Append ``'autocomplete_light'`` to ``settings.INSTALLED_APPS`` *before* ``django.contrib.admin``
+Append ``'autocomplete_light'`` to ``settings.INSTALLED_APPS`` **before** ``django.contrib.admin``
 ------------------------------------------------------------------------------------------------
 
 Enable templates and static files by adding ``autocomplete_light`` to

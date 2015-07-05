@@ -8,10 +8,10 @@
     :target: https://coveralls.io/r/yourlabs/django-autocomplete-light?branch=stable/2.x.x
 
 django-autocomplete-light's purpose is to enable autocompletes quickly and
-properly in a django project: it is the fruit of **years of R&D**. It was
-designed for Django so that every part overridable or reusable independently.
-It is stable, tested, documented and fully supported: it tries to be a good
-neighbour in Django ecosystem.
+properly in a django project: it is the fruit of half a decade of R&D and
+thousands of contributions. It was designed for Django so that every part
+overridable or reusable independently. It is stable, tested, documented and
+fully supported: it tries to be a good neighbour in Django ecosystem.
 
 Features
 --------
@@ -30,22 +30,6 @@ Features include:
 
 Each feature has a live example and is fully documented. It is also designed
 and documented so that you create your own awesome features too.
-
-Upgrade from 1.x.x
-------------------
-
-**To upgrade to v2**, please enjoy the `v1 to v2 upgrade instructions
-<http://django-autocomplete-light.readthedocs.org/en/stable-2.x.x/1to2.html>`_
-(documented with love !).
-
-- the Autocomplete class design hasn't changed at all.
-- ``yourlabsWidget()`` doesn't parses ``data-*`` options the same,
-- the django/form python code has been re-organised ie.
-  ``get_widgets_dict()`` is gone and ``autocomplete_light.ModelForm``
-  wraps around all features by default.
-- use ``autocomplete_light.ModelForm`` instead of
-  ``autocomplete_light.GenericModelForm`` - generic foreign keys and
-  django-generic-m2m are supported by default if installed.
 
 Resources
 ---------
