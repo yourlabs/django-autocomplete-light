@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import atexit
 import os
 import unittest
 
@@ -49,6 +50,19 @@ else:
     WAIT_TIME = 5
 
 
+# Global Selenium instance.
+class Selenium():
+    selenium = None
+
+    def __new__(cls):
+        if not cls.selenium:
+            selenium = getattr(webdriver, os.environ.get('TESTS_WEBDRIVER', 'Firefox'))()
+            selenium.implicitly_wait(WAIT_TIME)
+            atexit.register(selenium.quit)
+            cls.selenium = selenium
+        return cls.selenium
+
+
 class WidgetTestCase(LiveServerTestCase):
     input_name_suffix = '-autocomplete'
     autocomplete_name = 'relation'
@@ -60,16 +74,12 @@ class WidgetTestCase(LiveServerTestCase):
         if os.environ.get('TESTS_SKIP_LIVESERVER', False):
             raise unittest.SkipTest('TESTS_SKIP_LIVESERVER enabled')
 
-        cls.selenium = getattr(webdriver, 
-            os.environ.get('TESTS_WEBDRIVER', 'Firefox'))()
-
-        cls.selenium.implicitly_wait(WAIT_TIME)
+        cls.selenium = Selenium()
         super(WidgetTestCase, cls).setUpClass()
 
     @classmethod
     def tearDownClass(cls):
         super(WidgetTestCase, cls).tearDownClass()
-        cls.selenium.quit()
         cls.test_case_setup_done = False
 
     def setUp(self):
