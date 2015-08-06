@@ -1,3 +1,8 @@
+2.2.5
+
+    #452 Fix the case where there is a cap in the pg table or column name
+    #454: AutocompleteModel.order_by being a list would crash.
+
 2.2.4
 
     #463 Update jquery-autocomplete-light which contains IE8 fixes.
