@@ -33,3 +33,11 @@ class CustomSchema(models.Model):
 
     class Meta:
         db_table = 'foobar'
+
+
+class Caps(models.Model):
+    id = models.IntegerField(primary_key=True, db_column='Id')
+    name = models.CharField(max_length=10, db_column='Bar')
+
+    class Meta:
+        db_table = 'Caps'

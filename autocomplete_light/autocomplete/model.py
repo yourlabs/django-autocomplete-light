@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import six
 from django.db.models import Q
 from django.utils.encoding import force_text
+from django.db import connection
 
 from ..settings import DEFAULT_SEARCH_FIELDS
 
@@ -72,7 +73,10 @@ class AutocompleteModel(object):
         if self.values:
             pk_name = ('id' if not getattr(choices.model._meta, 'pk', None)
                     else choices.model._meta.pk.column)
-            pk_name = '%s.%s' % (choices.model._meta.db_table, pk_name)
+
+            field = '"%s"."%s"' if connection.vendor == 'postgresql' \
+                    else '%s.%s'
+            pk_name = field % (choices.model._meta.db_table, pk_name)
 
             # Order in the user selection order when self.values is set.
             clauses = ' '.join(['WHEN %s=\'%s\' THEN %s' % (pk_name, pk, i)
