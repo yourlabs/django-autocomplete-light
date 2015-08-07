@@ -123,6 +123,7 @@ For admin support, `override
     {% extends "admin/base.html" %}
 
     {% block extrahead %}
+        {{ block.super }}
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
         {% include 'autocomplete_light/static.html' %}
     {% endblock %}
