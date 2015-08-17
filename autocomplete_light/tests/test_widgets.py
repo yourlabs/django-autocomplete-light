@@ -161,9 +161,21 @@ class WidgetBaseMixin(object):
         self.assertEqual(len(choices), 1)
         self.assertEqual(int(choices[0].attrib['data-value']), 1)
 
-
 class ChoiceWidgetTestCase(WidgetBaseMixin, TestCase):
     widget_class = autocomplete_light.ChoiceWidget
+
+    def test_attrs_copy_class(self):
+        widget = self.widget_class('A2')
+        html = widget.render('taggit', value='oky')
+        et = etree.XML(html)
+        self.assertTrue(et.find('input').get('data-class-defined'), '1')
+
+    def test_attrs_copy_init(self):
+        widget = self.widget_class('A2')
+        html = widget.render('taggit', value='oky')
+        et = etree.XML(html)
+
+        self.assertTrue(et.find('input').get('data-init-defined'), '2')
 
 
 class MultipleChoiceWidgetTestCase(WidgetBaseMixin, TestCase):
@@ -204,3 +216,15 @@ class TextWidgetTestCase(WidgetBaseMixin, TestCase):
         html = widget.render('taggit', None)
         et = etree.XML(html)
         self.assertFalse('value' in et.attrib)
+
+    def test_attrs_copy_class(self):
+        widget = self.widget_class('B2')
+        html = widget.render('taggit', value='oky')
+        et = etree.XML(html)
+        self.assertTrue('data-class-defined' in et.attrib)
+
+    def test_attrs_copy_init(self):
+        widget = self.widget_class('B2')
+        html = widget.render('taggit', value='oky')
+        et = etree.XML(html)
+        self.assertTrue('data-init-defined' in et.attrib)

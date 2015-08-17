@@ -16,11 +16,21 @@ for model in models:
 
 
 class A(autocomplete_light.AutocompleteGenericBase):
-    choices=[m.objects.all() for m in models]
-    search_fields=[['name']] * len(models)
+    choices = [m.objects.all() for m in models]
+    search_fields = [['name']] * len(models)
 
+class A2(autocomplete_light.AutocompleteGenericBase):
+    choices = [m.objects.all() for m in models]
+    search_fields = [['name']] * len(models)
+    values = ['1','2', '3' ]
+    attrs = {'data-class-defined': 1}
+
+    def __init__(self, *args, **kw):
+        self.attrs = self.attrs.copy()
+        self.attrs.update({'data-init-defined': 2})
 
 autocomplete_light.register(A)
+autocomplete_light.register(A2)
 
 
 # The autocomplete for class B is used to set up the test case for
@@ -28,11 +38,21 @@ autocomplete_light.register(A)
 # This bug is triggered only when the autocomplete is registered with a
 # widget_attrs dictionary.
 class B(autocomplete_light.AutocompleteGenericBase):
-    choices=[m.objects.all() for m in models]
-    search_fields=[['name']] * len(models)
+    choices = [m.objects.all() for m in models]
+    search_fields = [['name']] * len(models)
+
+class B2(autocomplete_light.AutocompleteGenericBase):
+    choices = [m.objects.all() for m in models]
+    search_fields = [['name']] * len(models)
+    attrs = {'data-class-defined': 1}
+
+    def __init__(self, *args, **kw):
+        self.attrs = self.attrs.copy()
+        self.attrs.update({'data-init-defined': 2})
 
 
 autocomplete_light.register(B, widget_attrs={'data-widget-maximum-values': 4})
+autocomplete_light.register(B2, )
 
 
 try:
