@@ -3,39 +3,39 @@ Welcome to django-autocomplete-light's documentation!
 
 .. include:: ../../README.rst
 
-Quick evaluation of DAL in a temporary local environment
---------------------------------------------------------
+Live Demo
+---------
 
 While you can use the `live demo hosted by PythonAnywhere
 <http://jpic.pythonanywhere.com>`_, you can run test projects for a local demo
 in a temporary virtualenv.
-  
+
 .. toctree::
    :maxdepth: 1
 
    demo
 
-Installation instructions for DAL
----------------------------------
+Installation
+------------
 
 Advanced Django users are likely to install it in no time by
 following this step-list. Click on a step for details.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    install
 
 If you didn't click any, and this is your first install: bravo !
 
-Quick start
------------
+Tutorial
+--------
 
 Enabling autocompletes inside and outside of the admin has become piece of
 cake.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    tutorial
 
@@ -46,13 +46,13 @@ Reference and design documentation
 
 If you need anything more than just enabling autocompletes in the admin, then
 you should understand django-autocomplete-light's architecture. Because you can
-override any part of it. 
+override any part of it.
 
 The architecture is based on 3 main parts which you can override to build
 insanely creative features as many users already did.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    autocomplete
    form
@@ -78,7 +78,7 @@ FAQ
 ---
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    faq
 
@@ -87,7 +87,7 @@ API: find hidden gems
 ---------------------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    api
 
@@ -108,7 +108,7 @@ There are major changes between v1 and v2, upgrading has been extensively
 documented:
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    1to2
 
@@ -130,4 +130,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
