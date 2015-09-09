@@ -1,3 +1,9 @@
+2.2.6
+
+    jquery-autocomplete-light/#8: Positionning bug fix by @marianobianchi,
+    jquery-autocomplete-light/#6: Bugfix: Firefox won't hide input after reload
+    when option was selected by @marianobianchi,
+
 2.2.5
 
     #452 Fix the case where there is a cap in the pg table or column name
