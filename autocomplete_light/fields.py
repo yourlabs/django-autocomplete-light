@@ -86,16 +86,30 @@ class MultipleChoiceField(ChoiceField, forms.MultipleChoiceField):
     widget = MultipleChoiceWidget
 
 
-class ModelChoiceField(FieldBase, forms.ModelChoiceField):
+class ModelChoiceFieldBase(FieldBase):
+    def _get_queryset(self):
+        return self._queryset
+
+    def _set_queryset(self, queryset):
+        self._queryset = queryset
+        self.widget.choices = self.choices
+
+        # Also update autocomplete choices
+        self.autocomplete.choices = queryset
+
+    queryset = property(_get_queryset, _set_queryset)
+
+
+class ModelChoiceField(ModelChoiceFieldBase, forms.ModelChoiceField):
     widget = ChoiceWidget
 
 
-class ModelMultipleChoiceField(FieldBase,
+class ModelMultipleChoiceField(ModelChoiceFieldBase,
         forms.ModelMultipleChoiceField):
     widget = MultipleChoiceWidget
 
 
-class GenericModelChoiceField(FieldBase, forms.Field):
+class GenericModelChoiceField(ModelChoiceFieldBase, forms.Field):
     """
     Simple form field that converts strings to models.
     """
