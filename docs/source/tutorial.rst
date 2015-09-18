@@ -3,6 +3,12 @@ Quick start: adding simple autocompletes
 
 .. _quick-start:
 
+This tutorial guides you through the process of enabling autocomplete for a simple form. We'll enable autocompletion for ``Person`` on the form of an ``Order`` model, i.e. we want to get autocompletion for ``Person`` objects when we type the person's first or last name.
+
+For this to work, we have to register an autocomplete for the ``Person`` model. The autocomplete tells autocomplete-light how to render your autocompletion and what model fields to search in (like ``first_name``, ``last_name``, ...).
+
+When we have defined how a ``Person`` autocompletion should look like, we have to enable it in the ``Order`` form. This is done by modifying the ``Order`` form so that autocomplete-light's special form fields are used instead of the ones built into Django. autocomplete-light provides a handy wrapper around Django's modelforms which makes this a very easy thing to do.
+
 :py:func:`autocomplete_light.register() <autocomplete_light.registry.register>` shortcut to generate and register Autocomplete classes
 --------------------------------------------------------------------------------------------------------------------------------------
 
