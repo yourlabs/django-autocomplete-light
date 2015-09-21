@@ -1,8 +1,23 @@
+2.2.7
+
+    yourlabs/jquery-autocomplete-light#11: jqXHR.abort considered harmful,
+    @dsanders11 fixes BrokenPipe.
+    yourlabs/jquery-autocomplete-light#10: consistency fix: use $ instead
+    of jQuery for new functions by @dsanders11
+    yourlabs/jquery-autocomplete-light#9: New parameter to disable
+    auto-hilighting on first choice #9 by @superzazu, should fix #495 too.
+    #477: Widget's render should use attrs even when created wthing __init__ by
+    @sandroden.
+
 2.2.6
 
     jquery-autocomplete-light/#8: Positionning bug fix by @marianobianchi,
-    jquery-autocomplete-light/#6: Bugfix: Firefox won't hide input after reload
+    jquery-autocomplete-light/#6: Bugfix: Firefox won't hide input after
+    reload
     when option was selected by @marianobianchi,
+    #483: German translation by Mounir Messelmeni
+    #476, #474, #482, documentation improvements by Mounir, Visgean Skeloru and
+    Florentin Hennecker.
 
 2.2.5
 
