@@ -45,3 +45,7 @@ class AutocompleteChoicesMustBeQuerySet(AutocompleteLightException):
         msg = ('%s.choices must be a QuerySet to support ModelChoiceField' %
             autocomplete)
         super(AutocompleteChoicesMustBeQuerySet, self).__init__(msg)
+
+
+class NonDjangoModelSubclassException(AutocompleteLightException):
+    pass

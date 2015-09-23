@@ -1,11 +1,14 @@
 from __future__ import unicode_literals
 
 import six
+
 from django.db import models
+from .compat import get_model, import_string
 
 from .exceptions import (AutocompleteArgNotUnderstood,
                          AutocompleteNotRegistered,
-                         NoGenericAutocompleteRegistered)
+                         NoGenericAutocompleteRegistered,
+                         NonDjangoModelSubclassException)
 
 """
 The registry module provides tools to maintain a registry of autocompletes.
@@ -127,7 +130,30 @@ class AutocompleteRegistry(dict):
         assert len(args) <= 2, 'register takes at most 2 args'
         assert len(args) > 0, 'register takes at least 1 arg'
 
-        model, autocomplete = self.__class__.extract_args(*args)
+        processed_args = []
+
+        for arg in args:
+            if isinstance(arg, six.string_types):
+                parts = arg.split('.')
+                if len(parts) == 2:
+                    # if 'app_name.ModelName'
+                    app_label = parts[0]
+                    model_name = parts[-1]
+                    model = get_model(app_label=app_label, model_name=model_name)  # noqa
+                    processed_args.append(model)
+                elif len(parts) > 2:
+                    # if 'full.path.to.Model'
+                    model = import_string(arg)
+                    if not issubclass(model, models.Model):
+                        raise NonDjangoModelSubclassException('%s not is subclass of django Model'  # noqa
+                                                              % model.__name__)
+                    processed_args.append(model)
+                else:
+                    processed_args.append(arg)
+            else:
+                processed_args.append(arg)
+
+        model, autocomplete = self.__class__.extract_args(*processed_args)
 
         # If calling register(YourBaseAutocomplete, YourModel) then you want
         # the autocomplete name to be YourModelYourBaseAutocomplete, but if
@@ -143,7 +169,9 @@ class AutocompleteRegistry(dict):
 
         if model:
             autocomplete = self._register_model_autocomplete(model,
-                autocomplete, derivate_name, **kwargs)
+                                                             autocomplete,
+                                                             derivate_name,
+                                                             **kwargs)
         else:
             name = kwargs.get('name', autocomplete.__name__)
             autocomplete = type(str(name), (autocomplete,), kwargs)
@@ -260,6 +288,7 @@ def _autodiscover(registry):
             # attempting to import it, otherwise we want it to bubble up.
             if module_has_submodule(mod, 'autocomplete_light_registry'):
                 raise
+
 
 registry = AutocompleteRegistry()
 

@@ -3,7 +3,7 @@ from .contrib.taggit_field import TaggitField, TaggitWidget
 from .exceptions import (AutocompleteArgNotUnderstood,
                          AutocompleteChoicesMustBeQuerySet,
                          AutocompleteLightException, AutocompleteNotRegistered,
-                         NoGenericAutocompleteRegistered)
+                         NoGenericAutocompleteRegistered, NonDjangoModelSubclassException)
 from .fields import *
 from .forms import *
 from .registry import AutocompleteRegistry, autodiscover, register, registry
