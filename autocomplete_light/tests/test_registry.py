@@ -126,6 +126,45 @@ class RegistryTestCase(TestCase):
         self.assertTrue(issubclass(
             self.registry.autocomplete_for_generic(), FirstAutocomplete))
 
+    def test_register_model_as_string_app_name_dot_model_name(self):
+        self.registry.register('auth.User')
+        self.assertIn('UserAutocomplete', self.registry.keys())
+
+    def test_register_model_as_string_invalid_app_name_dot_model_name(self):
+        try:
+            self.registry.register('invalid_appname.User')
+            self.fail('Should raise an exception because "LookupError: No installed app with label invalid_appname"')
+        except LookupError:
+            pass
+
+    def test_register_model_as_string_app_name_dot_invalid_model_name(self):
+        try:
+            self.registry.register('django.contrib.auth.models.UserWrong')
+            self.fail(
+                'Should raise an exception because "ImportError: Module '
+                '"django.contrib.auth.models" does not define a \"UserWrong\" attribute/class"')
+        except ImportError:
+            pass
+
+    def test_register_model_as_string_full_dot_path_to_model(self):
+        self.registry.register('django.contrib.auth.models.User')
+        self.assertIn('UserAutocomplete', self.registry.keys())
+
+    def test_register_model_as_string_full_dot_path_to_non_model(self):
+        try:
+            self.registry.register('django.contrib.auth.forms.UserCreationForm')
+            self.fail('Should raise an exception NonDjangoModelSubclassException because '
+                      'UserCreationForm not is subclass of django Model')
+        except autocomplete_light.NonDjangoModelSubclassException:
+            pass
+
+    def test_register_model_as_string_invalid_full_dot_path_to_non_model(self):
+        try:
+            self.registry.register('django.invalid_path.UserCreationForm')
+            self.fail('Should raise an exception because is invalid dot path to Model')
+        except ImportError:
+            pass
+
 
 class RegistryGetAutocompleteFromArgTestCase(TestCase):
     def setUp(self):

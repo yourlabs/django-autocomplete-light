@@ -13,3 +13,8 @@ __pycache__
 test_env/
 .coverage
 .tox
+
+.cache/
+
+# Pycharm
+.idea/
