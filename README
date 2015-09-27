@@ -13,6 +13,18 @@ thousands of contributions. It was designed for Django so that every part
 overridable or reusable independently. It is stable, tested, documented and
 fully supported: it tries to be a good neighbour in Django ecosystem.
 
+Projects upgrading to Django 1.9
+--------------------------------
+
+DAL has been ready for Django 1.9 since April 2015 thanks to @blueyed & @jpic.
+**HOWEVER** due to the app loading refactor in 1.9 you should apply the
+following::
+
+    find . -name '*py' | xargs sed -i 's/import autocomplete_light/from autocomplete_light import shortcuts as autocomplete_light/'
+
+See the test_project running on Django 1.9 and its new cool admin theme:
+http://jpic.pythonanywhere.com/admin (test:test).
+
 Features
 --------
 
