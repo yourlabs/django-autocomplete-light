@@ -17,6 +17,7 @@ Install packages from PyPi and the test project from Github::
     virtualenv autocomplete_light_env
     source autocomplete_light_env/bin/activate
     git clone --recursive https://jpic@github.com/yourlabs/django-autocomplete-light.git
+    pip install django-autocomplete-light
     cd django-autocomplete-light/test_project
     pip install -r requirements.txt
     ./manage.py runserver
