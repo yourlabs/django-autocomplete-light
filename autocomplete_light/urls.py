@@ -13,11 +13,14 @@ from django import VERSION
 
 from .views import AutocompleteView, RegistryView
 
-try:
-    from django.conf.urls import patterns, url
-except ImportError:
-    # Django < 1.5
-    from django.conf.urls.defaults import patterns, url
+if VERSION > (1,8):
+    from django.conf.urls import url
+else:
+    try:
+        from django.conf.urls import patterns, url
+    except ImportError:
+        # Django < 1.5
+        from django.conf.urls.defaults import patterns, url
 
 urlpatterns = [
     url(r'^(?P<autocomplete>[-\w]+)/$',
