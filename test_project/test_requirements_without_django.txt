@@ -5,4 +5,4 @@ selenium
 lxml
 cssselect
 pytest
-pytest-django
+pytest-django==2.8.0
