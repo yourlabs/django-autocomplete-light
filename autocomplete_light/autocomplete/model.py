@@ -11,8 +11,7 @@ __all__ = ('AutocompleteModel', )
 
 
 class AutocompleteModel(object):
-    """
-    Autocomplete which considers choices as a queryset.
+    """Autocomplete which considers choices as a queryset.
 
     .. py:attribute:: choices
 
@@ -44,6 +43,15 @@ class AutocompleteModel(object):
         single field name or an iterable (ie. list, tuple).
         However, if AutocompleteModel is instanciated with a list of values,
         it'll reproduce the ordering of values.
+
+    .. py:attribute:: ordering_alias
+
+        Internal attribute that determines which alias is used by
+        injected sql that will show selected items first. Default is
+        _ordering that is probably very unusual as field_name. You
+        shuld worry to set this attribute only if you have an
+        attribute on db table named '_ordering'
+
     """
     limit_choices = 20
     choices = None
@@ -83,14 +91,15 @@ class AutocompleteModel(object):
                 for i, pk in enumerate(self.values)])
             ordering = 'CASE %s END' % clauses
 
-            _order_by = ('ordering',)
+            ordering_alias = getattr(self, 'ordering_alias', '_ordering')
+            _order_by = (ordering_alias,)
             if self.order_by:
                 # safe concatenation of list/tuple
                 # thanks lvh from #python@freenode
                 _order_by = set(_order_by) | set(self.order_by)
 
             return choices.extra(
-                select={'ordering': ordering},
+                select={ordering_alias: ordering},
                 order_by=_order_by)
 
         if self.order_by is None:
