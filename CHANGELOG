@@ -1,7 +1,9 @@
-2.2.9
+2.2.9, 2.2.10
 
     [JAL] #12: Use exisiting input value for initial autocomplete query
     #503: Fix Django 1.9 import error.
+    2.2.9 release has not the updated AUTHORS and lacks note about #503 in
+    CHANGELOG, re-uploading as 2.2.10.
 
 2.2.8
 
