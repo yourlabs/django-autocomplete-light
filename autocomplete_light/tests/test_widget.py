@@ -51,7 +51,7 @@ else:
 
 
 # Global Selenium instance.
-class Selenium():
+class Selenium(object):
     selenium = None
 
     def __new__(cls):
