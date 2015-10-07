@@ -1,5 +1,8 @@
 sudo: false
 language: python
+branches:
+  only:
+    - master
 matrix:
   allow_failures:
     - env: TOXENV=py27-djangomaster
