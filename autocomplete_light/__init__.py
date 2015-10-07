@@ -11,4 +11,4 @@ else:
 
 default_app_config = 'autocomplete_light.apps.AutocompleteLightConfig'
 
-__version__ = (2, 2, 8)
+__version__ = (2, 2, 9)
