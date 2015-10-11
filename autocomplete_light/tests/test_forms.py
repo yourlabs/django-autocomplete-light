@@ -172,8 +172,10 @@ class ModelFormBaseMixin(BaseModelFormMixin):
         class ModelForm(autocomplete_light.ModelForm):
             class Meta(DjangoCompatMeta):
                 model = self.model_class
-                widgets = {'relation': self.widget_class(widget_attrs={
-                    'class': 'test-class', 'data-foo': 'bar'})}
+                widgets = {'relation': self.widget_class(
+                    autocomplete=self.autocomplete_name,
+                    widget_attrs={'class': 'test-class', 'data-foo': 'bar'}
+                )}
 
         self.form = ModelForm()
 
