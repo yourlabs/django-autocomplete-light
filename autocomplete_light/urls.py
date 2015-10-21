@@ -13,7 +13,7 @@ from django import VERSION
 
 from .views import AutocompleteView, RegistryView
 
-if VERSION > (1, 9):
+if VERSION >= (1, 8):
     from django.conf.urls import url
 else:
     try:
@@ -33,5 +33,5 @@ urlpatterns = [
     ),
 ]
 
-if VERSION < (1, 9):
+if VERSION < (1, 8):
     urlpatterns = patterns('', *urlpatterns)
