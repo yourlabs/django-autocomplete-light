@@ -1,5 +1,7 @@
-from django.conf.urls import patterns, url
+from django import VERSION
+from autocomplete_light.compat import urls, url
 
-urlpatterns = patterns('navigation_autocomplete.views',
+
+urlpatterns = urls([
     url(r'^$', 'navigation_autocomplete', name='navigation_autocomplete'),
-)
+])

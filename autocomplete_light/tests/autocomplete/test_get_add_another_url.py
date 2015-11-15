@@ -4,6 +4,7 @@ except ImportError:  # python2
     import mock
 
 import autocomplete_light.shortcuts as autocomplete_light
+from autocomplete_light.compat import urls, url
 from django import test
 
 try:
@@ -11,18 +12,10 @@ try:
 except ImportError:
     override_settings = None
 
-
-
-try:
-    from django.conf.urls import patterns, url
-except ImportError:
-    # Django < 1.5
-    from django.conf.urls.defaults import patterns, url
-
-urlpatterns = [
+urlpatterns = urls([
     url(r'nokwarg/$', mock.Mock, name='test_nokwarg'),
     url(r'onekwarg/(?P<param>\w+)/$', mock.Mock, name='test_onekwarg'),
-]
+])
 
 
 class GetAddAnotherUrlTestCase(test.TestCase):
