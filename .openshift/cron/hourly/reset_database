@@ -1,0 +1,8 @@
+#!/bin/bash
+set -x
+
+source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
+
+pushd ${OPENSHIFT_REPO_DIR}test_project
+./manage.py loaddata ${OPENSHIFT_DATA_DIR}reset.json
+popd

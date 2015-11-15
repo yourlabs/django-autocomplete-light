@@ -2,21 +2,48 @@
 import os.path
 import django
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 TEMPLATE_DEBUG = DEBUG
+LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATA_DIR = os.environ.get('OPENSHIFT_DATA_DIR', 'data')
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
+
+LOG_DIR = os.environ.get('OPENSHIFT_LOG_DIR', 'log')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+PUBLIC_DIR = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR', ''), 'wsgi/static')
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_ROOT, 'db.sqlite'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'NAME': os.environ.get('DJANGO_DATABASE_DEFAULT_NAME', 'db.sqlite'),
+        'USER': os.environ.get('DJANGO_DATABASE_DEFAULT_USER', ''),
+        'PASSWORD': os.environ.get('DJANGO_DATABASE_DEFAULT_PASSWORD', ''),
+        'HOST': os.environ.get('DJANGO_DATABASE_DEFAULT_HOST', ''),
+        'PORT': os.environ.get('DJANGO_DATABASE_DEFAULT_PORT', ''),
+        'ENGINE': os.environ.get('DJANGO_DATABASE_DEFAULT_ENGINE',
+            'django.db.backends.sqlite3'),
+
     }
 }
+
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    DATABASES['default']['NAME'] = os.path.join(DATA_DIR, 'db.sqlite')
+
+if 'OPENSHIFT_POSTGRESQL_DB_HOST' in os.environ:
+    DATABASES['default']['NAME'] = os.environ['OPENSHIFT_APP_NAME']
+    DATABASES['default']['USER'] = os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME']
+    DATABASES['default']['PASSWORD'] = os.environ['OPENSHIFT_POSTGRESQL_DB_PASSWORD']
+    DATABASES['default']['HOST'] = os.environ['OPENSHIFT_POSTGRESQL_DB_HOST']
+    DATABASES['default']['PORT'] = os.environ['OPENSHIFT_POSTGRESQL_DB_PORT']
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, 'fixtures'),
@@ -73,12 +100,27 @@ LOGGING = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+from socket import gethostname
+ALLOWED_HOSTS = [
+    gethostname(),
+]
+
+DNS = os.environ.get('OPENSHIFT_APP_DNS', None),
+if DNS:
+    ALLOWED_HOSTS += DNS
 
 SITE_ID = 1
 
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
+
+if DATA_DIR:
+    MEDIA_URL = '/static/media/'
+    MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+
+if PUBLIC_DIR:
+    STATIC_URL = '/static/collected/'
+    STATIC_ROOT = os.path.join(PUBLIC_DIR, 'collected')
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '^le6=#%$1z63o!#z^qr(r+^ix&iqx)@h*u$@8$bu&n8cv6m)go'
@@ -88,10 +130,10 @@ ROOT_URLCONF = 'test_project.urls'
 if django.VERSION < (1, 8):
     TEMPLATE_CONTEXT_PROCESSORS = (
         'django.contrib.auth.context_processors.auth',
-        'django.core.context_processors.debug', 
+        'django.core.context_processors.debug',
         'django.core.context_processors.i18n',
         'django.core.context_processors.media',
-        'django.core.context_processors.static', 
+        'django.core.context_processors.static',
         'django.core.context_processors.tz',
         'django.contrib.messages.context_processors.messages'
     )
