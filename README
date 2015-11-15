@@ -23,7 +23,7 @@ following::
     find . -name '*py' | xargs sed -i 's/import autocomplete_light/from autocomplete_light import shortcuts as autocomplete_light/'
 
 See the test_project running on Django 1.9 and its new cool admin theme:
-http://jpic.pythonanywhere.com/admin (test:test).
+http://dal-yourlabs.rhcloud.com/admin (test:test).
 
 Features
 --------
