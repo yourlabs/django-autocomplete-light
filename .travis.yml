@@ -3,6 +3,7 @@ language: python
 branches:
   only:
   - master
+  - openshift
 matrix:
   allow_failures:
   - env: TOXENV=py27-djangomaster
