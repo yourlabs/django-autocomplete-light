@@ -1,6 +1,11 @@
 from __future__ import unicode_literals
 
 import autocomplete_light.shortcuts as autocomplete_light  # noqa
+try:
+    from django.db.models import QuerySet
+except:
+    # django < 1.6
+    from django.db.models.query import QuerySet
 from django import forms  # noqa
 from django import http
 from django.contrib.contenttypes.models import ContentType
@@ -115,7 +120,15 @@ class AutocompleteTestCase(TestCase):
             if valid:
                 data = form.cleaned_data['x']
 
-                self.assertEqual(text_type(data), text_type(test['expected_data']),
-                    'Unexepected data: %s for test %s %s' % (
-                        data, self.__class__.__name__, test)
-                )
+                if isinstance(data, QuerySet):
+                    x = [m.pk for m in data]
+                    y = [m.pk for m in test['expected_data']]
+                    self.assertEqual(x, y,
+                        'Unexepected data: %s for test %s %s' % (
+                            data, self.__class__.__name__, test)
+                    )
+                else:
+                    self.assertEqual(text_type(data), text_type(test['expected_data']),
+                        'Unexepected data: %s for test %s %s' % (
+                            data, self.__class__.__name__, test)
+                    )
