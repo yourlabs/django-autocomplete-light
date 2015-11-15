@@ -17,7 +17,6 @@ python manage.py migrate --noinput auth
 python manage.py migrate --noinput contenttypes
 python manage.py migrate --noinput cities_light
 python manage.py migrate --noinput
-python manage.py syncdb --noinput
 mkdir -p wsgi
 ./manage.py collectstatic --noinput
 popd

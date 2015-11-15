@@ -1,2 +1,2 @@
-django
+django>=1.9a1
 -r requirements_without_django.txt
