@@ -97,6 +97,7 @@ deploy:
   app: dal
   domain: yourlabs
   deployment_branch: openshift
+  skip_cleanup: true
   on:
     repo: yourlabs/django-autocomplete-light
     branch: openshift
