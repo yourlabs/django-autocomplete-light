@@ -7,6 +7,8 @@ set -xe
 
 source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
 
+pip install -U pip
+
 pip install -r ${OPENSHIFT_REPO_DIR}test_project/requirements.txt
 
 pushd ${OPENSHIFT_REPO_DIR}test_project
