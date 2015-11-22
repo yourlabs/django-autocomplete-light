@@ -19,8 +19,8 @@ humble provided scripts:
   django form field which is represented by a hidden ``<select>``.
 - ``addanother.js`` enables adding options to a ``<select>`` via a popup from
   outside the admin, code mostly comes from Django admin BTW,
-- ``remote.js`` provides ``yourlabs.RemoteAutocompleteWidget``, used extend
-  ``yourlabs.Widget`` and override ``yourlabs.Widget.getValue`` to create
+- ``remote.js`` provides ``yourlabs.RemoteAutocompleteWidget``, which extends
+  ``yourlabs.Widget`` and overrides ``yourlabs.Widget.getValue`` to create
   choices on-the-fly.
 - ``text_widget.js`` provides ``yourlabs.TextWidget``, used to manage the value
   of a text input that has an autocomplete box.

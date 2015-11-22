@@ -3,7 +3,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
-class Fly(models.Model):
+class OnTheFly(models.Model):
     name = models.CharField(max_length=100)
     other_fly = models.ForeignKey('self', null=True, blank=True)
 
