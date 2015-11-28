@@ -1,4 +1,4 @@
-FlyWidget = {
+OnTheFlyWidget = {
     getValue: function(choice) {
         var value = choice.data('value');
 
@@ -26,7 +26,7 @@ FlyWidget = {
 $(document).bind('yourlabsWidgetReady', function() {
     // Instanciate decks with RemoteAutocompleteWidget as override for all widgets with
     // autocomplete 'remote'.
-    $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=fly-widget]', function() {
-        $(this).yourlabsWidget(FlyWidget);
+    $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=onthefly-widget]', function() {
+        $(this).yourlabsWidget(OnTheFlyWidget);
     });
 });

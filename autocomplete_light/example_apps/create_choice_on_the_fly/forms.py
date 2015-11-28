@@ -1,14 +1,14 @@
 import autocomplete_light.shortcuts as autocomplete_light
 
-from .models import Fly
+from .models import OnTheFly
 
 
-class FlyForm(autocomplete_light.ModelForm):
+class OnTheFlyForm(autocomplete_light.ModelForm):
     class Meta:
-        model = Fly
+        model = OnTheFly
         fields = ('name', 'other_fly')
         widgets = {
             'other_fly': autocomplete_light.ChoiceWidget(
-                'FlyAutocomplete', widget_attrs={'data-widget-bootstrap':
-                    'fly-widget'})
+                'OnTheFlyAutocomplete', widget_attrs={
+                    'data-widget-bootstrap': 'onthefly-widget'})
         }
