@@ -9,8 +9,9 @@ class OnTheFlyAutocomplete(autocomplete_light.AutocompleteModelBase):
 
     def autocomplete_html(self):
         html = super(OnTheFlyAutocomplete, self).autocomplete_html()
+
         q = self.request.REQUEST.get('q')
-        if q and not q in [c.name for c in self.choices]:
+        if q and not self.choices.filter(name=q).exists():
             html += '<span data-value="create">Create "{}"</span>'.format(q)
         return html
 
