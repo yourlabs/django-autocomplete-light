@@ -89,7 +89,7 @@ class AutocompleteModel(object):
             # Order in the user selection order when self.values is set.
             clauses = ' '.join(['WHEN %s=\'%s\' THEN %s' % (pk_name, pk, i)
                 for i, pk in enumerate(self.values)])
-            ordering = 'CASE %s END' % clauses
+            ordering = 'CASE %s ELSE  1000 END' % clauses
 
             ordering_alias = getattr(self, 'ordering_alias', '_ordering')
             _order_by = (ordering_alias,)
