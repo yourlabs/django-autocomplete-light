@@ -1,0 +1,26 @@
+#!/bin/bash
+# This deploy hook gets executed after dependencies are resolved and the
+# build hook has been run but before the application has been started back
+# up again.  This script gets executed directly, so it could be python, php,
+# ruby, etc.
+set -xe
+
+source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
+
+pip install -U pip
+
+pip install -r ${OPENSHIFT_REPO_DIR}test_project/requirements.txt
+
+pushd ${OPENSHIFT_REPO_DIR}test_project
+python manage.py migrate --noinput sites
+python manage.py migrate --noinput auth
+python manage.py migrate --noinput contenttypes
+python manage.py migrate --noinput cities_light
+python manage.py migrate --noinput
+mkdir -p wsgi
+./manage.py collectstatic --noinput
+popd
+
+mkdir -p ${OPENSHIFT_DATA_DIR}media
+mkdir -p ${OPENSHIFT_REPO_DIR}wsgi/static/media
+ln -sf ${OPENSHIFT_DATA_DIR}media ${OPENSHIFT_REPO_DIR}wsgi/static/media

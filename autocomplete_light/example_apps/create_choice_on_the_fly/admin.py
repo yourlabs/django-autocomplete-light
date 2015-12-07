@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .forms import FlyForm
-from .models import Fly
+from .forms import OnTheFlyForm
+from .models import OnTheFly
 
 
-class FlyAdmin(admin.ModelAdmin):
-    form = FlyForm
-admin.site.register(Fly, FlyAdmin)
+class OnTheFlyAdmin(admin.ModelAdmin):
+    form = OnTheFlyForm
+admin.site.register(OnTheFly, OnTheFlyAdmin)

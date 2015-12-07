@@ -6,8 +6,8 @@ Welcome to django-autocomplete-light's documentation!
 Live Demo
 ---------
 
-While you can use the `live demo hosted by PythonAnywhere
-<http://jpic.pythonanywhere.com>`_, you can run test projects for a local demo
+While you can use the `live demo hosted by RedHat on OpenShift
+<http://dal-yourlabs.rhcloud.com>`_, you can run test projects for a local demo
 in a temporary virtualenv.
 
 .. toctree::

@@ -9,17 +9,12 @@ autocomplete_light_registry
     Renders the autocomplete registry, good for debugging, requires being
     authenticated as superuser.
 """
-from django import VERSION
+from .compat import url, urls
 
 from .views import AutocompleteView, RegistryView
 
-try:
-    from django.conf.urls import patterns, url
-except ImportError:
-    # Django < 1.5
-    from django.conf.urls.defaults import patterns, url
 
-urlpatterns = [
+urlpatterns = urls([
     url(r'^(?P<autocomplete>[-\w]+)/$',
         AutocompleteView.as_view(),
         name='autocomplete_light_autocomplete'
@@ -28,7 +23,4 @@ urlpatterns = [
         RegistryView.as_view(),
         name='autocomplete_light_registry'
     ),
-]
-
-if VERSION < (1, 9):
-    urlpatterns = patterns('', *urlpatterns)
+])

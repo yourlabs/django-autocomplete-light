@@ -1,3 +1,10 @@
+2.2.9, 2.2.10
+
+    [JAL] #12: Use exisiting input value for initial autocomplete query
+    #503: Fix Django 1.9 import error.
+    2.2.9 release has not the updated AUTHORS and lacks note about #503 in
+    CHANGELOG, re-uploading as 2.2.10.
+
 2.2.8
 
     #478, #472: "change related button" isn't clickable when it shouldn't.
@@ -260,7 +267,7 @@ Thanks a lot to the rc tester community
 
     So we got 7 bugs fixed, PyPy support, Django 1.8 and Django 1.9 support (we
     support 1.4 to 1.9 now).
-    
+
     Thanks a lot to Daniel Hahler for having couch-hosted me the last 7 days in
     Berlin, we've been hacking like crazy, it was really awesome, I went there
     for some hacking and now I know I have a friend for life.
@@ -271,7 +278,7 @@ Thanks a lot to the rc tester community
 2.0.9:
 
     - #257: Got rid of RemovedInDjango18Warning deprecation warnings.
-    - #371: Skip unuseable virtualfields, like VoteManager for django-vote. 
+    - #371: Skip unuseable virtualfields, like VoteManager for django-vote.
     - #372: New PEP8 E731 support.
 
 2.0.7:
@@ -330,7 +337,7 @@ Thanks a lot to the rc tester community
 
     - #241 IE11 compatibility fix on text autocomplete contributed by Jonathan
       Wiklund (@MaZZly)
-      
+
 
 2.0.0a10:
 
@@ -430,7 +437,7 @@ Thanks a lot to the rc tester community
       hardcode the queryset on the form field definition anymore.
 
     To fix those, just inherit from autocomplete_light.ModelForm if
-    possible, else check the form API details in the source or 
+    possible, else check the form API details in the source or
     generated API documentation:
 
     - http://django-autocomplete-light.readthedocs.org/en/v2/form.html#module-autocomplete_light.forms
@@ -471,7 +478,7 @@ Thanks a lot to the rc tester community
 1.4.4: Improved IE7 and IE8 support, thanks @rhunwicks
 
 1.4.3:
-    
+
     - Fix Added option clearInputOnSelectChoice, patch by @vosi
     - Fix uninitialized js key, patch by @vosi
     - Escape choices before putting them in html, patch by @voidus
@@ -524,7 +531,7 @@ Thanks a lot to the rc tester community
 
 1.2.1 @jojax: Fix innefective test on is popup, in autocomplete CreateView
 
-1.2.0 
+1.2.0
 
 - Fix #132: removed dead line of code, and restored compatibility with
   autocomplete-light <1.1.29,

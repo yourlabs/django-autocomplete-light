@@ -25,7 +25,7 @@ msgstr ""
 
 #: widgets.py:82
 msgid "type some text to search in this autocomplete"
-msgstr "saisissez votre rechercher dans cette autocompletion"
+msgstr "saisissez votre recherche dans ce champ"
 
 #: autocomplete/base.py:107
 msgid "no matches found"

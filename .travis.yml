@@ -1,99 +1,102 @@
 sudo: false
 language: python
+branches:
+  only:
+  - master
 matrix:
   allow_failures:
-    - env: TOXENV=py27-djangomaster
-    - env: TOXENV=py34-djangomaster
+  - env: TOXENV=py27-djangomaster
+  - env: TOXENV=py34-djangomaster
 python:
-  - "3.4"
+- '3.4'
 env:
   global:
-    - TESTS_SKIP_LIVESERVER=1
-    - TESTS_WEBDRIVER=PhantomJS
-    - PIP_DISABLE_PIP_VERSION_CHECK=true
+  - TESTS_SKIP_LIVESERVER=1
+  - TESTS_WEBDRIVER=PhantomJS
+  - PIP_DISABLE_PIP_VERSION_CHECK=true
   matrix:
-    - TOXENV=py27-django14-taggit-genericm2m
-    - TOXENV=py27-django15-taggit-genericm2m
-    - TOXENV=py27-django16-taggit-genericm2m
-    - TOXENV=py27-django17-taggit-genericm2m
-    - TOXENV=py27-django18-taggit-genericm2m-postgresql
-    - TOXENV=py27-django18-taggit-genericm2m-mysql
-    - TOXENV=pypy-djangostable
-
-    # Current stable Django.
-    - TOXENV=py27-django18
-    - TOXENV=py27-django18-taggit
-    - TOXENV=py27-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= EXTRAREQ="pytest-cov"
-    - TOXENV=py27-django18-genericm2m
-    - TOXENV=py27-djangomaster
-
-    - TOXENV=py34-django15-taggit-genericm2m
-    - TOXENV=py34-django16-taggit-genericm2m
-    - TOXENV=py34-django17-taggit-genericm2m
-    # Current stable Django.
-    - TOXENV=py34-django18
-    - TOXENV=py34-django18-taggit
-    - TOXENV=py34-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= EXTRAREQ="pytest-cov"
-    - TOXENV=py34-django18-genericm2m
-    - TOXENV=py34-djangomaster
-
-    - TOXENV=checkqa-python2
-    - TOXENV=checkqa
+  - TOXENV=py27-django14-taggit-genericm2m
+  - TOXENV=py27-django15-taggit-genericm2m
+  - TOXENV=py27-django16-taggit-genericm2m
+  - TOXENV=py27-django17-taggit-genericm2m
+  - TOXENV=py27-django18-taggit-genericm2m-postgresql
+  - TOXENV=py27-django18-taggit-genericm2m-mysql
+  - TOXENV=pypy-djangostable
+  - TOXENV=py27-django18
+  - TOXENV=py27-django18-taggit
+  - TOXENV=py27-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= EXTRAREQ="pytest-cov"
+  - TOXENV=py27-django18-genericm2m
+  - TOXENV=py27-django19 TESTS_SKIP_LIVESERVER=
+  - TOXENV=py27-djangomaster
+  - TOXENV=py34-django15-taggit-genericm2m
+  - TOXENV=py34-django16-taggit-genericm2m
+  - TOXENV=py34-django17-taggit-genericm2m
+  - TOXENV=py34-django18
+  - TOXENV=py34-django18-taggit
+  - TOXENV=py34-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= EXTRAREQ="pytest-cov"
+  - TOXENV=py34-django18-genericm2m
+  - TOXENV=py34-django19 TESTS_SKIP_LIVESERVER=
+  - TOXENV=py34-djangomaster
+  - TOXENV=checkqa-python2
+  - TOXENV=checkqa
 install:
-  # Create pip wrapper script, using travis_retry (a function) and
-  # inject it into tox.ini.
-  - mkdir -p bin
-  - PATH=$PWD/bin:$PATH
-  - PIP_INSTALL=bin/travis_pip_install
-  - printf '#!/bin/bash\n' > $PIP_INSTALL
-  - declare -f travis_retry >> $PIP_INSTALL
-  - printf '\necho "=====\nUsing pip-wrapper for \"$@\"\n=====\n" >&2\n' >> $PIP_INSTALL
-  # Handle "pip install -e" for usedevelop from tox.
-  - printf '\nif [ "$1" = "-e" ]; then pip install "$@"; exit $?; fi\n' >> $PIP_INSTALL
-  # Install using "pip install".
-  - printf "pip install \"\$@\"\n" >> $PIP_INSTALL
-  - chmod +x $PIP_INSTALL
-
-  # Adjust tox.ini.
-  - sed -i.bak 's/^\[testenv\]/\0\ninstall_command = travis_pip_install {opts} {packages}/' tox.ini
-  - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
-  - sed -i.bak 's/whitelist_externals =/\0\n    travis_pip_install/' tox.ini
-  - diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
-  - cat tox.ini
-
-  - travis_pip_install tox
-  - if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
-
-  - pip freeze
+- mkdir -p bin
+- PATH=$PWD/bin:$PATH
+- PIP_INSTALL=bin/travis_pip_install
+- printf '#!/bin/bash\n' > $PIP_INSTALL
+- declare -f travis_retry >> $PIP_INSTALL
+- printf '\necho "=====\nUsing pip-wrapper for \"$@\"\n=====\n" >&2\n' >> $PIP_INSTALL
+- printf '\nif [ "$1" = "-e" ]; then pip install "$@"; exit $?; fi\n' >> $PIP_INSTALL
+- printf "pip install \"\$@\"\n" >> $PIP_INSTALL
+- chmod +x $PIP_INSTALL
+- sed -i.bak 's/^\[testenv\]/\0\ninstall_command = travis_pip_install {opts} {packages}/'
+  tox.ini
+- diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
+- sed -i.bak 's/whitelist_externals =/\0\n    travis_pip_install/' tox.ini
+- diff tox.ini tox.ini.bak && { echo "tox.ini was not changed."; return 1; } || true
+- cat tox.ini
+- travis_pip_install tox
+- if [ -n "$EXTRAREQ" ]; then travis_pip_install $EXTRAREQ; fi
+- pip freeze
 before_script:
-  - if echo "$TOXENV" | grep mysql; then mysql -e 'create database autocomplete_light_test;'; fi
-  - if echo "$TOXENV" | grep postgresql; then psql -c 'create database autocomplete_light_test;' -U postgres; fi
-  - RUN_TESTS="tox -- autocomplete_light"
-  # Run tests either with or without coverage (being installed).
-  - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
+- if echo "$TOXENV" | grep mysql; then mysql -e 'create database autocomplete_light_test;';
+  fi
+- if echo "$TOXENV" | grep postgresql; then psql -c 'create database autocomplete_light_test;'
+  -U postgres; fi
+- RUN_TESTS="tox -- autocomplete_light"
+- command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 before_install:
-  # Upgrade pip to 7.x for automatic installing from wheels.
-  - travis_retry pip install 'pip>7'
-  - travis_retry npm install phantomjs
-  - phantomjs --version
+- travis_retry pip install 'pip>7'
+- travis_retry npm install phantomjs
+- phantomjs --version
 script:
-  - find $HOME/.cache/pip -ls > /tmp/wheelhouse.before
-  - $RUN_TESTS
-  - find $HOME/.cache/pip -ls > /tmp/wheelhouse.after
-  - diff /tmp/wheelhouse.before /tmp/wheelhouse.after || true
-  - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
+- find $HOME/.cache/pip -ls > /tmp/wheelhouse.before
+- "$RUN_TESTS"
+- find $HOME/.cache/pip -ls > /tmp/wheelhouse.after
+- diff /tmp/wheelhouse.before /tmp/wheelhouse.after || true
+- test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
-  - command -v coveralls && { coveralls; return $?; } || true
+- command -v coveralls && { coveralls; return $?; } || true
 notifications:
   irc:
     channels:
-      - "irc.freenode.org#yourlabs"
+    - irc.freenode.org#yourlabs
     template:
-      - "%{repository} (%{commit} %{author}) : %{message} %{build_url} %{compare_url}"
-
-# Persistent cache across builds (http://docs.travis-ci.com/user/caching/).
+    - "%{repository} (%{commit} %{author}) : %{message} %{build_url} %{compare_url}"
 cache:
   directories:
-    - $HOME/.cache/pip
+  - "$HOME/.cache/pip"
 before_cache:
-  - rm -f $HOME/.cache/pip/log/debug.log
+- rm -f $HOME/.cache/pip/log/debug.log
+deploy:
+  provider: openshift
+  user: jpic@yourlabs.org
+  password:
+    secure: KZ3qy1NuBncXtEE8writve7AJZK1jmuvduwYEjs7rMboHxpHzu6D2BWeMk2aB+xBUUPhjIycRKVq//ZByS5qMqCH1NLsoMQwVp1pW/QwAvAmW/DfBtwESLt26b8OsUtepZkOBpuT3jNTGUZPakQZM1ysGBgGgpayH8dVp9TvGlk=
+  app: dal
+  domain: yourlabs
+  deployment_branch: master
+  skip_cleanup: true
+  on:
+    repo: yourlabs/django-autocomplete-light
+    branch: master

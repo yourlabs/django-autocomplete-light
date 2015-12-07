@@ -6,6 +6,7 @@ import unittest
 
 from django import VERSION
 from selenium import webdriver
+from django.core.urlresolvers import reverse
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import ui
 from selenium.webdriver.support.ui import Select
@@ -51,7 +52,7 @@ else:
 
 
 # Global Selenium instance.
-class Selenium():
+class Selenium(object):
     selenium = None
 
     def __new__(cls):
@@ -253,7 +254,9 @@ class SelectChoiceInEmptyFormTestCase(WidgetTestCase):
     def test_admin_change_link_update(self):
         change_link = self.selenium.find_element_by_id('change_id_%s' % self.autocomplete_name)
         href = change_link.get_attribute('href')
-        assert href.endswith('/admin/basic/fkmodel/4/?_to_field=id&_popup=1')
+
+        assert href.endswith('%s?_to_field=id&_popup=1' %
+                reverse('admin:basic_fkmodel_change', args=(4,)))
 
 
 @unittest.skipIf(Tag is None, 'django-taggit not installed')
