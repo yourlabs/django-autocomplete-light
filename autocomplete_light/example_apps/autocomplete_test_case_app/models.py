@@ -5,6 +5,10 @@ class User(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField()
     groups = models.ManyToManyField('Group')
+    ordering = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('ordering',)
 
 
 class Group(models.Model):

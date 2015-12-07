@@ -31,7 +31,8 @@
     "fields": {
         "username": "Abe",
         "groups": [],
-        "email": "sales@example.com"
+        "email": "sales@example.com",
+	"ordering": 1
     },
     "model": "autocomplete_test_case_app.user",
     "pk": 1
@@ -40,7 +41,8 @@
     "fields": {
         "username": "Jack",
         "groups": [],
-        "email": "jack@example.com"
+        "email": "jack@example.com",
+	"ordering": 2
     },
     "model": "autocomplete_test_case_app.user",
     "pk": 2
@@ -49,7 +51,8 @@
     "fields": {
         "username": "James",
         "groups": [],
-        "email": "sales@example.com"
+        "email": "sales@example.com",
+	"ordering": 3
     },
     "model": "autocomplete_test_case_app.user",
     "pk": 3
@@ -58,7 +61,8 @@
     "fields": {
         "username": "John",
         "groups": [],
-        "email": "sales@example.com"
+        "email": "sales@example.com",
+	"ordering": 4
     },
     "model": "autocomplete_test_case_app.user",
     "pk": 4
@@ -67,7 +71,8 @@
     "fields": {
         "username": "Elton",
         "groups": [],
-        "email": "elton@example.com"
+        "email": "elton@example.com",
+	"ordering": 10
     },
     "model": "autocomplete_test_case_app.user",
     "pk": 10
