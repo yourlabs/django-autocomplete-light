@@ -106,7 +106,7 @@ Load the javascript scripts after loading ``jquery.js``, for example by doing:
 
 .. code-block:: django
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
     {% include 'autocomplete_light/static.html' %}
 
 Optionally include it in ``admin/base_site.html`` too
@@ -124,7 +124,7 @@ For admin support, `override
 
     {% block extrahead %}
         {{ block.super }}
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
         {% include 'autocomplete_light/static.html' %}
     {% endblock %}
 
