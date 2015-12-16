@@ -136,7 +136,7 @@ such:
 
     class OrderAdmin(admin.ModelAdmin):
         # This will generate a ModelForm
-        form = autocomplete_light.modelform_factory(Order)
+        form = autocomplete_light.modelform_factory(Order, fields='__all__')
     admin.site.register(Order)
 
 Refer to the :doc:`form` documentation for other ways of making forms, it is
