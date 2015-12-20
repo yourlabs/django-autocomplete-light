@@ -33,3 +33,15 @@ class NoGenericAutocompleteRegistered(AutocompleteLightException):
     def __init__(self, registry):
         msg = 'No generic autocomplete was registered.'
         super(NoGenericAutocompleteRegistered, self).__init__(msg)
+
+
+class AutocompleteChoicesMustBeQuerySet(AutocompleteLightException):
+    """
+    Raised by FieldBase constructor when used in conjunction with
+    Model(Multiple)ChoiceField given an Autocomplete class which doesn't have a
+    QuerySet for the choices attribute.
+    """
+    def __init__(self, autocomplete):
+        msg = ('%s.choices must be a QuerySet to support ModelChoiceField' %
+            autocomplete)
+        super(AutocompleteChoicesMustBeQuerySet, self).__init__(msg)

@@ -7,6 +7,7 @@ from django.db.models.query import QuerySet
 
 from .registry import registry as default_registry
 from .widgets import ChoiceWidget, MultipleChoiceWidget
+from .exceptions import AutocompleteChoicesMustBeQuerySet
 
 __all__ = ['FieldBase', 'ChoiceField', 'MultipleChoiceField',
     'ModelChoiceField', 'ModelMultipleChoiceField', 'GenericModelChoiceField',
@@ -30,9 +31,11 @@ class FieldBase(object):
         # Does the subclass have ModelChoiceField or ModelMultipleChoiceField
         # as a base class?
         parents = type(self).__mro__
-        if ((forms.ModelChoiceField in parents or
-                forms.ModelMultipleChoiceField in parents) and
-                isinstance(self.autocomplete.choices, QuerySet)):
+        if (forms.ModelChoiceField in parents or
+                forms.ModelMultipleChoiceField in parents):
+
+            if not isinstance(self.autocomplete.choices, QuerySet):
+                raise AutocompleteChoicesMustBeQuerySet(self.autocomplete)
             kwargs['queryset'] = self.autocomplete.choices
 
         super(FieldBase, self).__init__(*args, **kwargs)

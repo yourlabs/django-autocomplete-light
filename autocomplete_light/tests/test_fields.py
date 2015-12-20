@@ -73,6 +73,13 @@ class ModelChoiceFieldTestCase(BaseMixin, TestCase):
         self.assertEqual(list(test.choices),
                          [('', '---------'), (1, 'public'), (3, 'linked')])
 
+    def test_non_queryset_choices_fails(self):
+        class FailAutocomplete(autocomplete_light.AutocompleteModelBase):
+            choices = 'bar'
+
+        with self.assertRaises(autocomplete_light.AutocompleteChoicesMustBeQuerySet):
+            test = self.field_class(FailAutocomplete)
+
 
 class ModelMultipleChoiceFieldTestCase(ModelChoiceFieldTestCase):
     field_class = autocomplete_light.ModelMultipleChoiceField
