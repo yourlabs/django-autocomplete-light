@@ -15,6 +15,17 @@ __all__ = ['FieldBase', 'ChoiceField', 'MultipleChoiceField',
 
 
 class FieldBase(object):
+    """
+    FieldBase for autocomplete widgets.
+
+    .. py:attribute:: request
+
+        If set before the form validates, then enable it to be part of the
+        validation process, enabling custom security based on the request user,
+        please read the :doc:`tutorial` section about this for complete
+        details.
+    """
+
     default_error_messages = {
         'invalid': '%(autocomplete)s cannot validate %(value)s',
     }
@@ -64,6 +75,14 @@ class FieldBase(object):
         # support python values instead of raw values, that would probably be
         # more performant.
         values = self.prepare_value(value)
+
+        # Security: if the field was added a ``request`` object, then force
+        # override of autocomplete.choices using choices_for_request() before
+        # validating values.
+        request = getattr(self, 'request', None)
+        autocomplete = self.autocomplete(values=values, request=request)
+        if request is not None:
+            autocomplete.choices = autocomplete.choices_for_request()
 
         if value and not self.autocomplete(values=values).validate_values():
             error_params = {
