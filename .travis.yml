@@ -14,6 +14,7 @@ env:
   - TESTS_SKIP_LIVESERVER=1
   - TESTS_WEBDRIVER=PhantomJS
   - PIP_DISABLE_PIP_VERSION_CHECK=true
+  - EXTRAREQ="codecov"
   matrix:
   - TOXENV=py27-django14-taggit-genericm2m
   - TOXENV=py27-django15-taggit-genericm2m
@@ -24,7 +25,7 @@ env:
   - TOXENV=pypy-djangostable
   - TOXENV=py27-django18
   - TOXENV=py27-django18-taggit
-  - TOXENV=py27-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= EXTRAREQ="pytest-cov"
+  - TOXENV=py27-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER=
   - TOXENV=py27-django18-genericm2m
   - TOXENV=py27-django19 TESTS_SKIP_LIVESERVER=
   - TOXENV=py27-djangomaster
@@ -33,7 +34,7 @@ env:
   - TOXENV=py34-django17-taggit-genericm2m
   - TOXENV=py34-django18
   - TOXENV=py34-django18-taggit
-  - TOXENV=py34-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER= EXTRAREQ="pytest-cov"
+  - TOXENV=py34-django18-taggit-genericm2m TESTS_SKIP_LIVESERVER=
   - TOXENV=py34-django18-genericm2m
   - TOXENV=py34-django19 TESTS_SKIP_LIVESERVER=
   - TOXENV=py34-djangomaster
@@ -63,7 +64,7 @@ before_script:
   fi
 - if echo "$TOXENV" | grep postgresql; then psql -c 'create database autocomplete_light_test;'
   -U postgres; fi
-- RUN_TESTS="tox -- autocomplete_light"
+- RUN_TESTS="tox -- --cov=autocomplete_light autocomplete_light"
 - command -v coveralls && RUN_TESTS="$RUN_TESTS --cov" || true
 before_install:
 - travis_retry pip install -U pip wheel
@@ -76,7 +77,7 @@ script:
 - diff /tmp/wheelhouse.before /tmp/wheelhouse.after || true
 - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
-- command -v coveralls && { coveralls; return $?; } || true
+- codecov
 notifications:
   irc:
     channels:

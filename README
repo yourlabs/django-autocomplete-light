@@ -4,8 +4,8 @@
    :target: http://badge.fury.io/py/django-autocomplete-light
 .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
     :target: http://travis-ci.org/yourlabs/django-autocomplete-light
-.. image:: https://coveralls.io/repos/yourlabs/django-autocomplete-light/badge.png?branch=stable/2.x.x
-    :target: https://coveralls.io/r/yourlabs/django-autocomplete-light?branch=stable/2.x.x
+.. image:: https://codecov.io/github/yourlabs/django-autocomplete-light/coverage.svg?branch=master
+    :target: https://codecov.io/github/yourlabs/django-autocomplete-light?branch=master
 
 django-autocomplete-light's purpose is to enable autocompletes quickly and
 properly in a django project: it is the fruit of half a decade of R&D and
