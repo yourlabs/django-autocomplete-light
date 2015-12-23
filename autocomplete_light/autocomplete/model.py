@@ -44,14 +44,6 @@ class AutocompleteModel(object):
         However, if AutocompleteModel is instanciated with a list of values,
         it'll reproduce the ordering of values.
 
-    .. py:attribute:: ordering_alias
-
-        Internal attribute that determines which alias is used by
-        injected sql that will show selected items first. Default is
-        _ordering that is probably very unusual as field_name. You
-        shuld worry to set this attribute only if you have an
-        attribute on db table named '_ordering'
-
     """
     limit_choices = 20
     choices = None
@@ -91,7 +83,7 @@ class AutocompleteModel(object):
                 for i, pk in enumerate(self.values)])
             ordering = 'CASE %s ELSE  1000 END' % clauses
 
-            ordering_alias = getattr(self, 'ordering_alias', '_ordering')
+            ordering_alias = '_autocomplete_light_ordering_'
             _order_by = (ordering_alias,)
             if self.order_by:
                 # safe concatenation of list/tuple
