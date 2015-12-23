@@ -136,7 +136,7 @@ such:
 
     class OrderAdmin(admin.ModelAdmin):
         # This will generate a ModelForm
-        form = autocomplete_light.modelform_factory(Order)
+        form = autocomplete_light.modelform_factory(Order, fields='__all__')
     admin.site.register(Order)
 
 Refer to the :doc:`form` documentation for other ways of making forms, it is
@@ -163,7 +163,7 @@ Then, you can use :py:class:`autocomplete_light.ModelForm
 Note that the first Autocomplete class registered for a model becomes the
 default Autocomplete for that model. If you have registered several
 Autocomplete classes for a given model, you probably want to use a different
-Autocomplete class depending on the form using 
+Autocomplete class depending on the form using
 :py:attr:`Meta.autocomplete_names <autocomplete_light.forms.ModelForm.autocomplete_names>`:
 
 .. code-block:: python
@@ -178,7 +178,7 @@ respects ``Meta.fields`` and ``Meta.exclude``. However, you can enable or
 disable :py:class:`autocomplete_light.ModelForm
 <autocomplete_light.forms.ModelForm>`'s behaviour in the same fashion with
 :py:attr:`Meta.autocomplete_fields <autocomplete_light.forms.ModelForm.autocomplete_fields>`
-and 
+and
 :py:attr:`Meta.autocomplete_exclude <autocomplete_light.forms.ModelForm.autocomplete_exclude>`:
 
 .. code-block:: python
@@ -202,3 +202,75 @@ class register (typically an
 
 For more documentation, continue reading :ref:`the reference documentation
 <reference>`.
+
+Thread safety and security considerations
+-----------------------------------------
+
+This section demonstrates how to handle one of the most difficult - but common
+- use case: allowing different users to use different objects in an
+autocomplete. For example, you want users to only see and use ``Item``
+objects which they are ``owner`` of with such a model:
+
+.. code-block:: python
+
+    class Item(models.Model):
+        owner = models.ForeignKey('auth.User')
+
+Filtering on the owner on the ``request.owner`` on autocomplete box rendering
+can be done directly in
+:py:meth:`autocomplete_light.autocomplete.AutocompleteBase.choices_for_request()`,
+because :py:meth:`autocomplete_light.views.AutocompleteView.get` passes the
+``request`` object:
+
+.. digraph:: rendering
+
+   "AutocompleteView.get" -> "autocomplete = autocomplete_class(request=request)" -> "autocomplete.autocomplete_html()" -> "autocomplete.choices_for_request()";
+
+However, this is not enough for security, because it doesn't prevent a
+malicious user from using a model id it can't see and submitting the form,
+allowing them for example to see the unicode representation of an object it
+shouldn't be able to see when opening the change form again.
+
+Django's form validation completely excludes the request object by default, so
+autocomplete-light does the same by default, and the validation process looks
+like:
+
+.. digraph:: validation
+
+   "Field.clean()" -> "Field.validate()" -> "autocomplete = autocomplete_class(values=values)" -> "autocomplete.validate_values()" -> "autocomplete.choices_for_values()";
+
+A hook was added in autocomplete-light 2.3.0 to use the request object in the
+validation process. Set the request attribute on the field to enable it, ie::
+
+    form = YourForm(request.POST)
+
+    # This enables the hook, otherwise, Django's default validation will happen
+    # in addition to ``choices_for_values()``
+    form.fields['your_autocomplete_field'].request = request
+
+    # Now the request object will be part of the field validation process, ie.
+    # when triggered by:
+    form.is_valid()
+
+Once the hook is enabled, :py:meth:`autocomplete_light.fields.FieldBase.validate()` will:
+
+- instanciate the autocomplete with the ``request`` object, allowing
+  ``choices_for_request()`` to work,
+- **override** the autocomplete ``.choices`` with the result of
+  ``choices_for_request()`` in ``validate()`` **before** calling
+  :py:meth:`~autocomplete_light.autocomplete.base.AutocompleteBase.validate_values()`.
+
+Resulting in a chain of events like:
+
+.. digraph:: validation
+
+   "form.fields['your_field'].request = request" -> "Field.clean()" -> "Field.validate()" -> "autocomplete = autocomplete_class(values=values, request=request)"-> "autocomplete.choices = autocomplete.choices_for_request()"  -> "autocomplete.validate_values()" -> "autocomplete.choices_for_values()";
+
+You can then rely on ``choices_for_request()`` to secure choices, ie.:
+
+.. literalinclude:: ../../autocomplete_light/tests/autocomplete/secure_autocomplete.py
+
+.. warning:: Please ensure that you really test your autocompletes for
+             security if it's going to be used to flip choices depending on the
+             user using the form: feel free to use
+             ``tests/autocomplete/test_model_security.py`` as an example.
