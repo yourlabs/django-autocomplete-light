@@ -232,3 +232,14 @@ class AutocompleteModelTestCase(AutocompleteTestCase):
 
         fixture = Test(values=[obj.pk])
         assert fixture.choices_for_values()[0] == obj
+
+    def test_choice_with_ordering(self):
+        obj = User.objects.get(username='Elton')
+
+        class Test(autocomplete_light.AutocompleteModelBase):
+            choices = User.objects.all()
+
+        t = Test(values=[obj.pk])
+        # Current value in first position
+        ch_id = t.order_choices(t.choices)[0].id
+        assert ch_id == obj.id
