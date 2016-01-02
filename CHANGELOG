@@ -1,3 +1,5 @@
+3.0.0 Rewrite: easier to use, test, maintain and support.
+
 2.3.3
 
     - #563 Don't disable multiplechoicewidgets if select is [multiple]
