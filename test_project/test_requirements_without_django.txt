@@ -1,8 +1,0 @@
-# Test requirements without Django, to work around https://github.com/pypa/pip/issues/2367.
--r requirements_without_django.txt
-mock
-selenium
-lxml==3.4.4
-cssselect
-pytest
-pytest-django==2.8.0

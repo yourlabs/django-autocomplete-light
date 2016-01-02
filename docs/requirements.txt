@@ -1,4 +1,2 @@
 django
-django-generic-m2m
-django-taggit
-pycco
+-r ../test_project/requirements.txt
