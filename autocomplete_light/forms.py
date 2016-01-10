@@ -15,6 +15,7 @@ from __future__ import unicode_literals
 
 import six
 from django import forms
+from django.conf import settings
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.db.models import ForeignKey, ManyToManyField, OneToOneField
 from django.forms.models import modelform_factory as django_modelform_factory
