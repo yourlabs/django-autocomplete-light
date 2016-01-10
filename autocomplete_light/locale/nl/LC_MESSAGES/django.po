@@ -26,12 +26,12 @@ msgstr ""
 "selecteren."
 
 #: widgets.py:185
-msgid "type some text to search in this autocomplete"
-msgstr "voer tekst in om te zoeken in deze autocomplete"
+msgid "Type some text to search in this autocomplete"
+msgstr "Voer tekst in om te zoeken in deze autocomplete"
 
 #: autocomplete/base.py:172
-msgid "no matches found"
-msgstr "geen matches gevonden"
+msgid "No matches found"
+msgstr "Geen matches gevonden"
 
 #: templates/autocomplete_light/widget.html:28
 msgid "Add another"

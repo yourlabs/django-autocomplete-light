@@ -184,7 +184,7 @@ class AutocompleteBase(AutocompleteInterface):
             [self.choice_html(c) for c in self.choices_for_request()])
 
         if not html:
-            html = self.empty_html_format % _('no matches found').capitalize()
+            html = self.empty_html_format % _('No matches found')
 
         return self.autocomplete_html_format % html
 

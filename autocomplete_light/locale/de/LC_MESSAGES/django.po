@@ -24,11 +24,11 @@ msgid ""
 msgstr " Halten Sie \"STRG\", oder \"Command\" auf einem Mac, um mehrere auszuwählen."
 
 #: widgets.py:82
-msgid "type some text to search in this autocomplete"
+msgid "Type some text to search in this autocomplete"
 msgstr "Geben Sie Text ein, um in dieser Autovervollständigung zu suchen"
 
 #: autocomplete/base.py:107
-msgid "no matches found"
+msgid "No matches found"
 msgstr "Keine Treffer gefunden"
 
 #: templates/autocomplete_light/widget.html:34

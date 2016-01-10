@@ -18,8 +18,8 @@ msgstr ""
 "X-Generator: Poedit 1.8.6\n"
 
 #: autocomplete/base.py:187
-msgid "no matches found"
-msgstr "nie znaleziono dopasowań"
+msgid "No matches found"
+msgstr "Nie znaleziono dopasowań"
 
 #: example_apps/unuseable_virtualfield/vote_models.py:161
 msgid "Votes"
@@ -34,5 +34,5 @@ msgid "Add another"
 msgstr "Dodaj kolejny"
 
 #: widgets.py:198
-msgid "type some text to search in this autocomplete"
-msgstr "wpisz tekst, aby wyszukać..."
+msgid "Type some text to search in this autocomplete"
+msgstr "Wpisz tekst, aby wyszukać..."

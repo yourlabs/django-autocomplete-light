@@ -18,9 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: widgets.py:75
-msgid "type some text to search in this autocomplete"
-msgstr "digita del testo da ricercare"
+msgid "Type some text to search in this autocomplete"
+msgstr "Digita del testo da ricercare"
 
 #: autocomplete/base.py:96
-msgid "no matches found"
-msgstr ""
+msgid "No matches found"
+msgstr "Nessun risultato trovato"

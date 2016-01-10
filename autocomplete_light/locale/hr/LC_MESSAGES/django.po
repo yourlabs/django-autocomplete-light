@@ -27,12 +27,12 @@ msgstr ""
 " Držite pritisnutim \"Control\" ili \"Command\" na Mac-u za odabir više unosa."
 
 #: widgets.py:82
-msgid "type some text to search in this autocomplete"
-msgstr "utipkajte neki tekst da pretražite u ovom polju"
+msgid "Type some text to search in this autocomplete"
+msgstr "Ttipkajte neki tekst da pretražite u ovom polju"
 
 #: autocomplete/base.py:107
-msgid "no matches found"
-msgstr "ništa nije pronađeno"
+msgid "No matches found"
+msgstr "Ništa nije pronađeno"
 
 #: templates/autocomplete_light/widget.html:34
 msgid "Add another"
