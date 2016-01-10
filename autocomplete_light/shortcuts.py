@@ -1,6 +1,7 @@
 from .autocomplete.shortcuts import *
 from .contrib.taggit_field import TaggitField, TaggitWidget
 from .exceptions import (AutocompleteArgNotUnderstood,
+                         AutocompleteChoicesMustBeQuerySet,
                          AutocompleteLightException, AutocompleteNotRegistered,
                          NoGenericAutocompleteRegistered)
 from .fields import *
