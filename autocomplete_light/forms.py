@@ -129,9 +129,7 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
         Yield name, field for each RelatedObjectsDescriptor of the model of
         this ModelForm.
         """
-        try:
-            from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
+        if 'genericm2m' not in settings.INSTALLED_APPS:
             return
 
         for name, field in self.fields.items():
@@ -318,9 +316,9 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         except ImportError:
             from django.contrib.contenttypes.generic import GenericForeignKey
 
-        try:
+        if 'genericm2m' in settings.INSTALLED_APPS:
             from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
+        else:
             RelatedObjectsDescriptor = None
 
         # All virtual fields/excludes must be move to
@@ -375,13 +373,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     def post_new(cls, new_class, meta):
         cls.add_generic_fk_fields(new_class, meta)
 
-        try:
+        if 'genericm2m' in settings.INSTALLED_APPS:
             from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
-            RelatedObjectsDescriptor = None
-
-        if RelatedObjectsDescriptor:
-            # if genericm2m is installed
             cls.add_generic_m2m_fields(new_class, meta)
 
     @classmethod
@@ -407,10 +400,10 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
-        try:
-            from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
-            RelatedObjectsDescriptor = None
+        if 'genericm2m' not in settings.INSTALLED_APPS:
+            return
+
+        from genericm2m.models import RelatedObjectsDescriptor
 
         widgets = getattr(meta, 'widgets', {})
 
