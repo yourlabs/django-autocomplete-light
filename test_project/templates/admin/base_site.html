@@ -4,8 +4,6 @@
 {% block title %}{{ title }} | {% trans 'django-autocomplete-light demo site admin' %}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name">{% trans 'django-autocomplete-light demo administration' %}</h1>
-
     {% comment %}
     This is a simple input, used for global navigation autocomplete. It
     serves as an example, refer to the documentation to make a navigation
@@ -17,6 +15,8 @@
     {% if user.is_authenticated %}
         {% include 'navigation_autocomplete/input.html' %}
     {% endif %}
+
+    <h1 style="display: inline-block" id="site-name">{% trans 'django-autocomplete-light demo administration' %}</h1>
 {% endblock %}
 
 {% block extrahead %}
