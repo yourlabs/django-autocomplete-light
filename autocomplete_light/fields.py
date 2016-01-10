@@ -15,6 +15,10 @@ __all__ = ['FieldBase', 'ChoiceField', 'MultipleChoiceField',
 
 
 class FieldBase(object):
+    default_error_messages = {
+        'invalid': '%(autocomplete)s cannot validate %(value)s',
+    }
+
     def __init__(self, autocomplete=None, registry=None, widget=None,
             widget_js_attributes=None, autocomplete_js_attributes=None,
             extra_context=None, *args, **kwargs):
@@ -62,8 +66,12 @@ class FieldBase(object):
         values = self.prepare_value(value)
 
         if value and not self.autocomplete(values=values).validate_values():
-            raise forms.ValidationError('%s cannot validate %s' % (
-                self.autocomplete.__name__, value))
+            error_params = {
+                'autocomplete': self.autocomplete.__name__, 'value': value
+            }
+
+            raise forms.ValidationError(self.error_messages['invalid'],
+                                        code='invalid', params=error_params)
 
 
 class ChoiceField(FieldBase, forms.ChoiceField):
