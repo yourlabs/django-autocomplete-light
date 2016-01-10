@@ -12,11 +12,7 @@ pip install -U pip
 pip install -r ${OPENSHIFT_REPO_DIR}test_project/requirements.txt
 
 pushd ${OPENSHIFT_REPO_DIR}test_project
-python manage.py migrate --noinput sites
-python manage.py migrate --noinput auth
-python manage.py migrate --noinput contenttypes
-python manage.py migrate --noinput cities_light
-python manage.py migrate --noinput
+python manage.py migrate --fake-initial --noinput
 mkdir -p wsgi
 ./manage.py collectstatic --noinput
 popd
