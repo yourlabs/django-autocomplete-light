@@ -11,8 +11,7 @@ __all__ = ('AutocompleteModel', )
 
 
 class AutocompleteModel(object):
-    """
-    Autocomplete which considers choices as a queryset.
+    """Autocomplete which considers choices as a queryset.
 
     .. py:attribute:: choices
 
@@ -44,6 +43,7 @@ class AutocompleteModel(object):
         single field name or an iterable (ie. list, tuple).
         However, if AutocompleteModel is instanciated with a list of values,
         it'll reproduce the ordering of values.
+
     """
     limit_choices = 20
     choices = None
@@ -81,16 +81,17 @@ class AutocompleteModel(object):
             # Order in the user selection order when self.values is set.
             clauses = ' '.join(['WHEN %s=\'%s\' THEN %s' % (pk_name, pk, i)
                 for i, pk in enumerate(self.values)])
-            ordering = 'CASE %s END' % clauses
+            ordering = 'CASE %s ELSE  1000 END' % clauses
 
-            _order_by = ('ordering',)
+            ordering_alias = '_autocomplete_light_ordering_'
+            _order_by = (ordering_alias,)
             if self.order_by:
                 # safe concatenation of list/tuple
                 # thanks lvh from #python@freenode
                 _order_by = set(_order_by) | set(self.order_by)
 
             return choices.extra(
-                select={'ordering': ordering},
+                select={ordering_alias: ordering},
                 order_by=_order_by)
 
         if self.order_by is None:
