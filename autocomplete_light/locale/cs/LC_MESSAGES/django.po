@@ -24,12 +24,12 @@ msgid ""
 msgstr "Držte \"Ctrl\" (nebo \"Command\" na Macu) pro výběr více položek."
 
 #: widgets.py:82
-msgid "type some text to search in this autocomplete"
-msgstr "začněte psát pro vyhledávání"
+msgid "Type some text to search in this autocomplete"
+msgstr "Začněte psát pro vyhledávání"
 
 #: autocomplete/base.py:107
-msgid "no matches found"
-msgstr "nic nenalezeno"
+msgid "No matches found"
+msgstr "Nic nenalezeno"
 
 #: templates/autocomplete_light/widget.html:34
 msgid "Add another"
