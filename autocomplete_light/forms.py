@@ -15,6 +15,7 @@ from __future__ import unicode_literals
 
 import six
 from django import forms
+from django.conf import settings
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.db.models import ForeignKey, ManyToManyField, OneToOneField
 from django.forms.models import modelform_factory as django_modelform_factory
@@ -26,6 +27,11 @@ from .contrib.taggit_field import TaggitField
 from .fields import (GenericModelChoiceField, GenericModelMultipleChoiceField,
                      ModelChoiceField, ModelMultipleChoiceField)
 from .widgets import MultipleChoiceWidget
+
+if 'genericm2m' in settings.INSTALLED_APPS:
+    from genericm2m.models import RelatedObjectsDescriptor
+else:
+    RelatedObjectsDescriptor = None
 
 __all__ = ['modelform_factory', 'FormfieldCallback', 'ModelForm',
 'SelectMultipleHelpTextRemovalMixin', 'VirtualFieldHandlingMixin',
@@ -129,11 +135,6 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
         Yield name, field for each RelatedObjectsDescriptor of the model of
         this ModelForm.
         """
-        try:
-            from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
-            return
-
         for name, field in self.fields.items():
             if not isinstance(field, GenericModelMultipleChoiceField):
                 continue
@@ -318,11 +319,6 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         except ImportError:
             from django.contrib.contenttypes.generic import GenericForeignKey
 
-        try:
-            from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
-            RelatedObjectsDescriptor = None
-
         # All virtual fields/excludes must be move to
         # autocomplete_fields/exclude
         fields = getattr(meta, 'fields', [])
@@ -375,13 +371,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
     def post_new(cls, new_class, meta):
         cls.add_generic_fk_fields(new_class, meta)
 
-        try:
-            from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
-            RelatedObjectsDescriptor = None
-
-        if RelatedObjectsDescriptor:
-            # if genericm2m is installed
+        if 'genericm2m' in settings.INSTALLED_APPS:
             cls.add_generic_m2m_fields(new_class, meta)
 
     @classmethod
@@ -407,10 +397,8 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
     @classmethod
     def add_generic_m2m_fields(cls, new_class, meta):
-        try:
-            from genericm2m.models import RelatedObjectsDescriptor
-        except ImportError:
-            RelatedObjectsDescriptor = None
+        if 'genericm2m' not in settings.INSTALLED_APPS:
+            return
 
         widgets = getattr(meta, 'widgets', {})
 
@@ -438,9 +426,16 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             return meta.autocomplete_registry.default_generic
 
 
-class ModelForm(six.with_metaclass(ModelFormMetaclass,
-        SelectMultipleHelpTextRemovalMixin, VirtualFieldHandlingMixin,
-        GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm)):
+bases = (ModelFormMetaclass,
+        SelectMultipleHelpTextRemovalMixin, VirtualFieldHandlingMixin)
+
+if 'genericm2m' in settings.INSTALLED_APPS:
+    bases += GenericM2MRelatedObjectDescriptorHandlingMixin,
+
+bases += forms.ModelForm,
+
+
+class ModelForm(six.with_metaclass(*bases)):
     """
     ModelForm override using our metaclass that adds our various mixins.
 
