@@ -147,7 +147,8 @@ class AutocompleteGeneric(six.with_metaclass(AutocompleteGenericMetaClass,
 
         for queryset in self.choices:
             from django.contrib.contenttypes.models import ContentType
-            ctype = ContentType.objects.get_for_model(queryset.model).pk
+            ctype = ContentType.objects.get_for_model(
+                queryset.model, for_concrete_model=False).pk
 
             try:
                 ids = [x.split('-')[1] for x in self.values

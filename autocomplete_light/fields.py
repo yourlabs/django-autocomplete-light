@@ -138,8 +138,9 @@ class GenericModelChoiceField(ModelChoiceFieldBase, forms.Field):
             # be passed here. This ONLY happens when in an inline ....
             return value
         elif isinstance(value, models.Model):
-            return '%s-%s' % (ContentType.objects.get_for_model(value).pk,
-                              value.pk)
+            content_type = ContentType.objects.get_for_model(
+                value, for_concrete_model=False)
+            return '%s-%s' % (content_type.pk, value.pk)
 
     def to_python(self, value):
         """
