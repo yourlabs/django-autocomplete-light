@@ -128,9 +128,9 @@ defining the Media class like this:
             js = ('autocomplete_light/autocomplete.js',)
 
 
-This caused a problem if you want to load jquery and autocomplete.js globally
+This caused a problem if you wanted to load jQuery and autocomplete.js globally
 **anyway** and **anywhere** in the admin to have a global navigation
-autocomplete: it would double load the scripts.
+autocomplete: it would load the scripts twice.
 
 Also, this didn't work well with django-compressor and other cool ways of
 deploying the JS.
