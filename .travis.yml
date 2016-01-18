@@ -16,9 +16,6 @@ env:
   - PIP_DISABLE_PIP_VERSION_CHECK=true
   - EXTRAREQ="codecov"
   matrix:
-  - TOXENV=py27-django14-taggit-genericm2m
-  - TOXENV=py27-django15-taggit-genericm2m
-  - TOXENV=py27-django16-taggit-genericm2m
   - TOXENV=py27-django17-taggit-genericm2m
   - TOXENV=py27-django18-taggit-genericm2m-postgresql
   - TOXENV=py27-django18-taggit-genericm2m-mysql
@@ -29,8 +26,6 @@ env:
   - TOXENV=py27-django18-genericm2m
   - TOXENV=py27-django19 TESTS_SKIP_LIVESERVER=
   - TOXENV=py27-djangomaster
-  - TOXENV=py34-django15-taggit-genericm2m
-  - TOXENV=py34-django16-taggit-genericm2m
   - TOXENV=py34-django17-taggit-genericm2m
   - TOXENV=py34-django18
   - TOXENV=py34-django18-taggit

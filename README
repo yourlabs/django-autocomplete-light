@@ -38,7 +38,7 @@ Features include:
   hidden far down in the scope anywhere.
 - add-another popup supported outside the admin too.
 - keyboard is supported with enter, tab and arrows by default.
-- Django 1.8, Python3 support
+- Django 1.7 to 1.10, PyPy, Python 2 and 3, PostgreSQL, SQLite, MySQL
 
 Each feature has a live example and is fully documented. It is also designed
 and documented so that you create your own awesome features too.
