@@ -31,15 +31,15 @@ Register an Autocomplete for your model in
     import autocomplete_light.shortcuts as al
     from models import Person
 
-    # This will generate a PersonAutocomplete class
+    # This will generate a PersonAutocomplete class.
     al.register(Person,
-        # Just like in ModelAdmin.search_fields
+        # Just like in ModelAdmin.search_fields.
         search_fields=['^first_name', 'last_name'],
         attrs={
             # This will set the input placeholder attribute:
             'placeholder': 'Other model name ?',
             # This will set the yourlabs.Autocomplete.minimumCharacters
-            # options, the naming conversion is handled by jQuery
+            # options, the naming conversion is handled by jQuery.
             'data-autocomplete-minimum-characters': 1,
         },
         # This will set the data-widget-maximum-values attribute on the
@@ -57,8 +57,8 @@ Register an Autocomplete for your model in
 
     If using **Django >= 1.7**, you might as well do :py:func:`register()
     <autocomplete_light.registry.register>` calls directly in your
-    ``AppConfig.ready()`` as demonstrated in example app:
-    ``autocomplete_light.example_apps.app_config_without_registry_file``
+    ``AppConfig.ready()`` as demonstrated in the example app:
+    ``autocomplete_light.example_apps.app_config_without_registry_file``.
 
 :py:meth:`AutocompleteView.get()
 <autocomplete_light.views.AutocompleteView.get>` can proxy

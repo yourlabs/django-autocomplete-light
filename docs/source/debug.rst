@@ -8,7 +8,7 @@ the autocomplete url, for example: /autocomplete_light/.
 
 Ensure that:
 
-- jquery is loaded,
+- jQuery is loaded,
 - ``autocomplete_light/static.html`` is included once, it should load
   ``autocomplete.js``, ``widget.js`` and ``style.css``,
 - your form uses autocomplete_light widgets,
