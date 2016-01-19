@@ -1,3 +1,42 @@
+2.3.0
+
+    - #555 Django 1.4, 1.5 and 1.6 deprecation
+    - #497 Enable registration by model-name by @luzfcb
+    - #536 #551 Support proxy models by @onrik
+    - #553 improved jQuery integration by @blueyed
+    - #516 Corrected french transation by @apinsard
+    - #541 Use error_messages on FieldBase to allow overrides by @dsanders11
+    - #505 Ordering alias clash fix by @sandroden
+    - #515 Polish translation update by @mpasternak
+    - #543 ModelChoiceField requires the queryset argument
+    - #494 ModelChoiceField Watch changes to 'queryset' by @jonashaag
+    - #514 Fixed deprecation warning on Django 1.8 by @spookylukey
+    - #498 #548 improved i18n support
+    - #547 prevents loading genericm2m if not in INSTALLED_APPS
+    - JAL#18 Fix: Get value.length while value is null by @hongquan
+    - JAL#19 Clarify license by @stevellis, all MIT
+    - JAL#17 Disable the widget input when it is not in use @dsanders11
+    - JAL#15 Support openning results in new tab @thebao
+    - JAL#14 Don't autohilight first choice by default @pandabuilder
+    - JAL#13 Add option for box aligning with right edge of input @dsanders11
+
+IMPORTANT
+
+#536 At this point, proxy model support is untested, this is because I intend
+to refactor the test suite and documentation during the 2.3.x serie.
+
+#494 Updating the queryset from outside the autocomplete class may lead to a
+security problem, ie. if you don't replicate filters you apply manually on the
+autocomplete object choices into choices_for_request() then a malicious user
+could see choices which they shouldn't by querying the autocomplete directly.
+3.0.0 will have automatic widget and / or field (in cases like gfk/gm2m)
+registration to the view like in django-select2 using queryset.query caching
+which would resolve that use-case.
+
+It's a pretty big release and I waited a while because I wanted all
+contributors to benefit from it and work on the same codebase instead of
+privileging one to another, not sure if it was the best way, let me know !
+
 2.2.9, 2.2.10
 
     [JAL] #12: Use exisiting input value for initial autocomplete query
