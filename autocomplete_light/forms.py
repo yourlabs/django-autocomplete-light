@@ -23,6 +23,11 @@ from django.forms.models import ModelFormMetaclass as DjangoModelFormMetaclass
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
+if 'genericm2m' in settings.INSTALLED_APPS:
+    from genericm2m.models import RelatedObjectsDescriptor
+else:
+    RelatedObjectsDescriptor = None
+
 from .contrib.taggit_field import TaggitField
 from .fields import (GenericModelChoiceField, GenericModelMultipleChoiceField,
                      ModelChoiceField, ModelMultipleChoiceField)
@@ -130,9 +135,6 @@ class GenericM2MRelatedObjectDescriptorHandlingMixin(forms.BaseModelForm):
         Yield name, field for each RelatedObjectsDescriptor of the model of
         this ModelForm.
         """
-        if 'genericm2m' not in settings.INSTALLED_APPS:
-            return
-
         for name, field in self.fields.items():
             if not isinstance(field, GenericModelMultipleChoiceField):
                 continue
@@ -317,11 +319,6 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         except ImportError:
             from django.contrib.contenttypes.generic import GenericForeignKey
 
-        if 'genericm2m' in settings.INSTALLED_APPS:
-            from genericm2m.models import RelatedObjectsDescriptor
-        else:
-            RelatedObjectsDescriptor = None
-
         # All virtual fields/excludes must be move to
         # autocomplete_fields/exclude
         fields = getattr(meta, 'fields', [])
@@ -404,8 +401,6 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         if 'genericm2m' not in settings.INSTALLED_APPS:
             return
 
-        from genericm2m.models import RelatedObjectsDescriptor
-
         widgets = getattr(meta, 'widgets', {})
 
         for field in meta.model.__dict__.values():
@@ -432,9 +427,16 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
             return meta.autocomplete_registry.default_generic
 
 
-class ModelForm(six.with_metaclass(ModelFormMetaclass,
-        SelectMultipleHelpTextRemovalMixin, VirtualFieldHandlingMixin,
-        GenericM2MRelatedObjectDescriptorHandlingMixin, forms.ModelForm)):
+bases = (ModelFormMetaclass,
+        SelectMultipleHelpTextRemovalMixin, VirtualFieldHandlingMixin)
+
+if 'genericm2m' in settings.INSTALLED_APPS:
+    bases += GenericM2MRelatedObjectDescriptorHandlingMixin,
+
+bases += forms.ModelForm,
+
+
+class ModelForm(six.with_metaclass(*bases)):
     """
     ModelForm override using our metaclass that adds our various mixins.
 
