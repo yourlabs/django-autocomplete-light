@@ -1,3 +1,9 @@
+2.3.3
+
+    - #563 Don't disable multiplechoicewidgets if select is [multiple]
+    - Don't import anything in __init__ anymore if on django 1.9
+    - test_project fixes, for the above.
+
 2.3.2 JAL#20 Don't disable multiplechoicewidgets by @JaHicks
 
 2.3.1 Forgot the static files in 2.3.0.
