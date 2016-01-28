@@ -1,4 +1,4 @@
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 from django import forms
 
 from .models import Item

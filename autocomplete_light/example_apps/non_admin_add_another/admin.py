@@ -1,11 +1,11 @@
-import autocomplete_light
+import autocomplete_light.shortcuts as autocomplete_light
 from django.contrib import admin
 
 from .models import NonAdminAddAnotherModel
 
 
 class NonAdminAddAnotherModelAdmin(admin.ModelAdmin):
-    form = autocomplete_light.modelform_factory(NonAdminAddAnotherModel, 
+    form = autocomplete_light.modelform_factory(NonAdminAddAnotherModel,
             fields=('name', 'widgets'))
 
 admin.site.register(NonAdminAddAnotherModel, NonAdminAddAnotherModelAdmin)
