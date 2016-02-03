@@ -1,7 +1,7 @@
 import os
 import sys
 
-from setuptools import setup, find_packages, Command
+from setuptools import setup, find_packages
 
 
 # Utility function to read the README file.
@@ -10,29 +10,6 @@ from setuptools import setup, find_packages, Command
 # string in below ...
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
-
-class RunTests(Command):
-    description = "Run the django test suite from the test_project dir."
-
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        this_dir = os.getcwd()
-        testproj_dir = os.path.join(this_dir, "test_project")
-        os.chdir(testproj_dir)
-        sys.path.append(testproj_dir)
-        from django.core.management import execute_from_command_line
-        os.environ["DJANGO_SETTINGS_MODULE"] = 'test_project.settings'
-        execute_from_command_line(argv=[ __file__, "test",
-                        "autocomplete_light"])
-        os.chdir(this_dir)
 
 if 'sdist' in sys.argv:
     dir = os.getcwd()
@@ -47,28 +24,18 @@ setup(
     author='James Pic',
     author_email='jamespic@gmail.com',
     url='http://django-autocomplete-light.rtfd.org',
-    packages=find_packages(),
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     include_package_data=True,
     zip_safe=False,
     long_description=read('README'),
     license='MIT',
     keywords='django autocomplete',
-    cmdclass={'test': RunTests},
-    install_requires=[
-        'six>=1.4',
-    ],
     extras_require={
         'Tags': 'django-taggit',
         'Generic m2m': 'django-generic-m2m',
+        'GFK': 'django-querysetsequence',
     },
-    tests_require=[
-        'django',
-        'selenium',
-        'django-cities-light',
-        'mock',
-        'lxml',
-        'cssselect',
-    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
