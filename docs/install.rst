@@ -6,7 +6,11 @@ Install in your project
 
 Install version 3 with :pip:ref:`pip install`::
 
-    pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git@v3#egg=dal
+    pip install django-autocomplete-light
+
+Or, install the dev version with git::
+
+    pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
 
 Then, let Django find static file we need by adding to
 :django:setting:`INSTALLED_APPS`::
