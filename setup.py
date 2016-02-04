@@ -11,12 +11,6 @@ from setuptools import setup, find_packages
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-if 'sdist' in sys.argv:
-    dir = os.getcwd()
-    os.chdir(os.path.join(dir, 'autocomplete_light'))
-    os.system('django-admin.py compilemessages')
-    os.chdir(dir)
-
 setup(
     name='django-autocomplete-light',
     version='3.0.1',
