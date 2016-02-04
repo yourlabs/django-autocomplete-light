@@ -164,7 +164,7 @@ Or via the Python widget class:
         attrs={
             'placeholder': 'foo',
             'data-autocomplete-minimum-characters': 0
-        },
+        }
         widget_attrs={'data-widget-maximum-values': 4}
     )
 
