@@ -1,3 +1,5 @@
+3.0.2 #575 Prevent Django admin from setting up jQuery with noConflict
+
 3.0.1 #573 Updated MANIFEST to include static files.
 
 3.0.0 Rewrite: easier to use, test, maintain and support.
