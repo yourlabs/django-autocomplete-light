@@ -4,9 +4,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views import generic
 
+import views
+
 
 urlpatterns = [
-    url(r'^$', generic.RedirectView.as_view(url='/admin/')),
+    url(r'^$', views.IndexView.as_view()),
 
     url(r'^admin/', admin.site.urls),
 
@@ -22,6 +24,8 @@ urlpatterns = [
     url(r'^select2_one_to_one/', include('select2_one_to_one.urls')),
     url(r'^select2_taggit/', include('select2_taggit.urls')),
     url(r'^select2_tagulous/', include('select2_tagulous.urls')),
+
+    url(r'^select2_outside_admin', include('select2_outside_admin.urls')),
 ]
 
 if django.VERSION < (1, 10):

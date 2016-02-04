@@ -1,0 +1,54 @@
+{% extends "admin/base_site.html" %}
+{% block branding %}
+    <h1>django-autocomplete-light demo: welcome</h1>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+    <a href="/">Home</a>
+    {% block title %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block content %}
+<div style="display: inline-block; width: 49%; vertical-align:top;">
+    <h2>Welcome to django-autocomplete-light's demo project !</h2>
+    <p>
+        Here are a number of example apps which you can test manually, or let
+        robots do the work and run ./manage.py test.
+    </p>
+    <ul>
+        <li>
+            <a
+                href="/admin/"
+                >The admin has examples for all kind of use cases</a>
+        <li>
+            <a
+                href="{% url 'select2_outside_admin' %}"
+                >Example using select2 outside the admin</a>
+        </li>
+    </ul>
+</div>
+<div style="display: inline-block; width: 49%; vertical-align:top;">
+    <h2>Need help ?</h2>
+    <p>
+        If you can reproduce a bug in the demo project, it will be made a
+        priority to fix it, and add regression test to prevent it from occuring
+        again in the future. In this case, please clone the
+        <a
+            href="https://github.com/yourlabs/django-autocomplete-light"
+            title="The repo of the best autocomplete app for Django"
+        >Repository</a>, configure the simplest example you can in a new app in
+        test_project and submit your pull request.
+    </p>
+    <p>
+        The easier you make it for us to reproduce your issue in an isolated
+        use-case, the best are your chances to have a satisfying answer.
+    </p>
+    <p>
+        Also, consider <a href="https://hackhands.com/jpic">paid support</a>
+        for django-autocomplete-light and Django in general !
+        <!-- contributors please submit a PR to add your URL here -->
+    </p>
+</div>
+{% endblock %}
