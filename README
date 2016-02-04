@@ -7,41 +7,23 @@
 .. image:: https://codecov.io/github/yourlabs/django-autocomplete-light/coverage.svg?branch=master
     :target: https://codecov.io/github/yourlabs/django-autocomplete-light?branch=master
 
-django-autocomplete-light's purpose is to enable autocompletes quickly and
-properly in a django project: it is the fruit of half a decade of R&D and
-thousands of contributions. It was designed for Django so that every part
-overridable or reusable independently. It is stable, tested, documented and
-fully supported: it tries to be a good neighbour in Django ecosystem.
-
-Projects upgrading to Django 1.9
---------------------------------
-
-DAL has been ready for Django 1.9 since April 2015 thanks to @blueyed & @jpic.
-**HOWEVER** due to the app loading refactor in 1.9 you should apply the
-following::
-
-    find . -name '*.py' | xargs perl -i -pe 's/import autocomplete_light/from autocomplete_light import shortcuts as autocomplete_light/'
-
-See the test_project running on Django 1.9 and its new cool admin theme:
-http://dal-yourlabs.rhcloud.com/admin (test:test).
-
 Features
 --------
 
-Features include:
-
-- charfield, foreign key, many to many autocomplete widgets,
-- generic foreign key, generic many to many autocomplete widgets,
-- django template engine support for autocompletes, enabling you to include
-  images etc ...
-- 100% overridable HTML, CSS, Python and Javascript: there is no variable
-  hidden far down in the scope anywhere.
-- add-another popup supported outside the admin too.
-- keyboard is supported with enter, tab and arrows by default.
-- Django 1.7 to 1.10, PyPy, Python 2 and 3, PostgreSQL, SQLite, MySQL
-
-Each feature has a live example and is fully documented. It is also designed
-and documented so that you create your own awesome features too.
+- Python 2.7+, Django 1.8+ complete support,
+- Django (multiple) choice support,
+- Django (multiple) model choice support,
+- Django generic foreign key support (through django-querysetsequence),
+- Django generic many to many relation support (through django-generic-m2m and
+  django-gm2m)
+- Multiple widget support: select2.js, easy to add more.
+- Creating choices that don't exist in the autocomplete,
+- Offering choices that depend on other fields in the form, in an elegant and
+  innovant way,
+- Dynamic widget creation (ie. inlines), supports YOUR custom scripts too,
+- Provides a test API for your awesome autocompletes, to support YOUR custom
+  use cases too,
+- A documented, automatically tested example for each use case in test_project.
 
 Resources
 ---------

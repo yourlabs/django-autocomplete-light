@@ -11,8 +11,13 @@ pip install -U pip
 
 pip install -r ${OPENSHIFT_REPO_DIR}test_project/requirements.txt
 
+# Broken dep pulled in by taggit
+if pip freeze | grep south; then
+    pip uninstall -y south
+fi
+
 pushd ${OPENSHIFT_REPO_DIR}test_project
-python manage.py migrate --fake-initial --noinput
+./manage.py migrate --fake-initial --noinput
 mkdir -p wsgi
 ./manage.py collectstatic --noinput
 popd
