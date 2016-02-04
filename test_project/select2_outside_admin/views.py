@@ -1,8 +1,8 @@
-from django.views import generic
 from django.core.urlresolvers import reverse_lazy
+from django.views import generic
 
-from select2_many_to_many.models import TestModel
 from select2_many_to_many.forms import TestForm
+from select2_many_to_many.models import TestModel
 
 
 class UpdateView(generic.UpdateView):

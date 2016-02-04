@@ -1,7 +1,6 @@
 from django.conf.urls import url
 
 from .views import UpdateView
-from select2_many_to_many import models
 
 
 urlpatterns = [
