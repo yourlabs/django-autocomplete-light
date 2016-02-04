@@ -42,8 +42,14 @@ class AdminMixin(object):
         except NoSuchElementException:
             return
 
-        self.sel.find_element_by_name('username').send_keys('test')
-        self.sel.find_element_by_name('password').send_keys('test')
+        username = self.sel.find_element_by_name('username')
+        if username.get_attribute('value') != 'test':
+            username.send_keys('test')
+
+        password = self.sel.find_element_by_name('username')
+        if password.get_attribute('value') != 'test':
+            password.send_keys('test')
+
         self.sel.find_element_by_css_selector('input[value="Log in"]').click()
 
     def get_modeladmin_url(self, action, **kwargs):
