@@ -16,19 +16,6 @@ from selenium.common.exceptions import NoSuchElementException
 class AutocompleteTestCase(SeleniumTestCase):
     """Provide a class-persistent selenium instance and assertions."""
 
-    def setUp(self):
-        """Override SBO selenium's setUp have one selenium per case."""
-        user, created = User.objects.get_or_create(
-            username='test',
-            is_staff=True,
-            is_superuser=True
-        )
-        if created:
-            user.set_password('test')
-            user.save()
-
-        return super(AutocompleteTestCase, self).setUp()
-
 
 class AdminMixin(object):
     """Mixin for tests that should happen in ModelAdmin."""
