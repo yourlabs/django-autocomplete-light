@@ -51,7 +51,7 @@ widget for in a form. If a users types an "f" it would propose "Fiji",
             if self.q:
                 qs = qs.filter(name__istartswith=self.q)
 
-            return self.q
+            return qs
 
 .. note:: For more complex filtering, refer to official documentation for
           the :django:label:`queryset-api`.
