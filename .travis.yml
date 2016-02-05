@@ -38,7 +38,8 @@ script:
 - travis_retry tox
 - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
-- codecov
+- travis_retry pip install codecov
+- cd test_project && codecov
 notifications:
   irc:
     channels:
