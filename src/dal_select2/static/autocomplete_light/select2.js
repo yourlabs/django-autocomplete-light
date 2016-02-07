@@ -8,7 +8,7 @@
         $(this).select2({
             tags: element.attr('data-tags'),
             debug: true,
-            placeholder: '',
+            placeholder: $(this).attr('placeholder'),
             minimumInputLength: 0,
             allowClear: ! $(this).is('required'),
             ajax: {
