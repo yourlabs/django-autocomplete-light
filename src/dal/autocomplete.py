@@ -34,9 +34,12 @@ from .widgets import (
 
 def _installed(*apps):
     for app in apps:
-        if app not in django_settings.INSTALLED_APPS:
-            return False
-    return True
+        if app in django_settings.INSTALLED_APPS:
+            return True
+
+        for installed_app in django_settings.INSTALLED_APPS:
+            if app == installed_app.split('.')[0]:
+                return True
 
 if _installed('dal_select2'):
     from dal_select2.widgets import (

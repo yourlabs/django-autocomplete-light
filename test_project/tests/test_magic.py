@@ -26,7 +26,6 @@ class TestMagicForm(unittest.TestCase):
             if expected is None:
                 continue
 
-            import ipdb; ipdb.set_trace()
             class result(MagicForm):
                 class Meta:
                     model = expected.Meta.model

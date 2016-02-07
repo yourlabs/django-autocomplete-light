@@ -1,6 +1,9 @@
 from dal_magic.forms import MagicFormMetaclass
 
-from dal_select2.widgets import ModelSelect2, ModelSelect2Multiple
+from dal_select2.fields import (
+    Select2ModelChoiceField,
+    Select2ModelMultipleChoiceField
+)
 
 from django.apps import AppConfig
 from django.db import models
@@ -11,12 +14,17 @@ class MagicApp(AppConfig):
     name = 'dal_select2'
 
     def ready(self):
-        MagicFormMetaclass.add_rule(
-            modelfield=models.ForeignKey,
-            widget=ModelSelect2,
+        MagicFormMetaclass.register_formfield_for_modelfield(
+            model_field=models.ForeignKey,
+            form_field=Select2ModelChoiceField,
         )
 
-        MagicFormMetaclass.register_field(
-            modelfield=ModelMultipleChoiceField,
-            widget=ModelSelect2Multiple,
+        MagicFormMetaclass.register_formfield_for_modelfield(
+            model_field=models.OneToOneField,
+            form_field=Select2ModelChoiceField,
+        )
+
+        MagicFormMetaclass.register_formfield_for_modelfield(
+            model_field=models.ManyToManyField,
+            form_field=Select2ModelMultipleChoiceField,
         )
