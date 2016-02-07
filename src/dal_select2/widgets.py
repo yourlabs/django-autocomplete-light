@@ -3,6 +3,7 @@
 from dal.widgets import QuerySetSelectMixin
 
 from django import forms
+from django.db import models
 
 
 class Select2WidgetMixin(object):

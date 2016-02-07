@@ -89,6 +89,13 @@ class WidgetMixin(object):
 
     url = property(_get_url, _set_url)
 
+    @classmethod
+    def factory(cls, field):
+        model_field = field._factory['meta'].model._meta.get_field_by_name(
+            field.factory['field'].name)
+
+        import ipdb; ipdb.set_trace()
+
 
 class Select(WidgetMixin, forms.Select):
     """Replacement for Django's Select to render only selected choices."""

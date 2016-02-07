@@ -45,14 +45,99 @@ For example:
   that in ``save_object_data()``,
 - a tag field saves relations, its form field would do that in
   ``save_relation_data()``.
+
+Now that we can form fields which encapsulate their own business logic, this
+takes us to the next issue of the day: how to customize automatically generated
+form fields for a model ?
+
+FutureModelFormMetaclass iterates over the model fields before the Django's
+ModelFormMetaclass has any chance to do anything. If any model field has been
+registered a new default form field class, then it'll call the registered form
+field factory() class method. If that returns a form field instance, then it'll
+be added to the class attributes just as if the user had defined it manually in
+their form class, before passing the control on to Django's BaseModelForm.
+
+That's all folks ! This represents my personnal opinion that:
+
+- form fields should be able to encapsulate non-default business logic, in
+  addition to the logic already provided by the model field, hereby provided by
+  FutureModelForm, and
+- it should be possible to override the default form fields created for model
+  fields, feature hereby provided by FutureModelFormMetaclass.
+
+Please support inclusion of these new features in Django !
 """
 
 from itertools import chain
 
 from django import forms
+from django.db import models
+from django.forms.models import BaseModelForm, ModelFormMetaclass
+from django.utils import six
 
 
-class FutureModelForm(forms.ModelForm):
+class FutureModelFormMetaclass(ModelFormMetaclass):
+    registry = {}
+
+    @classmethod
+    def register_formfield_for_modelfield(cls, model_field, form_field):
+        cls.registry[model_field] = form_field
+
+    @classmethod
+    def get_meta(cls, name, bases, attrs):
+        meta = attrs.get('Meta', None)
+
+        # Maybe the parent has a meta ?
+        if meta is None:
+            for parent in bases + type(cls).__mro__:
+                meta = getattr(parent, 'Meta', None)
+
+                if meta is not None:
+                    break
+
+        return meta
+
+    @classmethod
+    def get_fields(cls, meta):
+        fields = getattr(meta, 'fields', None)
+
+        if fields == '__all__':
+            return [f for f in meta.model._meta.fields]
+        elif fields is None:
+            exclude = getattr(meta, 'exclude', None)
+
+            if exclude is None:
+                raise Exception()
+
+            return [f for f in meta.model._meta.fields
+                    if f.name not in exclude]
+
+        return meta.model._meta.fields
+
+    def __new__(cls, name, bases, attrs):
+        meta = cls.get_meta(name, bases, attrs)
+
+        if meta is not None:
+            for field in cls.get_fields(meta):
+                if field.name in attrs:
+                    # Skip manually declared field
+                    continue
+
+                if type(field) not in cls.registry:
+                    # No form filed is registered for this type of field
+                    continue
+
+                attrs[field.name] = cls.registry[type(field)].factory(meta, field)
+
+        return super(FutureModelFormMetaclass, cls).__new__(
+            cls,
+            name,
+            bases,
+            attrs
+        )
+
+
+class FutureBaseModelForm(BaseModelForm):
     """
     ModelForm which adds extra API to form fields.
 
@@ -77,7 +162,7 @@ class FutureModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """Override that uses a form field's ``value_from_object()``."""
-        super(FutureModelForm, self).__init__(*args, **kwargs)
+        super(FutureBaseModelForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
             if not hasattr(field, 'value_from_object'):
@@ -87,7 +172,7 @@ class FutureModelForm(forms.ModelForm):
 
     def _post_clean(self):
         """Override that uses the form field's ``save_object_data()``."""
-        super(FutureModelForm, self)._post_clean()
+        super(FutureBaseModelForm, self)._post_clean()
 
         for name, field in self.fields.items():
             if not hasattr(field, 'save_object_data'):
@@ -155,3 +240,8 @@ class FutureModelForm(forms.ModelForm):
             # saving of m2m data.
             self.save_m2m = self._save_m2m
         return self.instance
+
+
+class FutureModelForm(six.with_metaclass(FutureModelFormMetaclass,
+                                         FutureBaseModelForm)):
+    __metaclass__ = FutureModelFormMetaclass

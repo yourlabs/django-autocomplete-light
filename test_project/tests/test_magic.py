@@ -5,6 +5,7 @@ from dal_magic.forms import MagicForm
 
 from django.apps import apps
 from django.conf import settings
+from django.utils import six
 
 
 class TestMagicForm(unittest.TestCase):
@@ -32,6 +33,11 @@ class TestMagicForm(unittest.TestCase):
                     fields = expected.Meta.fields
 
             self.assert_fields_equals(expected, result)
+
+            self.assertEquals(
+                six.text_type(expected()),
+                six.text_type(result()),
+            )
 
     def assert_field_equals(self, expected, result):
         self.assertIsInstance(result, type(expected))

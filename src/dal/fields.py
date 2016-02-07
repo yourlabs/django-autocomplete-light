@@ -3,6 +3,49 @@
 from django import forms
 
 
+class FutureModelFieldMixin(object):
+    def __init__(self, factory=None, *args, **kwargs):
+        self._factory = factory
+        choices = args[0] if len(args) else kwargs.get('queryset', None)
+
+        if choices is None:
+            args = ([],) + args
+
+        super(FutureModelFieldMixin, self).__init__(*args, **kwargs)
+
+    def _set_choices(self, choices):
+        self._choices = choices
+
+    def _get_choices(self):
+        choices = getattr(self, '_choices', None)
+
+        if choices is not None:
+            return choices
+
+        return forms.ModelChoiceIterator(self.queryset_factory())
+
+
+    def queryset_factory(self):
+        model_field = self._factory['meta'].model._meta.get_field_by_name(
+            self.factory['field'].name)
+        return model_field.rel.to.objects.all()
+
+    def _set_widget(self):
+        self._widget = widget
+
+    def _get_widget(self):
+        widget = getattr(self, '_widget', None)
+
+        if widget is not None:
+            return widget
+
+        self._widget = self.widget_factory()
+        return self._widget
+
+    def widget_factory(self):
+        return self.widget.factory(self)
+
+
 class CreateModelFieldMixin(object):
     """Mixin for autocomplete form fields with create power."""
 
