@@ -2,6 +2,8 @@
 
 from django import forms
 
+from .widgets import DumbWidget
+
 
 class CreateModelFieldMixin(object):
     """Mixin for autocomplete form fields with create power."""
@@ -53,3 +55,13 @@ class CreateModelMultipleField(CreateModelFieldMixin,
             tries -= 1
 
         return super(CreateModelMultipleField, self).clean(value)
+
+
+class DumbField(forms.Field):
+    def __init__(self, smart_view, *args, **kwargs):
+        super(DumbField, self).__init__(*args, **kwargs)
+        self.view = smart_view
+        self.widget = DumbWidget(self.view)
+
+    def clean(self, value):
+        return self.view.as_field(self).clean(value)
