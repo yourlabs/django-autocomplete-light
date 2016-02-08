@@ -1,3 +1,5 @@
+3.0.4 #586 Prune select2 docs by @eraldo
+
 3.0.3 #586 Include all in MANIFEST by @eraldo
 
 3.0.2 #575 Prevent Django admin from setting up jQuery with noConflict
