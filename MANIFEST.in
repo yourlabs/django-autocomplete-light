@@ -9,3 +9,4 @@ include src/dal_select2/static/autocomplete_light/vendor/select2/dist/css/select
 include src/dal/static/autocomplete_light/jquery.init.js
 include src/dal/static/autocomplete_light/autocomplete.init.js
 include src/dal/static/admin/js/jquery.init.js
+prune src/dal_select2/static/autocomplete_light/vendor/select2/docs
