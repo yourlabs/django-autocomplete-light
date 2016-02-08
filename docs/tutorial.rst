@@ -145,3 +145,11 @@ Note that this also works with inlines, ie:
     class PersonInline(admin.TabularInline):
         model = Person
         form = PersonForm
+
+Using autocompletes outside the admin
+=====================================
+
+Ensure that jquery is loaded before ``{{ form.media }}``, see the
+``select2_outside_admin`` example in ``test_project`` for an example:
+
+.. literalinclude:: ../test_project/select2_outside_admin/templates/select2_outside_admin.html
