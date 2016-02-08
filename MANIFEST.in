@@ -1,11 +1,2 @@
 include *.rst *.txt README LICENSE AUTHORS CHANGELOG
-recursive-include src *.html *.css *.js *.py *.po *.mo *.json *.png *.gif
-include src/dal_select2/static/autocomplete_light/jquery.init.js
-include src/dal_select2/static/autocomplete_light/autocomplete.init.js
-include src/dal_select2/static/autocomplete_light/select2.css
-include src/dal_select2/static/autocomplete_light/select2.js
-include src/dal_select2/static/autocomplete_light/vendor/select2/dist/js/select2.full.js
-include src/dal_select2/static/autocomplete_light/vendor/select2/dist/css/select2.css
-include src/dal/static/autocomplete_light/jquery.init.js
-include src/dal/static/autocomplete_light/autocomplete.init.js
-include src/dal/static/admin/js/jquery.init.js
+recursive-include src *.html *.css *.js *.py *.po *.mo *.json *.png *.gif *.otf *.eot *.svg *.ttf *.woff
