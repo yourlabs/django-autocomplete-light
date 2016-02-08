@@ -43,7 +43,7 @@ widget for in a form. If a users types an "f" it would propose "Fiji",
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_queryset(self):
             # Don't forget to filter out results depending on the visitor !
-            if not self.request.is_authenticated():
+            if not self.request.user.is_authenticated():
                 return Country.objects.none()
 
             qs = Country.objects.all()
