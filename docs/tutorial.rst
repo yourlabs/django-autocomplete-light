@@ -75,6 +75,14 @@ Create a :django:label:`named url<naming-url-patterns>` for the view, ie:
         ),
     ]
 
+Ensure that the url can be reversed, ie::
+
+    ./manage.py shell
+    In [1]: from django.core.urlresolvers import reverse
+
+    In [2]: reverse('country-autocomplete')
+    Out[2]: u'/country-autocomplete/'
+
 .. danger:: As you might have noticed, we have just exposed data through a
             public URL. Please don't forget to do proper permission checks in
             get_queryset.
@@ -86,7 +94,30 @@ We can now use the autocomplete view our Person form, for its ``birth_country``
 field that's a ``ForeignKey``. So, we're going to :django:label:`override the
 default ModelForm fields<modelforms-overriding-default-fields>`, to use a
 widget to select a Model with Select2, in our case by passing the name of the
-url we have just registered to :py:class:`~dal_select2.widgets.ModelSelect2`:
+url we have just registered to :py:class:`~dal_select2.widgets.ModelSelect2`.
+
+One way to do it is by overriding the form field, ie:
+
+.. code-block:: python
+
+    from dal import autocomplete
+
+    from django import forms
+
+
+    class PersonForm(forms.ModelForm):
+        birth_country = forms.ModelChoiceField(
+            choices=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(url='country-autocomplete')
+        )
+
+        class Meta:
+            model = Person
+            fields = ('__all__')
+
+
+Another way to do this is directly in the ``Form.Meta.widgets`` dict, if
+overriding the field is not needed:
 
 .. code-block:: python
 
