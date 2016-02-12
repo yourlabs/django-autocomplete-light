@@ -62,7 +62,7 @@ for this:
                 cities = cities.filter(country__name__icontains=self.q)
 
             # Aggregate querysets
-            qs = QuerySetSequence(guitars, trumpets)
+            qs = QuerySetSequence(countries, cities)
 
             if self.q:
                 # This would apply the filter on all the querysets
