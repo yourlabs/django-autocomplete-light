@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'select2_generic_m2m',
     'select2_taggit',
     'select2_tagulous',
+    'select2_outside_admin',
     'secure_data',
     'linked_data',
 
