@@ -34,7 +34,7 @@ autocomplete.CreateModelMultipleField and autocomplete.ModelSelect2Multiple, ie.
 
 .. code-block:: python
 
-    class YourCountryCreateField(autocomplete.CreateModelMultipleField):
+    class YourCountryCreateMultipleField(autocomplete.CreateModelMultipleField):
         def create_value(self, value):
             return Country.objects.create(name=value).pk
 
@@ -64,7 +64,7 @@ ie.:
 
 
     class CountryCreateField(CountryCreateFieldMixin,
-                                     autocomplete.CreateModelField):
+                             autocomplete.CreateModelField):
         pass
 
 
