@@ -107,7 +107,7 @@ One way to do it is by overriding the form field, ie:
 
     class PersonForm(forms.ModelForm):
         birth_country = forms.ModelChoiceField(
-            choices=Country.objects.all(),
+            queryset=Country.objects.all(),
             widget=autocomplete.ModelSelect2(url='country-autocomplete')
         )
 
