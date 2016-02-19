@@ -13,10 +13,15 @@ Or, install the dev version with git::
     pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
 
 Then, let Django find static file we need by adding to
-:django:setting:`INSTALLED_APPS`::
+:django:setting:`INSTALLED_APPS`, **before** ``django.contrib.admin``::
 
     'dal',
     'dal_select2',
+    'django.contrib.admin',
+
+This is to override the ``jquery.init.js`` script provided by the admin, which
+sets up jQuery with ``noConflict``, making jQuery available in
+``django.jQuery`` only and not ``$``.
 
 Install the demo project
 ------------------------
