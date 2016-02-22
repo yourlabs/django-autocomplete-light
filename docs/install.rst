@@ -32,7 +32,7 @@ Install the demo project in a temporary virtualenv for testing purpose::
     virtualenv dal_env
     source dal_env/bin/activate
     pip install django
-    pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git@v3#egg=django-autocomplete-light
+    pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
     cd dal_env/src/django-autocomplete-light/test_project/
     pip install -r requirements.txt
     ./manage.py migrate
