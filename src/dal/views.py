@@ -49,3 +49,30 @@ class BaseQuerySetView(ViewMixin, BaseListView):
             qs = qs.filter(name__icontains=self.q)
 
         return qs
+
+
+class SmartViewMixin(ViewMixin):
+    @classmethod
+    def as_widget(cls, widget):
+        return cls(widget=widget)
+
+    @classmethod
+    def as_field(cls, field):
+        return cls(field=field)
+
+    @classmethod
+    def as_url(cls):
+        return url(
+            r'^%s/$' % cls.__name__,
+            cls.as_view(),
+            name=cls.__name__,
+        )
+
+    def clean(self, value):
+        pass
+
+    def render(self, name, value, attrs=None):
+        pass
+
+    def decompress(self, value):
+        pass

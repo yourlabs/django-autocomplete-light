@@ -106,3 +106,15 @@ class QuerySetSelectMixin(WidgetMixin):
         self.choices.queryset = self.choices.queryset.filter(
             pk__in=[c for c in selected_choices if c]
         )
+
+
+class DumbWidget(forms.Widget):
+    def __init__(self, smart_view, *args, **kwargs):
+        self.view = smart_view
+        super(DumbWidgetMixin, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs=None):
+        return self.view.as_widget(self).render(name, value, attrs)
+
+    def decompress(self, value):
+        return self.view.as_widget(self).decompress(value)
