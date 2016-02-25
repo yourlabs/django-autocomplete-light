@@ -39,4 +39,4 @@ and we can then filter as such in the view:
             if self.q:
                 qs = qs.filter(name__istartswith=self.q)
 
-            return self.q
+            return qs
