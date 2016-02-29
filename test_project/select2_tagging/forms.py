@@ -2,13 +2,14 @@ from dal import autocomplete
 
 from django import forms
 
+from tagging.forms import TagField
+
 from .models import TestModel
 
 
 class TestForm(forms.ModelForm):
+    test = TagField(widget=autocomplete.TaggingSelect2('select2_tagging'))
+
     class Meta:
         model = TestModel
-        fields = ('name', 'test')
-        widgets = {
-            'test': autocomplete.TaggitSelect2('select2_taggit')
-        }
+        exclude = ['for_inline']

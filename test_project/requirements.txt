@@ -5,6 +5,6 @@ django-gm2m
 django-querysetsequence
 -e git+https://github.com/jpic/sbo-selenium.git@django110#egg=sbo-selenium
 django-taggit
-django-tagulous
+django-tagging
 mock
 selenium

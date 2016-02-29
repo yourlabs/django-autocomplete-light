@@ -24,16 +24,19 @@ class Select2ViewMixin(object):
         create_option = []
 
         q = self.request.GET.get('q', None)
-        if self.request.GET.get('create', None) == 'true' and q:
+        if self.create_field and q and context['page_obj'].number == 1:
             create_option = [{
                 'id': q,
                 'text': 'Create "%s"' % q,
+                'create_id': True,
             }]
 
         return http.HttpResponse(
             json.dumps({
                 'results': self.get_results(context) + create_option,
-                'more': self.has_more(context)
+                'pagination': {
+                    'more': self.has_more(context)
+                }
             }),
             content_type='application/json',
         )

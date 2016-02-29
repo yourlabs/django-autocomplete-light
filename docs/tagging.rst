@@ -1,23 +1,22 @@
-Autocompletion for django-taggit's TaggableManager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Autocompletion for django-tagging's TagField
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Model example
 =============
 
-Consider such a model, using `django-taggit
-<https://github.com/alex/django-taggit>`_ to handle tags for a model:
+Consider such a model, using ``django-tagging`` to handle tags for a model:
 
 .. code-block:: python
 
     from django.db import models
 
-    from taggit.managers import TaggableManager
+    from tagging.fields import TagField
 
 
     class TestModel(models.Model):
         name = models.CharField(max_length=200)
 
-        tags = TaggableManager()
+        tags = TagField()
 
         def __str__(self):
             return self.name
@@ -32,7 +31,7 @@ Select2 and a QuerySet of Tag objects:
 
     from dal import autocomplete
 
-    from taggit.models import Tag
+    from tagging.models import Tag
 
 
     class TagAutocomplete(autocomplete.Select2QuerySetView):
@@ -48,10 +47,7 @@ Select2 and a QuerySet of Tag objects:
 
             return qs
 
-Don't forget to :ref:`register-view`.
-
-.. note:: For more complex filtering, refer to official documentation for
-          the :django:label:`queryset-api`.
+.. note:: Don't forget to :ref:`register-view`.
 
 Form example
 ============
@@ -60,11 +56,8 @@ As usual, we need a backend-aware widget that will make only selected choices
 to render initially, to avoid butchering the database.
 
 As we're using a QuerySet of Tag and Select2 in its "tag" appearance, we'll use
-:py:class:`~dal_select2_taggit.widgets.TaggitSelect2`. It is compatible with
-the default form field created by the model field: TaggeableManager - which
-actually inherits ``django.db.models.fields.Field`` and
-``django.db.models.fields.related.RelatedField`` and **not** from
-``django.db.models.Manager``.
+:py:class:`~dal_select2_tagging.widgets.TaggitSelect2`. It is compatible with
+the default form field created by the model field: ``TagField``.
 
 Example:
 
@@ -75,7 +68,7 @@ Example:
             model = TestModel
             fields = ('name',)
             widgets = {
-                'tags': autocomplete.TaggitSelect2(
+                'tags': autocomplete.TaggingSelect2(
                     'your-taggit-autocomplete-url'
                 )
             }

@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'select2_one_to_one',
     'select2_generic_m2m',
     'select2_taggit',
-    'select2_tagulous',
+    'select2_tagging',
     'select2_outside_admin',
     'secure_data',
     'linked_data',
@@ -76,8 +76,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'sbo_selenium',
     'genericm2m',
+    'tagging',
     'taggit',
-    'tagulous',
 ]
 
 if django.VERSION < (1, 10):

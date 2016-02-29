@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from tagulous.models import TagField
+from tagging.fields import TagField
 
 
 @python_2_unicode_compatible

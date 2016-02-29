@@ -6,7 +6,7 @@ Overview
 
 Autocompletes are based on 3 moving parts:
 
-- widget, does the initial rendering,
+- widget compatible with the model field, does the initial rendering,
 - javascript widget initialization code, to trigger the autocomplete,
 - and a view used by the widget script to get results from.
 
@@ -184,3 +184,35 @@ Ensure that jquery is loaded before ``{{ form.media }}``, see the
 ``select2_outside_admin`` example in ``test_project`` for an example:
 
 .. literalinclude:: ../test_project/select2_outside_admin/templates/select2_outside_admin.html
+
+Creation of new choices in the autocomplete form
+================================================
+
+The view may provide an extra option when it can't find any result matching the
+user input. That option would have the label ``Create "query"``, where
+``query`` is the content of the input and corresponds to what the user typed
+in. This allows the user to create objects on the fly from within the AJAX
+widget.
+
+To enable this, first the view must know how to create an object given only
+``self.q``, which is the variable containing the user input in the view. Set
+the ``create_field`` view option to enable creation of new objects from within
+the autocomplete user interface, ie:
+
+.. code-block:: python
+
+    urlpatterns = [
+        url(
+            'country-autocomplete/$',
+            CountryAutocomplete.as_view(create_field='name'),
+            name='country-autocomplete',
+        ),
+    ]
+
+This way, the option 'Create "Tibet"' will be available if a user inputs
+"Tibet" for example. When the user clicks it, it will make the post request to
+the view which will do ``Country.objects.create(name='Tibet')``. It will be
+included in the server response so that the script can add it to the widget.
+
+Note that creating objects is only allowed to staff users with add permission
+by default.

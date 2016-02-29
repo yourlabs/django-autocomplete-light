@@ -2,14 +2,15 @@ from dal import autocomplete
 
 from django.conf.urls import url
 
-from .models import TestModel
+from tagging.models import Tag
+
 
 urlpatterns = [
     url(
         'test-autocomplete/$',
         autocomplete.Select2QuerySetView.as_view(
-            queryset=TestModel.test.tag_model.objects.all(),
+            queryset=Tag.objects.all(),
         ),
-        name='select2_tagulous',
+        name='select2_tagging',
     ),
 ]

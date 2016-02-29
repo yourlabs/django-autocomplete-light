@@ -275,6 +275,7 @@ class CreateOption(SelectOption):
             name
         )
         self.case.click(self.option_selector)
+        self.case.wait_until_not_visible('.select2-results__options')
 
 
 class MultipleMixin(object):
