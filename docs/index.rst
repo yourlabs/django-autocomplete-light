@@ -16,7 +16,6 @@ Basics
 
    install
    tutorial
-   linked
 
 External app support
 --------------------
