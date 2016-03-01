@@ -1,3 +1,9 @@
 .select2-container {
     min-width: 20em;
 }
+
+ul li.select2-selection__choice,
+ul li.select2-search {
+    /* Cancel out django's style */
+    list-style-type: none;
+}
