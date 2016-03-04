@@ -1,2 +1,3 @@
+sphinx-better-theme
 django
 -r ../test_project/requirements.txt
