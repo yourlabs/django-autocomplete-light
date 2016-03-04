@@ -55,6 +55,7 @@ Fields
 ------
 
 .. automodule:: dal_contenttypes.fields
+   :members:
 
 dal_select2_queryset_sequence: Select2 for QuerySetSequence choices
 ===================================================================
@@ -63,29 +64,34 @@ Views
 -----
 
 .. automodule:: dal_select2_queryset_sequence.views
+   :members:
 
 Wigets
 ------
 
 .. automodule:: dal_select2_queryset_sequence.widgets
+   :members:
 
-dal_queryset_sequence: QuerySetSequence choicse
+dal_queryset_sequence: QuerySetSequence choices
 ===============================================
 
 Views
 -----
 
 .. automodule:: dal_queryset_sequence.views
+   :members:
 
 Fields
 ------
 
 .. automodule:: dal_queryset_sequence.fields
+   :members:
 
 Widgets
 -------
 
 .. automodule:: dal_queryset_sequence.widgets
+   :members:
 
 dal_gm2m_queryset_sequence
 ==========================
@@ -94,6 +100,7 @@ Fields
 ------
 
 .. automodule:: dal_gm2m_queryset_sequence.fields
+   :members:
 
 dal_genericm2m_queryset_sequence
 ================================
@@ -102,6 +109,7 @@ Fields
 ------
 
 .. automodule:: dal_genericm2m_queryset_sequence.fields
+   :members:
 
 dal_gm2m: django-gm2m support
 =============================
@@ -110,6 +118,7 @@ Fields
 ------
 
 .. automodule:: dal_gm2m.fields
+   :members:
 
 dal_genericm2m: django-genericm2m support
 =========================================
@@ -118,19 +127,22 @@ Fields
 ------
 
 .. automodule:: dal_genericm2m.fields
+   :members:
 
-dal_taggit: django-taggit support
-=================================
-
-Fields
-------
-
-.. automodule:: dal_taggit.fields
-
-dal_tagulous: django-tagulous support
-=====================================
+dal_select2_taggit: django-taggit support
+=========================================
 
 Fields
 ------
 
-.. automodule:: dal_tagulous.fields
+.. automodule:: dal_select2_taggit.widgets
+   :members:
+
+dal_select2_tagging: django-tagging support
+===========================================
+
+Fields
+------
+
+.. automodule:: dal_select2_tagging.widgets
+   :members:
