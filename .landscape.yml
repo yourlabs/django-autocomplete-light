@@ -1,0 +1,15 @@
+doc-warnings: yes
+test-warnings: no
+strictness: veryhigh
+max-line-length: 80
+uses:
+    - django
+autodetect: yes
+ignore-paths:
+    - docs
+    - src/dal_select2/static/autocomplete_light/vendor
+ignore-patterns:
+    - (^|/)docs(/|$)
+python-targets:
+    - 2
+    - 3
