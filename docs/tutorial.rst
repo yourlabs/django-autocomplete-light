@@ -6,7 +6,7 @@ Overview
 
 Autocompletes are based on 3 moving parts:
 
-- widget, does the initial rendering,
+- widget compatible with the model field, does the initial rendering,
 - javascript widget initialization code, to trigger the autocomplete,
 - and a view used by the widget script to get results from.
 
@@ -184,3 +184,78 @@ Ensure that jquery is loaded before ``{{ form.media }}``, see the
 ``select2_outside_admin`` example in ``test_project`` for an example:
 
 .. literalinclude:: ../test_project/select2_outside_admin/templates/select2_outside_admin.html
+
+Creation of new choices in the autocomplete form
+================================================
+
+The view may provide an extra option when it can't find any result matching the
+user input. That option would have the label ``Create "query"``, where
+``query`` is the content of the input and corresponds to what the user typed
+in. This allows the user to create objects on the fly from within the AJAX
+widget.
+
+To enable this, first the view must know how to create an object given only
+``self.q``, which is the variable containing the user input in the view. Set
+the ``create_field`` view option to enable creation of new objects from within
+the autocomplete user interface, ie:
+
+.. code-block:: python
+
+    urlpatterns = [
+        url(
+            'country-autocomplete/$',
+            CountryAutocomplete.as_view(create_field='name'),
+            name='country-autocomplete',
+        ),
+    ]
+
+This way, the option 'Create "Tibet"' will be available if a user inputs
+"Tibet" for example. When the user clicks it, it will make the post request to
+the view which will do ``Country.objects.create(name='Tibet')``. It will be
+included in the server response so that the script can add it to the widget.
+
+Note that creating objects is only allowed to staff users with add permission
+by default.
+
+Filtering results based on the value of other fields in the form
+================================================================
+
+Let's say we want to add a "Continent" choice field in the form, and filter the
+countries based on the value on this field. We then need the widget to pass the
+value of the continent field to the view when it fetches data. We can use the
+``forward`` widget argument to do this:
+
+.. code-block:: python
+
+    class PersonForm(forms.ModelForm):
+        continent = forms.ChoiceField(choices=CONTINENT_CHOICES)
+
+        class Meta:
+            model = Person
+            fields = ('__all__')
+            widgets = {
+                'birth_country': autocomplete.ModelSelect2(url='country-autocomplete'
+                                                           forward=['continent'])
+            }
+
+This will pass the value for the "continent" form field in the AJAX request,
+and we can then filter as such in the view:
+
+.. code-block:: python
+
+    class CountryAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return Country.objects.none()
+
+            qs = Country.objects.all()
+
+            continent = self.forwarded.get('continent', None)
+
+            if continent:
+                qs = qs.filter(continent=continent)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs

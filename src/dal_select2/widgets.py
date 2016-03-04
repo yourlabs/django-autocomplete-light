@@ -1,8 +1,9 @@
 """Select2 widget implementation module."""
 
-from dal.widgets import QuerySetSelectMixin
+from dal.widgets import QuerySetSelectMixin, WidgetMixin
 
 from django import forms
+from django.utils import six
 
 
 class Select2WidgetMixin(object):
@@ -39,11 +40,22 @@ class ModelSelect2Multiple(QuerySetSelectMixin,
     """SelectMultiple widget for QuerySet choices and Select2."""
 
 
-class TagSelect2(ModelSelect2Multiple):
-    """ModelSelect2Multiple for tags."""
+class TagSelect2(WidgetMixin,
+                 Select2WidgetMixin,
+                 forms.SelectMultiple):
+    """Select2 in tag mode."""
 
     def build_attrs(self, *args, **kwargs):
         """Automatically set data-tags=1."""
         attrs = super(TagSelect2, self).build_attrs(*args, **kwargs)
         attrs.setdefault('data-tags', 1)
         return attrs
+
+    def value_from_datadict(self, data, files, name):
+        """Return a comma-separated list of options.
+
+        This is needed because Select2 uses a multiple select even in tag mode,
+        and the model field expects a comma-separated list of tags.
+        """
+        values = super(TagSelect2, self).value_from_datadict(data, files, name)
+        return six.text_type(',').join(values)

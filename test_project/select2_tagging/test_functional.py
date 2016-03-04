@@ -23,13 +23,11 @@ class TagSelect2AdminTestMixin(Select2Story, case.AdminMixin):
 
         # assert it works with new tags
         story.assert_labels(labels)
-        story.assert_values([labels[0], labels[1]])
+        story.assert_values(labels)
 
         # assert tags were saved, they have a pk
         story.submit()
         story.assert_labels(labels)
-
-        # With tags, values are labels
         story.assert_values(labels)
 
 

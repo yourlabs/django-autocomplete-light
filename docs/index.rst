@@ -16,8 +16,6 @@ Basics
 
    install
    tutorial
-   creation
-   linked
 
 External app support
 --------------------
@@ -28,8 +26,8 @@ External app support
    gfk
    gm2m
    genericm2m
+   tagging
    taggit
-   tagulous
 
 API
 ---

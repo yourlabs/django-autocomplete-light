@@ -10,7 +10,10 @@ from .models import TestModel
 urlpatterns = [
     url(
         'test-autocomplete/$',
-        autocomplete.Select2QuerySetView.as_view(model=TestModel),
+        autocomplete.Select2QuerySetView.as_view(
+            model=TestModel,
+            create_field='name',
+        ),
         name='select2_one_to_one_autocomplete',
     ),
     url(

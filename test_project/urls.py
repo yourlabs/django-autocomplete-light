@@ -22,7 +22,7 @@ urlpatterns = [
         include('select2_many_to_many.urls')),
     url(r'^select2_one_to_one/', include('select2_one_to_one.urls')),
     url(r'^select2_taggit/', include('select2_taggit.urls')),
-    url(r'^select2_tagulous/', include('select2_tagulous.urls')),
+    url(r'^select2_tagging/', include('select2_tagging.urls')),
 
     url(r'^select2_outside_admin', include('select2_outside_admin.urls')),
 ]

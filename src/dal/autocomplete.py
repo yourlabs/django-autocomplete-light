@@ -19,11 +19,6 @@ Note that using this module is optional.
 
 from django.conf import settings as django_settings
 
-from .fields import (
-    CreateModelField,
-    CreateModelMultipleField,
-)
-
 from .forms import FutureModelForm
 
 from .widgets import (
@@ -67,6 +62,12 @@ if _installed('dal_select2', 'dal_queryset_sequence'):
         QuerySetSequenceSelect2Multiple,
     )
 
+if _installed('dal_select2') and _installed('taggit'):
+    from dal_select2_taggit.widgets import TaggitSelect2
+
+if _installed('dal_select2') and _installed('tagging'):
+    from dal_select2_tagging.widgets import TaggingSelect2
+
 if _installed('genericm2m') and _installed('dal_queryset_sequence'):
     from dal_genericm2m_queryset_sequence.fields import (
         GenericM2MQuerySetSequenceField
@@ -74,9 +75,3 @@ if _installed('genericm2m') and _installed('dal_queryset_sequence'):
 
 if _installed('gm2m') and _installed('dal_queryset_sequence'):
     from dal_gm2m_queryset_sequence.fields import GM2MQuerySetSequenceField
-
-if _installed('taggit'):
-    from dal_taggit.fields import TaggitField
-
-if _installed('tagulous'):
-    from dal_tagulous.fields import TagulousField

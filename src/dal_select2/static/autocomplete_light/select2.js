@@ -6,7 +6,7 @@
         $(this).find('option[value=""]').remove();
 
         $(this).select2({
-            tags: element.attr('data-tags'),
+            tokenSeparators: element.attr('data-tags') ? [','] : null,
             debug: true,
             placeholder: '',
             minimumInputLength: 0,
@@ -38,16 +38,48 @@
                     return data;
                 },
                 processResults: function (data, page) {
-                    return {
-                        results: data.results,
-                        pagination: {
-                            more: data.more
-                        }
-                    };
+                    if (element.attr('data-tags')) {
+                        $.each(data.results, function(index, value) {
+                            value.id = value.text;
+                        });
+                    }
+
+                    return data;
                 },
                 cache: true
             },
         });
+
+        $(this).on('select2:selecting', function (e) {
+            var data = e.params.args.data;
+
+            if (data.create_id !== true)
+                return;
+
+            e.preventDefault();
+
+            var select = $(this);
+
+            $.ajax({
+                url: $(this).attr('data-autocomplete-light-url'),
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    text: data.id,
+                },
+                beforeSend: function(xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", document.csrftoken);
+                },
+                success: function(data, textStatus, jqXHR ) {
+                    select.append(
+                        $('<option>', {value: data.id, text: data.text, selected: true})
+                    );
+                    select.trigger('change');
+                    select.select2('close');
+                }
+            });
+        });
+
     });
 
     $(document).on('DOMSubtreeModified', '[data-autocomplete-light-function=select2] option', function() {
