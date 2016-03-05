@@ -238,8 +238,10 @@ value of the continent field to the view when it fetches data. We can use the
                                                            forward=['continent'])
             }
 
-This will pass the value for the "continent" form field in the AJAX request,
-and we can then filter as such in the view:
+DAL's Select2 configuration script will get the value fo the form field named
+``'continent'`` and add it to the autocomplete HTTP query. This will pass the
+value for the "continent" form field in the AJAX request, and we can then
+filter as such in the view:
 
 .. code-block:: python
 
