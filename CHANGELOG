@@ -1,3 +1,19 @@
+3.1.0
+
+    - ! BC BREAK ! CreateModelField is gone, it didn't work when another field
+      of the form didn't validate. There isn't a really sane way to create the
+      option in the form field field. Instead, this is done in the view, like
+      in DAL v2.
+    - ! BC BREAK ! dal_tagulous was removed in favor of django-tagging, because
+      tagulous already provides its implementation of a select2 widget.
+    - #610 Fixed a rendering issue with multiple selects. Upstream patch
+      proposed but not merged yet: select2/select2#4226
+
+    For details about the current status and plan, please consult the
+    announcement:
+
+    http://blog.yourlabs.org/post/140477620808/django-autocomplete-light-v3-whats-going-on
+
 3.0.4 #586 Prune select2 docs by @eraldo
 
 3.0.3 #586 Include all in MANIFEST by @eraldo

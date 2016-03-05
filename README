@@ -25,10 +25,16 @@ Features
   use cases too,
 - A documented, automatically tested example for each use case in test_project.
 
-Resources
+Upgrading
 ---------
 
-Resources include:
+See CHANGELOG.
+
+For v2 users and experts, a `blog post was published with plenty of details
+<http://blog.yourlabs.org/post/140477620808/django-autocomplete-light-v3-whats-going-on>`_.
+
+Resources
+---------
 
 - `**Documentation** graciously hosted
   <http://django-autocomplete-light.rtfd.org>`_ by `RTFD
