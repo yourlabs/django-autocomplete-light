@@ -15,11 +15,15 @@ Autocompletes are based on 3 moving parts:
 Create an autocomplete view
 ===========================
 
+- Example source code: `test_project/select2_foreign_key
+  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/select2_foreign_key/urls.py>`_
+- Live demo: `/select2_foreign_key/test-autocomplete/?q=test
+  <http://dal-yourlabs.rhcloud.com/select2_foreign_key/test-autocomplete/?q=test>`_
+
 The only purpose of the autocomplete view is to serve relevant suggestions for
 the widget to propose to the user. DAL leverages Django's `class based views
 <https://docs.djangoproject.com/es/1.9/topics/class-based-views/>`_
 and `Mixins <https://en.wikipedia.org/wiki/Mixin>`_ to for code reuse.
-
 
 .. note:: Do **not** miss the `Classy Class-Based Views
           <http://ccbv.co.uk/>`_ website which helps a lot to work with
@@ -29,9 +33,11 @@ In this tutorial, we'll learn to make autocompletes backed by a
 :django:term:`QuerySet`. Suppose we have a Country :django:term:`Model`
 which we want to provide a `Select2 <https://select2.github.io/>`_ autocomplete
 widget for in a form. If a users types an "f" it would propose "Fiji",
-"Finland" and "France", to authenticated users only. The base view for this is
-:py:class:`~dal_select2.views.Select2QuerySetView`.
+"Finland" and "France", to authenticated users only:
 
+.. image:: img/autocomplete.png
+
+The base view for this is :py:class:`~dal_select2.views.Select2QuerySetView`.
 
 .. code-block:: python
 
@@ -89,6 +95,10 @@ Ensure that the url can be reversed, ie::
 
 Use the view in a Form widget
 =============================
+
+You should be able to open the view at this point:
+
+.. image:: img/view.png
 
 We can now use the autocomplete view our Person form, for its ``birth_country``
 field that's a ``ForeignKey``. So, we're going to :django:label:`override the
@@ -180,19 +190,36 @@ Note that this also works with inlines, ie:
 Using autocompletes outside the admin
 =====================================
 
-Ensure that jquery is loaded before ``{{ form.media }}``, see the
-``select2_outside_admin`` example in ``test_project`` for an example:
+- Example source code: `test_project/select2_outside_admin
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/select2_outside_admin>`_,
+- Live demo: `/select2_outside_admin/
+  <http://dal-yourlabs.rhcloud.com/select2_outside_admin/>`_.
+
+Ensure that jquery is loaded before ``{{ form.media }}``:
 
 .. literalinclude:: ../test_project/select2_outside_admin/templates/select2_outside_admin.html
 
 Creation of new choices in the autocomplete form
 ================================================
 
+- Example source code: `test_project/select2_one_to_one
+  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/select2_one_to_one/urls.py>`_,
+- Live demo: `/admin/select2_one_to_one/testmodel/add/
+  <http://dal-yourlabs.rhcloud.com/admin/select2_one_to_one/testmodel/add/>`_,
+
 The view may provide an extra option when it can't find any result matching the
 user input. That option would have the label ``Create "query"``, where
 ``query`` is the content of the input and corresponds to what the user typed
-in. This allows the user to create objects on the fly from within the AJAX
-widget.
+in. As such:
+
+.. image:: img/create_option.png
+
+This allows the user to create objects on the fly from within the AJAX
+widget. When the user selects that option, the autocomplete script will make a
+POST request to the view. It should create the object and return the pk, so the
+item will then be added just as if it already had a PK:
+
+.. image:: img/created_option.png
 
 To enable this, first the view must know how to create an object given only
 ``self.q``, which is the variable containing the user input in the view. Set
@@ -220,6 +247,22 @@ by default.
 Filtering results based on the value of other fields in the form
 ================================================================
 
+- Example source code: `test_project/select2_linked_data
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/linked_data>`_.
+- Live demo: `Admin / Linked Data / Add
+  <http://dal-yourlabs.rhcloud.com/admin/linked_data/testmodel/add/>`_.
+
+In the live demo, create a TestModel with ``owner=None``, and another with
+``owner=test`` (test being the user you log in with). Then, in in a new form,
+you'll see both options if you leave the owner select empty:
+
+.. image:: img/all.png
+
+But if you select ``test`` as an owner, and open the autocomplete again, you'll
+only see the option with ``owner=test``:
+
+.. image:: img/mine.png
+
 Let's say we want to add a "Continent" choice field in the form, and filter the
 countries based on the value on this field. We then need the widget to pass the
 value of the continent field to the view when it fetches data. We can use the
@@ -238,8 +281,10 @@ value of the continent field to the view when it fetches data. We can use the
                                                            forward=['continent'])
             }
 
-This will pass the value for the "continent" form field in the AJAX request,
-and we can then filter as such in the view:
+DAL's Select2 configuration script will get the value fo the form field named
+``'continent'`` and add it to the autocomplete HTTP query. This will pass the
+value for the "continent" form field in the AJAX request, and we can then
+filter as such in the view:
 
 .. code-block:: python
 
