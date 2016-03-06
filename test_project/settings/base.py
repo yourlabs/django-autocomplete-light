@@ -74,7 +74,6 @@ INSTALLED_APPS = [
 
     # Project apps
     'django_extensions',
-    'sbo_selenium',
     'genericm2m',
     'tagging',
     'taggit',

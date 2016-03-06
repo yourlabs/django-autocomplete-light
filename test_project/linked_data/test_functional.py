@@ -31,8 +31,8 @@ class AdminLinkedDataTest(Select2Story,
         self.assertEqual(sorted(expected),
                          sorted(story.get_suggestions_labels()))
 
-        self.sel.execute_script('$("[name=owner]").val(%s)' %
-                                self.fixtures.test.pk)
+        self.browser.execute_script('$("[name=owner]").val(%s)' %
+                                    self.fixtures.test.pk)
         story.refresh_autocomplete()
 
         expected = self.model.objects.filter(
@@ -40,8 +40,8 @@ class AdminLinkedDataTest(Select2Story,
         self.assertEqual(sorted(expected),
                          sorted(story.get_suggestions_labels()))
 
-        self.sel.execute_script('$("[name=owner]").val(%s)' %
-                                self.fixtures.other.pk)
+        self.browser.execute_script('$("[name=owner]").val(%s)' %
+                                    self.fixtures.other.pk)
         story.refresh_autocomplete()
 
         expected = self.model.objects.filter(
