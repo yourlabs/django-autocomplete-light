@@ -13,7 +13,7 @@ def read(fname):
 
 setup(
     name='django-autocomplete-light',
-    version='3.1.0',
+    version='3.1.1',
     description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',
