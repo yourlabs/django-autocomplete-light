@@ -110,13 +110,13 @@ Result:
 .. code-block:: python
 
     class TestForm(autocomplete.FutureModelForm):
-        location = autocomplete.QuerySetSequenceModelField(
+        location = dal_queryset_sequence.fields.QuerySetSequenceModelField(
             queryset=autocomplete.QuerySetSequence(
                 Country.objects.all(),
                 City.objects.all(),
             ),
             required=False,
-            widget=autocomplete.QuerySetSequenceSelect2('location-autocomplete'),
+            widget=dal_select2_queryset_sequence.widgets.QuerySetSequenceSelect2('location-autocomplete'),
         )
 
         class Meta:
