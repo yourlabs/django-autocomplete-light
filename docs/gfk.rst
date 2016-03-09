@@ -82,7 +82,7 @@ Register the view in urlpatterns as usual, ie.:
 
     urlpatterns = [
         url(
-            r'location-autocomplete/$',
+            r'^location-autocomplete/$',
             LocationAutocompleteView.as_view(),
             name='location-autocomplete'
         ),
