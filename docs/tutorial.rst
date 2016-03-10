@@ -75,7 +75,7 @@ Create a :django:label:`named url<naming-url-patterns>` for the view, ie:
 
     urlpatterns = [
         url(
-            'country-autocomplete/$',
+            r'^country-autocomplete/$',
             CountryAutocomplete.as_view(),
             name='country-autocomplete',
         ),
@@ -150,7 +150,7 @@ relation instead of a ForeignKey, with a model like that:
 .. code-block:: python
 
     class Person(models.Model):
-        visited_countries = models.ManyToMany('your_countries_app.country')
+        visited_countries = models.ManyToManyField('your_countries_app.country')
 
 Then we would use the :py:class:`~dal_select2.widgets.ModelSelect2Multiple`
 widget, ie.:
@@ -230,7 +230,7 @@ the autocomplete user interface, ie:
 
     urlpatterns = [
         url(
-            'country-autocomplete/$',
+            r'^country-autocomplete/$',
             CountryAutocomplete.as_view(create_field='name'),
             name='country-autocomplete',
         ),
