@@ -21,6 +21,8 @@ from django.conf import settings as django_settings
 
 from .forms import FutureModelForm
 
+from .views import ViewMixin
+
 from .widgets import (
     Select,
     SelectMultiple,
@@ -39,6 +41,7 @@ if _installed('dal_select2'):
         Select2Multiple,
         ModelSelect2,
         ModelSelect2Multiple,
+        Select2,
         TagSelect2,
     )
     from dal_select2.views import (
