@@ -28,6 +28,10 @@ class Select2WidgetMixin(object):
     autocomplete_function = 'select2'
 
 
+class Select2(WidgetMixin, Select2WidgetMixin, forms.Select):
+    """Select widget for regular choices and Select2."""
+
+
 class ModelSelect2(QuerySetSelectMixin,
                    Select2WidgetMixin,
                    forms.Select):
