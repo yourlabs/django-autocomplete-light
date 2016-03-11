@@ -1,6 +1,7 @@
 """Model choice fields that take a ContentType too: for generic relations."""
 
 from django.contrib.contenttypes.models import ContentType
+from django.utils import six
 
 
 class ContentTypeModelFieldMixin(object):
@@ -20,6 +21,11 @@ class ContentTypeModelFieldMixin(object):
         """Return a ctypeid-objpk string for value."""
         if not value:
             return ''
+
+        if isinstance(value, six.string_types):
+            # Apparently Django's ModelChoiceField also expects two kinds of
+            # "value" to be passed in this method.
+            return value
 
         return '%s-%s' % (ContentType.objects.get_for_model(value).pk,
                           value.pk)

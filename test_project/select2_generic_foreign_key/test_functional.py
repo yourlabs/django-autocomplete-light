@@ -21,13 +21,19 @@ class AdminGenericForeignKeyTestCase(Select2Story, case.AdminMixin,
         option, ctype = self.create_option()
         story = stories.SelectOption(self)
         story.select_option(option.name)
-        story.assert_value('%s-%s' % (ctype.pk, option.pk))
+        story.assert_selection_persists(
+            '%s-%s' % (ctype.pk, option.pk),
+            option.name
+        )
 
     def test_can_select_option_in_first_inline(self):
         option, ctype = self.create_option()
         story = stories.InlineSelectOption(self, inline_number=0)
         story.select_option(option.name)
-        story.assert_value('%s-%s' % (ctype.pk, option.pk))
+        story.assert_selection_persists(
+            '%s-%s' % (ctype.pk, option.pk),
+            option.name
+        )
 
     def test_can_select_option_in_first_extra_inline(self):
         option, ctype = self.create_option()
