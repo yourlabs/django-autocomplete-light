@@ -1,3 +1,11 @@
+3.1.2
+
+    - #634: Select2 Upgrade
+    - #628: Do not rely on ids to fix container text
+    - #631: Initializing GFKs with values from forms
+    - #623: Fix setup.py extras by @ticosax
+    - #610: Cancel out Django's style on lists
+
 3.1.1 Forgot vendor files in 3.1.0
 
 3.1.0
