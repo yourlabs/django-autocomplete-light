@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     # Autocomplete
     'dal',
     # Enable plugins
-    'dal_select2',
+    'dal_select2.apps.MagicApp',
     'dal_queryset_sequence',
 
     # Project apps
