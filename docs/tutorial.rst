@@ -29,11 +29,12 @@ and `Mixins <https://en.wikipedia.org/wiki/Mixin>`_ to for code reuse.
           <http://ccbv.co.uk/>`_ website which helps a lot to work with
           class-based views in general.
 
-In this tutorial, we'll learn to make autocompletes backed by a
-:django:term:`QuerySet`. Suppose we have a Country :django:term:`Model`
-which we want to provide a `Select2 <https://select2.github.io/>`_ autocomplete
-widget for in a form. If a users types an "f" it would propose "Fiji",
-"Finland" and "France", to authenticated users only:
+In this tutorial, we'll first learn to make autocompletes backed by a
+:django:term:`QuerySet`. Suppose we have a Country
+:django:term:`Model` which we want to provide a `Select2
+<https://select2.github.io/>`_ autocomplete widget for in a form. If a
+users types an "f" it would propose "Fiji", "Finland" and "France", to
+authenticated users only:
 
 .. image:: img/autocomplete.png
 
@@ -304,3 +305,44 @@ filter as such in the view:
                 qs = qs.filter(name__istartswith=self.q)
 
             return qs
+
+Autocompleting based on a List of Strings
+=========================================
+
+Sometimes it is useful to specify autocomplete choices based on a list
+of strings rather than a QuerySet.  This can be achieved with the
+:py:class:`~dal_select2.views.Select2ListView` class:
+
+.. code-block:: python
+
+    from dal import autocomplete
+
+    class CountryAutocompleteFromList(autocomplete.Select2ListView):
+        def get_list(self):
+		return ['France', 'Fiji', 'Finland', 'Switzerland']
+..
+
+This class can then be registered as in the previous example.  Suppose
+we register it under URL 'country-list-autocomplete'.  We can then a
+create a Select2 widget with:
+
+.. code-block:: python
+    widget = autocomplete.Select2(url='country-list-autocomplete')
+..
+
+With this in place, if a user types the letter `f' in the widget, choices
+'France', 'Fiji', and 'Finland' would be offered.
+
+Specifying Placeholder Labels
+=============================
+
+To display a place-holder text when a widget has no data entered yet,
+set the attribute 'data-placeholder' to the desired label when creating
+the widget.  For example:
+
+.. code-block:: python
+    widget = autocomplete.Select2(url='country-list-autocomplete',
+				  attrs={'data-placeholder': 'Country?'})
+..
+
+would show the label `Country?' as a placeholder.
