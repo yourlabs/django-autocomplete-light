@@ -45,7 +45,8 @@ if _installed('dal_select2'):
         TagSelect2,
     )
     from dal_select2.views import (
-        Select2QuerySetView
+        Select2QuerySetView,
+        Select2ListView
     )
 
 if _installed('dal_queryset_sequence'):
