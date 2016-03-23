@@ -96,7 +96,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
         result = self.create_object(text)
 
-        return http.HttpResponse(json.dumps({
+        return http.JsonResponse({
             'id': result.pk,
             'text': six.text_type(result),
-        }))
+        })
