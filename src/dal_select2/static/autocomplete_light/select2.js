@@ -8,7 +8,7 @@
         $(this).select2({
             tokenSeparators: element.attr('data-tags') ? [','] : null,
             debug: true,
-            placeholder: '',
+            placeholder: $(this).attr('placeholder'),
             minimumInputLength: 0,
             allowClear: ! $(this).is('required'),
             ajax: {
