@@ -161,6 +161,28 @@ widget, ie.:
         'visited_countries': autocomplete.ModelSelect2Multiple(url='country-autocomplete')
     }
 
+Passing options to select2
+==========================
+
+`Select2
+<https://select2.github.io/>`_ supports a bunch of `options
+<https://select2.github.io/options.html>`_. These options may be
+`set in data-* attributes
+<https://select2.github.io/options.html#data-attributes>`_. For example:
+
+.. code-block:: python
+
+    # Instanciate a widget with a bunch of options for select2:
+    autocomplete.ModelSelect2(
+        url='select2_fk',
+        attrs={
+            # Set some placeholder
+            'data-placeholder': 'Autocomplete ...',
+            # Only trigger autocompletion after 3 characters have been typed
+            'data-minimum-input-length': 3,
+        },
+    )
+
 Using autocompletes in the admin
 ================================
 
