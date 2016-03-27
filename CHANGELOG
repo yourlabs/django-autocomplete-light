@@ -1,3 +1,15 @@
+3.1.5
+
+    #661: Field forwarding: support form prefix, and formsets at the same time.
+    #628: Improve option rename hook used until the patch is merged upstream in
+          select2.
+    #656: Use http.JsonResponse() to return json by @guettli
+    #638: System check for dal_select2 to raise an error if select2 is not
+          available.
+    #662: Examples for setting placeholder and minimum input length options in
+          select2.
+    #619: From django-sbo-selenium to pytest+splinter.
+
 3.1.4 #646: Released way too much node_modules in select2, sorry !
 
 3.1.3 #640: Bugfix: Taggit select2 widget in invalid forms
