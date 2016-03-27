@@ -216,8 +216,7 @@ class InlineSelectOption(SelectOption):
             self.field_name
         )
 
-    def select_option(self, text):
-        """Ensure the inline is displayed before calling parent method."""
+        # Ensure the inline is displayed else click to add it
         num = len(self.case.browser.find_by_css(
             '.dynamic-%s' % self.inline_related_name))
 
@@ -225,8 +224,6 @@ class InlineSelectOption(SelectOption):
         while num < self.inline_number + 1:
             add.click()
             num += 1
-
-        super(InlineSelectOption, self).select_option(text)
 
 
 class RenameOption(SelectOption):
