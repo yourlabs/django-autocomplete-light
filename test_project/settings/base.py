@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'select2_many_to_many',
     'select2_one_to_one',
     'select2_generic_m2m',
-    'select2_taggit',
     'select2_tagging',
     'select2_outside_admin',
     'secure_data',
@@ -76,13 +75,17 @@ INSTALLED_APPS = [
     'django_extensions',
     'genericm2m',
     'tagging',
-    'taggit',
 ]
 
 if django.VERSION < (1, 10):
     # Doesn't support dj110
     # https://bitbucket.org/tkhyn/django-gm2m/issues/19
-    INSTALLED_APPS += ['gm2m', 'select2_gm2m']
+    INSTALLED_APPS += [
+        'gm2m',
+        'select2_gm2m',
+        'taggit',
+        'select2_taggit',
+    ]
 
 INSTALLED_APPS = INSTALLED_APPS + ['django.contrib.admin']
 
