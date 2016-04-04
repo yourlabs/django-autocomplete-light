@@ -87,7 +87,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
             return http.HttpResponseForbidden()
 
         if not self.create_field:
-            raise ImproperlyConfigured()
+            raise ImproperlyConfigured('Missing "create_field"')
 
         text = request.POST.get('text', None)
 
