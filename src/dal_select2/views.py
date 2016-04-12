@@ -24,7 +24,8 @@ class Select2ViewMixin(object):
         create_option = []
 
         q = self.request.GET.get('q', None)
-        if self.create_field and q and context['page_obj'].number == 1:
+        if (self.create_field and q and context['page_obj'].number == 1 and
+                self.has_add_permission(self.request)):
             create_option = [{
                 'id': q,
                 'text': 'Create "%s"' % q,
