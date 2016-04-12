@@ -32,7 +32,7 @@ class Select2ViewMixin(object):
             if page_obj is None or page_obj.number == 1:
                 display_create_option = True
 
-        if display_create_option:
+        if display_create_option and self.has_add_permission(self.request):
             create_option = [{
                 'id': q,
                 'text': _('Create "%(new_value)s"') % {'new_value': q},
