@@ -5,6 +5,7 @@ import json
 from dal.views import BaseQuerySetView
 
 from django import http
+from django.utils.translation import ugettext as _
 
 
 class Select2ViewMixin(object):
@@ -27,7 +28,7 @@ class Select2ViewMixin(object):
         if self.create_field and q and context['page_obj'].number == 1:
             create_option = [{
                 'id': q,
-                'text': 'Create "%s"' % q,
+                'text': _('Create "%(new_value)s"') % {'new_value': q},
                 'create_id': True,
             }]
 
