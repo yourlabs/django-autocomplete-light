@@ -26,6 +26,8 @@ class ViewMixin(object):
     def dispatch(self, request, *args, **kwargs):
         """Set :py:attr:`forwarded` and :py:attr:`q`."""
         self.forwarded = json.loads(request.GET.get('forward', '{}'))
+        if request.method == 'POST':
+            self.forwarded = json.loads(request.POST.get('forward', '{}'))
         self.q = request.GET.get('q', '')
         return super(ViewMixin, self).dispatch(request, *args, **kwargs)
 
