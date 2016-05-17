@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^select2_taggit/', include('select2_taggit.urls')),
     url(r'^select2_tagging/', include('select2_tagging.urls')),
 
-    url(r'^select2_outside_admin', include('select2_outside_admin.urls')),
+    url(r'^select2_outside_admin/', include('select2_outside_admin.urls')),
 ]
 
 if django.VERSION < (1, 10):
