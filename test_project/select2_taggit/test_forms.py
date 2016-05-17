@@ -1,3 +1,4 @@
+import django
 from django import forms
 from django import http
 from django import test
@@ -55,7 +56,7 @@ class TagSelect2TestMixin(object):
                 }
             ).render('test', value=[
                 six.text_type(tag),
-            ]),
+            ], attrs={'required': django.VERSION >= (1, 10)}),
             six.text_type(form['test'].as_widget())
         )
 

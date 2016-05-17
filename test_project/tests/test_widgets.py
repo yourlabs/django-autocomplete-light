@@ -31,7 +31,8 @@ class SelectTest(test.TestCase):  # noqa
         class Form(forms.Form):
             test = forms.ChoiceField(
                 choices=[(i, 'label for %s' % i) for i in range(0, 100)],
-                widget=Select(url=reverse('test_url'))
+                widget=Select(url=reverse('test_url')),
+                required=False
             )
 
         form = Form(http.QueryDict('test=4'))
