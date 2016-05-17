@@ -21,6 +21,12 @@ class WidgetMixin(object):
 
         List of field names to forward to the autocomplete view, useful to
         filter results using values of other fields in the form.
+
+    .. py:attribute:: autocomplete_function
+
+        Identifier of the javascript callback that should be
+        executed when such a widget is loaded in the DOM,
+        either on page load or dynamically.
     """
 
     def __init__(self, url=None, forward=None, *args, **kwargs):

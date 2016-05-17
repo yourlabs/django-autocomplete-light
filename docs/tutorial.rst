@@ -221,6 +221,59 @@ Ensure that jquery is loaded before ``{{ form.media }}``:
 
 .. literalinclude:: ../test_project/select2_outside_admin/templates/select2_outside_admin.html
 
+Overriding javascript code
+==========================
+
+We need javascript initialization for the widget both when:
+
+- the page is loaded,
+- a widget is dynamically added, ie. with formsets.
+
+This is handled by ``autocomplete.init.js``, which is going to trigger an event
+called ``autocompleteLightInitialize`` on any HTML element with attribute
+``data-autocomplete-light-function`` both on page load and DOM node insertion.
+It also keeps track of initialized elements to prevent double-initialization.
+
+Take ``dal_select2`` for example, it is initialized by
+``dal_select2/static/autocomplete_light/select2.js`` as such:
+
+.. code-block:: javascript
+
+    $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
+        // do select2 configuration on $(this)
+    })
+
+This example defines a callback that does ``// do select2 configuration on
+$(this)`` when the ``autocompleteLightInitialize`` event is triggered on any
+element with an attribute ``data-autocomplete-light-function`` of value
+``select2``. Select2 Widgets have an :py:attr:`autocomplete_function` of value
+``select2``, and that's rendered as the value of the
+``data-autocomplete-light-function`` attribute.
+
+So, you can replace the default callback by doing two things:
+
+- change the Widget's ``autocomplete_function`` attribute,
+- add a callback for the ``autocompleteLightInitialize`` event for that
+  function,
+
+Example widget:
+
+.. code-block:: python
+
+    class YourWidget(ModelSelect2):
+        autocomplete_function = 'your-autocomplete-function'
+
+Example script:
+
+.. code-block:: javascript
+
+    $(document).on(
+        'autocompleteLightInitialize',
+        '[data-autocomplete-light-function=your-autocomplete-function]',
+    function() {
+        // do your own script setup here
+    })
+
 Creation of new choices in the autocomplete form
 ================================================
 
