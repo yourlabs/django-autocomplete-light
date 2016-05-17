@@ -1,5 +1,3 @@
-import django
-
 from django.conf.urls import include, url
 from django.contrib import admin
 
@@ -25,9 +23,5 @@ urlpatterns = [
     url(r'^select2_tagging/', include('select2_tagging.urls')),
 
     url(r'^select2_outside_admin/', include('select2_outside_admin.urls')),
+    url(r'^select2_gm2m/', include('select2_gm2m.urls')),
 ]
-
-if django.VERSION < (1, 10):
-    urlpatterns += [
-        url(r'^select2_gm2m/', include('select2_gm2m.urls')),
-    ]
