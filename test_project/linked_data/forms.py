@@ -22,3 +22,8 @@ class TestForm(forms.ModelForm):
             'test': autocomplete.ModelSelect2(url='linked_data',
                                               forward=('owner',))
         }
+
+    class Media:
+        js = (
+            'linked_data.js',
+        )

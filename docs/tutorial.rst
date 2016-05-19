@@ -379,3 +379,26 @@ filter as such in the view:
                 qs = qs.filter(name__istartswith=self.q)
 
             return qs
+
+Clearing autocomplete on forward field change
+---------------------------------------------
+
+You can use the ``$.getFormPrefix()`` jQuery plugin used by DAL to clear the
+``birth_country`` autocomplete widget from the above example when the
+``continent`` field changes with such a snippet:
+
+.. code-block:: javascript
+
+    $(document).ready(function() {
+        // Bind on continent field change
+        $(':input[name$=continent]').on('change', function() {
+            // Get the field prefix, ie. if this comes from a formset form
+            var prefix = $(this).getFormPrefix();
+
+            // Clear the autocomplete with the same prefix
+            $(':input[name=' + prefix + 'birth_country]').val(null).trigger('change');
+        });
+    });
+
+To autoload the script with the form, you can use `Form.Media
+<https://docs.djangoproject.com/en/1.9/topics/forms/media/#media-on-forms>`_.

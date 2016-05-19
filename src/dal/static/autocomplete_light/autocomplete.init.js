@@ -5,6 +5,34 @@ element was cloned with data - which should be the case.
 */
 
 ;(function ($) {
+    $.fn.getFormPrefix = function() {
+        /* Get the form prefix for a field.
+         *
+         * For example:
+         *
+         *     $(':input[name$=owner]').getFormsetPrefix()
+         *
+         * Would return an empty string for an input with name 'owner' but would return
+         * 'inline_model-0-' for an input named 'inline_model-0-owner'.
+         */
+        var parts = $(this).attr('name').split('-');
+        var prefix = '';
+
+        for (var i in parts) {
+            var testPrefix = parts.slice(0, -i).join('-');
+            if (! testPrefix.length) continue;
+            testPrefix += '-';
+
+            var result = $(':input[name^=' + testPrefix + ']')
+
+            if (result.length) {
+                return testPrefix;
+            }
+        }
+
+        return '';
+    }
+
     var initialized = [];
 
     function initialize() {

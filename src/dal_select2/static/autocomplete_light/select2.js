@@ -4,19 +4,7 @@
         if (forward !== undefined) {
             forward = forward.split(',');
 
-            var parts = element.attr('name').split('-');
-            var prefix = '';
-
-            for (var i in parts) {
-                var test_prefix = parts.slice(0, i).join('-');
-                if (! test_prefix.length) continue;
-                test_prefix += '-';
-
-                if ($(':input[name=' + test_prefix + forward[0] + ']').length) {
-                    var prefix = test_prefix;
-                }
-            }
-
+            var prefix = $(element).getFormPrefix();
             var data_forward = {};
 
             for (var key in forward) {
