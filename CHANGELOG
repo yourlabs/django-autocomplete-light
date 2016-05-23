@@ -1,3 +1,12 @@
+3.1.6
+
+    #671: Create_field support with querysetsequence
+    #679: Allow create message translation by @maisim
+    #682: Extend 'forward' attribute to creating objects as well by @toudi
+    #666: Improved missing 'created_field' error by @guettli
+    #670: Javascript loading documentation
+    #678: Added example to update autocompletes in JS
+
 3.1.5
 
     #661: Field forwarding: support form prefix, and formsets at the same time.
