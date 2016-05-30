@@ -1,6 +1,11 @@
 """Select2 widget implementation module."""
 
-from dal.widgets import QuerySetSelectMixin, WidgetMixin
+from dal.widgets import (
+    QuerySetSelectMixin,
+    Select,
+    SelectMultiple,
+    WidgetMixin
+)
 
 from django import forms
 from django.utils import six
@@ -26,6 +31,14 @@ class Select2WidgetMixin(object):
         )
 
     autocomplete_function = 'select2'
+
+
+class Select2(Select2WidgetMixin, Select):
+    """Select2 widget for regular choices."""
+
+
+class Select2Multiple(Select2WidgetMixin, SelectMultiple):
+    """Select2Multiple widget for regular choices."""
 
 
 class ModelSelect2(QuerySetSelectMixin,

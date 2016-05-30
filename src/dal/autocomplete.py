@@ -35,6 +35,8 @@ def _installed(*apps):
 
 if _installed('dal_select2'):
     from dal_select2.widgets import (
+        Select2,
+        Select2Multiple,
         ModelSelect2,
         ModelSelect2Multiple,
         TagSelect2,
