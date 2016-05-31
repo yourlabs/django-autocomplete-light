@@ -2,7 +2,7 @@ from dal.test import case, stories
 
 from dal_select2.test import Select2Story
 
-from taggit.models import Tag
+from tagging.models import Tag
 
 from .models import TestModel
 
