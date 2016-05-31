@@ -550,7 +550,7 @@ Thanks a lot to the rc tester community
     possible, else check the form API details in the source or
     generated API documentation:
 
-    - http://django-autocomplete-light.readthedocs.org/en/v2/form.html#module-autocomplete_light.forms
+    - https://django-autocomplete-light.readthedocs.io/en/v2/form.html#module-autocomplete_light.forms
 
     New features:
 

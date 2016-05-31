@@ -5,7 +5,7 @@ Model example
 =============
 
 Consider such a model, using `django-gm2m
-<http://django-gm2m.readthedocs.org/en/stable/>`_ to handle generic
+<https://django-gm2m.readthedocs.io/en/stable/>`_ to handle generic
 many-to-many relations:
 
 .. code-block:: python
