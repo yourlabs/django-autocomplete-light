@@ -63,6 +63,9 @@ INSTALLED_APPS = [
     'secure_data',
     'linked_data',
 
+    'gm2m',
+    'select2_gm2m',
+
     # unit test app
     'tests',
 
@@ -78,11 +81,6 @@ INSTALLED_APPS = [
     'tagging',
     'taggit',
 ]
-
-if django.VERSION < (1, 10):
-    # Doesn't support dj110
-    # https://bitbucket.org/tkhyn/django-gm2m/issues/19
-    INSTALLED_APPS += ['gm2m', 'select2_gm2m']
 
 INSTALLED_APPS = INSTALLED_APPS + ['django.contrib.admin']
 

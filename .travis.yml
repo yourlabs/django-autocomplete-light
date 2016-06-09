@@ -2,11 +2,6 @@ sudo: false
 language: python
 python:
 - '3.4'
-matrix:
-  allow_failures:
-  - env: TOXENV=base-py27-django110-sqlite
-  - env: TOXENV=base-pypy-django110-sqlite
-  - env: TOXENV=base-py34-django110-sqlite
 env:
   global:
   - PIP_RETRIES=10

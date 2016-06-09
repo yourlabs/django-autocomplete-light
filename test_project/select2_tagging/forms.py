@@ -8,7 +8,10 @@ from .models import TestModel
 
 
 class TestForm(forms.ModelForm):
-    test = TagField(widget=autocomplete.TaggingSelect2('select2_tagging'))
+    test = TagField(
+        widget=autocomplete.TaggingSelect2('select2_tagging'),
+        required=False,
+    )
 
     class Meta:
         model = TestModel
