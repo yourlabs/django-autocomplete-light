@@ -22,12 +22,25 @@
         // This widget has a clear button
         $(this).find('option[value=""]').remove();
 
+        // Templating helper
+        function template(item) {
+            if (element.attr('data-html')) {
+                var $result = $('<span>');
+                $result.html(item.text);
+                return $result;
+            } else {
+                return item.text;
+            }
+        }
+
         $(this).select2({
             tokenSeparators: element.attr('data-tags') ? [','] : null,
             debug: true,
             placeholder: '',
             minimumInputLength: 0,
             allowClear: ! $(this).is('required'),
+            templateResult: template,
+            templateSelection: template,
             ajax: {
                 url: $(this).attr('data-autocomplete-light-url'),
                 dataType: 'json',
