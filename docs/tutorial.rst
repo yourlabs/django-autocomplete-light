@@ -221,6 +221,33 @@ Ensure that jquery is loaded before ``{{ form.media }}``:
 
 .. literalinclude:: ../test_project/select2_outside_admin/templates/select2_outside_admin.html
 
+Displaying results using custom HTML
+====================================
+
+You can display custom HTML code for results by setting the ``data-html``
+attribute on your widget and overriding the view ``get_result_label()`` method
+to return HTML code.
+
+.. code-block:: python
+
+    class CountryAutocomplete(autocomplete.Select2QuerySetView):
+        def get_result_label(self, item):
+            return '<img src="flags/%s.png"> %s' % (item.name, item.name)
+
+
+    class PersonForm(forms.ModelForm):
+        class Meta:
+            widgets = {
+                'birth_country': autocomplete.ModelSelect2(
+                    url='country-autocomplete',
+                    attrs={'data-html': 'true'}
+                )
+            }
+
+
+.. note:: Take care to escape anything you put in HTML code to avoid XSS attacks
+          when displaying data that may have been input by a user!
+
 Overriding javascript code
 ==========================
 
