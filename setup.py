@@ -25,9 +25,9 @@ setup(
     license='MIT',
     keywords='django autocomplete',
     extras_require={
-        'Tags': ['django-taggit'],
-        'Generic m2m': ['django-generic-m2m'],
-        'GFK': ['django-querysetsequence'],
+        'tags': ['django-taggit'],
+        'genericm2m': ['django-generic-m2m'],
+        'gfk': ['django-querysetsequence'],
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
