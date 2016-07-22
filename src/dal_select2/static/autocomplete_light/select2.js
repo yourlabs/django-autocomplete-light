@@ -8,8 +8,13 @@
             var data_forward = {};
 
             for (var key in forward) {
-                var name = prefix + forward[key];
-                data_forward[forward[key]] = $('[name=' + name + ']').val();
+                // First look for this field in the inline
+                var $field = $('[name=' + prefix + forward[key] + ']');
+                if (!$field.length)
+                    // As a fallback, look for it outside the inline
+                    $field = $('[name=' + forward[key] + ']');
+                if ($field.length)
+                    data_forward[forward[key]] = $field.val();
             }
 
             return JSON.stringify(data_forward);
