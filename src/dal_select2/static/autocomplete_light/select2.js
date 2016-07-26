@@ -106,12 +106,4 @@
         });
 
     });
-
-    // Remove this block when this is merged upstream:
-    // https://github.com/select2/select2/pull/4249
-    $(document).on('DOMSubtreeModified', '[data-autocomplete-light-function=select2] option', function() {
-        $(this).parents('select').next().find(
-            '.select2-selection--single .select2-selection__rendered'
-        ).text($(this).text());
-    });
 })(yl.jQuery);
