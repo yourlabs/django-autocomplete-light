@@ -23,10 +23,12 @@ This is to override the ``jquery.init.js`` script provided by the admin, which
 sets up jQuery with ``noConflict``, making jQuery available in
 ``django.jQuery`` only and not ``$``.
 
-Note: If you are trying to install from git, please make sure you are not using
+Notes:
+-If you are trying to install from git, please make sure you are not using
 **zip/archive** url of the repo ``django-autocomplete-light`` since it will not
 contain required submodules automatically. Otherwise these submodules will then
 need to be updated separately using ``git submodule update --init``.
+-If you are using django-autocomplete-light you need to also place ``dal``,``dal_select2`` ... above/before grappelli
 
 Install the demo project
 ------------------------
