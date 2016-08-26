@@ -1,3 +1,14 @@
+3.1.8 #727 Add missing static files
+
+3.1.7
+
+    #714: Update select2 by @meesterguyman
+    #705: Improve compat with dj1.9 by @9nix00
+    #706: Fix extra require by @blueyed
+    #710: Added note for static files not checked by @geekashu
+    #708: Provide path with dal_select2.E001 by @blueyed
+    #700: Enable HTML markup in select2 item labels by @njoyard
+
 3.1.6
 
     #671: Create_field support with querysetsequence

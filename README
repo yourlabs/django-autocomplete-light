@@ -28,7 +28,7 @@ Features
 Upgrading
 ---------
 
-See CHANGELOG.
+See `CHANGELOG <https://github.com/yourlabs/django-autocomplete-light/blob/master/CHANGELOG>`_..
 
 For v2 users and experts, a `blog post was published with plenty of details
 <http://blog.yourlabs.org/post/140477620808/django-autocomplete-light-v3-whats-going-on>`_.
@@ -49,6 +49,7 @@ Resources
 - `Mailing list graciously hosted
   <http://groups.google.com/group/yourlabs>`_ by `Google
   <http://groups.google.com>`_
+- For **Security** issues, please contact yourlabs-security@googlegroups.com
 - `Git graciously hosted
   <https://github.com/yourlabs/django-autocomplete-light/>`_ by `GitHub
   <http://github.com>`_,
