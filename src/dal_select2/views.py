@@ -5,8 +5,9 @@ import json
 from dal.views import BaseQuerySetView, ViewMixin
 
 from django import http
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext as _
-from django.views.generic.list import View, BaseListView
+from django.views.generic.list import View
 
 
 class Select2ViewMixin(object):
@@ -67,10 +68,11 @@ class Select2ListView(ViewMixin, View):
         return []
 
     def get(self, request, *args, **kwargs):
+        """"Return option list json response."""
         results = self.get_list()
         create_option = []
         if self.q:
-            results = [ x for x in results if self.q in x ]
+            results = [x for x in results if self.q in x]
             if hasattr(self, 'create'):
                 create_option = [{
                     'id': self.q,
@@ -82,6 +84,14 @@ class Select2ListView(ViewMixin, View):
         }))
 
     def post(self, request):
+        """"Add an option to the autocomplete list.
+
+        If 'text' is not defined in POST or self.create(text) fails, raises
+        bad request. Raises ImproperlyConfigured if self.create if not defined.
+        """
+        if not hasattr(self, 'create'):
+            raise ImproperlyConfigured('Missing "create()"')
+
         text = request.POST.get('text', None)
 
         if text is None:

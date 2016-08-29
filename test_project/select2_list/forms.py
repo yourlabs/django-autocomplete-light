@@ -5,16 +5,13 @@ from django import forms
 from .models import TestModel
 
 
-class TestForm(forms.ModelForm):
-    test = forms.ChoiceField(
-        choices=[
-            ('windows', 'windows'),
-            ('linux', 'linux'),
-        ],
-        required=False,
-        widget=autocomplete.Select2(url='select2_list')
-    )
+def get_choice_list():
+    return [model.test for model in TestModel.objects.all()]
 
-    class Meta:
-        model = TestModel
-        fields = ('name', 'test')
+
+class TestForm(forms.ModelForm):
+    test = autocomplete.Select2ListCreateChoiceField(
+        choice_list=get_choice_list,
+        required=False,
+        widget=autocomplete.ListSelect2(url='select2_list')
+    )

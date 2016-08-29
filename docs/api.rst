@@ -42,6 +42,12 @@ Widgets
 .. automodule:: dal_select2.widgets
    :members:
 
+Fields
+------
+
+.. automodule:: dal_select2.fields
+   :members:
+
 Test tools
 ----------
 
