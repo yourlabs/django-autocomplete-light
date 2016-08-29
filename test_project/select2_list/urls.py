@@ -2,8 +2,8 @@ import json
 
 from dal import autocomplete
 
-from django.conf.urls import url
 from django import http
+from django.conf.urls import url
 from django.views import generic
 
 
