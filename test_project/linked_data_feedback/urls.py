@@ -1,6 +1,6 @@
-from django.contrib import auth
-
 from dal import autocomplete
+
+from django.contrib import auth
 
 from django.conf.urls import url
 

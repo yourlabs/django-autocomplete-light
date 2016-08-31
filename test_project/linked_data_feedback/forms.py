@@ -34,4 +34,3 @@ class TestForm(forms.ModelForm):
             'test': autocomplete.ModelSelect2(url='linked_data_feedback',
                                               forward=('owner',))
         }
-
