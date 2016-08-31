@@ -11,7 +11,7 @@ urlpatterns = [
 
     url(r'^secure_data/', include('secure_data.urls')),
     url(r'^linked_data/', include('linked_data.urls')),
-
+    url(r'^linked_data_feedback/', include('linked_data_feedback.urls')),
     url(r'^select2_foreign_key/', include('select2_foreign_key.urls')),
     url(r'^select2_generic_foreign_key/',
         include('select2_generic_foreign_key.urls')),

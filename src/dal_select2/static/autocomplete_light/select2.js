@@ -21,6 +21,11 @@
         }
     }
 
+    function clear_select2(element) {
+        element.find("option").remove();
+        $(element).val(null).trigger('change');
+    }
+
     $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
         var element = $(this);
 
@@ -109,7 +114,61 @@
                 }
             });
         });
+    });
 
+    $(document).on('change', '[data-autocomplete-light-forward-feedback]', function() {
+        var prefix = $(this).getFormPrefix();
+        var feedback = $(this).data("autocomplete-light-forward-feedback");
+        var feedback_splitted;
+
+        if ($.inArray("suppressFeedback", arguments) != -1) {
+            return;
+        }
+        if (feedback) {
+            feedback_splitted = feedback.split(",");
+        } else {
+            feedback_splitted = [];
+        }
+        $.each(feedback_splitted, function(ix, fb) {
+            var sel_type;
+            var sel_equals;
+            var name;
+            var name_with_prefix;
+            var to_clear;
+
+            if (fb.length === 0) {
+                return;
+            }
+
+            sel_type = fb[0];
+
+            if (sel_type === "$") {
+                sel_equals = "$=";
+                name = fb.slice(1);
+            } else if (sel_type === "^") {
+                sel_equals = "^=";
+                name = fb.slice(1);
+            } else if (sel_type === "*") {
+                sel_equals = "*=";
+                name = fb.slice(1);
+            } else {
+                sel_equals = "=";
+                name = fb;
+            }
+
+            name_with_prefix = prefix + name;
+
+            to_clear = $('[name' + sel_equals + name_with_prefix + ']');
+
+            if (to_clear.length === 0) {
+                to_clear = $('[name' + sel_equals + name + ']');
+            }
+
+            to_clear.each(function(ix, el) {
+                clear_select2(to_clear);
+            });
+
+        });
     });
 
     // Remove this block when this is merged upstream:

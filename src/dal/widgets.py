@@ -29,10 +29,11 @@ class WidgetMixin(object):
         either on page load or dynamically.
     """
 
-    def __init__(self, url=None, forward=None, *args, **kwargs):
+    def __init__(self, url=None, forward=None, feedback=None, *args, **kwargs):
         """Instanciate a widget with a URL and a list of fields to forward."""
         self.url = url
         self.forward = forward or []
+        self.feedback = feedback or []
         super(WidgetMixin, self).__init__(*args, **kwargs)
 
     def build_attrs(self, *args, **kwargs):
@@ -50,6 +51,10 @@ class WidgetMixin(object):
         if self.forward:
             attrs.setdefault('data-autocomplete-light-forward',
                              ','.join(self.forward))
+
+        if self.feedback:
+            attrs.setdefault('data-autocomplete-light-forward-feedback',
+                             ','.join(self.feedback))
 
         return attrs
 
