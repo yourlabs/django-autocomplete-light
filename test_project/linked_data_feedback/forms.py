@@ -1,8 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.forms.models import ModelChoiceField
-from django.forms.widgets import Select
-
 from dal import autocomplete
+
+# Without autocomplete...
+# from django.contrib.auth import get_user_model
+# from django.forms.widgets import Select
+
 
 from django import forms
 
@@ -23,8 +24,9 @@ class TestForm(forms.ModelForm):
         model = TestModel
         fields = ('name', 'owner', 'test')
         widgets = {
-            'owner': autocomplete.ModelSelect2(url='linked_data_feedback_users',
-                                               feedback=('test',)),
+            'owner': autocomplete.ModelSelect2(
+                url='linked_data_feedback_users',
+                feedback=('test',)),
             # Or without autocomplete ...
             # 'owner': Select(attrs={
             #     "data-autocomplete-light-forward-feedback": "test"
@@ -32,5 +34,4 @@ class TestForm(forms.ModelForm):
             'test': autocomplete.ModelSelect2(url='linked_data_feedback',
                                               forward=('owner',))
         }
-
 
