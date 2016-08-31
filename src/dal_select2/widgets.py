@@ -41,6 +41,10 @@ class Select2Multiple(Select2WidgetMixin, SelectMultiple):
     """Select2Multiple widget for regular choices."""
 
 
+class ListSelect2(WidgetMixin, Select2WidgetMixin, forms.Select):
+    """Select widget for regular choices and Select2."""
+
+
 class ModelSelect2(QuerySetSelectMixin,
                    Select2WidgetMixin,
                    forms.Select):
