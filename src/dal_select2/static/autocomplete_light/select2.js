@@ -8,13 +8,24 @@
             var data_forward = {};
 
             for (var key in forward) {
+                var f = forward[key].split("->");
+                var src_name, dst_name;
+                if (f.length === 0) {
+                    continue;
+                } else if (f.length === 1) {
+                    src_name = f[0];
+                    dst_name = f[0];
+                } else {
+                    src_name = f.splice(0,1);
+                    dst_name = f.join("->");
+                }
                 // First look for this field in the inline
-                var $field = $('[name=' + prefix + forward[key] + ']');
+                $field = $('[name=' + prefix + src_name + ']');
                 if (!$field.length)
                     // As a fallback, look for it outside the inline
-                    $field = $('[name=' + forward[key] + ']');
+                    $field = $('[name=' + src_name + ']');
                 if ($field.length)
-                    data_forward[forward[key]] = $field.val();
+                    data_forward[dst_name] = $field.val();
             }
 
             return JSON.stringify(data_forward);
