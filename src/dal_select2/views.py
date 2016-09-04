@@ -40,7 +40,7 @@ class Select2ViewMixin(object):
     
     def render_to_response(self, context):
         """Return a JSON response in Select2 format."""
-
+        
         q = self.request.GET.get('q', None)
 
         create_option = self.get_create_option(context, q)
