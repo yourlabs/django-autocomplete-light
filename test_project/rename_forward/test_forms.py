@@ -26,7 +26,8 @@ class LinkedDataFormTest(test.TestCase):  # noqa
 
     def test_save(self):
         # Create an option to select
-        fixture = TestModel.objects.create(name='relation' + self.id(), owner=self.owner)
+        fixture = TestModel.objects.create(name='relation' + self.id(),
+                                           owner=self.owner)
 
         # Instantiate the form with the fixture selected
         form = TestForm(http.QueryDict('name=%s&owner=%s&test=%s' % (
@@ -56,7 +57,8 @@ class LinkedDataFormTest(test.TestCase):  # noqa
 
     def test_initial(self):
         # Create an initial instance with a created relation
-        relation = TestModel.objects.create(name='relation' + self.id(), owner=self.owner)
+        relation = TestModel.objects.create(name='relation' + self.id(),
+                                            owner=self.owner)
         fixture = TestModel(name=self.id(), owner=self.owner)
         fixture.test = relation
         fixture.save()
