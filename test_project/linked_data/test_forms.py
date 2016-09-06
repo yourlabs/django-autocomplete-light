@@ -7,8 +7,6 @@ from django.apps import apps
 from django.core.urlresolvers import reverse
 from django.utils import six
 
-from queryset_sequence import QuerySetSequence
-
 from .forms import TestForm
 from .models import TestModel
 
