@@ -349,7 +349,7 @@ by default.
 Filtering results based on the value of other fields in the form
 ================================================================
 
-- Example source code: `test_project/select2_linked_data
+- Example source code: `test_project/linked_data
   <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/linked_data>`_.
 - Live demo: `Admin / Linked Data / Add
   <http://dal-yourlabs.rhcloud.com/admin/linked_data/testmodel/add/>`_.
@@ -401,6 +401,225 @@ filter as such in the view:
 
             if continent:
                 qs = qs.filter(continent=continent)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+Renaming forwarded values
+-------------------------
+- Example source code: `test_project/rename_forward
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/rename_worward>`_.
+- Live demo: `Admin / Rename Forward/ Add
+  <http://dal-yourlabs.rhcloud.com/admin/rename_forward/testmodel/add/>`_.
+
+Let's assume that you have the following form using linked autocomplete fields:
+
+.. code-block:: python
+
+    class ShippingForm(forms.Form):
+        src_continent = forms.ModelChoiceField(
+            queryset=Continent.objects.all(),
+            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
+        src_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=('src_continent',)))
+        src_city = forms.ModelChoiceField(
+            queryset=City.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='city-autocomplete',
+                forward=('src_country',)))
+        # More source fields...
+
+        dst_continent = forms.ModelChoiceField(
+            queryset=Continent.objects.all(),
+            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
+        dst_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=('dst_continent',)))
+        dst_city = forms.ModelChoiceField(
+            queryset=City.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='city-autocomplete',
+                forward=('dst_country',)))
+        # More destination fields...
+
+To make this form work properly you have to implement five autocomplete views: one for continent and
+two for each country and city (since country and city autocompletes have different names for forwarded values).
+
+.. code-block:: python
+
+    class ContinentAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return Continent.objects.none()
+
+            qs = Continent.objects.all()
+
+            return qs
+
+
+    class SrcCountryAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return Country.objects.none()
+
+            qs = Country.objects.all()
+
+            continent = self.forwarded.get('src_continent', None)
+
+            if continent:
+                qs = qs.filter(continent=continent)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+
+    class DstCountryAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return Country.objects.none()
+
+            qs = Country.objects.all()
+
+            continent = self.forwarded.get('dst_continent', None)
+
+            if continent:
+                qs = qs.filter(continent=continent)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+
+    class SrcCityAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return City.objects.none()
+
+            qs = City.objects.all()
+
+            country = self.forwarded.get('src_country', None)
+
+            if country:
+                qs = qs.filter(country=country)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+
+    class DstCityAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return City.objects.none()
+
+            qs = City.objects.all()
+
+            country = self.forwarded.get('dst_country', None)
+
+            if country:
+                qs = qs.filter(country=country)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+You may notice some redundant code: only difference between ``Src`` and ``Dst`` autocomplete views is
+forwarded parameter name.
+
+To cope with this problem there is a client-side forwarded parameter rename feature. You can declare forwarded value
+as ``src_country->country`` which means "Take a value from field ``src_country`` and forward it to autocomplete view
+as ``country``".
+
+Let's rewrite our form with new arrow notation for both continent and country:
+
+.. code-block:: python
+
+    class ShippingForm(forms.Form):
+        src_continent = forms.ModelChoiceField(
+            queryset=Continent.objects.all(),
+            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
+        src_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=('src_continent->continent',)))
+        src_city = forms.ModelChoiceField(
+            queryset=City.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='city-autocomplete',
+                forward=('src_country->country',)))
+        # More source fields...
+
+        dst_continent = forms.ModelChoiceField(
+            queryset=Continent.objects.all(),
+            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
+        dst_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=('dst_continent->continent',)))
+        dst_city = forms.ModelChoiceField(
+            queryset=City.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='city-autocomplete',
+                forward=('dst_country->country',)))
+        # More destination fields...
+
+Now we can do with only three autocomplete views with a simple API:
+
+.. code-block:: python
+
+    class ContinentAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return Continent.objects.none()
+
+            qs = Continent.objects.all()
+
+            return qs
+
+
+    class CountryAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return Country.objects.none()
+
+            qs = Country.objects.all()
+
+            continent = self.forwarded.get('continent', None)
+
+            if continent:
+                qs = qs.filter(continent=continent)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+
+    class CityAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return City.objects.none()
+
+            qs = City.objects.all()
+
+            country = self.forwarded.get('country', None)
+
+            if country:
+                qs = qs.filter(country=country)
 
             if self.q:
                 qs = qs.filter(name__istartswith=self.q)
