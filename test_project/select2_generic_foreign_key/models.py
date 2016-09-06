@@ -12,6 +12,7 @@ class TestModel(models.Model):
         null=True,
         blank=True,
         editable=False,
+        related_name='content_type_test_models'
     )
 
     object_id = models.PositiveIntegerField(
