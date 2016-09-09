@@ -1,29 +1,12 @@
-import json
-
-from dal import autocomplete
-
-from django import http
 from django.conf.urls import url
-from django.views import generic
 
-
-class YourListView(autocomplete.ViewMixin, generic.View):
-    def get(self, request, *args, **kwargs):
-        results = ['windows', 'linux']
-
-        if self.q:
-            results = [
-                x for x in results if self.q in x
-            ]
-        return http.HttpResponse(json.dumps({
-            'results': [dict(id=x, text=x) for x in results]
-        }))
+from .views import Select2ListViewAutocomplete
 
 
 urlpatterns = [
     url(
         'test-autocomplete/$',
-        YourListView.as_view(),
+        Select2ListViewAutocomplete.as_view(),
         name='select2_list',
     ),
 ]

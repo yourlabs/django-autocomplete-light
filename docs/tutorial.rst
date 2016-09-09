@@ -440,31 +440,43 @@ of strings rather than a QuerySet.  This can be achieved with the
 
 .. code-block:: python
 
-    from dal import autocomplete
-
     class CountryAutocompleteFromList(autocomplete.Select2ListView):
         def get_list(self):
-		    return ['France', 'Fiji', 'Finland', 'Switzerland']
+            return ['France', 'Fiji', 'Finland', 'Switzerland']
 
 This class can then be registered as in the previous example.  Suppose
 we register it under URL 'country-list-autocomplete'.  We can then a
-create a Select2 widget with:
+create a Select2List widget with:
 
 .. code-block:: python
-    widget = autocomplete.Select2(url='country-list-autocomplete')
+
+    widget = autocomplete.Select2List(url='country-list-autocomplete')
 
 With this in place, if a user types the letter ``f``' in the widget, choices
 'France', 'Fiji', and 'Finland' would be offered.
 
-Specifying Placeholder Labels
-=============================
-
-To display a place-holder text when a widget has no data entered yet,
-set the attribute 'data-placeholder' to the desired label when creating
-the widget.  For example:
+Two fields are provided, :py:class:`~dal_select2.fields.Select2ListChoiceField`,
+:py:class:`~dal_select2.fields.Select2ListCreateChoiceField` that can be used to
+make it easier to avoid problems when using Select2ListView. For example:
 
 .. code-block:: python
-    widget = autocomplete.Select2(url='country-list-autocomplete',
-				  attrs={'data-placeholder': 'Country?'})
 
-Would show the label ``Country?`` as a placeholder.
+    def get_choice_list():
+        return ['France', 'Fiji', 'Finland', 'Switzerland']
+
+
+    class CountryForm(forms.ModelForm):
+        country = autocomplete.Select2ListChoiceField(
+            choice_list=get_choice_list,
+            widget=autocomplete.ListSelect2(url='country-list-autocomplete')
+        )
+
+Since the selections in Select2ListView map directly to a list, there is no
+built-in support for choices in a ChoiceField that do not have the same value
+for every text. ``Select2ListCreateChoiceField`` allows you to provide custom
+text from a Select2List widget and should be used if you define
+``Select2ListViewAutocomplete.create``.
+
+It is better to use the same source for
+``Select2ListViewAutocomplete.get_list`` in your view and the
+``Select2ListChoiceField choice_list`` kwarg to avoid unexpected behavior.

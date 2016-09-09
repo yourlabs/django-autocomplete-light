@@ -42,10 +42,15 @@ if _installed('dal_select2'):
         ModelSelect2,
         ModelSelect2Multiple,
         TagSelect2,
+        ListSelect2
     )
     from dal_select2.views import (
         Select2QuerySetView,
         Select2ListView
+    )
+    from dal_select2.fields import (
+        Select2ListChoiceField,
+        Select2ListCreateChoiceField
     )
 
 if _installed('dal_queryset_sequence'):
