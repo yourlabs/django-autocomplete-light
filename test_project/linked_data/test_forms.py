@@ -1,9 +1,6 @@
-from django import forms
 from django import http
 from django import test
 from django.apps import apps
-from django.core.urlresolvers import reverse
-from django.utils import six
 
 from .forms import TestForm
 from .models import TestModel
