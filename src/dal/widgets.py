@@ -1,15 +1,15 @@
 """Autocomplete widgets bases."""
 
-import json
 import copy
+import json
 
-from django.utils.safestring import mark_safe
 
 from dal import forward
 from django import VERSION
 from django import forms
 from django.core.urlresolvers import reverse
 from django.utils import six
+from django.utils.safestring import mark_safe
 
 
 class WidgetMixin(object):
@@ -68,8 +68,10 @@ class WidgetMixin(object):
 
     @staticmethod
     def _make_forward_dict(f):
-        """Convert forward declaration to a dictionary that will be dumped
-        to JSON"""
+        """Convert forward declaration to a dictionary.
+
+        A returned dictionary will be dumped to JSON while rendering widget.
+        """
         if isinstance(f, six.string_types):
             return forward.Field(f).to_dict()
         elif isinstance(f, forward.Forward):
@@ -78,7 +80,7 @@ class WidgetMixin(object):
             raise TypeError("Cannot use {} as forwarded value".format(f))
 
     def render_forward_conf(self, id):
-        """Render forward configuration for the field"""
+        """Render forward configuration for the field."""
         if self.forward:
             return \
                 '<div style="display:none" class="dal-forward-conf" ' + \
@@ -119,7 +121,7 @@ class WidgetMixin(object):
         return html
 
     def render(self, name, value, attrs=None):
-        """Calling Django render together with `render_forward_conf`"""
+        """Calling Django render together with `render_forward_conf`."""
         widget = super(WidgetMixin, self).render(name, value, attrs)
         conf = self.render_forward_conf(attrs['id'])
         return mark_safe(widget + conf)

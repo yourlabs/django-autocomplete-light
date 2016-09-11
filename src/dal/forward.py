@@ -1,5 +1,9 @@
+"""Classes for class-based forward declaration."""
+
+
 class Forward(object):
-    """Base class for autocomplete forward declaration"""
+    """Base class for autocomplete forward declaration."""
+
     def type(self):
         """Forward type. Should be implemented in subclasses."""
         raise NotImplementedError("Please use one of my subclasses")
@@ -24,6 +28,7 @@ class Field(Forward):
         forwarded dictionary. If this value is ``None``, then the key is
         ``src``.
     """
+
     type = "field"
 
     def __init__(self, src, dst=None):
@@ -54,6 +59,7 @@ class Const(Forward):
         The name of the key of the forwarded value.
         ``src``.
     """
+
     type = "const"
 
     def __init__(self, val, dst):
