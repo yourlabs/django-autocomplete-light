@@ -410,7 +410,7 @@ filter as such in the view:
 Renaming forwarded values
 -------------------------
 - Example source code: `test_project/rename_forward
-  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/rename_worward>`_.
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/rename_forward>`_.
 - Live demo: `Admin / Rename Forward/ Add
   <http://dal-yourlabs.rhcloud.com/admin/rename_forward/testmodel/add/>`_.
 
@@ -427,169 +427,9 @@ Let's assume that you have the following form using linked autocomplete fields:
             widget=autocomplete.ModelSelect2(
                 url='country-autocomplete',
                 forward=('src_continent',)))
-        src_city = forms.ModelChoiceField(
-            queryset=City.objects.all(),
-            widget=autocomplete.ModelSelect2(
-                url='city-autocomplete',
-                forward=('src_country',)))
-        # More source fields...
 
-        dst_continent = forms.ModelChoiceField(
-            queryset=Continent.objects.all(),
-            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
-        dst_country = forms.ModelChoiceField(
-            queryset=Country.objects.all(),
-            widget=autocomplete.ModelSelect2(
-                url='country-autocomplete',
-                forward=('dst_continent',)))
-        dst_city = forms.ModelChoiceField(
-            queryset=City.objects.all(),
-            widget=autocomplete.ModelSelect2(
-                url='city-autocomplete',
-                forward=('dst_country',)))
-        # More destination fields...
-
-To make this form work properly you have to implement five autocomplete views: one for continent and
-two for each country and city (since country and city autocompletes have different names for forwarded values).
-
+And the following autocomplete view for country:
 .. code-block:: python
-
-    class ContinentAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            if not self.request.is_authenticated():
-                return Continent.objects.none()
-
-            qs = Continent.objects.all()
-
-            return qs
-
-
-    class SrcCountryAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            if not self.request.is_authenticated():
-                return Country.objects.none()
-
-            qs = Country.objects.all()
-
-            continent = self.forwarded.get('src_continent', None)
-
-            if continent:
-                qs = qs.filter(continent=continent)
-
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
-
-            return qs
-
-
-    class DstCountryAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            if not self.request.is_authenticated():
-                return Country.objects.none()
-
-            qs = Country.objects.all()
-
-            continent = self.forwarded.get('dst_continent', None)
-
-            if continent:
-                qs = qs.filter(continent=continent)
-
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
-
-            return qs
-
-
-    class SrcCityAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            if not self.request.is_authenticated():
-                return City.objects.none()
-
-            qs = City.objects.all()
-
-            country = self.forwarded.get('src_country', None)
-
-            if country:
-                qs = qs.filter(country=country)
-
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
-
-            return qs
-
-
-    class DstCityAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            if not self.request.is_authenticated():
-                return City.objects.none()
-
-            qs = City.objects.all()
-
-            country = self.forwarded.get('dst_country', None)
-
-            if country:
-                qs = qs.filter(country=country)
-
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
-
-            return qs
-
-You may notice some redundant code: only difference between ``Src`` and ``Dst`` autocomplete views is
-forwarded parameter name.
-
-To cope with this problem there is a client-side forwarded parameter rename feature. You can declare forwarded value
-as ``src_country->country`` which means "Take a value from field ``src_country`` and forward it to autocomplete view
-as ``country``".
-
-Let's rewrite our form with new arrow notation for both continent and country:
-
-.. code-block:: python
-
-    class ShippingForm(forms.Form):
-        src_continent = forms.ModelChoiceField(
-            queryset=Continent.objects.all(),
-            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
-        src_country = forms.ModelChoiceField(
-            queryset=Country.objects.all(),
-            widget=autocomplete.ModelSelect2(
-                url='country-autocomplete',
-                forward=('src_continent->continent',)))
-        src_city = forms.ModelChoiceField(
-            queryset=City.objects.all(),
-            widget=autocomplete.ModelSelect2(
-                url='city-autocomplete',
-                forward=('src_country->country',)))
-        # More source fields...
-
-        dst_continent = forms.ModelChoiceField(
-            queryset=Continent.objects.all(),
-            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
-        dst_country = forms.ModelChoiceField(
-            queryset=Country.objects.all(),
-            widget=autocomplete.ModelSelect2(
-                url='country-autocomplete',
-                forward=('dst_continent->continent',)))
-        dst_city = forms.ModelChoiceField(
-            queryset=City.objects.all(),
-            widget=autocomplete.ModelSelect2(
-                url='city-autocomplete',
-                forward=('dst_country->country',)))
-        # More destination fields...
-
-Now we can do with only three autocomplete views with a simple API:
-
-.. code-block:: python
-
-    class ContinentAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            if not self.request.is_authenticated():
-                return Continent.objects.none()
-
-            qs = Continent.objects.all()
-
-            return qs
-
 
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_queryset(self):
@@ -608,23 +448,61 @@ Now we can do with only three autocomplete views with a simple API:
 
             return qs
 
+You cannot use this autocomplete view together with your form because the name
+forwarded from the form differs from the name that autocomplete view expects.
 
-    class CityAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            if not self.request.is_authenticated():
-                return City.objects.none()
+You can rename forwarded fields using class-based forward declaration to pass
+`src_continent` value as `continent`:
 
-            qs = City.objects.all()
+.. code-block:: python
 
-            country = self.forwarded.get('country', None)
+    from dal import forward
 
-            if country:
-                qs = qs.filter(country=country)
+    class ShippingForm(forms.Form):
+        src_continent = forms.ModelChoiceField(
+            queryset=Continent.objects.all(),
+            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
+        src_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=(forward.Field('src_continent', 'continent'),)))
 
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
 
-            return qs
+Of course, you can mix up string-based and class-based forwarding declarations:
+.. code-block:: python
+
+    some_field = forms.ModelChoiceField(
+            queryset=SomeModel.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='some-autocomplete',
+                forward=(
+                    'f1',  # String based declaration
+                     forward.Field('f2'),  # Works the same way as above declaration
+                     forward.Field('f3', 'field3'),  # With rename
+                     forward.Const(42, 'f4')  # Constant forwarding (see below)
+                     )
+
+
+Forwarding arbitrary constant values
+------------------------------------
+
+The other thing you can do with class-based forwarding declaration is to
+forward an arbitrary constant without adding extra hidden fields to
+your form.
+
+.. code-block:: python
+
+    from dal import forward
+
+    class EuropeanShippingForm(forms.Form):
+        src_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=(forward.Const('europe', 'continent'),)))
+
+For `src_country` field "europe" will always be forwarded as `continent` value.
 
 Clearing autocomplete on forward field change
 ---------------------------------------------

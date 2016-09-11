@@ -1,9 +1,6 @@
-from django import forms
 from django import http
 from django import test
 from django.apps import apps
-from django.core.urlresolvers import reverse
-from django.utils import six
 
 from .forms import TestForm
 from .models import TestModel
@@ -52,31 +49,3 @@ class LinkedDataFormTest(test.TestCase):  # noqa
 
         # Form should not validate
         self.assertFalse(form.is_valid())
-
-    def test_initial(self):
-        # Create an initial instance with a created relation
-        relation = TestModel.objects.create(name='relation' + self.id(),
-                                            owner=self.owner)
-        fixture = TestModel(name=self.id(), owner=self.owner)
-        fixture.test = relation
-        fixture.save()
-
-        # Instanciate the modelform for that instance
-        form = TestForm(instance=fixture)
-
-        # Ensure that the widget rendered right, with only the selection
-        self.assertEquals(
-            forms.Select(
-                choices=(
-                    (None, "---------"),
-                    (relation.id, six.text_type(relation)),
-                ),
-                attrs={
-                    'data-autocomplete-light-function': 'select2',
-                    'data-autocomplete-light-url': reverse('linked_data_rf'),
-                    'data-autocomplete-light-forward': 'owner->possessor',
-                    'id': 'id_test',
-                }
-            ).render('test', value=relation.id),
-            six.text_type(form['test'].as_widget())
-        )

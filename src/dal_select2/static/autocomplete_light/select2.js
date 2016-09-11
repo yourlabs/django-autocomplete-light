@@ -1,36 +1,4 @@
 ;(function ($) {
-    function add_forwards(element) {
-        var forward = element.attr('data-autocomplete-light-forward');
-        if (forward !== undefined) {
-            forward = forward.split(',');
-
-            var prefix = $(element).getFormPrefix();
-            var data_forward = {};
-
-            for (var key in forward) {
-                var f = forward[key].split("->");
-                var src_name, dst_name;
-                if (f.length === 0) {
-                    continue;
-                } else if (f.length === 1) {
-                    src_name = f[0];
-                    dst_name = f[0];
-                } else {
-                    src_name = f.splice(0,1);
-                    dst_name = f.join("->");
-                }
-                // First look for this field in the inline
-                $field = $('[name=' + prefix + src_name + ']');
-                if (!$field.length)
-                    // As a fallback, look for it outside the inline
-                    $field = $('[name=' + src_name + ']');
-                if ($field.length)
-                    data_forward[dst_name] = $field.val();
-            }
-
-            return JSON.stringify(data_forward);
-        }
-    }
 
     $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
         var element = $(this);
@@ -61,7 +29,7 @@
                         q: params.term, // search term
                         page: params.page,
                         create: element.attr('data-autocomplete-light-create') && !element.attr('data-tags'),
-                        forward: add_forwards(element)
+                        forward: get_forwards(element)
                     };
 
                     return data;
@@ -106,7 +74,7 @@
                 dataType: 'json',
                 data: {
                     text: data.id,
-                    forward: add_forwards($(this))
+                    forward: get_forwards($(this))
                 },
                 beforeSend: function(xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", document.csrftoken);

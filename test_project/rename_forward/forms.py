@@ -1,4 +1,4 @@
-from dal import autocomplete
+from dal import autocomplete, forward
 
 from django import forms
 
@@ -19,8 +19,11 @@ class TestForm(forms.ModelForm):
         model = TestModel
         fields = ('name', 'owner', 'test')
         widgets = {
-            'test': autocomplete.ModelSelect2(url='linked_data_rf',
-                                              forward=('owner->possessor',))
+            'test': autocomplete.ModelSelect2(
+                url='linked_data_rf',
+                forward=(forward.Field(src="owner", dst="possessor"),
+                         forward.Const(val=42, dst="secret"))
+            )
         }
 
     class Media:
