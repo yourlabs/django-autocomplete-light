@@ -33,7 +33,10 @@ class Select2ListCreateChoiceFieldTest(test.TestCase):
         choice_list = ['windows', 'linux']
         field = autocomplete.Select2ListCreateChoiceField(
             choice_list=choice_list)
-        try:
-            field.validate('osx')
-        except ValidationError:
-            self.fail("validate() should never raise ValidationError")
+
+        # validate() should allow choice outside of choices...
+        field.validate('osx')
+
+        # but not empty.
+        with self.assertRaises(ValidationError):
+            field.validate('')

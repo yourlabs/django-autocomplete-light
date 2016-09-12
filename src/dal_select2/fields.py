@@ -33,5 +33,5 @@ class Select2ListCreateChoiceField(Select2ListChoiceField):
     """Skips validation of choices so any value can be used."""
 
     def validate(self, value):
-        """Do not validate choices."""
-        pass
+        """Do not validate choices but check for empty."""
+        super(ChoiceField, self).validate(value)
