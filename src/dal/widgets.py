@@ -68,7 +68,7 @@ class WidgetMixin(object):
         selected_choices_arg = 1 if VERSION < (1, 10) else 0
 
         # Filter out None values, not needed for autocomplete
-        selected_choices = [c for c in args[selected_choices_arg] if c]
+        selected_choices = [six.text_type(c) for c in args[selected_choices_arg] if c]
 
         if self.url:
             all_choices = copy.copy(self.choices)
