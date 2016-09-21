@@ -9,28 +9,40 @@ from dal.widgets import (
 
 from django import forms
 from django.utils import six
+from django.utils import translation
+from django.conf import settings
 
 
 class Select2WidgetMixin(object):
     """Mixin for Select2 widgets."""
 
-    class Media:
+    def _media(self):
         """Automatically include static files for the admin."""
+        # get_language can be return None
+        lang_code = translation.get_language()
+        if lang_code:
+            lang_code = translation.to_locale(lang_code).replace('_', '-')
+        else:
+            lang_code = ''
 
-        css = {
-            'all': (
-                'autocomplete_light/vendor/select2/dist/css/select2.css',
-                'autocomplete_light/select2.css',
-            )
-        }
+        _min = '' if settings.DEBUG else 'min.'
+
+        css = (
+            'autocomplete_light/vendor/select2/dist/css/select2.{}css'.format(_min),
+            'autocomplete_light/select2.css',
+        )
         js = (
             'autocomplete_light/jquery.init.js',
             'autocomplete_light/autocomplete.init.js',
-            'autocomplete_light/vendor/select2/dist/js/select2.full.js',
+            'autocomplete_light/vendor/select2/dist/js/select2.full.{}js'.format(_min),
+            'autocomplete_light/vendor/select2/dist/js/i18n/{}.js'.format(lang_code),
             'autocomplete_light/forward.js',
             'autocomplete_light/select2.js',
         )
 
+        return forms.Media(css={'all': css}, js=js)
+
+    media = property(_media)
     autocomplete_function = 'select2'
 
 
