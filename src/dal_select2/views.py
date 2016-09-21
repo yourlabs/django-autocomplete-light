@@ -20,12 +20,10 @@ class Select2ViewMixin(object):
             } for result in context['object_list']
         ]
 
-    def render_to_response(self, context):
-        """Return a JSON response in Select2 format."""
+    def get_create_option(self, context, q):
+        """Form the correct create_option to append to results"""
+        
         create_option = []
-
-        q = self.request.GET.get('q', None)
-
         display_create_option = False
         if self.create_field and q:
             page_obj = context.get('page_obj', None)
@@ -38,6 +36,14 @@ class Select2ViewMixin(object):
                 'text': _('Create "%(new_value)s"') % {'new_value': q},
                 'create_id': True,
             }]
+        return create_option
+    
+    def render_to_response(self, context):
+        """Return a JSON response in Select2 format."""
+        
+        q = self.request.GET.get('q', None)
+
+        create_option = self.get_create_option(context, q)
 
         return http.HttpResponse(
             json.dumps({
