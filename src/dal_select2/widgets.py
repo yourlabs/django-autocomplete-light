@@ -16,26 +16,41 @@ from django.conf import settings
 class Select2WidgetMixin(object):
     """Mixin for Select2 widgets."""
 
-    def _media(self):
-        """Automatically include static files for the admin."""
+    def build_attrs(self, *args, **kwargs):
+        attrs = super(Select2WidgetMixin, self).build_attrs(*args, **kwargs)
+        lang_code = self._get_language_code()
+        if lang_code:
+            attrs.setdefault('data-locale', lang_code)
+        return attrs
+
+    def _get_language_code(self):
         # get_language can be return None
         lang_code = translation.get_language()
         if lang_code:
             lang_code = translation.to_locale(lang_code).replace('_', '-')
-        else:
-            lang_code = ''
+        return lang_code
 
+    def _media(self):
+        """Automatically include static files for the admin."""
         _min = '' if settings.DEBUG else 'min.'
+        i18n_file = ()
+        lang_code = self._get_language_code()
 
+        if lang_code:
+            i18n_file = (
+                'autocomplete_light/vendor/select2/dist/js/i18n/{}.js'.format(
+                    lang_code),
+            )
         css = (
-            'autocomplete_light/vendor/select2/dist/css/select2.{}css'.format(_min),
+            'autocomplete_light/vendor/select2/dist/css/select2.{}css'.format(
+                _min),
             'autocomplete_light/select2.css',
         )
-        js = (
-            'autocomplete_light/jquery.init.js',
-            'autocomplete_light/autocomplete.init.js',
-            'autocomplete_light/vendor/select2/dist/js/select2.full.{}js'.format(_min),
-            'autocomplete_light/vendor/select2/dist/js/i18n/{}.js'.format(lang_code),
+        js = ('autocomplete_light/jquery.init.js',
+              'autocomplete_light/autocomplete.init.js',
+              'autocomplete_light/vendor/select2/dist/js/select2.full.{}js'.format(
+                  _min),
+              ) + i18n_file + (
             'autocomplete_light/forward.js',
             'autocomplete_light/select2.js',
         )
