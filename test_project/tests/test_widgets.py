@@ -1,7 +1,7 @@
 """Test the base widget."""
 
-from dal.widgets import Select
 from dal.autocomplete import Select2
+from dal.widgets import Select
 
 from django import forms
 from django import http
