@@ -63,7 +63,8 @@ class Select2Test(test.TestCase):  # noqa
 
         form = Form(http.QueryDict())
         expected = '''
-<select data-autocomplete-light-function="select2" data-placeholder="Some placeholder" id="id_test" name="test">
+<select data-autocomplete-light-function="select2"\
+ data-placeholder="Some placeholder" id="id_test" name="test">
 <option value="" selected="selected"></option>
 <option value="1">A</option>
 </select>
