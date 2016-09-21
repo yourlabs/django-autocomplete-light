@@ -24,9 +24,6 @@
     $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
         var element = $(this);
 
-        // This widget has a clear button
-        $(this).find('option[value=""]').remove();
-
         // Templating helper
         function template(item) {
             if (element.attr('data-html')) {
