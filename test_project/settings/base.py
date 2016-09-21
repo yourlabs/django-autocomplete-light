@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'select2_outside_admin',
     'secure_data',
     'linked_data',
+    'rename_forward',
 
     'gm2m',
     'select2_gm2m',

@@ -349,7 +349,7 @@ by default.
 Filtering results based on the value of other fields in the form
 ================================================================
 
-- Example source code: `test_project/select2_linked_data
+- Example source code: `test_project/linked_data
   <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/linked_data>`_.
 - Live demo: `Admin / Linked Data / Add
   <http://dal-yourlabs.rhcloud.com/admin/linked_data/testmodel/add/>`_.
@@ -406,6 +406,103 @@ filter as such in the view:
                 qs = qs.filter(name__istartswith=self.q)
 
             return qs
+
+Renaming forwarded values
+-------------------------
+- Example source code: `test_project/rename_forward
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/rename_forward>`_.
+- Live demo: `Admin / Rename Forward/ Add
+  <http://dal-yourlabs.rhcloud.com/admin/rename_forward/testmodel/add/>`_.
+
+Let's assume that you have the following form using linked autocomplete fields:
+
+.. code-block:: python
+
+    class ShippingForm(forms.Form):
+        src_continent = forms.ModelChoiceField(
+            queryset=Continent.objects.all(),
+            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
+        src_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=('src_continent',)))
+
+And the following autocomplete view for country:
+.. code-block:: python
+
+    class CountryAutocomplete(autocomplete.Select2QuerySetView):
+        def get_queryset(self):
+            if not self.request.is_authenticated():
+                return Country.objects.none()
+
+            qs = Country.objects.all()
+
+            continent = self.forwarded.get('continent', None)
+
+            if continent:
+                qs = qs.filter(continent=continent)
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+You cannot use this autocomplete view together with your form because the name
+forwarded from the form differs from the name that autocomplete view expects.
+
+You can rename forwarded fields using class-based forward declaration to pass
+`src_continent` value as `continent`:
+
+.. code-block:: python
+
+    from dal import forward
+
+    class ShippingForm(forms.Form):
+        src_continent = forms.ModelChoiceField(
+            queryset=Continent.objects.all(),
+            widget=autocomplete.ModelSelect2(url='continent-autocomplete'))
+        src_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=(forward.Field('src_continent', 'continent'),)))
+
+
+Of course, you can mix up string-based and class-based forwarding declarations:
+.. code-block:: python
+
+    some_field = forms.ModelChoiceField(
+            queryset=SomeModel.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='some-autocomplete',
+                forward=(
+                    'f1',  # String based declaration
+                     forward.Field('f2'),  # Works the same way as above declaration
+                     forward.Field('f3', 'field3'),  # With rename
+                     forward.Const(42, 'f4')  # Constant forwarding (see below)
+                     )
+
+
+Forwarding arbitrary constant values
+------------------------------------
+
+The other thing you can do with class-based forwarding declaration is to
+forward an arbitrary constant without adding extra hidden fields to
+your form.
+
+.. code-block:: python
+
+    from dal import forward
+
+    class EuropeanShippingForm(forms.Form):
+        src_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(
+                url='country-autocomplete',
+                forward=(forward.Const('europe', 'continent'),)))
+
+For `src_country` field "europe" will always be forwarded as `continent` value.
 
 Clearing autocomplete on forward field change
 ---------------------------------------------

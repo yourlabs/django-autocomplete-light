@@ -1,11 +1,15 @@
 """Autocomplete widgets bases."""
 
 import copy
+import json
+
+from dal import forward
 
 from django import VERSION
 from django import forms
 from django.core.urlresolvers import reverse
 from django.utils import six
+from django.utils.safestring import mark_safe
 
 
 class WidgetMixin(object):
@@ -21,6 +25,15 @@ class WidgetMixin(object):
 
         List of field names to forward to the autocomplete view, useful to
         filter results using values of other fields in the form.
+
+        Items of the list must be one of the following:
+         - string (e. g. "some_field"): forward a value from
+           the field with named "some_field";
+         - `dal.forward.Field("some_field"): the same as above;
+         - `dal.forward.Field("some_field", "dst_field"): forward a value from
+           the field with named "some_field" as "dst_field";
+         - `dal.forward.Const("some_value", "dst_field"): forward a constant
+           value "some_value" as "dst_field".
 
     .. py:attribute:: autocomplete_function
 
@@ -46,11 +59,6 @@ class WidgetMixin(object):
         if autocomplete_function:
             attrs.setdefault('data-autocomplete-light-function',
                              autocomplete_function)
-
-        if self.forward:
-            attrs.setdefault('data-autocomplete-light-forward',
-                             ','.join(self.forward))
-
         return attrs
 
     def filter_choices_to_render(self, selected_choices):
@@ -58,12 +66,43 @@ class WidgetMixin(object):
         self.choices = [c for c in self.choices if
                         six.text_type(c[0]) in selected_choices]
 
+    @staticmethod
+    def _make_forward_dict(f):
+        """Convert forward declaration to a dictionary.
+
+        A returned dictionary will be dumped to JSON while rendering widget.
+        """
+        if isinstance(f, six.string_types):
+            return forward.Field(f).to_dict()
+        elif isinstance(f, forward.Forward):
+            return f.to_dict()
+        else:
+            raise TypeError("Cannot use {} as forwarded value".format(f))
+
+    def render_forward_conf(self, id):
+        """Render forward configuration for the field."""
+        if self.forward:
+            return \
+                '<div style="display:none" class="dal-forward-conf" ' + \
+                'id="dal-forward-conf-for-{id}"'.format(id=id) + \
+                '>' \
+                '<script type="text/dal-forward-conf">' + \
+                json.dumps(
+                    [self._make_forward_dict(f) for f in self.forward]
+                ) + \
+                '</script>' \
+                '</div>'
+        else:
+            return ""
+
     def render_options(self, *args):
         """
         Django-compatibility method for option rendering.
 
         Should only render selected options, by setting self.choices before
         calling the parent method.
+
+        Also renders <script> tag with forward configuration.
         """
         selected_choices_arg = 1 if VERSION < (1, 10) else 0
 
@@ -80,6 +119,12 @@ class WidgetMixin(object):
             self.choices = all_choices
 
         return html
+
+    def render(self, name, value, attrs=None):
+        """Calling Django render together with `render_forward_conf`."""
+        widget = super(WidgetMixin, self).render(name, value, attrs)
+        conf = self.render_forward_conf(attrs['id'])
+        return mark_safe(widget + conf)
 
     def _get_url(self):
         if self._url is None:
