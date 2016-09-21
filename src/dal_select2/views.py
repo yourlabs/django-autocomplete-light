@@ -2,10 +2,12 @@
 
 import json
 
-from dal.views import BaseQuerySetView
+from dal.views import BaseQuerySetView, ViewMixin
 
 from django import http
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext as _
+from django.views.generic.list import View
 
 
 class Select2ViewMixin(object):
@@ -56,3 +58,51 @@ class Select2ViewMixin(object):
 
 class Select2QuerySetView(Select2ViewMixin, BaseQuerySetView):
     """List options for a Select2 widget."""
+
+
+class Select2ListView(ViewMixin, View):
+    """Autocomplete from a list of items rather than a QuerySet."""
+
+    def get_list(self):
+        """"Return the list strings from which to autocomplete."""
+        return []
+
+    def get(self, request, *args, **kwargs):
+        """"Return option list json response."""
+        results = self.get_list()
+        create_option = []
+        if self.q:
+            results = [x for x in results if self.q in x]
+            if hasattr(self, 'create'):
+                create_option = [{
+                    'id': self.q,
+                    'text': 'Create "%s"' % self.q,
+                    'create_id': True
+                }]
+        return http.HttpResponse(json.dumps({
+            'results': [dict(id=x, text=x) for x in results] + create_option
+        }))
+
+    def post(self, request):
+        """"Add an option to the autocomplete list.
+
+        If 'text' is not defined in POST or self.create(text) fails, raises
+        bad request. Raises ImproperlyConfigured if self.create if not defined.
+        """
+        if not hasattr(self, 'create'):
+            raise ImproperlyConfigured('Missing "create()"')
+
+        text = request.POST.get('text', None)
+
+        if text is None:
+            return http.HttpResponseBadRequest()
+
+        text = self.create(text)
+
+        if text is None:
+            return http.HttpResponseBadRequest()
+
+        return http.HttpResponse(json.dumps({
+            'id': text,
+            'text': text,
+        }))
