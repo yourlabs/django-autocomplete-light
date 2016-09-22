@@ -430,6 +430,7 @@ Let's assume that you have the following form using linked autocomplete fields:
                 forward=('src_continent',)))
 
 And the following autocomplete view for country:
+
 .. code-block:: python
 
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
@@ -471,6 +472,7 @@ You can rename forwarded fields using class-based forward declaration to pass
 
 
 Of course, you can mix up string-based and class-based forwarding declarations:
+
 .. code-block:: python
 
     some_field = forms.ModelChoiceField(
