@@ -87,3 +87,11 @@ if _installed('genericm2m') and _installed('dal_queryset_sequence'):
 
 if _installed('gm2m') and _installed('dal_queryset_sequence'):
     from dal_gm2m_queryset_sequence.fields import GM2MQuerySetSequenceField
+
+if _installed('dal_jal'):
+    from dal_jal.widgets import (
+        JalChoiceWidget,
+        JalWidgetMixin,
+    )
+
+    from dal_jal.views import JalQuerySetView

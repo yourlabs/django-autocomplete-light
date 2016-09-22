@@ -26,4 +26,6 @@ urlpatterns = [
 
     url(r'^select2_outside_admin/', include('select2_outside_admin.urls')),
     url(r'^select2_gm2m/', include('select2_gm2m.urls')),
+
+    url(r'^jal_foreign_key/', include('jal_foreign_key.urls')),
 ]

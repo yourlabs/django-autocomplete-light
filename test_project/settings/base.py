@@ -72,6 +72,8 @@ INSTALLED_APPS = [
     'linked_data',
     'rename_forward',
 
+    'jal_foreign_key',
+
     'gm2m',
     'select2_gm2m',
 
@@ -81,6 +83,7 @@ INSTALLED_APPS = [
     # Autocomplete
     'dal',
     # Enable plugins
+    'dal_jal',
     'dal_select2',
     'dal_queryset_sequence',
 
