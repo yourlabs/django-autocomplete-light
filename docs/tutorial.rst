@@ -183,6 +183,9 @@ Passing options to select2
         },
     )
 
+.. note:: Setting a placeholder will result in generation of an an empty
+          ``option`` tag, which select2 requires.
+
 Using autocompletes in the admin
 ================================
 
