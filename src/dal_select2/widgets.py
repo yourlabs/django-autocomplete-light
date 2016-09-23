@@ -20,7 +20,7 @@ class Select2WidgetMixin(object):
         attrs = super(Select2WidgetMixin, self).build_attrs(*args, **kwargs)
         lang_code = self._get_language_code()
         if lang_code:
-            attrs.setdefault('data-locale', lang_code)
+            attrs.setdefault('data-autocomplete-light-language', lang_code)
         return attrs
 
     def _get_language_code(self):
