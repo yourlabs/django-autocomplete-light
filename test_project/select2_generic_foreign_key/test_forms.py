@@ -85,6 +85,7 @@ class GenericFormTest(test.TestCase):  # noqa
             attrs={
                 'data-autocomplete-light-function': 'select2',
                 'data-autocomplete-light-url': reverse('select2_gfk'),
+                'data-autocomplete-light-language': 'en-US',
                 'id': 'id_test',
             }
         ).render('test', value=self.get_value(relation))

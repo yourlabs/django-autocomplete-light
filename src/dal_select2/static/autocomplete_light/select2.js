@@ -121,6 +121,7 @@
             tokenSeparators: element.attr('data-tags') ? [','] : null,
             debug: true,
             placeholder: '',
+            language: element.attr('data-autocomplete-light-language'),
             minimumInputLength: 0,
             allowClear: ! $(this).is('[required]'),
             templateResult: result_template,
