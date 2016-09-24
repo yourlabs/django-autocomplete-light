@@ -22,7 +22,6 @@ from better import better_theme_path
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
-sys.path.insert(0, os.path.abspath('../../../lib/python2.7/site-packages/'))
 sys.path.insert(0, os.path.abspath('../src/'))
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "../test_project")))
