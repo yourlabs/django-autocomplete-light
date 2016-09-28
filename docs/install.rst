@@ -25,6 +25,9 @@ This is to override the ``jquery.init.js`` script provided by the admin, which
 sets up jQuery with ``noConflict``, making jQuery available in
 ``django.jQuery`` only and not ``$``.
 
+To enable more DAL functionalities we will have to add other DAL apps
+to :django:setting:`INSTALLED_APPS`, such as 'dal_queryset_sequence' ...
+
 Note: If you are trying to install from git, please make sure you are not using
 **zip/archive** url of the repo ``django-autocomplete-light`` since it will not
 contain required submodules automatically. Otherwise these submodules will then
