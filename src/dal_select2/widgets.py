@@ -27,6 +27,7 @@ class Select2WidgetMixin(object):
             'autocomplete_light/jquery.init.js',
             'autocomplete_light/autocomplete.init.js',
             'autocomplete_light/vendor/select2/dist/js/select2.full.js',
+            'autocomplete_light/forward.js',
             'autocomplete_light/select2.js',
         )
 
@@ -39,6 +40,10 @@ class Select2(Select2WidgetMixin, Select):
 
 class Select2Multiple(Select2WidgetMixin, SelectMultiple):
     """Select2Multiple widget for regular choices."""
+
+
+class ListSelect2(WidgetMixin, Select2WidgetMixin, forms.Select):
+    """Select widget for regular choices and Select2."""
 
 
 class ModelSelect2(QuerySetSelectMixin,

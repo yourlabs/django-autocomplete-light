@@ -38,6 +38,9 @@ Consider such a model:
 View example for QuerySetSequence and Select2
 =============================================
 
+To enable the use for QuerySetSequence we need to add 'dal_queryset_sequence'
+to :django:setting:`INSTALLED_APPS`.
+
 We'll need a view that will provide results for the select2 frontend, and that
 uses QuerySetSequence as the backend. Let's try
 :py:class:`~dal_select2_queryset_sequence.views.Select2QuerySetSequenceView`

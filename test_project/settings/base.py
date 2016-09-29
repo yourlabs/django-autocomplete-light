@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
     # test apps
     'select2_foreign_key',
+    'select2_list',
     'select2_generic_foreign_key',
     'select2_many_to_many',
     'select2_one_to_one',
@@ -62,6 +63,7 @@ INSTALLED_APPS = [
     'select2_outside_admin',
     'secure_data',
     'linked_data',
+    'rename_forward',
 
     'gm2m',
     'select2_gm2m',

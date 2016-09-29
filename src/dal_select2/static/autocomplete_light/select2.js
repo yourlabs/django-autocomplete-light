@@ -1,25 +1,4 @@
 ;(function ($) {
-    function add_forwards(element) {
-        var forward = element.attr('data-autocomplete-light-forward');
-        if (forward !== undefined) {
-            forward = forward.split(',');
-
-            var prefix = $(element).getFormPrefix();
-            var data_forward = {};
-
-            for (var key in forward) {
-                // First look for this field in the inline
-                var $field = $('[name=' + prefix + forward[key] + ']');
-                if (!$field.length)
-                    // As a fallback, look for it outside the inline
-                    $field = $('[name=' + forward[key] + ']');
-                if ($field.length)
-                    data_forward[forward[key]] = $field.val();
-            }
-
-            return JSON.stringify(data_forward);
-        }
-    }
 
     $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
         var element = $(this);
@@ -50,7 +29,7 @@
                         q: params.term, // search term
                         page: params.page,
                         create: element.attr('data-autocomplete-light-create') && !element.attr('data-tags'),
-                        forward: add_forwards(element)
+                        forward: get_forwards(element)
                     };
 
                     return data;
@@ -95,7 +74,7 @@
                 dataType: 'json',
                 data: {
                     text: data.id,
-                    forward: add_forwards($(this))
+                    forward: get_forwards($(this))
                 },
                 beforeSend: function(xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", document.csrftoken);

@@ -11,8 +11,10 @@ urlpatterns = [
 
     url(r'^secure_data/', include('secure_data.urls')),
     url(r'^linked_data/', include('linked_data.urls')),
+    url(r'^rename_forward/', include('rename_forward.urls')),
 
     url(r'^select2_foreign_key/', include('select2_foreign_key.urls')),
+    url(r'^select2_list/', include('select2_list.urls')),
     url(r'^select2_generic_foreign_key/',
         include('select2_generic_foreign_key.urls')),
     url(r'^select2_generic_m2m/', include('select2_generic_m2m.urls')),
