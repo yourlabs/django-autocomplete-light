@@ -10,8 +10,7 @@ class TaggitSelect2(TagSelect2):
     """Select2 tag widget for taggit's TagField."""
 
     def value_from_datadict(self, data, files, name):
-        """insure there's a comma when there's only one tag, or tag "Multi word" would end up as "Multi" and "word"
-        """
+        """insure there's a comma when there's only one tag, or tag "Multi word" would end up as "Multi" and "word" """
         value = super(TaggitSelect2, self).value_from_datadict(data, files, name)
         if ',' not in value:
             value = '%s,' % value
