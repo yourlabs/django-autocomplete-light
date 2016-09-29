@@ -10,7 +10,7 @@ class TaggitSelect2(TagSelect2):
     """Select2 tag widget for taggit's TagField."""
 
     def value_from_datadict(self, data, files, name):
-        """Handle multi-word tag
+        """Handle multi-word tag.
 
         Insure there's a comma when there's only a single multi-word tag,
         or tag "Multi word" would end up as "Multi" and "word".
