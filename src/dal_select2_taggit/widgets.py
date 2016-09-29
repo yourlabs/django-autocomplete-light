@@ -13,7 +13,7 @@ class TaggitSelect2(TagSelect2):
         """insure there's a comma when there's only one tag, or tag "Multi word" would end up as "Multi" and "word"
         """
         value = super(TaggitSelect2, self).value_from_datadict(data, files, name)
-        if not ',' in value:
+        if ',' not in value:
             value = '%s,' % value
         return value
 
