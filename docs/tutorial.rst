@@ -380,7 +380,7 @@ value of the continent field to the view when it fetches data. We can use the
             model = Person
             fields = ('__all__')
             widgets = {
-                'birth_country': autocomplete.ModelSelect2(url='country-autocomplete'
+                'birth_country': autocomplete.ModelSelect2(url='country-autocomplete',
                                                            forward=['continent'])
             }
 
@@ -393,7 +393,7 @@ filter as such in the view:
 
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_queryset(self):
-            if not self.request.is_authenticated():
+            if not self.request.user.is_authenticated():
                 return Country.objects.none()
 
             qs = Country.objects.all()
