@@ -1,3 +1,20 @@
+3.2.0
+
+    #745: Add list autocomplete by @dmosberger, @jpic and @thecardcheat
+    #754: dal_queryset_sequence documentation update by @chubz
+    #734: Move create_option functionality into it's own method @andybak
+    #741: Fix initial value not set when selected choices aren't strings
+          @thauk-copperleaf
+    #733: Advanced forward features @gagarski
+    #752: Add doc test to CI by @jpic
+    #730: Resolve SystemCheckError fields.E304 @thecardcheat
+    #721: Note about placement of DAL before grappelli by @chubz
+    #748: Update docs example about loading jquery outside the admin @jpic
+
+    Mid version number bumped as a tribute to the new major features that were
+    added, however, there is no know backward compatibility break from 3.1 to
+    3.2.
+
 3.1.8 #727 Add missing static files
 
 3.1.7
