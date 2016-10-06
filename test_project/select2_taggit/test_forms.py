@@ -34,6 +34,18 @@ class TagSelect2TestMixin(object):
             [existing, new]
         )
 
+    def test_multi_words_tag(self):
+        multi_words_tag = self.tag.objects.create(name='multi words')
+        form = self.form(http.QueryDict('name=%s&test=%s' % (
+            self.id(), multi_words_tag)))
+
+        instance = form.save()
+
+        self.assertEqual(
+            list(self.model.objects.get(pk=instance.pk).test.all()),
+            [multi_words_tag, ]
+        )
+
     def test_initial(self):
         tag = self.tag.objects.create(name='tag' + self.id())
         fixture = self.model.objects.create(name=self.id())
