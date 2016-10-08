@@ -1,9 +1,11 @@
 function get_forwards(element) {
-    var forwardElem, forwardList, prefix, forwardedData;
-    // forwardElem = element.nextAll("script.dal-forward-conf:eq(0)");
+    var forwardElem, forwardList, prefix, forwardedData, divSelector, form;
+    divSelector = "div.dal-forward-conf#dal-forward-conf-for-" +
+            element.attr("id");
+    form = element.length > 0 ? $(element[0].form) : $();
+
     forwardElem =
-        element.siblings("div.dal-forward-conf#dal-forward-conf-for-" +
-            element.attr('id')).find('script');
+        form.find(divSelector).find('script');
     if (forwardElem.length === 0) {
         return;
     }
