@@ -46,6 +46,7 @@ class WidgetMixin(object):
         """Instanciate a widget with a URL and a list of fields to forward."""
         self.url = url
         self.forward = forward or []
+        self.placeholder = kwargs.get("attrs", {}).get("data-placeholder")
         super(WidgetMixin, self).__init__(*args, **kwargs)
 
     def build_attrs(self, *args, **kwargs):
@@ -110,14 +111,16 @@ class WidgetMixin(object):
         selected_choices = [six.text_type(c) for c
                             in args[selected_choices_arg] if c]
 
+        all_choices = copy.copy(self.choices)
         if self.url:
-            all_choices = copy.copy(self.choices)
             self.filter_choices_to_render(selected_choices)
+        else:
+            if self.placeholder:
+                self.choices.insert(0, (None, ""))
 
         html = super(WidgetMixin, self).render_options(*args)
 
-        if self.url:
-            self.choices = all_choices
+        self.choices = all_choices
 
         return html
 

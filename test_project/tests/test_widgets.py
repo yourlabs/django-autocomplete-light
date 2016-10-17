@@ -1,5 +1,6 @@
 """Test the base widget."""
 
+from dal.autocomplete import Select2
 from dal.widgets import Select
 
 from django import forms
@@ -43,3 +44,60 @@ class SelectTest(test.TestCase):  # noqa
         '''.strip()
 
         self.assertEquals(six.text_type(form['test'].as_widget()), expected)
+
+
+@override_settings(ROOT_URLCONF='tests.test_widgets')
+class Select2Test(test.TestCase):  # noqa
+    """Test case for the Select2 widget."""
+
+    def test_widget_renders_empty_option_with_placeholder_without_url(self):
+        """Assert that it renders an empty option, if not given a url."""
+        class Form(forms.Form):
+            test = forms.ChoiceField(
+                choices=[(1, "A")],
+                widget=Select2(attrs={
+                    "data-placeholder": "Some placeholder",
+                }),
+                required=False
+            )
+
+        form = Form(http.QueryDict())
+        expected = '''
+<select data-autocomplete-light-function="select2"\
+ data-placeholder="Some placeholder" id="id_test" name="test">
+<option value="" selected="selected"></option>
+<option value="1">A</option>
+</select>
+        '''.strip()
+        observed = six.text_type(form['test'].as_widget())
+
+        self.assertEquals(observed, expected)
+
+    def test_widget_no_empty_option_without_placeholder_without_url(self):
+        """Assert that it renders an empty option, if not given a url."""
+        class Form(forms.Form):
+            test = forms.ChoiceField(
+                choices=[(1, "A")],
+                widget=Select2(),
+                required=False
+            )
+
+        form = Form(http.QueryDict())
+        expected = '''
+<select data-autocomplete-light-function="select2" id="id_test" name="test">
+<option value="1">A</option>
+</select>
+        '''.strip()
+        observed = six.text_type(form['test'].as_widget())
+
+        self.assertEquals(observed, expected)
+
+        form = Form(http.QueryDict('test=1'))
+        expected = '''
+<select data-autocomplete-light-function="select2" id="id_test" name="test">
+<option value="1" selected="selected">A</option>
+</select>
+        '''.strip()
+        observed = six.text_type(form['test'].as_widget())
+
+        self.assertEquals(observed, expected)
