@@ -1,3 +1,12 @@
+3.2.1
+
+    #737: TaggitSelect2: insure there's a comma when there's only one tag, or
+          tag "Multi word" would end up as "Multi" and "word" by
+          @Ixxy-Open-Source
+    #743: Fix placeholder not working when URL is not given to autocomplete
+          widget (#743) by @thauk-copperleaf
+    #756: Forward Capabilities Outside Admin by @gagarski
+
 3.2.0
 
     #745: Add list autocomplete by @dmosberger, @jpic and @thecardcheat
