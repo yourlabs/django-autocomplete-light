@@ -19,7 +19,7 @@ class QuerySetSequenceFieldMixin(object):
         content_type = ContentType.objects.get_for_id(content_type_id)
 
         for queryset in self.queryset.query._querysets:
-            if queryset.model == content_type.model_class():
+            if issubclass(queryset.model, content_type.model_class()):
                 return queryset
 
     def raise_invalid_choice(self, params=None):
