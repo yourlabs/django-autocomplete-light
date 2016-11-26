@@ -6,6 +6,7 @@ env:
   global:
   - PIP_RETRIES=10
   - PIP_TIMEOUT=30
+  - BROWSER=chrome
   matrix:
   - TOXENV=checkqa
   - TOXENV=docs
@@ -22,6 +23,8 @@ install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
 - travis_retry pip freeze
+- travis_retry sudo apt-get update -y
+- travis_retry sudo apt-get install -y chromium-chromedriver
 before_script:
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
