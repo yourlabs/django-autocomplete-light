@@ -6,7 +6,6 @@ env:
   global:
   - PIP_RETRIES=10
   - PIP_TIMEOUT=30
-  - BROWSER=chrome
   matrix:
   - TOXENV=checkqa
   - TOXENV=docs
