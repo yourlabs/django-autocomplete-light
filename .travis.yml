@@ -23,8 +23,6 @@ install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
 - travis_retry pip freeze
-- travis_retry sudo apt-get update -y
-- travis_retry sudo apt-get install -y chromium-chromedriver
 before_script:
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
