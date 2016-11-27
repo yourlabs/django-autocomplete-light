@@ -24,7 +24,11 @@ class AutocompleteTestCase(StaticLiveServerTestCase):
         global GLOBAL_BROWSER
 
         if GLOBAL_BROWSER is None:
-            GLOBAL_BROWSER = Browser(os.environ.get('BROWSER', 'firefox'))
+            b=os.getenv('BROWSER')
+            kwargs = {}
+            if b in ('firefox', None):
+                kwargs['capabilities'] = {'marionette': True}
+            GLOBAL_BROWSER = Browser(b, **kwargs)
         cls.browser = GLOBAL_BROWSER
 
         super(AutocompleteTestCase, cls).setUpClass()

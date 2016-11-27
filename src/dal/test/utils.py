@@ -61,4 +61,5 @@ class OwnedFixtures(Fixtures):
                     owner=u
                 )
 
+
 fixtures = Fixtures()

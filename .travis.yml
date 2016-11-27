@@ -1,7 +1,9 @@
-sudo: false
+sudo: true
 language: python
 python:
 - '3.4'
+addons:
+  firefox: '49.0'
 env:
   global:
   - PIP_RETRIES=10
@@ -23,6 +25,12 @@ install:
 - travis_retry pip install tox
 - travis_retry pip freeze
 before_script:
+- travis_retry wget https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz
+- tar xzfv geckodriver*
+- chmod +x geckodriver
+- sudo mv geckodriver /usr/bin
+- echo $PATH
+- hash -r
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
 - sleep 3 # give xvfb some time to start
