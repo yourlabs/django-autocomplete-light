@@ -13,4 +13,6 @@ class TestInline(admin.TabularInline):
 class TestAdmin(admin.ModelAdmin):
     form = TestForm
     inlines = [TestInline]
+
+
 admin.site.register(TestModel, TestAdmin)

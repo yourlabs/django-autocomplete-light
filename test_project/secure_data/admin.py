@@ -29,4 +29,6 @@ class TestInline(SecureFormMixin, admin.TabularInline):
 class TestAdmin(SecureFormMixin, admin.ModelAdmin):
     inlines = [TestInline]
     form = TestForm
+
+
 admin.site.register(TestModel, TestAdmin)

@@ -35,6 +35,7 @@ def _installed(*apps):
             return False
     return True
 
+
 if _installed('dal_select2'):
     from dal_select2.widgets import (
         Select2,
@@ -53,6 +54,7 @@ if _installed('dal_select2'):
         Select2ListCreateChoiceField
     )
 
+
 if _installed('dal_queryset_sequence'):
     from dal_queryset_sequence.fields import (
         QuerySetSequenceModelField,
@@ -63,6 +65,7 @@ if _installed('dal_queryset_sequence'):
     )
     from queryset_sequence import QuerySetSequence
 
+
 if _installed('dal_select2', 'dal_queryset_sequence'):
     from dal_select2_queryset_sequence.views import (
         Select2QuerySetSequenceView,
@@ -72,16 +75,20 @@ if _installed('dal_select2', 'dal_queryset_sequence'):
         QuerySetSequenceSelect2Multiple,
     )
 
+
 if _installed('dal_select2') and _installed('taggit'):
     from dal_select2_taggit.widgets import TaggitSelect2
 
+
 if _installed('dal_select2') and _installed('tagging'):
     from dal_select2_tagging.widgets import TaggingSelect2
+
 
 if _installed('genericm2m') and _installed('dal_queryset_sequence'):
     from dal_genericm2m_queryset_sequence.fields import (
         GenericM2MQuerySetSequenceField
     )
+
 
 if _installed('gm2m') and _installed('dal_queryset_sequence'):
     from dal_gm2m_queryset_sequence.fields import GM2MQuerySetSequenceField

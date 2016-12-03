@@ -12,4 +12,5 @@ def test_user(sender, *args, **kwargs):
     user.set_password('test')
     user.save()
 
+
 post_migrate.connect(test_user)
