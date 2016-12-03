@@ -222,7 +222,7 @@ class InlineSelectOption(SelectOption):
 
         add = self.case.browser.find_link_by_partial_text('Add another')
         while num < self.inline_number + 1:
-            add.click()
+            add[0].click()
             num += 1
 
 

@@ -48,7 +48,7 @@ class AutocompleteTestCase(StaticLiveServerTestCase):
 
     def click(self, selector):
         """Click an element by css selector."""
-        self.browser.find_by_css(selector).click()
+        self.browser.find_by_css(selector)[0].click()
 
     def enter_text(self, selector, text):
         """Enter text in an element by css selector."""
@@ -61,7 +61,7 @@ class AutocompleteTestCase(StaticLiveServerTestCase):
 
     def assert_visible(self, selector):
         """Assert an element is visible by css selector."""
-        assert self.browser.find_by_css(selector).visible is True
+        assert self.browser.find_by_css(selector)[0].visible is True
 
 
 class AdminMixin(object):
