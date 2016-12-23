@@ -6,8 +6,8 @@ django-querysetsequence
 django-taggit
 django-tagging
 mock
-selenium
 pytest
+selenium<3.0
 splinter
 pytest-django
 pytest-cov
