@@ -19,7 +19,15 @@ class QuerySetSequenceFieldMixin(object):
         content_type = ContentType.objects.get_for_id(content_type_id)
 
         for queryset in self.queryset.query._querysets:
-            if queryset.model == content_type.model_class():
+            if queryset.model.__name__ == 'QuerySequenceModel':
+                # django-queryset-sequence 0.7 support dynamically created
+                # QuerySequenceModel which replaces the original model when it
+                # patches the queryset since 6394e19
+                model = queryset.model.__bases__[0]
+            else:
+                model = queryset.model
+
+            if model == content_type.model_class():
                 return queryset
 
     def raise_invalid_choice(self, params=None):
