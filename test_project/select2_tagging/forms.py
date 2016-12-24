@@ -4,15 +4,15 @@ from django import forms
 
 from tagging.forms import TagField
 
-from .models import TestModel
+from .models import TModel
 
 
-class TestForm(forms.ModelForm):
+class TForm(forms.ModelForm):
     test = TagField(
         widget=autocomplete.TaggingSelect2('select2_tagging'),
         required=False,
     )
 
     class Meta:
-        model = TestModel
+        model = TModel
         exclude = ['for_inline']

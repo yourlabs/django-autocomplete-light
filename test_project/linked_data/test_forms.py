@@ -2,8 +2,8 @@ from django import http
 from django import test
 from django.apps import apps
 
-from .forms import TestForm
-from .models import TestModel
+from .forms import TForm
+from .models import TModel
 
 
 class LinkedDataFormTest(test.TestCase):  # noqa
@@ -21,11 +21,13 @@ class LinkedDataFormTest(test.TestCase):  # noqa
 
     def test_save(self):
         # Create an option to select
-        fixture = TestModel.objects.create(name='relation' + self.id(),
-                                           owner=self.owner)
+        fixture = TModel.objects.create(
+            name='relation' + self.id(),
+            owner=self.owner
+        )
 
         # Instantiate the form with the fixture selected
-        form = TestForm(http.QueryDict('name=%s&owner=%s&test=%s' % (
+        form = TForm(http.QueryDict('name=%s&owner=%s&test=%s' % (
             self.id(), self.owner.id, fixture.id)))
 
         # Ensure that the form is valid
@@ -36,15 +38,15 @@ class LinkedDataFormTest(test.TestCase):  # noqa
         self.assertEqual(fixture, instance.test)
 
         # Ensure that the relation field was properly saved
-        self.assertEqual(TestModel.objects.get(pk=instance.pk).test, fixture)
+        self.assertEqual(TModel.objects.get(pk=instance.pk).test, fixture)
 
     def test_validate(self):
         pass
         # Create an option to select
-        fixture = TestModel.objects.create(name=self.id(), owner=self.owner)
+        fixture = TModel.objects.create(name=self.id(), owner=self.owner)
 
         # Instantiate the form with the fixture selected but with wrong owner
-        form = TestForm(http.QueryDict('name=%s&owner=%s&test=%s' % (
+        form = TForm(http.QueryDict('name=%s&owner=%s&test=%s' % (
             self.id(), self.other_user.id, fixture.id)))
 
         # Form should not validate

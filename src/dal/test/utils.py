@@ -12,7 +12,7 @@ class Fixtures(object):
     def get_model(self, sender):
         """Return either the preset model, either the sender's TestModel."""
         if self.model_name is None:
-            return sender.get_model('TestModel')
+            return sender.get_model('TModel')
         else:
             return apps.get_model(self.model_name)
 
@@ -60,5 +60,6 @@ class OwnedFixtures(Fixtures):
                     name='test #%s for %s' % (n, u),
                     owner=u
                 )
+
 
 fixtures = Fixtures()

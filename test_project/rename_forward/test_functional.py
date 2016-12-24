@@ -3,7 +3,7 @@ from dal.test.utils import OwnedFixtures
 
 from dal_select2.test import Select2Story
 
-from .models import TestModel
+from .models import TModel
 
 
 class AdminLinkedDataTest(Select2Story,
@@ -12,7 +12,7 @@ class AdminLinkedDataTest(Select2Story,
                           case.AutocompleteTestCase):
     field_name = 'test'
     inline_related_name = 'inline_test_models_rf'
-    model = TestModel
+    model = TModel
 
     def setUp(self):
         super(AdminLinkedDataTest, self).setUp()

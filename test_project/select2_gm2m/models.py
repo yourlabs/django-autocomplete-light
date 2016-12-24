@@ -5,7 +5,7 @@ from gm2m import GM2MField
 
 
 @python_2_unicode_compatible
-class TestModel(models.Model):
+class TModel(models.Model):
     name = models.CharField(max_length=200)
 
     test = GM2MField()

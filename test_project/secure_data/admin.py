@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .forms import TestForm
-from .models import TestModel
+from .forms import TForm
+from .models import TModel
 
 
 class SecureFormMixin(object):
@@ -14,7 +14,7 @@ class SecureFormMixin(object):
         secure_form = type('SecuredAdminForm', (form,), {})
 
         # Let's secure on the validation side now
-        secure_form.base_fields['test'].queryset = TestModel.objects.filter(
+        secure_form.base_fields['test'].queryset = TModel.objects.filter(
             owner=request.user)
 
         return secure_form
@@ -22,11 +22,11 @@ class SecureFormMixin(object):
 
 class TestInline(SecureFormMixin, admin.TabularInline):
     fk_name = 'for_inline'
-    model = TestModel
-    form = TestForm
+    model = TModel
+    form = TForm
 
 
 class TestAdmin(SecureFormMixin, admin.ModelAdmin):
     inlines = [TestInline]
-    form = TestForm
-admin.site.register(TestModel, TestAdmin)
+    form = TForm
+admin.site.register(TModel, TestAdmin)

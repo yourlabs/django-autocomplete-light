@@ -2,10 +2,10 @@ from dal import autocomplete
 
 from django import forms
 
-from .models import TestModel
+from .models import TModel
 
 
-class TestForm(forms.ModelForm):
+class TForm(forms.ModelForm):
     def clean_test(self):
         owner = self.cleaned_data.get('owner', None)
         value = self.cleaned_data.get('test', None)
@@ -16,7 +16,7 @@ class TestForm(forms.ModelForm):
         return value
 
     class Meta:
-        model = TestModel
+        model = TModel
         fields = ('name', 'owner', 'test')
         widgets = {
             'test': autocomplete.ModelSelect2(url='linked_data',

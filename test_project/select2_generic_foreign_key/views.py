@@ -1,12 +1,12 @@
 from django.views import generic
 
-from .forms import TestForm
-from .models import TestModel
+from .forms import TForm
+from .models import TModel
 
 
 class TestView(generic.UpdateView):
-    model = TestModel
-    form_class = TestForm
+    model = TModel
+    form_class = TForm
     template_name = 'form.html'
 
     def get_success_url(self):

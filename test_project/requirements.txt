@@ -11,3 +11,4 @@ pytest
 splinter
 pytest-django
 pytest-cov
+pytest-splinter

@@ -40,24 +40,28 @@ class AutocompleteTestCase(StaticLiveServerTestCase):
             # Should be pre-filled by HTML template
             # self.browser.fill('username', 'test')
             # self.browser.fill('password', 'test')
-            self.browser.find_by_value('Log in').click()
+            self.browser.find_by_value('Log in').first.click()
+
+        self.wait_script()
 
     def click(self, selector):
         """Click an element by css selector."""
-        self.browser.find_by_css(selector).click()
+        self.browser.find_by_css(selector).first.click()
 
     def enter_text(self, selector, text):
         """Enter text in an element by css selector."""
-        self.browser.find_by_css(selector).type(text)
+        self.browser.find_by_css(selector).first.value = ''
+        self.browser.find_by_css(selector).first.type(text)
 
     def assert_not_visible(self, selector):
         """Assert an element is not visible by css selector."""
         e = self.browser.find_by_css(selector)
-        assert not e or e.visible is False
+        assert not e or e.first.visible is False
 
     def assert_visible(self, selector):
         """Assert an element is visible by css selector."""
-        assert self.browser.find_by_css(selector).visible is True
+        e = self.browser.find_by_css(selector).first
+        assert e.visible is True
 
 
 class AdminMixin(object):
