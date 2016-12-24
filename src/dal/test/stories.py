@@ -223,6 +223,18 @@ class InlineSelectOption(SelectOption):
         add = self.case.browser.find_link_by_partial_text('Add another')
         while num < self.inline_number + 1:
             add.click()
+
+            # Did it work or wasn't the js loaded yet ?
+            try:
+                self.case.browser.find_by_css(
+                    self.field_selector.replace(
+                        str(self.inline_number),
+                        str(num),
+                    )
+                ).first  # as usual, rely on implicit wait
+            except:
+                continue
+
             num += 1
 
 
