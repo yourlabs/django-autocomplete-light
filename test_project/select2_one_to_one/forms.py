@@ -1,11 +1,11 @@
 from dal import autocomplete
 
-from .models import TestModel
+from .models import TModel
 
 
-class TestForm(autocomplete.FutureModelForm):
+class TForm(autocomplete.FutureModelForm):
     class Meta:
-        model = TestModel
+        model = TModel
         fields = ('name', 'test')
         widgets = {
             'test': autocomplete.ModelSelect2(

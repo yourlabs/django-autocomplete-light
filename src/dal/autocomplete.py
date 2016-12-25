@@ -35,6 +35,7 @@ def _installed(*apps):
             return False
     return True
 
+
 if _installed('dal_select2'):
     from dal_select2.widgets import (
         Select2,

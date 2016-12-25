@@ -9,8 +9,8 @@ from django.utils import six
 
 from queryset_sequence import QuerySetSequence
 
-from .forms import TestForm
-from .models import TestModel
+from .forms import TForm
+from .models import TModel
 
 
 class GenericSelect2TestMixin(object):
@@ -86,8 +86,8 @@ class GenericSelect2TestMixin(object):
 
 
 class GenericM2MFormTest(GenericSelect2TestMixin, test.TestCase):
-    model = TestModel
-    form = TestForm
+    model = TModel
+    form = TForm
     url_name = 'select2_generic_m2m'
 
     def add_relations(self, fixture, relations):

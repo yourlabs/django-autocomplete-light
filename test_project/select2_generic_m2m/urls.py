@@ -4,8 +4,8 @@ from django.conf.urls import url
 from django.contrib.auth.models import Group
 from django.views import generic
 
-from .forms import TestForm
-from .models import TestModel
+from .forms import TForm
+from .models import TModel
 
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
         autocomplete.Select2QuerySetSequenceView.as_view(
             queryset=autocomplete.QuerySetSequence(
                 Group.objects.all(),
-                TestModel.objects.all(),
+                TModel.objects.all(),
             )
         ),
         name='select2_generic_m2m',
@@ -22,8 +22,8 @@ urlpatterns = [
     url(
         'test/(?P<pk>\d+)/$',
         generic.UpdateView.as_view(
-            model=TestModel,
-            form_class=TestForm,
+            model=TModel,
+            form_class=TForm,
         )
     ),
 ]

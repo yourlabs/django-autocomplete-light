@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='TestModel',
+            name='TModel',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
-                ('for_inline', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='inline_test_models', to='select2_gm2m.TestModel')),
+                ('for_inline', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='inline_test_models', to='select2_gm2m.TModel')),
                 ('test', gm2m.fields.GM2MField(through_fields=(b'gm2m_src', b'gm2m_tgt', b'gm2m_ct', b'gm2m_pk'))),
             ],
         ),

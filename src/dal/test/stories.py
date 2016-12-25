@@ -136,7 +136,22 @@ class BaseStory(object):
         if not self.in_popup:
             sel += '[name=_continue]'
 
-        self.case.click(sel)
+        el = self.case.browser.find_by_css(sel).first
+        el.click()
+
+        # Wait until the form was actually submited
+        tries = 100
+        while tries:
+            try:
+                el.visible
+            except:
+                break
+            else:
+                tries -= 1
+                time.sleep(.05)
+
+        if not self.in_popup:
+            self.case.wait_script()
 
     def toggle_autocomplete(self):
         """Open the autocomplete dropdown."""
@@ -180,7 +195,9 @@ class SelectOption(BaseStory):
 
     def select_option(self, text):
         """Assert that selecting option "text" sets input's value."""
-        self.toggle_autocomplete()
+        dropdown = self.case.browser.find_by_css(self.dropdown_selector)
+        if not len(dropdown) or not dropdown.visible:
+            self.toggle_autocomplete()
 
         self.case.assert_visible(self.dropdown_selector)
         self.case.enter_text(self.input_selector, text)
@@ -217,10 +234,13 @@ class InlineSelectOption(SelectOption):
         )
 
         # Ensure the inline is displayed else click to add it
-        num = len(self.case.browser.find_by_css(
-            '.dynamic-%s' % self.inline_related_name))
+        add = self.case.browser.find_link_by_partial_text('Add another').first
 
-        add = self.case.browser.find_link_by_partial_text('Add another')
+        num = len(
+            self.case.browser.find_by_css(
+                '.dynamic-%s' % self.inline_related_name
+            )
+        )
         while num < self.inline_number + 1:
             add.click()
 

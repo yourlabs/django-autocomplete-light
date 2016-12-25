@@ -7,8 +7,8 @@ from django.utils import six
 
 from taggit.models import Tag
 
-from .forms import TestForm
-from .models import TestModel
+from .forms import TForm
+from .models import TModel
 
 
 class TagSelect2TestMixin(object):
@@ -74,7 +74,7 @@ class TagSelect2TestMixin(object):
 
 
 class TaggitFormTest(TagSelect2TestMixin, test.TestCase):
-    form = TestForm
-    model = TestModel
+    form = TForm
+    model = TModel
     tag = Tag
     url_name = 'select2_taggit'

@@ -2,12 +2,12 @@ from dal import autocomplete
 
 from django.conf.urls import url
 
-from .models import TestModel
+from .models import TModel
 
 
 class SecureDataView(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        return TestModel.objects.filter(owner=self.request.user)
+        return TModel.objects.filter(owner=self.request.user)
 
 
 urlpatterns = [

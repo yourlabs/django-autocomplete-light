@@ -2,7 +2,7 @@ from dal.test import case, stories
 
 from dal_select2.test import Select2Story
 
-from .models import TestModel
+from .models import TModel
 
 
 class AdminForeignKeyTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
@@ -10,7 +10,7 @@ class AdminForeignKeyTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
 
     field_name = 'test'
     inline_related_name = 'inline_test_models'
-    model = TestModel
+    model = TModel
 
     def setUp(self):
         super(AdminForeignKeyTestCase, self).setUp()
@@ -43,10 +43,9 @@ class AdminForeignKeyTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
         add_keys = 'new name'
         story.rename_option(option.name, add_keys)
 
-        story.assert_label(option.name + add_keys)
+        story.assert_label(add_keys)
         story.assert_value(option.pk)
-        story.assert_selection_persists(option.pk,
-                                        option.name + add_keys)
+        story.assert_selection_persists(option.pk, add_keys)
 
     def test_can_add_another_option(self):
         story = stories.AddAnotherOption(self)

@@ -3,6 +3,7 @@
 from dal.autocomplete import Select2
 from dal.widgets import Select
 
+import django
 from django import forms
 from django import http
 from django import test
@@ -23,6 +24,10 @@ urlpatterns = [
 ]
 
 
+def selected_tag():
+    return 'selected="selected"' if django.VERSION < (1, 11) else 'selected'
+
+
 @override_settings(ROOT_URLCONF='tests.test_widgets')
 class SelectTest(test.TestCase):  # noqa
     """Test case for the Select widget."""
@@ -39,9 +44,9 @@ class SelectTest(test.TestCase):  # noqa
         form = Form(http.QueryDict('test=4'))
         expected = '''
 <select data-autocomplete-light-url="/test-url/" id="id_test" name="test">
-<option value="4" selected="selected">label for 4</option>
+<option value="4" %s>label for 4</option>
 </select>
-        '''.strip()
+        '''.strip() % selected_tag()
 
         self.assertEquals(six.text_type(form['test'].as_widget()), expected)
 
@@ -65,10 +70,10 @@ class Select2Test(test.TestCase):  # noqa
         expected = '''
 <select data-autocomplete-light-function="select2"\
  data-placeholder="Some placeholder" id="id_test" name="test">
-<option value="" selected="selected"></option>
+<option value="" %s></option>
 <option value="1">A</option>
 </select>
-        '''.strip()
+        '''.strip() % selected_tag()
         observed = six.text_type(form['test'].as_widget())
 
         self.assertEquals(observed, expected)
@@ -95,9 +100,9 @@ class Select2Test(test.TestCase):  # noqa
         form = Form(http.QueryDict('test=1'))
         expected = '''
 <select data-autocomplete-light-function="select2" id="id_test" name="test">
-<option value="1" selected="selected">A</option>
+<option value="1" %s>A</option>
 </select>
-        '''.strip()
+        '''.strip() % selected_tag()
         observed = six.text_type(form['test'].as_widget())
 
         self.assertEquals(observed, expected)

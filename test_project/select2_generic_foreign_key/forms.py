@@ -2,19 +2,19 @@ from dal import autocomplete
 
 from django.contrib.auth.models import Group
 
-from .models import TestModel
+from .models import TModel
 
 
-class TestForm(autocomplete.FutureModelForm):
+class TForm(autocomplete.FutureModelForm):
     test = autocomplete.QuerySetSequenceModelField(
         queryset=autocomplete.QuerySetSequence(
             Group.objects.all(),
-            TestModel.objects.all(),
+            TModel.objects.all(),
         ),
         required=False,
         widget=autocomplete.QuerySetSequenceSelect2('select2_gfk'),
     )
 
     class Meta:
-        model = TestModel
+        model = TModel
         fields = ('name',)

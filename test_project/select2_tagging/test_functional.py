@@ -4,7 +4,7 @@ from dal_select2.test import Select2Story
 
 from taggit.models import Tag
 
-from .models import TestModel
+from .models import TModel
 
 
 class TagSelect2AdminTestMixin(Select2Story, case.AdminMixin):
@@ -36,5 +36,5 @@ class TaggitSelect2AdminTest(TagSelect2AdminTestMixin,
 
     field_name = 'test'
     inline_related_name = 'inline_test_models'
-    model = TestModel
+    model = TModel
     tag_model = Tag

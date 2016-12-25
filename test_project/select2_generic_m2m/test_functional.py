@@ -2,7 +2,7 @@ from dal.test import case, stories
 
 from dal_select2.test import Select2Story
 
-from .models import TestModel
+from .models import TModel
 
 
 class AdminGenericM2MBase(object):
@@ -37,4 +37,4 @@ class AdminGenericM2MTestCase(AdminGenericM2MBase,
                               case.AdminMixin,
                               case.ContentTypeOptionMixin,
                               case.AutocompleteTestCase):
-    model = TestModel
+    model = TModel

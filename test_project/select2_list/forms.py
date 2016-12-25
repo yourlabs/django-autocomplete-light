@@ -2,14 +2,14 @@ from dal import autocomplete
 
 from django import forms
 
-from .models import TestModel
+from .models import TModel
 
 
 def get_choice_list():
-    return [model.test for model in TestModel.objects.all()]
+    return [model.test for model in TModel.objects.all()]
 
 
-class TestForm(forms.ModelForm):
+class TForm(forms.ModelForm):
     test = autocomplete.Select2ListCreateChoiceField(
         choice_list=get_choice_list,
         required=False,

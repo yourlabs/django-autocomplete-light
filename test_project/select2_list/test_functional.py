@@ -6,7 +6,7 @@ from dal_select2.test import Select2Story
 
 from django.utils import six
 
-from .models import TestModel
+from .models import TModel
 
 
 def random_text():
@@ -17,7 +17,7 @@ class AdminSelect2List(Select2Story, case.AdminMixin, case.OptionMixin,
                        case.AutocompleteTestCase):
     field_name = 'test'
     inline_related_name = 'inline_test_models'
-    model = TestModel
+    model = TModel
 
     def create_option(self):
         """Return option, content type."""
