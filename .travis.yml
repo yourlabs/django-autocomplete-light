@@ -18,6 +18,8 @@ env:
   - TOXENV=base-py34-django18-sqlite
   - TOXENV=base-py34-django19-sqlite
   - TOXENV=base-py34-django110-sqlite
+addons:
+  firefox: '49.0'
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
