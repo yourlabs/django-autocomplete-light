@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='testmodel',
+            model_name='tmodel',
             name='test',
             field=tagging.fields.TagField(blank=True, max_length=255),
         ),
