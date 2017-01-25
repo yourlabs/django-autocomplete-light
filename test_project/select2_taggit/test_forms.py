@@ -2,7 +2,7 @@ import django
 from django import forms
 from django import http
 from django import test
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import six
 
 from taggit.models import Tag
