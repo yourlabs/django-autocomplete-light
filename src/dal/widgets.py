@@ -7,7 +7,10 @@ from dal import forward
 
 from django import VERSION
 from django import forms
-from django.urls import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.utils import six
 from django.utils.safestring import mark_safe
 
