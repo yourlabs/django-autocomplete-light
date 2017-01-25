@@ -6,7 +6,7 @@ import uuid
 from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import six
 
 from splinter import Browser

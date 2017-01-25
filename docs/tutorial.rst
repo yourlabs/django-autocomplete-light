@@ -85,7 +85,7 @@ Create a :django:label:`named url<naming-url-patterns>` for the view, ie:
 Ensure that the url can be reversed, ie::
 
     ./manage.py shell
-    In [1]: from django.core.urlresolvers import reverse
+    In [1]: from django.urls import reverse
 
     In [2]: reverse('country-autocomplete')
     Out[2]: u'/country-autocomplete/'
