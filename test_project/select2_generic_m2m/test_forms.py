@@ -4,7 +4,10 @@ from django import forms
 from django import http
 from django import test
 from django.contrib.auth.models import Group
-from django.urls import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.utils import six
 
 from queryset_sequence import QuerySetSequence

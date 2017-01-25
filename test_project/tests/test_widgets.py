@@ -8,7 +8,10 @@ from django import forms
 from django import http
 from django import test
 from django.conf.urls import url
-from django.urls import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 from django.utils import six
 
