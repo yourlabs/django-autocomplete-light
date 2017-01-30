@@ -130,6 +130,11 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+from socket import gethostname
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    ALLOWED_HOSTS = [
+        gethostname(),
+    ]
 DNS = os.environ.get('OPENSHIFT_APP_DNS', None),
 if DNS:
     ALLOWED_HOSTS += DNS
