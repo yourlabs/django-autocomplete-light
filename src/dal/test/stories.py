@@ -203,7 +203,7 @@ class SelectOption(BaseStory):
 
         self.case.assert_visible(self.dropdown_selector)
         self.case.enter_text(self.input_selector, text)
-        self.find_option(text).click()
+        self.find_option(text, click=True)
 
     def clear_option(self):
         """Clear current option."""
