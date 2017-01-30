@@ -1,7 +1,7 @@
 import os
 import django
 
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', not 'OPENSHIFT_LOG_DIR' in os.environ)
 TEMPLATE_DEBUG = DEBUG
 LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
 
@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'wsgi.application'
 
 SECRET_KEY = '58$1jvc332=lyfk_m^jl6ody$7pbk18nm95==!r$7m5!2dp%l@'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,17 +115,16 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+from socket import gethostname
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    ALLOWED_HOSTS = [
+        gethostname(),
+    ]
 DNS = os.environ.get('OPENSHIFT_APP_DNS', None),
 if DNS:
     ALLOWED_HOSTS += DNS
 
 SITE_ID = 1
-
-
-from socket import gethostname
-ALLOWED_HOSTS = [
-    gethostname(),
-]
 
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
