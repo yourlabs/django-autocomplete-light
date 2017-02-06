@@ -55,7 +55,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def get_result_value(self, result):
         """Return the value of a result."""
-        return result.pk
+        return str(result.pk)
 
     def get_result_label(self, result):
         """Return the label of a result."""
