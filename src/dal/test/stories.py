@@ -45,7 +45,7 @@ class BaseStory(object):
         )
         self.in_popup = False
 
-    def find_option(self, text):
+    def find_option(self, text, click=False):
         """Incremental sleep until option appeared."""
         tries = 0
         options = self.case.browser.find_by_css(
@@ -55,6 +55,8 @@ class BaseStory(object):
             for option in options:
                 try:
                     if text in option.text:
+                        if click:
+                            option.click()
                         return option
                 except StaleElementReferenceException:
                     break
@@ -201,7 +203,7 @@ class SelectOption(BaseStory):
 
         self.case.assert_visible(self.dropdown_selector)
         self.case.enter_text(self.input_selector, text)
-        self.find_option(text).click()
+        self.find_option(text, click=True)
 
     def clear_option(self):
         """Clear current option."""
