@@ -128,6 +128,9 @@ ALLOWED_HOSTS = [
     gethostname(),
 ]
 
+if not DEBUG:
+    ALLOWED_HOSTS.append('dal-yourlabs.rhcloud.com')
+
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
 
