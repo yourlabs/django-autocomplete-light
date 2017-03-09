@@ -92,7 +92,6 @@ ROOT_URLCONF = 'urls'
 WSGI_APPLICATION = 'wsgi.application'
 
 SECRET_KEY = '58$1jvc332=lyfk_m^jl6ody$7pbk18nm95==!r$7m5!2dp%l@'
-DEBUG = True
 ALLOWED_HOSTS = []
 
 MIDDLEWARE_CLASSES = [
