@@ -549,11 +549,11 @@ of strings rather than a QuerySet.  This can be achieved with the
 
 This class can then be registered as in the previous example.  Suppose
 we register it under URL 'country-list-autocomplete'.  We can then a
-create a Select2List widget with:
+create a ListSelect2 widget with:
 
 .. code-block:: python
 
-    widget = autocomplete.Select2List(url='country-list-autocomplete')
+    widget = autocomplete.ListSelect2(url='country-list-autocomplete')
 
 With this in place, if a user types the letter ``f``' in the widget, choices
 'France', 'Fiji', and 'Finland' would be offered.
