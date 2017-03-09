@@ -96,6 +96,7 @@ ALLOWED_HOSTS = []
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -107,6 +108,7 @@ MIDDLEWARE_CLASSES = [
 
 AUTH_PASSWORD_VALIDATORS = []
 DJANGO_LIVE_TEST_SERVER_ADDRESS="localhost:8000-8010,8080,9200-9300"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
