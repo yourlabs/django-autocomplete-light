@@ -60,10 +60,15 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         find any value matching "foo". When the user does click 'Create "foo"',
         the autocomplete script should POST to this view to create the object
         and get back the newly created object id.
+
+    .. py:attribute:: model_field_name
+
+        Name of the Model field to run filter against.
     """
 
     paginate_by = 10
     context_object_name = 'results'
+    model_field_name = 'name'
     create_field = None
 
     def has_more(self, context):
@@ -87,7 +92,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         qs = super(BaseQuerySetView, self).get_queryset()
 
         if self.q:
-            qs = qs.filter(name__icontains=self.q)
+            qs = qs.filter(**{'%s__icontains' % self.model_field_name: self.q})
 
         return qs
 
