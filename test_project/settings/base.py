@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'select2_taggit',
     'select2_tagging',
     'select2_outside_admin',
+    'select2_outside_admin_multiple',
     'secure_data',
     'linked_data',
     'rename_forward',
