@@ -11,8 +11,11 @@ from .forms import Form1, Form2
 
 def multiple_form(request):
     ctx = {}
-    ctx['form1'] = Form1()
-    ctx['form2'] = Form2()
+    form1 = Form1()
+    form2 = Form2()
+    ctx['form1'] = form1
+    ctx['form2'] = form2
+    ctx['form_media'] = form1.media + form2.media
     if request.method == 'POST':
         form1 = Form1(request.POST)
         form2 = Form2(request.POST)
