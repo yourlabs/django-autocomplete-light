@@ -87,6 +87,9 @@
         });
 
     });
+    $('[data-autocomplete-light-function]:not([id*="__prefix__"])').each(function() {
+        window.__dal__initialize(this);
+    });
 
     // Remove this block when this is merged upstream:
     // https://github.com/select2/select2/pull/4249
