@@ -556,7 +556,8 @@ create a ListSelect2 widget with:
     widget = autocomplete.ListSelect2(url='country-list-autocomplete')
 
 With this in place, if a user types the letter ``f``' in the widget, choices
-'France', 'Fiji', and 'Finland' would be offered.
+'France', 'Fiji', and 'Finland' would be offered. Like the Select2QuerySetView,
+the Select2ListView is case insensitive.
 
 Two fields are provided, :py:class:`~dal_select2.fields.Select2ListChoiceField`,
 :py:class:`~dal_select2.fields.Select2ListCreateChoiceField` that can be used to
