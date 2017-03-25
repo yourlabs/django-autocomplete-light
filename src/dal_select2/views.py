@@ -62,17 +62,22 @@ class Select2QuerySetView(Select2ViewMixin, BaseQuerySetView):
 
 class Select2ListView(ViewMixin, View):
     """Autocomplete from a list of items rather than a QuerySet."""
+    case_sensitive = True
 
     def get_list(self):
         """"Return the list strings from which to autocomplete."""
         return []
+
+    def convert_case(self, string):
+        return string if self.case_sensitive else string.lower()
 
     def get(self, request, *args, **kwargs):
         """"Return option list json response."""
         results = self.get_list()
         create_option = []
         if self.q:
-            results = [x for x in results if self.q in x]
+            q = self.convert_case(self.q)
+            results = [x for x in results if q in self.convert_case(x)]
             if hasattr(self, 'create'):
                 create_option = [{
                     'id': self.q,
