@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{# Don't forget that one ! #}
+{% load static %}
+
+{% block content %}
+<div>
+    <h3> Form 1 </h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form1.as_p }}
+        <input type="submit" />
+    </form>
+</div>
+<div>
+    <h3> Form 2 </h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form2.as_p }}
+        <input type="submit" />
+    </form>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form_media }}
+{% endblock %}

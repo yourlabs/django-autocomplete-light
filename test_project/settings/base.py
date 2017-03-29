@@ -1,8 +1,7 @@
 import os
 import django
 
-DEBUG = os.environ.get('DEBUG', False)
-TEMPLATE_DEBUG = DEBUG
+DEBUG = os.environ.get('DEBUG', True)
 LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -61,6 +60,7 @@ INSTALLED_APPS = [
     'select2_taggit',
     'select2_tagging',
     'select2_outside_admin',
+    'select2_outside_admin_multiple',
     'secure_data',
     'linked_data',
     'rename_forward',
@@ -163,4 +163,5 @@ TEMPLATES = [
 SELENIUM_PAGE_LOAD_TIMEOUT = 100
 SELENIUM_TIMEOUT = 100
 
-
+if DEBUG:
+    ALLOWED_HOSTS = ['*']

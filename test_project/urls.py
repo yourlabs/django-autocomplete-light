@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^select2_tagging/', include('select2_tagging.urls')),
 
     url(r'^select2_outside_admin/', include('select2_outside_admin.urls')),
+    url(r'^select2_outside_admin_multiple/', include('select2_outside_admin_multiple.urls')),
     url(r'^select2_gm2m/', include('select2_gm2m.urls')),
 ]

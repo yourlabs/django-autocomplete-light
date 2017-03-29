@@ -1,4 +1,5 @@
 coverage
+django-autocomplete-light==3.2.1
 django-extensions
 -e git+https://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
 django-gm2m
