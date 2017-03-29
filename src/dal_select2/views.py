@@ -72,7 +72,7 @@ class Select2ListView(ViewMixin, View):
         results = self.get_list()
         create_option = []
         if self.q:
-            results = [x for x in results if self.q in x]
+            results = [x for x in results if self.q.lower() in x.lower()]
             if hasattr(self, 'create'):
                 create_option = [{
                     'id': self.q,
