@@ -10,13 +10,15 @@ class Select2ListChoiceField(ChoiceField):
     a form where the text and value for choices are not the same.
     """
 
-    def __init__(self, choice_list=[], required=True, widget=None, label=None,
+    def __init__(self, choice_list=None, required=True, widget=None, label=None,
                  initial=None, help_text='', *args, **kwargs):
         """Use a list to generate choices in a ChoiceField.
 
         .. py:param choice_list: The list to use to generate choices or a
         function that returns a list.
         """
+        choice_list = choice_list or []
+
         if callable(choice_list):
             choices = (
                 lambda: [(choice, choice) for choice in choice_list()])

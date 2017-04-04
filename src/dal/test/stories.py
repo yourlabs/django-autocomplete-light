@@ -142,13 +142,17 @@ class BaseStory(object):
         # Wait until the form was actually submited
         tries = 100
         while tries:
-            try:
-                el.visible
-            except:
+            # Popup is gone
+            if len(self.case.browser.windows) == 1 and self.in_popup:
                 break
-            else:
-                tries -= 1
-                time.sleep(.05)
+
+            # Page changed
+            found = self.case.browser.find_by_css(sel)
+            if not len(found) or found[0] != el:
+                break
+
+            tries -= 1
+            time.sleep(.05)
 
         if not self.in_popup:
             self.case.wait_script()
