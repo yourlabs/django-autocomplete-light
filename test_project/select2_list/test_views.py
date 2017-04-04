@@ -44,7 +44,7 @@ class Select2ListViewTest(test.TestCase):
     def test_case_insensitive_results(self):
         def parse_results_from_response(http_response):
             return ([word['text'] for word in
-                    (json.loads((http_response).content))['results']])
+                    (json.loads(http_response.content.decode('utf8')))['results']])
 
         view = Select2ListViewAutocompleteTest()
         view.q = 'Whe'
