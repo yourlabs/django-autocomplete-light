@@ -11,13 +11,10 @@ env:
   - TOXENV=checkqa
   - TOXENV=docs
   - TOXENV=base-py27-django18-sqlite
-  - TOXENV=base-py27-django19-sqlite
   - TOXENV=base-py27-django110-sqlite
   - TOXENV=base-pypy-django18-sqlite
-  - TOXENV=base-pypy-django19-sqlite
   - TOXENV=base-pypy-django110-sqlite
   - TOXENV=base-py34-django18-sqlite
-  - TOXENV=base-py34-django19-sqlite
   - TOXENV=base-py34-django110-sqlite
 install:
 - travis_retry pip install -U pip
