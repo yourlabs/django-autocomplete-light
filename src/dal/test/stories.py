@@ -9,6 +9,8 @@ from selenium.common.exceptions import (
     StaleElementReferenceException,
 )
 
+import tenacity
+
 
 class BaseStory(object):
     """Base UserStory class."""
@@ -119,6 +121,11 @@ class BaseStory(object):
         self.submit()
         self.assert_label(label)
         self.assert_value(value)
+
+    @tenacity.retry(stop=tenacity.stop_after_delay(3))
+    def assert_suggestion_labels_are(self, expected):
+        """Retrying assert that suggestions match expected labels."""
+        assert sorted(expected) == sorted(self.get_suggestions_labels())
 
     def switch_to_popup(self):
         """Switch to popup window."""

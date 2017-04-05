@@ -12,4 +12,5 @@ splinter
 pytest-django
 pytest-cov
 pytest-splinter
+tenacity
 whitenoise
