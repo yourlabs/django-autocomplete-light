@@ -32,7 +32,7 @@ before_script:
 - if echo "$TOXENV" | grep postgresql; then psql -c 'create database autocomplete_light_test;'
   -U postgres; fi
 script:
-- travis_retry tox
+- tox
 - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
 - travis_retry pip install codecov
