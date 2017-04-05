@@ -48,7 +48,7 @@ before_script:
   phantomjs --version;
   set +eu
 script:
-- tox
+- tox -r
 - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
 after_success:
 - travis_retry pip install codecov
