@@ -7,7 +7,9 @@ class GM2MFieldMixin(object):
     def value_from_object(self, instance, name):
         """Return the list of objects in the GM2MField relation."""
         return None if not instance.pk else [
-            x for x in getattr(instance, name).all()]
+            getattr(x, 'gm2m_tgt', x)
+            for x in getattr(instance, name).all()
+        ]
 
     def save_relation_data(self, instance, name, value):
         """Save the relation into the GM2MField."""
