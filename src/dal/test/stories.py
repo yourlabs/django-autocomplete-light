@@ -147,8 +147,9 @@ class BaseStory(object):
                 break
 
             # Page changed
-            found = self.case.browser.find_by_css(sel)
-            if not len(found) or found[0] != el:
+            try:
+                el.visible
+            except:
                 break
 
             tries -= 1
