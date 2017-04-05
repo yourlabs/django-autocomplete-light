@@ -1,4 +1,5 @@
 """User stories, functional tests for AutocompleteTestCase."""
+from __future__ import unicode_literals
 
 import time
 
@@ -336,7 +337,7 @@ class MultipleMixin(object):
             self.get_field_labels_selector()
         )
 
-        return [six.text_type(label.text) for label in labels]
+        return [six.text_type(label.text).replace('\xd7', '') for label in labels]
 
     def get_values(self):
         """Return the autocomplete field value."""
