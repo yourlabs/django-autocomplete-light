@@ -10,12 +10,15 @@ env:
   matrix:
   - TOXENV=checkqa
   - TOXENV=docs
-  - TOXENV=base-py27-django18-sqlite
-  - TOXENV=base-py27-django110-sqlite
-  - TOXENV=base-pypy-django18-sqlite
-  - TOXENV=base-pypy-django110-sqlite
+  - TOXENV=base-py27-django111-sqlite
+  - TOXENV=base-pypy-django111-sqlite
+  - TOXENV=base-py34-django111-sqlite
   - TOXENV=base-py34-django18-sqlite
   - TOXENV=base-py34-django110-sqlite
+  - TOXENV=base-py34-djangomaster-sqlite
+matrix:
+  allow_failures:
+  - env: TOXENV=base-py34-djangomaster-sqlite
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
