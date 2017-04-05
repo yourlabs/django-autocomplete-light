@@ -337,7 +337,10 @@ class MultipleMixin(object):
             self.get_field_labels_selector()
         )
 
-        return [six.text_type(label.text).replace('\xd7', '') for label in labels]
+        return [
+            six.text_type(label.text).replace('\xd7', '')
+            for label in labels
+        ]
 
     def get_values(self):
         """Return the autocomplete field value."""

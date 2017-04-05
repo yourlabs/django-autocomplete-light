@@ -129,8 +129,7 @@ class WidgetMixin(object):
 
     def optgroups(self, name, value, attrs=None):
         """
-        Should only render selected options, by setting self.choices before
-        calling the parent method.
+        Exclude unselected self.choices before calling the parent method.
 
         Used by Django>=1.10.
         """

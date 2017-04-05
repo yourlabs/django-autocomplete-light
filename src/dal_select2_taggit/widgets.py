@@ -22,7 +22,11 @@ class TaggitSelect2(TagSelect2):
         return value
 
     def render_options(self, *args):
-        """Render only selected tags."""
+        """
+        Render only selected tags.
+
+        Remove when Django < 1.10 support is dropped.
+        """
         selected_choices_arg = 1 if VERSION < (1, 10) else 0
         selected_choices = args[selected_choices_arg]
 
