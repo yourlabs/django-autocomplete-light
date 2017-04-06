@@ -2,10 +2,13 @@ import os
 import sys
 import django
 
-DEBUG = os.environ.get(
-    'DEBUG',
-    'py.test' in sys.argv[0] or 'runserver' in sys.argv[0]
-)
+DEBUG = os.environ.get('DEBUG', False)
+
+if 'DEBUG' not in os.environ:
+    for cmd in ('runserver', 'pytest', 'py.test'):
+        if cmd in sys.argv[0] or cmd in sys.argv[1]:
+            DEBUG=True
+            continue
 TEMPLATE_DEBUG = DEBUG
 LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
 
