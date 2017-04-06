@@ -26,3 +26,7 @@ class Select2Story(object):
                 time.sleep(.15)
             tries -= 1
         raise Exception('$.select2 was not defined after 15 seconds.')
+
+    def clean_label(self, label):
+        """Remove the "remove" character used in select2."""
+        return label.replace('\xd7', '')

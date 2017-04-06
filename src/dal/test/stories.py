@@ -76,7 +76,11 @@ class BaseStory(object):
         )
 
         self.clean_label_from_remove_buton()
-        return six.text_type(label.text)
+        return self.clean_label(six.text_type(label.text))
+
+    def clean_label(self, label):
+        """Given an option text, return the actual label."""
+        return label
 
     @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_label(self, text):
@@ -330,7 +334,7 @@ class MultipleMixin(object):
         )
 
         return [
-            six.text_type(label.text).replace('\xd7', '')
+            self.clean_label(six.text_type(label.text))
             for label in labels
         ]
 
