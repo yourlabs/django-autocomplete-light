@@ -136,7 +136,9 @@ ALLOWED_HOSTS = [
     gethostname(),
 ]
 
-if not DEBUG:
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
     ALLOWED_HOSTS.append('dal-yourlabs.rhcloud.com')
 
 STATIC_URL = '/public/static/'
