@@ -89,6 +89,7 @@ class BaseStory(object):
         self.clean_label_from_remove_buton()
         return six.text_type(label.text)
 
+    @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_label(self, text):
         """Assert that the autocomplete label matches text."""
         self.case.assertEquals(

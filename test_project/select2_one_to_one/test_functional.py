@@ -25,7 +25,7 @@ class AdminOneToOneTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
         story.create_option(name)
 
         story.assert_value(self.model.objects.get(name=name).pk)
-        self.assertIn(name, story.get_label())
+        story.assert_label(name)
 
         story.submit()
 
