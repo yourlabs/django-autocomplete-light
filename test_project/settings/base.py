@@ -1,7 +1,14 @@
 import os
+import sys
 import django
 
 DEBUG = os.environ.get('DEBUG', False)
+
+if 'DEBUG' not in os.environ:
+    for cmd in ('runserver', 'pytest', 'py.test'):
+        if cmd in sys.argv[0] or cmd in sys.argv[1]:
+            DEBUG=True
+            continue
 TEMPLATE_DEBUG = DEBUG
 LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
 
@@ -96,7 +103,12 @@ ALLOWED_HOSTS = []
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
+
+if not DEBUG:
+    MIDDLEWARE_CLASSES.append('whitenoise.middleware.WhiteNoiseMiddleware')
+
+MIDDLEWARE_CLASSES += [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -108,7 +120,9 @@ MIDDLEWARE_CLASSES = [
 
 AUTH_PASSWORD_VALIDATORS = []
 DJANGO_LIVE_TEST_SERVER_ADDRESS="localhost:8000-8010,8080,9200-9300"
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -128,7 +142,9 @@ ALLOWED_HOSTS = [
     gethostname(),
 ]
 
-if not DEBUG:
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
     ALLOWED_HOSTS.append('dal-yourlabs.rhcloud.com')
 
 STATIC_URL = '/public/static/'

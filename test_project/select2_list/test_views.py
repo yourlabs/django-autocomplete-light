@@ -1,9 +1,10 @@
 import json
+
 from dal.autocomplete import Select2ListView
 
 from django import test
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponseBadRequest, HttpRequest
+from django.http import HttpRequest, HttpResponseBadRequest
 
 from .views import Select2ListViewAutocomplete
 
@@ -43,8 +44,10 @@ class Select2ListViewTest(test.TestCase):
 
     def test_case_insensitive_results(self):
         def parse_results_from_response(http_response):
-            return ([word['text'] for word in
-                    (json.loads((http_response).content))['results']])
+            return [
+                word['text'] for word in
+                json.loads(http_response.content.decode('utf8'))['results']
+            ]
 
         view = Select2ListViewAutocompleteTest()
         view.q = 'Whe'
@@ -55,5 +58,6 @@ class Select2ListViewTest(test.TestCase):
 
         for word in expected_results:
             self.assertIn(word, dal_results)
+
         for word in incorrect_results:
             self.assertNotIn(word, dal_results)

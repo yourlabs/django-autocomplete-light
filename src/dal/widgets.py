@@ -106,7 +106,7 @@ class WidgetMixin(object):
         Should only render selected options, by setting self.choices before
         calling the parent method.
 
-        Also renders <script> tag with forward configuration.
+        Remove this code when dropping support for Django<1.10.
         """
         selected_choices_arg = 1 if VERSION < (1, 10) else 0
 
@@ -126,6 +126,24 @@ class WidgetMixin(object):
         self.choices = all_choices
 
         return html
+
+    def optgroups(self, name, value, attrs=None):
+        """
+        Exclude unselected self.choices before calling the parent method.
+
+        Used by Django>=1.10.
+        """
+        # Filter out None values, not needed for autocomplete
+        selected_choices = [six.text_type(c) for c in value if c]
+        all_choices = copy.copy(self.choices)
+        if self.url:
+            self.filter_choices_to_render(selected_choices)
+        else:
+            if self.placeholder:
+                self.choices.insert(0, (None, ""))
+        result = super(WidgetMixin, self).optgroups(name, value, attrs)
+        self.choices = all_choices
+        return result
 
     def render(self, name, value, attrs=None):
         """Calling Django render together with `render_forward_conf`."""

@@ -17,12 +17,20 @@ class TaggitSelect2(TagSelect2):
         """
         value = super(TaggitSelect2, self).value_from_datadict(data,
                                                                files, name)
-        if ',' not in value:
+        if value and ',' not in value:
             value = '%s,' % value
         return value
 
+    def option_value(self, value):
+        """Return tag.name attribute of value."""
+        return value.tag.name if hasattr(value, 'tag') else value
+
     def render_options(self, *args):
-        """Render only selected tags."""
+        """
+        Render only selected tags.
+
+        Remove when Django < 1.10 support is dropped.
+        """
         selected_choices_arg = 1 if VERSION < (1, 10) else 0
         selected_choices = args[selected_choices_arg]
 

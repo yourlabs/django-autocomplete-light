@@ -2,7 +2,7 @@ coverage
 django-extensions
 -e git+https://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
 django-gm2m
-django-querysetsequence
+https://github.com/jpic/django-querysetsequence/archive/master.zip
 django-taggit
 django-tagging
 mock
@@ -12,4 +12,5 @@ splinter
 pytest-django
 pytest-cov
 pytest-splinter
+tenacity
 whitenoise

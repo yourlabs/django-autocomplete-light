@@ -77,3 +77,50 @@ class TagSelect2(WidgetMixin,
         """
         values = super(TagSelect2, self).value_from_datadict(data, files, name)
         return six.text_type(',').join(values)
+
+    def option_value(self, value):
+        """Return the HTML option value attribute for a value."""
+        return value
+
+    def format_value(self, value):
+        """Return the list of HTML option values for a form field value."""
+        if not isinstance(value, (tuple, list)):
+            value = [value]
+
+        values = set()
+        for v in value:
+            if not v:
+                continue
+
+            if isinstance(v, six.string_types):
+                for t in v.split(','):
+                    values.add(self.option_value(t))
+            else:
+                for t in v:
+                    values.add(self.option_value(t))
+        return values
+
+    def options(self, name, value, attrs=None):
+        """Return only select options."""
+        # When the data hasn't validated, we get the raw input
+        if isinstance(value, six.text_type):
+            value = value.split(',')
+
+        for v in value:
+            if not v:
+                continue
+
+            real_values = v.split(',') if hasattr(v, 'split') else v
+            for rv in real_values:
+                yield self.option_value(rv)
+
+    def optgroups(self, name, value, attrs=None):
+        """Return a list of one optgroup and selected values."""
+        default = (None, [], 0)
+        groups = [default]
+
+        for i, v in enumerate(self.options(name, value, attrs)):
+            default[1].append(
+                self.create_option(v, v, v, True, i)
+            )
+        return groups

@@ -25,7 +25,8 @@ class AdminLinkedDataTest(Select2Story, case.AdminMixin, case.OptionMixin,
         story = stories.SelectOption(self)
         story.toggle_autocomplete()
 
-        expected = self.model.objects.filter(
-            owner=self.fixtures.test).values_list('name', flat=True)
-        self.assertEqual(sorted(expected),
-                         sorted(story.get_suggestions_labels()))
+        story.assert_suggestion_labels_are(
+            self.model.objects.filter(
+                owner=self.fixtures.test
+            ).values_list('name', flat=True)
+        )

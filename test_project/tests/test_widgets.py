@@ -51,7 +51,7 @@ class SelectTest(test.TestCase):  # noqa
 </select>
         '''.strip() % selected_tag()
 
-        self.assertEquals(six.text_type(form['test'].as_widget()), expected)
+        self.assertHTMLEqual(six.text_type(form['test'].as_widget()), expected)
 
 
 @override_settings(ROOT_URLCONF='tests.test_widgets')
@@ -79,7 +79,7 @@ class Select2Test(test.TestCase):  # noqa
         '''.strip() % selected_tag()
         observed = six.text_type(form['test'].as_widget())
 
-        self.assertEquals(observed, expected)
+        self.assertHTMLEqual(observed, expected)
 
     def test_widget_no_empty_option_without_placeholder_without_url(self):
         """Assert that it renders an empty option, if not given a url."""
@@ -98,7 +98,7 @@ class Select2Test(test.TestCase):  # noqa
         '''.strip()
         observed = six.text_type(form['test'].as_widget())
 
-        self.assertEquals(observed, expected)
+        self.assertHTMLEqual(observed, expected)
 
         form = Form(http.QueryDict('test=1'))
         expected = '''
@@ -108,4 +108,4 @@ class Select2Test(test.TestCase):  # noqa
         '''.strip() % selected_tag()
         observed = six.text_type(form['test'].as_widget())
 
-        self.assertEquals(observed, expected)
+        self.assertHTMLEqual(observed, expected)
