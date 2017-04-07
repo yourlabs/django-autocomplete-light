@@ -1,3 +1,5 @@
+3.2.2 Test fixes, Django 1.10 and 1.11
+
 3.2.1
 
     #737: TaggitSelect2: insure there's a comma when there's only one tag, or
