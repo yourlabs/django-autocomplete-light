@@ -40,6 +40,7 @@ class GenericSelect2TestMixin(object):
             self.id(), self.get_value(m0), self.get_value(m1))))
         expected = [m0, m1]
 
+        assert form.is_valid()
         instance = form.save()
 
         self.assert_relation_equals(expected, instance.test.all())

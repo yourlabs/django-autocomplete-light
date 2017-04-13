@@ -35,25 +35,27 @@ class AdminLinkedDataTest(Select2Story,
 
         story.toggle_autocomplete()
 
-        expected = self.model.objects.values_list('name', flat=True)
-        self.assertEqual(sorted(expected),
-                         sorted(story.get_suggestions_labels()))
+        story.assert_suggestion_labels_are(
+            self.model.objects.values_list('name', flat=True)
+        )
 
         self.set_owner(self.fixtures.test.pk)
         story.refresh_autocomplete()
 
-        expected = self.model.objects.filter(
-            owner=self.fixtures.test).values_list('name', flat=True)
-        self.assertEqual(sorted(expected),
-                         sorted(story.get_suggestions_labels()))
+        story.assert_suggestion_labels_are(
+            self.model.objects.filter(
+                owner=self.fixtures.test
+            ).values_list('name', flat=True)
+        )
 
         self.set_owner(self.fixtures.other.pk)
         story.refresh_autocomplete()
 
-        expected = self.model.objects.filter(
-            owner=self.fixtures.other).values_list('name', flat=True)
-        self.assertEqual(sorted(expected),
-                         sorted(story.get_suggestions_labels()))
+        story.assert_suggestion_labels_are(
+            self.model.objects.filter(
+                owner=self.fixtures.other
+            ).values_list('name', flat=True)
+        )
 
     def test_filter_option_in_first_inline(self):
         self.prefix = '%s-%s-' % (self.inline_related_name, 0)

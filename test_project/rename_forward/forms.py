@@ -6,15 +6,6 @@ from .models import TModel
 
 
 class TForm(forms.ModelForm):
-    def clean_test(self):
-        owner = self.cleaned_data.get('owner', None)
-        value = self.cleaned_data.get('test', None)
-
-        if value and owner and value.owner != owner:
-            raise forms.ValidationError('Wrong owner for test')
-
-        return value
-
     class Meta:
         model = TModel
         fields = ('name', 'owner', 'test')

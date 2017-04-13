@@ -1,4 +1,5 @@
 """User stories, functional tests for AutocompleteTestCase."""
+from __future__ import unicode_literals
 
 import time
 
@@ -7,6 +8,8 @@ from django.utils import six
 from selenium.common.exceptions import (
     StaleElementReferenceException,
 )
+
+import tenacity
 
 
 class BaseStory(object):
@@ -45,27 +48,16 @@ class BaseStory(object):
         )
         self.in_popup = False
 
+    @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def find_option(self, text):
         """Incremental sleep until option appeared."""
-        tries = 0
-        options = self.case.browser.find_by_css(
-            self.option_selector)
+        options = self.case.browser.find_by_css(self.option_selector)
 
-        while True:
-            for option in options:
-                try:
-                    if text in option.text:
-                        return option
-                except StaleElementReferenceException:
-                    break
+        for option in options:
+            if text in option.text:
+                return option
 
-            if tries > 20:
-                raise Exception('Option did not appear')
-
-            time.sleep(tries * 0.1)
-            tries += 1
-            options = self.case.browser.find_by_css(
-                self.option_selector)
+        raise Exception('Option %s not found' % text)
 
     def get_field_label_selector(self):
         """Return CSS selector for field option label."""
@@ -84,14 +76,16 @@ class BaseStory(object):
         )
 
         self.clean_label_from_remove_buton()
-        return six.text_type(label.text)
+        return self.clean_label(six.text_type(label.text))
 
+    def clean_label(self, label):
+        """Given an option text, return the actual label."""
+        return label
+
+    @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_label(self, text):
         """Assert that the autocomplete label matches text."""
-        self.case.assertEquals(
-            six.text_type(text),
-            six.text_type(self.get_label()),
-        )
+        assert six.text_type(text) == six.text_type(self.get_label())
 
     def get_value(self):
         """Return the autocomplete field value."""
@@ -100,12 +94,10 @@ class BaseStory(object):
 
         return field['value']
 
+    @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_value(self, value):
         """Assart that the actual field value matches value."""
-        self.case.assertEquals(
-            self.get_value(),
-            six.text_type(value)
-        )
+        assert self.get_value() == six.text_type(value)
 
     def assert_selection(self, value, label):
         """Assert value is selected and has the given label."""
@@ -118,6 +110,11 @@ class BaseStory(object):
         self.submit()
         self.assert_label(label)
         self.assert_value(value)
+
+    @tenacity.retry(stop=tenacity.stop_after_delay(3))
+    def assert_suggestion_labels_are(self, expected):
+        """Retrying assert that suggestions match expected labels."""
+        assert sorted(expected) == sorted(self.get_suggestions_labels())
 
     def switch_to_popup(self):
         """Switch to popup window."""
@@ -142,13 +139,18 @@ class BaseStory(object):
         # Wait until the form was actually submited
         tries = 100
         while tries:
+            # Popup is gone
+            if len(self.case.browser.windows) == 1 and self.in_popup:
+                break
+
+            # Page changed
             try:
                 el.visible
             except:
                 break
-            else:
-                tries -= 1
-                time.sleep(.05)
+
+            tries -= 1
+            time.sleep(.05)
 
         if not self.in_popup:
             self.case.wait_script()
@@ -331,7 +333,10 @@ class MultipleMixin(object):
             self.get_field_labels_selector()
         )
 
-        return [six.text_type(label.text) for label in labels]
+        return [
+            self.clean_label(six.text_type(label.text))
+            for label in labels
+        ]
 
     def get_values(self):
         """Return the autocomplete field value."""

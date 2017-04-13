@@ -11,11 +11,8 @@ class GM2MFormTest(GenericSelect2TestMixin, test.TestCase):
     form = TForm
     url_name = 'select2_gm2m'
 
-    def add_relations(self, fixture, relations):
-        fixture.test = relations
-
     def assert_relation_equals(self, expected, result):
         self.assertEquals(len(expected), len(result))
 
         for o in result:
-            self.assertIn(o, expected)
+            self.assertIn(getattr(o, 'gm2m_tgt', o), expected)

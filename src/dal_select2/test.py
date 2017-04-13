@@ -18,10 +18,15 @@ class Select2Story(object):
 
     def wait_script(self):
         """Wait for scripts to be loaded and ready to work."""
-        while True:
+        tries = 100
+        while tries:
             try:
-                self.browser.evaluate_script('$.select2')
+                return self.browser.evaluate_script('$.select2')
             except:
-                time.sleep(.1)
-            else:
-                break
+                time.sleep(.15)
+            tries -= 1
+        raise Exception('$.select2 was not defined after 15 seconds.')
+
+    def clean_label(self, label):
+        """Remove the "remove" character used in select2."""
+        return label.replace('\xd7', '')

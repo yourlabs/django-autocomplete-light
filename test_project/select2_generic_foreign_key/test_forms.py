@@ -66,16 +66,16 @@ class GenericFormTest(test.TestCase):  # noqa
         form = TForm(instance=fixture)
 
         # Ensure that the widget rendered right, with only the selection
-        self.assertEquals(
-            forms.Select(
-                choices=(
-                    (self.get_value(relation), six.text_type(relation)),
-                ),
-                attrs={
-                    'data-autocomplete-light-function': 'select2',
-                    'data-autocomplete-light-url': reverse('select2_gfk'),
-                    'id': 'id_test',
-                }
-            ).render('test', value=self.get_value(relation)),
-            six.text_type(form['test'].as_widget())
-        )
+        expected = forms.Select(
+            choices=(
+                (self.get_value(relation), six.text_type(relation)),
+            ),
+            attrs={
+                'data-autocomplete-light-function': 'select2',
+                'data-autocomplete-light-url': reverse('select2_gfk'),
+                'id': 'id_test',
+            }
+        ).render('test', value=self.get_value(relation))
+        result = six.text_type(form['test'].as_widget())
+        self.maxDiff = 10000
+        self.assertHTMLEqual(result, expected)
