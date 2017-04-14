@@ -5,12 +5,16 @@ import json
 from django import http
 from django.contrib.auth import get_permission_codename
 from django.core.exceptions import ImproperlyConfigured
+from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.utils import six
 from django.views.generic.list import BaseListView
 
 
 class ViewMixin(object):
     """Common methods for autocomplete views.
+
+    It is assumed this view will be used in conjunction with a Django
+    :py:class:`View` based class that will that will implement OPTIONS.
 
     .. py:attribute:: forwarded
 
@@ -23,11 +27,23 @@ class ViewMixin(object):
         Query string as typed by the user in the autocomplete field.
     """
 
+    http_method_allowed = ('GET', 'POST')
+
     def dispatch(self, request, *args, **kwargs):
         """Set :py:attr:`forwarded` and :py:attr:`q`."""
-        self.forwarded = json.loads(request.GET.get('forward', '{}'))
-        if request.method == 'POST':
-            self.forwarded = json.loads(request.POST.get('forward', '{}'))
+        if request.method.upper() not in self.http_method_allowed:
+            return HttpResponseNotAllowed(self.http_method_allowed)
+
+        try:
+            self.forwarded = json.loads(
+                getattr(request, request.method).get('forward', '{}')
+            )
+        except ValueError:
+            return HttpResponseBadRequest('Invalid JSON data')
+
+        if not isinstance(self.forwarded, dict):
+            return HttpResponseBadRequest('Not a JSON object')
+
         self.q = request.GET.get('q', '')
         return super(ViewMixin, self).dispatch(request, *args, **kwargs)
 
