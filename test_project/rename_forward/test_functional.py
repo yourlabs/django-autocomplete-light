@@ -1,9 +1,10 @@
-from .models import TModel
 import linked_data.test_functional
+
+from .models import TModel
 
 
 class RenameForwardAdminLinkedDataTestTest(
-    linked_data.test_functional.AdminLinkedDataTest):
+        linked_data.test_functional.AdminLinkedDataTest):
     """Reusing functional test scenarios from linked_data app."""
 
     model = TModel
