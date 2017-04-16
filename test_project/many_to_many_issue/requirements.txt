@@ -1,0 +1,13 @@
+decorator==4.0.6
+Django==1.8.8
+django-autocomplete-light==2.3.2
+ipdb==0.8.1
+ipython==4.0.2
+ipython-genutils==0.1.0
+path.py==8.1.2
+pexpect==4.0.1
+pickleshare==0.5
+ptyprocess==0.5
+simplegeneric==0.8.1
+six==1.10.0
+traitlets==4.1.0
