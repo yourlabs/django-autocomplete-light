@@ -43,9 +43,19 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
             groups.setdefault(type(result), [])
             groups[type(result)].append(result)
 
+        def get_model_name(model):
+            # Fetch the parent model if this is a proxy
+            if model._meta.proxy:
+                try:
+                    # Fetch the proxied model instead
+                    model = model._meta.parents.keys()[0]
+                except (IndexError, ):
+                    pass
+            return model._meta.verbose_name
+
         return [{
             'id': None,
-            'text': capfirst(model._meta.verbose_name),
+            'text': capfirst(get_model_name(model)),
             'children': [{
                 'id': self.get_result_value(result),
                 'text': six.text_type(result),
