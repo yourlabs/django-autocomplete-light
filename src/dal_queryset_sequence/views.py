@@ -50,3 +50,12 @@ class BaseQuerySetSequenceView(BaseQuerySetView):
         """Return ctypeid-objectid for result."""
         return '%s-%s' % (ContentType.objects.get_for_model(result).pk,
                           result.pk)
+
+    def get_model_name(self, model):
+        """Return the name of the model, fetch the parent if model is a proxy"""
+        if model._meta.proxy:
+            try:
+                model = model._meta.parents.keys()[0]
+            except IndexError:
+                pass
+        return model._meta.verbose_name
