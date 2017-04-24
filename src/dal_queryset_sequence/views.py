@@ -55,7 +55,7 @@ class BaseQuerySetSequenceView(BaseQuerySetView):
         """Return the name of the model, fetch the parent if model is a proxy"""
         if model._meta.proxy:
             try:
-                model = model._meta.parents.keys()[0]
+                model = list(model._meta.parents.keys())[0]
             except IndexError:
                 pass
         return model._meta.verbose_name

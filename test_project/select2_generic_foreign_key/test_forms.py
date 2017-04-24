@@ -27,6 +27,13 @@ class GenericFormTest(test.TestCase):  # noqa
         self.assertEqual(view.get_model_name(view(), TProxyModel), 't model')
         self.assertEqual(view.get_model_name(view(), TModel), 't model')
 
+    def test_model_name_index_error(self):
+        view = autocomplete.BaseQuerySetSequenceView
+        # remove the parents attribute
+        TProxyModel._meta.parents = {}
+        self.assertEqual(
+            view.get_model_name(view(), TProxyModel), 't proxy model')
+
     def test_save(self):
         # Create an option to select
         fixture = TModel.objects.create(name='relation' + self.id())
