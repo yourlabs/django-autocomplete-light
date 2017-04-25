@@ -40,7 +40,10 @@
                     // As a fallback, look for it outside the inline
                     $field = $('[name=' + srcName + ']');
                 if ($field.length)
-                    forwardedData[dstName] = $field.val();
+                    if($field.attr('type') === 'checkbox')
+                        forwardedData[dstName] = $field[0].checked;
+                    else
+                        forwardedData[dstName] = $field.val();
 
             }
         });
