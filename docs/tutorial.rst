@@ -245,7 +245,7 @@ to return HTML code.
             widgets = {
                 'birth_country': autocomplete.ModelSelect2(
                     url='country-autocomplete',
-                    attrs={'data-html': 'true'}
+                    attrs={'data-html': True}
                 )
             }
 
