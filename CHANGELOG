@@ -1,3 +1,10 @@
+3.2.7
+
+    Remove forward.js from Select2WidgetMixin.Media by @gagarski
+    #838: Use namespaced jQuery in `get_forwards` by @ryan-copperleaf
+    #836: Queryset sequence view to display actual model name by @jsoa
+    3.2.5 and 3.2.6 were removed from PyPi but are the same.
+
 3.2.4
 
     #813: Return 400 on invalid input by @EvaSDK
