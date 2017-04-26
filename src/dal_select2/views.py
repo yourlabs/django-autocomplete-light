@@ -116,7 +116,7 @@ class Select2GroupListView(Select2ListView):
         value = entry
 
         if isinstance(entry, collections.Sequence) and \
-           not isinstance(entry, six.text_type):
+           not isinstance(entry, six.string_types):
 
             entry_length = len(entry)
             if(entry_length > 1):
@@ -125,7 +125,7 @@ class Select2GroupListView(Select2ListView):
                 value = entry[0]
 
         if not isinstance(value, collections.Sequence) or \
-           isinstance(value, six.text_type):
+           isinstance(value, six.string_types):
             value = (value, )
 
         return (group, value),
