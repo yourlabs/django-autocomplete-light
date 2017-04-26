@@ -1,3 +1,7 @@
+3.2.4
+
+    #813: Return 400 on invalid input by @EvaSDK
+
 3.2.3 Two seriously good community contributed bugfixes
 
     #799: Support serializing UUIDs and add tests for models with UUIDs as PKs

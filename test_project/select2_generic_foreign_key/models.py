@@ -32,3 +32,12 @@ class TModel(models.Model):
 
     def __str__(self):
         return self.name
+
+
+@python_2_unicode_compatible
+class TProxyModel(TModel):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return self.name

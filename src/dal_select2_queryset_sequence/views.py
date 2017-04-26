@@ -45,7 +45,7 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
 
         return [{
             'id': None,
-            'text': capfirst(model._meta.verbose_name),
+            'text': capfirst(self.get_model_name(model)),
             'children': [{
                 'id': self.get_result_value(result),
                 'text': six.text_type(result),

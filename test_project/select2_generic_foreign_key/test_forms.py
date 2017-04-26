@@ -12,7 +12,7 @@ from django.utils import six
 from queryset_sequence import QuerySetSequence
 
 from .forms import TForm
-from .models import TModel
+from .models import TModel, TProxyModel
 
 
 class GenericFormTest(test.TestCase):  # noqa
@@ -21,6 +21,18 @@ class GenericFormTest(test.TestCase):  # noqa
     def get_value(self, model):
         view = autocomplete.BaseQuerySetSequenceView
         return view.get_result_value(view(), model)
+
+    def test_model_name(self):
+        view = autocomplete.BaseQuerySetSequenceView
+        self.assertEqual(view.get_model_name(view(), TProxyModel), 't model')
+        self.assertEqual(view.get_model_name(view(), TModel), 't model')
+
+    def test_model_name_index_error(self):
+        view = autocomplete.BaseQuerySetSequenceView
+        # remove the parents attribute
+        TProxyModel._meta.parents = {}
+        self.assertEqual(
+            view.get_model_name(view(), TProxyModel), 't proxy model')
 
     def test_save(self):
         # Create an option to select
