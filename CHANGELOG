@@ -1,3 +1,5 @@
+3.2.6 Removed 3.2.5 on pypi by mistake, couldn't re-use version number.
+
 3.2.5
 
     Remove forward.js from Select2WidgetMixin.Media by @gagarski
