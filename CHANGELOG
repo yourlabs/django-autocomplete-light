@@ -1,3 +1,10 @@
+3.2.3 Two seriously good community contributed bugfixes
+
+    #799: Support serializing UUIDs and add tests for models with UUIDs as PKs
+          by @blag
+    #826: Prevent rendering of empty option on multi select
+          by @beruic
+
 3.2.2 Test fixes, Django 1.10 and 1.11
 
 3.2.1
