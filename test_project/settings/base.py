@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'secure_data',
     'linked_data',
     'rename_forward',
+    'forward_different_fields',
     'custom_select2',
 
     # unit test app
