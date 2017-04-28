@@ -1,6 +1,47 @@
 ;(function ($) {
-    function get_forwards(element) {
-        var forwardElem, forwardList, prefix, forwardedData, divSelector, form;
+    function getForwardStrategy(fwdItem, element) {
+        var explicitStrategy = fwdItem.strategy || null;
+
+        var checkForCheckboxes = function() {
+            var all = true;
+            $.each(element, function(ix, e) {
+                if ($(e).attr("type") !== "checkbox") {
+                    all = false;
+                }
+            });
+            return all;
+        };
+
+        if (!!explicitStrategy) {
+            // If explicit strategy is set just returning it
+            return explicitStrategy;
+        } else if (element.length === 1 &&
+                element.attr("multiple") !== undefined) {
+            // Multiple by HTML semantics. E. g. multiple select
+            // Multiple choice field
+            return "multiple";
+        } else if (element.length > 1 && checkForCheckboxes()) {
+            // Multiple checkboxes with the same name.
+            // Multiple choice field represented by checkboxes
+            return "multiple";
+        } else if (element.length === 1 &&
+                element.attr("type") === "checkbox") {
+            // Single checkbox
+            // Boolean field
+            return "exists";
+        } else {
+            // Other cases
+            return "single";
+        }
+    }
+
+    function getForwards(element) {
+        var forwardElem,
+            forwardList,
+            prefix,
+            forwardedData,
+            divSelector,
+            form;
         divSelector = "div.dal-forward-conf#dal-forward-conf-for-" +
                 element.attr("id");
         form = element.length > 0 ? $(element[0].form) : $();
@@ -24,32 +65,73 @@
         forwardedData = {};
 
         $.each(forwardList, function(ix, f) {
-            if (f["type"] === "const") {
-                forwardedData[f["dst"]] = f["val"];
-            } else if (f["type"] === "field") {
-                var srcName, dstName;
-                srcName = f["src"];
+            if (f.type === "const") {
+                forwardedData[f.dst] = f.val;
+            } else if (f.type === "field") {
+                var srcName,
+                    dstName;
+                srcName = f.src;
                 if (f.hasOwnProperty("dst")) {
-                    dstName = f["dst"];
+                    dstName = f.dst;
                 } else {
                     dstName = srcName;
                 }
                 for (var i = 0; i < prefixes.length; i++) {
-                    $field_selector = '[name=' + prefixes[i] + srcName + ']';
-                    $field = $($field_selector);
+                    var fieldSelector = '[name=' + prefixes[i] + srcName + ']';
+                    var field = $(fieldSelector);
 
-                    if ($field.length) {
-                        if ($field.length) {
-                            if ($field.attr('type') === 'checkbox')
-                                forwardedData[dstName] = $field[0].checked;
-                            else if ($field.attr('type') === 'radio')
-                                forwardedData[dstName] = $($field_selector + ":checked").val();
-                            else
-                                forwardedData[dstName] = $field.val();
-                        }
-
-                        break;  // break after first match
+                    if (!field.length) {
+                        continue;
                     }
+
+                    var strategy = getForwardStrategy(f, field);
+                    var serializedField = field.serializeArray();
+
+                    var getSerializedFieldElementAt = function (index) {
+                        // Return serializedField[index]
+                        // or null if something went wrong
+                        if (serializedField.length > index) {
+                            return serializedField[index];
+                        } else {
+                            return null;
+                        }
+                    };
+
+                    var getValueOf = function (elem) {
+                        // Return elem.value
+                        // or null if something went wrong
+                        if (elem.hasOwnProperty("value") &&
+                            elem.value !== undefined
+                        ) {
+                            return elem.value;
+                        } else {
+                            return null;
+                        }
+                    };
+
+                    var getSerializedFieldValueAt = function (index) {
+                        // Return serializedField[index].value
+                        // or null if something went wrong
+                        var elem = getSerializedFieldElementAt(index);
+                        if (elem !== null) {
+                            return getValueOf(elem);
+                        } else {
+                            return null;
+                        }
+                    };
+
+                    if (strategy === "multiple") {
+                        forwardedData[dstName] = serializedField.map(
+                            function (item) {
+                                return getValueOf(item);
+                            }
+                        );
+                    } else if (strategy === "exists") {
+                        forwardedData[dstName] = serializedField.length > 0;
+                    } else {
+                        forwardedData[dstName] = getSerializedFieldValueAt(0);
+                    }
+                    break;
                 }
             }
         });
@@ -99,7 +181,7 @@
                         q: params.term, // search term
                         page: params.page,
                         create: element.attr('data-autocomplete-light-create') && !element.attr('data-tags'),
-                        forward: get_forwards(element)
+                        forward: getForwards(element)
                     };
 
                     return data;
@@ -146,7 +228,7 @@
                 dataType: 'json',
                 data: {
                     text: data.id,
-                    forward: get_forwards($(this))
+                    forward: getForwards($(this))
                 },
                 beforeSend: function(xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", document.csrftoken);
