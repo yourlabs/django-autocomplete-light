@@ -584,3 +584,15 @@ text from a Select2List widget and should be used if you define
 It is better to use the same source for
 ``Select2ListViewAutocomplete.get_list`` in your view and the
 ``Select2ListChoiceField choice_list`` kwarg to avoid unexpected behavior.
+
+
+An opt-group version is available in a similar fashion by inheriting Select2GroupListView :
+
+.. code-block:: python
+
+    class CountryAutocompleteFromList(autocomplete.Select2GroupListView):
+        def get_list(self):
+            return [
+                ("Country", ['France', 'Fiji', 'Finland', 'Switzerland'])
+            ]
+ 
