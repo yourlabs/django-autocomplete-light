@@ -4,6 +4,7 @@
 class Forward(object):
     """Base class for autocomplete forward declaration."""
 
+    @property
     def type(self):
         """Forward type. Should be implemented in subclasses."""
         raise NotImplementedError("Please use one of my subclasses")
