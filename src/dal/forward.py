@@ -57,7 +57,6 @@ class Const(Forward):
     .. py:attribute:: dst
 
         The name of the key of the forwarded value.
-        ``src``.
     """
 
     type = "const"
