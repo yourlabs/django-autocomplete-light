@@ -21,8 +21,8 @@ class FieldStrategy(object):
     Enumeration with possible forward strategies for :py:class:`Field`.
 
     In most cases your fields should be forwarded correctly using ``AUTO``
-    strategy which is passed to the :py:class:`Field` constructor as the default
-    value. If you're seeing forwarded values of wrong types in your
+    strategy which is passed to the :py:class:`Field` constructor as the
+    default value. If you're seeing forwarded values of wrong types in your
     autocomplete view (e. g. bool value instead of list) then you should read
     further.
 
@@ -82,7 +82,8 @@ class FieldStrategy(object):
     ------
 
     When the ``EXISTS`` strategy is used the value forwarded to the DAL view
-    is boolean ``true`` if ``serializedData`` is not empty, ``false`` otherwise.
+    is boolean ``true`` if ``serializedData`` is not empty, ``false`` 
+    otherwise.
 
     Pseudocode::
 
@@ -108,6 +109,7 @@ class FieldStrategy(object):
 
     Otherwise ``SINGLE`` strategy is used.
     """
+
     AUTO = None
     SINGLE = "single"
     MULTIPLE = "multiple"
