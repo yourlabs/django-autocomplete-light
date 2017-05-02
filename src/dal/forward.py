@@ -98,14 +98,13 @@ class FieldStrategy(object):
     is deduced automatically based on ``fields`` size and type of each field
     in ``fields``.
 
+    If the length of ``fields`` is 1 and the field is checkbox without
+    ``value`` attribute, then ``EXISTS`` strategy is used.
+
     If the length of ``fields`` is 1 and this field has ``multiple`` HTML
     attribute, then ``MULTIPLE`` strategy is used.
 
-    If the length of ``fields`` is more than 1 and all the fields are
-    checkboxes, then ``MULTIPLE`` strategy is used.
-
-    If the length of ``fields`` is 1 and the field is checkbox, then
-    ``EXISTS`` strategy is used.
+    If all the ``fields`` are checkboxes, then ``MULTIPLE`` strategy is used.
 
     Otherwise ``SINGLE`` strategy is used.
     """

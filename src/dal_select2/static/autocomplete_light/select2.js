@@ -16,19 +16,20 @@
             // If explicit strategy is set just returning it
             return explicitStrategy;
         } else if (element.length === 1 &&
+                element.attr("type") === "checkbox" &&
+                element.attr("value") === undefined) {
+            // Single checkbox without 'value' attribute
+            // Boolean field
+            return "exists";
+        } else if (element.length === 1 &&
                 element.attr("multiple") !== undefined) {
             // Multiple by HTML semantics. E. g. multiple select
             // Multiple choice field
             return "multiple";
-        } else if (element.length > 1 && checkForCheckboxes()) {
-            // Multiple checkboxes with the same name.
+        } else if (checkForCheckboxes()) {
+            // Multiple checkboxes or one checkbox with 'value' attribute.
             // Multiple choice field represented by checkboxes
             return "multiple";
-        } else if (element.length === 1 &&
-                element.attr("type") === "checkbox") {
-            // Single checkbox
-            // Boolean field
-            return "exists";
         } else {
             // Other cases
             return "single";

@@ -39,8 +39,7 @@ class TForm(forms.ModelForm):
                      "select_radio",
                      "multiselect",
                      "multiselect_checks",
-                     forward.Field(src="multiselect_checks_poor",
-                                   strategy=forward.FieldStrategy.MULTIPLE))
+                     forward.Field(src="multiselect_checks_poor"))
 
         )
     )
