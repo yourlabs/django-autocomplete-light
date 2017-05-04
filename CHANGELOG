@@ -1,3 +1,11 @@
+3.2.8
+
+    #823: Optgroup list support with Select2GroupListView by @jsurloppe
+    #841: Allow boolean "data-html" attribute for widget on python side by @gagarski
+    #839: Support for forwarding radio buttons properly by @gagarski
+    #839: Add checkbox handling in forwards by @marekjedrzejewski
+    #833: Add functional tests for rename_forward app by @gagarski
+
 3.2.7
 
     Remove forward.js from Select2WidgetMixin.Media by @gagarski
