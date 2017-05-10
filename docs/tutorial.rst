@@ -438,6 +438,25 @@ filter as such in the view:
 
             return qs
 
+Types of forwarded values
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are three possible types of value which you can get from
+``self.forwarded`` field: boolean, string or list of strings. DAL forward JS
+applies the following rules when figuring out which type to use when you forward
+particular field.
+
+ - If there is only one field in the form or subform with given name
+and this field is a checkbox without ``value`` HTML-attribute,
+then boolean value indicating if this checkbox is checked is forwarded.
+ - If there is only one field in the form or subform with given name
+and it has ``multiple`` HTML-attribute, then this field is forwarded as a
+list of strings, containing values from this field.
+- If there are one or more fields in the form with given name and all of
+them are checkboxes with HTML-attribute ``value`` set the list of strings
+containing checked checkboxes is forwarded.
+- Otherwise field value forwarded as a string.
+
 Renaming forwarded values
 -------------------------
 - Example source code: `test_project/rename_forward
@@ -621,4 +640,4 @@ An opt-group version is available in a similar fashion by inheriting Select2Grou
             return [
                 ("Country", ['France', 'Fiji', 'Finland', 'Switzerland'])
             ]
- 
+
