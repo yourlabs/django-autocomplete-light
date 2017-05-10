@@ -1,7 +1,5 @@
 ;(function ($) {
-    function getForwardStrategy(fwdItem, element) {
-        var explicitStrategy = fwdItem.strategy || null;
-
+    function getForwardStrategy(element) {
         var checkForCheckboxes = function() {
             var all = true;
             $.each(element, function(ix, e) {
@@ -12,10 +10,7 @@
             return all;
         };
 
-        if (!!explicitStrategy) {
-            // If explicit strategy is set just returning it
-            return explicitStrategy;
-        } else if (element.length === 1 &&
+        if (element.length === 1 &&
                 element.attr("type") === "checkbox" &&
                 element.attr("value") === undefined) {
             // Single checkbox without 'value' attribute
@@ -85,7 +80,7 @@
                         continue;
                     }
 
-                    var strategy = getForwardStrategy(f, field);
+                    var strategy = getForwardStrategy(field);
                     var serializedField = field.serializeArray();
 
                     var getSerializedFieldElementAt = function (index) {
