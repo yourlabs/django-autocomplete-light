@@ -36,7 +36,7 @@ element was cloned with data - which should be the case.
     var initialized = [];
 
     function initialize(element) {
-        if (typeof element === 'undefined') {
+        if (typeof element === 'undefined' || typeof element === 'number') {
             element = $(this).get(0);
         }
 
