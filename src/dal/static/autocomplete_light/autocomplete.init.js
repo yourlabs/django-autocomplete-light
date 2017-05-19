@@ -41,7 +41,7 @@ element was cloned with data - which should be the case.
         }
 
         if (initialized.indexOf(element) >= 0) {
-            return
+            return;
         }
 
         $(element).trigger('autocompleteLightInitialize');
