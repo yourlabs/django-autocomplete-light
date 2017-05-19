@@ -4,6 +4,7 @@
 class Forward(object):
     """Base class for autocomplete forward declaration."""
 
+    @property
     def type(self):
         """Forward type. Should be implemented in subclasses."""
         raise NotImplementedError("Please use one of my subclasses")
@@ -57,7 +58,6 @@ class Const(Forward):
     .. py:attribute:: dst
 
         The name of the key of the forwarded value.
-        ``src``.
     """
 
     type = "const"

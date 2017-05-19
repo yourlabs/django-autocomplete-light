@@ -47,7 +47,8 @@ if _installed('dal_select2'):
     )
     from dal_select2.views import (
         Select2QuerySetView,
-        Select2ListView
+        Select2ListView,
+        Select2GroupListView
     )
     from dal_select2.fields import (
         Select2ListChoiceField,

@@ -35,13 +35,21 @@
                     dstName = srcName;
                 }
                 // First look for this field in the inline
-                $field = $('[name=' + prefix + srcName + ']');
-                if (!$field.length)
+                $field_selector = '[name=' + prefix + srcName + ']';
+                $field = $($field_selector);
+                if (!$field.length) {
                     // As a fallback, look for it outside the inline
-                    $field = $('[name=' + srcName + ']');
-                if ($field.length)
-                    forwardedData[dstName] = $field.val();
-
+                    $field_selector = '[name=' + srcName + ']';
+                    $field = $($field_selector);
+                }
+                if ($field.length) {
+                    if ($field.attr('type') === 'checkbox')
+                        forwardedData[dstName] = $field[0].checked;
+                    else if ($field.attr('type') === 'radio')
+                        forwardedData[dstName] = $($field_selector + ":checked").val();
+                    else
+                        forwardedData[dstName] = $field.val();
+                }
             }
         });
         return JSON.stringify(forwardedData);
@@ -52,7 +60,7 @@
 
         // Templating helper
         function template(item) {
-            if (element.attr('data-html')) {
+            if (element.attr('data-html') !== undefined) {
                 var $result = $('<span>');
                 $result.html(item.text);
                 return $result;

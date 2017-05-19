@@ -1,6 +1,8 @@
 """Select2 view implementation."""
 
+import collections
 import json
+import six
 
 from dal.views import BaseQuerySetView, ViewMixin
 
@@ -105,4 +107,51 @@ class Select2ListView(ViewMixin, View):
         return http.HttpResponse(json.dumps({
             'id': text,
             'text': text,
+        }))
+
+
+class Select2GroupListView(Select2ListView):
+    def get_item_as_group(self, entry):
+        group = None
+        value = entry
+
+        if isinstance(entry, collections.Sequence) and \
+           not isinstance(entry, six.string_types):
+
+            entry_length = len(entry)
+            if(entry_length > 1):
+                group, value = entry[0:2]
+            elif(entry_length > 0):
+                value = entry[0]
+
+        if not isinstance(value, collections.Sequence) or \
+           isinstance(value, six.string_types):
+            value = (value, )
+
+        return (group, value),
+
+    def get(self, request, *args, **kwargs):
+        """"Return option list with children(s) json response."""
+        results_dict = {}
+        results = self.get_list()
+
+        if results:
+            flat_results = [(group, item) for entry in results
+                            for group, items in self.get_item_as_group(entry)
+                            for item in items]
+
+            if self.q:
+                q = self.q.lower()
+                flat_results = [(g, x) for g, x in flat_results
+                                if q in x.lower()]
+            for group, value in flat_results:
+                results_dict.setdefault(group, [])
+                results_dict[group].append(value)
+
+        return http.HttpResponse(json.dumps({
+            "results":
+                [{"id": x, "text": x} for x in results_dict.pop(None, [])] +
+                [{"id": g, "text": g, "children": [{"id": x, "text": x}
+                                                   for x in l]}
+                 for g, l in six.iteritems(results_dict)]
         }))
