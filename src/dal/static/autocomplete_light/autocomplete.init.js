@@ -37,7 +37,7 @@ element was cloned with data - which should be the case.
 
     function initialize(element) {
         if (typeof element === 'undefined') {
-            element = this;
+            element = $(this).get(0);
         }
 
         if (initialized.indexOf(element) >= 0) {
