@@ -60,7 +60,8 @@
 
         // Templating helper
         function template(item) {
-            if (element.attr('data-html') !== undefined) {
+            var attr = element.attr('data-html');
+            if (typeof attr !== typeof undefined && attr !== false) {
                 var $result = $('<span>');
                 $result.html(item.text);
                 return $result;
