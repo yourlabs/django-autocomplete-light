@@ -35,16 +35,19 @@ element was cloned with data - which should be the case.
 
     var initialized = [];
 
-    function initialize() {
-        var element = $(this).get(0);
-
-        if (initialized.indexOf(element) >= 0) {
-            return
+    function initialize(element) {
+        if (typeof element === 'undefined' || typeof element === 'number') {
+            element = this;
         }
 
-        $(this).trigger('autocompleteLightInitialize');
+        if (initialized.indexOf(element) >= 0) {
+            return;
+        }
+
+        $(element).trigger('autocompleteLightInitialize');
         initialized.push(element);
     }
+    window.__dal__initialize = initialize;
 
     $(document).ready(function() {
         $('[data-autocomplete-light-function]:not([id*="__prefix__"])').each(initialize);
