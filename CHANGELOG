@@ -926,7 +926,7 @@ Added to AUTHORS: Ewoud Kohl van Wijngaarden
 1.0.8 Fixed keyboard navigation, 1.0.7 broke tests
 
 1.0.7 Tested support for autocompletes that depend on each other.
-
+ 
 1.0.6 Enhancement: set class 'autocomplete-light-widget' to autocomplete outer
                    containers created by widget.js
 
