@@ -1,7 +1,7 @@
 """Test the base widget."""
 
 from dal.autocomplete import Select2
-from dal.widgets import Select
+from dal.widgets import Select, WidgetMixin
 
 import django
 from django import forms
@@ -109,3 +109,30 @@ class Select2Test(test.TestCase):  # noqa
         observed = six.text_type(form['test'].as_widget())
 
         self.assertHTMLEqual(observed, expected)
+
+
+@override_settings(ROOT_URLCONF='tests.test_widgets')
+class WidgetMixinTest(test.TestCase):  # noqa
+    def test_widget_renders_without_attrs(self):
+        """Assert that render will fallback to field name if no id."""
+        class BaseWidget(object):
+            def render(self, name, value, attrs=None):
+                return ''
+
+        class Widget(WidgetMixin, BaseWidget):
+            def render_forward_conf(self, id):
+                return six.text_type(id)
+
+        widget = Widget(forward=['test'])
+
+        # no attrs
+        observed = widget.render('myname', '')
+        self.assertEqual(observed, 'myname')
+
+        # attrs without id
+        observed = widget.render('myname', '', attrs={})
+        self.assertEqual(observed, 'myname')
+
+        # attrs with id
+        observed = widget.render('myname', '', attrs={'id': 'myid'})
+        self.assertEqual(observed, 'myid')
