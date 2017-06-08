@@ -128,8 +128,8 @@
                     text: data.id,
                     forward: get_forwards($(this))
                 },
-                beforeSend: function(xhr, settings) {
-                    xhr.setRequestHeader("X-CSRFToken", document.csrftoken);
+                headers: {
+                    'X-CSRFToken': document.csrftoken
                 },
                 success: function(data, textStatus, jqXHR ) {
                     select.append(
