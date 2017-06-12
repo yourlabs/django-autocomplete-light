@@ -75,4 +75,11 @@ element was cloned with data - which should be the case.
     }
 
     document.csrftoken = getCookie('csrftoken');
+    if (document.csrftoken === null) {
+        // Try to get CSRF token from DOM when cookie is missing
+        var $csrf = $('form :input[name="csrfmiddlewaretoken"]');
+        if ($csrf.length > 0) {
+            document.csrftoken = $csrf[0].value;
+        }
+    }
 })(yl.jQuery);
