@@ -1,3 +1,8 @@
+3.2.9
+
+    HEAD is now at a44a2ed Fixed JS autocomplete initializer (#819) (#820) by
+    @apinsard
+
 3.2.8
 
     #823: Optgroup list support with Select2GroupListView by @jsurloppe
