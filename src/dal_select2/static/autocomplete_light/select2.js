@@ -104,7 +104,7 @@
             debug: true,
             placeholder: '',
             minimumInputLength: 0,
-            allowClear: ! $(this).is('required'),
+            allowClear: ! $(this).is('[required]'),
             templateResult: template,
             templateSelection: template,
             ajax: ajax,
