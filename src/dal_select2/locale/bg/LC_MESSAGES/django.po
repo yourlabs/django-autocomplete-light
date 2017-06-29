@@ -1,0 +1,22 @@
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Dima Kovalchuk <dmyutro@gmail.com>
+msgid ""
+msgstr ""
+"Project-Id-Version: dal_select2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-29 19:11+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: DIMA KOVALCHUK <dmyutro@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: views.py:39
+#, python-format
+msgid "Create \"%(new_value)s\""
+msgstr "Създавам \"%(new_value)s\""
