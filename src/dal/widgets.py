@@ -145,9 +145,9 @@ class WidgetMixin(object):
         self.choices = all_choices
         return result
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         """Calling Django render together with `render_forward_conf`."""
-        widget = super(WidgetMixin, self).render(name, value, attrs)
+        widget = super(WidgetMixin, self).render(name, value, attrs, renderer)
         conf = self.render_forward_conf(attrs['id'])
         return mark_safe(widget + conf)
 
