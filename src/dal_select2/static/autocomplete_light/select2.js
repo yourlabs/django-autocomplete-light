@@ -121,7 +121,9 @@
             var select = $(this);
 
             $.ajax({
-                url: $(this).attr('data-autocomplete-light-url'),
+                url: function () {
+                    return element.attr('data-autocomplete-light-url');
+                },
                 type: 'POST',
                 dataType: 'json',
                 data: {
