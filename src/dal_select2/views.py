@@ -83,7 +83,7 @@ class Select2ListView(ViewMixin, View):
                 }]
         return http.HttpResponse(json.dumps({
             'results': [dict(id=x, text=x) for x in results] + create_option
-        }))
+        }), content_type='application/json')
 
     def post(self, request):
         """"Add an option to the autocomplete list.
