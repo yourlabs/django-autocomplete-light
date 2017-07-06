@@ -122,5 +122,5 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
         return http.JsonResponse({
             'id': result.pk,
-            'text': six.text_type(result),
+            'text': self.get_result_label(result),
         })
