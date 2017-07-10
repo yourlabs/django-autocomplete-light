@@ -74,7 +74,7 @@ class Select2ListView(ViewMixin, View):
         results = self.get_list()
         create_option = []
         if self.q:
-            results = [x for x in results if self.q.lower() in x.lower()]
+            results = self.autocomplete_results(results)
             if hasattr(self, 'create'):
                 create_option = [{
                     'id': self.q,
@@ -82,9 +82,17 @@ class Select2ListView(ViewMixin, View):
                     'create_id': True
                 }]
         return http.HttpResponse(json.dumps({
-            'results': [dict(id=x, text=x) for x in results] + create_option
+            'results': self.results(results) + create_option
         }))
 
+    def autocomplete_results(self, results):
+        """Return list of strings that match the autocomplete query."""
+        return [x for x in results if self.q.lower() in x.lower()]
+
+    def results(self, results):
+        """Return the result dictionary."""
+        return [dict(id=x, text=x) for x in results]
+    
     def post(self, request):
         """"Add an option to the autocomplete list.
 
