@@ -40,7 +40,7 @@ element was cloned with data - which should be the case.
             element = this;
         }
 
-        if (initialized.indexOf(element) >= 0) {
+        if (window.__dal__initListenerIsSet !== true || initialized.indexOf(element) >= 0) {
             return;
         }
 
