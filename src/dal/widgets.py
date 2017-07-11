@@ -138,7 +138,7 @@ class WidgetMixin(object):
         all_choices = copy.copy(self.choices)
         if self.url:
             self.filter_choices_to_render(selected_choices)
-        else:
+        elif not self.allow_multiple_selected:
             if self.placeholder:
                 self.choices.insert(0, (None, ""))
         result = super(WidgetMixin, self).optgroups(name, value, attrs)
