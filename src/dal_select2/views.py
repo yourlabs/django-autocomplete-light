@@ -4,7 +4,7 @@ import collections
 import json
 import six
 
-from dal.views import BaseQuerySetView, ViewMixin
+from dal.views import BaseQuerySetView, ViewMixin, GenericModelQuerySetView
 
 from django import http
 from django.core.exceptions import ImproperlyConfigured
@@ -60,6 +60,14 @@ class Select2ViewMixin(object):
 
 class Select2QuerySetView(Select2ViewMixin, BaseQuerySetView):
     """List options for a Select2 widget."""
+
+
+class Select2GenericModelQuerySetView(
+    Select2ViewMixin, GenericModelQuerySetView
+):
+    """Simple, generic autocomplete view based on arguments provided in the
+       urls
+    """
 
 
 class Select2ListView(ViewMixin, View):

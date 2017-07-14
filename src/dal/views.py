@@ -8,6 +8,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.utils import six
 from django.views.generic.list import BaseListView
+from django.db.models import Q
 
 
 class ViewMixin(object):
@@ -118,3 +119,31 @@ class BaseQuerySetView(ViewMixin, BaseListView):
             'id': result.pk,
             'text': six.text_type(result),
         })
+
+
+class GenericModelQuerySetView(BaseQuerySetView):
+    model = None
+    search_fields = []
+
+    def get_queryset(self):
+        qs = super(BaseQuerySetView, self).get_queryset()
+
+        if self.q and self.search_fields:
+            # this may seem like an awkward code, because one could also write
+            # this as:
+            # _filters = Q()
+            # for ..
+            #   _filters |= Q( .. )
+            # however, this would yield slightly awkward query as a result:
+            # (OR: (AND: ), [ here goes the relevant part ] )
+            _filters = None
+            for field in self.search_fields:
+                _filter = Q(**{'%s__icontains' % field: self.q})
+                if not _filters:
+                    _filters = _filter
+                else:
+                    _filters |= _filter
+
+            qs = qs.filter(_filters)
+
+        return qs
