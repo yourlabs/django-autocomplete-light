@@ -22,6 +22,7 @@ class Select2ViewMixin(object):
             {
                 'id': self.get_result_value(result),
                 'text': self.get_result_label(result),
+                'selected_text': self.get_selected_result_label(result),
             } for result in context['object_list']
         ]
 
