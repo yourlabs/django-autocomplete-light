@@ -59,14 +59,31 @@
         var element = $(this);
 
         // Templating helper
-        function template(item) {
-            if (element.attr('data-html') !== undefined) {
+        function template(text, is_html) {
+            if (is_html) {
                 var $result = $('<span>');
-                $result.html(item.text);
+                $result.html(text);
                 return $result;
             } else {
-                return item.text;
+                return text;
             }
+        }
+
+        function result_template(item) {
+            return template(item.text,
+                element.attr('data-html') !== undefined || element.attr('data-result-html') !== undefined
+            );
+        }
+
+        function selected_template(item) {
+            if (item.selected_text !== undefined) {
+                return template(item.selected_text,
+                    element.attr('data-html') !== undefined || element.attr('data-selected-html') !== undefined
+                );
+            } else {
+                return result_template(item);
+            }
+            return
         }
 
         var ajax = null;
@@ -105,8 +122,8 @@
             placeholder: '',
             minimumInputLength: 0,
             allowClear: ! $(this).is('[required]'),
-            templateResult: template,
-            templateSelection: template,
+            templateResult: result_template,
+            templateSelection: selected_template,
             ajax: ajax,
         });
 
