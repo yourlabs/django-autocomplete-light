@@ -249,9 +249,27 @@ to return HTML code.
                 )
             }
 
-
 .. note:: Take care to escape anything you put in HTML code to avoid XSS attacks
           when displaying data that may have been input by a user!
+
+Displaying selected result differently than in list
+===================================================
+
+You can display selected result in different way than results in list by overriding
+the view ``get_selected_result_label()`` method.
+
+.. code-block:: python
+
+    class CountryAutocomplete(autocomplete.Select2QuerySetView):
+        def get_result_label(self, item):
+            return item.full_name
+
+        def get_selected_result_label(self, item):
+            return item.short_name
+
+Setting the ``data-html`` attribute affects both selected result and results in list.
+If you want to enable HTML separately set ``data-selected-html`` or ``data-result-html``
+attribute respectively.
 
 Overriding javascript code
 ==========================
