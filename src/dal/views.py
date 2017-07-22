@@ -78,6 +78,10 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         """Return the label of a result."""
         return six.text_type(result)
 
+    def get_selected_result_label(self, result):
+        """Return the label of a selected result."""
+        return self.get_result_label(result)
+
     def get_queryset(self):
         """Filter the queryset with GET['q']."""
         qs = super(BaseQuerySetView, self).get_queryset()
