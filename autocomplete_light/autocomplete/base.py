@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import six
-from django.core import urlresolvers
+from django.urls import reverse, NoReverseMatch
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import force_text
 from django.utils.html import escape
@@ -77,9 +77,9 @@ class AutocompleteInterface(object):
         autocomplete_light_autocomplete url.
         """
         try:
-            return urlresolvers.reverse('autocomplete_light_autocomplete',
+            return reverse('autocomplete_light_autocomplete',
                 args=(self.__class__.__name__,))
-        except urlresolvers.NoReverseMatch:
+        except NoReverseMatch:
             # Such error will ruin form rendering. It would be automatically
             # silenced because of e.silent_variable_failure=True, which is
             # something we don't want. Let's give the user a hint:
@@ -149,8 +149,8 @@ class AutocompleteBase(AutocompleteInterface):
         Return the url to use when adding another element
         """
         if self.add_another_url_name:
-            url = urlresolvers.reverse(self.add_another_url_name,
-                                       kwargs=self.add_another_url_kwargs)
+            url = reverse(self.add_another_url_name,
+                          lkwargs=self.add_another_url_kwargs)
             return url + '?_popup=1'
         else:
             return None

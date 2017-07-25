@@ -214,14 +214,14 @@ class FormfieldCallback(object):
                 model_field.name not in self.autocomplete_fields):
             pass
 
-        elif hasattr(model_field, 'rel') and hasattr(model_field.rel, 'to'):
+        elif hasattr(model_field, 'remote_field') and hasattr(model_field.remote_field, 'model'):
             if model_field.name in self.autocomplete_names:
                 autocomplete = self.autocomplete_registry.get(
                     self.autocomplete_names[model_field.name])
             else:
                 autocomplete = \
                     self.autocomplete_registry.autocomplete_for_model(
-                        model_field.rel.to)
+                        model_field.remote_field.model)
 
             if autocomplete is not None:
                 kwargs['autocomplete'] = autocomplete
@@ -325,7 +325,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
 
         # Using or [] because fields might be None in some django versions.
         for field in fields or []:
-            model_field = getattr(meta.model._meta.virtual_fields, field, None)
+            model_field = getattr(meta.model._meta.private_fields, field, None)
 
             if model_field is None:
                 model_field = getattr(meta.model, field, None)
@@ -355,7 +355,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         add_exclude = []
 
         # exclude gfk content type and object id fields
-        for field in meta.model._meta.virtual_fields:
+        for field in meta.model._meta.private_fields:
             if cls.skip_field(meta, field):
                 continue
 
@@ -379,7 +379,7 @@ class ModelFormMetaclass(DjangoModelFormMetaclass):
         widgets = getattr(meta, 'widgets', {})
 
         # Add generic fk and m2m autocompletes
-        for field in meta.model._meta.virtual_fields:
+        for field in meta.model._meta.private_fields:
             if cls.skip_field(meta, field):
                 continue
 
