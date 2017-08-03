@@ -150,7 +150,7 @@ class AutocompleteBase(AutocompleteInterface):
         """
         if self.add_another_url_name:
             url = reverse(self.add_another_url_name,
-                          lkwargs=self.add_another_url_kwargs)
+                          kwargs=self.add_another_url_kwargs)
             return url + '?_popup=1'
         else:
             return None
