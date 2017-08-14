@@ -1,3 +1,6 @@
+django-autocomplete-light
+==============================
+
 .. image:: https://img.shields.io/pypi/dm/django-autocomplete-light.svg
    :target: https://pypi.python.org/pypi/django-autocomplete-light
 .. image:: https://badge.fury.io/py/django-autocomplete-light.png
