@@ -1,3 +1,12 @@
+3.2.10
+
+    #877: Return proper content type for json by @mpasternak
+    #819: Fixed JS autocomplete initializer by @apinsard
+    #871: Add many translations by @dima-kov
+    #879: Add classifiers in setup.py by @ad-m
+    #868: Fix selector used to allow clearing non-required fields.
+    #861: prefer pristine jQuery to the django one by @xrmx
+
 3.2.9
 
     HEAD is now at a44a2ed Fixed JS autocomplete initializer (#819) (#820) by
