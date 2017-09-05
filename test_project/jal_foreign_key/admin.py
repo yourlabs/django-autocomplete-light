@@ -1,16 +1,16 @@
 from django.contrib import admin
 
 from .forms import TestForm
-from .models import TestModel
+from .models import TModel
 
 
 class TestInline(admin.TabularInline):
     form = TestForm
-    model = TestModel
+    model = TModel
     fk_name = 'for_inline'
 
 
 class TestAdmin(admin.ModelAdmin):
     form = TestForm
     inlines = [TestInline]
-admin.site.register(TestModel, TestAdmin)
+admin.site.register(TModel, TestAdmin)

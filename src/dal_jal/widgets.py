@@ -34,7 +34,6 @@ class JalWidgetMixin(object):
             'autocomplete_light/autocomplete.init.js',
             'autocomplete_light/vendor/jal/src/autocomplete.js',
             'autocomplete_light/vendor/jal/src/widget.js',
-            'autocomplete_light/forward.js',
             'autocomplete_light/jal.js',
         )
 
