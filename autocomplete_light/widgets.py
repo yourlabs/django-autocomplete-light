@@ -160,7 +160,7 @@ class WidgetBase(object):
 
         autocomplete = self.autocomplete(values=value)
 
-        attrs = self.build_attrs(attrs, autocomplete=autocomplete)
+        attrs = self.build_attrs(self.attrs, attrs, autocomplete=autocomplete)
 
         self.html_id = attrs.pop('id', name)
 
@@ -182,9 +182,9 @@ class WidgetBase(object):
                 self.widget_template)
         return safestring.mark_safe(render_to_string(template, context))
 
-    def build_attrs(self, extra_attrs=None, autocomplete=None, **kwargs):
-        self.attrs.update(getattr(autocomplete, 'attrs', {}))
-        attrs = super(WidgetBase, self).build_attrs(extra_attrs, **kwargs)
+    def build_attrs(self, attrs, extra_attrs=None, autocomplete=None, **kwargs):
+        attrs.update(getattr(autocomplete, 'attrs', {}))
+        attrs = super(WidgetBase, self).build_attrs(attrs, extra_attrs, **kwargs)
 
         if 'class' not in attrs.keys():
             attrs['class'] = ''
@@ -302,14 +302,14 @@ class TextWidget(WidgetBase, forms.TextInput):
         """ Proxy Django's TextInput.render() """
 
         autocomplete = self.autocomplete(values=value)
-        attrs = self.build_attrs(attrs, autocomplete=autocomplete)
+        attrs = self.build_attrs(self.attrs, attrs, autocomplete=autocomplete)
 
         return forms.TextInput.render(self, name, value, attrs)
 
-    def build_attrs(self, extra_attrs=None, autocomplete=None, **kwargs):
-        attrs = super(TextWidget, self).build_widget_attrs()
+    def build_attrs(self, attrs, extra_attrs=None, autocomplete=None, **kwargs):
+        attrs.update(super(TextWidget, self).build_widget_attrs())
         attrs.update(super(TextWidget, self).build_attrs(
-            extra_attrs, **kwargs))
+            self.attrs, extra_attrs, **kwargs))
         attrs.update(getattr(autocomplete, 'attrs', {}))
 
         def update_attrs(source, prefix=''):
