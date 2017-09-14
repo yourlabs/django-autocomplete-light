@@ -182,10 +182,12 @@ class WidgetBase(object):
                 self.widget_template)
         return safestring.mark_safe(render_to_string(template, context))
 
-    def build_attrs(self, attrs, extra_attrs=None, autocomplete=None, **kwargs):
+    def build_attrs(self, attrs, extra_attrs=None,
+                    autocomplete=None, **kwargs):
         attrs.copy()
         attrs.update(getattr(autocomplete, 'attrs', {}))
-        attrs = super(WidgetBase, self).build_attrs(attrs, extra_attrs, **kwargs)
+        attrs = super(WidgetBase, self).build_attrs(
+            attrs, extra_attrs, **kwargs)
 
         if 'class' not in attrs.keys():
             attrs['class'] = ''
@@ -307,7 +309,8 @@ class TextWidget(WidgetBase, forms.TextInput):
 
         return forms.TextInput.render(self, name, value, attrs)
 
-    def build_attrs(self, attrs, extra_attrs=None, autocomplete=None, **kwargs):
+    def build_attrs(self, attrs, extra_attrs=None,
+                    autocomplete=None, **kwargs):
         attrs.copy()
         attrs.update(super(TextWidget, self).build_widget_attrs())
         attrs.update(getattr(autocomplete, 'attrs', {}))
