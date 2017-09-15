@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^select2_gm2m/', include('select2_gm2m.urls')),
 
     url(r'^jal_foreign_key/', include('jal_foreign_key.urls')),
+    url(r'^jal_many_to_many/', include('jal_many_to_many.urls')),
 ]

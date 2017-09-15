@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'rename_forward',
 
     'jal_foreign_key',
+    'jal_many_to_many',
 
     'gm2m',
     'select2_gm2m',

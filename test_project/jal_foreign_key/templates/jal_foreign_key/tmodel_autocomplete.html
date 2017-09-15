@@ -1,0 +1,7 @@
+<ul>
+    {% for object in object_list %}
+    <li data-value="{{ object.pk }}">
+        {{ object }}
+    </li>
+    {% endfor %}
+</ul>

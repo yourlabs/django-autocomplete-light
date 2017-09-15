@@ -6,6 +6,7 @@ from django import forms
 from django.core.urlresolvers import resolve
 from django.template.loader import render_to_string
 from django.utils import safestring
+from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 
@@ -42,10 +43,10 @@ class JalWidgetMixin(object):
     @property
     def view(self):
         view_func = resolve(self.url).func
-        module = importlib.import_module(view_func.__module__)
-        return getattr(module, view_func.__name__)
+        return import_string('.'.join((view_func.__module__, view_func.__name__)))
 
     def render(self, name, value, attrs=None):
+        import ipdb; ipdb.set_trace()
         html = '''
         <span id="{id}-wrapper" {attrs}>
             <span id="{id}-deck" class="deck">
@@ -96,7 +97,7 @@ class JalWidgetMixin(object):
         return attrs
 
 
-class JalChoiceWidget(JalWidgetMixin, WidgetMixin, forms.Select):
+class JalSelect(JalWidgetMixin, WidgetMixin, forms.Select):
     """
     Widget that provides an autocomplete for zero to one choice.
     """
@@ -112,3 +113,19 @@ class JalChoiceWidget(JalWidgetMixin, WidgetMixin, forms.Select):
         )
 
         self.attrs.setdefault('data-widget-maximum-values', 1)
+
+
+class JalSelectMultiple(JalWidgetMixin, WidgetMixin, forms.SelectMultiple):
+    """
+    Widget that provides an autocomplete for zero to one choice.
+    """
+
+    def __init__(self, url=None, forward=None, widget_attrs=None, *args,
+                 **kwargs):
+        forms.SelectMultiple.__init__(self, *args, **kwargs)
+
+        WidgetMixin.__init__(
+            self,
+            url=url,
+            forward=forward
+        )

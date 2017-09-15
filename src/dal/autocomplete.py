@@ -90,7 +90,8 @@ if _installed('gm2m') and _installed('dal_queryset_sequence'):
 
 if _installed('dal_jal'):
     from dal_jal.widgets import (
-        JalChoiceWidget,
+        JalSelect,
+        JalSelectMultiple,
         JalWidgetMixin,
     )
 

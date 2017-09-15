@@ -10,5 +10,7 @@ class TestForm(forms.ModelForm):
         model = TModel
         fields = ('name', 'test')
         widgets = {
-            'test': autocomplete.JalSelect(url='jal_fk')
+            'test': autocomplete.JalSelectMultiple(
+                url='jal_m2m',
+            )
         }
