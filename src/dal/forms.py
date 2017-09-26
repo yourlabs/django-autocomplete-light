@@ -16,7 +16,7 @@ three-part problem:
 - saving instance attributes,
 - saving relations like reverse relations or many to many.
 
-Django's ModelForm calls the form field's ``value_from_object()`` method to get
+Django's ModelForm calls the model field's ``value_from_object()`` method to get
 the initial data. ``FutureModelForm`` tries the ``value_from_object()`` method
 from the form field instead, if defined. Unlike the model field, the form field
 doesn't know its name, so ``FutureModelForm`` passes it when calling the form
