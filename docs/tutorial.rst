@@ -349,7 +349,13 @@ the view which will do ``Country.objects.create(name='Tibet')``. It will be
 included in the server response so that the script can add it to the widget.
 
 Note that creating objects is only allowed to staff users with add permission
-by default.
+by default. If you want to grant add permission to other users you have to
+explicitly set it.
+
+.. code-block:: python
+
+    permission = Permission.objects.get(name='Can add your-model-name')
+    user.user_permissions.add(permission)
 
 Filtering results based on the value of other fields in the form
 ================================================================
