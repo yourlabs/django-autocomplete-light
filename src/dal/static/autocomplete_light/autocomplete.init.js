@@ -33,6 +33,41 @@ element was cloned with data - which should be the case.
         return '';
     }
 
+    $.fn.getFormPrefixes = function() {
+        /*
+         * Get the form prefixes for a field, from the most specific to the least.
+         *
+         * For example:
+         *
+         *      $(':input[name$=owner]').getFormPrefixes()
+         *
+         * Would return:
+         * - [''] for an input named 'owner'.
+         * - ['inline_model-0-', ''] for an input named 'inline_model-0-owner' (i.e. nested with a nested inline).
+         * - ['sections-0-items-0-', 'sections-0-', ''] for an input named 'sections-0-items-0-product'
+         *   (i.e. nested multiple time with django-nested-admin).
+         */
+        var parts = $(this).attr('name').split('-').slice(0, -1);
+        var prefixes = [];
+
+        for (i = 0; i < parts.length; i += 2) {
+            var testPrefix = parts.slice(0, -i || parts.length).join('-');
+            if (!testPrefix.length)
+                continue;
+
+            testPrefix += '-';
+
+            var result = $(':input[name^=' + testPrefix + ']')
+
+            if (result.length)
+                prefixes.push(testPrefix);
+        }
+
+        prefixes.push('');
+
+        return prefixes;
+    }
+
     var initialized = [];
 
     function initialize(element) {
