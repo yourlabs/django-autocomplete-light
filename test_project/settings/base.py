@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'secure_data',
     'linked_data',
     'rename_forward',
+    'custom_select2',
 
     # unit test app
     'tests',
@@ -198,5 +199,3 @@ TEMPLATES = [
 
 SELENIUM_PAGE_LOAD_TIMEOUT = 100
 SELENIUM_TIMEOUT = 100
-
-

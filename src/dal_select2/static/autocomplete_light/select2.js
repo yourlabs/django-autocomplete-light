@@ -144,7 +144,7 @@
 
     });
     window.__dal__initListenerIsSet = true;
-    $('[data-autocomplete-light-function]:not([id*="__prefix__"])').each(function() {
+    $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(function() {
         window.__dal__initialize(this);
     });
 
