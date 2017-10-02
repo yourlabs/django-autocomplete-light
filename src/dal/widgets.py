@@ -147,8 +147,12 @@ class WidgetMixin(object):
 
     def render(self, name, value, attrs=None):
         """Calling Django render together with `render_forward_conf`."""
+        try:
+            field_id = attrs['id']
+        except (KeyError, TypeError):
+            field_id = name
         widget = super(WidgetMixin, self).render(name, value, attrs)
-        conf = self.render_forward_conf(attrs['id'])
+        conf = self.render_forward_conf(field_id)
         return mark_safe(widget + conf)
 
     def _get_url(self):
