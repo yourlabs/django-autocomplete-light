@@ -348,9 +348,8 @@ This way, the option 'Create "Tibet"' will be available if a user inputs
 the view which will do ``Country.objects.create(name='Tibet')``. It will be
 included in the server response so that the script can add it to the widget.
 
-Note that creating objects is only allowed to staff users with add permission
-by default. If you want to grant add permission to other users you have to
-explicitly set it.
+Note that creating objects is allowed to staff users by default. If you want
+to grant add permission to other users (not staff users) you have to explicitly set it.
 
 .. code-block:: python
 
