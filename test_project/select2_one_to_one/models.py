@@ -8,6 +8,7 @@ class TModel(models.Model):
 
     test = models.OneToOneField(
         'self',
+        models.CASCADE,
         null=True,
         blank=True,
         related_name='related_test_models'
@@ -15,6 +16,7 @@ class TModel(models.Model):
 
     for_inline = models.ForeignKey(
         'self',
+        models.CASCADE,
         null=True,
         blank=True,
         related_name='inline_test_models'

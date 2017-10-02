@@ -64,16 +64,10 @@ INSTALLED_APPS = [
     'select2_generic_foreign_key',
     'select2_many_to_many',
     'select2_one_to_one',
-    'select2_generic_m2m',
-    'select2_taggit',
-    'select2_tagging',
     'select2_outside_admin',
     'secure_data',
     'linked_data',
     'rename_forward',
-
-    'gm2m',
-    'select2_gm2m',
 
     # unit test app
     'tests',
@@ -82,14 +76,26 @@ INSTALLED_APPS = [
     'dal',
     # Enable plugins
     'dal_select2',
+    'queryset_sequence',
     'dal_queryset_sequence',
 
     # Project apps
     'django_extensions',
-    'genericm2m',
-    'tagging',
-    'taggit',
 ]
+
+
+if django.VERSION < (2, 0, 0):
+    # pending upstream support for dj 2.0
+    INSTALLED_APPS += [
+        'gm2m',
+        'select2_gm2m',
+        'genericm2m',
+        'select2_generic_m2m',
+        'select2_taggit',
+        'select2_tagging',
+        'tagging',
+        'taggit',
+    ]
 
 INSTALLED_APPS = INSTALLED_APPS + ['django.contrib.admin']
 
@@ -114,6 +120,16 @@ MIDDLEWARE_CLASSES += [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
