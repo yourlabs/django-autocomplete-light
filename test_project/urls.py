@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^$', views.IndexView.as_view()),
 
     url(r'^admin/', admin.site.urls),
+    url(r'^login/', views.LoginView.as_view()),
 
     url(r'^secure_data/', include('secure_data.urls')),
     url(r'^linked_data/', include('linked_data.urls')),
