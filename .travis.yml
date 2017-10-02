@@ -1,12 +1,14 @@
 sudo: false
 language: python
+addons:
+  chrome: stable
 python:
 - '3.5'
 env:
   global:
   - PIP_RETRIES=10
   - PIP_TIMEOUT=30
-  - BROWSER=phantomjs
+  - BROWSER=chrome
   matrix:
   - TOXENV=checkqa
   - TOXENV=docs
