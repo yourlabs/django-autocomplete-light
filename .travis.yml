@@ -1,7 +1,7 @@
 sudo: false
 language: python
 python:
-- '3.4'
+- '3.5'
 env:
   global:
   - PIP_RETRIES=10
@@ -10,10 +10,10 @@ env:
   matrix:
   - TOXENV=checkqa
   - TOXENV=docs
-  - TOXENV=base-py36-django20-sqlite
-  - TOXENV=base-py34-django111-sqlite
+  - TOXENV=base-py35-django20-sqlite
+  - TOXENV=base-py35-django111-sqlite
   - TOXENV=base-py27-django111-sqlite
-  - TOXENV=base-py34-django110-sqlite
+  - TOXENV=base-py35-django110-sqlite
   - TOXENV=base-py27-django18-sqlite
 matrix:
   allow_failures:
