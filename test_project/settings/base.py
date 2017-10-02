@@ -2,6 +2,10 @@ import os
 import sys
 import django
 
+# hack for pytest:
+sys.path.insert(0, os.path.join(
+    os.path.dirname(__file__), '..', '..'))
+
 DEBUG = os.environ.get('DEBUG', False)
 
 if 'DEBUG' not in os.environ:
