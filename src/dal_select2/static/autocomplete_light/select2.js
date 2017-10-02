@@ -20,7 +20,7 @@
             return;
         }
 
-        prefix = $(element).getFormPrefix();
+        prefixes = $(element).getFormPrefixes();
         forwardedData = {};
 
         $.each(forwardList, function(ix, f) {
@@ -34,21 +34,22 @@
                 } else {
                     dstName = srcName;
                 }
-                // First look for this field in the inline
-                $field_selector = '[name=' + prefix + srcName + ']';
-                $field = $($field_selector);
-                if (!$field.length) {
-                    // As a fallback, look for it outside the inline
-                    $field_selector = '[name=' + srcName + ']';
+                for (var i = 0; i < prefixes.length; i++) {
+                    $field_selector = '[name=' + prefixes[i] + srcName + ']';
                     $field = $($field_selector);
-                }
-                if ($field.length) {
-                    if ($field.attr('type') === 'checkbox')
-                        forwardedData[dstName] = $field[0].checked;
-                    else if ($field.attr('type') === 'radio')
-                        forwardedData[dstName] = $($field_selector + ":checked").val();
-                    else
-                        forwardedData[dstName] = $field.val();
+
+                    if ($field.length) {
+                        if ($field.length) {
+                            if ($field.attr('type') === 'checkbox')
+                                forwardedData[dstName] = $field[0].checked;
+                            else if ($field.attr('type') === 'radio')
+                                forwardedData[dstName] = $($field_selector + ":checked").val();
+                            else
+                                forwardedData[dstName] = $field.val();
+                        }
+
+                        break;  // break after first match
+                    }
                 }
             }
         });
