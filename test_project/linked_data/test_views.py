@@ -3,7 +3,10 @@
 import json
 
 from django import test
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.utils.encoding import force_text
 
 from .models import TModel
