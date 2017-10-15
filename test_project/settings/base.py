@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'select2_many_to_many',
     'select2_one_to_one',
     'select2_outside_admin',
+    'select2_nestedadmin',
     'secure_data',
     'linked_data',
     'rename_forward',
@@ -85,6 +86,7 @@ INSTALLED_APPS = [
     'dal_queryset_sequence',
     'select2_taggit',
     'taggit',
+    'nested_admin',
 
     # Project apps
     'django_extensions',
