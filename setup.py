@@ -25,6 +25,7 @@ setup(
     license='MIT',
     keywords='django autocomplete',
     extras_require={
+        'nested': ['django-nested-admin'],
         'tags': ['django-taggit'],
         'genericm2m': ['django-generic-m2m'],
         'gfk': ['django-querysetsequence'],
