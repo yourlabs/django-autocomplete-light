@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^secure_data/', include('secure_data.urls')),
     url(r'^linked_data/', include('linked_data.urls')),
     url(r'^rename_forward/', include('rename_forward.urls')),
+    url(r'^select2_nestedadmin/', include('select2_nestedadmin.urls')),
 
     url(r'^select2_foreign_key/', include('select2_foreign_key.urls')),
     url(r'^select2_list/', include('select2_list.urls')),
@@ -28,9 +29,10 @@ urlpatterns = [
 
 if django.VERSION < (2, 0, 0):
     # pending upstream support
-    urlpatterns = [
+    urlpatterns += [
         url(r'^select2_taggit/', include('select2_taggit.urls')),
         url(r'^select2_tagging/', include('select2_tagging.urls')),
         url(r'^select2_gm2m/', include('select2_gm2m.urls')),
         url(r'^select2_generic_m2m/', include('select2_generic_m2m.urls')),
+        url(r'^nested_admin/', include('nested_admin.urls')),
     ]

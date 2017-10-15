@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'select2_many_to_many',
     'select2_one_to_one',
     'select2_outside_admin',
+    'select2_nestedadmin',
     'secure_data',
     'linked_data',
     'rename_forward',
@@ -91,6 +92,7 @@ if django.VERSION < (2, 0, 0):
         'select2_gm2m',
         'genericm2m',
         'select2_generic_m2m',
+        'nested_admin',
         'select2_taggit',
         'select2_tagging',
         'tagging',
@@ -194,5 +196,3 @@ TEMPLATES = [
 
 SELENIUM_PAGE_LOAD_TIMEOUT = 100
 SELENIUM_TIMEOUT = 100
-
-
