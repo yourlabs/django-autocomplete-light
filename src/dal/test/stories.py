@@ -48,7 +48,7 @@ class BaseStory(object):
         )
         self.in_popup = False
 
-    @tenacity.retry(stop=tenacity.stop_after_delay(3))
+    @tenacity.retry(stop=tenacity.stop_after_delay(10))
     def find_option(self, text):
         """Incremental sleep until option appeared."""
         options = self.case.browser.find_by_css(self.option_selector)
