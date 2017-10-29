@@ -6,6 +6,7 @@ import uuid
 from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.db import transaction
 try:
     from django.urls import reverse
 except ImportError:
@@ -89,6 +90,7 @@ class AdminMixin(object):
 class OptionMixin(object):
     """Mixin to make a unique option per test."""
 
+    @transaction.atomic
     def create_option(self):
         """Create a unique option from self.model into self.option."""
         unique_name = six.text_type(uuid.uuid1())
