@@ -9,12 +9,7 @@ env:
   - BROWSER=phantomjs
   matrix:
   - TOXENV=checkqa
-  - TOXENV=docs
   - TOXENV=base-py35-django20-sqlite
-  - TOXENV=base-py35-django111-sqlite
-  - TOXENV=base-py27-django111-sqlite
-  - TOXENV=base-py35-django110-sqlite
-  - TOXENV=base-py27-django18-sqlite
 matrix:
   allow_failures:
   - env: TOXENV=base-py35-djangomaster-sqlite
