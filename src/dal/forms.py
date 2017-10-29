@@ -123,7 +123,10 @@ class FutureModelForm(forms.ModelForm):
         # Note that for historical reasons we want to include also
         # virtual_fields here. (GenericRelation was previously a fake
         # m2m field).
-        for f in chain(opts.many_to_many, opts.virtual_fields):
+        virtual_fields = getattr(opts, 'virtual_fields', [])
+        if not virtual_fields:
+            virtual_fields = getattr(opts, 'private_fields', [])
+        for f in chain(opts.many_to_many, virtual_fields):
             # Added to give the form field a chance to do the work
             if f.name in handled:
                 continue

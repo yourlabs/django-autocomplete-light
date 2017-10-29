@@ -117,7 +117,14 @@ class BaseStory(object):
         assert sorted(expected) == sorted(self.get_suggestions_labels())
 
     def switch_to_popup(self):
-        """Switch to popup window."""
+        """Wait for and switch to popup window."""
+        tries = 10
+        while tries:
+            if len(self.case.browser.windows) == 2:
+                break
+            time.sleep(0.1)
+            tries -= 1
+
         self.case.browser.windows.current = self.case.browser.windows[1]
         self.in_popup = True
 
@@ -216,7 +223,7 @@ class InlineSelectOption(SelectOption):
     def __init__(self, case, inline_number, inline_related_name=None,
                  **kwargs):
         """
-        Same as UserCanSelectOption, in inline inline_number.
+        Do the same as UserCanSelectOption, in inline inline_number.
 
         Where inline_related_name should be the related_name option for the
         foreign key used for the InlineModelAdmin.
@@ -377,7 +384,7 @@ class MultipleMixin(object):
         self.assert_values(values)
 
     def assert_selection_persists(self, values, labels):
-        """Same as above, but also submits the form and check again."""
+        """Do the same as above, but also submits the form and check again."""
         self.assert_selection(values, labels)
         self.submit()
         self.assert_labels(labels)

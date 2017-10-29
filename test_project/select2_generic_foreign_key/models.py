@@ -9,6 +9,7 @@ class TModel(models.Model):
 
     content_type = models.ForeignKey(
         'contenttypes.ContentType',
+        models.CASCADE,
         null=True,
         blank=True,
         editable=False,
@@ -25,6 +26,7 @@ class TModel(models.Model):
 
     for_inline = models.ForeignKey(
         'self',
+        models.CASCADE,
         null=True,
         blank=True,
         related_name='inline_test_models'
