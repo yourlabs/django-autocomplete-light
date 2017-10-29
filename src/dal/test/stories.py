@@ -117,7 +117,14 @@ class BaseStory(object):
         assert sorted(expected) == sorted(self.get_suggestions_labels())
 
     def switch_to_popup(self):
-        """Switch to popup window."""
+        """Wait for and switch to popup window."""
+        tries = 10
+        while tries:
+            if len(self.case.browser.windows) == 2:
+                break
+            time.sleep(0.1)
+            tries -= 1
+
         self.case.browser.windows.current = self.case.browser.windows[1]
         self.in_popup = True
 
