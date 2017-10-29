@@ -94,7 +94,7 @@ class BaseStory(object):
 
         return field['value']
 
-    @tenacity.retry(stop=tenacity.stop_after_delay(3))
+    @tenacity.retry(wait=wait_exponential(multiplier=1, max=10))
     def assert_value(self, value):
         """Assart that the actual field value matches value."""
         assert self.get_value() == six.text_type(value)
