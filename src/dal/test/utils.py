@@ -17,7 +17,7 @@ class Fixtures(object):
             return apps.get_model(self.model_name)
 
     def __call__(self, sender, **kwargs):
-        """Callback function, calls install_fixtures."""
+        """Call function, calls install_fixtures."""
         model = self.get_model(sender)
         self.install_fixtures(model)
 

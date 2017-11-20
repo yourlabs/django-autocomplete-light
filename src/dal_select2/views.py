@@ -2,7 +2,6 @@
 
 import collections
 import json
-import six
 
 from dal.views import BaseQuerySetView, ViewMixin
 
@@ -10,6 +9,8 @@ from django import http
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext as _
 from django.views.generic.list import View
+
+import six
 
 
 class Select2ViewMixin(object):
@@ -66,11 +67,11 @@ class Select2ListView(ViewMixin, View):
     """Autocomplete from a list of items rather than a QuerySet."""
 
     def get_list(self):
-        """"Return the list strings from which to autocomplete."""
+        """Return the list strings from which to autocomplete."""
         return []
 
     def get(self, request, *args, **kwargs):
-        """"Return option list json response."""
+        """Return option list json response."""
         results = self.get_list()
         create_option = []
         if self.q:
@@ -86,7 +87,7 @@ class Select2ListView(ViewMixin, View):
         }), content_type='application/json')
 
     def post(self, request):
-        """"Add an option to the autocomplete list.
+        """Add an option to the autocomplete list.
 
         If 'text' is not defined in POST or self.create(text) fails, raises
         bad request. Raises ImproperlyConfigured if self.create if not defined.
@@ -111,7 +112,10 @@ class Select2ListView(ViewMixin, View):
 
 
 class Select2GroupListView(Select2ListView):
+    """View mixin for grouped options."""
+
     def get_item_as_group(self, entry):
+        """Return the item with its group."""
         group = None
         value = entry
 
@@ -126,12 +130,12 @@ class Select2GroupListView(Select2ListView):
 
         if not isinstance(value, collections.Sequence) or \
            isinstance(value, six.string_types):
-            value = (value, )
+            value = (value,)
 
         return (group, value),
 
     def get(self, request, *args, **kwargs):
-        """"Return option list with children(s) json response."""
+        """Return option list with children(s) json response."""
         results_dict = {}
         results = self.get_list()
 
