@@ -239,7 +239,6 @@ to return HTML code.
     
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_result_label(self, item):
-            # TODO TODO TODO PUT ESCAPING IN THIS WIDGET TO STOP XSS
             return format_html('<img src="flags/{}.png"> {}', item.name, item.name)
 
 
