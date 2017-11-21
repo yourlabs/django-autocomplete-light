@@ -235,9 +235,12 @@ to return HTML code.
 
 .. code-block:: python
 
+    from django.utils.html import format_html
+    
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_result_label(self, item):
-            return '<img src="flags/%s.png"> %s' % (item.name, item.name)
+            # TODO TODO TODO PUT ESCAPING IN THIS WIDGET TO STOP XSS
+            return format_html('<img src="flags/{}.png"> {}', item.name, item.name)
 
 
     class PersonForm(forms.ModelForm):
@@ -251,7 +254,7 @@ to return HTML code.
 
 
 .. note:: Take care to escape anything you put in HTML code to avoid XSS attacks
-          when displaying data that may have been input by a user!
+          when displaying data that may have been input by a user! `format_html` helps.
 
 Overriding javascript code
 ==========================
