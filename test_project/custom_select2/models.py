@@ -8,23 +8,13 @@ class TModel(models.Model):
 
     test = models.ForeignKey(
         'self',
-        models.CASCADE,
         null=True,
         blank=True,
         related_name='related_test_models'
     )
 
-    owner = models.ForeignKey(
-        'auth.user',
-        models.CASCADE,
-        null=True,
-        blank=True,
-        related_name='owned_linked_models',
-    )
-
     for_inline = models.ForeignKey(
         'self',
-        models.CASCADE,
         null=True,
         blank=True,
         related_name='inline_test_models'

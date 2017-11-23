@@ -50,11 +50,11 @@ element was cloned with data - which should be the case.
     window.__dal__initialize = initialize;
 
     $(document).ready(function() {
-        $('[data-autocomplete-light-function]:not([id*="__prefix__"])').each(initialize);
+        $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
     });
 
     $(document).bind('DOMNodeInserted', function(e) {
-        $(e.target).find('[data-autocomplete-light-function]').each(initialize);
+        $(e.target).find('[data-autocomplete-light-function=select2]').each(initialize);
     });
 
     // using jQuery
