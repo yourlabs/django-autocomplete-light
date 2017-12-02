@@ -1,5 +1,5 @@
 """View for a Select2 widget and QuerySetSequence-based business logic."""
-
+from collections import OrderedDict
 from dal_queryset_sequence.views import BaseQuerySetSequenceView
 
 from dal_select2.views import Select2ViewMixin
@@ -37,7 +37,7 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
         It will render as a list of one <optgroup> per different content type
         containing a list of one <option> per model.
         """
-        groups = {}
+        groups = OrderedDict()
 
         for result in context['object_list']:
             groups.setdefault(type(result), [])
