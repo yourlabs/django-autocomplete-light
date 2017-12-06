@@ -12,7 +12,15 @@ Or, install the dev version with git::
 
     pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
 
-Then, let Django find static file we need by adding to
+.. note::
+   If you are trying to install from git, please make sure you are not using
+   **zip/archive** url of the repo ``django-autocomplete-light`` since it will not
+   contain required submodules automatically. Otherwise these submodules will then
+   need to be updated separately using ``git submodule update --init``.
+
+Configuration
+-------------
+Then, to let Django find the static files we need by adding to
 :django:setting:`INSTALLED_APPS`, **before** ``django.contrib.admin`` and
 ``grappelli`` if present::
 
@@ -28,10 +36,10 @@ sets up jQuery with ``noConflict``, making jQuery available in
 To enable more DAL functionalities we will have to add other DAL apps
 to :django:setting:`INSTALLED_APPS`, such as 'dal_queryset_sequence' ...
 
-Note: If you are trying to install from git, please make sure you are not using
-**zip/archive** url of the repo ``django-autocomplete-light`` since it will not
-contain required submodules automatically. Otherwise these submodules will then
-need to be updated separately using ``git submodule update --init``.
+JQuery 3.x
+^^^^^^^^^^
+JQuery 3.x comes with a "slim" version. This version is not compatible with
+DAL since the slim version does not contain Ajax functionality.
 
 Install the demo project
 ------------------------
