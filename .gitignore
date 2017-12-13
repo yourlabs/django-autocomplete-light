@@ -3,6 +3,7 @@ docs/build
 docs/source/_static
 test_project/htmlcov/
 test_project/.coverage
+test_project/*.log
 build
 dist
 django_autocomplete_light.egg-info/

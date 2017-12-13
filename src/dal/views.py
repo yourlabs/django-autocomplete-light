@@ -92,7 +92,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def has_add_permission(self, request):
         """Return True if the user has the permission to add a model."""
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return False
 
         opts = self.get_queryset().model._meta
