@@ -128,7 +128,7 @@ class FutureModelForm(forms.ModelForm):
         except AttributeError:  # Django < 2.0
             private_fields = opts.virtual_fields
 
-        for f in chain(opts.many_to_many, opts.virtual_fields):
+        for f in chain(opts.many_to_many, private_fields):
             # Added to give the form field a chance to do the work
             if f.name in handled:
                 continue
