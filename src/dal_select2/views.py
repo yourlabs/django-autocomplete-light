@@ -34,6 +34,13 @@ class Select2ViewMixin(object):
             if page_obj is None or page_obj.number == 1:
                 display_create_option = True
 
+            # Don't offer to create a new option if a
+            # case-insensitive) identical one already exists
+            existing_options = (self.get_result_label(result).lower()
+                                for result in context['object_list'])
+            if q.lower() in existing_options:
+                display_create_option = False
+
         if display_create_option and self.has_add_permission(self.request):
             create_option = [{
                 'id': q,
