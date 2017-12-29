@@ -9,6 +9,12 @@ from django.utils import six
 class TaggitSelect2(TagSelect2):
     """Select2 tag widget for taggit's TagField."""
 
+    def build_attrs(self, *args, **kwargs):
+        """Add data-tags=","."""
+        attrs = super(TaggitSelect2, self).build_attrs(*args, **kwargs)
+        attrs['data-tags'] = ','
+        return attrs
+
     def value_from_datadict(self, data, files, name):
         """Handle multi-word tag.
 
