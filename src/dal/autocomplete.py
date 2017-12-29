@@ -20,9 +20,7 @@ Note that using this module is optional.
 from django.conf import settings as django_settings
 
 from .forms import FutureModelForm
-
 from .views import ViewMixin
-
 from .widgets import (
     Select,
     SelectMultiple,
