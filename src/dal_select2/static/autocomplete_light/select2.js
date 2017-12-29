@@ -108,6 +108,7 @@
             templateResult: template,
             templateSelection: template,
             ajax: ajax,
+            tags: Boolean(element.attr('data-tags')),
         });
 
         $(this).on('select2:selecting', function (e) {

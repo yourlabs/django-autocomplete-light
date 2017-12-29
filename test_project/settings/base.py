@@ -82,6 +82,8 @@ INSTALLED_APPS = [
     'dal_select2',
     'queryset_sequence',
     'dal_queryset_sequence',
+    'select2_taggit',
+    'taggit',
 
     # Project apps
     'django_extensions',
@@ -95,10 +97,8 @@ if django.VERSION < (2, 0, 0):
         'select2_gm2m',
         'genericm2m',
         'select2_generic_m2m',
-        'select2_taggit',
         'select2_tagging',
         'tagging',
-        'taggit',
     ]
 
 INSTALLED_APPS = INSTALLED_APPS + ['django.contrib.admin']

@@ -24,12 +24,12 @@ urlpatterns = [
     url(r'^select2_one_to_one/', include('select2_one_to_one.urls')),
 
     url(r'^select2_outside_admin/', include('select2_outside_admin.urls')),
+    url(r'^select2_taggit/', include('select2_taggit.urls')),
 ]
 
 if django.VERSION < (2, 0, 0):
     # pending upstream support
     urlpatterns += [
-        url(r'^select2_taggit/', include('select2_taggit.urls')),
         url(r'^select2_tagging/', include('select2_tagging.urls')),
         url(r'^select2_gm2m/', include('select2_gm2m.urls')),
         url(r'^select2_generic_m2m/', include('select2_generic_m2m.urls')),

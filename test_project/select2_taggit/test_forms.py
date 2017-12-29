@@ -66,7 +66,7 @@ class TagSelect2TestMixin(object):
                 attrs={
                     'data-autocomplete-light-function': 'select2',
                     'data-autocomplete-light-url': reverse(self.url_name),
-                    'data-tags': 1,
+                    'data-tags': ',',
                     'id': 'id_test',
                 }
             ).render('test', value=[
