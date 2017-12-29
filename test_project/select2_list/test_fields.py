@@ -1,7 +1,6 @@
 from dal import autocomplete
 
 from django import test
-
 from django.core.exceptions import ValidationError
 
 import six

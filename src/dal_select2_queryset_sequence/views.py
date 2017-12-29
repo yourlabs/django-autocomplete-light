@@ -1,5 +1,6 @@
 """View for a Select2 widget and QuerySetSequence-based business logic."""
 from collections import OrderedDict
+
 from dal_queryset_sequence.views import BaseQuerySetSequenceView
 
 from dal_select2.views import Select2ViewMixin
