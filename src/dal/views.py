@@ -93,7 +93,8 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def create_object(self, text):
         """Create an object given a text."""
-        return self.get_queryset().create(**{self.create_field: text})
+        return self.get_queryset().get_or_create(
+            **{self.create_field: text})[0]
 
     def has_add_permission(self, request):
         """Return True if the user has the permission to add a model."""
