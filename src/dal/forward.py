@@ -47,14 +47,6 @@ class Field(Forward):
         The name of the key of the forwarded value from the src field in the
         forwarded dictionary. If this value is ``None``, then the key is
         ``src``.
-
-    .. py:attribute:: strategy
-        The strategy to forward this field. In most cases you should be happy
-        with FieldStrategy.AUTO which is passed to the constructor as the
-        default value. If you're seeing forwarded values of wrong types (e. g.
-        bool value instead of list) in your autocomplete view then you should
-        read :py:class:`FieldStrategy` docstring to fine-tune forwarding of
-        this field.
     """
 
     type = "field"
