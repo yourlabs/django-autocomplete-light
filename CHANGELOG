@@ -1,3 +1,7 @@
+3.3.0-rc2
+
+    Revert 5b37f8661, fixes tests.
+
 3.3.0-rc1
 
 This version supports Django 2.0 and Python 3.6, perhaps more but I have not
