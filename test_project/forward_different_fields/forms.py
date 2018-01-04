@@ -1,7 +1,7 @@
-from django.forms.widgets import CheckboxSelectMultiple, RadioSelect
-from django import forms
-
 from dal import autocomplete, forward
+
+from django import forms
+from django.forms.widgets import CheckboxSelectMultiple, RadioSelect
 
 from .models import TModel
 
