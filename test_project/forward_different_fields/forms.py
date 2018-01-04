@@ -1,8 +1,7 @@
-from django.forms.widgets import RadioSelect, CheckboxSelectMultiple
+from django.forms.widgets import CheckboxSelectMultiple, RadioSelect
+from django import forms
 
 from dal import autocomplete, forward
-
-from django import forms
 
 from .models import TModel
 
@@ -54,4 +53,3 @@ class TForm(forms.ModelForm):
                   'multiselect_checks',
                   'multiselect_checks_poor',
                   'test')
-
