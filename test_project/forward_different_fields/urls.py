@@ -2,8 +2,6 @@ from dal import autocomplete
 
 from django.conf.urls import url
 
-from .models import TModel
-
 
 class ListWithForwardsView(autocomplete.Select2ListView):
     def get_list(self):
