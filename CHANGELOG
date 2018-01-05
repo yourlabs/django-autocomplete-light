@@ -1,3 +1,8 @@
+3.3.0-rc3
+
+    #957 remove reference to deleted script (rebase issue introduced in
+    3.3.0-rc1)
+
 3.3.0-rc2
 
     Revert 5b37f8661, fixes tests.
