@@ -52,7 +52,6 @@ class Select2WidgetMixin(object):
               'autocomplete_light/vendor/select2/dist/js/select2.full.{}js'.format(  # noqa
                   _min),
               ) + i18n_file + (
-            'autocomplete_light/forward.js',
             'autocomplete_light/select2.js',
         )
 
