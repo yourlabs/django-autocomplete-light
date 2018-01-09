@@ -1,3 +1,6 @@
+3.3.0-rc4
+    #843: Forward logic refactored. Specifications for types of forwarded values.
+
 3.3.0-rc3
 
     #957 remove reference to deleted script (rebase issue introduced in
