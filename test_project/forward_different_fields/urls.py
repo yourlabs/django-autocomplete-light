@@ -5,7 +5,6 @@ from django.conf.urls import url
 
 class ListWithForwardsView(autocomplete.Select2ListView):
     def get_list(self):
-
         name = self.forwarded.get("name")
         checkbox = self.forwarded.get("checkbox")
         select = self.forwarded.get("select")
@@ -13,17 +12,10 @@ class ListWithForwardsView(autocomplete.Select2ListView):
         multiselect = self.forwarded.get("multiselect")
         multiselect_checks = self.forwarded.get("multiselect_checks")
         multiselect_checks_poor = self.forwarded.get("multiselect_checks_poor")
+        const42 = self.forwarded.get("const42")
+        reversed_name = self.forwarded.get("reverse_name")
 
-        if name == "Helen" and \
-                checkbox is True and \
-                select == "c" and \
-                select_radio == "b" and \
-                multiselect == ["b", "c"] and \
-                multiselect_checks == ["a", "c"] and \
-                multiselect_checks_poor == ["d"]:
-            return ["It works!"]
-        else:
-            return ["Check another combination!"]
+        return [str(self.forwarded)]
 
 
 urlpatterns = [
