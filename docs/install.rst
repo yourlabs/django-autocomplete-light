@@ -47,7 +47,7 @@ Install the demo project
 Install the demo project in a temporary virtualenv for testing purpose::
 
     cd /tmp
-    virtualenv dal_env
+    virtualenv -p python3 dal_env
     source dal_env/bin/activate
     pip install django
     pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
