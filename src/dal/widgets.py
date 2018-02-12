@@ -112,7 +112,7 @@ class WidgetMixin(object):
 
         # Filter out None values, not needed for autocomplete
         selected_choices = [six.text_type(c) for c
-                            in args[selected_choices_arg] if c]
+                            in args[selected_choices_arg] if c is not None] # FIXED: c=0 doesn't return a value of None
 
         all_choices = copy.copy(self.choices)
         if self.url:
