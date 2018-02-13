@@ -1,5 +1,6 @@
 import django
 from django.conf.urls import include, url
+from django.conf import settings
 from django.contrib import admin
 
 import views
@@ -38,3 +39,7 @@ if django.VERSION < (2, 0, 0):
         url(r'^select2_gm2m/', include('select2_gm2m.urls')),
         url(r'^select2_generic_m2m/', include('select2_generic_m2m.urls')),
     ]
+
+if 'debug_toolbar' in settings.INSTALLED_APPS:
+    import debug_toolbar
+    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls)),]

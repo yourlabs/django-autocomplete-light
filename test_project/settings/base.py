@@ -142,6 +142,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+if DEBUG:
+    try:
+        import debug_toolbar
+    except ImportError:
+        pass
+    else:
+        INSTALLED_APPS.append('debug_toolbar')
+        MIDDLEWARE_CLASSES.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+        MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+
 AUTH_PASSWORD_VALIDATORS = []
 DJANGO_LIVE_TEST_SERVER_ADDRESS="localhost:8000-8010,8080,9200-9300"
 
@@ -202,3 +212,4 @@ TEMPLATES = [
 
 SELENIUM_PAGE_LOAD_TIMEOUT = 100
 SELENIUM_TIMEOUT = 100
+INTERNAL_IPS = ('127.0.0.1',)
