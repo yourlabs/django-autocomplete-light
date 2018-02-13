@@ -16,3 +16,4 @@ pytest-splinter
 tenacity
 whitenoise
 django-nested-admin
+django-debug-toolbar
