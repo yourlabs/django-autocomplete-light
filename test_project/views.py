@@ -1,4 +1,7 @@
-from django.contrib.auth.views import LoginView
+try:
+    from django.contrib.auth.views import LoginView
+except ImportError:  # old django, lol it
+    from django.views.generic import TemplateView as LoginView
 from django.views import generic
 
 
