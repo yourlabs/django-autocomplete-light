@@ -145,9 +145,9 @@ class WidgetMixin(object):
         self.choices = all_choices
         return result
 
-    def render(self, name, value, attrs=None, renderer=None):
+    def render(self, name, value, attrs=None, **kwargs):
         """Call Django render together with `render_forward_conf`."""
-        widget = super(WidgetMixin, self).render(name, value, attrs, renderer)
+        widget = super(WidgetMixin, self).render(name, value, attrs, **kwargs)
         try:
             field_id = attrs['id']
         except (KeyError, TypeError):
