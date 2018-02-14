@@ -55,15 +55,13 @@ class Select2ViewMixin(object):
 
         create_option = self.get_create_option(context, q)
 
-        return http.HttpResponse(
-            json.dumps({
+        return http.JsonResponse(
+            {
                 'results': self.get_results(context) + create_option,
                 'pagination': {
                     'more': self.has_more(context)
                 }
-            }),
-            content_type='application/json',
-        )
+            })
 
 
 class Select2QuerySetView(Select2ViewMixin, BaseQuerySetView):
@@ -89,9 +87,9 @@ class Select2ListView(ViewMixin, View):
                     'text': 'Create "%s"' % self.q,
                     'create_id': True
                 }]
-        return http.HttpResponse(json.dumps({
+        return http.JsonResponse({
             'results': self.results(results) + create_option
-        }), content_type='application/json')
+        }, content_type='application/json')
 
     def autocomplete_results(self, results):
         """Return list of strings that match the autocomplete query."""
@@ -120,10 +118,10 @@ class Select2ListView(ViewMixin, View):
         if text is None:
             return http.HttpResponseBadRequest()
 
-        return http.HttpResponse(json.dumps({
+        return http.JsonResponse({
             'id': text,
             'text': text,
-        }))
+        })
 
 
 class Select2GroupListView(Select2ListView):
@@ -167,10 +165,10 @@ class Select2GroupListView(Select2ListView):
                 results_dict.setdefault(group, [])
                 results_dict[group].append(value)
 
-        return http.HttpResponse(json.dumps({
+        return http.JsonResponse({
             "results":
                 [{"id": x, "text": x} for x in results_dict.pop(None, [])] +
                 [{"id": g, "text": g, "children": [{"id": x, "text": x}
                                                    for x in l]}
                  for g, l in six.iteritems(results_dict)]
-        }))
+        })
