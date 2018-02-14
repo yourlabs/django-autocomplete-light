@@ -61,7 +61,7 @@ for this:
             cities = City.objects.all()
 
             if self.q:
-                countries = countries.filter(continent__incontains=self.q)
+                countries = countries.filter(continent__icontains=self.q)
                 cities = cities.filter(country__name__icontains=self.q)
 
             # Aggregate querysets
