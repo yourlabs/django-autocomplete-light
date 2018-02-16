@@ -1,4 +1,7 @@
 ;(function ($) {
+    if (window.__dal__initListenerIsSet)
+        return;
+
     $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
         var element = $(this);
 
