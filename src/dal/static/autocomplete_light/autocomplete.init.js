@@ -82,15 +82,18 @@ element was cloned with data - which should be the case.
         $(element).trigger('autocompleteLightInitialize');
         initialized.push(element);
     }
-    window.__dal__initialize = initialize;
 
-    $(document).ready(function() {
-        $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
-    });
+    if (!window.__dal__initialize) {
+        window.__dal__initialize = initialize;
 
-    $(document).bind('DOMNodeInserted', function(e) {
-        $(e.target).find('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
-    });
+        $(document).ready(function () {
+            $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
+        });
+
+        $(document).bind('DOMNodeInserted', function (e) {
+            $(e.target).find('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
+        });
+    }
 
     // using jQuery
     function getCookie(name) {
