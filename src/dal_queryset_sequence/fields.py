@@ -133,3 +133,11 @@ class QuerySetSequenceModelMultipleField(ContentTypeModelMultipleFieldMixin,
                 self.raise_invalid_choice(params={'value': val})
 
         return queryset
+    
+    
+class GenericForeignKeyModelField(QuerySetSequenceModelField):
+
+    def get_queryset_for_content_type(self, content_type_id):
+        """Export the content_type object as an attribute"""
+        self.content_type = ContentType.objects.get_for_id(content_type_id) 
+        return super().get_queryset_for_content_type(content_type_id)
