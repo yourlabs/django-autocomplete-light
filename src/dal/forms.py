@@ -51,6 +51,9 @@ from itertools import chain
 
 from django import forms
 
+from dal_queryset_sequence.fields import GenericForeignKeyModelField
+from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
+
 
 class FutureModelForm(forms.ModelForm):
     """
@@ -158,3 +161,35 @@ class FutureModelForm(forms.ModelForm):
             # saving of m2m data.
             self.save_m2m = self._save_m2m
         return self.instance
+
+      
+  class GenericForeignKeyModelFormMeta(type): 
+    
+    def __new__(mcs, name, bases, dct):
+
+        class GenericForeignKeyModelForm(autocomplete.FutureModelForm):
+            content_type_models = dct['filter_queryset']  # models to be validated
+            queryset_models = [model.objects.all() for model in content_type_models]
+            _queryset_seq = autocomplete.QuerySetSequence(*queryset_models)
+
+            # class attribute set from string
+            locals()[dct['object_id_field_name']] = GenericForeignKeyModelField(
+                    queryset=_queryset_seq,
+                    required=False,
+                    widget=QuerySetSequenceSelect2(dct['view_name']),
+                )
+
+            class Meta(dct['Meta']):
+                widgets = {
+                    # the content type field is set to hidden, and will be autocomplete in clean()
+                    dct['content_type_field_name']: forms.HiddenInput(attrs={'value': ''}),
+                }
+
+            def clean(self):
+                content_type_obj = self.fields[dct['object_id_field_name']].content_type  # from GenericForeignKeyModelField
+                cleaned_data = super().clean()
+                # autocomplete the hidden content_type field
+                cleaned_data[dct['content_type_field_name']] = content_type_obj
+                return cleaned_data
+
+        return GenericForeignKeyModelForm
