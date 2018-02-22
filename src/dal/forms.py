@@ -163,8 +163,8 @@ class FutureModelForm(forms.ModelForm):
         return self.instance
 
       
-  class GenericForeignKeyModelFormMeta(type): 
-    
+class GenericForeignKeyModelFormMeta(type): 
+
     def __new__(mcs, name, bases, dct):
 
         class GenericForeignKeyModelForm(autocomplete.FutureModelForm):
