@@ -166,14 +166,17 @@ class FutureModelForm(forms.ModelForm):
 class GenericForeignKeyModelFormMeta(type): 
 
     def __new__(mcs, name, bases, dct):
+        content_object = getattr(dct['Meta'].model, dct['gfk_name'])  # get the generic foreign key field from the model
+        ct_field = content_object.ct_field  # content_type field name
+        fk_field = content_object.fk_field  # object id field name
 
         class GenericForeignKeyModelForm(autocomplete.FutureModelForm):
-            content_type_models = dct['filter_queryset']  # models to be validated
+            content_type_models = dct['filter_queryset']  # models to be validated, needs to be there, readed from the view
             queryset_models = [model.objects.all() for model in content_type_models]
             _queryset_seq = autocomplete.QuerySetSequence(*queryset_models)
 
             # class attribute set from string
-            locals()[dct['object_id_field_name']] = GenericForeignKeyModelField(
+            locals()[fk_field] = GenericForeignKeyModelField(
                     queryset=_queryset_seq,
                     required=False,
                     widget=QuerySetSequenceSelect2(dct['view_name']),
@@ -182,14 +185,14 @@ class GenericForeignKeyModelFormMeta(type):
             class Meta(dct['Meta']):
                 widgets = {
                     # the content type field is set to hidden, and will be autocomplete in clean()
-                    dct['content_type_field_name']: forms.HiddenInput(attrs={'value': ''}),
+                    ct_field: forms.HiddenInput(attrs={'value': ''}),
                 }
 
             def clean(self):
-                content_type_obj = self.fields[dct['object_id_field_name']].content_type  # from GenericForeignKeyModelField
+                content_type_obj = self.fields[fk_field].content_type  # from GenericForeignKeyModelField
                 cleaned_data = super().clean()
                 # autocomplete the hidden content_type field
-                cleaned_data[dct['content_type_field_name']] = content_type_obj
+                cleaned_data[ct_field] = content_type_obj
                 return cleaned_data
 
         return GenericForeignKeyModelForm
