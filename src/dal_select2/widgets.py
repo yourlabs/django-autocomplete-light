@@ -20,32 +20,42 @@ class Select2WidgetMixin(object):
     def build_attrs(self, *args, **kwargs):
         """Set data-autocomplete-light-language."""
         attrs = super(Select2WidgetMixin, self).build_attrs(*args, **kwargs)
-        lang_code = self._get_language_code()
+        lang_code, _ = self.i18n()
         if lang_code:
             attrs.setdefault('data-autocomplete-light-language', lang_code)
         return attrs
 
-    def _get_language_code(self):
+    select2_prefix = 'autocomplete_light/select2'
+    select2_dist = '{}/dist'.format(select2_prefix)
+
+    def i18n(self):
         """Return language code or None."""
         lang_code = translation.get_language()
         if lang_code:
-            lang_code = translation.to_locale(lang_code).replace('_', '-')
-        return lang_code
+            lang_code = translation.to_locale(lang_code)
+        codes = (
+            lang_code.split('_' if '_' in lang_code else '-')[0],
+            lang_code.replace('_', '-'),
+        )
+        for code in codes:
+            script = '{}/js/i18n/{}.js'.format(self.select2_dist, code)
+            if finders.find(script):
+                return (code, script)
 
     @property
     def media(self):
         """Automatically include static files for the admin."""
         _min = '' if settings.DEBUG else 'min.'
 
-        select2 = 'autocomplete_light/select2'
-        select2_dist = '{}/dist'.format(select2)
         css = (
-            '{}/css/select2.{}css'.format(select2_dist, _min),
+            '{}/css/select2.{}css'.format(self.select2_dist, _min),
             'autocomplete_light/select2.css',
         )
-        js = ['autocomplete_light/select2/dal_select2.js']
+        js = ['{}/dal_select2.js'.format(self.select2_prefix)]
 
-        lang_code = self._get_language_code()
+        lang_code, lang_script = self.i18n()
+        if lang_code:
+            js.append(lang_script)
 
         return forms.Media(css={'all': css}, js=js)
 
