@@ -1,0 +1,48 @@
+{
+  "name": "django-autocomplete-light",
+  "version": "0.3.3",
+  "description": "Django autocomplete NPM package",
+  "main": "src/dal/js/index.js",
+  "scripts": {
+    "start": "webpack --watch",
+    "prepare": "webpack",
+    "test": "jest",
+    "lint": "eslint src/dal/js/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourlabs/django-autocomplete-light.git"
+  },
+  "keywords": [
+    "django"
+  ],
+  "author": "∞ <jpic@yourlabs.org>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yourlabs/django-autocomplete-light/issues"
+  },
+  "homepage": "https://github.com/yourlabs/django-autocomplete-light#readme",
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "collectCoverageFrom": [
+      "*{js,jsx}",
+      "webpack.config.js"
+    ]
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.1",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "jest": "^22.4.2",
+    "select2": "^4.0.6-rc.1",
+    "webpack": "3"
+  }
+}
