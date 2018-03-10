@@ -4,7 +4,7 @@ var path = require('path')
 module.exports = {
 /* eslint-enable */
   entry: {
-    main: ['babel-polyfill', './src/dal/js/index.js'],
+    main: ['babel-polyfill', './src/dal/npm/index.js'],
   },
   output: {
     path: path.resolve('src/dal/static/dal'),

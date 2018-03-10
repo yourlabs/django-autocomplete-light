@@ -2,12 +2,12 @@
   "name": "django-autocomplete-light",
   "version": "0.3.3",
   "description": "Django autocomplete NPM package",
-  "main": "src/dal/js/index.js",
+  "main": "src/dal/npm/index.js",
   "scripts": {
     "start": "webpack --watch",
     "prepare": "webpack",
     "test": "jest",
-    "lint": "eslint src/dal/js/index.js"
+    "lint": "eslint src/dal/npm/index.js"
   },
   "repository": {
     "type": "git",
