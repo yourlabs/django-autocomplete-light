@@ -7,8 +7,8 @@ module.exports = {
     main: ['babel-polyfill', './src/dal/npm/index.js'],
   },
   output: {
-    path: path.resolve('src/dal/static/dal'),
-    filename: 'dist.js'
+    path: path.resolve('src/dal/static/autocomplete_light/select2'),
+    filename: 'dal_select2.js'
   },
   devtool: 'source-map',
   module: {

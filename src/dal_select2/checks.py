@@ -10,7 +10,7 @@ def select2_submodule_check(app_configs, **kwargs):
     dal_select2_path = os.path.dirname(__file__)
     select2 = os.path.join(
         os.path.abspath(dal_select2_path),
-        'static/autocomplete_light/vendor/select2/dist/js/select2.min.js'
+        'static/autocomplete_light/select2/dist/js/select2.min.js'
     )
 
     if not os.path.exists(select2):
