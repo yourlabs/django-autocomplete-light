@@ -4,10 +4,10 @@ var path = require('path')
 module.exports = {
 /* eslint-enable */
   entry: {
-    main: ['babel-polyfill', './src/dal/npm/index.js'],
+    main: ['babel-polyfill', './src/dal_select2/npm/index.js'],
   },
   output: {
-    path: path.resolve('src/dal/static/autocomplete_light/select2'),
+    path: path.resolve('src/dal_select2/static/autocomplete_light/select2'),
     filename: 'dal_select2.js'
   },
   devtool: 'source-map',
