@@ -89,6 +89,9 @@ INSTALLED_APPS = [
     'taggit',
     'nested_admin',
 
+    'dal_accessible',
+    'accessible',
+
     # Project apps
     'django_extensions',
 ]

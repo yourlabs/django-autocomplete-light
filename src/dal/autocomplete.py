@@ -75,6 +75,9 @@ if _installed('dal_select2', 'dal_queryset_sequence'):
 if _installed('dal_select2') and _installed('taggit'):
     from dal_select2_taggit.widgets import TaggitSelect2
 
+if _installed('dal_accessible'):
+    from dal_accessible.widgets import ModelAccessible
+
 if _installed('dal_select2') and _installed('tagging'):
     from dal_select2_tagging.widgets import TaggingSelect2
 

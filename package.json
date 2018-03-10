@@ -34,12 +34,16 @@
     ]
   },
   "dependencies": {
+    "accessible-autocomplete": "^1.6.1",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.4.1",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "jest": "^22.4.2",
     "select2": "^4.0.6-rc.1",
     "webpack": "3"
