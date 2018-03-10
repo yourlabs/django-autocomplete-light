@@ -1,4 +1,4 @@
-//:import * as select2 from 'select2'
+import * as select2 from 'select2'
 
 const dal = 'hello'
 

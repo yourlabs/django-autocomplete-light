@@ -18,9 +18,6 @@ module.exports = {
         //exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['stage-2', 'babel-preset-env']
-          }
         }
       }
     ]
