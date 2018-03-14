@@ -53,6 +53,7 @@ from django import forms
 
 from dal_queryset_sequence.fields import GenericForeignKeyModelField
 from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
+from queryset_sequence import QuerySetSequence
 
 
 class FutureModelForm(forms.ModelForm):
@@ -170,10 +171,10 @@ class GenericForeignKeyModelFormMeta(type):
         ct_field = content_object.ct_field  # content_type field name
         fk_field = content_object.fk_field  # object id field name
 
-        class GenericForeignKeyModelForm(autocomplete.FutureModelForm):
+        class GenericForeignKeyModelForm(FutureModelForm):
             content_type_models = dct['filter_queryset']  # models to be validated, needs to be there, readed from the view
             queryset_models = [model.objects.all() for model in content_type_models]
-            _queryset_seq = autocomplete.QuerySetSequence(*queryset_models)
+            _queryset_seq = QuerySetSequence(*queryset_models)
 
             # class attribute set from string
             locals()[fk_field] = GenericForeignKeyModelField(
