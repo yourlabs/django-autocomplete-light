@@ -7,8 +7,11 @@ from dal_contenttypes.fields import (
 
 from django import forms
 from django.contrib.contenttypes.models import ContentType
+from django.conf.urls import url
 
 from queryset_sequence import QuerySetSequence
+from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
+from dal_select2_queryset_sequence.views import Select2QuerySetSequenceAutoView
 
 
 class QuerySetSequenceFieldMixin(object):
@@ -133,3 +136,29 @@ class QuerySetSequenceModelMultipleField(ContentTypeModelMultipleFieldMixin,
                 self.raise_invalid_choice(params={'value': val})
 
         return queryset
+
+
+class GenericForeignKeyModelField(QuerySetSequenceModelField):
+    """
+    Field that generate automatically the view for the QuerySetSequenceSelect2 widget
+    """
+    def __init__(self, *args, model_choice=None, **kwargs):
+        if model_choice:
+            self.model_choice = model_choice
+            models_queryset = [model[0].objects.all() for model in model_choice]
+            kwargs['queryset'] = QuerySetSequence(*models_queryset)
+
+        super().__init__(*args, **kwargs)
+
+    def as_url(self, form):
+        # if widget was given as kwarg, should have this url name !
+        url_name = '{}_autocomp_{}'.format(form.__name__, self.__class__.__name__)
+        if self.widget:  # add the widget if no widget kwarg
+            self.widget = QuerySetSequenceSelect2(url_name)
+
+        Select2QuerySetSequenceAutoView.model_choice = self.model_choice  # send to the view the model and filter list
+        AutoView = type('Autoview', (Select2QuerySetSequenceAutoView,), {})
+        # generate the class to work with multiple gfk (can't work on instance level)
+        AutoView.model_choice = self.model_choice
+        return url(r'^{}_{}_autocomp$'.format(form.__name__, self.__class__.__name__),
+                   AutoView.as_view(), name=url_name)

@@ -158,3 +158,13 @@ class FutureModelForm(forms.ModelForm):
             # saving of m2m data.
             self.save_m2m = self._save_m2m
         return self.instance
+
+    @classmethod
+    def as_url(cls):
+        """
+        Create a list of url patterns, to be called in url.py:
+        urlpattern.append(*ModelForm.as_url())
+        Iterate over the fields to call the as_url() method from the GenericForeignKeyField
+        """
+        return [value.as_url(cls) for key, value in cls.__dict__['declared_fields'].items()
+                if hasattr(value.__class__, 'as_url')]  # checks if its the right object
