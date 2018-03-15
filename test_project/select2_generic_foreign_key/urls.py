@@ -10,16 +10,6 @@ from .models import TModel
 
 urlpatterns = [
     url(
-        '^select2-gfk/$',
-        autocomplete.Select2QuerySetSequenceView.as_view(
-            queryset=autocomplete.QuerySetSequence(
-                Group.objects.all(),
-                TModel.objects.all(),
-            )
-        ),
-        name='select2_gfk',
-    ),
-    url(
         'test/(?P<pk>\d+)/$',
         generic.UpdateView.as_view(
             model=TModel,
@@ -27,3 +17,4 @@ urlpatterns = [
         )
     ),
 ]
+urlpatterns.append(*TForm.as_url())

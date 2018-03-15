@@ -4,6 +4,7 @@ from collections import OrderedDict
 from dal_queryset_sequence.views import BaseQuerySetSequenceView
 
 from dal_select2.views import Select2ViewMixin
+from queryset_sequence import QuerySetSequence
 
 from django.template.defaultfilters import capfirst
 from django.utils import six
@@ -52,3 +53,27 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
                 'text': six.text_type(result),
             } for result in results]
         } for model, results in groups.items()]
+
+
+class Select2QuerySetSequenceAutoView(Select2QuerySetSequenceView):
+    """
+    Filter the queryset based on the models and filter attributes of the GenericForeignKeyModelField
+    self.model_choice is generated from the GenericForeignKeyModelField
+    """
+    def get_queryset(self):
+        queryset_models = []
+        if self.q:
+            for model, filter_value in self.model_choice:
+                kwargs = {'{}__icontains'.format(filter_value): self.q}
+                queryset_models.append(model.objects.filter(**kwargs))
+        else:
+            queryset_models = [model[0].objects.all() for model in self.model_choice]
+
+        # Aggregate querysets
+        qs = QuerySetSequence(*queryset_models)
+
+        # This will limit each queryset so that they show an equal number
+        # of results.
+        qs = self.mixup_querysets(qs)
+
+        return qs

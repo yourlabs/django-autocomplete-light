@@ -57,6 +57,7 @@ if _installed('dal_queryset_sequence'):
     from dal_queryset_sequence.fields import (
         QuerySetSequenceModelField,
         QuerySetSequenceModelMultipleField,
+        GenericForeignKeyModelField,
     )
     from dal_queryset_sequence.views import (
         BaseQuerySetSequenceView,

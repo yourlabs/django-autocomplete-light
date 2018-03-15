@@ -6,13 +6,9 @@ from .models import TModel
 
 
 class TForm(autocomplete.FutureModelForm):
-    test = autocomplete.QuerySetSequenceModelField(
-        queryset=autocomplete.QuerySetSequence(
-            Group.objects.all(),
-            TModel.objects.all(),
-        ),
+    test = autocomplete.GenericForeignKeyModelField(
+        model_choice=[(Group, 'name'), (TModel, 'name')],  # Model with values to filter
         required=False,
-        widget=autocomplete.QuerySetSequenceSelect2('select2_gfk'),
     )
 
     class Meta:
