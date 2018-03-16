@@ -35,92 +35,47 @@ Consider such a model:
 
 .. _generic-autocomplete-view:
 
-View example for QuerySetSequence and Select2
-=============================================
-
-To enable the use for QuerySetSequence we need to add 'dal_queryset_sequence'
-to :django:setting:`INSTALLED_APPS`.
-
-We'll need a view that will provide results for the select2 frontend, and that
-uses QuerySetSequence as the backend. Let's try
-:py:class:`~dal_select2_queryset_sequence.views.Select2QuerySetSequenceView`
-for this:
-
-.. code-block:: python
-
-    from dal_select2_queryset_sequence.views import Select2QuerySetSequenceView
-
-    from queryset_sequence import QuerySetSequence
-
-    from your_models import Country, City
-
-
-    class LocationAutocompleteView(Select2QuerySetSequenceView):
-        def get_queryset(self):
-            countries = Country.objects.all()
-            cities = City.objects.all()
-
-            if self.q:
-                countries = countries.filter(continent__icontains=self.q)
-                cities = cities.filter(country__name__icontains=self.q)
-
-            # Aggregate querysets
-            qs = QuerySetSequence(countries, cities)
-
-            if self.q:
-                # This would apply the filter on all the querysets
-                qs = qs.filter(name__icontains=self.q)
-
-            # This will limit each queryset so that they show an equal number
-            # of results.
-            qs = self.mixup_querysets(qs)
-
-            return qs
-
-Register the view in urlpatterns as usual, ie.:
-
-.. code-block:: python
-
-    from .views import LocationAutocompleteView
-
-    urlpatterns = [
-        url(
-            r'^location-autocomplete/$',
-            LocationAutocompleteView.as_view(),
-            name='location-autocomplete'
-        ),
-    ]
-
 Form example
 ============
 
-As usual, we need a backend-aware widget that will make only selected choices
-to render initially, to avoid butchering the database. As we're using a
-QuerySetSequence and Select2, we'll try
-:py:class:`~dal_select2_queryset_sequence.widgets.QuerySetSequenceSelect2`
-widget.
+To enable the use of automatic views we need to add 'dal_queryset_sequence'
+ to :django:setting:`INSTALLED_APPS`.
 
-Also, we need a field that's able to use a QuerySetSequence for choices to do
-validation on a single model choice, we'll use
-:py:class:`~dal_queryset_sequence.fields.QuerySetSequenceModelField`.
-
-Finnaly, we can't use Django's ModelForm because it doesn't support
+First, we can't use Django's ModelForm because it doesn't support
 non-editable fields, which GenericForeignKey is. Instead, we'll use
 :py:class:`~dal.forms.FutureModelForm`.
+
+Then we need to add the  :py:class:`~dal_queryset_sequence.fields.GenericForeignKeyModelField`
+field, with model_choice as keyword: this is a list of tuple, with the models you want in the
+autocompletion and the validation, and the value of the attribute of
+the model you want to query in the widget searchbox.
 
 Result:
 
 .. code-block:: python
 
+    from dal import autocomplete
+
     class TestForm(autocomplete.FutureModelForm):
-        location = dal_queryset_sequence.fields.QuerySetSequenceModelField(
-            queryset=autocomplete.QuerySetSequence(
-                Country.objects.all(),
-                City.objects.all(),
-            ),
+
+        location = autocomplete.GenericForeignKeyModelField(
+            model_choice=[(Country, 'country_code'), (City, 'name')],
+            # Model with values to filter
             required=False,
-            widget=dal_select2_queryset_sequence.widgets.QuerySetSequenceSelect2('location-autocomplete'),
         )
 
         class Meta:
             model = TestModel
+
+Register the view for the form
+==============================
+
+In url.py:
+.. code-block:: python
+
+    from .forms import TestForm
+
+    urlpatterns = [...]  # your regular url patterns
+    urlpatterns.extend(TestForm.as_urls())
+
+It will enable the search box to query and filter the results
