@@ -17,4 +17,4 @@ urlpatterns = [
         )
     ),
 ]
-urlpatterns.append(*TForm.as_url())
+urlpatterns.extend(TForm.as_urls())
