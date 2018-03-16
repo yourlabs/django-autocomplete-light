@@ -160,7 +160,7 @@ class FutureModelForm(forms.ModelForm):
         return self.instance
 
     @classmethod
-    def as_url(cls):
+    def as_urls(cls):
         """
         Create a list of url patterns, to be called in url.py:
         urlpattern.append(*ModelForm.as_url())

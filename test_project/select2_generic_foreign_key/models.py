@@ -24,6 +24,23 @@ class TModel(models.Model):
 
     test = GenericForeignKey('content_type', 'object_id')
 
+    content_type2 = models.ForeignKey(
+        'contenttypes.ContentType',
+        models.CASCADE,
+        null=True,
+        blank=True,
+        editable=False,
+        related_name='content_type_test_models2'
+    )
+
+    object_id2 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        editable=False,
+    )
+
+    test2 = GenericForeignKey('content_type2', 'object_id2')
+
     for_inline = models.ForeignKey(
         'self',
         models.CASCADE,

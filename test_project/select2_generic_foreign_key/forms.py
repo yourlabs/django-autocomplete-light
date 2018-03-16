@@ -11,6 +11,11 @@ class TForm(autocomplete.FutureModelForm):
         required=False,
     )
 
+    test2 = autocomplete.GenericForeignKeyModelField(
+        model_choice=[(Group, 'name'), (TModel, 'name')],  # Model with values to filter
+        required=False,
+    )
+
     class Meta:
         model = TModel
         fields = ('name',)
