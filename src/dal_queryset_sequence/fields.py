@@ -152,13 +152,14 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
 
     def as_url(self, form):
         # if widget was given as kwarg, should have this url name !
-        url_name = '{}_autocomp_{}'.format(form.__name__, self.__class__.__name__)
+        url_name = '{}_autocomp_{}'.format(form.__name__, id(self))
         if self.widget:  # add the widget if no widget kwarg
             self.widget = QuerySetSequenceSelect2(url_name)
 
         Select2QuerySetSequenceAutoView.model_choice = self.model_choice  # send to the view the model and filter list
-        AutoView = type('Autoview', (Select2QuerySetSequenceAutoView,), {})
+        AutoView = type('Autoview{}{}'.format(form.__name__, id(self)),
+                        (Select2QuerySetSequenceAutoView,), {})
         # generate the class to work with multiple gfk (can't work on instance level)
         AutoView.model_choice = self.model_choice
-        return url(r'^{}_{}_autocomp$'.format(form.__name__, self.__class__.__name__),
+        return url(r'^{}_{}_autocomp$'.format(form.__name__, id(self)),
                    AutoView.as_view(), name=url_name)
