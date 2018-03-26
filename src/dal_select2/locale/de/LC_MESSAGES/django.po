@@ -19,4 +19,4 @@ msgstr ""
 #: views.py:39
 #, python-format
 msgid "Create \"%(new_value)s\""
-msgstr "Erstellen \"%(new_value)s\""
+msgstr "\"%(new_value)s\" erstellen"
