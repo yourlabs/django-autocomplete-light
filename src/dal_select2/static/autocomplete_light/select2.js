@@ -14,9 +14,14 @@
         }
 
         function result_template(item) {
-            return template(item.text,
+            var $opt = template(item.text,
                 element.attr('data-html') !== undefined || element.attr('data-result-html') !== undefined
             );
+            
+            if ($opt.create_id) {
+                result.addClass('dal-create');
+            } 
+            return $opt
         }
 
         function selected_template(item) {
