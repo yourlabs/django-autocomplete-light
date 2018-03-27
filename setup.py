@@ -55,7 +55,7 @@ setup(
     keywords='django autocomplete',
     cmdclass={'test': RunTests},
     install_requires=[
-        'six>=1.4',
+        'six==1.10',
     ],
     extras_require={
         'Tags': 'django-taggit',
