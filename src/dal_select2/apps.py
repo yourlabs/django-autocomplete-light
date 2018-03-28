@@ -2,8 +2,6 @@
 from django.apps import AppConfig
 from django.core import checks
 
-from .checks import select2_submodule_check
-
 
 class DefaultApp(AppConfig):
     """Default app for dal_select2."""
@@ -12,4 +10,3 @@ class DefaultApp(AppConfig):
 
     def ready(self):
         """Register select2_submodule_check."""
-        checks.register(select2_submodule_check)
