@@ -138,7 +138,7 @@ class QuerySetSequenceModelMultipleField(ContentTypeModelMultipleFieldMixin,
 
 class GenericForeignKeyModelField(QuerySetSequenceModelField):
     """
-    Field that generate automatically the view for the QuerySetSequenceSelect2 widget
+    Field that generate automatically the view for compatible widgets
     """
     def __init__(self, *args, model_choice=None, widget=None, view=None, **kwargs):
         if model_choice:
@@ -157,10 +157,9 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
     def as_url(self, form):
         url_name = '{}_autocomp_{}'.format(form.__name__, id(self))
 
-        self.widget = self.widget_obj(url_name)  # fixme all widgets doesnt not need url names..
+        self.widget = self.widget_obj(url_name)
 
         AutoView = type('Autoview{}{}'.format(form.__name__, id(self)),
                         (self.view_obj,), {})
         return url(r'^{}_{}_autocomp$'.format(form.__name__, id(self)),
                    AutoView.as_view(queryset=self.queryset), name=url_name)
-        # fixme queryset kwarg is compatible with Select2QuerySetSequenceView, but is it with other kind of views ?
