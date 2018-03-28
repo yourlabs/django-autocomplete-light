@@ -10,8 +10,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.conf.urls import url
 
 from queryset_sequence import QuerySetSequence
-from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
-from dal_select2_queryset_sequence.views import Select2QuerySetSequenceAutoView
 
 
 class QuerySetSequenceFieldMixin(object):
@@ -142,24 +140,27 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
     """
     Field that generate automatically the view for the QuerySetSequenceSelect2 widget
     """
-    def __init__(self, *args, model_choice=None, **kwargs):
+    def __init__(self, *args, model_choice=None, widget=None, view=None, **kwargs):
         if model_choice:
             self.model_choice = model_choice
             models_queryset = [model[0].objects.all() for model in model_choice]
             kwargs['queryset'] = QuerySetSequence(*models_queryset)
 
+        if isinstance(widget, type) and isinstance(view, type):  # check if they are classes
+            self.widget_obj = widget
+            self.view_obj = view
+        else:
+            raise AttributeError("Class object are required (not instantiated)")
+
         super().__init__(*args, **kwargs)
 
     def as_url(self, form):
-        # if widget was given as kwarg, should have this url name !
         url_name = '{}_autocomp_{}'.format(form.__name__, id(self))
-        if self.widget:  # add the widget if no widget kwarg
-            self.widget = QuerySetSequenceSelect2(url_name)
 
-        Select2QuerySetSequenceAutoView.model_choice = self.model_choice  # send to the view the model and filter list
+        self.widget = self.widget_obj(url_name)  # fixme all widgets doesnt not need url names..
+
         AutoView = type('Autoview{}{}'.format(form.__name__, id(self)),
-                        (Select2QuerySetSequenceAutoView,), {})
-        # generate the class to work with multiple gfk (can't work on instance level)
-        AutoView.model_choice = self.model_choice
+                        (self.view_obj,), {})
         return url(r'^{}_{}_autocomp$'.format(form.__name__, id(self)),
-                   AutoView.as_view(), name=url_name)
+                   AutoView.as_view(queryset=self.queryset), name=url_name)
+        # fixme queryset kwarg is compatible with Select2QuerySetSequenceView, but is it with other kind of views ?

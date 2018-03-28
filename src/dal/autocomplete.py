@@ -72,6 +72,9 @@ if _installed('dal_select2', 'dal_queryset_sequence'):
         QuerySetSequenceSelect2,
         QuerySetSequenceSelect2Multiple,
     )
+    from dal_select2_queryset_sequence.fields import (
+        Select2GenericForeignKeyModelField,
+    )
 
 if _installed('dal_select2') and _installed('taggit'):
     from dal_select2_taggit.widgets import TaggitSelect2
