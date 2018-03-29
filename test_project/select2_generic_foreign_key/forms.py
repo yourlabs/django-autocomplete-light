@@ -15,7 +15,7 @@ class TForm(autocomplete.FutureModelForm):
     )
 
     test2 = autocomplete.GenericForeignKeyModelField(
-        model_choice=[(Group, 'name'), (TModel, 'name')],  # Model with values to filter
+        model_choice=[(Group,), (TModel,)],
         required=False,
         widget=QuerySetSequenceSelect2,
         view=Select2QuerySetSequenceView,
