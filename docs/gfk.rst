@@ -45,7 +45,7 @@ First, we can't use Django's ModelForm because it doesn't support
 non-editable fields, which GenericForeignKey is. Instead, we'll use
 :py:class:`~dal.forms.FutureModelForm`.
 
-Then we need to add the  :py:class:`~dal_queryset_sequence.fields.GenericForeignKeyModelField`
+Then we need to add the  :py:class:`~dal_select2_queryset_sequence.fields.Select2GenericForeignKeyModelField`
 field, with model_choice as keyword: this is a list of tuple, with the models you want in the
 autocompletion and the validation, and the value of the attribute of
 the model you want to query in the widget searchbox.
@@ -58,14 +58,36 @@ Result:
 
     class TestForm(autocomplete.FutureModelForm):
 
-        location = autocomplete.GenericForeignKeyModelField(
-            model_choice=[(Country, 'country_code'), (City, 'name')],
+        location = autocomplete.Select2GenericForeignKeyModelField(
             # Model with values to filter
-            required=False,
+            model_choice=[(Country, 'country_code'), (City, 'name')],
         )
 
         class Meta:
             model = TestModel
+
+If you want to use your own widgets and views, assuming the widget takes an url as argument
+and the view takes a queryset in its "as_view()" method, you can use
+:py:class:`~dal_queryset_sequence.fields.GenericForeignKeyModelField`:
+
+.. code-block:: python
+
+    from dal import autocomplete
+
+    class TestForm(autocomplete.FutureModelForm):
+
+        location = autocomplete.GenericForeignKeyModelField(
+            model_choice=[(Country,), (City,)],  # Models
+            widget=autocomplete.QuerySetSequenceSelect2,
+            view=autocomplete.Select2QuerySetSequenceView,
+        )
+
+        class Meta:
+            model = TestModel
+
+In this example, we took :py:class:`~dal_select2_queryset_sequence.widgets.QuerySetSequenceSelect2` as the
+custom widget and :py:class:`~dal_select2_queryset_sequence.views.Select2QuerySetSequenceView`.
+
 
 Register the view for the form
 ==============================
