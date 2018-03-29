@@ -84,7 +84,7 @@ class GenericFormTest(test.TestCase):  # noqa
             ),
             attrs={
                 'data-autocomplete-light-function': 'select2',
-                'data-autocomplete-light-url': reverse('TForm_test_autocomp'),
+                'data-autocomplete-light-url': reverse('TForm_autocomp_test'),
                 'data-autocomplete-light-language': 'en-US',
                 'id': 'id_test',
             }
