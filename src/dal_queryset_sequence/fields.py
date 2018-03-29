@@ -7,6 +7,7 @@ from dal_contenttypes.fields import (
 
 from django import forms
 from django.contrib.contenttypes.models import ContentType
+from django.conf.urls import url
 
 from queryset_sequence import QuerySetSequence
 
@@ -133,3 +134,33 @@ class QuerySetSequenceModelMultipleField(ContentTypeModelMultipleFieldMixin,
                 self.raise_invalid_choice(params={'value': val})
 
         return queryset
+
+
+class GenericForeignKeyModelField(QuerySetSequenceModelField):
+    """
+    Field that generate automatically the view for compatible widgets
+    """
+    def __init__(self, *args, model_choice=None, widget=None, view=None, field_id=None, **kwargs):
+        self.field_id = field_id if field_id else id(self)
+        if model_choice:
+            self.model_choice = model_choice
+            models_queryset = [model[0].objects.all() for model in model_choice]
+            kwargs['queryset'] = QuerySetSequence(*models_queryset)
+
+        if isinstance(widget, type) and isinstance(view, type):  # check if they are classes
+            self.widget_obj = widget
+            self.view_obj = view
+        else:
+            raise AttributeError("Class object are required (not instantiated)")
+
+        super().__init__(*args, **kwargs)
+
+    def as_url(self, form):
+        url_name = '{}_autocomp_{}'.format(form.__name__, self.field_id)
+
+        self.widget = self.widget_obj(url_name)
+
+        AutoView = type('Autoview{}{}'.format(form.__name__, self.field_id),
+                        (self.view_obj,), {})
+        return url(r'^{}_{}_autocomp$'.format(form.__name__, self.field_id),
+                   AutoView.as_view(queryset=self.queryset), name=url_name)
