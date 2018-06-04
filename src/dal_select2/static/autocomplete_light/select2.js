@@ -66,6 +66,7 @@
         $(this).select2({
             tokenSeparators: element.attr('data-tags') ? [','] : null,
             debug: true,
+            containerCssClass: ':all:',
             placeholder: element.attr('data-placeholder') || '',
             language: element.attr('data-autocomplete-light-language'),
             minimumInputLength: element.attr('data-minimum-input-length') || 0,
