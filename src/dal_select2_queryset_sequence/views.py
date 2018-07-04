@@ -8,6 +8,9 @@ from queryset_sequence import QuerySetSequence
 
 from django.template.defaultfilters import capfirst
 from django.utils import six
+from django.db.models import Q
+
+from functools import reduce
 
 
 class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
@@ -58,16 +61,28 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
 class Select2QuerySetSequenceAutoView(Select2QuerySetSequenceView):
     """
     Filter the queryset based on the models and filter attributes of the GenericForeignKeyModelField
-    self.model_choice is generated from the GenericForeignKeyModelField
+    self.model_choice is generated from the Select2GenericForeignKeyModelField, see its docstring
     """
     def get_queryset(self):
         queryset_models = []
-        if self.q:
-            for model, filter_value in self.model_choice:
-                kwargs = {'{}__icontains'.format(filter_value): self.q}
-                queryset_models.append(model.objects.filter(**kwargs))
-        else:
-            queryset_models = [model[0].objects.all() for model in self.model_choice]
+        for model_args in self.model_choice:
+            model = model_args[0]
+            filter_value = model_args[1]
+
+            kwargs_model = {'{}__icontains'.format(filter_value): self.q if self.q else ''}
+            forward_filtered = [Q(**kwargs_model)]
+
+            try:
+                forward_fields = model_args[2]
+                for forward in forward_fields:
+                    forward_filtered.append(Q(**{'{}__icontains'.format(forward[1]): self.forwarded[forward[0]]}))
+            except IndexError:  # if no list on the 3rd index of self.model_choice (reserved for forwarding fields)
+                pass
+
+            # link the diffrent field by an & query
+            and_forward_filtered = reduce(lambda x, y: x & y, forward_filtered)
+
+            queryset_models.append(model.objects.filter(and_forward_filtered))
 
         # Aggregate querysets
         qs = QuerySetSequence(*queryset_models)

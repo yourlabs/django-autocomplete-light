@@ -158,7 +158,7 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
     def as_url(self, form):
         url_name = '{}_autocomp_{}'.format(form.__name__, self.field_id)
 
-        self.widget = self.widget_obj(url_name)
+        self.widget = self.widget_obj(url=url_name)
 
         AutoView = type('Autoview{}{}'.format(form.__name__, self.field_id),
                         (self.view_obj,), {})
