@@ -66,9 +66,9 @@
         $(this).select2({
             tokenSeparators: element.attr('data-tags') ? [','] : null,
             debug: true,
-            placeholder: '',
+            placeholder: element.attr('data-placeholder') || '',
             language: element.attr('data-autocomplete-light-language'),
-            minimumInputLength: 0,
+            minimumInputLength: element.attr('data-minimum-input-length') || 0,
             allowClear: ! $(this).is('[required]'),
             templateResult: result_template,
             templateSelection: selected_template,
