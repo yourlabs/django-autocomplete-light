@@ -5,6 +5,8 @@ element was cloned with data - which should be the case.
 */
 
 import $ from 'jquery'
+var select2 = require('select2')
+
 
 $.fn.getFormPrefix = function() {
     /* Get the form prefix for a field.

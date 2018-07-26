@@ -1,25 +1,13 @@
-var path = require('path')
+const path = require('path');
+const webpack = require('webpack');
 
-/* eslint-disable */
 module.exports = {
-/* eslint-enable */
+  context: path.resolve(__dirname, 'src'),
   entry: {
-    main: ['babel-polyfill', './src/dal_select2/npm/index.js'],
+    app: './app.js',
   },
   output: {
-    path: path.resolve('src/dal_select2/static/autocomplete_light/select2'),
-    filename: 'dal_select2.js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
   },
-  devtool: 'source-map',
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        //exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-        }
-      }
-    ]
-  }
 }
