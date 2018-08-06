@@ -10,9 +10,11 @@ env:
   matrix:
   - TOXENV=checkqa
   - TOXENV=base-py35-django20-sqlite
+  - TOXENV=base-py35-django21-sqlite
 matrix:
   allow_failures:
   - env: TOXENV=base-py35-django20-sqlite
+  - env: TOXENV=base-py35-django21-sqlite
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
