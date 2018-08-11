@@ -145,7 +145,7 @@ class WidgetMixin(object):
         self.choices = all_choices
         return result
 
-    def render(self, name, value, attrs=None, **kwargs):
+    def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Call Django render together with `render_forward_conf`."""
         widget = super(WidgetMixin, self).render(name, value, attrs, **kwargs)
         try:
