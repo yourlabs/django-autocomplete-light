@@ -1,3 +1,13 @@
+3.3.0
+
+    - use admin statics
+    - #981: create option behaviour
+    - #995: automatically generated views for generic foreign key fields
+    - Getting placeholder and minimumInputLength from dal select
+    - #1017: Initial migrations and database
+    - Turkish translation
+    - Added support for forwarded fields to Select2GenericForeignKeyModelField
+
 3.3.0-rc6
 
     #959
