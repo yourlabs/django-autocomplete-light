@@ -9,7 +9,11 @@ from dal.widgets import (
 
 from django import forms
 from django.conf import settings
-from django.contrib.admin.widgets import SELECT2_TRANSLATIONS
+try:
+    # SELECT2_TRANSLATIONS is Django 2.x only
+    from django.contrib.admin.widgets import SELECT2_TRANSLATIONS
+except ImportError:
+    SELECT2_TRANSLATIONS = {}
 from django.utils import six
 from django.utils import translation
 
