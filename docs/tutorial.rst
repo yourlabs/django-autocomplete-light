@@ -560,7 +560,8 @@ Forwarding own selected value
 
 Quite often (especially in multiselect) you may want to exclude value which is
 already selected from autocomplete dropdown. Usually it can be done by
-forwarding a field by name.
+forwarding a field by name. The forward argument expects a tuple, 
+so don't forget the trailing comma if the tuple only has one element.
 
 
 .. code-block:: python
@@ -586,7 +587,7 @@ For this special case DAL provides a shortcut named ``Self()``.
             queryset=Country.objects.all(),
             widget=autocomplete.ModelSelect2Multiple(
                 url='country-autocomplete',
-                forward=(forward.Self())
+                forward=(forward.Self(),)
 
 
 In this case the value from ``countries`` will be available from autocomplete
