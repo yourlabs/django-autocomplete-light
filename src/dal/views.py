@@ -73,7 +73,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def has_more(self, context):
         """For widgets that have infinite-scroll feature."""
-        return context['page_obj'].has_next()
+        return context['page_obj'].has_next() if context['page_obj'] else False
 
     def get_result_value(self, result):
         """Return the value of a result."""
