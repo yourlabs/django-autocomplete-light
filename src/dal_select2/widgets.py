@@ -46,7 +46,6 @@ class Select2WidgetMixin(object):
                 'admin/js/vendor/jquery/jquery%s.js' % extra,
                 'admin/js/vendor/select2/select2.full%s.js' % extra,
             ) + i18n_file + (
-                'admin/js/jquery.init.js',
                 'autocomplete_light/jquery.init.js',
                 'autocomplete_light/autocomplete.init.js',
                 'admin/js/autocomplete.js',
