@@ -1,3 +1,13 @@
+3.3.1
+
+  - Fixed a bug in the way jquery.init.js was being used by @coredumperror
+  - Set select2 container CSS class to :all: @hbielenia
+  - Added missing renderer parameter to render method for django 2.1 @monim67
+  - Fix ImportError with SELECT2_TRANSLATIONS in Django 1.x @hugorodgerbrown
+  - Forward argument should always be a tuple @jihoon796
+  - Fixed exception thrown from Select2QuerySEtView when paginate_by is set
+    @coredumperror
+
 3.3.0
 
     - use admin statics
