@@ -1,7 +1,7 @@
-from dal import autocomplete
+# from dal import autocomplete
 
 from django.conf.urls import url
-from django.contrib.auth.models import Group
+# from django.contrib.auth.models import Group
 from django.views import generic
 
 from .forms import TForm

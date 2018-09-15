@@ -164,7 +164,11 @@ class FutureModelForm(forms.ModelForm):
         """
         Create a list of url patterns, to be called in url.py:
         urlpattern.append(*ModelForm.as_url())
-        Iterate over the fields to call the as_url() method from the GenericForeignKeyField
+        Iterate over the fields to call the as_url() method from the
+        GenericForeignKeyField
         """
-        return [value.as_url(cls) for key, value in cls.__dict__['declared_fields'].items()
-                if hasattr(value.__class__, 'as_url')]  # checks if its the right object
+        return [
+            value.as_url(cls)
+            for key, value in cls.__dict__['declared_fields'].items()
+            if hasattr(value.__class__, 'as_url')
+        ]  # checks if its the right object

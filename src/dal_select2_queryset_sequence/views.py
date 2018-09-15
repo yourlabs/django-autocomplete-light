@@ -60,23 +60,33 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
 
 class Select2QuerySetSequenceAutoView(Select2QuerySetSequenceView):
     """
-    Filter the queryset based on the models and filter attributes of the GenericForeignKeyModelField
-    self.model_choice is generated from the Select2GenericForeignKeyModelField, see its docstring
+    Filter the queryset based on the models and filter attributes of the
+    GenericForeignKeyModelField
+
+    self.model_choice is generated from the Select2GenericForeignKeyModelField,
+    see it's docstring
     """
+
     def get_queryset(self):
         queryset_models = []
         for model_args in self.model_choice:
             model = model_args[0]
             filter_value = model_args[1]
 
-            kwargs_model = {'{}__icontains'.format(filter_value): self.q if self.q else ''}
+            kwargs_model = {
+                '{}__icontains'.format(filter_value): self.q if self.q else ''
+            }
             forward_filtered = [Q(**kwargs_model)]
 
             try:
                 forward_fields = model_args[2]
                 for forward in forward_fields:
-                    forward_filtered.append(Q(**{'{}__icontains'.format(forward[1]): self.forwarded[forward[0]]}))
-            except IndexError:  # if no list on the 3rd index of self.model_choice (reserved for forwarding fields)
+                    field_key = '{}__icontains'.format(forward[1])
+                    field_value = self.forwarded[forward[0]]
+                    forward_filtered.append(Q(**{field_key: field_value}))
+            except IndexError:
+                # if no list on the 3rd index of self.model_choice
+                # (reserved for forwarding fields)
                 pass
 
             # link the diffrent field by an & query

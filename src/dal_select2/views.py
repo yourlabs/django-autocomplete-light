@@ -1,7 +1,7 @@
 """Select2 view implementation."""
 
 import collections
-import json
+# import json
 
 from dal.views import BaseQuerySetView, ViewMixin
 
