@@ -140,18 +140,25 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
     """
     Field that generate automatically the view for compatible widgets
     """
-    def __init__(self, *args, model_choice=None, widget=None, view=None, field_id=None, **kwargs):
+
+    def __init__(
+        self, *args,
+        model_choice=None, widget=None, view=None, field_id=None, **kwargs
+    ):
         self.field_id = field_id if field_id else id(self)
         if model_choice:
             self.model_choice = model_choice
-            models_queryset = [model[0].objects.all() for model in model_choice]
+            models_queryset = [model[0].objects.all()
+                               for model in model_choice]
             kwargs['queryset'] = QuerySetSequence(*models_queryset)
 
-        if isinstance(widget, type) and isinstance(view, type):  # check if they are classes
+        # check if they are classes
+        if isinstance(widget, type) and isinstance(view, type):
             self.widget_obj = widget
             self.view_obj = view
         else:
-            raise AttributeError("Class object are required (not instantiated)")
+            raise AttributeError(
+                "Class object are required (not instantiated)")
 
         super().__init__(*args, **kwargs)
 
@@ -160,7 +167,7 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
 
         self.widget = self.widget_obj(url=url_name)
 
-        AutoView = type('Autoview{}{}'.format(form.__name__, self.field_id),
-                        (self.view_obj,), {})
+        auto_view = type('Autoview{}{}'.format(form.__name__, self.field_id),
+                         (self.view_obj,), {})
         return url(r'^{}_{}_autocomp$'.format(form.__name__, self.field_id),
-                   AutoView.as_view(queryset=self.queryset), name=url_name)
+                   auto_view.as_view(queryset=self.queryset), name=url_name)

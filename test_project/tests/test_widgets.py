@@ -93,7 +93,8 @@ class Select2Test(test.TestCase):  # noqa
 
         form = Form(http.QueryDict())
         expected = '''
-<select data-autocomplete-light-function="select2" data-autocomplete-light-language="en-US" id="id_test" name="test">
+<select data-autocomplete-light-function="select2" data-autocomplete-light-'''
+        '''language="en-US" id="id_test" name="test">
 <option value="1">A</option>
 </select>
         '''.strip()
@@ -103,7 +104,8 @@ class Select2Test(test.TestCase):  # noqa
 
         form = Form(http.QueryDict('test=1'))
         expected = '''
-<select data-autocomplete-light-function="select2" data-autocomplete-light-language="en-US" id="id_test" name="test">
+<select data-autocomplete-light-function="select2" data-autocomplete-light-'''
+        '''language="en-US" id="id_test" name="test">
 <option value="1" %s>A</option>
 </select>
         '''.strip() % selected_tag()
