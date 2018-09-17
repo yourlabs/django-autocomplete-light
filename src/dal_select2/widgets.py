@@ -38,6 +38,7 @@ class Select2WidgetMixin(object):
 
     @property
     def media(self):
+        """Return JS/CSS resources for the widget."""
         extra = '' if settings.DEBUG else '.min'
         i18n_name = SELECT2_TRANSLATIONS.get(translation.get_language())
         i18n_file = (

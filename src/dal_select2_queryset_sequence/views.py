@@ -1,16 +1,16 @@
 """View for a Select2 widget and QuerySetSequence-based business logic."""
 from collections import OrderedDict
+from functools import reduce
 
 from dal_queryset_sequence.views import BaseQuerySetSequenceView
 
 from dal_select2.views import Select2ViewMixin
-from queryset_sequence import QuerySetSequence
 
+from django.db.models import Q
 from django.template.defaultfilters import capfirst
 from django.utils import six
-from django.db.models import Q
 
-from functools import reduce
+from queryset_sequence import QuerySetSequence
 
 
 class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
@@ -60,6 +60,8 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
 
 class Select2QuerySetSequenceAutoView(Select2QuerySetSequenceView):
     """
+    Select2QuerySetSequenceAutoView class.
+
     Filter the queryset based on the models and filter attributes of the
     GenericForeignKeyModelField
 
@@ -68,6 +70,7 @@ class Select2QuerySetSequenceAutoView(Select2QuerySetSequenceView):
     """
 
     def get_queryset(self):
+        """Return queryset."""
         queryset_models = []
         for model_args in self.model_choice:
             model = model_args[0]

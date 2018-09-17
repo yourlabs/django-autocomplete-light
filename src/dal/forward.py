@@ -126,6 +126,7 @@ class JavaScript(Forward):
     type = "javascript"
 
     def __init__(self, handler, dst=None):
+        """Initialize Javascript class."""
         self.handler = handler
         self.dst = dst
 
@@ -151,6 +152,7 @@ class Self(Forward):
     forwarded dictionary. If this value is ``None``, then the key is
     ``self``.
     """
+
     type = "self"
 
     def __init__(self, dst=None):
