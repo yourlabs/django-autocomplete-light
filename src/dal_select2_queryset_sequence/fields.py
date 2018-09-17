@@ -1,21 +1,27 @@
-from django.conf.urls import url
+"""Autocomplete fields for Select2GenericForeignKey choices."""
 
 from dal_queryset_sequence.fields import QuerySetSequenceModelField
 
-from queryset_sequence import QuerySetSequence
-
-from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
 from dal_select2_queryset_sequence.views import Select2QuerySetSequenceAutoView
+from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
+
+from django.conf.urls import url
+
+from queryset_sequence import QuerySetSequence
 
 
 class Select2GenericForeignKeyModelField(QuerySetSequenceModelField):
     """
+    Select2GenericForeignKeyModelField class.
+
     Field that generate automatically the view for the
     QuerySetSequenceSelect2 widget
     """
 
     def __init__(self, *args, model_choice=None, field_id=None, **kwargs):
         """
+        Initialize Select2GenericForeignKeyModelField.
+
         :param args:
         :param model_choice:
             [(Model, 'filter_by', [('forwardfield_name', 'filter_by')]), ],
@@ -36,6 +42,7 @@ class Select2GenericForeignKeyModelField(QuerySetSequenceModelField):
         super().__init__(*args, **kwargs)
 
     def as_url(self, form):
+        """Return url."""
         url_name = '{}_autocomp_{}'.format(form.__name__, self.field_id)
 
         forward_fields = {

@@ -162,7 +162,8 @@ class FutureModelForm(forms.ModelForm):
     @classmethod
     def as_urls(cls):
         """
-        Create a list of url patterns, to be called in url.py:
+        Create a list of url patterns, to be called in url.py.
+
         urlpattern.append(*ModelForm.as_url())
         Iterate over the fields to call the as_url() method from the
         GenericForeignKeyField
