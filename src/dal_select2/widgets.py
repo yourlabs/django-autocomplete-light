@@ -44,13 +44,13 @@ class Select2WidgetMixin(object):
         return forms.Media(
             js=(
                 'admin/js/vendor/jquery/jquery%s.js' % extra,
+                'autocomplete_light/jquery.init.js',
                 'admin/js/vendor/select2/select2.full%s.js' % extra,
             ) + i18n_file + (
-                'autocomplete_light/jquery.init.js',
                 'autocomplete_light/autocomplete.init.js',
-                'admin/js/autocomplete.js',
                 'autocomplete_light/forward.js',
                 'autocomplete_light/select2.js',
+                'autocomplete_light/jquery.post-setup.js',
             ),
             css={
                 'screen': (
