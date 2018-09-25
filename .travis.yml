@@ -3,7 +3,7 @@ language: python
 python:
 - '3.5'
 addons:
-  firefox: "latest"
+  firefox: "latest-esr"
 env:
   global:
   - PIP_RETRIES=10
