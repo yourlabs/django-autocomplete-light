@@ -16,10 +16,11 @@ install:
 - travis_retry pip install tox
 - travis_retry pip freeze
 
-- wget https://github.com/mozilla/geckodriver/releases/download/v0.14.0/geckodriver-v0.14.0-linux64.tar.gz
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.22.0/geckodriver-v0.22.0-linux64.tar.gz
 - mkdir geckodriver
 - tar -xzf geckodriver-*.tar.gz -C geckodriver
 - export PATH=$PWD/geckodriver:$PATH
+- geckodriver --version
 
 before_script:
 - "export DISPLAY=:99.0"
