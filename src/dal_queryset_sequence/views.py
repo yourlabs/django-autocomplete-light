@@ -31,10 +31,13 @@ class BaseQuerySetSequenceView(BaseQuerySetView):
 
     def mixup_querysets(self, qs):
         """Return a queryset with different model types."""
-        if len(list(qs.query._querysets)):
-            limit = int(self.paginate_by / len(qs.query._querysets))
-            qs.query._querysets[0][:2]
-            qs = QuerySetSequence(*[q[:limit] for q in qs.query._querysets])
+        querysets = (qs.query._querysets  # querysetsequence < 0.9
+                     if hasattr(qs, 'query')
+                     else qs._querysets)  # querysetsequence >= 0.9
+        if len(list(querysets)):
+            limit = int(self.paginate_by / len(querysets))
+            querysets[0][:2]
+            qs = QuerySetSequence(*[q[:limit] for q in querysets])
         return qs
 
     def get_queryset(self):
