@@ -19,7 +19,13 @@ class QuerySetSequenceFieldMixin(object):
         """Return the QuerySet from the QuerySetSequence for a ctype."""
         content_type = ContentType.objects.get_for_id(content_type_id)
 
-        for queryset in self.queryset.query._querysets:
+        try:
+            querysets = self.queryset._querysets
+        except AttributeError:
+            # querysetsequence < 0.9
+            querysets = self.queryset.query._querysets
+
+        for queryset in querysets:
             if queryset.model.__name__ == 'QuerySequenceModel':
                 # django-queryset-sequence 0.7 support dynamically created
                 # QuerySequenceModel which replaces the original model when it
