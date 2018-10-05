@@ -620,7 +620,7 @@ Then you should add forward declaration to your field as follows:
             queryset=Country.objects.all(),
             widget=autocomplete.ModelSelect2(
                 url='country-autocomplete',
-                forward=(forward.Javascript('my_awesome_handler', 'magic_number'),)))
+                forward=(forward.JavaScript('my_awesome_handler', 'magic_number'),)))
 
 In this case the value returned from your registered handler will be forwarded
 to autocomplete view as ``magic_number``.
