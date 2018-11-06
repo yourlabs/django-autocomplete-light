@@ -84,7 +84,7 @@ class Select2ListView(ViewMixin, View):
             if hasattr(self, 'create'):
                 create_option = [{
                     'id': self.q,
-                    'text': _('Create "%(new_value)s"') % {'new_value': q},
+                    'text': _('Create "%(new_value)s"') % {'new_value': self.q},
                     'create_id': True
                 }]
         return http.JsonResponse({
