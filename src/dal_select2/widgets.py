@@ -28,6 +28,7 @@ class Select2WidgetMixin(object):
             'autocomplete_light/autocomplete.init.js',
             'autocomplete_light/vendor/select2/dist/js/select2.full.js',
             'autocomplete_light/select2.js',
+            'autocomplete_light/jquery.post-setup.js'
         )
 
     autocomplete_function = 'select2'
