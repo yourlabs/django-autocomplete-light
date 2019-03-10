@@ -1,35 +1,39 @@
 """Autocomplete fields for QuerySetSequence choices."""
-
 from dal_contenttypes.fields import (
-    ContentTypeModelMultipleFieldMixin,
     GenericModelMixin,
 )
 
+
 from django import forms
 from django.conf.urls import url
-from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ObjectDoesNotExist
 
 from queryset_sequence import QuerySetSequence
+
+import six
 
 
 class QuerySetSequenceFieldMixin(object):
     """Base methods for QuerySetSequence fields."""
 
-    def get_queryset_for_content_type(self, content_type_id):
-        """Return the QuerySet from the QuerySetSequence for a ctype."""
-        content_type = ContentType.objects.get_for_id(content_type_id)
+    def prepare_value(self, value):
+        """Return a querysetid-objpk string for value.
 
-        for queryset in self.queryset.query._querysets:
-            if queryset.model.__name__ == 'QuerySequenceModel':
-                # django-queryset-sequence 0.7 support dynamically created
-                # QuerySequenceModel which replaces the original model when it
-                # patches the queryset since 6394e19
-                model = queryset.model.__bases__[0]
-            else:
-                model = queryset.model
+        value must be an object sourced from a querysetsequence lookup,
+        such that the querset index property ('#') is populated
+        """
+        if not value:
+            return ''
 
-            if model == content_type.model_class():
-                return queryset
+        if not hasattr(value, '#'):
+            return ''
+
+        if isinstance(value, six.string_types):
+            # Apparently Django's ModelChoiceField also expects two kinds of
+            # "value" to be passed in this method.
+            return value
+
+        return '%s-%s' % (value.get('#'), value.pk)
 
     def raise_invalid_choice(self, params=None):
         """
@@ -37,7 +41,7 @@ class QuerySetSequenceFieldMixin(object):
 
         The validation error left unprecise about the exact error for security
         reasons, to prevent an attacker doing information gathering to reverse
-        valid content type and object ids.
+        valid queryset sequence id and object ids.
         """
         raise forms.ValidationError(
             self.error_messages['invalid_choice'],
@@ -45,9 +49,29 @@ class QuerySetSequenceFieldMixin(object):
             params=params,
         )
 
-    def get_content_type_id_object_id(self, value):
-        """Return a tuple of ctype id, object id for value."""
+    def get_queryset_index_object_id(self, value):
+        """Return a tuple of queryset id, object id for value."""
         return value.split('-', 1)
+
+    def get_model_for_queryset_index_object_id(self,
+                                               queryset_index,
+                                               object_id):
+        """Return an object matching queryset_index and object_id."""
+        return self.queryset.get(**{'#': queryset_index, 'id': object_id})
+
+
+class QuerySetSequenceMultipleFieldMixin(QuerySetSequenceFieldMixin):
+    """Same as ContentTypeModelFieldMixin, but supports value list."""
+
+    def prepare_value(self, value):
+        """Run the parent's method for each value."""
+        if not value:  # ModelMultipleChoiceField does it too
+            return []
+
+        return [
+            super(QuerySetSequenceMultipleFieldMixin, self).prepare_value(v)
+            for v in value
+        ]
 
 
 class QuerySetSequenceModelField(GenericModelMixin,
@@ -57,7 +81,7 @@ class QuerySetSequenceModelField(GenericModelMixin,
 
     def to_python(self, value):
         """
-        Given a string like '3-5', return the model of ctype #3 and pk 5.
+        Given a string like '3-5', return the model of queryset #3 and pk 5.
 
         Note that in the case of ModelChoiceField, to_python is also in charge
         of security, it's important to get the results from self.queryset.
@@ -65,20 +89,15 @@ class QuerySetSequenceModelField(GenericModelMixin,
         if not value:
             return value
 
-        content_type_id, object_id = self.get_content_type_id_object_id(value)
-        queryset = self.get_queryset_for_content_type(content_type_id)
-
-        if queryset is None:
-            self.raise_invalid_choice()
-
+        queryset_index, object_id = self.get_queryset_index_object_id(value)
         try:
-            return queryset.get(pk=object_id)
-        except queryset.model.DoesNotExist:
+            return self.get_model_for_queryset_index_object_id(queryset_index,
+                                                               object_id)
+        except ObjectDoesNotExist:
             self.raise_invalid_choice()
 
 
-class QuerySetSequenceModelMultipleField(ContentTypeModelMultipleFieldMixin,
-                                         QuerySetSequenceFieldMixin,
+class QuerySetSequenceModelMultipleField(QuerySetSequenceMultipleFieldMixin,
                                          forms.ModelMultipleChoiceField):
     """ModelMultipleChoiceField with support for QuerySetSequence choices."""
 
@@ -94,38 +113,30 @@ class QuerySetSequenceModelMultipleField(ContentTypeModelMultipleFieldMixin,
                 code='list',
             )
 
-    def _get_ctype_objects(self, values):
+    def _get_queryset_index_objects(self, values):
         pks = {}
         for val in values:
-            content_type_id, object_id = self.get_content_type_id_object_id(
-                val)
+            queryset_index, object_id = self.get_queryset_index_object_id(val)
 
-            pks.setdefault(content_type_id, [])
-            pks[content_type_id].append(object_id)
+            pks.setdefault(queryset_index, [])
+            pks[queryset_index].append(object_id)
         return pks
 
     def _get_queryset_for_pks(self, pks):
         querysets = []
-        for content_type_id, object_ids in pks.items():
-            queryset = self.get_queryset_for_content_type(content_type_id)
+        for queryset_index, object_ids in pks.items():
 
-            if queryset is None:
-                self.raise_invalid_choice(
-                    params=dict(
-                        value='%s-%s' % (content_type_id, object_ids[0])
-                    )
-                )
-
-            querysets.append(queryset.filter(pk__in=object_ids))
+            querysets.append(self.queryset.filter(**{'#': queryset_index,
+                                                     'pk__in': object_ids}))
         return QuerySetSequence(*querysets)
 
     def _check_values(self, value):
         values = self._deduplicate_values(value)
-        pks = self._get_ctype_objects(values)
+        pks = self._get_queryset_index_objects(values)
         queryset = self._get_queryset_for_pks(pks)
 
         fetched_values = [
-            '%s-%s' % (ContentType.objects.get_for_model(o).pk, o.pk)
+            '%s-%s' % (o.get('#'), o.pk)
             for o in queryset
         ]
 
