@@ -84,7 +84,9 @@ class Select2ListView(ViewMixin, View):
             if hasattr(self, 'create'):
                 create_option = [{
                     'id': self.q,
-                    'text': _('Create "%(new_value)s"') % {'new_value': self.q},
+                    'text': _('Create "%(new_value)s"') % {
+                        'new_value': self.q
+                    },
                     'create_id': True
                 }]
         return http.JsonResponse({
@@ -166,9 +168,16 @@ class Select2GroupListView(Select2ListView):
                 results_dict[group].append(value)
 
         return http.JsonResponse({
-            "results":
-                [{"id": x, "text": x} for x in results_dict.pop(None, [])] +
-                [{"id": g, "text": g, "children": [{"id": x, "text": x}
-                                                   for x in l]}
-                 for g, l in six.iteritems(results_dict)]
+            "results": [
+                {"id": x, "text": x} for x in results_dict.pop(None, [])
+            ] + [
+                {
+                    "id": g,
+                    "text": g,
+                    "children": [
+                        {"id": x, "text": x} for x in l
+                    ]
+                }
+                for g, l in six.iteritems(results_dict)
+            ]
         })

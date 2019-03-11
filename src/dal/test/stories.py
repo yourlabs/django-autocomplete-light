@@ -29,8 +29,8 @@ class BaseStory(object):
         """If any kwarg is None, get it from case attributes."""
         self.case = case
         self.clear_selector = clear_selector or self.case.clear_selector
-        self.dropdown_selector = (dropdown_selector or
-                                  self.case.dropdown_selector)
+        self.dropdown_selector = (dropdown_selector
+                                  or self.case.dropdown_selector)
         self.field_name = field_name or self.case.field_name
         self.input_selector = input_selector or self.case.input_selector
         self.label_selector = label_selector or self.case.label_selector
@@ -229,8 +229,8 @@ class InlineSelectOption(SelectOption):
         foreign key used for the InlineModelAdmin.
         """
         self.inline_number = inline_number
-        self.inline_related_name = (inline_related_name or
-                                    case.inline_related_name)
+        self.inline_related_name = (inline_related_name
+                                    or case.inline_related_name)
 
         super(InlineSelectOption, self).__init__(case, **kwargs)
 

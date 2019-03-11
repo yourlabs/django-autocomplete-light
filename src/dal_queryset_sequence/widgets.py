@@ -45,4 +45,4 @@ class QuerySetSequenceSelect(QuerySetSequenceSelectMixin,
 
 class QuerySetSequenceSelectMultiple(QuerySetSequenceSelectMixin,
                                      forms.SelectMultiple):
-        """SelectMultiple widget for QuerySetSequence choices."""
+    """SelectMultiple widget for QuerySetSequence choices."""
