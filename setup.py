@@ -28,7 +28,7 @@ setup(
         'nested': ['django-nested-admin'],
         'tags': ['django-taggit'],
         'genericm2m': ['django-generic-m2m'],
-        'gfk': ['django-querysetsequence>=0.7.1'],
+        'gfk': [],
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
