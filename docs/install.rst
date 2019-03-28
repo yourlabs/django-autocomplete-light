@@ -36,6 +36,12 @@ sets up jQuery with ``noConflict``, making jQuery available in
 To enable more DAL functionalities we will have to add other DAL apps
 to :django:setting:`INSTALLED_APPS`, such as 'dal_queryset_sequence' ...
 
+Django versions earlier than 2.0
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You will need to add dal_legacy_static to your INSTALLED_APPS settings.
+This adds in select2 static files that are included with Django 2.x but
+missing in earlier versions.
+
 JQuery 3.x
 ^^^^^^^^^^
 JQuery 3.x comes with a "slim" version. This version is not compatible with
