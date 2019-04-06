@@ -49,7 +49,7 @@ class Select2WidgetMixin(object):
             js=(
                 'admin/js/vendor/jquery/jquery%s.js' % extra,
                 'autocomplete_light/jquery.init.js',
-                'admin/js/vendor/select2/select2.full%s.js' % extra,
+                'autocomplete_light/vendor/select2/dist/js/select2.full%s.js' % extra,
             ) + i18n_file + (
                 'autocomplete_light/autocomplete.init.js',
                 'autocomplete_light/forward.js',
@@ -58,7 +58,7 @@ class Select2WidgetMixin(object):
             ),
             css={
                 'screen': (
-                    'admin/css/vendor/select2/select2%s.css' % extra,
+                    'autocomplete_light/vendor/select2/dist/js/select2%s.css' % extra,
                     'admin/css/autocomplete.css',
                     'autocomplete_light/select2.css',
                 ),
