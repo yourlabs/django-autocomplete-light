@@ -1,6 +1,7 @@
 """Widgets for Select2 and django-taggit."""
 
 from dal_select2.widgets import TagSelect2
+from taggit.models import Tag
 
 from django import VERSION
 from django.utils import six
@@ -53,3 +54,25 @@ class TaggitSelect2(TagSelect2):
         ]
 
         return '\n'.join(options)
+
+    def format_value(self, value):
+        """Return the list of HTML option values for a form field value."""
+        if not isinstance(value, (tuple, list)):
+            value = [value]
+
+        values = set()
+        for v in value:
+            if not v:
+                continue
+
+            if isinstance(v, six.string_types):
+                for t in v.split(','):
+                    values.add(self.option_value(t))
+            elif isinstance(v, Tag):
+                import ipdb; ipdb.set_trace()
+                values.add(self.option_value(v))
+            else:
+                for t in v:
+                    values.add(self.option_value(t))
+        return values
+

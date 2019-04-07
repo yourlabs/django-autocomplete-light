@@ -3,7 +3,11 @@ django-extensions
 -e git+https://github.com/theatlantic/django-nested-admin.git@4a511db92549d7c17c3499638060f0761dcb414e#egg=nested_admin
 -e git+https://github.com/coleifer/django-generic-m2m.git#egg=genericm2m
 django-gm2m
-django-querysetsequence
+
+# waiting for release of https://github.com/percipient/django-querysetsequence/pull/53
+#django-querysetsequence
+-e git+https://github.com/percipient/django-querysetsequence.git#egg=querysetsequence
+
 django-taggit
 django-tagging
 mock

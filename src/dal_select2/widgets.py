@@ -58,7 +58,7 @@ class Select2WidgetMixin(object):
             ),
             css={
                 'screen': (
-                    'autocomplete_light/vendor/select2/dist/js/select2%s.css' % extra,
+                    'autocomplete_light/vendor/select2/dist/css/select2%s.css' % extra,
                     'admin/css/autocomplete.css',
                     'autocomplete_light/select2.css',
                 ),
