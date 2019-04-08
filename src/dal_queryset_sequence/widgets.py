@@ -8,11 +8,15 @@ from dal.widgets import WidgetMixin
 
 from django import forms
 from django.contrib.contenttypes.models import ContentType
-from django.utils import six
+from django.utils.encoding import force_text
 
 
 class QuerySetSequenceSelectMixin(WidgetMixin):
     """Support QuerySetSequence in WidgetMixin."""
+
+    def label_from_instance(self, obj):
+        """Convert an object into string. Override it to customize display."""
+        return force_text(obj)
 
     def filter_choices_to_render(self, selected_choices):
         """Overwrite self.choices to exclude unselected values."""
@@ -33,7 +37,7 @@ class QuerySetSequenceSelectMixin(WidgetMixin):
             results = ctype(ctype_pk).model_class().objects.filter(pk__in=ids)
 
             self.choices += [
-                ('%s-%s' % (ctype_pk, r.pk), six.text_type(r))
+                ('%s-%s' % (ctype_pk, r.pk), self.label_from_instance(r))
                 for r in results
             ]
 
