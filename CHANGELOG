@@ -1,3 +1,5 @@
+3.3.4 re-release without dirty source
+
 3.3.3 django < 2.0 support with dal_static contributed by @andybak
 
 3.3.2 django.contrib.admin fix static files by @coredumperror
