@@ -29,11 +29,9 @@
     #959
 
 3.3.0-rc5
-
     #895: Self() and JavaScript() forward features
 
 3.3.0-rc4
-
     #843: Forward logic refactored. Specifications for types of forwarded values.
 
 3.3.0-rc3
