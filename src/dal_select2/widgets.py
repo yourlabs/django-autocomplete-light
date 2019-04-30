@@ -19,6 +19,7 @@ except ImportError:
 from django.contrib.staticfiles import finders
 from django.utils import six
 from django.utils import translation
+from django.utils.itercompat import is_iterable
 
 
 @lru_cache()
@@ -149,12 +150,10 @@ class TagSelect2(WidgetMixin,
             if not v:
                 continue
 
-            if isinstance(v, six.string_types):
-                for t in v.split(','):
-                    values.add(self.option_value(t))
-            else:
-                for t in v:
-                    values.add(self.option_value(t))
+            v = v.split(',') if isinstance(v, six.string_types) else v
+            v = [v] if not is_iterable(v) else v
+            for t in v:
+                values.add(self.option_value(t))
         return values
 
     def options(self, name, value, attrs=None):
@@ -168,6 +167,7 @@ class TagSelect2(WidgetMixin,
                 continue
 
             real_values = v.split(',') if hasattr(v, 'split') else v
+            real_values = [real_values] if not is_iterable(real_values) else real_values
             for rv in real_values:
                 yield self.option_value(rv)
 
