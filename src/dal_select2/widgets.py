@@ -23,17 +23,18 @@ from django.contrib.staticfiles import finders
 
 @lru_cache()
 def get_i18n_name(lang_code):
+    split_lang = lang_code.split('-')[0]
     # Use the SELECT2_TRANSLATIONS if available
     if SELECT2_TRANSLATIONS:
         if lang_code in SELECT2_TRANSLATIONS:
             return lang_code
         else:
-            return SELECT2_TRANSLATIONS.get(lang_code.split('-')[0])
+            return SELECT2_TRANSLATIONS.get(split_lang)
     # Otherwise fallback to manually checking if the static file exists
     else:
         if finders.find('admin/js/vendor/select2/i18n/%s.js' % lang_code):
             return lang_code
-        elif finders.find('admin/js/vendor/select2/i18n/%s.js' % lang_code.split('-')[0]):
+        elif finders.find('admin/js/vendor/select2/i18n/%s.js' % split_lang):
             return lang_code.split('-')[0]
 
 
@@ -52,7 +53,9 @@ class Select2WidgetMixin(object):
         """Return language code or None."""
         lang_code = translation.get_language()
         if lang_code:
-            lang_code = get_i18n_name(translation.to_locale(lang_code).replace('_', '-'))
+            lang_code = get_i18n_name(
+                translation.to_locale(lang_code).replace('_', '-')
+            )
         return lang_code
 
     @property
