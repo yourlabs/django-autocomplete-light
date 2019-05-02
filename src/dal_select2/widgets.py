@@ -16,13 +16,15 @@ try:
     from django.contrib.admin.widgets import SELECT2_TRANSLATIONS
 except ImportError:
     SELECT2_TRANSLATIONS = {}
+from django.contrib.staticfiles import finders
 from django.utils import six
 from django.utils import translation
-from django.contrib.staticfiles import finders
 
 
 @lru_cache()
 def get_i18n_name(lang_code):
+    """Provide i18n name verification to ensure we're using a language
+   supported by Select2"""
     split_lang = lang_code.split('-')[0]
     # Use the SELECT2_TRANSLATIONS if available
     if SELECT2_TRANSLATIONS:
