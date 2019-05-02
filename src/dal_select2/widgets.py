@@ -23,7 +23,7 @@ from django.utils import translation
 
 @lru_cache()
 def get_i18n_name(lang_code):
-    """Ensure lang_code is supported by Select2"""
+    """Ensure lang_code is supported by Select2."""
     split_lang = lang_code.split('-')[0]
     # Use the SELECT2_TRANSLATIONS if available
     if SELECT2_TRANSLATIONS:
