@@ -1,5 +1,7 @@
 """Select2 widget implementation module."""
 
+from functools import lru_cache
+
 from dal.widgets import (
     QuerySetSelectMixin,
     Select,
@@ -16,6 +18,23 @@ except ImportError:
     SELECT2_TRANSLATIONS = {}
 from django.utils import six
 from django.utils import translation
+from django.contrib.staticfiles import finders
+
+
+@lru_cache()
+def get_i18n_name(lang_code):
+    # Use the SELECT2_TRANSLATIONS if available
+    if SELECT2_TRANSLATIONS:
+        if lang_code in SELECT2_TRANSLATIONS:
+            return lang_code
+        else:
+            return SELECT2_TRANSLATIONS.get(lang_code.split('-')[0])
+    # Otherwise fallback to manually checking if the static file exists
+    else:
+        if finders.find('admin/js/vendor/select2/i18n/%s.js' % lang_code):
+            return lang_code
+        elif finders.find('admin/js/vendor/select2/i18n/%s.js' % lang_code.split('-')[0]):
+            return lang_code.split('-')[0]
 
 
 class Select2WidgetMixin(object):
@@ -33,14 +52,14 @@ class Select2WidgetMixin(object):
         """Return language code or None."""
         lang_code = translation.get_language()
         if lang_code:
-            lang_code = translation.to_locale(lang_code).replace('_', '-')
+            lang_code = get_i18n_name(translation.to_locale(lang_code).replace('_', '-'))
         return lang_code
 
     @property
     def media(self):
         """Return JS/CSS resources for the widget."""
         extra = '' if settings.DEBUG else '.min'
-        i18n_name = SELECT2_TRANSLATIONS.get(translation.get_language())
+        i18n_name = self._get_language_code()
         i18n_file = (
             'admin/js/vendor/select2/i18n/%s.js' % i18n_name,
         ) if i18n_name else ()
