@@ -3,6 +3,8 @@
 from dal.autocomplete import Select2
 from dal.widgets import Select, WidgetMixin
 
+from dal_select2 import widgets as select2_widget
+
 import django
 from django import forms
 from django import http
@@ -72,7 +74,7 @@ class Select2Test(test.TestCase):  # noqa
         form = Form(http.QueryDict())
         expected = '''
 <select data-autocomplete-light-function="select2"\
- data-autocomplete-light-language="en-US"\
+ data-autocomplete-light-language="en"\
  data-placeholder="Some placeholder" id="id_test" name="test">
 <option value="" %s></option>
 <option value="1">A</option>
@@ -93,8 +95,9 @@ class Select2Test(test.TestCase):  # noqa
 
         form = Form(http.QueryDict())
         expected = '''
-<select data-autocomplete-light-function="select2" data-autocomplete-light-'''
-        '''language="en-US" id="id_test" name="test">
+<select data-autocomplete-light-function="select2"
+        data-autocomplete-light-language="en"
+        id="id_test" name="test">
 <option value="1">A</option>
 </select>
         '''.strip()
@@ -104,14 +107,31 @@ class Select2Test(test.TestCase):  # noqa
 
         form = Form(http.QueryDict('test=1'))
         expected = '''
-<select data-autocomplete-light-function="select2" data-autocomplete-light-'''
-        '''language="en-US" id="id_test" name="test">
+<select data-autocomplete-light-function="select2"
+        data-autocomplete-light-language="en"
+        id="id_test" name="test">
 <option value="1" %s>A</option>
 </select>
         '''.strip() % selected_tag()
         observed = six.text_type(form['test'].as_widget())
 
         self.assertHTMLEqual(observed, expected)
+
+    def test_widget_finds_correct_language(self):
+        """Assert that a valid language code is found correctly."""
+        self.assertEqual(select2_widget.get_i18n_name('en'), 'en')
+        self.assertEqual(select2_widget.get_i18n_name('en-US'), 'en')
+        self.assertEqual(select2_widget.get_i18n_name('fr-US'), 'fr')
+        self.assertEqual(select2_widget.get_i18n_name('fr-FR'), 'fr')
+        self.assertEqual(select2_widget.get_i18n_name('sr-Cyrl'), 'sr-Cyrl')
+        self.assertEqual(select2_widget.get_i18n_name('zh-TW'), 'zh-TW')
+        self.assertEqual(select2_widget.get_i18n_name('zh-Hant'), 'zh-TW')
+
+    def test_widget_does_not_find_incorrect_language(self):
+        """Assert that an invalid language code is not found."""
+        self.assertEqual(select2_widget.get_i18n_name('ab'), None)
+        self.assertEqual(select2_widget.get_i18n_name('cd'), None)
+        self.assertEqual(select2_widget.get_i18n_name('ab-US'), None)
 
 
 @override_settings(ROOT_URLCONF='tests.test_widgets')
