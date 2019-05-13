@@ -12,3 +12,12 @@ class TForm(forms.ModelForm):
         widgets = {
             'test': autocomplete.TaggitSelect2('select2_taggit')
         }
+
+
+class EditTForm(forms.ModelForm):
+    class Meta:
+        model = TModel
+        fields = ('name', 'test')
+        widgets = {
+            'test': autocomplete.TaggitSelect2('select2_taggit')
+        }
