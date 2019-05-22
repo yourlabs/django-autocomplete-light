@@ -131,7 +131,7 @@
             forwardedData,
             divSelector,
             form;
-        divSelector = "div.dal-forward-conf#dal-forward-conf-for-" +
+        divSelector = "div.dal-forward-conf#dal-forward-conf-for_" +
                 element.attr("id");
         form = element.length > 0 ? $(element[0].form) : $();
 

@@ -92,7 +92,7 @@ class GenericFormTest(test.TestCase):  # noqa
         result = six.text_type(form['test'].as_widget())
 
         expected += '''
-        <div class="dal-forward-conf" id="dal-forward-conf-for-id_test"
+        <div class="dal-forward-conf" id="dal-forward-conf-for_id_test"
         style="display:none">
         <script type="text/dal-forward-conf">
         [{"type": "field", "src": "name"}]</script>
