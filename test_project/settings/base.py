@@ -97,6 +97,7 @@ INSTALLED_APPS = [
 if django.VERSION < (2, 0, 0):
     # pending upstream support for dj 2.0
     INSTALLED_APPS += [
+        'dal_legacy_static',
         'gm2m',
         'select2_gm2m',
         'genericm2m',
