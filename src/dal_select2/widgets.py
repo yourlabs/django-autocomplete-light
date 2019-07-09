@@ -1,6 +1,9 @@
 """Select2 widget implementation module."""
 
-from functools import lru_cache
+try:
+    from functools import lru_cache
+except:
+    lru_cache = None
 
 from dal.widgets import (
     QuerySetSelectMixin,
@@ -22,7 +25,6 @@ from django.utils import translation
 from django.utils.itercompat import is_iterable
 
 
-@lru_cache()
 def get_i18n_name(lang_code):
     """Ensure lang_code is supported by Select2."""
     lower_lang = lang_code.lower()
@@ -34,10 +36,17 @@ def get_i18n_name(lang_code):
         elif split_lang in SELECT2_TRANSLATIONS:
             return SELECT2_TRANSLATIONS.get(split_lang)
     # Otherwise fallback to manually checking if the static file exists
-    if finders.find('admin/js/vendor/select2/i18n/%s.js' % lang_code):
+    if finders.find('vendor/select2/dist/js/i18n/%s.js' % lang_code):
         return lang_code
-    elif finders.find('admin/js/vendor/select2/i18n/%s.js' % split_lang):
+    elif finders.find('vendor/select2/dist/js/i18n/%s.js' % split_lang):
         return lang_code.split('-')[0]
+
+
+if lru_cache:
+    get_i18n_name = lru_cache()(get_i18n_name)
+else:
+    import warnings
+    warnings.warn('Python2: no cache on get_i18n_name until contribution')
 
 
 class Select2WidgetMixin(object):
@@ -66,14 +75,14 @@ class Select2WidgetMixin(object):
         extra = '' if settings.DEBUG else '.min'
         i18n_name = self._get_language_code()
         i18n_file = (
-            'admin/js/vendor/select2/i18n/%s.js' % i18n_name,
+            'vendor/select2/i18n/%s.js' % i18n_name,
         ) if i18n_name else ()
 
         return forms.Media(
             js=(
                 'admin/js/vendor/jquery/jquery%s.js' % extra,
                 'autocomplete_light/jquery.init.js',
-                'admin/js/vendor/select2/select2.full%s.js' % extra,
+                'vendor/select2/dist/js/select2.full%s.js' % extra,
             ) + i18n_file + (
                 'autocomplete_light/autocomplete.init.js',
                 'autocomplete_light/forward.js',
@@ -82,7 +91,7 @@ class Select2WidgetMixin(object):
             ),
             css={
                 'screen': (
-                    'admin/css/vendor/select2/select2%s.css' % extra,
+                    'vendor/select2/dist/css/select2%s.css' % extra,
                     'admin/css/autocomplete.css',
                     'autocomplete_light/select2.css',
                 ),

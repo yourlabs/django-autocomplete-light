@@ -1,0 +1,6 @@
+[submodule "src/dal/static/autocomplete_light/select2"]
+	path = src/dal/static/autocomplete_light/select2
+	url = https://github.com/select2/select2.git
+[submodule "src/dal_select2/static/vendor/select2"]
+	path = src/dal_select2/static/vendor/select2
+	url = https://github.com/select2/select2.git

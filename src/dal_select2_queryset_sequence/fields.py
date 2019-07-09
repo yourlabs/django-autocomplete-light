@@ -18,7 +18,7 @@ class Select2GenericForeignKeyModelField(QuerySetSequenceModelField):
     QuerySetSequenceSelect2 widget
     """
 
-    def __init__(self, *args, model_choice=None, field_id=None, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Initialize Select2GenericForeignKeyModelField.
 
@@ -32,6 +32,8 @@ class Select2GenericForeignKeyModelField(QuerySetSequenceModelField):
         :param field_id: Optional name instead of the automatic one
         :param kwargs:
         """
+        model_choice = kwargs.pop('model_choice', None)
+        field_id = kwargs.pop('field_id', None)
         self.field_id = field_id if field_id else id(self)
         if model_choice:
             self.model_choice = model_choice
@@ -39,7 +41,7 @@ class Select2GenericForeignKeyModelField(QuerySetSequenceModelField):
                                for model in model_choice]
             kwargs['queryset'] = QuerySetSequence(*models_queryset)
 
-        super().__init__(*args, **kwargs)
+        super(Select2GenericForeignKeyModelField, self).__init__(*args, **kwargs)
 
     def as_url(self, form):
         """Return url."""
