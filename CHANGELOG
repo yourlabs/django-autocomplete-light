@@ -1,3 +1,5 @@
+3.4.0 Python 2 and Django < 2.0 support
+
 3.3.4 re-release without dirty source
 
 3.3.3 django < 2.0 support with dal_static contributed by @andybak
