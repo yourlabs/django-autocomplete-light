@@ -141,7 +141,6 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
 
     def __init__(self, *args, **kwargs):
         """Initialize GenericForeignKeyModelField."""
-
         model_choice = kwargs.pop('model_choice', None)
         widget = kwargs.pop('widget', None)
         view = kwargs.pop('view', None)
