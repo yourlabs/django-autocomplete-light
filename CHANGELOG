@@ -1,3 +1,5 @@
+3.4.1 Fix #1108: i18n path (thanks @philgyford for report)
+
 3.4.0 Python 2 and Django < 2.0 support
 
 3.3.4 re-release without dirty source

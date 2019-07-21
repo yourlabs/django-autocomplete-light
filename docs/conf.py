@@ -61,8 +61,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-autocomplete-light'
-copyright = u'2012-2017, YourLabs'  # NGO
-author = u'James Pic & contributors'
+copyright = u'2012-2019, YourLabs'  # NGO
+author = u'James Pic & Amazing Contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
