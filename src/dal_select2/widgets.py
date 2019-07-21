@@ -25,6 +25,9 @@ from django.utils import translation
 from django.utils.itercompat import is_iterable
 
 
+I18N_PATH = 'vendor/select2/dist/js/i18n/'
+
+
 def get_i18n_name(lang_code):
     """Ensure lang_code is supported by Select2."""
     lower_lang = lang_code.lower()
@@ -36,9 +39,9 @@ def get_i18n_name(lang_code):
         elif split_lang in SELECT2_TRANSLATIONS:
             return SELECT2_TRANSLATIONS.get(split_lang)
     # Otherwise fallback to manually checking if the static file exists
-    if finders.find('vendor/select2/dist/js/i18n/%s.js' % lang_code):
+    if finders.find('%s%s.js' % (I18N_PATH, lang_code)):
         return lang_code
-    elif finders.find('vendor/select2/dist/js/i18n/%s.js' % split_lang):
+    elif finders.find('%s%s.js' % (I18N_PATH, split_lang)):
         return lang_code.split('-')[0]
 
 
@@ -75,7 +78,7 @@ class Select2WidgetMixin(object):
         extra = '' if settings.DEBUG else '.min'
         i18n_name = self._get_language_code()
         i18n_file = (
-            'vendor/select2/i18n/%s.js' % i18n_name,
+            '%s%s.js' % (I18N_PATH, i18n_name),
         ) if i18n_name else ()
 
         return forms.Media(
