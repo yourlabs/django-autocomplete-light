@@ -1,50 +1,39 @@
 sudo: false
+dist: xenial
 language: python
-python:
-- '3.5'
 env:
   global:
   - PIP_RETRIES=10
   - PIP_TIMEOUT=30
-  - BROWSER=phantomjs
-  matrix:
-  - TOXENV=checkqa
-  - TOXENV=base-py35-django20-sqlite
-  - TOXENV=base-py35-django21-sqlite
+  - BROWSER=firefox
+  - GECKODRIVER=0.24.0
+  - MOZ_HEADLESS=1
 matrix:
+  include:
+    - python: 3.7
+      env: TOXENV=checkqa
+    - python: 3.5
+      env: TOXENV=base-py35-django20-sqlite
+    - python: 3.6
+      env: TOXENV=base-py36-django21-sqlite
   allow_failures:
   - env: TOXENV=base-py35-django20-sqlite
-  - env: TOXENV=base-py35-django21-sqlite
+  - env: TOXENV=base-py36-django21-sqlite
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
 - travis_retry pip freeze
 services:
-  - xvfb
+  - firefox: latest
+before_install:
+  - wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER/geckodriver-v$GECKODRIVER-linux64.tar.gz
+  - mkdir -p geckodriver && tar -xzf geckodriver-v$GECKODRIVER-linux64.tar.gz -C geckodriver
+  - export PATH=$(pwd)/geckodriver:$PATH
 before_script:
 - if echo "$TOXENV" | grep mysql; then mysql -e 'create database autocomplete_light_test;';
   fi
 - if echo "$TOXENV" | grep postgresql; then psql -c 'create database autocomplete_light_test;'
   -U postgres; fi
-- set -eux;
-  export PHANTOMJS_VERSION=2.1.1;
-  phantomjs --version;
-  export PATH=$HOME/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin:$PATH;
-  phantomjs --version;
-  if [ "$(phantomjs --version)" != "$PHANTOMJS_VERSION" ]; then
-    rm -rf $HOME/travis_phantomjs;
-    mkdir -p $HOME/travis_phantomjs;
-    if [ ! -f $HOME/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 ]; then
-      travis_retry wget
-        https://github.com/Medium/phantomjs/releases/download/v$PHANTOMJS_VERSION/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2
-        -O $HOME/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2;
-    fi;
-    tar -xvf
-      $HOME/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2
-      -C $HOME/travis_phantomjs;
-  fi;
-  phantomjs --version;
-  set +eu
 script:
 - tox -r
 - test -d .tox/$TOXENV/log && cat .tox/$TOXENV/log/*.log || true
@@ -61,7 +50,6 @@ cache:
   directories:
   - .tox/$TOXENV
   - $HOME/.cache/pip
-  - $HOME/travis_phantomjs
 deploy:
   provider: openshift
   user: jpic@yourlabs.org
