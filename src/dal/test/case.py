@@ -1,6 +1,5 @@
 """Test case for autocomplete implementations."""
 
-import os
 import uuid
 
 from django import VERSION
@@ -13,25 +12,17 @@ except ImportError:
     from django.core.urlresolvers import reverse
 from django.utils import six
 
-from splinter import Browser
+import pytest
 
 
-GLOBAL_BROWSER = None
-
-
+@pytest.mark.usefixtures('cls_browser')
 class AutocompleteTestCase(StaticLiveServerTestCase):
     """Provide a class-persistent selenium instance and assertions."""
 
-    @classmethod
-    def setUpClass(cls):
-        """Instanciate a browser for the whole test session."""
-        global GLOBAL_BROWSER
-
-        if GLOBAL_BROWSER is None:
-            GLOBAL_BROWSER = Browser(os.environ.get('BROWSER', 'firefox'))
-        cls.browser = GLOBAL_BROWSER
-
-        super(AutocompleteTestCase, cls).setUpClass()
+    @pytest.fixture(scope='class')
+    def cls_browser(self, request, session_browser):
+        """Set splinter browser as `browser` class property."""
+        request.cls.browser = session_browser
 
     def get(self, url):
         """Open a URL."""
