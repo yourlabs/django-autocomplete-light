@@ -15,5 +15,5 @@ pytest-cov
 pytest-splinter
 tenacity
 whitenoise
-django-nested-admin
+django-nested-admin>=3.0.21
 django-debug-toolbar
