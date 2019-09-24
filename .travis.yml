@@ -12,13 +12,8 @@ matrix:
   include:
     - python: 3.7
       env: TOXENV=checkqa
-    - python: 3.5
-      env: TOXENV=base-py35-django20-sqlite
-    - python: 3.6
-      env: TOXENV=base-py36-django21-sqlite
-  allow_failures:
-  - env: TOXENV=base-py35-django20-sqlite
-  - env: TOXENV=base-py36-django21-sqlite
+    - python: 3.7
+      env: TOXENV=base-py37-django21-sqlite
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
@@ -50,15 +45,3 @@ cache:
   directories:
   - .tox/$TOXENV
   - $HOME/.cache/pip
-deploy:
-  provider: openshift
-  user: jpic@yourlabs.org
-  password:
-    secure: FuIzy9CJ1+SSsLFVXj942Y4DYzv2NLAktHML+VB3IBR+JdJ4cTW7lftwUmmghXE4HmBoHbKsDlpwN/dErPy0yDl2bv3ejJWRWyekIOyu0Omwia0PDTEt6n/mryrQ92dAyjpD6SeypotHqhOCnj1HxJdgwL4EmzG+5o9n8eNte0M=
-  app: dal
-  domain: yourlabs
-  deployment_branch: master
-  skip_cleanup: true
-  on:
-    repo: yourlabs/django-autocomplete-light
-    branch: master
