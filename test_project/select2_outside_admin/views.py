@@ -43,7 +43,6 @@ class UpdateView(generic.UpdateView):
         if '_formset' not in self.__dict__:
             setattr(self, '_formset', self.formset_class(
                 self.request.POST if self.request.method == 'POST' else None,
-                #instance=getattr(self, 'object', self.get_object()),
                 instance=getattr(self, 'object', self.get_object()),
             ))
         return self._formset
