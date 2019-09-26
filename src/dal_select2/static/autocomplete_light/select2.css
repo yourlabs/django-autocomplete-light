@@ -7,3 +7,8 @@ ul li.select2-search {
     /* Cancel out django's style */
     list-style-type: none;
 }
+
+.errors .select2-selection {
+    /* Highlight select box with error */
+    border-color: #ba2121;
+}
