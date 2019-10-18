@@ -6,6 +6,7 @@ from dal.widgets import Select, WidgetMixin
 from dal_select2 import widgets as select2_widget
 
 import django
+import six
 from django import forms
 from django import http
 from django import test
@@ -15,7 +16,6 @@ try:
 except ImportError:
     from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
-from django.utils import six
 
 import mock
 

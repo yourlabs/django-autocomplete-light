@@ -2,6 +2,7 @@
 
 import uuid
 
+import six
 from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -10,7 +11,6 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from django.utils import six
 
 import pytest
 

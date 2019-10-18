@@ -1,5 +1,6 @@
 from dal import autocomplete
 
+import six
 from django import forms
 from django import http
 from django import test
@@ -8,7 +9,6 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from django.utils import six
 
 from queryset_sequence import QuerySetSequence
 

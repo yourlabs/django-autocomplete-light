@@ -12,6 +12,7 @@ from dal.widgets import (
     WidgetMixin
 )
 
+import six
 from django import forms
 from django.conf import settings
 try:
@@ -20,7 +21,6 @@ try:
 except ImportError:
     SELECT2_TRANSLATIONS = {}
 from django.contrib.staticfiles import finders
-from django.utils import six
 from django.utils import translation
 from django.utils.itercompat import is_iterable
 

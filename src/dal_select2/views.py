@@ -5,9 +5,9 @@ import collections
 
 from dal.views import BaseQuerySetView, ViewMixin
 
+import six
 from django import http
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import six
 from django.utils.translation import ugettext as _
 from django.views.generic.list import View
 
