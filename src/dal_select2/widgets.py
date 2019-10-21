@@ -12,7 +12,6 @@ from dal.widgets import (
     WidgetMixin
 )
 
-import six
 from django import forms
 from django.conf import settings
 try:
@@ -23,6 +22,8 @@ except ImportError:
 from django.contrib.staticfiles import finders
 from django.utils import translation
 from django.utils.itercompat import is_iterable
+
+import six
 
 
 I18N_PATH = 'vendor/select2/dist/js/i18n/'

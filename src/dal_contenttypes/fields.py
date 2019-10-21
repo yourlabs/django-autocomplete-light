@@ -1,7 +1,8 @@
 """Model choice fields that take a ContentType too: for generic relations."""
 
-import six
 from django.contrib.contenttypes.models import ContentType
+
+import six
 
 
 class ContentTypeModelFieldMixin(object):

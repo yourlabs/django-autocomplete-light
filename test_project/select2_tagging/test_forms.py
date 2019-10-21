@@ -1,4 +1,3 @@
-import six
 from django import forms
 from django import http
 from django import test
@@ -6,6 +5,8 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
+
+import six
 
 from tagging.models import Tag
 

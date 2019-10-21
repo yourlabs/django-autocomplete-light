@@ -2,7 +2,6 @@
 
 import uuid
 
-import six
 from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -13,6 +12,8 @@ except ImportError:
     from django.core.urlresolvers import reverse
 
 import pytest
+
+import six
 
 
 @pytest.mark.usefixtures('cls_browser')

@@ -2,8 +2,9 @@
 
 from dal_select2.widgets import TagSelect2
 
-import six
 from django import VERSION
+
+import six
 
 
 class TaggitSelect2(TagSelect2):

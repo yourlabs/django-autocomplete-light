@@ -6,11 +6,12 @@ from dal_queryset_sequence.views import BaseQuerySetSequenceView
 
 from dal_select2.views import Select2ViewMixin
 
-import six
 from django.db.models import Q
 from django.template.defaultfilters import capfirst
 
 from queryset_sequence import QuerySetSequence
+
+import six
 
 
 class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
