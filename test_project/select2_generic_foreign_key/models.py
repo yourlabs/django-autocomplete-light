@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
+
 from six import python_2_unicode_compatible
 
 

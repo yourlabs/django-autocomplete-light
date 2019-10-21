@@ -5,7 +5,6 @@ import json
 
 from dal import forward
 
-import six
 from django import VERSION
 from django import forms
 try:
@@ -13,6 +12,8 @@ try:
 except ImportError:
     from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
+
+import six
 
 
 class WidgetMixin(object):
