@@ -91,7 +91,7 @@ element was cloned with data - which should be the case.
         });
 
         $(document).bind('DOMNodeInserted', function (e) {
-            $(e.target).find('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
+            $(e.target).find('[data-autocomplete-light-function=select2]').each(initialize);
         });
     }
 
