@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'rename_forward',
     'forward_different_fields',
     'custom_select2',
+    'clone',
 
     # unit test app
     'tests',

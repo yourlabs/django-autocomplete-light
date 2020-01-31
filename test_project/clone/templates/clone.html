@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{# Don't forget that one ! #}
+{% load static %}
+
+{% block content %}
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ view.formset.media }}
+        {{ view.formset.management_form }}
+        <table style="display: none">
+            <tr class="row_form_empty">
+                    <div class="input-group">
+                        {% for field in view.formset.empty_form %}
+                            <td>
+                                {{ field }}
+                            </td>
+                        {% endfor %}
+                    </div>
+                </tr>
+        </table>
+
+        <table>
+            <thead>
+                {% if view.formset.readonly and not view.formset.queryset.exists %}
+            {% else %}
+                <tr>
+                    {% for field in view.formset.forms.0 %}
+                        {% if field.label and not field.is_hidden and field.label != "Delete" %}
+                            <th for="{{ field.auto_id }}" class="col-form-label {% if field.field.required %}requiredField{% endif %}">
+                                {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+                            </th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endif %}
+            </thead>
+            <tbody>
+            {% for form in view.formset %}
+                <tr class="row_form">
+                    <div class="input-group">
+                        {% for field in form %}
+                            <td>
+                                {{ field }}
+                            </td>
+                        {% endfor %}
+                    </div>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <span id="add-form-empty" class="button">Add form From Empty</span>
+        <span id="add-form-last" class="button">Add form From Last</span>
+        <input type="submit" />
+    </form>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+
+<script>
+function clone(selector){
+    var newElement = $(selector).clone();
+    newElement.addClass('row_form').removeClass('row_form_empty');
+    var index = $('#id_form-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        for (attr of ['name', 'id'])
+            $(this).attr(
+                attr,
+                $(this).attr(attr).replace('__prefix__', index)
+            )
+    });
+    if (selector == ".row_form:last"){
+        newElement.find('span').each(function() {
+            $(this).remove();
+        });
+    }
+    index++;
+    $('#id_form-TOTAL_FORMS').val(index);
+    $('.row_form:last').after(newElement);
+}
+
+$('#add-form-empty').click(function() {
+    clone('.row_form_empty');
+})
+
+$('#add-form-last').click(function() {
+    clone('.row_form:last');
+})
+</script>
+{% endblock %}

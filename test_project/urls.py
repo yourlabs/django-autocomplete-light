@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^select2_outside_admin/', include('select2_outside_admin.urls')),
     url(r'^select2_taggit/', include('select2_taggit.urls')),
     url(r'^nested_admin/', include('nested_admin.urls')),
+    url(r'^clone/', include('clone.urls')),
 ]
 
 if django.VERSION < (2, 0, 0):
