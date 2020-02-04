@@ -1,3 +1,7 @@
+3.5.1
+
+    jquery.js was still loaded by the widget, fixed by @timthelion
+
 3.5.0
 
     BACKWARD COMPATIBILITY BREAKS:
