@@ -90,9 +90,29 @@ element was cloned with data - which should be the case.
             $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
         });
 
-        $(document).bind('DOMNodeInserted', function (e) {
-            $(e.target).find('[data-autocomplete-light-function=select2]').each(initialize);
-        });
+        if ("MutationObserver" in window) {
+            new MutationObserver(function(mutations) {
+                var mutationRecord;
+                var addedNode;
+
+                for (var i = 0; i < mutations.length; i++) {
+                    mutationRecord = mutations[i];
+
+                    if (mutationRecord.addedNodes.length > 0) {
+                        for (var j = 0; j < mutationRecord.addedNodes.length; j++) {
+                            addedNode = mutationRecord.addedNodes[j];
+
+                            $(addedNode).find('[data-autocomplete-light-function=select2]').each(initialize);
+                        }
+                    }
+                }
+
+            }).observe(document.documentElement, { childList: true, subtree: true });
+        } else {
+            $(document).on('DOMNodeInserted', function (e) {
+                $(e.target).find('[data-autocomplete-light-function=select2]').each(initialize);
+            });
+        }
     }
 
     // using jQuery
