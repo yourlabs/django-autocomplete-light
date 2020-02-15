@@ -90,7 +90,7 @@ element was cloned with data - which should be the case.
             $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
         });
 
-        if ("MutationObserver" in window) {
+        if ('MutationObserver' in window) {
             new MutationObserver(function(mutations) {
                 var mutationRecord;
                 var addedNode;
