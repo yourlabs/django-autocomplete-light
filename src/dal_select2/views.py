@@ -102,7 +102,7 @@ class Select2ListView(ViewMixin, View):
         """Return the result dictionary."""
         return [dict(id=x, text=x) for x in results]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         """Add an option to the autocomplete list.
 
         If 'text' is not defined in POST or self.create(text) fails, raises
