@@ -116,7 +116,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         codename = get_permission_codename('add', opts)
         return request.user.has_perm("%s.%s" % (opts.app_label, codename))
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         """Create an object given a text after checking permissions."""
         if not self.has_add_permission(request):
             return http.HttpResponseForbidden()
