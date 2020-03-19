@@ -13,12 +13,6 @@ Widgets
 .. automodule:: dal.widgets
    :members:
 
-Fields
-------
-
-.. automodule:: dal.fields
-   :members:
-
 FutureModelForm
 ===============
 
@@ -70,6 +64,12 @@ Views
 -----
 
 .. automodule:: dal_select2_queryset_sequence.views
+   :members:
+
+Fields
+------
+
+.. automodule:: dal_select2_queryset_sequence.fields
    :members:
 
 Wigets

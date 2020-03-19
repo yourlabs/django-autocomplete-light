@@ -2,9 +2,9 @@
 Widgets for Select2 and QuerySetSequence.
 
 They combine :py:class:`~dal_select2.widgets.Select2WidgetMixin` and
-:py:class:`~dal_queryset_sequence.QuerySetSequenceSelectMixin` with Django's
-Select and SelectMultiple widgets, and are meant to be used with generic model
-form fields such as those in :py:mod:`dal_contenttypes`.
+:py:class:`~dal_queryset_sequence.widgets.QuerySetSequenceSelectMixin` with
+Django's Select and SelectMultiple widgets, and are meant to be used with
+generic model form fields such as those in :py:mod:`dal_contenttypes.fields`.
 """
 
 from dal_queryset_sequence.widgets import QuerySetSequenceSelectMixin
