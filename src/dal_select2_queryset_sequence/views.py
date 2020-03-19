@@ -32,7 +32,7 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
         )
 
     It is compatible with the :py:mod:`~dal_select2_queryset_sequence.widgets`
-    and the fields of :py:mod:`dal_contenttypes`, suits generic relation
+    and the fields of :py:mod:`~dal_contenttypes.fields`, suits generic relation
     autocompletes.
     """
 

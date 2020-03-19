@@ -298,7 +298,7 @@ Take ``dal_select2`` for example, it is initialized by
 This example defines a callback that does ``// do select2 configuration on
 $(this)`` when the ``autocompleteLightInitialize`` event is triggered on any
 element with an attribute ``data-autocomplete-light-function`` of value
-``select2``. Select2 Widgets have an :py:attr:`autocomplete_function` of value
+``select2``. Select2 Widgets have an :py:attr:`dal.widgets.WidgetMixin.autocomplete_function` of value
 ``select2``, and that's rendered as the value of the
 ``data-autocomplete-light-function`` attribute.
 
@@ -439,22 +439,22 @@ filter as such in the view:
             return qs
 
 Types of forwarded values
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 There are three possible types of value which you can get from
 ``self.forwarded`` field: boolean, string or list of strings. DAL forward JS
 applies the following rules when figuring out which type to use when you forward
 particular field:
 
- - if there is only one field in the form or subform with given name
-and this field is a checkbox without ``value`` HTML-attribute,
-then a boolean value indicating if this checkbox is checked is forwarded;
- - if there is only one field in the form or subform with given name
-and it has ``multiple`` HTML-attribute, then this field is forwarded as a
-list of strings, containing values from this field.
-- if there are one or more fields in the form with given name and all of
-them are checkboxes with HTML-attribute ``value`` set, then the list of strings
-containing checked checkboxes is forwarded.
+- if there is only one field in the form or subform with given name and this
+  field is a checkbox without ``value`` HTML-attribute, then a boolean value
+  indicating if this checkbox is checked is forwarded;
+- if there is only one field in the form or subform with given name and it has
+  ``multiple`` HTML-attribute, then this field is forwarded as a list of
+  strings, containing values from this field.
+- if there are one or more fields in the form with given name and all of them
+  are checkboxes with HTML-attribute ``value`` set, then the list of strings
+  containing checked checkboxes is forwarded.
 - Otherwise field value forwarded as a string.
 
 Renaming forwarded values
@@ -560,7 +560,7 @@ Forwarding own selected value
 
 Quite often (especially in multiselect) you may want to exclude value which is
 already selected from autocomplete dropdown. Usually it can be done by
-forwarding a field by name. The forward argument expects a tuple, 
+forwarding a field by name. The forward argument expects a tuple,
 so don't forget the trailing comma if the tuple only has one element.
 
 
@@ -626,7 +626,7 @@ In this case the value returned from your registered handler will be forwarded
 to autocomplete view as ``magic_number``.
 
 Building blocks for custom logic
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+================================
 
 Javascript logic for forwarding field values is a bit sophisticated. In order
 to forward field value DAL searches for the field considering form prefixes and
@@ -636,10 +636,10 @@ to reuse this logic from DAL.
 
 For this purpose DAL provides two JS functions:
 
- - ``getFieldRelativeTo(element, name)`` - get field by ``name`` relative to this
-autocomplete field just like DAL does when forwarding a field.
- - ``getValueFromField(field)`` - get value to forward from ``field`` just like
-DAL does when forwarding a field.
+- ``getFieldRelativeTo(element, name)`` - get field by ``name`` relative to
+  this autocomplete field just like DAL does when forwarding a field.
+- ``getValueFromField(field)`` - get value to forward from ``field`` just like
+  DAL does when forwarding a field.
 
 For the purpose of understanding the logic: you can implement forwarding of
 some standard field by yourself as follows (you probably should never write this
