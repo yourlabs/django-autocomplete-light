@@ -1,5 +1,4 @@
-sudo: false
-dist: xenial
+dist: bionic
 language: python
 env:
   global:
@@ -14,16 +13,17 @@ matrix:
       env: TOXENV=checkqa
     - python: 3.7
       env: TOXENV=base-py37-django21-sqlite
+services:
+- xvfb
+addons:
+  firefox: latest
+  apt:
+    packages:
+      firefox-geckodriver
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
 - travis_retry pip freeze
-services:
-  - firefox: latest
-before_install:
-  - wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER/geckodriver-v$GECKODRIVER-linux64.tar.gz
-  - mkdir -p geckodriver && tar -xzf geckodriver-v$GECKODRIVER-linux64.tar.gz -C geckodriver
-  - export PATH=$(pwd)/geckodriver:$PATH
 before_script:
 - if echo "$TOXENV" | grep mysql; then mysql -e 'create database autocomplete_light_test;';
   fi
