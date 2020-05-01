@@ -1,6 +1,6 @@
 /*
-This script garantees that this will be called once in django admin.
-However, its the callback's responsability to clean up if the
+This script guarantees that this will be called once in Django admin.
+However, its the callback's responsibility to clean up if the
 element was cloned with data - which should be the case.
 */
 
