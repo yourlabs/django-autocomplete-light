@@ -22,7 +22,7 @@ class WidgetMixin(object):
     .. py:attribute:: url
 
         Absolute URL to the autocomplete view for the widget. It can be set to
-        a a URL name, in which case it will be reversed when the attribute is
+        a URL name, in which case it will be reversed when the attribute is
         accessed.
 
     .. py:attribute:: forward

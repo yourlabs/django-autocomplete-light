@@ -19,11 +19,11 @@ Features
 - Multiple widget support: select2.js, easy to add more.
 - Creating choices that don't exist in the autocomplete,
 - Offering choices that depend on other fields in the form, in an elegant and
-  innovant way,
+  innovative way,
 - Dynamic widget creation (ie. inlines), supports YOUR custom scripts too,
 - Provides a test API for your awesome autocompletes, to support YOUR custom
   use cases too,
-- A documented, automatically tested example for each use case in test_project.
+- A documented automatically tested example for each use case in test_project.
 
 Upgrading
 ---------
