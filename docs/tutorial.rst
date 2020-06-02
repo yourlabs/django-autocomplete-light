@@ -50,7 +50,7 @@ The base view for this is :py:class:`~dal_select2.views.Select2QuerySetView`.
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_queryset(self):
             # Don't forget to filter out results depending on the visitor !
-            if not self.request.user.is_authenticated():
+            if not self.request.user.is_authenticated:
                 return Country.objects.none()
 
             qs = Country.objects.all()
@@ -423,7 +423,7 @@ filter as such in the view:
 
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_queryset(self):
-            if not self.request.user.is_authenticated():
+            if not self.request.user.is_authenticated:
                 return Country.objects.none()
 
             qs = Country.objects.all()
@@ -484,7 +484,7 @@ And the following autocomplete view for country:
 
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
         def get_queryset(self):
-            if not self.request.is_authenticated():
+            if not self.request.is_authenticated:
                 return Country.objects.none()
 
             qs = Country.objects.all()
