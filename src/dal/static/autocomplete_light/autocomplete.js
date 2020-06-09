@@ -31,9 +31,10 @@ else {
     // temp variable, set the global jQuery to our yl.jQuery, then let select2
     // set itself up. We restore the global jQuery to its original value in
     // jquery.post-setup.js.
-    var dal_jquery_backup = jQuery.noConflict(true);
+    dal_jquery_backup = jQuery.noConflict(true);
     jQuery = yl.jQuery;
 }
+
 /*!
  * Select2 4.0.13
  * https://select2.github.io
@@ -7313,10 +7314,7 @@ element was cloned with data - which should be the case.
             };
         }
 
-        console.log(element.attr('data-autocomplete-light-i18n-base') || '');
-
         $(this).select2({
-            amdLanguageBase: element.attr('data-autocomplete-light-i18n-base') || '',
             tokenSeparators: element.attr('data-tags') ? [','] : null,
             debug: true,
             containerCssClass: ':all:',
