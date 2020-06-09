@@ -9,7 +9,7 @@
     "build": "npm-run-all copy-deps compile-js minify-js",
     "compile-js": "node select2.build.js",
     "minify-js": "uglifyjs src/dal/static/autocomplete_light/autocomplete.js -c -o src/dal/static/autocomplete_light/autocomplete.min.js -m reserved=['$','yl','django','jQuery','jquery','select2']",
-    "copy-deps": "copyfiles \"node_modules/select2/dist/js/*.js\" \"node_modules/select2/dist/js/i18n/*.js\" \"node_modules/select2/dist/css/*.css\" \"src/dal_select2/static/vendor/select2/dist\" -E -u 3"
+    "copy-deps": "copyfiles \"node_modules/select2/dist/css/*.css\" \"src/dal_select2/static/vendor/select2/dist\" -E -u 3"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   "homepage": "https://django-autocomplete-light.readthedocs.io/",
   "devDependencies": {
     "concat": "^1.0.3",
+    "copyfiles": "^2.3.0",
     "npm-run-all": "^4.1.5",
     "select2": "^4.0.13",
     "uglify-js": "^3.9.4"
