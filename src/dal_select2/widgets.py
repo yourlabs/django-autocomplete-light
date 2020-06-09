@@ -20,7 +20,6 @@ try:
 except ImportError:
     SELECT2_TRANSLATIONS = {}
 from django.contrib.staticfiles import finders
-from django.templatetags.static import static
 from django.utils import translation
 from django.utils.itercompat import is_iterable
 
