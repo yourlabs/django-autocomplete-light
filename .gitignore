@@ -12,6 +12,7 @@ __pycache__
 test_env/
 .coverage
 .tox
+node_modules
 
 .cache/
 

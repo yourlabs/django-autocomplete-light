@@ -20,13 +20,14 @@ try:
 except ImportError:
     SELECT2_TRANSLATIONS = {}
 from django.contrib.staticfiles import finders
+from django.templatetags.static import static
 from django.utils import translation
 from django.utils.itercompat import is_iterable
 
 import six
 
 
-I18N_PATH = 'vendor/select2/dist/js/i18n/'
+I18N_PATH = 'autocomplete_light/i18n/'
 
 
 def get_i18n_name(lang_code):
@@ -83,15 +84,7 @@ class Select2WidgetMixin(object):
         ) if i18n_name else ()
 
         return forms.Media(
-            js=(
-                'autocomplete_light/jquery.init.js',
-                'vendor/select2/dist/js/select2.full%s.js' % extra,
-            ) + i18n_file + (
-                'autocomplete_light/autocomplete.init.js',
-                'autocomplete_light/forward.js',
-                'autocomplete_light/select2.js',
-                'autocomplete_light/jquery.post-setup.js',
-            ),
+            js=('autocomplete_light/autocomplete%s.js' % extra,) + i18n_file,
             css={
                 'screen': (
                     'vendor/select2/dist/css/select2%s.css' % extra,

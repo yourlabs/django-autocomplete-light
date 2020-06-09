@@ -68,6 +68,18 @@ element was cloned with data - which should be the case.
         return prefixes;
     }
 
+    /*
+     * This ensures the Language file is loaded and passes it our jQuery.
+     */
+    if (typeof dalLoadLanguage !== 'undefined') {
+        dalLoadLanguage($);
+    } else {
+        document.addEventListener('dal-language-loaded', function (e) {
+            // `e.lang` is the language that was loaded.
+            dalLoadLanguage($);
+        })
+    }
+
     var initialized = [];
 
     function initialize(element) {
