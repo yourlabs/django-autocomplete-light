@@ -27,14 +27,18 @@ function getLanguageFiles(cb) {
 
 getLanguageFiles(function (files) {
     files.forEach(function (file) {
-        let code = `var dalLoadLanguage = function (jQuery) { 
-            ${fs.readFileSync(file.path, "utf8")} 
+        let license, contents;
+        [license, ...contents] = fs.readFileSync(file.path, "utf8").split('\n');
+        let code = `${license}
+        
+        var dalLoadLanguage = function (jQuery) { 
+            ${contents.join('')} 
         } 
         var event = new CustomEvent("dal-language-loaded", { lang: "${file.file.slice(0, -3)}"});
         document.dispatchEvent(event);`;
         let inputs = {};
         inputs[file.file] = code;
-        let result = UglifyJS.minify(inputs, {output: {}})
+        let result = UglifyJS.minify(inputs, {output: {comments: true}})
         fs.writeFile(`src/dal/static/autocomplete_light/i18n/${file.file}`, result.code, (err => {
             if (err) throw err;
         }))
