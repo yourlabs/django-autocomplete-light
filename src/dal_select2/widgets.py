@@ -14,6 +14,7 @@ from dal.widgets import (
 
 from django import forms
 from django.conf import settings
+
 try:
     # SELECT2_TRANSLATIONS is Django 2.x only
     from django.contrib.admin.widgets import SELECT2_TRANSLATIONS
@@ -24,7 +25,6 @@ from django.utils import translation
 from django.utils.itercompat import is_iterable
 
 import six
-
 
 I18N_PATH = 'autocomplete_light/i18n/'
 
@@ -50,6 +50,7 @@ if lru_cache:
     get_i18n_name = lru_cache()(get_i18n_name)
 else:
     import warnings
+
     warnings.warn('Python2: no cache on get_i18n_name until contribution')
 
 
@@ -84,8 +85,8 @@ class Select2WidgetMixin(object):
 
         return forms.Media(
             js=(
-                'admin/js/vendor/select2/select2.full.js',
-                'autocomplete_light/autocomplete_light%s.js' % extra,
+                   'admin/js/vendor/select2/select2.full.js',
+                   'autocomplete_light/autocomplete_light%s.js' % extra,
                ) + i18n_file,
             css={
                 'screen': (
