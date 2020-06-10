@@ -86,6 +86,7 @@ class Select2WidgetMixin(object):
             js=(
                 'admin/js/vendor/select2/select2.full.js',
                 'autocomplete_light/autocomplete_light%s.js' % extra,
+                'autocomplete_light/select2%s.js' % extra,
             ) + i18n_file,
             css={
                 'screen': (

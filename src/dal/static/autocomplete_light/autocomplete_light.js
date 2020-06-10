@@ -1,6 +1,26 @@
-window.addEventListener("load", function () {
+/*!
+ * Django Autocomplete Light
+ */
 
-    var yl = yl || {};
+var yl = yl || {};
+yl.functions = {};
+yl.registerFunction = function (name, func) {
+    if (this.functions.hasOwnProperty(name)) {
+        // This function already exists to show an error and skip.
+        console.error('The DAL function "' + name + '" has already been registered.');
+        return
+    }
+    if (typeof func != 'function') {
+        // It's not a function kill it.
+        throw new Error('The custom DAL function must be a function.');
+    }
+    this.functions[name] = func;
+    var event = new CustomEvent('dal-function-registered.' + name, {detail: {name: name, func: func}})
+    window.dispatchEvent(event);
+};
+
+
+window.addEventListener("load", function () {
 
     (function ($) {
         $.fn.getFormPrefix = function () {
@@ -78,6 +98,10 @@ window.addEventListener("load", function () {
             })
         }
 
+        // Fire init event for yl.registerFunction() execution.
+        var event = new CustomEvent('autocompleteLightInitialize');
+        document.dispatchEvent(event)
+
         var initialized = [];
 
         function initialize(element) {
@@ -85,11 +109,27 @@ window.addEventListener("load", function () {
                 element = this;
             }
 
-            if (window.__dal__initListenerIsSet !== true || initialized.indexOf(element) >= 0) {
+            // Ensure element is not already initialized.
+            if (initialized.indexOf(element) >= 0) {
                 return;
             }
 
-            $(element).trigger('autocompleteLightInitialize');
+            // The DAL function to execute.
+            var dalFunction = $(element).attr('data-autocomplete-light-function');
+
+            if (yl.functions.hasOwnProperty(dalFunction) && typeof yl.functions[dalFunction] == 'function') {
+                // If the function has been registered call it.
+                yl.functions[dalFunction]($, element);
+            } else if (yl.functions.hasOwnProperty(dalFunction)) {
+                // If the function exists but has not been registered wait for it to be registered.
+                window.addEventListener('dal-function-registered.' + dalFunction, function (e) {
+                    yl.functions[dalFunction]($, element);
+                })
+            } else {
+                // Otherwise notify that the function should be registered.
+                console.warn('Your custom Django Autocomplete Light function does not use the new function registration.')
+            }
+
             initialized.push(element);
         }
 
@@ -97,7 +137,7 @@ window.addEventListener("load", function () {
             window.__dal__initialize = initialize;
 
             $(document).ready(function () {
-                $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(initialize);
+                $('[data-autocomplete-light-function]:not([id*="__prefix__"])').each(initialize);
             });
 
             if ('MutationObserver' in window) {
@@ -112,7 +152,7 @@ window.addEventListener("load", function () {
                             for (var j = 0; j < mutationRecord.addedNodes.length; j++) {
                                 addedNode = mutationRecord.addedNodes[j];
 
-                                $(addedNode).find('[data-autocomplete-light-function=select2]').each(initialize);
+                                $(addedNode).find('[data-autocomplete-light-function]').each(initialize);
                             }
                         }
                     }
@@ -120,7 +160,7 @@ window.addEventListener("load", function () {
                 }).observe(document.documentElement, {childList: true, subtree: true});
             } else {
                 $(document).on('DOMNodeInserted', function (e) {
-                    $(e.target).find('[data-autocomplete-light-function=select2]').each(initialize);
+                    $(e.target).find('[data-autocomplete-light-function]').each(initialize);
                 });
             }
         }
@@ -152,7 +192,7 @@ window.addEventListener("load", function () {
         }
     })(django.jQuery);
 
-// Does the same thing as django's admin/js/autocomplete.js, but uses yl.jQuery.
+    // Does the same thing as django's admin/js/autocomplete.js, but uses yl.jQuery.
     (function ($) {
         'use strict';
         var init = function ($element, options) {
@@ -382,128 +422,4 @@ window.addEventListener("load", function () {
         };
 
     })(django.jQuery, yl);
-
-    (function ($) {
-        if (window.__dal__initListenerIsSet)
-            return;
-
-        $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function () {
-            var element = $(this);
-
-            // Templating helper
-            function template(text, is_html) {
-                if (is_html) {
-                    var $result = $('<span>');
-                    $result.html(text);
-                    return $result;
-                } else {
-                    return text;
-                }
-            }
-
-            function result_template(item) {
-                var text = template(item.text,
-                    element.attr('data-html') !== undefined || element.attr('data-result-html') !== undefined
-                );
-
-                if (item.create_id) {
-                    return $('<span></span>').text(text).addClass('dal-create')
-                } else {
-                    return text
-                }
-            }
-
-            function selected_template(item) {
-                if (item.selected_text !== undefined) {
-                    return template(item.selected_text,
-                        element.attr('data-html') !== undefined || element.attr('data-selected-html') !== undefined
-                    );
-                } else {
-                    return result_template(item);
-                }
-                return
-            }
-
-            var ajax = null;
-            if ($(this).attr('data-autocomplete-light-url')) {
-                ajax = {
-                    url: $(this).attr('data-autocomplete-light-url'),
-                    dataType: 'json',
-                    delay: 250,
-
-                    data: function (params) {
-                        var data = {
-                            q: params.term, // search term
-                            page: params.page,
-                            create: element.attr('data-autocomplete-light-create') && !element.attr('data-tags'),
-                            forward: yl.getForwards(element)
-                        };
-
-                        return data;
-                    },
-                    processResults: function (data, page) {
-                        if (element.attr('data-tags')) {
-                            $.each(data.results, function (index, value) {
-                                value.id = value.text;
-                            });
-                        }
-
-                        return data;
-                    },
-                    cache: true
-                };
-            }
-
-            $(this).select2({
-                tokenSeparators: element.attr('data-tags') ? [','] : null,
-                debug: true,
-                containerCssClass: ':all:',
-                placeholder: element.attr('data-placeholder') || '',
-                language: element.attr('data-autocomplete-light-language'),
-                minimumInputLength: element.attr('data-minimum-input-length') || 0,
-                allowClear: !$(this).is('[required]'),
-                templateResult: result_template,
-                templateSelection: selected_template,
-                ajax: ajax,
-                with: null,
-                tags: Boolean(element.attr('data-tags')),
-            });
-
-            $(this).on('select2:selecting', function (e) {
-                var data = e.params.args.data;
-
-                if (data.create_id !== true)
-                    return;
-
-                e.preventDefault();
-
-                var select = $(this);
-
-                $.ajax({
-                    url: $(this).attr('data-autocomplete-light-url'),
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        text: data.id,
-                        forward: yl.getForwards($(this))
-                    },
-                    beforeSend: function (xhr, settings) {
-                        xhr.setRequestHeader("X-CSRFToken", document.csrftoken);
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        select.append(
-                            $('<option>', {value: data.id, text: data.text, selected: true})
-                        );
-                        select.trigger('change');
-                        select.select2('close');
-                    }
-                });
-            });
-
-        });
-        window.__dal__initListenerIsSet = true;
-        $('[data-autocomplete-light-function=select2]:not([id*="__prefix__"])').each(function () {
-            window.__dal__initialize(this);
-        });
-    })(django.jQuery);
 });
