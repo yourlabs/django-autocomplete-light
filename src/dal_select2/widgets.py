@@ -83,7 +83,10 @@ class Select2WidgetMixin(object):
         ) if i18n_name else ()
 
         return forms.Media(
-            js=('autocomplete_light/autocomplete%s.js' % extra,) + i18n_file,
+            js=(
+                'admin/js/vendor/select2/select2.full.js',
+                'autocomplete_light/autocomplete_light%s.js' % extra,
+               ) + i18n_file,
             css={
                 'screen': (
                     'vendor/select2/dist/css/select2%s.css' % extra,

@@ -9,4 +9,4 @@
         window.__dal__tSelect2Initialized = true;
     });
     window.__dal__tSelect2Setup = true;
-})(yl.jQuery);
+})(django.jQuery);
