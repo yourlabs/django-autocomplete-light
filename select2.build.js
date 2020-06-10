@@ -44,16 +44,3 @@ getLanguageFiles(function (files) {
         }))
     });
 });
-
-const concat = require('concat');
-
-let inputs = [
-    'src/dal/static/autocomplete_light/jquery.init.js',
-    'node_modules/select2/dist/js/select2.full.js',
-    'src/dal/static/autocomplete_light/autocomplete.init.js',
-    'src/dal/static/autocomplete_light/forward.js',
-    'src/dal/static/autocomplete_light/select2.js',
-    'src/dal/static/autocomplete_light/jquery.post-setup.js',
-];
-
-concat(inputs, 'src/dal/static/autocomplete_light/autocomplete.js');
