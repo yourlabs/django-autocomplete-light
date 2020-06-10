@@ -8,7 +8,9 @@
   "scripts": {
     "build": "npm-run-all copy-deps compile-js minify-js",
     "compile-js": "node select2.build.js",
-    "minify-js": "uglifyjs src/dal/static/autocomplete_light/autocomplete_light.js -c -o src/dal/static/autocomplete_light/autocomplete_light.min.js -m reserved=['$','yl','django','jQuery','jquery','select2'] --source-map",
+    "minify-js": "npm-run-all minify-autocomplete minify-select2",
+    "minify-autocomplete": "uglifyjs src/dal/static/autocomplete_light/autocomplete_light.js -c -o src/dal/static/autocomplete_light/autocomplete_light.min.js -m reserved=['$','yl','django','jQuery','jquery','select2'] --source-map",
+    "minify-select2": "uglifyjs src/dal_select2/static/autocomplete_light/select2.js -c -o src/dal_select2/static/autocomplete_light/select2.min.js -m reserved=['$','yl','django','jQuery','jquery','select2'] --source-map",
     "copy-deps": "copyfiles \"node_modules/select2/dist/css/*.css\" \"src/dal_select2/static/vendor/select2/dist\" -E -u 3"
   },
   "repository": {
