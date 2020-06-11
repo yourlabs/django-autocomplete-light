@@ -2,7 +2,7 @@
  * Django Autocomplete Light - Select2 function
  */
 
-document.addEventListener('autocompleteLightInitialize', function () {
+document.addEventListener('dal-init-function', function () {
 
     yl.registerFunction( 'select2', function ($, element) {
 
