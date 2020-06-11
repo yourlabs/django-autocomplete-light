@@ -4,6 +4,13 @@
 
 var yl = yl || {};
 yl.functions = {};
+/**
+ * Register your own JS function for DAL.
+ *
+ * @param name The name of your function. This should be the same as the widget
+ *             `autocomplete_function` property value.
+ * @param func The callback that will initialize your custom autocomplete.
+ */
 yl.registerFunction = function (name, func) {
     if (this.functions.hasOwnProperty(name)) {
         // This function already exists to show an error and skip.
@@ -104,6 +111,12 @@ window.addEventListener("load", function () {
 
         var initialized = [];
 
+        /**
+         * Initialize a field element. This function calls the registered init function
+         * and ensures that the element is only initialized once.
+         *
+         * @param element The field to be initialized
+         */
         function initialize(element) {
             if (typeof element === 'undefined' || typeof element === 'number') {
                 element = this;
@@ -134,6 +147,7 @@ window.addEventListener("load", function () {
             // DEPRECATED
             $(element).trigger('autocompleteLightInitialize');
 
+            // Add element to the array of already initialized fields
             initialized.push(element);
         }
 
