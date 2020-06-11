@@ -278,12 +278,20 @@ Overriding javascript code
 
 We need javascript initialization for the widget both when:
 
-- the page is loaded,
-- a widget is dynamically added, ie. with formsets.
+- The page is loaded.
+- A widget is dynamically added, i.e. with formsets.
 
-This is handled by ``autocomplete.init.js``, which is going to trigger an event
-called ``autocompleteLightInitialize`` on any HTML element with attribute
-``data-autocomplete-light-function`` both on page load and DOM node insertion.
+This is handled by ``autocomplete_light.js``, which is going to trigger an event
+called ``dal-init-function`` on the document when Django Autocomplete Light has
+initialized. At this point you can simply call ``yl.registerFunction()`` to register
+your custom function.
+
+``yl.registerFunction()`` takes two arguments. The first is the of the function.
+It should be the same as the value of your widget ``autocomplete_function`` property
+which in turn is the value of the ``data-autocomplete-light-function`` HTML attribute
+on your input or select field. The second argument is the callback function to be run
+by Django Autocomplete Light when it initializes your input autocomplete.
+
 It also keeps track of initialized elements to prevent double-initialization.
 
 Take ``dal_select2`` for example, it is initialized by
@@ -291,39 +299,49 @@ Take ``dal_select2`` for example, it is initialized by
 
 .. code-block:: javascript
 
-    $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
-        // do select2 configuration on $(this)
+    document.addEventListener('dal-init-function', function () {
+        yl.registerFunction( 'select2', function ($, element) {
+            // autocomplete function here
+        });
     })
 
-This example defines a callback that does ``// do select2 configuration on
-$(this)`` when the ``autocompleteLightInitialize`` event is triggered on any
-element with an attribute ``data-autocomplete-light-function`` of value
-``select2``. Select2 Widgets have an :py:attr:`dal.widgets.WidgetMixin.autocomplete_function` of value
-``select2``, and that's rendered as the value of the
-``data-autocomplete-light-function`` attribute.
+This example defines an anonymous function as a callback that will be called when Django
+Autocomplete Light initializes your autocomplete input field. It will also be called when
+any new field is added, such as a inline formset. The function will be called for any
+element with an attribute ``data-autocomplete-light-function`` value that is the same as
+the function name.
+
+When Django Autocomplete Light calls your function two arguments are passed in. The
+first is the ``django.jQuery`` object. This is done since your function may not have
+access to ``django.jQuery`` in the lexical environment when the function was placed into
+memory. This of course causes your function to not have access to jQuery, which may be
+a problem.
+
+The second argument is the input field DOM element. You can get the jQuery object by
+simply calling ``var $element = $(element);`` inside your function.
 
 So, you can replace the default callback by doing two things:
 
-- change the Widget's ``autocomplete_function`` attribute,
-- add a callback for the ``autocompleteLightInitialize`` event for that
-  function,
+- change the Widget's :py:attr:`dal.widgets.WidgetMixin.autocomplete_function` attribute.
+- Register your custom function with ``yl.registerFunction()`` after the ``dal-init-function``
+event hsa been called.
 
 Example widget:
 
 .. code-block:: python
 
     class YourWidget(ModelSelect2):
-        autocomplete_function = 'your-autocomplete-function'
+        autocomplete_function = 'your_autocomplete_function'
 
 Example script:
 
 .. code-block:: javascript
 
-    $(document).on(
-        'autocompleteLightInitialize',
-        '[data-autocomplete-light-function=your-autocomplete-function]',
-    function() {
-        // do your own script setup here
+    document.addEventListener('dal-init-function', function () {
+        yl.registerFunction( 'your_autocomplete_function', function ($, element) {
+            var $element = $(element);
+            // autocomplete function here
+        });
     })
 
 Creation of new choices in the autocomplete form
