@@ -286,13 +286,15 @@ called ``dal-init-function`` on the document when Django Autocomplete Light has
 initialized. At this point you can simply call ``yl.registerFunction()`` to register
 your custom function.
 
-``yl.registerFunction()`` takes two arguments. The first is the of the function.
-It should be the same as the value of your widget ``autocomplete_function`` property
-which in turn is the value of the ``data-autocomplete-light-function`` HTML attribute
-on your input or select field. The second argument is the callback function to be run
-by Django Autocomplete Light when it initializes your input autocomplete.
+``yl.registerFunction()`` takes two arguments ``name`` and ``func``. The first argument
+``name`` is the of name the function. It should be the same as the value of your widget
+``autocomplete_function`` property which in turn is the value of the
+``data-autocomplete-light-function`` HTML attribute on your input or select field.
+The second argument ``func`` is the callback function to be run by Django Autocomplete
+Light when it initializes your input autocomplete.
 
-It also keeps track of initialized elements to prevent double-initialization.
+``autocomplete_light.js`` also keeps track of initialized elements to prevent
+double-initialization.
 
 Take ``dal_select2`` for example, it is initialized by
 ``dal_select2/static/autocomplete_light/select2.js`` as such:
