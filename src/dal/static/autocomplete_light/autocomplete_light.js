@@ -29,6 +29,12 @@ yl.registerFunction = function (name, func) {
 
 window.addEventListener("load", function () {
 
+    // Check if `django.jQuery` exists otherwise set `django.jQuery` to non namespaced jQuery.
+    window.django = window.django || {};
+    if (!django.hasOwnProperty('jQuery') && jQuery !== 'undefined') {
+        django.jQuery = jQuery;
+    }
+
     (function ($) {
         $.fn.getFormPrefix = function () {
             /* Get the form prefix for a field.
