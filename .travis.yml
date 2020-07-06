@@ -15,9 +15,11 @@ matrix:
   - python: 3.7
     env: TOXENV=docs
   - python: 3.7
-    env: TOXENV=base-py37-django21-sqlite
+    env: TOXENV=py37-dj22
+  - python: 3.7
+    env: TOXENV=py37-dj31
   allow_failures:
-  - env: TOXENV=base-py37-django21-sqlite
+  - env: TOXENV=py37-dj21
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
