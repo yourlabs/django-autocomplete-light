@@ -13,7 +13,7 @@ env:
   - PIP_TIMEOUT=30
 #  - BROWSER=firefox
 #  - GECKODRIVER=0.24.0
-#  - MOZ_HEADLESS=1
+  - MOZ_HEADLESS=1
 matrix:
   include:
   - python: 3.8
