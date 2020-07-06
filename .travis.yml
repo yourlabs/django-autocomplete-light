@@ -15,11 +15,9 @@ matrix:
   - python: 3.7
     env: TOXENV=docs
   - python: 3.7
-    env: TOXENV=py37-dj22
-  - python: 3.7
-    env: TOXENV=py37-dj31
+    env: TOXENV=py37-dj30
   allow_failures:
-  - env: TOXENV=py37-dj21
+  - env: TOXENV=py37-dj30
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
