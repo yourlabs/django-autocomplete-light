@@ -42,7 +42,9 @@ class AutocompleteTestCase(StaticLiveServerTestCase):
 
     def click(self, selector):
         """Click an element by css selector."""
-        self.browser.find_by_css(selector).first.click()
+        self.browser.evaluate_script(
+            'document.querySelector("%s").click()' % selector
+        )
 
     def enter_text(self, selector, text):
         """Enter text in an element by css selector."""
