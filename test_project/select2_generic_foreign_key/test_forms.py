@@ -70,7 +70,7 @@ class GenericFormTest(test.TestCase):  # noqa
 
     def test_initial(self):
         # this sets the proper widget
-        from . import urls
+        from . import urls  # noqa
 
         # Create an initial instance with a created relation
         relation = TModel.objects.create(name='relation' + self.id())

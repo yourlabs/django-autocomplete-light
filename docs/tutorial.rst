@@ -30,9 +30,8 @@ and `Mixins <https://en.wikipedia.org/wiki/Mixin>`_ to for code reuse.
           class-based views in general.
 
 In this tutorial, we'll first learn to make autocompletes backed by a
-:django:term:`QuerySet`. Suppose we have a Country
-:django:term:`Model` which we want to provide a `Select2
-<https://select2.github.io/>`_ autocomplete widget for in a form. If a
+`QuerySet`. Suppose we have a Country `Model` which we want to provide a
+`Select2 <https://select2.github.io/>`_ autocomplete widget for in a form. If a
 users types an "f" it would propose "Fiji", "Finland" and "France", to
 authenticated users only:
 
@@ -326,7 +325,7 @@ So, you can replace the default callback by doing two things:
 
 - change the Widget's :py:attr:`dal.widgets.WidgetMixin.autocomplete_function` attribute.
 - Register your custom function with ``yl.registerFunction()`` after the ``dal-init-function``
-event hsa been called.
+  event hsa been called.
 
 Example widget:
 
