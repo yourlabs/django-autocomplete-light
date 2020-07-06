@@ -69,6 +69,9 @@ class GenericFormTest(test.TestCase):  # noqa
         self.assertFalse(form.is_valid())
 
     def test_initial(self):
+        # this sets the proper widget
+        from . import urls
+
         # Create an initial instance with a created relation
         relation = TModel.objects.create(name='relation' + self.id())
         fixture = TModel(name=self.id())
