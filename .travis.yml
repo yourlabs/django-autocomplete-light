@@ -11,27 +11,23 @@ env:
   global:
   - PIP_RETRIES=10
   - PIP_TIMEOUT=30
-  - BROWSER=firefox
-  - GECKODRIVER=0.24.0
-  - MOZ_HEADLESS=1
+#  - BROWSER=firefox
+#  - GECKODRIVER=0.24.0
+#  - MOZ_HEADLESS=1
 matrix:
   include:
-  - python: 3.7
+  - python: 3.8
     env: TOXENV=checkqa
-  - python: 3.7
+  - python: 3.8
     env: TOXENV=docs
-  - python: 3.7
-    env: TOXENV=py37-dj30
-  allow_failures:
-  - env: TOXENV=py37-dj30
+  - python: 3.8
+    env: TOXENV=py38-dj30
+#  allow_failures:
+#  - env: TOXENV=py38-dj30
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
 - travis_retry pip freeze
-  #before_install:
-  #  - wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER/geckodriver-v$GECKODRIVER-linux64.tar.gz
-  #  - mkdir -p geckodriver && tar -xzf geckodriver-v$GECKODRIVER-linux64.tar.gz -C geckodriver
-  #  - export PATH=$(pwd)/geckodriver:$PATH
 before_script:
 - if echo "$TOXENV" | grep mysql; then mysql -e 'create database autocomplete_light_test;';
   fi
