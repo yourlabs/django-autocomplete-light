@@ -11,6 +11,7 @@ from django.contrib.auth import get_permission_codename
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
+from django.template.loader import render_to_string
 from django.views.generic.list import BaseListView
 
 import six
@@ -77,6 +78,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
     create_field = None
     search_fields = []
     split_words = None
+    template = None
 
     def has_more(self, context):
         """For widgets that have infinite-scroll feature."""
@@ -88,7 +90,10 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def get_result_label(self, result):
         """Return the label of a result."""
-        return six.text_type(result)
+        if self.template:
+            return render_to_string(self.template, {"result": result})
+        else:
+            return six.text_type(result)
 
     def get_selected_result_label(self, result):
         """Return the label of a selected result."""
