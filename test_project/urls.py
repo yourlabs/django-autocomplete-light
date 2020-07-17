@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', views.LoginView.as_view()),
 
+    url(r'^alight_demo/', include('alight_demo.urls')),
+
     url(r'^secure_data/', include('secure_data.urls')),
     url(r'^linked_data/', include('linked_data.urls')),
     url(r'^rename_forward/', include('rename_forward.urls')),

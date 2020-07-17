@@ -24,7 +24,7 @@ setup(
     long_description=read('README'),
     license='MIT',
     keywords='django autocomplete',
-    install_requires=['six'],
+    install_requires=['six', 'djwc'],
     extras_require={
         'nested': ['django-nested-admin>=3.0.21'],
         'tags': ['django-taggit'],
