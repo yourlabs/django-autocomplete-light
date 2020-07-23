@@ -145,10 +145,11 @@ class BaseQuerySetView(ViewMixin, BaseListView):
                 ]
                 queryset = queryset.filter(reduce(operator.or_, or_queries))
 
-            for search_spec in orm_lookups:
-                if lookup_needs_distinct(queryset.model._meta, search_spec):
-                    queryset = queryset.distinct()
-                    break
+            if any(
+                lookup_needs_distinct(queryset.model._meta, search_spec)
+                for search_spec in orm_lookups
+            ):
+                queryset = queryset.distinct()
 
         return queryset
 
