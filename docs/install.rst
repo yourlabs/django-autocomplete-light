@@ -20,18 +20,14 @@ Or, install the dev version with git::
 
 Configuration
 -------------
-Then, to let Django find the static files we need by adding to
-:django:setting:`INSTALLED_APPS`, **before** ``django.contrib.admin`` and
-``grappelli`` if present::
+Then, add ``dal`` and ``dal_select2`` **after** ``django.contrib.admin`` 
+in :django:setting:`INSTALLED_APPS`::
 
-    'dal',
-    'dal_select2',
     # 'grappelli',
     'django.contrib.admin',
-
-This is to override the ``jquery.init.js`` script provided by the admin, which
-sets up jQuery with ``noConflict``, making jQuery available in
-``django.jQuery`` only and not ``$``.
+    ...
+    'dal',
+    'dal_select2',
 
 To enable more DAL functionalities we will have to add other DAL apps
 to :django:setting:`INSTALLED_APPS`, such as 'dal_queryset_sequence' ...
