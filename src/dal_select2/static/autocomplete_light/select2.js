@@ -21,11 +21,11 @@ document.addEventListener('dal-init-function', function () {
 
         function result_template(item) {
             var text = template(item.text,
-                $element.attr('data-html') !== undefined || $element.attr('data-result-html') !== undefined
+                ($element.attr('data-html') !== undefined || $element.attr('data-result-html') !== undefined) && !item.create_id
             );
 
             if (item.create_id) {
-                return $('<span></span>').text(text).addClass('dal-create')
+                return $('<span>').text(text).addClass('dal-create');
             } else {
                 return text
             }
