@@ -2,8 +2,12 @@
 
 try:
     from functools import lru_cache
-except:
-    lru_cache = None
+except ImportError:
+    # py2
+    try:
+        from backports.functools_lru_cache import lru_cache
+    except ImportError:
+        lru_cache = None
 
 from dal.widgets import (
     QuerySetSelectMixin,
@@ -50,7 +54,7 @@ if lru_cache:
     get_i18n_name = lru_cache()(get_i18n_name)
 else:
     import warnings
-    warnings.warn('Python2: no cache on get_i18n_name until contribution')
+    warnings.warn('Python2: no cache on get_i18n_name, pip install backports.functools-lru-cache')
 
 
 class Select2WidgetMixin(object):
