@@ -54,7 +54,9 @@ if lru_cache:
     get_i18n_name = lru_cache()(get_i18n_name)
 else:
     import warnings
-    warnings.warn('Python2: no cache on get_i18n_name, pip install backports.functools-lru-cache')
+    warnings.warn(
+        'Python2: no cache on get_i18n_name, pip install backports.functools-lru-cache'
+    )
 
 
 class Select2WidgetMixin(object):
