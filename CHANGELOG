@@ -1,4 +1,6 @@
-3.7.0
+3.8.0
+
+    A LOT of fixes, but they come at a price ...
 
     BACKWARD COMPATIBILITY BREAK:
     You now MUST register your custom init functions as per
@@ -19,6 +21,28 @@
     #1138 Replace DOMNodeInserted with MutationObserver by @CristopherH95
     #1144 doc typo fix by @timgates42
     Flake8, Tox, Travis CI, tests ... fix by @jpic
+
+3.7.0 & 3.6.0
+
+    Well, Pypi won't let me upload there, it says:
+
+        HTTPError: 400 Client Error: This filename has already been used, use a different version. See https://pypi.org/help/#file-name-reuse for more information. for url: https://upload.pypi.org/legacy/
+
+    But I only see 3.6.0.dev0 and 3.6.0.dev1 and 3.7.0.dev0, I suppose I should
+    have done pre-releases on 3.6.dev0 and 3.7.dev0.
+
+    Anyway, it lets me upload on 3.8.0, one of the last 3.x releases !
+
+    But don't worry, 4.0 will not break anything, it will merely add a new
+    autocomplete script for people who want out of select2 or want something
+    more like what we had in DAL 1 & 2, it's here:
+
+    Demo: https://oss.yourlabs.me/autocomplete-light/
+    Source: https://yourlabs.io/oss/autocomplete-light
+
+    For those who remember, this solves *exactly* the same problems that
+    jquery-autocomplete-light did, except it's a lightweight StencilJS
+    WebComponent now.
 
 3.6.0
 
