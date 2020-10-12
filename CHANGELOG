@@ -1,3 +1,29 @@
+3.7.0
+
+    BACKWARD COMPATIBILITY BREAK:
+    You now MUST register your custom init functions as per
+    https://django-autocomplete-light.readthedocs.io/en/master/tutorial.html#overriding-javascript-code
+
+    Changes:
+
+    #1171 data-html and object creation bugfix by @syserr0r
+    #1182 fix production with select2 upgrade by @MarkRunWu
+    #1169 implement search_fields and split_words by @MuckRock
+    #1145 fix post method parameters by @erdnax123
+    #1162 JS load order issues by @danielmorell
+    #1157 jQuery loading by @danielmorell
+    #1162 fix by @danielmorell this one introduces the breaking changes
+    #1129 fix rtfd autobuild by @jpic
+    #1158 remove calculated width by @nad2000
+    #1159 Fix UUID for GFK models by @sayeghr
+    #1138 Replace DOMNodeInserted with MutationObserver by @CristopherH95
+    #1144 doc typo fix by @timgates42
+    Flake8, Tox, Travis CI, tests ... fix by @jpic
+
+3.6.0
+
+    This release actually never hit Pypi.
+
 3.5.1
 
     jquery.js was still loaded by the widget, fixed by @timthelion
