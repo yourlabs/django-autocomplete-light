@@ -1,3 +1,7 @@
+3.8.1 BUGFIX RELEASE
+
+    Fix #1175: Rebuild js
+
 3.8.0
 
     A LOT of fixes, but they come at a price ...
