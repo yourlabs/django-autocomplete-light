@@ -7,6 +7,7 @@ from dal.views import BaseQuerySetView, ViewMixin
 
 from django import http
 from django.core.exceptions import ImproperlyConfigured
+from django.db.models import F
 from django.utils.translation import ugettext as _
 from django.views.generic.list import View
 
@@ -67,6 +68,52 @@ class Select2ViewMixin(object):
 
 class Select2QuerySetView(Select2ViewMixin, BaseQuerySetView):
     """List options for a Select2 widget."""
+
+
+class Select2GroupQuerySetView(Select2QuerySetView):
+    """List of grouped options for a Select2 widget.
+
+    .. py:attribute:: group_by_related
+
+        Name of the field for the related Model on a One to Many relation
+
+    .. py:attribute:: related_field_name
+
+        Name of the related Model field to run filter against.
+    """
+
+    group_by_related = None
+    related_field_name = 'name'
+
+    def get_results(self, context):
+        """Returns the options grouped by a common related model.
+
+        Raises ImproperlyConfigured if self.group_by_name is not configured
+        """
+
+        if not self.group_by_related:
+            raise ImproperlyConfigured("Missing group_by_related.")
+
+        groups = collections.OrderedDict()
+
+        object_list = context['object_list']
+        object_list = object_list.annotate(
+            group_name=F(f'{self.group_by_related}__{self.related_field_name}'))
+
+        for result in object_list:
+            group_name = getattr(result, 'group_name')
+            groups.setdefault(group_name, [])
+            groups[group_name].append(result)
+
+        return [{
+            'id': None,
+            'text': group,
+            'children': [{
+                'id': result.id,
+                'text': getattr(result, self.related_field_name),
+                'title': result.descricao
+            } for result in results]
+        } for group, results in groups.items()]
 
 
 class Select2ListView(ViewMixin, View):
