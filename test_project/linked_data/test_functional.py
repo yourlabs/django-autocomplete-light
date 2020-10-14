@@ -26,7 +26,8 @@ class AdminLinkedDataTest(Select2Story,
 
     def set_owner(self, value):
         self.browser.execute_script(
-            '$("[name=%s]").val(%s)' % (self.prefix + 'owner', value)
+            'document.querySelector("[name=%s]").value = %s'
+            % (self.prefix + 'owner', value)
         )
 
     def test_filter_options(self, story=None):

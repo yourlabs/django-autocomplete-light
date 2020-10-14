@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 # Utility function to read the README file.
-# Used for the long_description. It's nice, because now 1) we have a top level
+# Used for the long_description. It's nice because now 1) we have a top-level
 # README file and 2) it's easier to type in the README file than to put a raw
 # string in below ...
 def read(fname):
@@ -12,7 +12,7 @@ def read(fname):
 
 setup(
     name='django-autocomplete-light',
-    version='3.5.1',
+    version='3.8.1',
     description='Fresh autocompletes for Django',
     author='James Pic',
     author_email='jamespic@gmail.com',

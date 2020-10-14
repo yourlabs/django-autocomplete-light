@@ -13,6 +13,10 @@ class BaseQuerySetSequenceView(BaseQuerySetView):
 
     Compatible with form fields which use a ContentType id as well as a model
     pk to identify a value.
+
+    .. py:attribute:: mixup
+
+        Cause the autocomplete to show a few results of each querysets.
     """
 
     mixup = True

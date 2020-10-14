@@ -56,7 +56,7 @@ As usual, we need a backend-aware widget that will make only selected choices
 to render initially, to avoid butchering the database.
 
 As we're using a QuerySet of Tag and Select2 in its "tag" appearance, we'll use
-:py:class:`~dal_select2_tagging.widgets.TaggitSelect2`. It is compatible with
+:py:class:`dal_select2_taggit.widgets.TaggitSelect2`. It is compatible with
 the default form field created by the model field: ``TagField``.
 
 Example:

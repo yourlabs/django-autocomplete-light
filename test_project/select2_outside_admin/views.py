@@ -27,6 +27,8 @@ class UpdateView(generic.UpdateView):
         return TModel.objects.first()
 
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
         form = self.get_form()
         if form.is_valid() and self.formset.is_valid():
             return self.form_valid(form)

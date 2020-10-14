@@ -22,7 +22,7 @@ class Field(Forward):
     The type of the forwarded value from the field is either string, list of
     strings or boolean.
 
-    The following rules are used to deduce forwarded type.
+    The following rules are used to deduce the forwarded type.
 
      - If there is only one field in the form or subform with name ``src``
     and this field is a checkbox without ``value`` HTML-attribute,

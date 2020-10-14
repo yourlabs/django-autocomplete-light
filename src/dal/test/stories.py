@@ -66,7 +66,11 @@ class BaseStory(object):
     def clean_label_from_remove_buton(self):
         """Clean child nodes before checking (ie. clear option)."""
         self.case.browser.execute_script(
-            '$("%s *").remove()' % self.get_field_label_selector()
+            '''
+            document.querySelectorAll("%s *").forEach(function(node) {
+                node.parentNode.removeChild(node);
+            });
+            ''' % self.get_field_label_selector()
         )
 
     def get_label(self):
@@ -329,7 +333,11 @@ class MultipleMixin(object):
     def clean_label_from_remove_buton(self):
         """Clean child nodes before checking (ie. clear option)."""
         self.case.browser.execute_script(
-            '$("%s span").remove()' % self.get_field_labels_selector()
+            '''
+            document.querySelectorAll("%s span").forEach(function(node) {
+                node.parentNode.removeChild(node);
+            });
+            ''' % self.get_field_labels_selector()
         )
 
     def get_labels(self):
@@ -349,8 +357,8 @@ class MultipleMixin(object):
         """Return the autocomplete field value."""
         script = """
         window.GET_VALUES = [];
-        $('%s option:selected').each(function() {
-            GET_VALUES.push($(this).attr('value'));
+        document.querySelectorAll("%s option:checked").forEach(function(opt) {
+            GET_VALUES.push(opt.value);
         });
         """ % self.field_selector
         self.case.browser.execute_script(script)

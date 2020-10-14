@@ -1,12 +1,17 @@
 """Base views for autocomplete widgets."""
 
 import json
+import operator
+from functools import reduce
 
 import django
 from django import http
+from django.contrib.admin.utils import lookup_needs_distinct
 from django.contrib.auth import get_permission_codename
 from django.core.exceptions import ImproperlyConfigured
+from django.db.models import Q
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
+from django.template.loader import render_to_string
 from django.views.generic.list import BaseListView
 
 import six
@@ -71,6 +76,9 @@ class BaseQuerySetView(ViewMixin, BaseListView):
     context_object_name = 'results'
     model_field_name = 'name'
     create_field = None
+    search_fields = []
+    split_words = None
+    template = None
 
     def has_more(self, context):
         """For widgets that have infinite-scroll feature."""
@@ -82,7 +90,10 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def get_result_label(self, result):
         """Return the label of a result."""
-        return six.text_type(result)
+        if self.template:
+            return render_to_string(self.template, {"result": result})
+        else:
+            return six.text_type(result)
 
     def get_selected_result_label(self, result):
         """Return the label of a selected result."""
@@ -92,10 +103,55 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         """Filter the queryset with GET['q']."""
         qs = super(BaseQuerySetView, self).get_queryset()
 
-        if self.q:
-            qs = qs.filter(**{'%s__icontains' % self.model_field_name: self.q})
+        qs = self.get_search_results(qs, self.q)
 
         return qs
+
+    def get_search_fields(self):
+        """Get the fields to search over."""
+        if self.search_fields:
+            return self.search_fields
+        else:
+            return [self.model_field_name]
+
+    def _construct_search(self, field_name):
+        """Apply keyword searches."""
+        if field_name.startswith("^"):
+            return "%s__istartswith" % field_name[1:]
+        elif field_name.startswith("="):
+            return "%s__iexact" % field_name[1:]
+        elif field_name.startswith("@"):
+            return "%s__search" % field_name[1:]
+        else:
+            return "%s__icontains" % field_name
+
+    def get_search_results(self, queryset, search_term):
+        """Filter the results based on the query."""
+        search_fields = self.get_search_fields()
+        if search_fields and search_term:
+            orm_lookups = [
+                self._construct_search(search_field) for search_field in search_fields
+            ]
+            if self.split_words is not None:
+                word_conditions = []
+                for word in search_term.split():
+                    or_queries = [Q(**{orm_lookup: word}) for orm_lookup in orm_lookups]
+                    word_conditions.append(reduce(operator.or_, or_queries))
+                op_ = operator.or_ if self.split_words == "or" else operator.and_
+                queryset = queryset.filter(reduce(op_, word_conditions))
+            else:
+                or_queries = [
+                    Q(**{orm_lookup: search_term}) for orm_lookup in orm_lookups
+                ]
+                queryset = queryset.filter(reduce(operator.or_, or_queries))
+
+            if any(
+                lookup_needs_distinct(queryset.model._meta, search_spec)
+                for search_spec in orm_lookups
+            ):
+                queryset = queryset.distinct()
+
+        return queryset
 
     def create_object(self, text):
         """Create an object given a text."""
@@ -116,7 +172,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         codename = get_permission_codename('add', opts)
         return request.user.has_perm("%s.%s" % (opts.app_label, codename))
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         """Create an object given a text after checking permissions."""
         if not self.has_add_permission(request):
             return http.HttpResponseForbidden()

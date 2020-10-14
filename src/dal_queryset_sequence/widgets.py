@@ -26,7 +26,7 @@ class QuerySetSequenceSelectMixin(WidgetMixin):
         ctype_models = {}
 
         for choice in selected_choices:
-            ctype_pk, model_pk = choice.split('-')
+            ctype_pk, model_pk = choice.split('-', 1)
             ctype_pk = int(ctype_pk)
             ctype_models.setdefault(ctype_pk, [])
             ctype_models[ctype_pk].append(model_pk)

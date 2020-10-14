@@ -21,7 +21,7 @@ class Select2Story(object):
         tries = 100
         while tries:
             try:
-                return self.browser.evaluate_script('$.select2')
+                return self.browser.evaluate_script('yl.registerFunction')
             except:
                 time.sleep(.15)
             tries -= 1

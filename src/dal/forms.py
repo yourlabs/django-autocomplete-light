@@ -62,13 +62,13 @@ class FutureModelForm(forms.ModelForm):
       value to use in the form, overrides ``ModelField.value_from_object()``
       which is what ModelForm uses by default,
     - ``FormField.save_object_data(instance, name, value)`` should set instance
-      attributes. Called by ``save()`` **before** writting the database, when
+      attributes. Called by ``save()`` **before** writing the database, when
       ``instance.pk`` may not be set, it overrides
       ``ModelField.save_form_data()`` which is normally used in this occasion
       for non-m2m and non-virtual model fields.
     - ``FormField.save_relation_data(instance, name, value)`` should save
       relations required for value on the instance. Called by ``save()``
-      **after** writting the database, when ``instance.pk`` is necessarely set,
+      **after** writing the database, when ``instance.pk`` is necessarely set,
       it overrides ``ModelField.save_form_data()`` which is normally used in
       this occasion for m2m and virtual model fields.
 
@@ -164,7 +164,10 @@ class FutureModelForm(forms.ModelForm):
         """
         Create a list of url patterns, to be called in url.py.
 
-        urlpattern.append(*ModelForm.as_url())
+        Example::
+
+            urlpattern.append(*ModelForm.as_url())
+
         Iterate over the fields to call the as_url() method from the
         GenericForeignKeyField
         """

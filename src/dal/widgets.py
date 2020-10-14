@@ -22,7 +22,7 @@ class WidgetMixin(object):
     .. py:attribute:: url
 
         Absolute URL to the autocomplete view for the widget. It can be set to
-        a a URL name, in which case it will be reversed when the attribute is
+        a URL name, in which case it will be reversed when the attribute is
         accessed.
 
     .. py:attribute:: forward
@@ -33,10 +33,10 @@ class WidgetMixin(object):
         Items of the list must be one of the following:
          - string (e. g. "some_field"): forward a value from
            the field with named "some_field";
-         - `dal.forward.Field("some_field"): the same as above;
-         - `dal.forward.Field("some_field", "dst_field"): forward a value from
+         - ``dal.forward.Field("some_field")``: the same as above;
+         - ``dal.forward.Field("some_field", "dst_field")``: forward a value from
            the field with named "some_field" as "dst_field";
-         - `dal.forward.Const("some_value", "dst_field"): forward a constant
+         - ``dal.forward.Const("some_value", "dst_field")``: forward a constant
            value "some_value" as "dst_field".
 
     .. py:attribute:: autocomplete_function

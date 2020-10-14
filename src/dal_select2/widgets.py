@@ -2,8 +2,12 @@
 
 try:
     from functools import lru_cache
-except:
-    lru_cache = None
+except ImportError:
+    # py2
+    try:
+        from backports.functools_lru_cache import lru_cache
+    except ImportError:
+        lru_cache = None
 
 from dal.widgets import (
     QuerySetSelectMixin,
@@ -26,7 +30,7 @@ from django.utils.itercompat import is_iterable
 import six
 
 
-I18N_PATH = 'vendor/select2/dist/js/i18n/'
+I18N_PATH = 'autocomplete_light/i18n/'
 
 
 def get_i18n_name(lang_code):
@@ -50,7 +54,9 @@ if lru_cache:
     get_i18n_name = lru_cache()(get_i18n_name)
 else:
     import warnings
-    warnings.warn('Python2: no cache on get_i18n_name until contribution')
+    warnings.warn(
+        'Python2: no cache on get_i18n_name, pip install backports.functools-lru-cache'
+    )
 
 
 class Select2WidgetMixin(object):
@@ -84,17 +90,13 @@ class Select2WidgetMixin(object):
 
         return forms.Media(
             js=(
-                'autocomplete_light/jquery.init.js',
-                'vendor/select2/dist/js/select2.full%s.js' % extra,
-            ) + i18n_file + (
-                'autocomplete_light/autocomplete.init.js',
-                'autocomplete_light/forward.js',
-                'autocomplete_light/select2.js',
-                'autocomplete_light/jquery.post-setup.js',
-            ),
+                'admin/js/vendor/select2/select2.full.js',
+                'autocomplete_light/autocomplete_light%s.js' % extra,
+                'autocomplete_light/select2%s.js' % extra,
+            ) + i18n_file,
             css={
                 'screen': (
-                    'vendor/select2/dist/css/select2%s.css' % extra,
+                    'admin/css/vendor/select2/select2%s.css' % extra,
                     'admin/css/autocomplete.css',
                     'autocomplete_light/select2.css',
                 ),

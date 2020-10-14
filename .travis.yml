@@ -10,10 +10,14 @@ env:
   - MOZ_HEADLESS=1
 matrix:
   include:
-    - python: 3.7
-      env: TOXENV=checkqa
-    - python: 3.7
-      env: TOXENV=base-py37-django21-sqlite
+  - python: 3.7
+    env: TOXENV=checkqa
+  - python: 3.7
+    env: TOXENV=docs
+  - python: 3.7
+    env: TOXENV=py37-dj30
+  allow_failures:
+  - env: TOXENV=py37-dj30
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
