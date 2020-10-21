@@ -86,11 +86,10 @@ class Select2GroupQuerySetView(Select2QuerySetView):
     related_field_name = 'name'
 
     def get_results(self, context):
-        """Returns the options grouped by a common related model.
+        """Return the options grouped by a common related model.
 
         Raises ImproperlyConfigured if self.group_by_name is not configured
         """
-
         if not self.group_by_related:
             raise ImproperlyConfigured("Missing group_by_related.")
 
