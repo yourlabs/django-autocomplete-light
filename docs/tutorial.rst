@@ -325,7 +325,7 @@ So, you can replace the default callback by doing two things:
 
 - change the Widget's :py:attr:`dal.widgets.WidgetMixin.autocomplete_function` attribute.
 - Register your custom function with ``yl.registerFunction()`` after the ``dal-init-function``
-  event hsa been called.
+  event has been called.
 
 Example widget:
 
