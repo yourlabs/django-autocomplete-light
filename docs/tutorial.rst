@@ -286,7 +286,7 @@ initialized. At this point you can simply call ``yl.registerFunction()`` to regi
 your custom function.
 
 ``yl.registerFunction()`` takes two arguments ``name`` and ``func``. The first argument
-``name`` is the of name the function. It should be the same as the value of your widget
+``name`` is the name of name the function. It should be the same as the value of your widget
 ``autocomplete_function`` property which in turn is the value of the
 ``data-autocomplete-light-function`` HTML attribute on your input or select field.
 The second argument ``func`` is the callback function to be run by Django Autocomplete
