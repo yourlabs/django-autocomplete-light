@@ -169,7 +169,7 @@ Passing options to select2
 <https://select2.github.io/>`_ supports a bunch of `options
 <https://select2.github.io/options.html>`_. These options may be
 `set in data-* attributes
-<https://select2.github.io/options.html#data-attributes>`_. For example:
+<https://select2.org/configuration/data-attributes>`_. For example:
 
 .. code-block:: python
 
