@@ -189,5 +189,5 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
         return http.JsonResponse({
             'id': result.pk,
-            'text': self.get_result_label(result),
+            'text': self.get_selected_result_label(result),
         })
