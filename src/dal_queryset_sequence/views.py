@@ -64,3 +64,9 @@ class BaseQuerySetSequenceView(BaseQuerySetView):
             except IndexError:
                 pass
         return model._meta.verbose_name
+
+    def lookup_needs_distinct(self, queryset, orm_lookups):
+        """Return True if a orm_lookups requires calling qs.distinct()."""
+        for qs in queryset._querysets:
+            if super().lookup_needs_distinct(qs, orm_lookups):
+                return True
