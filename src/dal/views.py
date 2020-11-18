@@ -149,13 +149,17 @@ class BaseQuerySetView(ViewMixin, BaseListView):
                 ]
                 queryset = queryset.filter(reduce(operator.or_, or_queries))
 
-            if any(
-                lookup_spawns_duplicates(queryset.model._meta, search_spec)
-                for search_spec in orm_lookups
-            ):
+            if self.lookup_needs_distinct(queryset, orm_lookups):
                 queryset = queryset.distinct()
 
         return queryset
+
+    def lookup_needs_distinct(self, queryset, orm_lookups):
+        """Return True if an orm_lookup requires calling qs.distinct()."""
+        return any(
+            lookup_spawns_duplicates(queryset.model._meta, search_spec)
+            for search_spec in orm_lookups
+        )
 
     def create_object(self, text):
         """Create an object given a text."""
