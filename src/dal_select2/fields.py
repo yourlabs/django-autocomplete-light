@@ -18,12 +18,25 @@ class Select2ListChoiceField(ChoiceField):
         function that returns a list.
         """
         choice_list = choice_list or []
-
+        
         if callable(choice_list):
-            choices = (
-                lambda: [(choice, choice) for choice in choice_list()])
+            if all(isinstance(el, list) for el in choice_list()) and len(choice_list()) > 0:
+                choices = (
+                    lambda: [(value, text) for [value, text] in choice_list()])
+            elif all(isinstance(el, tuple) for el in choice_list()) and len(choice_list()) > 0:
+                choices = (
+                    lambda: [(value, text) for (value, text) in choice_list()])
+            else:
+                choices = (
+                    lambda: [(choice, choice) for choice in choice_list()])
+
         else:
-            choices = [(choice, choice) for choice in choice_list]
+            if all(isinstance(el, list) for el in choice_list) and len(choice_list) > 0:
+                choices = [(value, text) for [value, text] in choice_list]
+            elif all(isinstance(el, tuple) for el in choice_list) and len(choice_list) > 0:
+                choices = [(value, text) for (value, text) in choice_list]
+            else:
+                choices = [(choice, choice) for choice in choice_list]
 
         super(Select2ListChoiceField, self).__init__(
             choices=choices, required=required, widget=widget, label=label,
