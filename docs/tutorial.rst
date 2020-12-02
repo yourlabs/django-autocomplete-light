@@ -781,7 +781,8 @@ It is better to use the same source for
 ``Select2ListChoiceField choice_list`` kwarg to avoid unexpected behavior.
 
 
-An opt-group version is available in a similar fashion by inheriting Select2GroupListView :
+An opt-group version is available in a similar fashion by inheriting
+Select2GroupListView. For example:
 
 .. code-block:: python
 
@@ -792,8 +793,8 @@ An opt-group version is available in a similar fashion by inheriting Select2Grou
                 ("Country", ['France', 'Fiji', 'Finland', 'Switzerland'])
             ]
 
-As with Select2ListView, for opt-groups with specified values, provide a list-of-lists or
-list-of-tuples to the Select2GroupListView get_list method.
+As with Select2ListView, for opt-groups with specified values, provide a
+list-of-lists or list-of-tuples to the Select2GroupListView get_list method.
 For example:
 
 .. code-block:: python
