@@ -737,9 +737,42 @@ make it easier to avoid problems when using Select2ListView. For example:
             widget=autocomplete.ListSelect2(url='country-list-autocomplete')
         )
 
-Since the selections in Select2ListView map directly to a list, there is no
-built-in support for choices in a ChoiceField that do not have the same value
-for every text. ``Select2ListCreateChoiceField`` allows you to provide custom
+By default, the selections in Select2ListView can map directly to a list,
+resulting in the same text and value for each option.
+
+
+To define your own values for each selection, provide a list-of-lists or
+list-of-tuples for the Select2ListView choice_list, and use Select2ListView
+instead of Select2ListView. For example:
+
+.. code-block:: python
+
+    class CountryAutocompleteFromList(autocomplete.Select2ListView):
+    def get_list(self):
+        return [
+            ['France_value', 'France'],
+            ['Fiji_value', 'Fiji'],
+            ['Finland_value', 'Finland'],
+            ['Switzerland_value', 'Switzerland']
+        ]
+
+
+    def get_choice_list():
+        return [
+            ['France_value', 'France'],
+            ['Fiji_value', 'Fiji'],
+            ['Finland_value', 'Finland'],
+            ['Switzerland_value', 'Switzerland']
+        ]
+
+
+    class CountryForm(forms.ModelForm):
+        country = autocomplete.Select2ListChoiceField(
+            choice_list=get_choice_list,
+            widget=autocomplete.ListSelect2(url='country-list-autocomplete')
+        )
+
+``Select2ListCreateChoiceField`` allows you to provide custom
 text from a Select2List widget and should be used if you define
 ``Select2ListViewAutocomplete.create``.
 
@@ -755,6 +788,28 @@ An opt-group version is available in a similar fashion by inheriting Select2Grou
     class CountryAutocompleteFromList(autocomplete.Select2GroupListView):
         def get_list(self):
             return [
+                (None, ['Mars Colony',]),
                 ("Country", ['France', 'Fiji', 'Finland', 'Switzerland'])
+            ]
+
+As with Select2ListView, for opt-groups with specified values, provide a list-of-lists or
+list-of-tuples to the Select2GroupListView get_list method.
+For example:
+
+.. code-block:: python
+
+    class CountryAutocompleteFromList(autocomplete.Select2GroupListView):
+        def get_list(self):
+            return [
+                ([None, None], [['Mars_colony_value', 'Mars Colony']]),
+                (
+                    ['Country_value', 'Country'],
+                    [
+                        ['France_value', 'France'],
+                        ['Fiji_value', 'Fiji'],
+                        ['Finland_value', 'Finland'],
+                        ['Switzerland_value', 'Switzerland']
+                    ]
+                )
             ]
 

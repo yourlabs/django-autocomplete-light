@@ -142,11 +142,21 @@ class Select2ListView(ViewMixin, View):
 
     def autocomplete_results(self, results):
         """Return list of strings that match the autocomplete query."""
-        return [x for x in results if self.q.lower() in x.lower()]
+        if all(isinstance(el, list) for el in results) and len(results) > 0:
+            return [[x, y] for [x, y] in results if self.q.lower() in y.lower()]
+        if all(isinstance(el, tuple) for el in results) and len(results) > 0:
+            return [[x, y] for (x, y) in results if self.q.lower() in y.lower()]
+        else:
+            return [x for x in results if self.q.lower() in x.lower()]
 
     def results(self, results):
         """Return the result dictionary."""
-        return [dict(id=x, text=x) for x in results]
+        if all(isinstance(el, list) for el in results) and len(results) > 0:
+            return [dict(id=x, text=y) for [x, y] in results]
+        elif all(isinstance(el, tuple) for el in results) and len(results) > 0:
+            return [dict(id=x, text=y) for (x, y) in results]
+        else:
+            return [dict(id=x, text=x) for x in results]
 
     def post(self, request, *args, **kwargs):
         """Add an option to the autocomplete list.
@@ -172,6 +182,17 @@ class Select2ListView(ViewMixin, View):
             'text': text,
         })
 
+# class Select2ProvidedValueListView(Select2ListView):
+#     """Autocomplete from a list of lists of items rather than a QuerySet."""
+
+#     def autocomplete_results(self, results):
+#         """Return list of strings that match the autocomplete query."""
+#         return [[x, y] for x, y in results if self.q.lower() in y.lower()]
+
+#     def results(self, results):
+#         """Return the result dictionary."""
+#         return [dict(id=x, text=y) for [x, y] in results]
+
 
 class Select2GroupListView(Select2ListView):
     """View mixin for grouped options."""
@@ -179,22 +200,31 @@ class Select2GroupListView(Select2ListView):
     def get_item_as_group(self, entry):
         """Return the item with its group."""
         group = None
-        value = entry
+        item = entry
 
         if isinstance(entry, collections.Sequence) and \
            not isinstance(entry, six.string_types):
 
             entry_length = len(entry)
-            if(entry_length > 1):
-                group, value = entry[0:2]
-            elif(entry_length > 0):
-                value = entry[0]
 
-        if not isinstance(value, collections.Sequence) or \
-           isinstance(value, six.string_types):
-            value = (value,)
+            if all(isinstance(el, list) for el in entry) and entry_length > 1:
+                group, item = entry[0:2]
+                return (group, item),
+            elif all(isinstance(el, list) for el in entry) and entry_length > 1:
+                group, item = entry[0:2]
+                return (group, item),
 
-        return (group, value),
+            else:
+                if(entry_length > 1):
+                    group, item = entry[0:2]
+                elif(entry_length > 0):
+                    item = entry[0]
+
+        if not isinstance(item, collections.Sequence) or \
+           isinstance(item, six.string_types):
+            item = (item,)
+
+        return (group, item),
 
     def get(self, request, *args, **kwargs):
         """Return option list with children(s) json response."""
@@ -202,29 +232,58 @@ class Select2GroupListView(Select2ListView):
         results = self.get_list()
 
         if results:
-            flat_results = [(group, item) for entry in results
-                            for group, items in self.get_item_as_group(entry)
-                            for item in items]
+            if all(isinstance(el, list) for el in results) or all(isinstance(el, tuple) for el in results):
+                flat_results = [(group[0], group[1], item[0], item[1]) for entry in results
+                                for group, items in self.get_item_as_group(entry)
+                                for item in items]
 
-            if self.q:
-                q = self.q.lower()
-                flat_results = [(g, x) for g, x in flat_results
-                                if q in x.lower()]
-            for group, value in flat_results:
-                results_dict.setdefault(group, [])
-                results_dict[group].append(value)
+                if self.q:
+                    q = self.q.lower()
+                    flat_results = [(g, h, x, y) for g, h, x, y in flat_results
+                                    if q in y.lower()]
+                for group_id, group, item_id, item in flat_results:
+                    results_dict.setdefault((group_id, group), [])
+                    results_dict[(group_id, group)].append([item_id, item])
 
-        return http.JsonResponse({
-            "results": [
-                {"id": x, "text": x} for x in results_dict.pop(None, [])
-            ] + [
-                {
-                    "id": g,
-                    "text": g,
-                    "children": [
-                        {"id": x, "text": x} for x in l
+                return http.JsonResponse({
+                    "results": [
+                        {"id": x, "text": y} for x, y in results_dict.pop((None, None), [])
+                    ] + [
+                        {
+                            "id": g[0],
+                            "text": g[1],
+                            "children": [
+                                {"id": x, "text": y} for x, y in l
+                            ]
+                        }
+                        for g, l in six.iteritems(results_dict)
                     ]
-                }
-                for g, l in six.iteritems(results_dict)
-            ]
-        })
+                })
+
+            else:
+                flat_results = [(group, item) for entry in results
+                                for group, items in self.get_item_as_group(entry)
+                                for item in items]
+
+                if self.q:
+                    q = self.q.lower()
+                    flat_results = [(g, x) for g, x in flat_results
+                                    if q in x.lower()]
+                for group, item in flat_results:
+                    results_dict.setdefault(group, [])
+                    results_dict[group].append(item)
+
+                return http.JsonResponse({
+                    "results": [
+                        {"id": x, "text": x} for x in results_dict.pop(None, [])
+                    ] + [
+                        {
+                            "id": g,
+                            "text": g,
+                            "children": [
+                                {"id": x, "text": x} for x in l
+                            ]
+                        }
+                        for g, l in six.iteritems(results_dict)
+                    ]
+                })
