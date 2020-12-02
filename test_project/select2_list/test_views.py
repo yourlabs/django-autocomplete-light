@@ -6,8 +6,10 @@ from django import test
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest, HttpResponseBadRequest
 
-from .views import Select2ListViewAutocomplete, Select2ProvidedValueListViewAutocomplete
-
+from .views import (
+    Select2ListViewAutocomplete,
+    Select2ProvidedValueListViewAutocomplete,
+)
 
 class Select2ListViewAutocompleteTest(Select2ListViewAutocomplete):
     def get_list(self):
@@ -25,7 +27,9 @@ class Select2GroupListViewAutocompleteTest(Select2GroupListView):
         ]
 
 
-class Select2ProvidedValueListViewAutocompleteTest(Select2ProvidedValueListViewAutocomplete):
+class Select2ProvidedValueListViewAutocompleteTest(
+    Select2ProvidedValueListViewAutocomplete
+):
     def get_list(self):
         return [
             ['WHEAT_value', 'WHEAT'],
@@ -41,7 +45,15 @@ class Select2ProvidedValueListViewAutocompleteTest(Select2ProvidedValueListViewA
 class Select2GroupProvidedValueListViewAutocompleteTest(Select2GroupListView):
     def get_list(self):
         return [
-            (['Country_value', 'Country'], [['France_value', 'France'], ['Fiji_value', 'Fiji'], ['Finland_value', 'Finland'], ['Switzerland_value', 'Switzerland']]),
+            (
+                ['Country_value', 'Country'],
+                [
+                    ['France_value', 'France'],
+                    ['Fiji_value', 'Fiji'],
+                    ['Finland_value', 'Finland'],
+                    ['Switzerland_value', 'Switzerland']
+                ]
+            ),
             ([None, None], [['pizza_value', 'Pizza!']]),
             (['Foo_value', 'Foo'], [['bar_value', 'bar'], ['BAZ_value', 'BAZ']]),
             ([None, None], [['tricky_value', 'tricky']]),
@@ -98,7 +110,9 @@ class Select2ListViewTest(test.TestCase):
             self.assertNotIn(word, dal_results)
 
 
-class Select2ProvidedValueListViewAutocompleteCreateNone(Select2ProvidedValueListViewAutocomplete):
+class Select2ProvidedValueListViewAutocompleteCreateNone(
+    Select2ProvidedValueListViewAutocomplete
+):
     def create(self, text):
         return None
 

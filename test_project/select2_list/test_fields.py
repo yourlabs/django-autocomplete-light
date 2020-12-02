@@ -9,8 +9,16 @@ import six
 class Select2ListChoiceFieldTest(test.TestCase):
 
     choice_list = ['windows', 'linux', 'osx']
-    choice_list_lists = [['windows_value', 'windows'], ['linux_value', 'linux'], ['osx_value', 'osx']]
-    choice_list_tuples = [('windows_value', 'windows'), ('linux_value', 'linux'), ('osx_value', 'osx')]
+    choice_list_lists = [
+        ['windows_value', 'windows'],
+        ['linux_value', 'linux'],
+        ['osx_value', 'osx']
+    ]
+    choice_list_tuples = [
+        ('windows_value', 'windows'),
+        ('linux_value', 'linux'),
+        ('osx_value', 'osx')
+    ]
 
     def get_choice_list(self):
         return self.choice_list
