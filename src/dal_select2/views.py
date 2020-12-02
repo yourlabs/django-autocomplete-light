@@ -232,10 +232,15 @@ class Select2GroupListView(Select2ListView):
         results = self.get_list()
 
         if results:
-            if all(isinstance(el, list) for el in results) or all(isinstance(el, tuple) for el in results):
-                flat_results = [(group[0], group[1], item[0], item[1]) for entry in results
-                                for group, items in self.get_item_as_group(entry)
-                                for item in items]
+            if (
+                all(isinstance(el, list) for el in results)
+                or all(isinstance(el, tuple) for el in results)
+            ):
+                flat_results = [
+                    (group[0], group[1], item[0], item[1]) for entry in results
+                    for group, items in self.get_item_as_group(entry)
+                    for item in items
+                ]
 
                 if self.q:
                     q = self.q.lower()
@@ -247,7 +252,9 @@ class Select2GroupListView(Select2ListView):
 
                 return http.JsonResponse({
                     "results": [
-                        {"id": x, "text": y} for x, y in results_dict.pop((None, None), [])
+                        {
+                            "id": x, "text": y
+                        } for x, y in results_dict.pop((None, None), [])
                     ] + [
                         {
                             "id": g[0],
