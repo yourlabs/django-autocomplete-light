@@ -748,13 +748,13 @@ instead of Select2ListView. For example:
 .. code-block:: python
 
     class CountryAutocompleteFromList(autocomplete.Select2ListView):
-    def get_list(self):
-        return [
-            ['France_value', 'France'],
-            ['Fiji_value', 'Fiji'],
-            ['Finland_value', 'Finland'],
-            ['Switzerland_value', 'Switzerland']
-        ]
+        def get_list(self):
+            return [
+                ['France_value', 'France'],
+                ['Fiji_value', 'Fiji'],
+                ['Finland_value', 'Finland'],
+                ['Switzerland_value', 'Switzerland']
+            ]
 
 
     def get_choice_list():

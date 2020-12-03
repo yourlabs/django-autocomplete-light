@@ -11,6 +11,7 @@ from .views import (
     Select2ProvidedValueListViewAutocomplete,
 )
 
+
 class Select2ListViewAutocompleteTest(Select2ListViewAutocomplete):
     def get_list(self):
         return ['WHEAT', 'WHy', 'why', 'WHEAT', 'Where', '2', 'Woot']
