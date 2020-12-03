@@ -182,17 +182,6 @@ class Select2ListView(ViewMixin, View):
             'text': text,
         })
 
-# class Select2ProvidedValueListView(Select2ListView):
-#     """Autocomplete from a list of lists of items rather than a QuerySet."""
-
-#     def autocomplete_results(self, results):
-#         """Return list of strings that match the autocomplete query."""
-#         return [[x, y] for x, y in results if self.q.lower() in y.lower()]
-
-#     def results(self, results):
-#         """Return the result dictionary."""
-#         return [dict(id=x, text=y) for [x, y] in results]
-
 
 class Select2GroupListView(Select2ListView):
     """View mixin for grouped options."""
