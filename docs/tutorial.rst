@@ -740,10 +740,8 @@ make it easier to avoid problems when using Select2ListView. For example:
 By default, the selections in Select2ListView can map directly to a list,
 resulting in the same text and value for each option.
 
-
 To define your own values for each selection, provide a list-of-lists or
-list-of-tuples for the Select2ListView choice_list, and use Select2ListView
-instead of Select2ListView. For example:
+list-of-tuples for the Select2ListView choice_list. For example:
 
 .. code-block:: python
 
