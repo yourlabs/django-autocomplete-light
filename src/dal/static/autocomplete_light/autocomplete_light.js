@@ -117,6 +117,18 @@ window.addEventListener("load", function () {
 
         var initialized = [];
 
+        $.fn.excludeTemplateForms = function() {
+            // exclude elements that contain '__prefix__' in their id
+            // these are used by django formsets for template forms
+            return this.not('[id*=__prefix__]').filter(function() {
+                // exclude elements that contain '-empty-' in their ids
+                // these are used by django-nested-admin for nested template formsets
+                // note that the filter also ensures that 'empty' is not actually the related_name for some relation
+                // by ensuring that it is not surrounded by numbers on both sides
+                return !this.id.match(/(?<!-\d+)-empty-(?!\d+-)/);
+            });
+        }
+
         /**
          * Initialize a field element. This function calls the registered init function
          * and ensures that the element is only initialized once.
@@ -161,7 +173,7 @@ window.addEventListener("load", function () {
             window.__dal__initialize = initialize;
 
             $(document).ready(function () {
-                $('[data-autocomplete-light-function]:not([id*="__prefix__"])').each(initialize);
+                $('[data-autocomplete-light-function]').excludeTemplateForms().each(initialize);
             });
 
             if ('MutationObserver' in window) {
@@ -176,7 +188,7 @@ window.addEventListener("load", function () {
                             for (var j = 0; j < mutationRecord.addedNodes.length; j++) {
                                 addedNode = mutationRecord.addedNodes[j];
 
-                                $(addedNode).find('[data-autocomplete-light-function]').each(initialize);
+                                $(addedNode).find('[data-autocomplete-light-function]').excludeTemplateForms().each(initialize);
                             }
                         }
                     }
@@ -184,7 +196,7 @@ window.addEventListener("load", function () {
                 }).observe(document.documentElement, {childList: true, subtree: true});
             } else {
                 $(document).on('DOMNodeInserted', function (e) {
-                    $(e.target).find('[data-autocomplete-light-function]').each(initialize);
+                    $(e.target).find('[data-autocomplete-light-function]').excludeTemplateForms().each(initialize);
                 });
             }
         }
