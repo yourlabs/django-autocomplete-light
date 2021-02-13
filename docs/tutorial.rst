@@ -396,6 +396,13 @@ explicitly set it with something like:
     permission = Permission.objects.get(name='Can add your-model-name')
     user.user_permissions.add(permission)
 
+Note that the above applies for new objects that only require one field. For more 
+complex objects, `django-addanother <https://github.com/jonashaag/django-addanother>`_ 
+should be considered. With Django Add-Another, a "+" icon is rendered next to the 
+search widget. When clicking this button, an object can be added inside a popup. 
+Once saved, the popup will close and the newly added object will be selected 
+in the widget.
+
 Filtering results based on the value of other fields in the form
 ================================================================
 
