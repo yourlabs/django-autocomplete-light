@@ -20,14 +20,17 @@ document.addEventListener('dal-init-function', function () {
         }
 
         function result_template(item) {
-            var text = template(item.text,
-                ($element.attr('data-html') !== undefined || $element.attr('data-result-html') !== undefined) && !item.create_id
-            );
+            var is_data_html = ($element.attr('data-html') !== undefined || $element.attr('data-result-html') !== undefined)
 
             if (item.create_id) {
-                return $('<span>').text(text).addClass('dal-create');
+              var $result = $('<span>').addClass('dal-create');
+              if (is_data_html){
+                return $result.html(item.text);
+              } else {
+                return $result.text(item.text);
+              }
             } else {
-                return text
+                return template(item.text, is_data_html);
             }
         }
 
@@ -119,4 +122,3 @@ document.addEventListener('dal-init-function', function () {
         });
     });
 })
-
