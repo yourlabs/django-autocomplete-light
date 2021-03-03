@@ -108,9 +108,9 @@ class Select2GroupQuerySetView(Select2QuerySetView):
             'id': None,
             'text': group,
             'children': [{
-                'id': result.id,
-                'text': getattr(result, self.related_field_name),
-                'title': result.descricao
+                'id': self.get_result_value(result),
+                'text': self.get_result_label(result),
+                'selected_text': self.get_selected_result_label(result),
             } for result in results]
         } for group, results in groups.items()]
 
