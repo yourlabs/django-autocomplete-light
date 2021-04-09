@@ -21,7 +21,7 @@ class ViewMixin(object):
     """Common methods for autocomplete views.
 
     It is assumed this view will be used in conjunction with a Django
-    :py:class:`View` based class that will that will implement OPTIONS.
+    :py:class:`View` based class that will implement OPTIONS.
 
     .. py:attribute:: forwarded
 
