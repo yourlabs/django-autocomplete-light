@@ -167,6 +167,15 @@ window.addEventListener("load", function () {
 
             // Add element to the array of already initialized fields
             initialized.push(element);
+
+            // creates and dispatches the event to notify of the initialization completed
+            var dalElementInitializedEvent = new CustomEvent("dal-element-initialized", {
+                detail: {
+                    element: element,
+                }
+            });
+
+            document.dispatchEvent(dalElementInitializedEvent);
         }
 
         if (!window.__dal__initialize) {
