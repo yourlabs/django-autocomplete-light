@@ -237,8 +237,8 @@ to return HTML code.
     from django.utils.html import format_html
 
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
-        def get_result_label(self, item):
-            return format_html('<img src="flags/{}.png"> {}', item.name, item.name)
+        def get_result_label(self, result):
+            return format_html('<img src="flags/{}.png"> {}', result.name, result.name)
 
 
     class PersonForm(forms.ModelForm):
