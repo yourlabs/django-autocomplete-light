@@ -345,6 +345,22 @@ Example script:
         });
     })
 
+Listening for the initialization of a specific input
+====================================================
+
+To know when a specific dal input has been initialized, we can listen for the event
+``dal-element-initialized``.
+
+Example opening and setting focus on a dal input after initialization:
+
+.. code-block:: javascript
+
+    $(document).on("dal-element-initialized", function (e) {
+        if (e.detail.element.id === "my_dal_element_id") {
+            $("#my_dal_element_id").select2("open").trigger("focus");
+        }
+    });
+
 Creation of new choices in the autocomplete form
 ================================================
 
