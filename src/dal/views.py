@@ -6,7 +6,11 @@ from functools import reduce
 
 import django
 from django import http
-from django.contrib.admin.utils import lookup_needs_distinct
+try:
+    from django.contrib.admin.utils import lookup_spawns_duplicates
+except ImportError:
+    from django.contrib.admin.utils import lookup_needs_distinct \
+        as lookup_spawns_duplicates
 from django.contrib.auth import get_permission_codename
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q
@@ -146,7 +150,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
                 queryset = queryset.filter(reduce(operator.or_, or_queries))
 
             if any(
-                lookup_needs_distinct(queryset.model._meta, search_spec)
+                lookup_spawns_duplicates(queryset.model._meta, search_spec)
                 for search_spec in orm_lookups
             ):
                 queryset = queryset.distinct()
