@@ -6,9 +6,9 @@ from functools import reduce
 
 import django
 from django import http
-try:
+if django.VERSION >= (3, 2):
     from django.contrib.admin.utils import lookup_spawns_duplicates
-except ImportError:
+else:
     from django.contrib.admin.utils import lookup_needs_distinct \
         as lookup_spawns_duplicates
 from django.contrib.auth import get_permission_codename
