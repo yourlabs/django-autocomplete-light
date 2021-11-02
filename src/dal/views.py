@@ -6,7 +6,7 @@ from functools import reduce
 
 import django
 from django import http
-if django.VERSION >= (3, 2):
+if django.VERSION >= (4, 0):
     from django.contrib.admin.utils import lookup_spawns_duplicates
 else:
     from django.contrib.admin.utils import lookup_needs_distinct \
