@@ -37,29 +37,29 @@ class OwnedFixtures(Fixtures):
 
     def install_fixtures(self, model):
         """Install owners and fixtures."""
-        if not self.installed_auth:
-            User = apps.get_model('auth.user')  # noqa
+        User = apps.get_model('auth.user')  # noqa
 
-            self.test, c = User.objects.get_or_create(
-                username='test',
-                is_staff=True,
-                is_superuser=True
-            )
+        self.test, created = User.objects.get_or_create(
+            username='test',
+            is_staff=True,
+            is_superuser=True
+        )
+        if created:
             self.test.set_password('test')
             self.test.save()
 
-            self.other, c = User.objects.get_or_create(username='other')
+        self.other, created = User.objects.get_or_create(username='other')
+        if created:
             self.other.set_password('test')
             self.other.save()
 
-            self.installed_auth = True
-
         for n in range(1, 3):
             for u in [self.test, self.other]:
-                model.objects.get_or_create(
+                model.objects.update_or_create(
                     name='test #%s for %s' % (n, u),
-                    owner=u
+                    defaults=dict(owner=u),
                 )
+
 
 
 fixtures = Fixtures()
