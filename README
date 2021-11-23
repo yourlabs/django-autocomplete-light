@@ -25,13 +25,12 @@ Features
   use cases too,
 - A documented automatically tested example for each use case in test_project.
 
-Upgrading
----------
+Roadmap
+-------
 
-See `CHANGELOG <https://github.com/yourlabs/django-autocomplete-light/blob/master/CHANGELOG>`_..
-
-For v2 users and experts, a `blog post was published with plenty of details
-<http://blog.yourlabs.org/post/140477620808/django-autocomplete-light-v3-whats-going-on>`_.
+- DAL < 4 supports Python 2 and 3 and Django 1.8 to 3.x
+- DAL 4 supports Django 3.x and 4.x and Python 3
+- DAL >= 3.9 offers a modern alternative to select2
 
 Resources
 ---------
