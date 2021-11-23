@@ -1,6 +1,11 @@
 django-autocomplete-light tutorial
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. _select2-tutorial:
+
+.. note:: **For demo links** to work, you need to run the :ref:`test project
+   <demo-install>` on localhost.
+
 Overview
 ========
 
@@ -18,7 +23,7 @@ Create an autocomplete view
 - Example source code: `test_project/select2_foreign_key
   <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/select2_foreign_key/urls.py>`_
 - Live demo: `/select2_foreign_key/test-autocomplete/?q=test
-  <http://dal--jpic.repl.co/select2_foreign_key/test-autocomplete/?q=test>`_
+  <http://localhost:8000/select2_foreign_key/test-autocomplete/?q=test>`_
 
 The only purpose of the autocomplete view is to serve relevant suggestions for
 the widget to propose to the user. DAL leverages Django's `class based views
@@ -219,7 +224,7 @@ Using autocompletes outside the admin
 - Example source code: `test_project/select2_outside_admin
   <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/select2_outside_admin>`_,
 - Live demo: `/select2_outside_admin/
-  <http://dal--jpic.repl.co/select2_outside_admin/>`_.
+  <http://localhost:8000/select2_outside_admin/>`_.
 
 Ensure that jquery is loaded before ``{{ form.media }}``:
 
@@ -367,7 +372,7 @@ Creation of new choices in the autocomplete form
 - Example source code: `test_project/select2_one_to_one
   <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/select2_one_to_one/urls.py>`_,
 - Live demo: `/admin/select2_one_to_one/tmodel/add/
-  <http://dal--jpic.repl.co/admin/select2_one_to_one/tmodel/add/>`_,
+  <http://localhost:8000/admin/select2_one_to_one/tmodel/add/>`_,
 
 The view may provide an extra option when it can't find any result matching the
 user input. That option would have the label ``Create "query"``, where
@@ -412,11 +417,11 @@ explicitly set it with something like:
     permission = Permission.objects.get(name='Can add your-model-name')
     user.user_permissions.add(permission)
 
-Note that the above applies for new objects that only require one field. For more 
-complex objects, `django-addanother <https://github.com/jonashaag/django-addanother>`_ 
-should be considered. With Django Add-Another, a "+" icon is rendered next to the 
-search widget. When clicking this button, an object can be added inside a popup. 
-Once saved, the popup will close and the newly added object will be selected 
+Note that the above applies for new objects that only require one field. For more
+complex objects, `django-addanother <https://github.com/jonashaag/django-addanother>`_
+should be considered. With Django Add-Another, a "+" icon is rendered next to the
+search widget. When clicking this button, an object can be added inside a popup.
+Once saved, the popup will close and the newly added object will be selected
 in the widget.
 
 Filtering results based on the value of other fields in the form
@@ -425,7 +430,7 @@ Filtering results based on the value of other fields in the form
 - Example source code: `test_project/linked_data
   <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/linked_data>`_.
 - Live demo: `Admin / Linked Data / Add
-  <http://dal--jpic.repl.co/admin/linked_data/tmodel/add/>`_.
+  <http://localhost:8000/admin/linked_data/tmodel/add/>`_.
 
 In the live demo, create a TestModel with ``owner=None``, and another with
 ``owner=test`` (test being the user you log in with). Then, in in a new form,
@@ -504,7 +509,7 @@ Renaming forwarded values
 - Example source code: `test_project/rename_forward
   <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/rename_forward>`_.
 - Live demo: `Admin / Rename Forward/ Add
-  <http://dal--jpic.repl.co/admin/rename_forward/tmodel/add/>`_.
+  <http://localhost:8000/admin/rename_forward/tmodel/add/>`_.
 
 Let's assume that you have the following form using linked autocomplete fields:
 

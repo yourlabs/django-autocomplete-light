@@ -47,6 +47,8 @@ JQuery 3.x
 JQuery 3.x comes with a "slim" version. This "slim" version is not compatible with
 DAL since the slim version does not contain Ajax functionality.
 
+.. _demo-install:
+
 Install the demo project
 ------------------------
 
