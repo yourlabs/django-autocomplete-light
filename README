@@ -39,9 +39,6 @@ Resources
 - `**Documentation** graciously hosted
   <http://django-autocomplete-light.rtfd.org>`_ by `RTFD
   <http://rtfd.org>`_
-- `Video demo graciously hosted
-  <http://youtu.be/fJIHiqWKUXI>`_ by `Youtube
-  <http://youtube.com>`_,
 - `Mailing list graciously hosted
   <http://groups.google.com/group/yourlabs>`_ by `Google
   <http://groups.google.com>`_
@@ -52,8 +49,3 @@ Resources
 - `Package graciously hosted
   <http://pypi.python.org/pypi/django-autocomplete-light/>`_ by `PyPi
   <http://pypi.python.org/pypi>`_,
-- `Continuous integration graciously hosted
-  <http://travis-ci.org/yourlabs/django-autocomplete-light>`_ by `Travis-ci
-  <http://travis-ci.org>`_
-- `**Paid Support** on codementor
-  <https://www.codementor.io/@jpic>`_
