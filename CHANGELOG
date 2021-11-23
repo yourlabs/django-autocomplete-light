@@ -1,3 +1,19 @@
+3.9.0-rc2
+
+    #1262 Django 4.0 support by @fraimondo
+    #1255 Django 4.0 warning removal by @Mogost
+    #1253 Case sensitive creates in Select2QuerySetView by @shenek
+    #1246 Add event to notify of the initialization completed by @andreccorrea
+    Select2 Upgraded to 4.1.0-rc.0
+
+3.9.0-rc1
+
+    #1222 Select2GroupQuerySetView fix by @arseniy-panfilov
+    #1233 Safari regexp fix by @vtbassmatt
+    #1239 Django 3.2+ fix by @michael-sayapin
+    #1251 Doc fix get_result_label by @arlopezg
+    #1231 Fix ViewMixin comment by @moonorange
+
 3.8.2 Upgrade to select2 4.0.13
 
 3.8.1 BUGFIX RELEASE
