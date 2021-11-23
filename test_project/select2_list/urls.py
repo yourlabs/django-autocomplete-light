@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path as url
 
 from .views import Select2ListViewAutocomplete, Select2ProvidedValueListViewAutocomplete
 
