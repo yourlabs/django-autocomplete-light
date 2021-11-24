@@ -3,7 +3,7 @@
  */
 
 var yl = yl || {};
-yl.functions = {};
+yl.functions = yl.functions || {};
 /**
  * Register your own JS function for DAL.
  *
