@@ -1,3 +1,15 @@
+3.9.0rc4
+
+    NEW FEATURE FOR EVERYONE! Read here and njoy :)
+    https://github.com/yourlabs/django-autocomplete-light/blob/master/docs/tutorial.rst#with-djhacker
+
+    #1270 Fix issue when dal js is loaded twice by @FiooCode
+    #1266 New data-token-separator attribute by @fraimondo
+    #1190 #1187 Fixed django-querysetsequence support
+    Django 3.2 support in test code
+
+3.9.0rc3 failed release
+
 3.9.0-rc2
 
     #1262 Django 4.0 support by @fraimondo
