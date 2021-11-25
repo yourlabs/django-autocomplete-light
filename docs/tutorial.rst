@@ -112,7 +112,51 @@ default ModelForm fields<modelforms-overriding-default-fields>`, to use a
 widget to select a Model with Select2, in our case by passing the name of the
 url we have just registered to :py:class:`~dal_select2.widgets.ModelSelect2`.
 
-One way to do it is by overriding the form field, ie:
+.. _djhacker:
+
+With djhacker
+-------------
+
+While you can use the widget as usual with Django, as it will be described in
+the next examples, here we're going to see how to make a specific model field
+automatically generate the autocomplete field using that view, using the
+`djhacker
+<https://yourlabs.io/oss/djhacker>`_ module.
+
+- Example source code: `test_project/select2_djhacker_formfield
+  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/select2_djhacker_formfield/urls.py>`_
+- Live demo: `/admin/select2_djhacker_formfield/tmodel/add/
+  <http://localhost:8000/admin/select2_djhacker_formfield/tmodel/add/>`_
+
+.. code-block:: python
+
+    # Register your autocomplete view as usual
+    urlpatterns = [
+        url(
+            'test-autocomplete/$',
+            autocomplete.Select2QuerySetView.as_view(model=TModel),
+            name='select2_djhacker_formfield',
+        ),
+    ]
+
+    # Now hack your model field to always render the autocomplete field with
+    # that view!
+    import djhacker
+    from django import forms
+    djhacker.formfield(
+        TModel.test,
+        forms.ModelChoiceField,
+        widget=autocomplete.ModelSelect2(url='select2_djhacker_formfield')
+    )
+
+The above example demonstrates how to integrate your autocomplete view and form
+field automatically throughout Django without having to define custom model
+forms all the time.
+
+Override form field
+-------------------
+
+Another way to do it is by overriding the form field, ie:
 
 .. code-block:: python
 
@@ -131,6 +175,8 @@ One way to do it is by overriding the form field, ie:
             model = Person
             fields = ('__all__')
 
+Set form widgets
+----------------
 
 Another way to do this is directly in the ``Form.Meta.widgets`` dict, if
 overriding the field is not needed:
@@ -194,6 +240,9 @@ Passing options to select2
 
 Using autocompletes in the admin
 ================================
+
+.. note:: If using :ref:`djhacker<djhacker>`, you can skip this section: your
+          autocomplete should already be working in the admin.
 
 We can make ModelAdmin to :django:label:`use our
 form<admin-custom-validation>`, ie:
