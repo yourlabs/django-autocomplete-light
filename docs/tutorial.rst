@@ -153,28 +153,6 @@ The above example demonstrates how to integrate your autocomplete view and form
 field automatically throughout Django without having to define custom model
 forms all the time.
 
-Override form field
--------------------
-
-Another way to do it is by overriding the form field, ie:
-
-.. code-block:: python
-
-    from dal import autocomplete
-
-    from django import forms
-
-
-    class PersonForm(forms.ModelForm):
-        birth_country = forms.ModelChoiceField(
-            queryset=Country.objects.all(),
-            widget=autocomplete.ModelSelect2(url='country-autocomplete')
-        )
-
-        class Meta:
-            model = Person
-            fields = ('__all__')
-
 Set form widgets
 ----------------
 
@@ -212,6 +190,36 @@ widget, ie.:
     widgets = {
         'visited_countries': autocomplete.ModelSelect2Multiple(url='country-autocomplete')
     }
+
+Override form field
+-------------------
+
+Another way to do it is by overriding the form field, ie:
+
+.. code-block:: python
+
+    from dal import autocomplete
+
+    from django import forms
+
+
+    class PersonForm(forms.ModelForm):
+        birth_country = forms.ModelChoiceField(
+            queryset=Country.objects.all(),
+            widget=autocomplete.ModelSelect2(url='country-autocomplete')
+        )
+
+        class Meta:
+            model = Person
+            fields = ('__all__')
+
+.. danger:: Because of `django issue #33321
+            <https://code.djangoproject.com/ticket/33321#ticket>`_, and as
+            reported by users in `dal issue #1140
+            <https://github.com/yourlabs/django-autocomplete-light/issues/1140>`_,
+            declaring fields in ModelForm breaks the admin feature of the add
+            another and edit related widget. To support those, use either
+            djhacker or declare only a widget.
 
 Passing options to select2
 ==========================
