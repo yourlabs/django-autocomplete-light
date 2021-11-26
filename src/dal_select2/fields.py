@@ -3,6 +3,21 @@
 from django.forms import ChoiceField
 
 
+class ChoiceCallable:
+    def __init__(self, choices):
+        self.choices = choices
+
+    def __call__(self):
+        result = []
+        choices = self.choices() if callable(self.choices) else self.choices
+        for choice in choices:
+            if isinstance(choice, (list, tuple)):
+                result.append(choice)
+            else:
+                result.append((choice, choice))
+        return result
+
+
 class Select2ListChoiceField(ChoiceField):
     """Allows a list of values to be used with a ChoiceField.
 
@@ -17,38 +32,7 @@ class Select2ListChoiceField(ChoiceField):
         .. py:param choice_list: The list to use to generate choices or a
         function that returns a list.
         """
-        choice_list = choice_list or []
-
-        if callable(choice_list):
-            if (
-                all(isinstance(el, list) for el in choice_list())
-                and len(choice_list()) > 0
-            ):
-                choices = (
-                    lambda: [(value, text) for [value, text] in choice_list()])
-            elif (
-                all(isinstance(el, tuple) for el in choice_list())
-                and len(choice_list()) > 0
-            ):
-                choices = (
-                    lambda: [(value, text) for (value, text) in choice_list()])
-            else:
-                choices = (
-                    lambda: [(choice, choice) for choice in choice_list()])
-
-        else:
-            if (
-                all(isinstance(el, list) for el in choice_list)
-                and len(choice_list) > 0
-            ):
-                choices = [(value, text) for [value, text] in choice_list]
-            elif (
-                all(isinstance(el, tuple) for el in choice_list)
-                and len(choice_list) > 0
-            ):
-                choices = [(value, text) for (value, text) in choice_list]
-            else:
-                choices = [(choice, choice) for choice in choice_list]
+        choices = ChoiceCallable(choice_list)
 
         super(Select2ListChoiceField, self).__init__(
             choices=choices, required=required, widget=widget, label=label,

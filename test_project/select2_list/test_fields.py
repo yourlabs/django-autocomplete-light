@@ -45,15 +45,11 @@ class Select2ListChoiceFieldTest(test.TestCase):
     def test_init_lists(self):
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.choice_list_lists)
-        six.assertCountEqual(
-            self, field.choices,
-            [(value, text) for [value, text] in self.choice_list_lists])
+        six.assertCountEqual(self, field.choices, self.choice_list_lists)
 
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.get_choice_list_lists)
-        six.assertCountEqual(
-            self, field.choices,
-            [(value, text) for [value, text] in self.choice_list_lists])
+        six.assertCountEqual(self, field.choices, self.choice_list_lists)
 
     def test_init_tuples(self):
         field = autocomplete.Select2ListChoiceField(
