@@ -1,3 +1,4 @@
+$ = django.jQuery
 $(document).ready(function() {
     $(':input[name$=owner]').on('change', function() {
         var prefix = $(this).getFormPrefix();
