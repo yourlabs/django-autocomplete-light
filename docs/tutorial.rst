@@ -102,6 +102,9 @@ Ensure that the url can be reversed, ie::
 Use the view in a Form widget
 =============================
 
+Before you begin
+----------------
+
 You should be able to open the view at this point:
 
 .. image:: img/view.png
@@ -112,52 +115,11 @@ default ModelForm fields<modelforms-overriding-default-fields>`, to use a
 widget to select a Model with Select2, in our case by passing the name of the
 url we have just registered to :py:class:`~dal_select2.widgets.ModelSelect2`.
 
-.. _djhacker:
-
-With djhacker
--------------
-
-While you can use the widget as usual with Django, as it will be described in
-the next examples, here we're going to see how to make a specific model field
-automatically generate the autocomplete field using that view, using the
-`djhacker
-<https://yourlabs.io/oss/djhacker>`_ module.
-
-- Example source code: `test_project/select2_djhacker_formfield
-  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/select2_djhacker_formfield/urls.py>`_
-- Live demo: `/admin/select2_djhacker_formfield/tmodel/add/
-  <http://localhost:8000/admin/select2_djhacker_formfield/tmodel/add/>`_
-
-.. code-block:: python
-
-    # Register your autocomplete view as usual
-    urlpatterns = [
-        url(
-            'test-autocomplete/$',
-            autocomplete.Select2QuerySetView.as_view(model=TModel),
-            name='select2_djhacker_formfield',
-        ),
-    ]
-
-    # Now hack your model field to always render the autocomplete field with
-    # that view!
-    import djhacker
-    from django import forms
-    djhacker.formfield(
-        TModel.test,
-        forms.ModelChoiceField,
-        widget=autocomplete.ModelSelect2(url='select2_djhacker_formfield')
-    )
-
-The above example demonstrates how to integrate your autocomplete view and form
-field automatically throughout Django without having to define custom model
-forms all the time.
-
 Set form widgets
 ----------------
 
-Another way to do this is directly in the ``Form.Meta.widgets`` dict, if
-overriding the field is not needed:
+Setup your autocomplete form widget for this view in the ``Form.Meta.widgets``
+dict:
 
 .. code-block:: python
 
@@ -191,35 +153,35 @@ widget, ie.:
         'visited_countries': autocomplete.ModelSelect2Multiple(url='country-autocomplete')
     }
 
-Override form field
--------------------
+.. danger:: If you declare a form field instead of just the widget, Django
+   admin won't add the "add" and "edit" button next to the autocomplete field
+   for single model choice. If you want to both declare your field and have
+   Django admin's add / remove buttons then you can use the following method
+   with djhacker.
 
-Another way to do it is by overriding the form field, ie:
+.. _djhacker:
+
+Automation with djhacker
+------------------------
+
+- Example source code: `test_project/select2_djhacker_formfield
+  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/select2_djhacker_formfield/urls.py>`_
+- Live demo: `/admin/select2_djhacker_formfield/tmodel/add/
+  <http://localhost:8000/admin/select2_djhacker_formfield/tmodel/add/>`_
 
 .. code-block:: python
 
-    from dal import autocomplete
-
+    import djhacker  # don't forget to pip install djhacker
     from django import forms
+    djhacker.formfield(
+        Person.birth_country,
+        forms.ModelChoiceField,
+        widget=autocomplete.ModelSelect2(url='country-autocomplete')
+    )
 
-
-    class PersonForm(forms.ModelForm):
-        birth_country = forms.ModelChoiceField(
-            queryset=Country.objects.all(),
-            widget=autocomplete.ModelSelect2(url='country-autocomplete')
-        )
-
-        class Meta:
-            model = Person
-            fields = ('__all__')
-
-.. danger:: Because of `django issue #33321
-            <https://code.djangoproject.com/ticket/33321#ticket>`_, and as
-            reported by users in `dal issue #1140
-            <https://github.com/yourlabs/django-autocomplete-light/issues/1140>`_,
-            declaring fields in ModelForm breaks the admin feature of the add
-            another and edit related widget. To support those, use either
-            djhacker or declare only a widget.
+The above example demonstrates how to integrate your autocomplete view and form
+field automatically throughout Django without having to define custom model
+forms all the time.
 
 Passing options to select2
 ==========================
