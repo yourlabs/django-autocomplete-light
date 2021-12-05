@@ -10,7 +10,7 @@ class ChoiceCallable:
     def __call__(self):
         result = []
         choices = self.choices() if callable(self.choices) else self.choices
-        for choice in choices:
+        for choice in choices or []:
             if isinstance(choice, (list, tuple)):
                 result.append(choice)
             else:
