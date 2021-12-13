@@ -207,6 +207,51 @@ Passing options to select2
 
 .. note:: Setting a placeholder will result in generation of an an empty
           ``option`` tag, which select2 requires.
+          
+Using autocomplete with URL parameters
+======================================
+
+DAL allows the use of the Django `redirect
+<https://docs.djangoproject.com/en/4.0/topics/http/shortcuts/#redirect>`_
+shortcut to specify the URL of the Autocomplete View previously created.
+With that in mind, we can pass arguments to the view to filter the query set.
+An example is shown below:
+
+.. code-block:: python
+
+    class ExampleForm(forms.Form):
+    example_field = forms.ModelMultipleChoiceField(queryset=Study.objects,
+                                                     label="Combine results from", required=False)
+
+    def __init__(self, *args, field=None, **kwargs):
+        super(ExampleForm, self).__init__(**kwargs)
+        if field:
+            self.fields['example_field'].widget =
+                autocomplete.ModelSelect2Multiple(
+                    url=reverse('example-autocomplete', kwargs={"field_in_view": field.id}),
+                    attrs={
+                        'data-placeholder': 'Please select...',
+                        'data-theme': 'bootstrap4'
+                    },
+                )
+            self.fields['example_field'].widget.choices = self.fields['example_field'].choices
+
+Then, in the view, we can handle the passed parameter like so:
+
+.. code-block:: python
+
+    class ExampleAutocomplete(autocomplete.Select2QuerySetView):
+
+        # We look for the passed argument in the widget earlier and use it.
+        def get_queryset(self):
+            model_id = self.kwargs.pop("field_in_view")
+            model: Model = Model.objects.get(id=model_id)
+            if model:
+                qs = Model.objects.filter(some_field=model.some_field)
+
+                if self.q:
+                    qs = qs.filter(title__icontains=self.q)
+                return qs
 
 Using autocompletes in the admin
 ================================
