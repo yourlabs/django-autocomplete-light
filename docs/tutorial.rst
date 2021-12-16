@@ -211,8 +211,8 @@ Passing options to select2
 Using autocomplete with URL parameters
 ======================================
 
-DAL allows the use of the Django `redirect
-<https://docs.djangoproject.com/en/4.0/topics/http/shortcuts/#redirect>`_
+DAL allows the use of the Django `reverse
+<https://docs.djangoproject.com/en/3.2/ref/urlresolvers/#reverse>`_
 shortcut to specify the URL of the Autocomplete View previously created.
 With that in mind, we can pass arguments to the view to filter the query set.
 An example is shown below:
