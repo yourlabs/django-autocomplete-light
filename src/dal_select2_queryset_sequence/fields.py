@@ -5,7 +5,10 @@ from dal_queryset_sequence.fields import QuerySetSequenceModelField
 from dal_select2_queryset_sequence.views import Select2QuerySetSequenceAutoView
 from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
 
-from django.conf.urls import url
+try:
+    from django.urls import re_path as url
+except ImportError:
+    from django.conf.urls import url
 
 from queryset_sequence import QuerySetSequence
 
