@@ -8,7 +8,10 @@ from dal.widgets import WidgetMixin
 
 from django import forms
 from django.contrib.contenttypes.models import ContentType
-from django.utils.encoding import force_text
+try:
+    from django.utils.encoding import force_str as force_text
+except ImportError:
+    from django.utils.encoding import force_text
 
 
 class QuerySetSequenceSelectMixin(WidgetMixin):
