@@ -69,7 +69,8 @@
 .select2-results__option {
   padding: 6px;
   user-select: none;
-  -webkit-user-select: none; }
+  -webkit-user-select: none;
+  color: #000; }
   .select2-results__option[aria-selected] {
     cursor: pointer; }
 
@@ -204,7 +205,8 @@
     float: left;
     margin-right: 5px;
     margin-top: 5px;
-    padding: 0 5px; }
+    padding: 0 5px;
+    color: #000; }
   .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     color: #999;
     cursor: pointer;
