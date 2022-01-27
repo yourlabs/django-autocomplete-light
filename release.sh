@@ -23,7 +23,7 @@ npm install
 npm run build
 if [[ $(git diff --stat) != '' ]]; then
     git add src/dal/static/autocomplete_light/i18n/
-    git commit -am "Rebuild static"
+    git commit -am "Rebuild static" || echo "Nothing rebuilt"
 fi
 
 sed -i "s/version=[^,]*,/version='$1',/" setup.py
