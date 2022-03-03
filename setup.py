@@ -17,6 +17,9 @@ setup(
     author='James Pic',
     author_email='jamespic@gmail.com',
     url='http://django-autocomplete-light.rtfd.org',
+    project_urls={
+        'Source': 'https://github.com/yourlabs/django-autocomplete-light',
+    },
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
