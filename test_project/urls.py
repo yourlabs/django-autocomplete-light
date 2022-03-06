@@ -5,12 +5,14 @@ from django.contrib import admin
 
 import views
 
-
 urlpatterns = [
     url(r'^$', views.IndexView.as_view()),
 
     url(r'^admin/', admin.site.urls),
     url(r'^login/', views.LoginView.as_view()),
+
+    url(r'^dal_single/', views.BasicDALView, name='isolated_dal_single'),
+    url(r'^dal_multi/', views.BasicDALMultiView, name='isolated_dal_multi'),
 
     url(r'^secure_data/', include('secure_data.urls')),
     url(r'^linked_data/', include('linked_data.urls')),
