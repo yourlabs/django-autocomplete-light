@@ -1,4 +1,5 @@
 coverage
+django==3.2
 django-extensions
 django-generic-m2m
 django-gm2m
