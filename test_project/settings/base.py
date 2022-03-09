@@ -10,8 +10,8 @@ DEBUG = os.environ.get('DEBUG', False)
 
 if 'DEBUG' not in os.environ:
     for cmd in ('runserver', 'pytest', 'py.test'):
-        if cmd in sys.argv[0] or cmd in sys.argv[1]:
-            DEBUG=True
+        if cmd in sys.argv[0] or len(sys.argv) > 1 and cmd in sys.argv[1]:
+            DEBUG = True
             continue
 TEMPLATE_DEBUG = DEBUG
 LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
@@ -94,7 +94,6 @@ INSTALLED_APPS = [
     'django_extensions',
 ]
 
-
 if django.VERSION < (2, 0, 0):
     # pending upstream support for dj 2.0
     INSTALLED_APPS += [
@@ -154,7 +153,7 @@ if DEBUG:
         MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
 AUTH_PASSWORD_VALIDATORS = []
-DJANGO_LIVE_TEST_SERVER_ADDRESS="localhost:8000-8010,8080,9200-9300"
+DJANGO_LIVE_TEST_SERVER_ADDRESS = "localhost:8000-8010,8080,9200-9300"
 
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
