@@ -31,16 +31,16 @@ def BasicDALView(request):
     js = """
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" crossorigin="anonymous"></script>
     """
-    # <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    # <script>$.fn.select2.defaults.set( "theme", "bootstrap" );</script>
-    # <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.js" crossorigin="anonymous"></script>
 
     dal_media = autocomplete.Select2().media
 
     url = reverse_lazy('select2_many_to_many_autocomplete')
     field = ModelMultipleChoiceField(TModel.objects.all())
 
-    widget = autocomplete.ModelSelect2(url=url, attrs={"class": "selector", "id": id, "data-placeholder": "Placeholder"})
+    widget = autocomplete.ModelSelect2(
+        url=url,
+        attrs={"class": "selector", "id": id, "data-placeholder": "Placeholder"})
+
     widget.choices = ModelChoiceIterator(field)
 
     default = None
@@ -71,7 +71,8 @@ def BasicDALMultiView(request):
     url = reverse_lazy('select2_many_to_many_autocomplete')
     field = ModelMultipleChoiceField(TModel.objects.all())
 
-    widget = autocomplete.ModelSelect2Multiple(url=url, attrs={"class": "selector", "id": id, "data-placeholder": "Placeholder"})
+    widget = autocomplete.ModelSelect2Multiple(
+        url=url, attrs={"class": "selector", "id": id, "data-placeholder": "Placeholder"})
     widget.choices = ModelChoiceIterator(field)
 
     default = None
