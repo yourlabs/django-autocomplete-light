@@ -1,6 +1,9 @@
 """Select2 view implementation."""
 
-import collections
+try:
+    from collections.abc import Sequence
+except ImportError:  # py < 3.10
+    from collections import Sequence
 # import json
 
 from dal.views import BaseQuerySetView, ViewMixin
@@ -197,7 +200,7 @@ class Select2GroupListView(Select2ListView):
         group = None
         item = entry
 
-        if isinstance(entry, collections.Sequence) and \
+        if isinstance(entry, Sequence) and \
            not isinstance(entry, six.string_types):
 
             entry_length = len(entry)
@@ -215,7 +218,7 @@ class Select2GroupListView(Select2ListView):
                 elif(entry_length > 0):
                     item = entry[0]
 
-        if not isinstance(item, collections.Sequence) or \
+        if not isinstance(item, Sequence) or \
            isinstance(item, six.string_types):
             item = (item,)
 
