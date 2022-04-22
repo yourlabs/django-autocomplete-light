@@ -126,11 +126,19 @@ document.addEventListener('dal-init-function', function () {
                     xhr.setRequestHeader("X-CSRFToken", document.csrftoken);
                 },
                 success: function (data, textStatus, jqXHR) {
-                    select.append(
-                        $('<option>', {value: data.id, text: data.text, selected: true})
-                    );
-                    select.trigger('change');
-                    select.select2('close');
+                    if ('error' in data) {
+                        error = data['error']
+                        $('.dal-create').append(
+                            `<p class="invalid-feedback d-block""><strong>${error}</strong>`
+                        );
+
+                    } else {
+                        select.append(
+                            $('<option>', {value: data.id, text: data.text, selected: true})
+                        );
+                        select.trigger('change');
+                        select.select2('close');
+                    }
                 }
             });
         });

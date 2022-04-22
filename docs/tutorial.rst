@@ -417,7 +417,7 @@ the autocomplete user interface, ie:
     urlpatterns = [
         url(
             r'^country-autocomplete/$',
-            CountryAutocomplete.as_view(create_field='name'),
+            CountryAutocomplete.as_view(create_field='name', validate_create=True),
             name='country-autocomplete',
         ),
     ]
@@ -426,6 +426,9 @@ This way, the option 'Create "Tibet"' will be available if a user inputs
 "Tibet" for example. When the user clicks it, it will make the post request to
 the view which will do ``Country.objects.create(name='Tibet')``. It will be
 included in the server response so that the script can add it to the widget.
+
+By activating ``valide_create=True``, a full_clean will be run on the 
+create_field, thus validating all the validators on the field.
 
 Note that creating objects is allowed to logged-in users with ``add`` permission
 on the resource. If you want to grant ``add`` permission to a user, you have to

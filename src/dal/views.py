@@ -17,6 +17,7 @@ from django.db.models import Q
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.template.loader import render_to_string
 from django.views.generic.list import BaseListView
+from django.core.exceptions import ValidationError
 
 import six
 
@@ -83,6 +84,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
     search_fields = []
     split_words = None
     template = None
+    validate_create = None
 
     def has_more(self, context):
         """For widgets that have infinite-scroll feature."""
@@ -192,6 +194,18 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
         if text is None:
             return http.HttpResponseBadRequest()
+
+        if self.validate_create:
+            model = self.get_queryset().model
+            obj = model(**{self.create_field: text})
+            try :
+                obj.full_clean()
+            except ValidationError as error:
+                # we ignore the other field as they could be propagated in create_object or in model.save
+                if self.create_field in error.message_dict:
+                    return http.JsonResponse({
+                        'error': error.message_dict[self.create_field],
+                    })
 
         result = self.create_object(text)
 

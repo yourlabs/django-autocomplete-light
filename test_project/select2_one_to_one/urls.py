@@ -13,6 +13,7 @@ urlpatterns = [
         autocomplete.Select2QuerySetView.as_view(
             model=TModel,
             create_field='name',
+            validate_create=True,
         ),
         name='select2_one_to_one_autocomplete',
     ),
