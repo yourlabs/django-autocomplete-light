@@ -3,8 +3,6 @@ from dal import autocomplete
 from django import test
 from django.core.exceptions import ValidationError
 
-import six
-
 
 class Select2ListChoiceFieldTest(test.TestCase):
 
@@ -32,36 +30,36 @@ class Select2ListChoiceFieldTest(test.TestCase):
     def test_init(self):
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.choice_list)
-        six.assertCountEqual(
-            self, field.choices,
+        self.assertCountEqual(
+            field.choices,
             [(choice, choice) for choice in self.choice_list])
 
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.get_choice_list)
-        six.assertCountEqual(
-            self, field.choices,
+        self.assertCountEqual(
+            field.choices,
             [(choice, choice) for choice in self.choice_list])
 
     def test_init_lists(self):
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.choice_list_lists)
-        six.assertCountEqual(self, field.choices, self.choice_list_lists)
+        self.assertCountEqual(field.choices, self.choice_list_lists)
 
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.get_choice_list_lists)
-        six.assertCountEqual(self, field.choices, self.choice_list_lists)
+        self.assertCountEqual(field.choices, self.choice_list_lists)
 
     def test_init_tuples(self):
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.choice_list_tuples)
-        six.assertCountEqual(
-            self, field.choices,
+        self.assertCountEqual(
+            field.choices,
             [(value, text) for [value, text] in self.choice_list_tuples])
 
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.get_choice_list_tuples)
-        six.assertCountEqual(
-            self, field.choices,
+        self.assertCountEqual(
+            field.choices,
             [(value, text) for [value, text] in self.choice_list_tuples])
 
 

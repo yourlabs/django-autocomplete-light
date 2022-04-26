@@ -11,8 +11,6 @@ except ImportError:
 
 from queryset_sequence import QuerySetSequence
 
-import six
-
 from .forms import TForm
 from .models import TModel
 
@@ -74,8 +72,8 @@ class GenericSelect2TestMixin(object):
         self.assertHTMLEqual(
             forms.SelectMultiple(
                 choices=(
-                    (self.get_value(relation0), six.text_type(relation0)),
-                    (self.get_value(relation1), six.text_type(relation1)),
+                    (self.get_value(relation0), str(relation0)),
+                    (self.get_value(relation1), str(relation1)),
                 ),
                 attrs={
                     'data-autocomplete-light-function': 'select2',
@@ -86,7 +84,7 @@ class GenericSelect2TestMixin(object):
                 self.get_value(relation0),
                 self.get_value(relation1),
             ]),
-            six.text_type(form['test'].as_widget())
+            str(form['test'].as_widget())
         )
 
 

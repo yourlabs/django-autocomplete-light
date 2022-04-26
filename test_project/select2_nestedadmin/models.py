@@ -1,9 +1,6 @@
 from django.db import models
 
-from six import python_2_unicode_compatible
 
-
-@python_2_unicode_compatible
 class TModelOne(models.Model):
     name = models.CharField(max_length=200)
     level_one = models.CharField(max_length=20, blank=True, default='one')
@@ -12,7 +9,6 @@ class TModelOne(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class TModelTwo(models.Model):
     name = models.CharField(max_length=200)
     level_two = models.CharField(max_length=20, blank=True, default='two')
@@ -29,7 +25,6 @@ class TModelTwo(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class TModelThree(models.Model):
     name = models.CharField(max_length=200)
 

@@ -14,8 +14,6 @@ from django.db.models import F
 from django.utils.translation import gettext as _
 from django.views.generic.list import View
 
-import six
-
 
 class Select2ViewMixin(object):
     """View mixin to render a JSON response for Select2."""
@@ -200,8 +198,7 @@ class Select2GroupListView(Select2ListView):
         group = None
         item = entry
 
-        if isinstance(entry, Sequence) and \
-           not isinstance(entry, six.string_types):
+        if isinstance(entry, Sequence) and not isinstance(entry, str):
 
             entry_length = len(entry)
 
@@ -218,8 +215,7 @@ class Select2GroupListView(Select2ListView):
                 elif(entry_length > 0):
                     item = entry[0]
 
-        if not isinstance(item, Sequence) or \
-           isinstance(item, six.string_types):
+        if not isinstance(item, Sequence) or isinstance(item, str):
             item = (item,)
 
         return (group, item),
@@ -261,7 +257,7 @@ class Select2GroupListView(Select2ListView):
                                 {"id": x, "text": y} for x, y in l
                             ]
                         }
-                        for g, l in six.iteritems(results_dict)
+                        for g, l in results_dict.items()
                     ]
                 })
 
@@ -289,6 +285,6 @@ class Select2GroupListView(Select2ListView):
                                 {"id": x, "text": x} for x in l
                             ]
                         }
-                        for g, l in six.iteritems(results_dict)
+                        for g, l in results_dict.items()
                     ]
                 })

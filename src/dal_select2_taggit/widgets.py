@@ -4,8 +4,6 @@ from dal_select2.widgets import TagSelect2
 
 from django import VERSION
 
-import six
-
 
 class TaggitSelect2(TagSelect2):
     """Select2 tag widget for taggit's TagField."""
@@ -42,7 +40,7 @@ class TaggitSelect2(TagSelect2):
         selected_choices = args[selected_choices_arg]
 
         # When the data hasn't validated, we get the raw input here
-        if isinstance(selected_choices, six.text_type):
+        if isinstance(selected_choices, str):
             choices = [c.strip() for c in selected_choices.split(',')]
         else:
             # Filter out None values, not needed for autocomplete

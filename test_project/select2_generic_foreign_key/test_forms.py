@@ -10,8 +10,6 @@ except ImportError:
 
 from queryset_sequence import QuerySetSequence
 
-import six
-
 from .forms import TForm
 from .models import TModel, TProxyModel
 
@@ -84,7 +82,7 @@ class GenericFormTest(test.TestCase):  # noqa
         # Ensure that the widget rendered right, with only the selection
         expected = forms.Select(
             choices=(
-                (self.get_value(relation), six.text_type(relation)),
+                (self.get_value(relation), str(relation)),
             ),
             attrs={
                 'data-autocomplete-light-function': 'select2',
@@ -93,7 +91,7 @@ class GenericFormTest(test.TestCase):  # noqa
                 'id': 'id_test',
             }
         ).render('test', value=self.get_value(relation))
-        result = six.text_type(form['test'].as_widget())
+        result = str(form['test'].as_widget())
 
         expected += '''
         <div class="dal-forward-conf" id="dal-forward-conf-for_id_test"
