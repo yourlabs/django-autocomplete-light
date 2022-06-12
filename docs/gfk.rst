@@ -61,7 +61,7 @@ Result:
 
 .. code-block:: python
 
-    from dal import autocomplete
+    from dal import autocomplete  # don't forget to pip install django-querysetsequence
 
     class TestForm(autocomplete.FutureModelForm):
 
