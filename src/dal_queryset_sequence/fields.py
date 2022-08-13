@@ -35,7 +35,7 @@ class QuerySetSequenceFieldMixin(object):
         """
         Raise a ValidationError for invalid_choice.
 
-        The validation error left unprecise about the exact error for security
+        The validation error left imprecise about the exact error for security
         reasons, to prevent an attacker doing information gathering to reverse
         valid content type and object ids.
         """

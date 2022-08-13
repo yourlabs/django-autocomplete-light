@@ -147,7 +147,7 @@ class BaseStory(object):
         el = self.case.browser.find_by_css(sel).first
         el.click()
 
-        # Wait until the form was actually submited
+        # Wait until the form was actually submitted
         tries = 100
         while tries:
             # Popup is gone

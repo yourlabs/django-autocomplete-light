@@ -93,7 +93,7 @@ class Select2QuerySetSequenceAutoView(Select2QuerySetSequenceView):
                 # (reserved for forwarding fields)
                 pass
 
-            # link the diffrent field by an & query
+            # link the different field by an & query
             and_forward_filtered = reduce(lambda x, y: x & y, forward_filtered)
 
             queryset_models.append(model.objects.filter(and_forward_filtered))

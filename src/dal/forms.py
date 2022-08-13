@@ -68,7 +68,7 @@ class FutureModelForm(forms.ModelForm):
       for non-m2m and non-virtual model fields.
     - ``FormField.save_relation_data(instance, name, value)`` should save
       relations required for value on the instance. Called by ``save()``
-      **after** writing the database, when ``instance.pk`` is necessarely set,
+      **after** writing the database, when ``instance.pk`` is necessarily set,
       it overrides ``ModelField.save_form_data()`` which is normally used in
       this occasion for m2m and virtual model fields.
 
