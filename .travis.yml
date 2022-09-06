@@ -14,10 +14,18 @@ matrix:
     env: TOXENV=checkqa
   - python: 3.7
     env: TOXENV=docs
+  - python: 3.6
+    env: TOXENV=py36-dj32
   - python: 3.7
-    env: TOXENV=py37-dj30
-  allow_failures:
-  - env: TOXENV=py37-dj30
+    env: TOXENV=py37-dj32
+  - python: 3.8
+    env: TOXENV=py38-dj40
+  - python: 3.8
+    env: TOXENV=py38-dj41
+  - python: 3.9
+    env: TOXENV=py39-dj41
+  - python: 3.10
+    env: TOXENV=py310-dj41
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox
