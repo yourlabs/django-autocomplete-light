@@ -16,6 +16,11 @@ from django.views.generic.list import View
 
 import six
 
+try:
+    from collections.abc import Sequence
+except ImportError:  # py < 3.10
+    from collections import Sequence
+
 
 class Select2ViewMixin(object):
     """View mixin to render a JSON response for Select2."""
