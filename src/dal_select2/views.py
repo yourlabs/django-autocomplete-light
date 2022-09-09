@@ -24,6 +24,7 @@ except ImportError:  # py < 3.10
 
 class Select2ViewMixin(object):
     """View mixin to render a JSON response for Select2."""
+
     case_sensitive_create = False
 
     def get_results(self, context):
@@ -53,7 +54,10 @@ class Select2ViewMixin(object):
                 if q.lower() in existing_options:
                     display_create_option = False
             else:
-                existing_options = (self.get_result_label(result) for result in context["object_list"])
+                existing_options = (
+                    self.get_result_label(result)
+                    for result in context['object_list']
+                )
                 if q in existing_options:
                     display_create_option = False
 
@@ -218,9 +222,9 @@ class Select2GroupListView(Select2ListView):
                 return (group, item),
 
             else:
-                if(entry_length > 1):
+                if entry_length > 1:
                     group, item = entry[0:2]
-                elif(entry_length > 0):
+                elif entry_length > 0:
                     item = entry[0]
 
         if not isinstance(item, Sequence) or \

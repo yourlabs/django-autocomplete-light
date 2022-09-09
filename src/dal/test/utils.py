@@ -61,5 +61,4 @@ class OwnedFixtures(Fixtures):
                 )
 
 
-
 fixtures = Fixtures()
