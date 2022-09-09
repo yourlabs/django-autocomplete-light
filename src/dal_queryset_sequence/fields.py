@@ -6,8 +6,8 @@ from dal_contenttypes.fields import (
 )
 
 from django import forms
-from django.urls import re_path as url
 from django.contrib.contenttypes.models import ContentType
+from django.urls import re_path as url
 
 from queryset_sequence import QuerySetSequence
 
