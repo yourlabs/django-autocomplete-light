@@ -247,7 +247,7 @@ class InlineSelectOption(SelectOption):
         )
 
         # Ensure the inline is displayed else click to add it
-        add = self.case.browser.find_link_by_partial_text('Add another').first
+        add = self.case.browser.links.find_by_partial_text('Add another').first
 
         num = len(
             self.case.browser.find_by_css(
