@@ -1,5 +1,5 @@
-Autocompletion for django-gm2m's GM2MField
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+django-gm2m GM2MField
+~~~~~~~~~~~~~~~~~~~~~
 
 Model example
 =============

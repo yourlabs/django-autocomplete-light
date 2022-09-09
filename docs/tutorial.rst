@@ -1,5 +1,5 @@
-django-autocomplete-light tutorial
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tutorial
+~~~~~~~~
 
 .. _select2-tutorial:
 

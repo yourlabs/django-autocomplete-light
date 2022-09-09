@@ -1,5 +1,5 @@
-Autocompletion for django-generic-m2m's RelatedObjectsDescriptor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+django-generic-m2m
+~~~~~~~~~~~~~~~~~~
 
 Model example
 =============

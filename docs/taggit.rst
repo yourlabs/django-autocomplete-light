@@ -1,5 +1,5 @@
-Autocompletion for django-taggit's TaggableManager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+django-taggit TaggableManager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Model example
 =============

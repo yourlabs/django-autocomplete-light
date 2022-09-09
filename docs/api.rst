@@ -1,5 +1,5 @@
-dal: django-autocomplete-light3 API
-===================================
+Python API
+==========
 
 Views
 -----
@@ -19,8 +19,8 @@ FutureModelForm
 .. automodule:: dal.forms
    :members:
 
-dal_select2: Select2 support for DAL
-====================================
+dal_select2
+===========
 
 This is a front-end module: it provides views and widgets.
 
@@ -48,8 +48,8 @@ Test tools
 .. automodule:: dal_select2.test
    :members:
 
-dal_contenttypes: GenericForeignKey support
-===========================================
+dal_contenttypes
+================
 
 Fields
 ------
@@ -57,8 +57,8 @@ Fields
 .. automodule:: dal_contenttypes.fields
    :members:
 
-dal_select2_queryset_sequence: Select2 for QuerySetSequence choices
-===================================================================
+dal_select2_queryset_sequence
+=============================
 
 Views
 -----
@@ -78,8 +78,8 @@ Wigets
 .. automodule:: dal_select2_queryset_sequence.widgets
    :members:
 
-dal_queryset_sequence: QuerySetSequence choices
-===============================================
+dal_queryset_sequence
+=====================
 
 Views
 -----
@@ -117,8 +117,8 @@ Fields
 .. automodule:: dal_genericm2m_queryset_sequence.fields
    :members:
 
-dal_gm2m: django-gm2m support
-=============================
+dal_gm2m
+========
 
 Fields
 ------
@@ -126,8 +126,8 @@ Fields
 .. automodule:: dal_gm2m.fields
    :members:
 
-dal_genericm2m: django-genericm2m support
-=========================================
+dal_genericm2m
+==============
 
 Fields
 ------
@@ -135,8 +135,8 @@ Fields
 .. automodule:: dal_genericm2m.fields
    :members:
 
-dal_select2_taggit: django-taggit support
-=========================================
+dal_select2_taggit
+==================
 
 Fields
 ------
@@ -144,8 +144,8 @@ Fields
 .. automodule:: dal_select2_taggit.widgets
    :members:
 
-dal_select2_tagging: django-tagging support
-===========================================
+dal_select2_tagging
+===================
 
 Fields
 ------

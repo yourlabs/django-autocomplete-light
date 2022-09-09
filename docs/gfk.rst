@@ -1,5 +1,5 @@
-Autocompletion for GenericForeignKey
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GenericForeignKey
+~~~~~~~~~~~~~~~~~
 
 Model example
 =============

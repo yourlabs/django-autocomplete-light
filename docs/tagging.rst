@@ -1,5 +1,5 @@
-Autocompletion for django-tagging's TagField
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+django-tagging TagField
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Model example
 =============
