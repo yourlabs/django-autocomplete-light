@@ -8,14 +8,14 @@ from .models import TModel
 
 
 urlpatterns = [
-    url(
-        'test-autocomplete/$',
-        autocomplete.Select2QuerySetView.as_view(
-            model=TModel,
-            create_field='name',
-        ),
-        name='select2_many_to_many_autocomplete',
-    ),
+    #url(
+    #    'test-autocomplete/$',
+    #    autocomplete.Select2QuerySetView.as_view(
+    #        model=TModel,
+    #        create_field='name',
+    #    ),
+    #    name='select2_many_to_many_autocomplete',
+    #),
     url(
         'test/(?P<pk>\d+)/$',
         generic.UpdateView.as_view(
@@ -23,4 +23,8 @@ urlpatterns = [
             form_class=TForm,
         )
     ),
+] + [
+    field.as_url(TForm)
+    for field in TForm.declared_fields.values()
+    if hasattr(field, 'as_url')
 ]

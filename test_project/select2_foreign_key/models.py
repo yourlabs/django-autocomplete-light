@@ -22,3 +22,12 @@ class TModel(models.Model):
 
     def __str__(self):
         return self.name
+
+
+import djhacker
+from dal import autocomplete
+djhacker.formfield(
+    TModel.test,
+    forms.ModelChoiceField,
+    widget=autocomplete.ModelSelect2(),
+)
