@@ -185,6 +185,17 @@ window.addEventListener("load", function () {
                 $('[data-autocomplete-light-function]').excludeTemplateForms().each(initialize);
             });
 
+            /**
+             * Helper function to determine if the element is being dragged, so that we
+             * don't initialize the autocomplete fields. They will get initialized when the dragging stops.
+             *
+             * @param element The element to check
+             * @returns {boolean}
+             */
+            function isDraggingElement(element) {
+                return 'classList' in element && element.classList.contains('ui-sortable-helper');
+            }
+
             if ('MutationObserver' in window) {
                 new MutationObserver(function (mutations) {
                     var mutationRecord;
@@ -196,7 +207,7 @@ window.addEventListener("load", function () {
                         if (mutationRecord.addedNodes.length > 0) {
                             for (var j = 0; j < mutationRecord.addedNodes.length; j++) {
                                 addedNode = mutationRecord.addedNodes[j];
-
+                                if (isDraggingElement(addedNode)) return;
                                 $(addedNode).find('[data-autocomplete-light-function]').excludeTemplateForms().each(initialize);
                             }
                         }
@@ -205,6 +216,7 @@ window.addEventListener("load", function () {
                 }).observe(document.documentElement, {childList: true, subtree: true});
             } else {
                 $(document).on('DOMNodeInserted', function (e) {
+                    if (isDraggingElement(e.target)) return;
                     $(e.target).find('[data-autocomplete-light-function]').excludeTemplateForms().each(initialize);
                 });
             }
