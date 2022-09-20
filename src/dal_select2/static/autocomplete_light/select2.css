@@ -20,6 +20,23 @@ for light and dark themes.
 The CSS variables were added to Django in 3.2. If they aren't found then we fallback to using the default styles from select2.
 */
 
+/* Create new CSS variable to control the color of the highlighted row
+
+These values will be used for the light theme.
+*/
+.select2-container--default {
+    --select2-highlighted-bg: #5897fb;
+    --select2-highlighted-fg: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+    /* For dark theme, use the Django selected row color and the body foreground color for the selected row. */
+    .select2-container--default {
+        --select2-highlighted-bg: var(--selected-row, #5897fb);
+        --select2-highlighted-fg: var(--body-fg, #000);
+    }
+}
+
 .select2-dropdown {
     /* The dropdown container where choices are displayed */
     background-color: var(--body-bg, #fff);
@@ -51,14 +68,18 @@ The CSS variables were added to Django in 3.2. If they aren't found then we fall
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
     /* The option that is in focus */
-    background-color: var(--selected-row, #5897fb);
-    color: var(--body-fg, #fff);
+    background-color: var(--select2-highlighted-bg, #5897fb);
+    color: var(--select2-highlighted-fg, #fff);
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     /* Selected choices when multiple are allowed */
-    background-color: var(--body-bg, #e4e4e4);
+    background-color: var(--darkened-bg, #e4e4e4);
     border-color: var(--border-color, #aaa);
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+    color: var(--body-fg, #000);
 }
 
 .select2-container--default.select2-container--focus .select2-selection--multiple {
