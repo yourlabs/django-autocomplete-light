@@ -37,7 +37,7 @@ These values will be used for the light theme.
     }
 }
 
-.select2-dropdown {
+.select2-container--default .select2-dropdown {
     /* The dropdown container where choices are displayed */
     background-color: var(--body-bg, #fff);
     border-color: var(--border-color, #aaa);
