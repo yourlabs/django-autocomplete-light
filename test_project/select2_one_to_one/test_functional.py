@@ -33,3 +33,13 @@ class AdminOneToOneTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
 
         story.assert_value(self.model.objects.get(name=name).pk)
         story.assert_label(name)
+
+    def test_create_option_validation(self):
+        story = stories.CreateOption(self)
+        story.create_option('not a slug')
+        story.case.browser.is_element_present_by_css('.invalid-feedback')
+        story.toggle_autocomplete()  # close autocomplete
+        story.create_option('is-a-slug')  # try again with valid name
+        assert not story.case.browser.is_element_present_by_css(
+            '.invalid-feedback'
+        )  # error has disappeared
