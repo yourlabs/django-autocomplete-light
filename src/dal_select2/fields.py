@@ -4,10 +4,14 @@ from django.forms import ChoiceField
 
 
 class ChoiceCallable:
+    """Choices wrapper that supports callable choices."""
+
     def __init__(self, choices):
+        """Instanciate with a callable or iterable choices."""
         self.choices = choices
 
     def __call__(self):
+        """Call the callable if necessary and return choices."""
         result = []
         choices = self.choices() if callable(self.choices) else self.choices
         for choice in choices or []:

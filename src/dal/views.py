@@ -12,12 +12,11 @@ else:
     from django.contrib.admin.utils import lookup_needs_distinct \
         as lookup_spawns_duplicates
 from django.contrib.auth import get_permission_codename
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db.models import Q
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.template.loader import render_to_string
 from django.views.generic.list import BaseListView
-from django.core.exceptions import ValidationError
 
 import six
 
@@ -183,7 +182,11 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         return request.user.has_perm("%s.%s" % (opts.app_label, codename))
 
     def post(self, request, *args, **kwargs):
-        """Create an object given a text after checking permissions."""
+        """
+        Create an object given a text after checking permissions.
+
+        Runs self.validate() if self.validate_create is True.
+        """
         if not self.has_add_permission(request):
             return http.HttpResponseForbidden()
 
@@ -196,16 +199,11 @@ class BaseQuerySetView(ViewMixin, BaseListView):
             return http.HttpResponseBadRequest()
 
         if self.validate_create:
-            model = self.get_queryset().model
-            obj = model(**{self.create_field: text})
-            try :
-                obj.full_clean()
+            try:
+                self.validate(text)
             except ValidationError as error:
-                # we ignore the other field as they could be propagated in create_object or in model.save
                 if self.create_field in error.message_dict:
-                    return http.JsonResponse({
-                        'error': error.message_dict[self.create_field],
-                    })
+                    return http.JsonResponse(dict(error=error))
 
         result = self.create_object(text)
 
@@ -213,3 +211,13 @@ class BaseQuerySetView(ViewMixin, BaseListView):
             'id': self.get_result_value(result),
             'text': self.get_selected_result_label(result),
         })
+
+    def validate(self, text):
+        """
+        Validate a given text for new option creation.
+
+        Raise ValidationError or return None.
+        """
+        model = self.get_queryset().model
+        obj = model(**{self.create_field: text})
+        obj.full_clean()

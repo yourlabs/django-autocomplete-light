@@ -2,14 +2,15 @@ try:
     from django.contrib.auth.views import LoginView
 except ImportError:  # old django, lol it
     from django.views.generic import TemplateView as LoginView
+
+from django.forms.models import ModelChoiceIterator, ModelMultipleChoiceField
+from django.http.response import HttpResponse
+from django.urls import reverse_lazy
 from django.views import generic
 
-from django.urls import reverse_lazy
-from django.http.response import HttpResponse
-
 from dal import autocomplete
+
 from select2_many_to_many.models import TModel
-from django.forms.models import ModelChoiceIterator, ModelMultipleChoiceField
 
 
 class LoginView(LoginView):
@@ -21,13 +22,14 @@ class IndexView(generic.TemplateView):
 
 
 def BasicDALView(request):
-    '''
-    A very basic DAL widget alone on a page for minimalist testing. Not a dressed demo of what DAL can do,
-    rather an isolated functional widget page against which comparisons can be made if someone has a DAL
-    widget not working,
+    """
+    A very basic DAL widget alone on a page for minimalist testing. Not a
+    dressed demo of what DAL can do, rather an isolated functional widget page
+    against which comparisons can be made if someone has a DAL widget not
+    working,
 
     This is the basic DAL (single selected) widget.
-    '''
+    """
     js = """
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" crossorigin="anonymous"></script>
     """
@@ -52,13 +54,13 @@ def BasicDALView(request):
 
 
 def BasicDALMultiView(request):
-    '''
+    """
     A very basic DAL widget alone on a page for minimalist testing. Not a dressed demo of what DAL can do,
     rather an isolated functional widget page against which comparisons can be made if someone has a DAL
     widget not working,
 
     This is the multi select DAL widget.
-    '''
+    """
     js = """
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" crossorigin="anonymous"></script>
     """

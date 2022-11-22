@@ -16,11 +16,6 @@ from django.views.generic.list import View
 
 import six
 
-try:
-    from collections.abc import Sequence
-except ImportError:  # py < 3.10
-    from collections import Sequence
-
 
 class Select2ViewMixin(object):
     """View mixin to render a JSON response for Select2."""
@@ -111,7 +106,7 @@ class Select2GroupQuerySetView(Select2QuerySetView):
         if not self.group_by_related:
             raise ImproperlyConfigured("Missing group_by_related.")
 
-        groups = collections.OrderedDict()
+        groups = OrderedDict()
 
         object_list = context['object_list']
         object_list = object_list.annotate(
