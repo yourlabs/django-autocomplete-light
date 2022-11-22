@@ -1,3 +1,5 @@
+import uuid
+
 from dal.test import case, stories
 
 from dal_select2.test import Select2Story
@@ -18,10 +20,10 @@ class AdminOneToOneTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
 
     def test_can_create_option_on_the_fly(self):
         story = stories.CreateOption(self)
+        name = str(uuid.uuid4())
 
-        self.enter_text('#id_name', 'special %s' % self.id())
+        self.enter_text('#id_name', 'parent-%s' % name)
 
-        name = 'new option %s' % self.id()
         story.create_option(name)
 
         story.assert_value(self.model.objects.get(name=name).pk)
