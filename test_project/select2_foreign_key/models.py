@@ -28,6 +28,7 @@ import djhacker
 from dal import autocomplete
 djhacker.formfield(
     TModel.test,
-    forms.ModelChoiceField,
+    form_class=autocomplete.ModelChoiceField,
     widget=autocomplete.ModelSelect2(),
 )
+breakpoint()

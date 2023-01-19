@@ -142,6 +142,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+'''
 if DEBUG:
     try:
         import debug_toolbar
@@ -151,6 +152,7 @@ if DEBUG:
         INSTALLED_APPS.append('debug_toolbar')
         MIDDLEWARE_CLASSES.append('debug_toolbar.middleware.DebugToolbarMiddleware')
         MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+'''
 
 AUTH_PASSWORD_VALIDATORS = []
 DJANGO_LIVE_TEST_SERVER_ADDRESS = "localhost:8000-8010,8080,9200-9300"

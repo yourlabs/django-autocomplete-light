@@ -19,6 +19,10 @@ Note that using this module is optional.
 
 from django.conf import settings as django_settings
 
+from .fields import (
+    AutocompleteFieldMixin,
+    ModelChoiceField,
+)
 from .forms import FutureModelForm
 from .views import ViewMixin
 from .widgets import (
