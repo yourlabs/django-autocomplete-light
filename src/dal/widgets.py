@@ -184,6 +184,10 @@ class QuerySetSelectMixin(WidgetMixin):
 
     def filter_choices_to_render(self, selected_choices):
         """Filter out un-selected choices if choices is a QuerySet."""
-        self.choices.queryset = self.choices.queryset.filter(
-            pk__in=[c for c in selected_choices if c]
-        )
+        try:
+            self.choices.queryset = self.choices.queryset.filter(
+                pk__in=[c for c in selected_choices if c]
+            )
+        except ValueError:
+            # if selected_choices are invalid, do nothing
+            pass
