@@ -31,7 +31,9 @@ sed -i "s/release = [^,]*,/release = '$1'/" docs/conf.py
 short=$(echo $1 | grep -Eo '[^.]+\.[^.]+')
 sed -i "s/version = [^,]*,/version = '$short'/" docs/conf.py
 
-git add setup.py docs/conf.py
+source ~/.github
+echo -e "$(python changelog.py $1)\n$(cat CHANGELOG)" > CHANGELOG
+git add setup.py docs/conf.py CHANGELOG
 git commit -m "Release $1"
 git tag $1
 python setup.py sdist
