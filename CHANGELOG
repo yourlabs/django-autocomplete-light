@@ -1,3 +1,87 @@
+3.9.5-rc4
+
+
+3.9.5-rc3,
+
+    2023-4-7 Release 3.9.5-rc3
+    0cd3b7b Support releases without rebuild by jpic
+    e52a25a Support release commit in changelog script by jpic
+
+3.9.5-rc2
+
+    2023-4-7 Release 3.9.5-rc2
+    0ba6259 Rebuild static by jpic
+    b463af0 Fix #1295: Automate CHANGELOG by jpic
+    #1321   catch ValueError if selected_choices are invalid by @shapiromatron
+    62ecb5f QA by jpic
+    bde0029 Test create option validation by jpic
+    5ac5fb1 Create option on the fly test fix by jpic
+    #1314   fix: test_project/requirements.txt to reduce vulnerabilities by @jpic
+    #1310   Use get_result_value when returning created object by @matevz-ap
+    #1308   Adding `.select2-container--default` class to all style rules so that other themes aren't affected by @trumpet2012
+    #1308   Updating light mode to use original highlighted row colors by @trumpet2012
+    #1308   Adding support for django css variables so that for both light and dark themed admins the select2 fields will look good. by @trumpet2012
+    #1309   Fixing issue where dragging an inline admin section would initialize the autocomplete fields during the dragging view and when dragging stopped the autocomplete field would be reset and not get initialized again since the internal initialized list would already contain that element. by @trumpet2012
+    8bb371f Fix release script by jpic
+
+3.9.5-rc1
+
+    2023-4-7 Release 3.9.5-rc1
+    c1eaa20 Rebuild static by jpic
+    #1293   Add the option to validate the field when creating a new choice by @etiennepouliot
+    ac7860f Fix TOC sidebar with furo theme by jpic
+    #1306   Test Django 4.1 by @adamchainz
+    3599b6f Move documentation theme to furo by jpic
+    2023-4-7 Release 3.9.5-rc0
+    #1307   QA by @jpic
+    #1307   Support Python 3.10 and Django 4 by @jpic
+    #1307   Rebuild static by @jpic
+    #1304   docs: Fix a few typos by @timgates42
+    #1302   finnish translations by @T-101
+    #1297   Add reminder to install django-querysetsequence by @tylerecouture
+
+3.9.4
+
+    2023-4-7 Release 3.9.4
+    98ab8be Fix import by jpic
+
+3.9.3
+
+    2023-4-7 Release 3.9.3
+    77beaad Python 3.10 support by jpic
+
+3.9.2
+
+    2023-4-7 Release 3.9.2
+    #1289   The assumption that sys.argv has a second element is flawed by @bernd-wechner
+    #1286   add GitHub URL for PyPi by @andriyor
+    #1287   Fixes in response to requests by @bernd-wechner
+    #1287   Fixed JQuery version so the test works! by @bernd-wechner
+    #1287   Two isolated unadorned simple test cases added by @bernd-wechner
+    4adff74 Fix #1237: metadata versions by jpic
+
+3.9.1
+
+    2023-4-7 Release 3.9.1
+
+3.9.1rc2
+
+    2023-4-7 Release 3.9.1rc2
+
+3.9.1rc1
+
+    2023-4-7 Release 3.9.1rc1
+    1e4d83b Fix release script by jpic
+    #1280   Selected field's text color changed by @ammarCanc
+
+3.9.0
+
+    2023-4-7 Release 3.9.0
+    #1268   Django 4.0 test by @jpic
+    3eb84a0 Improve tutorial, remove form field override by jpic
+    c40e5dc Test project settings cleaning by jpic
+    1347911 Fix linked_data.js example by jpic
+    f4013bb Support None choices by jpic
 
 
 3.9.0rc4
