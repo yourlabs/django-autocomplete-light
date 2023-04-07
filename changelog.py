@@ -1,3 +1,4 @@
+from datetime import datetime
 from github import Github
 from pprint import pprint
 import os
@@ -25,6 +26,8 @@ git_log = subprocess.check_output(
     shell=True,
 ).decode('utf8').split('\n')
 
+now = datetime.now()
+
 tags = {}
 tag_commits = []
 for line in git_log:
@@ -43,11 +46,14 @@ for tag, shas in tags.items():
 
     for sha in shas:
         line = []
-        commit = repo.get_commit(sha)
         author, description = subprocess.check_output(
             f"git log --format='%an--sep--%B' -n1 {sha}",
             shell=True,
         ).decode('utf8').split('\n')[0].split('--sep--')
+        if description.startswith('Release '):
+            lines.append(f'    {now.year}-{now.month}-{now.day} {description}')
+            continue
+        commit = repo.get_commit(sha)
         pulls = [*commit.get_pulls()]
         numbers = []
         users = []
