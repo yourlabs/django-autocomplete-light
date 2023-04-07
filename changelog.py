@@ -53,8 +53,12 @@ for tag, shas in tags.items():
         if description.startswith('Release '):
             lines.append(f'    {now.year}-{now.month}-{now.day} {description}')
             continue
-        commit = repo.get_commit(sha)
-        pulls = [*commit.get_pulls()]
+        try:
+            commit = repo.get_commit(sha)
+            pulls = [*commit.get_pulls()]
+        except:  # commit not found
+            lines.append(f'    {sha} {description} by {author}')
+            continue
         numbers = []
         users = []
         for pull in pulls:
