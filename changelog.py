@@ -26,18 +26,22 @@ git_log = subprocess.check_output(
     shell=True,
 ).decode('utf8').split('\n')
 
-now = datetime.now()
-
 tags = {}
 tag_commits = []
 for line in git_log:
     parts = line.split()
     if len(parts) == 1:
         tag_commits.append(parts[0])
-    elif len(parts) > 1 and parts[1] == 'tag:':
-        tags[tag] = tag_commits
-        tag = parts[2]
-        tag_commits = [parts[0]]
+        continue
+
+    for i, part in enumerate(parts):
+        if part == 'tag:':
+            tags[tag] = tag_commits
+            tag = parts[i + 1].strip(',')
+            tag_commits = [parts[0]]
+
+# add remaining commits to last seen tag
+tags[tag] = tag_commits
 
 lines = []
 for tag, shas in tags.items():
@@ -51,7 +55,11 @@ for tag, shas in tags.items():
             shell=True,
         ).decode('utf8').split('\n')[0].split('--sep--')
         if description.startswith('Release '):
-            lines.append(f'    {now.year}-{now.month}-{now.day} {description}')
+            date = subprocess.check_output(
+                f"git log --format='%as' -n1 {sha}",
+                shell=True,
+            ).decode('utf8').strip()
+            lines.append(f'    {date} {description}')
             continue
         try:
             commit = repo.get_commit(sha)
