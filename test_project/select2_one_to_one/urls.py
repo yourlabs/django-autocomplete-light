@@ -18,7 +18,7 @@ urlpatterns = [
         name='select2_one_to_one_autocomplete',
     ),
     url(
-        'test/(?P<pk>\d+)/$',
+        r'test/(?P<pk>\d+)/$',
         generic.UpdateView.as_view(
             model=TModel,
             form_class=TForm,
