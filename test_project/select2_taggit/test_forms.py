@@ -31,7 +31,7 @@ class TagSelect2TestMixin(object):
 
         new = self.tag.objects.get(name=new_tag)
 
-        self.assertEquals(list(result), [existing, new])
+        self.assertEqual(list(result), [existing, new])
 
         self.assertEqual(
             list(self.model.objects.get(pk=instance.pk).test.all()),
