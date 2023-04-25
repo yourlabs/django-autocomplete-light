@@ -12,7 +12,7 @@ class GM2MFormTest(GenericSelect2TestMixin, test.TestCase):
     url_name = 'select2_gm2m'
 
     def assert_relation_equals(self, expected, result):
-        self.assertEquals(len(expected), len(result))
+        self.assertEqual(len(expected), len(result))
 
         for o in result:
             self.assertIn(getattr(o, 'gm2m_tgt', o), expected)

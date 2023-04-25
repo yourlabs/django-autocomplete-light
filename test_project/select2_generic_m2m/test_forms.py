@@ -28,7 +28,7 @@ class GenericSelect2TestMixin(object):
         fixture.test = relations
 
     def assert_relation_equals(self, expected, result):
-        self.assertEquals(len(expected), len(result))
+        self.assertEqual(len(expected), len(result))
 
         for o in result:
             self.assertIn(o, expected)
@@ -100,7 +100,7 @@ class GenericM2MFormTest(GenericSelect2TestMixin, test.TestCase):
             fixture.test.connect(r)
 
     def assert_relation_equals(self, expected, result):
-        self.assertEquals(len(expected), len(result))
+        self.assertEqual(len(expected), len(result))
 
         for o in result:
             self.assertIn(o.object, expected)
