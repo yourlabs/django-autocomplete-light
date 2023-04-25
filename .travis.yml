@@ -26,6 +26,12 @@ matrix:
     env: TOXENV=py39-dj41
   - python: 3.10
     env: TOXENV=py310-dj41
+  - python: 3.8
+    env: TOXENV=py38-dj42
+  - python: 3.9
+    env: TOXENV=py39-dj42
+  - python: 3.10
+    env: TOXENV=py310-dj42
 install:
 - travis_retry pip install -U pip
 - travis_retry pip install tox

@@ -27,7 +27,10 @@ setup(
     long_description=read('README'),
     license='MIT',
     keywords='django autocomplete',
-    install_requires=['six'],
+    install_requires=[
+        'django>=3.2',
+        'six',
+    ],
     extras_require={
         'nested': ['django-nested-admin>=3.0.21'],
         'tags': ['django-taggit'],
@@ -39,6 +42,9 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
         'Framework :: Django :: 3.2',
+        'Framework :: Django :: 4.0',
+        'Framework :: Django :: 4.1',
+        'Framework :: Django :: 4.2',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
