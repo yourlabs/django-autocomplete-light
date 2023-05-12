@@ -1,0 +1,14 @@
+name: Clean release
+run-name: ${{ github.actor }} release
+on:
+  push:
+    tags:
+    - '*'
+jobs:
+  pypi-release:
+    runs-on: yourlabs/python
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - name: Release
+      run: ./release.sh $(git describe --tags --abbrev=0)
