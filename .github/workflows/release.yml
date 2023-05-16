@@ -1,9 +1,6 @@
 name: Clean release
 run-name: ${{ github.actor }} release
-on:
-  push:
-    tags:
-    - '*'
+on: push
 jobs:
   pypi-release:
     runs-on: ubuntu-latest
