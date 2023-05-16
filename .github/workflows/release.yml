@@ -13,14 +13,7 @@ jobs:
       run: |
         set -x
         npm install
-        chown -R root:root .
-        npm run compile-js
-        chown -R root:root .
-        npm run minify-js
-        chown -R root:root .
-        cp node_modules/select2/dist/css/*.css src/dal_select2/static/vendor/select2/dist/css/*.css
-        ls -lah node_modules/select2/dist/css/*.css src/dal_select2/static/vendor/select2/dist/css/*.css
-        lsattr node_modules/select2/dist/css/*.css src/dal_select2/static/vendor/select2/dist/css/*.css
+        npm run build
     - name: Update version in setup.py and docs/conf.py
       run: |
         sed -i "s/version=[^,]*,/version='${GITHUB_REF##*/}',/" setup.py
