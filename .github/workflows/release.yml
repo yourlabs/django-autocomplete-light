@@ -11,31 +11,24 @@ jobs:
       image: yourlabs/python
     steps:
     - name: Check out repository code
-      #run: |
-      #  git clone https://github.com/yourlabs/django-autocomplete-light.git
-      #  cd django-autocomplete-light
-      #  git checkout ${GITHUB_REF}
       uses: actions/checkout@v3
     - name: debug this crazy environment
       run: |
-        set -x
-        npm install
-        chown -R root:root .
-        npm run compile-js
-        chown -R root:root .
-        npm run minify-js
-        chown -R root:root .
-        cp node_modules/select2/dist/css/*.css src/dal_select2/static/vendor/select2/dist/css/*.css
+        chown -R app:app .
+        su - app -c "cd $(pwd) && npm install && npm run build"
     - name: Update version in setup.py and docs/conf.py
       run: |
+        short=$(echo ${GITHUB_REF##*/} | grep -Eo '[^.]+\.[^.]+')
         sed -i "s/version=[^,]*,/version='${GITHUB_REF##*/}',/" setup.py
         sed -i "s/release = [^,]*,/release = '${GITHUB_REF##*/}'/" docs/conf.py
         sed -i 's/version": "[^"]*"/version": "$short"/' package.json
-        short=$(echo ${GITHUB_REF##*/} | grep -Eo '[^.]+\.[^.]+')
         sed -i "s/version = [^,]*,/version = '${GITHUB_REF##*/}'/" docs/conf.py
     - name: Update changelog
       run: echo -e "$(python changelog.py ${GITHUB_REF##*/})\n$(cat CHANGELOG)" > CHANGELOG
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - name: Fix git dubious ownership
+      run: git config --global --add safe.directory /__w/django-autocomplete-light/django-autocomplete-light
+    - name: Commit all generated files
+      uses: stefanzweifel/git-auto-commit-action@v4
     - name: Build python package
       run: python setup.py sdist
     - name: Twine upload
