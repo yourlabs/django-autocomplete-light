@@ -34,6 +34,15 @@ def _installed(*apps):
     return True
 
 
+if _installed('dal_alight'):
+    from dal_alight.widgets import (
+        ModelAlight,
+    )
+    from dal_alight.views import (
+        AlightQuerySetView,
+    )
+
+
 if _installed('dal_select2'):
     from dal_select2.widgets import (
         Select2,

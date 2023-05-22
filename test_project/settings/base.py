@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # test apps
+    'alight_foreign_key',
     'select2_foreign_key',
     'select2_list',
     'select2_generic_foreign_key',
@@ -83,6 +84,7 @@ INSTALLED_APPS = [
     # Autocomplete
     'dal',
     # Enable plugins
+    'dal_alight',
     'dal_select2',
     'queryset_sequence',
     'dal_queryset_sequence',

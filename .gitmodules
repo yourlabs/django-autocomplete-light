@@ -1,0 +1,3 @@
+[submodule "src/dal_alight/static/dal_alight"]
+	path = src/dal_alight/static/dal_alight
+	url = https://yourlabs.io/oss/autocomplete-light.git
