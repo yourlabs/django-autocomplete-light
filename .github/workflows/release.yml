@@ -30,7 +30,9 @@ jobs:
     - name: Fix git dubious ownership
       run: git config --global --add safe.directory /__w/django-autocomplete-light/django-autocomplete-light
     - name: Tell git we are on master branch
-      run: git reset --soft origin/master
+      run: |
+        git fetch origin master:refs/remotes/origin/master
+        git reset --soft origin/master
     - name: Get last commit message
       id: last-commit-message
       run: echo "msg=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
@@ -39,7 +41,9 @@ jobs:
       with:
         commit_options: '--amend --no-edit'
         status_options: '--untracked-files=no'
+        push_options: '--force'
         commit_message: ${{ steps.last-commit-message.outputs.msg }}
+        branch: master
         skip_fetch: true
     - name: Build python package
       run: python setup.py sdist
