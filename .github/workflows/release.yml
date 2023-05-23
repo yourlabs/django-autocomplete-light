@@ -21,7 +21,7 @@ jobs:
     - name: Update version in setup.py and docs/conf.py
       run: |
         short=$(echo ${GITHUB_REF##*/} | grep -Eo '[^.]+\.[^.]+')
-        sed -i 's/version": "[^"]*"/version": "$short"/' package.json
+        sed -i "s/version\": \"[^\"]*\"/version\": \"$short\"/" package.json
         sed -i "s/version=[^,]*,/version='${GITHUB_REF##*/}',/" setup.py
         sed -i "s/release = [^,]*,/release = '${GITHUB_REF##*/}'/" docs/conf.py
         sed -i "s/version = [^,]*,/version = '${GITHUB_REF##*/}'/" docs/conf.py
