@@ -26,7 +26,9 @@ jobs:
         sed -i "s/release = [^,]*,/release = '${GITHUB_REF##*/}'/" docs/conf.py
         sed -i "s/version = [^,]*,/version = '${GITHUB_REF##*/}'/" docs/conf.py
     - name: Update changelog
-      run: echo -e "$(python changelog.py ${GITHUB_REF##*/})\n$(cat CHANGELOG)" > CHANGELOG
+      run: |
+        export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+        echo -e "$(python changelog.py ${GITHUB_REF##*/})\n$(cat CHANGELOG)" > CHANGELOG
     - name: Fix git dubious ownership
       run: git config --global --add safe.directory /__w/django-autocomplete-light/django-autocomplete-light
     - name: Tell git we are on master branch
