@@ -17,6 +17,7 @@ jobs:
     - name: Build JS for dal_select2
       run: |
         chown -R app:app .
+        npm update -g npm
         su - app -c "cd $(pwd) && npm install && npm run build"
     - name: Update version in setup.py and docs/conf.py
       run: |
