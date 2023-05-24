@@ -13,7 +13,7 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v3
       with:
-        fetch-depth: 2
+        fetch-depth: 0
     - name: Fix permissions
       run: chown -R app:app .
     - name: Update npm
