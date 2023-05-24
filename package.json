@@ -1,6 +1,6 @@
 {
   "name": "django-autocomplete-light",
-  "version": "3.9",
+  "version": "3.9.8rc24",
   "description": "A fresh approach to autocomplete implementations, specially for Django. Status: v3 stable, 2.x.x stable, 1.x.x deprecated. Please DO regularely ping us with your link at #yourlabs IRC channel https://django-autocomplete-light.readthedocs.io/",
   "directories": {
     "doc": "docs"
