@@ -13,7 +13,7 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v3
       with:
-        fetch-depth: 2
+        fetch-depth: 0
     - name: Fix permissions
       run: chown -R app:app .
     - name: Update npm
@@ -35,7 +35,7 @@ jobs:
       run: git config --global --add safe.directory /__w/django-autocomplete-light/django-autocomplete-light
     - name: Tell git we are on master branch
       run: |
-        git fetch origin master:refs/remotes/origin/master
+        #git fetch origin master:refs/remotes/origin/master
         git reset --soft origin/master
     - name: Get last commit message
       id: last-commit-message
