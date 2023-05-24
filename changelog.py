@@ -26,6 +26,8 @@ git_log = subprocess.check_output(
     shell=True,
 ).decode('utf8').split('\n')
 
+print('git log:', git_log)
+
 tags = {}
 tag_commits = []
 for line in git_log:
