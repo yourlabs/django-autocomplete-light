@@ -1,0 +1,15 @@
+name: Test
+on: [push]
+jobs:
+  runs-on: ubuntu-latest
+  container:
+    image: yourlabs/python
+  steps:
+  - name: Check out repository code
+    uses: actions/checkout@v3
+    with:
+      fetch-depth: 0
+  - name: Fix permissions
+    run: chown -R app:app .
+  - name: Run tox
+    run: tox -e py311-dj42
