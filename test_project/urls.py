@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', views.LoginView.as_view()),
 
+    url(r'^alight_foreign_key/', include('alight_foreign_key.urls')),
+
     url(r'^dal_single/', views.BasicDALView, name='isolated_dal_single'),
     url(r'^dal_multi/', views.BasicDALMultiView, name='isolated_dal_multi'),
 

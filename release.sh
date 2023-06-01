@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -eux
 # Release a new version of django-autocomplete-light
 #
 # Usage: ./release.sh 1.2.3-rc0

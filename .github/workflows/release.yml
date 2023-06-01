@@ -1,0 +1,58 @@
+name: Clean release
+run-name: ${{ github.actor }} release
+on:
+  push:
+    tags:
+    - '*'
+jobs:
+  pypi-release:
+    runs-on: ubuntu-latest
+    container:
+      image: yourlabs/python
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Fix permissions
+      run: chown -R app:app .
+    - name: Update npm
+      run: npm update -g npm
+    - name: Update version in setup.py and docs/conf.py
+      run: |
+        short=$(echo ${GITHUB_REF##*/} | grep -Eo '[^.]+\.[^.]+')
+        sed -i "s/version\": \"[^\"]*\"/version\": \"${GITHUB_REF##*/}\"/" package.json
+        sed -i "s/version=[^,]*,/version='${GITHUB_REF##*/}',/" setup.py
+        sed -i "s/release = [^,]*,/release = '${GITHUB_REF##*/}'/" docs/conf.py
+        sed -i "s/version = [^,]*,/version = '${GITHUB_REF##*/}'/" docs/conf.py
+    - name: Build js
+      run: su - app -c "cd $(pwd) && npm install && npm run build"
+    - name: Update changelog
+      run: |
+        export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+        echo -e "$(python changelog.py ${GITHUB_REF##*/})\n$(cat CHANGELOG)" > CHANGELOG
+    - name: Fix git dubious ownership
+      run: git config --global --add safe.directory /__w/django-autocomplete-light/django-autocomplete-light
+    - name: Tell git we are on master branch
+      run: |
+        git fetch origin master:refs/remotes/origin/master
+        git reset --soft origin/master
+    - name: Get last commit message
+      id: last-commit-message
+      run: echo "msg=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
+    - name: Build python package
+      run: python setup.py sdist
+    - name: Twine upload
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+      run: twine upload dist/django-autocomplete-light-${GITHUB_REF##*/}.tar.gz
+    - name: Commit all generated files
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_options: '--amend --no-edit'
+        status_options: '--untracked-files=no'
+        push_options: '--force'
+        commit_message: ${{ steps.last-commit-message.outputs.msg }}
+        branch: master
+        skip_fetch: true
