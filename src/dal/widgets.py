@@ -13,8 +13,6 @@ except ImportError:
     from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-import six
-
 
 class WidgetMixin(object):
     """Base mixin for autocomplete widgets.
@@ -69,7 +67,7 @@ class WidgetMixin(object):
     def filter_choices_to_render(self, selected_choices):
         """Replace self.choices with selected_choices."""
         self.choices = [c for c in self.choices if
-                        six.text_type(c[0]) in selected_choices]
+                        str(c[0]) in selected_choices]
 
     @staticmethod
     def _make_forward_dict(f):
@@ -77,7 +75,7 @@ class WidgetMixin(object):
 
         A returned dictionary will be dumped to JSON while rendering widget.
         """
-        if isinstance(f, six.string_types):
+        if isinstance(f, str):
             return forward.Field(f).to_dict()
         elif isinstance(f, forward.Forward):
             return f.to_dict()
@@ -112,7 +110,7 @@ class WidgetMixin(object):
         selected_choices_arg = 1 if VERSION < (1, 10) else 0
 
         # Filter out None values, not needed for autocomplete
-        selected_choices = [six.text_type(c) for c
+        selected_choices = [str(c) for c
                             in args[selected_choices_arg] if c]
 
         all_choices = copy.copy(self.choices)
@@ -135,7 +133,7 @@ class WidgetMixin(object):
         Used by Django>=1.10.
         """
         # Filter out None values, not needed for autocomplete
-        selected_choices = [six.text_type(c) for c in value if c]
+        selected_choices = [str(c) for c in value if c]
         all_choices = copy.copy(self.choices)
         if self.url:
             self.filter_choices_to_render(selected_choices)

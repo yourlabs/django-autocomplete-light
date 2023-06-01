@@ -2,8 +2,6 @@
 
 from django.contrib.contenttypes.models import ContentType
 
-import six
-
 
 class ContentTypeModelFieldMixin(object):
     """
@@ -23,7 +21,7 @@ class ContentTypeModelFieldMixin(object):
         if not value:
             return ''
 
-        if isinstance(value, six.string_types):
+        if isinstance(value, str):
             # Apparently Django's ModelChoiceField also expects two kinds of
             # "value" to be passed in this method.
             return value

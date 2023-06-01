@@ -1,10 +1,7 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 
-from six import python_2_unicode_compatible
 
-
-@python_2_unicode_compatible
 class TModel(models.Model):
     name = models.CharField(max_length=200)
 
@@ -54,7 +51,6 @@ class TModel(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class TProxyModel(TModel):
     class Meta:
         proxy = True

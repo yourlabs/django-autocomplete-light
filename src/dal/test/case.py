@@ -13,8 +13,6 @@ except ImportError:
 
 import pytest
 
-import six
-
 
 @pytest.mark.usefixtures('cls_browser')
 class AutocompleteTestCase(StaticLiveServerTestCase):
@@ -85,7 +83,7 @@ class OptionMixin(object):
     @transaction.atomic
     def create_option(self):
         """Create a unique option from self.model into self.option."""
-        unique_name = six.text_type(uuid.uuid1())
+        unique_name = str(uuid.uuid1())
 
         if VERSION < (1, 10):
             # Support for the name to be changed through a popup in the admin.

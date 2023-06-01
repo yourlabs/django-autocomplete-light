@@ -27,8 +27,6 @@ from django.contrib.staticfiles import finders
 from django.utils import translation
 from django.utils.itercompat import is_iterable
 
-import six
-
 
 I18N_PATH = 'autocomplete_light/i18n/'
 
@@ -148,7 +146,7 @@ class TagSelect2(WidgetMixin,
         and the model field expects a comma-separated list of tags.
         """
         values = super(TagSelect2, self).value_from_datadict(data, files, name)
-        return six.text_type(',').join(values)
+        return ','.join(values)
 
     def option_value(self, value):
         """Return the HTML option value attribute for a value."""
@@ -164,7 +162,7 @@ class TagSelect2(WidgetMixin,
             if not v:
                 continue
 
-            v = v.split(',') if isinstance(v, six.string_types) else v
+            v = v.split(',') if isinstance(v, str) else v
             v = [v] if not is_iterable(v) else v
             for t in v:
                 values.add(self.option_value(t))
@@ -173,7 +171,7 @@ class TagSelect2(WidgetMixin,
     def options(self, name, value, attrs=None):
         """Return only select options."""
         # When the data hasn't validated, we get the raw input
-        if isinstance(value, six.text_type):
+        if isinstance(value, str):
             value = value.split(',')
 
         for v in value:

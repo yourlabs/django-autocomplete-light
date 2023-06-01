@@ -4,13 +4,11 @@ from dal.test import case, stories
 
 from dal_select2.test import Select2Story
 
-import six
-
 from .models import TModel
 
 
 def random_text():
-    return six.text_type(uuid.uuid1())
+    return str(uuid.uuid1())
 
 
 class AdminSelect2List(Select2Story, case.AdminMixin, case.OptionMixin,

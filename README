@@ -10,7 +10,7 @@
 Features
 --------
 
-- Python 2.7, 3.4, Django 2.0+ support (Django 1.11 (LTS), is supported until django-autocomplete-light-3.2.10),
+- Python 3.4, Django 3.2+ support,
 - Django (multiple) choice support,
 - Django (multiple) model choice support,
 - Django generic foreign key support (through django-querysetsequence),

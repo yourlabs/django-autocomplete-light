@@ -18,8 +18,6 @@ from django.test.utils import override_settings
 
 import mock
 
-import six
-
 
 urlpatterns = [
     url(
@@ -54,7 +52,7 @@ class SelectTest(test.TestCase):  # noqa
 </select>
         '''.strip() % selected_tag()
 
-        self.assertHTMLEqual(six.text_type(form['test'].as_widget()), expected)
+        self.assertHTMLEqual(str(form['test'].as_widget()), expected)
 
 
 @override_settings(ROOT_URLCONF='tests.test_widgets')
@@ -81,7 +79,7 @@ class Select2Test(test.TestCase):  # noqa
 <option value="1">A</option>
 </select>
         '''.strip() % selected_tag()
-        observed = six.text_type(form['test'].as_widget())
+        observed = str(form['test'].as_widget())
 
         self.assertHTMLEqual(observed, expected)
 
@@ -102,7 +100,7 @@ class Select2Test(test.TestCase):  # noqa
 <option value="1">A</option>
 </select>
         '''.strip()
-        observed = six.text_type(form['test'].as_widget())
+        observed = str(form['test'].as_widget())
 
         self.assertHTMLEqual(observed, expected)
 
@@ -114,7 +112,7 @@ class Select2Test(test.TestCase):  # noqa
 <option value="1" %s>A</option>
 </select>
         '''.strip() % selected_tag()
-        observed = six.text_type(form['test'].as_widget())
+        observed = str(form['test'].as_widget())
 
         self.assertHTMLEqual(observed, expected)
 
@@ -145,7 +143,7 @@ class WidgetMixinTest(test.TestCase):  # noqa
 
         class Widget(WidgetMixin, BaseWidget):
             def render_forward_conf(self, id):
-                return six.text_type(id)
+                return str(id)
 
         widget = Widget(forward=['test'])
 

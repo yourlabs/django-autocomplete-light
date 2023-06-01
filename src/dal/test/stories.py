@@ -7,8 +7,6 @@ from selenium.common.exceptions import (
     StaleElementReferenceException,
 )
 
-import six
-
 import tenacity
 
 
@@ -80,7 +78,7 @@ class BaseStory(object):
         )
 
         self.clean_label_from_remove_buton()
-        return self.clean_label(six.text_type(label.text))
+        return self.clean_label(label.text)
 
     def clean_label(self, label):
         """Given an option text, return the actual label."""
@@ -89,7 +87,7 @@ class BaseStory(object):
     @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_label(self, text):
         """Assert that the autocomplete label matches text."""
-        assert six.text_type(text) == six.text_type(self.get_label())
+        assert text == self.get_label()
 
     def get_value(self):
         """Return the autocomplete field value."""
@@ -101,7 +99,7 @@ class BaseStory(object):
     @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_value(self, value):
         """Assart that the actual field value matches value."""
-        assert self.get_value() == six.text_type(value)
+        assert self.get_value() == str(value)
 
     def assert_selection(self, value, label):
         """Assert value is selected and has the given label."""
@@ -349,7 +347,7 @@ class MultipleMixin(object):
         )
 
         return [
-            self.clean_label(six.text_type(label.text))
+            self.clean_label(label.text)
             for label in labels
         ]
 
@@ -374,8 +372,8 @@ class MultipleMixin(object):
         self.case.assertEqual(len(texts), len(labels))
 
     def assert_values(self, values):
-        """Assart that the actual field values matches values."""
-        text_values = [six.text_type(v) for v in values]
+        """Assert that the actual field values matches values."""
+        text_values = [str(v) for v in values]
         actual_values = self.get_values()
 
         for actual_value in actual_values:

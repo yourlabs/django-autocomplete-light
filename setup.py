@@ -29,7 +29,6 @@ setup(
     keywords='django autocomplete',
     install_requires=[
         'django>=3.2',
-        'six',
     ],
     extras_require={
         'nested': ['django-nested-admin>=3.0.21'],

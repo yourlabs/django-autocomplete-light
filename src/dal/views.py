@@ -18,8 +18,6 @@ from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.template.loader import render_to_string
 from django.views.generic.list import BaseListView
 
-import six
-
 
 class ViewMixin(object):
     """Common methods for autocomplete views.
@@ -98,7 +96,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         if self.template:
             return render_to_string(self.template, {"result": result})
         else:
-            return six.text_type(result)
+            return result
 
     def get_selected_result_label(self, result):
         """Return the label of a selected result."""

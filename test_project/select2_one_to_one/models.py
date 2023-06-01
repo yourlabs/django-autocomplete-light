@@ -1,10 +1,7 @@
 from django.db import models
 from django.core.validators import validate_slug
 
-from six import python_2_unicode_compatible
 
-
-@python_2_unicode_compatible
 class TModel(models.Model):
     name = models.CharField(
         max_length=200,

@@ -11,8 +11,6 @@ from django.template.defaultfilters import capfirst
 
 from queryset_sequence import QuerySetSequence
 
-import six
-
 
 class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
     """
@@ -54,7 +52,7 @@ class Select2QuerySetSequenceView(BaseQuerySetSequenceView, Select2ViewMixin):
             'text': capfirst(self.get_model_name(model)),
             'children': [{
                 'id': self.get_result_value(result),
-                'text': six.text_type(result),
+                'text': str(result),
             } for result in results]
         } for model, results in groups.items()]
 
