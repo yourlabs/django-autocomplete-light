@@ -48,6 +48,9 @@ Select2 and a QuerySet of Tag objects:
 
             return qs
 
+        def get_create_option(self, context, q):
+            return []
+
 Don't forget to :ref:`register-view`.
 
 .. note:: For more complex filtering, refer to official documentation for
