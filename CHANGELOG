@@ -1,3 +1,23 @@
+3.10.0-rc3
+
+    #1335   fix: Fix event format for Django 4.2 by @last-partizan
+    #1336   Update taggit.rst docs. by @voberoi
+    2e51796 Drop Python 2 support (credit @claudep) by jpic
+
+3.9.7
+
+    2023-05-12 Release 3.9.7
+    2023-05-12 Release 3.9.6
+    2023-05-12 Release 3.9.6rc1
+
+3.9.5
+
+    2023-05-10 Release 3.9.5
+    #1327   Fix unittest assertEquals warnings by @adamchainz
+    #1326   Fix Python string escape warning by @adamchainz
+    #1325   Remove 'plugins' from pytest.ini by @adamchainz
+    #1324   Test on Django 4.2 by @adamchainz
+    66210bb CHANGELOG update by jpic
 
 
 
