@@ -10,7 +10,8 @@
 Features
 --------
 
-- Python 3.4, Django 3.2+ support,
+- **Django 4.2 support starting DAL 3.10**, support for earlier Django versions
+  in DAL < 3.10
 - Django (multiple) choice support,
 - Django (multiple) model choice support,
 - Django generic foreign key support (through django-querysetsequence),
@@ -24,13 +25,6 @@ Features
 - Provides a test API for your awesome autocompletes, to support YOUR custom
   use cases too,
 - A documented automatically tested example for each use case in test_project.
-
-Roadmap
--------
-
-- DAL < 4 supports Python 2 and 3 and Django 1.8 to 3.x
-- DAL 4 supports Django 3.x and 4.x and Python 3
-- DAL >= 3.9 offers a modern alternative to select2
 
 Resources
 ---------
