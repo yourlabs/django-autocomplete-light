@@ -10,7 +10,7 @@ from .models import TModel
 
 urlpatterns = [
     url(
-        'test/(?P<pk>\d+)/$',
+        r'test/(?P<pk>\d+)/$',
         generic.UpdateView.as_view(
             model=TModel,
             form_class=TForm,
