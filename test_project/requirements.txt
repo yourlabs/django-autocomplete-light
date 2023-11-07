@@ -3,6 +3,7 @@ django-extensions
 django-generic-m2m
 django-gm2m
 django-querysetsequence
+django-nested-admin
 django-taggit
 django-tagging
 mock
@@ -14,7 +15,6 @@ pytest-cov
 pytest-splinter
 tenacity
 whitenoise
-https://github.com/jpic/django-nested-admin/archive/refs/heads/master.zip#egg=django-nested-admin
 django-debug-toolbar
 sqlparse>=0.4.2 # not directly required, pinned by Snyk to avoid a vulnerability
 djhacker
