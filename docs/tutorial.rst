@@ -671,7 +671,7 @@ non-standard fields DAL logic could be not good enough. For these cases DAL
 provides a way to customize forwarding logic using JS callbacks. You can
 register JS forward handler on your page:
 
-.. code-block::javascript
+.. code-block:: javascript
 
     // autocompleteElem here is an HTML element for autocomplete field
     yl.registerForwardHandler("my_awesome_handler", function (autocompleteElem) {
@@ -714,7 +714,7 @@ For the purpose of understanding the logic: you can implement forwarding of
 some standard field by yourself as follows (you probably should never write this
 code yourself):
 
-.. code-block::javascript
+.. code-block:: javascript
 
     yl.registerForwardHandler("poormans_field_forward",
         function (elem) {
