@@ -43,11 +43,12 @@ class Select2ListChoiceFieldTest(test.TestCase):
     def test_init_lists(self):
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.choice_list_lists)
-        self.assertCountEqual(field.choices, self.choice_list_lists)
+        # choices are converted to tuples, not a big deal
+        assert [*field.choices] == self.choice_list_tuples
 
         field = autocomplete.Select2ListChoiceField(
             choice_list=self.get_choice_list_lists)
-        self.assertCountEqual(field.choices, self.choice_list_lists)
+        assert [*field.choices] == self.choice_list_tuples
 
     def test_init_tuples(self):
         field = autocomplete.Select2ListChoiceField(

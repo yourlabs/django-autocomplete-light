@@ -96,7 +96,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
         if self.template:
             return render_to_string(self.template, {"result": result})
         else:
-            return result
+            return str(result)
 
     def get_selected_result_label(self, result):
         """Return the label of a selected result."""

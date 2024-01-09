@@ -63,6 +63,7 @@ class TagSelect2TestMixin(object):
                     (str(tag), str(tag)),
                 ),
                 attrs={
+                    'aria-describedby': 'id_test_helptext',
                     'data-autocomplete-light-function': 'select2',
                     'data-autocomplete-light-url': reverse(self.url_name),
                     'data-autocomplete-light-language': 'en',
