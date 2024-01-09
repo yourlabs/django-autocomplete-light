@@ -1,3 +1,10 @@
+3.11.0-rc1
+
+    227cc34 Remove old submodule by jpic
+    #1343   Fix more string escape warnings by @adamchainz
+    #1347   Fix the issue of invisible JavaScript code blocks in tutorial.rst. by @oubeichen
+    #1344   Return to upstream django-nested-admin as the bug was fixed in 3.4.0 by @adamchainz
+    #1344   Test on Django 5.0 by @adamchainz
 3.10.0-rc4
 3.10.0-rc3
 
