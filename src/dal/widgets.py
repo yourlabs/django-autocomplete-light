@@ -87,7 +87,7 @@ class WidgetMixin(object):
         if self.forward:
             return \
                 '<div style="display:none" class="dal-forward-conf" ' + \
-                'id="dal-forward-conf-for_{id}"'.format(id=id) + \
+                'id="dal-forward-conf-for_{id}"'.format(id=self.attrs.get("id", id)) + \
                 '>' \
                 '<script type="text/dal-forward-conf">' + \
                 json.dumps(
