@@ -30,7 +30,9 @@ document.addEventListener('dal-init-function', function () {
                 return $result.text(item.text);
               }
             } else {
-                return template(item.text, is_data_html);
+                let text = item.text;
+                if (item.selected) text = escape(text);
+                return template(text, is_data_html);
             }
         }
 
