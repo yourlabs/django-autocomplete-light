@@ -47,9 +47,17 @@ class WidgetMixin(object):
     def __init__(self, url=None, forward=None, *args, **kwargs):
         """Instanciate a widget with a URL and a list of fields to forward."""
         self.url = url
-        self.forward = forward or []
+        if forward:
+            self.forward = list(forward).copy()
+        else:
+            self.forward = []
         self.placeholder = kwargs.get("attrs", {}).get("data-placeholder")
         super(WidgetMixin, self).__init__(*args, **kwargs)
+
+    def __deepcopy__(self, memo):
+        clone = super().__deepcopy__(memo)
+        clone.forward = self.forward.copy()
+        return clone
 
     def build_attrs(self, *args, **kwargs):
         """Build HTML attributes for the widget."""
