@@ -1,3 +1,4 @@
 furo
 django
 -r ../test_project/requirements.txt
+requests>=2.32.0 # not directly required, pinned by Snyk to avoid a vulnerability
