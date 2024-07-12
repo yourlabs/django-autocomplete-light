@@ -16,6 +16,7 @@ from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db.models import Q
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import BaseListView
 
 
@@ -201,7 +202,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
                 self.validate(text)
             except ValidationError as error:
                 if self.create_field in error.message_dict:
-                    return http.JsonResponse(dict(error=error))
+                    return http.JsonResponse(dict(error=error.message_dict.get(self.create_field, _('Error'))))
 
         result = self.create_object(text)
 
