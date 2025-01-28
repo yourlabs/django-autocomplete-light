@@ -82,7 +82,7 @@ class BaseStory(object):
 
     def clean_label(self, label):
         """Given an option text, return the actual label."""
-        return label
+        return label.replace('%20', ' ')
 
     @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_label(self, text):
