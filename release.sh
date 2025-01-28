@@ -37,7 +37,7 @@ git add setup.py docs/conf.py CHANGELOG
 git commit -m "Release $1"
 git tag $1
 python setup.py sdist
-twine upload dist/django-autocomplete-light-${1/-/}.tar.gz
+twine upload dist/django_autocomplete_light-${1/-/}.tar.gz
 git push origin master $1
 
 if [[ $stashed -eq 1 ]]; then
