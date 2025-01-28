@@ -25,7 +25,16 @@ except ImportError:
     SELECT2_TRANSLATIONS = {}
 from django.contrib.staticfiles import finders
 from django.utils import translation
-from django.utils.itercompat import is_iterable
+
+
+def is_iterable(x):
+    "An implementation independent way of checking for iterables"
+    try:
+        iter(x)
+    except TypeError:
+        return False
+    else:
+        return True
 
 
 I18N_PATH = 'autocomplete_light/i18n/'
