@@ -34,6 +34,15 @@ Consider such a model:
         def __str__(self):
             return self.name
 
+    # DJANGO 5.1
+    TestModel.location.editable = True
+
+.. danger::
+
+    Django 5.1 cleanup breaks this https://code.djangoproject.com/ticket/35224
+    I've opened a ticket to fix it https://code.djangoproject.com/ticket/36151#comment:3
+    Meanwhile **MAKE SURE YOU MONKEY PATCH ``editable=True``** !!
+
 .. _generic-autocomplete-view:
 
 Form example

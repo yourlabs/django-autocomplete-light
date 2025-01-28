@@ -50,6 +50,11 @@ class TModel(models.Model):
     def __str__(self):
         return self.name
 
+# For Django 5.1
+# See https://code.djangoproject.com/ticket/36151
+TModel._meta.get_field('test').editable = True
+TModel._meta.get_field('test2').editable = True
+
 
 class TProxyModel(TModel):
     class Meta:
