@@ -1,4 +1,16 @@
+3.12.0
 
+    2025-01-28 Release 3.12.0
+    e40dc4d Fix release script by jpic
+    fc2d85c Rebuild static by jpic
+    b088872 Add py313 by jpic
+    869a8cb Fix test by jpic
+    2e8933d Django 5.1 requires monkey patching of GFK editable to True by jpic
+    181162a Django 5.1 removed is_iterable by jpic
+    #1354   [fix] escape selected text to avoid XSS exploit by @elapouya
+    #1354   [fix] take the right id in the right place for field forwarding by @elapouya
+    #1368   Fix - Object of type ValidationError is not JSON serializable by @Spawin
+    #1373   extend matrix to all supported python versions, add support for django 5.1 by @lociii
 
 3.11.0
 3.11.0-rc1
