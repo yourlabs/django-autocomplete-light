@@ -19,3 +19,4 @@ django-debug-toolbar
 sqlparse>=0.4.2 # not directly required, pinned by Snyk to avoid a vulnerability
 djhacker
 setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
+django>=4.2.16 # not directly required, pinned by Snyk to avoid a vulnerability
