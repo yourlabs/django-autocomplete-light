@@ -30,12 +30,11 @@ Consider such a model:
         )
 
         location = GenericForeignKey('content_type', 'object_id')
+        # required for django 5.1
+        location.editable = True
 
         def __str__(self):
             return self.name
-
-    # DJANGO 5.1
-    TestModel.location.editable = True
 
 .. danger::
 

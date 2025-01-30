@@ -21,6 +21,7 @@ class TModel(models.Model):
     )
 
     test = GenericForeignKey('content_type', 'object_id')
+    test.editable = True
 
     content_type2 = models.ForeignKey(
         'contenttypes.ContentType',
@@ -38,6 +39,7 @@ class TModel(models.Model):
     )
 
     test2 = GenericForeignKey('content_type2', 'object_id2')
+    test2.editable = True
 
     for_inline = models.ForeignKey(
         'self',
@@ -49,11 +51,6 @@ class TModel(models.Model):
 
     def __str__(self):
         return self.name
-
-# For Django 5.1
-# See https://code.djangoproject.com/ticket/36151
-TModel._meta.get_field('test').editable = True
-TModel._meta.get_field('test2').editable = True
 
 
 class TProxyModel(TModel):
