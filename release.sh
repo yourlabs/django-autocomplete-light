@@ -36,7 +36,7 @@ echo -e "$(python changelog.py $1)\n$(cat CHANGELOG)" > CHANGELOG
 git add setup.py docs/conf.py CHANGELOG
 git commit -m "Release $1"
 git tag $1
-python setup.py sdist
+python -m build
 twine upload dist/django_autocomplete_light-${1/-/}.tar.gz
 git push origin master $1
 
