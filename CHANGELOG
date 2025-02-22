@@ -1,6 +1,8 @@
 3.12.1-rc2
 
-    d33afb9 We're going for solution 0 friends! by jpic
+    d33afb9 Document fuzzy workaround for Django>=5.1 GFK Autocomplete (tbc)
+    #1382 Revert "[fix] escape selected text to avoid XSS exploit"
+
 3.12.1-rc1
 3.12.0
 
