@@ -1,3 +1,6 @@
+3.12.1
+
+    d327718 Update changelog by jpic
 3.12.1-rc2
 
     d33afb9 Document fuzzy workaround for Django>=5.1 GFK Autocomplete (tbc)
