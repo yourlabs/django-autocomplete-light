@@ -1,5 +1,7 @@
 """Test the base widget."""
+from django.contrib.auth import get_user_model
 
+from dal import forward
 from dal.autocomplete import Select2
 from dal.widgets import Select, WidgetMixin
 
@@ -10,6 +12,9 @@ from django import forms
 from django import http
 from django import test
 from django.urls import re_path as url
+
+from dal_select2.widgets import ModelSelect2
+
 try:
     from django.urls import reverse
 except ImportError:
@@ -158,3 +163,28 @@ class WidgetMixinTest(test.TestCase):  # noqa
         # attrs with id
         observed = widget.render('myname', '', attrs={'id': 'myid'})
         self.assertEqual(observed, 'myid')
+
+    def test_forwards_are_cloned(self):
+        User = get_user_model()
+
+        class BaseForm(forms.Form):
+            choice_field = forms.ModelChoiceField(User.objects.all(), widget=ModelSelect2(url='/somewhere'))
+
+        class Form1(BaseForm):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                self.fields['choice_field'].widget.forward.append(forward.Const(True, 'filter_a'))
+
+        class Form2(BaseForm):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                self.fields['choice_field'].widget.forward.append(forward.Const(True, 'filter_b'))
+
+        form1 = Form1()
+        form2 = Form2()
+        
+        self.assertEqual(1, len(form1.fields['choice_field'].widget.forward))
+        self.assertEqual('filter_a', form1.fields['choice_field'].widget.forward[0].dst)
+
+        self.assertEqual(1, len(form2.fields['choice_field'].widget.forward))
+        self.assertEqual('filter_b', form2.fields['choice_field'].widget.forward[0].dst)
