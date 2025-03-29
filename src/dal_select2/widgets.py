@@ -71,7 +71,7 @@ class Select2WidgetMixin(object):
 
     def build_attrs(self, *args, **kwargs):
         """Set data-autocomplete-light-language."""
-        attrs = super(Select2WidgetMixin, self).build_attrs(*args, **kwargs)
+        attrs = super().build_attrs(*args, **kwargs)
         lang_code = self._get_language_code()
         if lang_code:
             attrs.setdefault('data-autocomplete-light-language', lang_code)
@@ -144,7 +144,7 @@ class TagSelect2(WidgetMixin,
 
     def build_attrs(self, *args, **kwargs):
         """Automatically set data-tags=1."""
-        attrs = super(TagSelect2, self).build_attrs(*args, **kwargs)
+        attrs = super().build_attrs(*args, **kwargs)
         attrs.setdefault('data-tags', 1)
         return attrs
 
@@ -154,7 +154,7 @@ class TagSelect2(WidgetMixin,
         This is needed because Select2 uses a multiple select even in tag mode,
         and the model field expects a comma-separated list of tags.
         """
-        values = super(TagSelect2, self).value_from_datadict(data, files, name)
+        values = super().value_from_datadict(data, files, name)
         return ','.join(values)
 
     def option_value(self, value):

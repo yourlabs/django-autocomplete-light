@@ -6,7 +6,7 @@ from .models import TModel
 
 class SecureFormMixin(object):
     def get_form(self, request, obj=None, **kwargs):
-        form = super(SecureFormMixin, self).get_form(
+        form = super().get_form(
             request, obj=obj, **kwargs)
 
         # Create a copy of the class so that we can hack the field definition

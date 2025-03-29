@@ -10,7 +10,7 @@ class LinkedDataFormTest(test.TestCase):  # noqa
     """Linked data form test."""
 
     def setUp(self):
-        super(LinkedDataFormTest, self).setUp()
+        super().setUp()
         User = apps.get_model('auth.user')  # noqa
         self.owner, c = User.objects.get_or_create(
             username='owner'

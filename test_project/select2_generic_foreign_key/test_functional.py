@@ -14,7 +14,7 @@ class AdminGenericForeignKeyTestCase(Select2Story, case.AdminMixin,
     model = TModel
 
     def setUp(self):
-        super(AdminGenericForeignKeyTestCase, self).setUp()
+        super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
 
     def test_can_select_option(self):

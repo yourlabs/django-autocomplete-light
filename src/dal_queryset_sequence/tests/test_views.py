@@ -21,7 +21,7 @@ class Select2QuerySetSequenceViewTestCase(test.TestCase):
             Group.objects.create(name='ViewTestCase%s' % i)
 
         cls.request = test.RequestFactory().get('?q=foo')
-        super(Select2QuerySetSequenceViewTestCase, cls).setUpClass()
+        super().setUpClass()
 
     def get_view(self, **kwargs):
         view = autocomplete.Select2QuerySetSequenceView(

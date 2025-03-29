@@ -41,7 +41,7 @@ class Select2GenericForeignKeyModelField(QuerySetSequenceModelField):
                                for model in model_choice]
             kwargs['queryset'] = QuerySetSequence(*models_queryset)
 
-        super(Select2GenericForeignKeyModelField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def as_url(self, form):
         """Return url."""

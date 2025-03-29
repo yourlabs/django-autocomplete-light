@@ -15,7 +15,7 @@ class AdminLinkedDataTest(Select2Story,
     model = TModel
 
     def setUp(self):
-        super(AdminLinkedDataTest, self).setUp()
+        super().setUp()
 
         if not getattr(self, 'fixtures', None):
             self.fixtures = OwnedFixtures()

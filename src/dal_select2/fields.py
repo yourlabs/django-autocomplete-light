@@ -38,7 +38,7 @@ class Select2ListChoiceField(ChoiceField):
         """
         choices = ChoiceCallable(choice_list)
 
-        super(Select2ListChoiceField, self).__init__(
+        super().__init__(
             choices=choices, required=required, widget=widget, label=label,
             initial=initial, help_text=help_text, *args, **kwargs
         )
@@ -49,4 +49,4 @@ class Select2ListCreateChoiceField(Select2ListChoiceField):
 
     def validate(self, value):
         """Do not validate choices but check for empty."""
-        super(ChoiceField, self).validate(value)
+        super().validate(value)

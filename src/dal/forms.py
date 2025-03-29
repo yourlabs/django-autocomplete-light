@@ -77,7 +77,7 @@ class FutureModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """Override that uses a form field's ``value_from_object()``."""
-        super(FutureModelForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
             if not hasattr(field, 'value_from_object'):
@@ -87,7 +87,7 @@ class FutureModelForm(forms.ModelForm):
 
     def _post_clean(self):
         """Override that uses the form field's ``save_object_data()``."""
-        super(FutureModelForm, self)._post_clean()
+        super()._post_clean()
 
         for name, field in self.fields.items():
             if not hasattr(field, 'save_object_data'):

@@ -15,7 +15,7 @@ class AdminNestedLinkedDataTest(Select2Story,
     model = TModelOne
 
     def setUp(self):
-        super(AdminNestedLinkedDataTest, self).setUp()
+        super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
         self.fill_name()
 

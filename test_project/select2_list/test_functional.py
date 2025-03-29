@@ -19,14 +19,14 @@ class AdminSelect2List(Select2Story, case.AdminMixin, case.OptionMixin,
 
     def create_option(self):
         """Return option, content type."""
-        option = super(AdminSelect2List, self).create_option()
+        option = super().create_option()
         option.test = random_text()
         option.save()
 
         return option
 
     def setUp(self):
-        super(AdminSelect2List, self).setUp()
+        super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
         self.fill_name()
 

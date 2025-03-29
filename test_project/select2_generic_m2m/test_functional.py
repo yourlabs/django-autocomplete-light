@@ -10,7 +10,7 @@ class AdminGenericM2MBase(object):
     inline_related_name = 'inline_test_models'
 
     def setUp(self):
-        super(AdminGenericM2MBase, self).setUp()
+        super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
         self.fill_name()
 

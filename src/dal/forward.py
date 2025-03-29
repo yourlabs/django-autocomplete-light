@@ -58,7 +58,7 @@ class Field(Forward):
 
     def to_dict(self):
         """Convert to dictionary which will be rendered as JSON."""
-        d = super(Field, self).to_dict()
+        d = super().to_dict()
 
         d.update(src=self.src)
         if self.dst is not None:
@@ -88,7 +88,7 @@ class Const(Forward):
 
     def to_dict(self):
         """Convert to dictionary which will be rendered as JSON."""
-        d = super(Const, self).to_dict()
+        d = super().to_dict()
 
         d.update(val=self.val)
         d.update(dst=self.dst)
@@ -132,7 +132,7 @@ class JavaScript(Forward):
 
     def to_dict(self):
         """Convert to dictionary which will be rendered as JSON."""
-        d = super(JavaScript, self).to_dict()
+        d = super().to_dict()
 
         d.update(handler=self.handler)
         d.update(dst=self.dst)
@@ -161,7 +161,7 @@ class Self(Forward):
 
     def to_dict(self):
         """Convert to dictionary which will be rendered as JSON."""
-        d = super(Self, self).to_dict()
+        d = super().to_dict()
 
         if self.dst is not None:
             d.update(dst=self.dst)

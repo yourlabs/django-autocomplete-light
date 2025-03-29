@@ -7,7 +7,7 @@ from .models import TModel
 
 class LinkedDataView(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = super(LinkedDataView, self).get_queryset()
+        qs = super().get_queryset()
         owner = self.forwarded.get('owner', None)
 
         if owner:

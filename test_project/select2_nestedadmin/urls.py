@@ -20,7 +20,7 @@ class LinkedDataView(autocomplete.Select2QuerySetView):
             raise NestedAdminError(
                 'Linked fields are not forwarded properly for nested admin')
 
-        return super(LinkedDataView, self).get_queryset()
+        return super().get_queryset()
 
 
 urlpatterns = [

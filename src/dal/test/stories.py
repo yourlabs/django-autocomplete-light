@@ -234,7 +234,7 @@ class InlineSelectOption(SelectOption):
         self.inline_related_name = (inline_related_name
                                     or case.inline_related_name)
 
-        super(InlineSelectOption, self).__init__(case, **kwargs)
+        super().__init__(case, **kwargs)
 
         self.field_container_selector = '#%s-%s .field-%s' % (
             self.inline_related_name, self.inline_number, self.field_name)
@@ -411,7 +411,7 @@ class InlineSelectOptionMultiple(MultipleMixin, InlineSelectOption):
     def __init__(self, case, inline_number, inline_related_name=None,
                  **kwargs):
         """Set input_selector with field_container_selector."""
-        super(InlineSelectOptionMultiple, self).__init__(
+        super().__init__(
             case,
             inline_number,
             inline_related_name=inline_related_name,

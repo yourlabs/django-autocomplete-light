@@ -99,6 +99,6 @@ class ContentTypeOptionMixin(OptionMixin):
 
     def create_option(self):
         """Return option, content type."""
-        option = super(ContentTypeOptionMixin, self).create_option()
+        option = super().create_option()
         ctype = ContentType.objects.get_for_model(option)
         return option, ctype

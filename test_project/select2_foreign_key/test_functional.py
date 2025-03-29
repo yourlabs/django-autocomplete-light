@@ -13,7 +13,7 @@ class AdminForeignKeyTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
     model = TModel
 
     def setUp(self):
-        super(AdminForeignKeyTestCase, self).setUp()
+        super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
         self.fill_name()
 

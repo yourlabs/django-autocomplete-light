@@ -160,7 +160,7 @@ class GenericForeignKeyModelField(QuerySetSequenceModelField):
             raise AttributeError(
                 "Class object are required (not instantiated)")
 
-        super(GenericForeignKeyModelField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def as_url(self, form):
         """Return url."""

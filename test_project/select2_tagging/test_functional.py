@@ -9,7 +9,7 @@ from .models import TModel
 
 class TagSelect2AdminTestMixin(Select2Story, case.AdminMixin):
     def setUp(self):
-        super(TagSelect2AdminTestMixin, self).setUp()
+        super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
         self.fill_name()
 

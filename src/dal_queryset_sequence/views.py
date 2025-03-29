@@ -31,7 +31,7 @@ class BaseQuerySetSequenceView(BaseQuerySetView):
         if self.mixup:
             return False
 
-        return super(BaseQuerySetSequenceView, self).has_more(context)
+        return super().has_more(context)
 
     def mixup_querysets(self, qs):
         """Return a queryset with different model types."""
@@ -44,7 +44,7 @@ class BaseQuerySetSequenceView(BaseQuerySetView):
 
     def get_queryset(self):
         """Mix results from all querysets in QuerySetSequence if self.mixup."""
-        qs = super(BaseQuerySetSequenceView, self).get_queryset()
+        qs = super().get_queryset()
 
         if self.mixup:
             qs = self.mixup_querysets(qs)

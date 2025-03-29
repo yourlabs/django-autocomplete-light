@@ -10,7 +10,7 @@ class TaggitSelect2(TagSelect2):
 
     def build_attrs(self, *args, **kwargs):
         """Add data-tags=","."""
-        attrs = super(TaggitSelect2, self).build_attrs(*args, **kwargs)
+        attrs = super().build_attrs(*args, **kwargs)
         attrs['data-tags'] = ','
         return attrs
 
@@ -20,7 +20,7 @@ class TaggitSelect2(TagSelect2):
         Insure there's a comma when there's only a single multi-word tag,
         or tag "Multi word" would end up as "Multi" and "word".
         """
-        value = super(TaggitSelect2, self).value_from_datadict(data,
+        value = super().value_from_datadict(data,
                                                                files, name)
         if value and ',' not in value:
             value = '%s,' % value

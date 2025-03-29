@@ -49,11 +49,11 @@ class WidgetMixin(object):
         self.url = url
         self.forward = forward or []
         self.placeholder = kwargs.get("attrs", {}).get("data-placeholder")
-        super(WidgetMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def build_attrs(self, *args, **kwargs):
         """Build HTML attributes for the widget."""
-        attrs = super(WidgetMixin, self).build_attrs(*args, **kwargs)
+        attrs = super().build_attrs(*args, **kwargs)
 
         if self.url is not None:
             attrs['data-autocomplete-light-url'] = self.url
@@ -120,7 +120,7 @@ class WidgetMixin(object):
             if self.placeholder:
                 self.choices.insert(0, (None, ""))
 
-        html = super(WidgetMixin, self).render_options(*args)
+        html = super().render_options(*args)
 
         self.choices = all_choices
 
@@ -140,13 +140,13 @@ class WidgetMixin(object):
         elif not self.allow_multiple_selected:
             if self.placeholder:
                 self.choices.insert(0, (None, ""))
-        result = super(WidgetMixin, self).optgroups(name, value, attrs)
+        result = super().optgroups(name, value, attrs)
         self.choices = all_choices
         return result
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Call Django render together with `render_forward_conf`."""
-        widget = super(WidgetMixin, self).render(name, value, attrs, **kwargs)
+        widget = super().render(name, value, attrs, **kwargs)
         try:
             field_id = attrs['id']
         except (KeyError, TypeError):

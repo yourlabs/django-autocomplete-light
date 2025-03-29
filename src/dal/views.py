@@ -55,7 +55,7 @@ class ViewMixin(object):
             return HttpResponseBadRequest('Not a JSON object')
 
         self.q = request.GET.get('q', '')
-        return super(ViewMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class BaseQuerySetView(ViewMixin, BaseListView):
@@ -105,7 +105,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def get_queryset(self):
         """Filter the queryset with GET['q']."""
-        qs = super(BaseQuerySetView, self).get_queryset()
+        qs = super().get_queryset()
 
         qs = self.get_search_results(qs, self.q)
 

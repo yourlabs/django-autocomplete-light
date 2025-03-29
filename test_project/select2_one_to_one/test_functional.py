@@ -15,7 +15,7 @@ class AdminOneToOneTestCase(Select2Story, case.AdminMixin, case.OptionMixin,
     model = TModel
 
     def setUp(self):
-        super(AdminOneToOneTestCase, self).setUp()
+        super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
 
     def test_can_create_option_on_the_fly(self):

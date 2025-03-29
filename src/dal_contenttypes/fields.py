@@ -39,7 +39,7 @@ class ContentTypeModelMultipleFieldMixin(ContentTypeModelFieldMixin):
             return []
 
         return [
-            super(ContentTypeModelMultipleFieldMixin, self).prepare_value(v)
+            super().prepare_value(v)
             for v in value
         ]
 
