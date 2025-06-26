@@ -1,4 +1,5 @@
 """Select2 widget implementation module."""
+import ast
 
 try:
     from functools import lru_cache
@@ -113,15 +114,50 @@ class Select2WidgetMixin(object):
     autocomplete_function = 'select2'
 
 
+class Select2InitialRenderMixin:
+    def render(self, name, value, attrs=None, renderer=None):
+        if not value:
+            return super().render(name, value, attrs=attrs, renderer=renderer)
+
+        values = []
+
+        if isinstance(value, str):
+            try:
+                parsed = ast.literal_eval(value)
+                if isinstance(parsed, (list, tuple)):
+                    values = [v.strip() for v in parsed if v]
+                else:
+                    values = [str(parsed)]
+            except (ValueError, SyntaxError):
+                values = [v.strip() for v in value.split(',') if v.strip()]
+
+        elif isinstance(value, (list, tuple)):
+            values = list(value)
+
+        else:
+            values = [value]
+
+        existing = dict(self.choices)
+        extended = [(v, v) for v in values if v not in existing]
+        if extended:
+            self.choices = list(self.choices) + extended
+
+        return super().render(name, values, attrs=attrs, renderer=renderer)
+
+
 class Select2(Select2WidgetMixin, Select):
     """Select2 widget for regular choices."""
 
 
-class Select2Multiple(Select2WidgetMixin, SelectMultiple):
+class Select2Multiple(Select2InitialRenderMixin, Select2WidgetMixin, SelectMultiple):
     """Select2Multiple widget for regular choices."""
 
 
-class ListSelect2(WidgetMixin, Select2WidgetMixin, forms.Select):
+class ListSelect2(
+    Select2InitialRenderMixin,
+    WidgetMixin, Select2WidgetMixin,
+    forms.Select
+):
     """Select widget for regular choices and Select2."""
 
 

@@ -9,7 +9,10 @@ import django
 from django import forms
 from django import http
 from django import test
+from django.http import HttpResponse
 from django.urls import re_path as url
+from django.views import View
+
 try:
     from django.urls import reverse
 except ImportError:
@@ -19,10 +22,15 @@ from django.test.utils import override_settings
 import mock
 
 
+class DummyView(View):
+    def get(self, request):
+        return HttpResponse("ok")
+
+
 urlpatterns = [
     url(
         r'^test-url/$',
-        mock.Mock(),
+        DummyView.as_view(),  # replace with sample Mock View
         name='test_url'
     ),
 ]
@@ -158,3 +166,45 @@ class WidgetMixinTest(test.TestCase):  # noqa
         # attrs with id
         observed = widget.render('myname', '', attrs={'id': 'myid'})
         self.assertEqual(observed, 'myid')
+
+
+@override_settings(ROOT_URLCONF='tests.test_widgets')
+class Select2InitialRenderMixinTest(test.TestCase):
+    def test_listselect2_adds_missing_selected_value(self):
+        class Form(forms.Form):
+            test = forms.ChoiceField(
+                widget=select2_widget.ListSelect2(url=reverse('test_url')),
+                required=False,
+            )
+
+        form = Form(initial={'test': 'Urdu'})
+        rendered = form.as_p()
+
+        assert 'value="Urdu" selected' in rendered
+
+    def test_select2multiple_adds_multiple_selected_values(self):
+        class Form(forms.Form):
+            test = forms.MultipleChoiceField(
+                widget=select2_widget.Select2Multiple(url=reverse('test_url')),
+                required=False,
+            )
+
+        form = Form(initial={'test': ['English', 'Urdu']})
+        rendered = form.as_p()
+
+        assert 'value="English" selected' in rendered
+        assert 'value="Urdu" selected' in rendered
+
+    def test_select2multiple_handles_stringified_list(self):
+        class Form(forms.Form):
+            test = forms.MultipleChoiceField(
+                widget=select2_widget.Select2Multiple(url=reverse('test_url')),
+                required=False,
+            )
+
+        form = Form()
+        form.fields['test'].initial = "['English', 'Urdu']"
+        rendered = form.as_p()
+
+        assert 'value="English" selected' in rendered
+        assert 'value="Urdu" selected' in rendered
