@@ -140,7 +140,12 @@ class Select2InitialRenderMixin:
         existing = dict(self.choices)
         extended = [(v, v) for v in values if v not in existing]
         if extended:
+            original_choices = self.choices
             self.choices = list(self.choices) + extended
+            try:
+                return super().render(name, values, attrs=attrs, renderer=renderer)
+            finally:
+                self.choices = original_choices
 
         return super().render(name, values, attrs=attrs, renderer=renderer)
 
