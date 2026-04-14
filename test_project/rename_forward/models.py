@@ -28,5 +28,8 @@ class TModel(models.Model):
         related_name='inline_test_models_rf'
     )
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name

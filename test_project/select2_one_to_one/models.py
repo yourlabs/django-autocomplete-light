@@ -1,5 +1,5 @@
-from django.db import models
 from django.core.validators import validate_slug
+from django.db import models
 
 
 class TModel(models.Model):
@@ -23,6 +23,9 @@ class TModel(models.Model):
         blank=True,
         related_name='inline_test_models'
     )
+
+    class Meta:
+        ordering = ['name']
 
     def __str__(self):
         return self.name

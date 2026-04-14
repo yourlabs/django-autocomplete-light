@@ -5,6 +5,9 @@ class TModelOne(models.Model):
     name = models.CharField(max_length=200)
     level_one = models.CharField(max_length=20, blank=True, default='one')
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
@@ -20,6 +23,9 @@ class TModelTwo(models.Model):
         blank=True,
         related_name='children'
     )
+
+    class Meta:
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -43,6 +49,9 @@ class TModelThree(models.Model):
         blank=True,
         related_name='related_test_models'
     )
+
+    class Meta:
+        ordering = ['name']
 
     def __str__(self):
         return self.name
