@@ -24,9 +24,6 @@ External app support
    :maxdepth: 2
 
    gfk
-   gm2m
-   genericm2m
-   tagging
    taggit
 
 API
