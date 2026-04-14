@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=65.5.1", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-autocomplete-light"
+version = "3.12.1"
+description = "Fresh autocompletes for Django"
+readme = {file = "README", content-type = "text/x-rst"}
+license = {text = "MIT"}
+authors = [{name = "James Pic", email = "jamespic@gmail.com"}]
+keywords = ["django", "autocomplete"]
+requires-python = ">=3.11"
+dependencies = ["django>=5.2"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "http://django-autocomplete-light.rtfd.org"
+Source = "https://github.com/yourlabs/django-autocomplete-light"
+
+[project.optional-dependencies]
+nested = ["django-nested-admin>=3.0.21"]
+tags = ["django-taggit"]
+gfk = ["django-querysetsequence>=0.11"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "C90", "I", "N", "T10"]
+ignore = [
+    "D203",   # one-blank-line-before-class (incompatible avec D211)
+    "E722",   # bare-except — géré cas par cas
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 8
+
+[tool.ruff.lint.per-file-ignores]
+"src/dal/autocomplete.py" = ["F401", "I001"]  # imports conditionnels, re-exports intentionnels
+"test_project/**" = ["N"]                      # nommage libre dans les tests
+"test_project/settings/__init__.py" = ["F403"] # wildcard import intentionnel
+"test_project/select2_djhacker_formfield/urls.py" = ["E402"]  # imports après init djhacker
+"test_project/views.py" = ["E501"]             # URLs longues dans commentaires/HTML
+"**/migrations/**" = ["E501"]                  # fichiers auto-générés
