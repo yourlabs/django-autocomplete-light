@@ -1,12 +1,8 @@
 coverage
 django-extensions
-django-generic-m2m
-django-gm2m
 django-querysetsequence
 django-nested-admin
 django-taggit
-django-tagging
-mock
 selenium
 pytest
 splinter
