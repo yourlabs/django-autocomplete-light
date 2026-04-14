@@ -3,11 +3,8 @@
 import json
 
 from django import test
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
-from django.utils.encoding import force_text
+from django.urls import reverse
+from django.utils.encoding import force_str
 
 from .models import TModel
 from .urls import LinkedDataView
@@ -24,7 +21,7 @@ class ViewMixinTest(test.TestCase):  # noqa
 
         response = LinkedDataView.as_view(model=TModel)(request)
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(force_text(response.content),
+        self.assertJSONEqual(force_str(response.content),
                              '{"results": [], "pagination": {"more": false}}')
 
     def test_not_dict(self):
@@ -34,7 +31,7 @@ class ViewMixinTest(test.TestCase):  # noqa
 
         response = LinkedDataView.as_view(model=TModel)(request)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(force_text(response.content), 'Not a JSON object')
+        self.assertEqual(force_str(response.content), 'Not a JSON object')
 
     def test_invalid_json(self):
         request = self.factory.get(
@@ -43,7 +40,7 @@ class ViewMixinTest(test.TestCase):  # noqa
 
         response = LinkedDataView.as_view(model=TModel)(request)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(force_text(response.content), 'Invalid JSON data')
+        self.assertEqual(force_str(response.content), 'Invalid JSON data')
 
     def test_invalid_method(self):
         request = self.factory.put(reverse('linked_data'))

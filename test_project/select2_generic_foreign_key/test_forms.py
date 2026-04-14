@@ -3,10 +3,7 @@ from dal import autocomplete
 from django import forms
 from django import http
 from django import test
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from queryset_sequence import QuerySetSequence
 

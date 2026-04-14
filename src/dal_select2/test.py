@@ -22,7 +22,7 @@ class Select2Story(object):
         while tries:
             try:
                 return self.browser.evaluate_script('yl.registerFunction')
-            except:
+            except Exception:
                 time.sleep(.15)
             tries -= 1
         raise Exception('$.select2 was not defined after 15 seconds.')
