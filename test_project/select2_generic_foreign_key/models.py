@@ -49,6 +49,9 @@ class TModel(models.Model):
         related_name='inline_test_models'
     )
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
