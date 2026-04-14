@@ -4,13 +4,8 @@ import json
 import operator
 from functools import reduce
 
-import django
 from django import http
-if django.VERSION >= (4, 0):
-    from django.contrib.admin.utils import lookup_spawns_duplicates
-else:
-    from django.contrib.admin.utils import lookup_needs_distinct \
-        as lookup_spawns_duplicates
+from django.contrib.admin.utils import lookup_spawns_duplicates
 from django.contrib.auth import get_permission_codename
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db.models import Q
@@ -168,12 +163,7 @@ class BaseQuerySetView(ViewMixin, BaseListView):
 
     def has_add_permission(self, request):
         """Return True if the user has the permission to add a model."""
-        if django.VERSION < (2, 0, 0):
-            auth = request.user.is_authenticated()
-        else:
-            auth = request.user.is_authenticated
-
-        if not auth:
+        if not request.user.is_authenticated:
             return False
 
         opts = self.get_queryset().model._meta

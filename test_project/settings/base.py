@@ -1,6 +1,5 @@
 import os
 import sys
-import django
 
 # hack for pytest:
 sys.path.insert(0, os.path.join(
@@ -13,31 +12,9 @@ if 'DEBUG' not in os.environ:
         if cmd in sys.argv[0] or len(sys.argv) > 1 and cmd in sys.argv[1]:
             DEBUG = True
             continue
-TEMPLATE_DEBUG = DEBUG
-LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-DATA_DIR = os.environ.get('OPENSHIFT_DATA_DIR', 'data')
-if not os.path.exists(DATA_DIR):
-    os.makedirs(DATA_DIR)
-
-LOG_DIR = os.environ.get('OPENSHIFT_LOG_DIR', 'log')
-if not os.path.exists(LOG_DIR):
-    os.makedirs(LOG_DIR)
-
-PUBLIC_DIR = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR', ''), 'wsgi/static')
-
-if 'OPENSHIFT_POSTGRESQL_DB_HOST' in os.environ:
-    DATABASES['default']['NAME'] = os.environ['OPENSHIFT_APP_NAME']
-    DATABASES['default']['USER'] = os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME']
-    DATABASES['default']['PASSWORD'] = os.environ['OPENSHIFT_POSTGRESQL_DB_PASSWORD']
-    DATABASES['default']['HOST'] = os.environ['OPENSHIFT_POSTGRESQL_DB_HOST']
-    DATABASES['default']['PORT'] = os.environ['OPENSHIFT_POSTGRESQL_DB_PORT']
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
-
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 
 def get_databases(base_dir):
@@ -51,8 +28,6 @@ def get_databases(base_dir):
         }
     }
 
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 INSTALLED_APPS = [
     # Django apps
@@ -82,7 +57,6 @@ INSTALLED_APPS = [
 
     # Autocomplete
     'dal',
-    # Enable plugins
     'dal_select2',
     'queryset_sequence',
     'dal_queryset_sequence',
@@ -92,20 +66,8 @@ INSTALLED_APPS = [
 
     # Project apps
     'django_extensions',
+    'django.contrib.admin',
 ]
-
-if django.VERSION < (2, 0, 0):
-    # pending upstream support for dj 2.0
-    INSTALLED_APPS += [
-        'gm2m',
-        'select2_gm2m',
-        'genericm2m',
-        'select2_generic_m2m',
-        'select2_tagging',
-        'tagging',
-    ]
-
-INSTALLED_APPS = INSTALLED_APPS + ['django.contrib.admin']
 
 DATABASES = get_databases(BASE_DIR)
 
@@ -114,23 +76,6 @@ WSGI_APPLICATION = 'wsgi.application'
 
 SECRET_KEY = '58$1jvc332=lyfk_m^jl6ody$7pbk18nm95==!r$7m5!2dp%l@'
 ALLOWED_HOSTS = ['*']
-
-MIDDLEWARE_CLASSES = [
-    'django.middleware.security.SecurityMiddleware',
-]
-
-if not DEBUG:
-    MIDDLEWARE_CLASSES.append('whitenoise.middleware.WhiteNoiseMiddleware')
-
-MIDDLEWARE_CLASSES += [
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -149,7 +94,6 @@ if DEBUG:
         pass
     else:
         INSTALLED_APPS.append('debug_toolbar')
-        MIDDLEWARE_CLASSES.append('debug_toolbar.middleware.DebugToolbarMiddleware')
         MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
 AUTH_PASSWORD_VALIDATORS = []
@@ -161,22 +105,12 @@ if not DEBUG:
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
-if django.VERSION < (4, 0):
-    USE_L10N = True
 USE_TZ = True
 
 SITE_ID = 1
 
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
-
-if DATA_DIR:
-    MEDIA_URL = '/static/media/'
-    MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
-
-if PUBLIC_DIR:
-    STATIC_URL = '/static/collected/'
-    STATIC_ROOT = os.path.join(PUBLIC_DIR, 'collected')
 
 TEMPLATES = [
     {
