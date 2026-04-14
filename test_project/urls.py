@@ -1,9 +1,9 @@
 import django
+import views
 from django.conf import settings
 from django.contrib import admin
-from django.urls import include, re_path as url
-
-import views
+from django.urls import include
+from django.urls import re_path as url
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view()),

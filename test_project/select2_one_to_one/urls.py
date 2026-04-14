@@ -1,11 +1,10 @@
-from dal import autocomplete
-
 from django.urls import re_path as url
 from django.views import generic
 
+from dal import autocomplete
+
 from .forms import TForm
 from .models import TModel
-
 
 urlpatterns = [
     url(

@@ -1,7 +1,6 @@
 import django
-from django import forms
-from django import http
-from django import test
+from django import forms, http, test
+
 try:
     from django.urls import reverse
 except ImportError:

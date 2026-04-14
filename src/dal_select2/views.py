@@ -6,13 +6,13 @@ except ImportError:  # py < 3.10
     from collections import Sequence
 from collections import OrderedDict
 
-from dal.views import BaseQuerySetView, ViewMixin
-
 from django import http
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import F
 from django.utils.translation import gettext as _
 from django.views.generic.list import View
+
+from dal.views import BaseQuerySetView, ViewMixin
 
 
 class Select2ViewMixin(object):
@@ -258,10 +258,10 @@ class Select2GroupListView(Select2ListView):
                             "id": g[0],
                             "text": g[1],
                             "children": [
-                                {"id": x, "text": y} for x, y in l
+                                {"id": x, "text": y} for x, y in items
                             ]
                         }
-                        for g, l in results_dict.items()
+                        for g, items in results_dict.items()
                     ]
                 })
 
@@ -286,9 +286,9 @@ class Select2GroupListView(Select2ListView):
                             "id": g,
                             "text": g,
                             "children": [
-                                {"id": x, "text": x} for x in l
+                                {"id": x, "text": x} for x in items
                             ]
                         }
-                        for g, l in results_dict.items()
+                        for g, items in results_dict.items()
                     ]
                 })

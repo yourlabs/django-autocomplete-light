@@ -3,10 +3,10 @@
 import copy
 import json
 
+from django import VERSION, forms
+
 from dal import forward
 
-from django import VERSION
-from django import forms
 try:
     from django.urls import reverse
 except ImportError:

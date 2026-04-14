@@ -1,9 +1,8 @@
-from dal import autocomplete
-
 from django.urls import re_path as url
 
-from .models import TModel
+from dal import autocomplete
 
+from .models import TModel
 
 urlpatterns = [
     url(

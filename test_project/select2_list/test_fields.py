@@ -1,7 +1,7 @@
-from dal import autocomplete
-
 from django import test
 from django.core.exceptions import ValidationError
+
+from dal import autocomplete
 
 
 class Select2ListChoiceFieldTest(test.TestCase):

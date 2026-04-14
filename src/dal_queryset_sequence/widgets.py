@@ -4,10 +4,10 @@ Widget mixin that only renders selected options with QuerySetSequence.
 For details about why this is required, see :mod:`dal.widgets`.
 """
 
-from dal.widgets import WidgetMixin
-
 from django import forms
 from django.contrib.contenttypes.models import ContentType
+
+from dal.widgets import WidgetMixin
 
 
 class QuerySetSequenceSelectMixin(WidgetMixin):

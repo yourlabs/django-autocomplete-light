@@ -1,9 +1,8 @@
-from dal import autocomplete
-
 from django.urls import path
 
-from .models import TModel
+from dal import autocomplete
 
+from .models import TModel
 
 urlpatterns = [
     path(
@@ -16,6 +15,7 @@ urlpatterns = [
 
 import djhacker
 from django import forms
+
 djhacker.formfield(
     TModel.test,
     forms.ModelChoiceField,

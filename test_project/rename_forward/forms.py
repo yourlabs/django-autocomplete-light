@@ -1,6 +1,6 @@
-from dal import autocomplete, forward
-
 from django import forms
+
+from dal import autocomplete, forward
 
 from .models import TModel
 
