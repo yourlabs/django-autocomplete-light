@@ -1,5 +1,4 @@
-from django import http
-from django import test
+from django import http, test
 from django.apps import apps
 
 from .forms import TForm

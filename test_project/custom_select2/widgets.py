@@ -1,6 +1,6 @@
-from dal.autocomplete import ModelSelect2
-
 from django import forms
+
+from dal.autocomplete import ModelSelect2
 
 
 class TModelSelect2(ModelSelect2):

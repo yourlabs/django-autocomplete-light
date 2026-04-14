@@ -9,15 +9,11 @@ except ImportError:
     except ImportError:
         lru_cache = None
 
-from dal.widgets import (
-    QuerySetSelectMixin,
-    Select,
-    SelectMultiple,
-    WidgetMixin
-)
-
 from django import forms
 from django.conf import settings
+
+from dal.widgets import QuerySetSelectMixin, Select, SelectMultiple, WidgetMixin
+
 try:
     # SELECT2_TRANSLATIONS is Django 2.x only
     from django.contrib.admin.widgets import SELECT2_TRANSLATIONS

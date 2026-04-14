@@ -1,6 +1,5 @@
 from dal.test import case, stories
 from dal.test.utils import OwnedFixtures
-
 from dal_select2.test import Select2Story
 
 from .models import TModel

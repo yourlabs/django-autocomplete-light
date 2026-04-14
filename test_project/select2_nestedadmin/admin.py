@@ -1,6 +1,5 @@
-from django.contrib import admin
-
 import nested_admin
+from django.contrib import admin
 
 from .forms import TFormThree
 from .models import TModelOne, TModelThree, TModelTwo

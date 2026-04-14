@@ -1,9 +1,9 @@
 import json
 
-from dal import autocomplete
-
 from django import test
 from django.contrib.auth.models import Group
+
+from dal import autocomplete
 
 
 class Select2QuerySetSequenceViewTestCase(test.TestCase):

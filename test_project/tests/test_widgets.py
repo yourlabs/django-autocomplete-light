@@ -1,23 +1,19 @@
 """Test the base widget."""
 
+import django
+from django import forms, http, test
+from django.urls import re_path as url
+
 from dal.autocomplete import Select2
 from dal.widgets import Select, WidgetMixin
-
 from dal_select2 import widgets as select2_widget
 
-import django
-from django import forms
-from django import http
-from django import test
-from django.urls import re_path as url
 try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from django.test.utils import override_settings
-
 import mock
-
+from django.test.utils import override_settings
 
 urlpatterns = [
     url(

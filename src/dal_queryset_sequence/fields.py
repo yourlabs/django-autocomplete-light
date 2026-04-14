@@ -1,15 +1,14 @@
 """Autocomplete fields for QuerySetSequence choices."""
 
+from django import forms
+from django.contrib.contenttypes.models import ContentType
+from django.urls import re_path as url
+from queryset_sequence import QuerySetSequence
+
 from dal_contenttypes.fields import (
     ContentTypeModelMultipleFieldMixin,
     GenericModelMixin,
 )
-
-from django import forms
-from django.contrib.contenttypes.models import ContentType
-from django.urls import re_path as url
-
-from queryset_sequence import QuerySetSequence
 
 
 class QuerySetSequenceFieldMixin(object):

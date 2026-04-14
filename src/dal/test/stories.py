@@ -1,11 +1,10 @@
 """User stories, functional tests for AutocompleteTestCase."""
 import time
 
+import tenacity
 from selenium.common.exceptions import (
     StaleElementReferenceException,
 )
-
-import tenacity
 
 
 class BaseStory(object):

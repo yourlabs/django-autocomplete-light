@@ -1,7 +1,7 @@
-from dal.test.utils import fixtures
-
 from django.apps import AppConfig
 from django.db.models.signals import post_migrate
+
+from dal.test.utils import fixtures
 
 
 class TestApp(AppConfig):

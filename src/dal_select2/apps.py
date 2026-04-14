@@ -1,5 +1,6 @@
 """Default AppConfig for dal_select2."""
 from django.apps import AppConfig
+
 # from django.core import checks
 
 

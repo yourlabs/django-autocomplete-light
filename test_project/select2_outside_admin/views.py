@@ -4,7 +4,6 @@ except ImportError:
     from django.core.urlresolvers import reverse_lazy
 from django.forms import inlineformset_factory
 from django.views import generic
-
 from select2_many_to_many.forms import TForm
 from select2_many_to_many.models import TModel
 

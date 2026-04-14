@@ -1,10 +1,10 @@
 import json
 
-from dal.autocomplete import Select2GroupListView, Select2ListView
-
 from django import test
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest, HttpResponseBadRequest
+
+from dal.autocomplete import Select2GroupListView, Select2ListView
 
 from .views import (
     Select2ListViewAutocomplete,

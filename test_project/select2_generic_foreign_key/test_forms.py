@@ -1,11 +1,8 @@
-from dal import autocomplete
-
-from django import forms
-from django import http
-from django import test
+from django import forms, http, test
 from django.urls import reverse
-
 from queryset_sequence import QuerySetSequence
+
+from dal import autocomplete
 
 from .forms import TForm
 from .models import TModel, TProxyModel

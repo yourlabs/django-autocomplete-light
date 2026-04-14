@@ -7,10 +7,9 @@ from django.forms.models import ModelChoiceIterator, ModelMultipleChoiceField
 from django.http.response import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
+from select2_many_to_many.models import TModel
 
 from dal import autocomplete
-
-from select2_many_to_many.models import TModel
 
 
 class LoginView(LoginView):

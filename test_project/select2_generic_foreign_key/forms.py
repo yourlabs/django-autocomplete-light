@@ -1,9 +1,8 @@
-from dal import autocomplete
+from django.contrib.auth.models import Group
 
+from dal import autocomplete
 from dal_select2_queryset_sequence.views import Select2QuerySetSequenceView
 from dal_select2_queryset_sequence.widgets import QuerySetSequenceSelect2
-
-from django.contrib.auth.models import Group
 
 from .models import TModel
 

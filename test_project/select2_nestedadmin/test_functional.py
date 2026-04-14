@@ -1,7 +1,6 @@
 import json
 
 from dal.test import case, stories
-
 from dal_select2.test import Select2Story
 
 from .models import TModelOne

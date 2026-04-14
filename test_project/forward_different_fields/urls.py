@@ -1,6 +1,6 @@
-from dal import autocomplete
-
 from django.urls import re_path as url
+
+from dal import autocomplete
 
 
 class ListWithForwardsView(autocomplete.Select2ListView):

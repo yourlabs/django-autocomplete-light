@@ -192,7 +192,8 @@ class BaseQuerySetView(ViewMixin, BaseListView):
                 self.validate(text)
             except ValidationError as error:
                 if self.create_field in error.message_dict:
-                    return http.JsonResponse(dict(error=error.message_dict.get(self.create_field, _('Error'))))
+                    msg = error.message_dict.get(self.create_field, _('Error'))
+                    return http.JsonResponse(dict(error=msg))
 
         result = self.create_object(text)
 
