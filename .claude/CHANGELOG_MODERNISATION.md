@@ -140,6 +140,39 @@ Corrections de code déclenchées par ruff :
 
 ---
 
+## Session 3 — Nettoyage code legacy résiduel
+
+### Packages supprimés
+
+| Package | Raison |
+|---|---|
+| `src/dal_legacy_static/` | "Static files for Django < 2.0" — ~6 500 lignes JS/CSS inutiles |
+| `src/dal_genericm2m_queryset_sequence/` | Dépendait de `dal_genericm2m` (inexistant) |
+| `src/dal_gm2m_queryset_sequence/` | Dépendait de `dal_gm2m` (inexistant) |
+
+### `src/dal/autocomplete.py`
+- Blocs `dal_select2_tagging`, `dal_genericm2m_queryset_sequence`, `dal_gm2m_queryset_sequence` supprimés
+- Docstring mise à jour : références à `genericm2m`, `gm2m`, `tagulous` retirées
+
+### `src/dal/widgets.py`
+- `try/except ImportError` pour `django.core.urlresolvers` → `from django.urls import reverse` direct (supprimé en Django 2.0)
+- Import `VERSION` retiré
+- Méthode `render_options()` entièrement supprimée (commentaire intégré disait "Remove when dropping Django<1.10")
+
+### `src/dal/forms.py`
+- Méthode `save()` supprimée ("Backport from Django 1.9+ for 1.8") — identique à `ModelForm.save()` de Django 5.2
+- `virtual_fields = getattr(opts, 'virtual_fields', [])` simplifié → `opts.private_fields` direct (toujours vide en Django 5.2)
+
+### `test_project/urls.py`
+- Bloc `if django.VERSION < (2, 0, 0):` supprimé (always False)
+- Bloc `if 'debug_toolbar' in settings.INSTALLED_APPS:` supprimé (debug_toolbar déjà retiré)
+- Imports `django`, `settings` retirés
+
+### `docs/api.rst`
+- Sections supprimées : `dal_gm2m_queryset_sequence`, `dal_genericm2m_queryset_sequence`, `dal_gm2m`, `dal_genericm2m`, `dal_select2_tagging`
+
+---
+
 ## Résultat final
 
 | Environnement | Résultat |

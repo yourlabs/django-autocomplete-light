@@ -1,6 +1,4 @@
-import django
 import views
-from django.conf import settings
 from django.contrib import admin
 from django.urls import include
 from django.urls import re_path as url
@@ -34,15 +32,3 @@ urlpatterns = [
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^select2_djhacker_formfield/', include('select2_djhacker_formfield.urls')),
 ]
-
-if django.VERSION < (2, 0, 0):
-    # pending upstream support
-    urlpatterns += [
-        url(r'^select2_tagging/', include('select2_tagging.urls')),
-        url(r'^select2_gm2m/', include('select2_gm2m.urls')),
-        url(r'^select2_generic_m2m/', include('select2_generic_m2m.urls')),
-    ]
-
-if 'debug_toolbar' in settings.INSTALLED_APPS:
-    import debug_toolbar
-    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls)), ]

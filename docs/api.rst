@@ -99,42 +99,6 @@ Widgets
 .. automodule:: dal_queryset_sequence.widgets
    :members:
 
-dal_gm2m_queryset_sequence
-==========================
-
-Fields
-------
-
-.. automodule:: dal_gm2m_queryset_sequence.fields
-   :members:
-
-dal_genericm2m_queryset_sequence
-================================
-
-Fields
-------
-
-.. automodule:: dal_genericm2m_queryset_sequence.fields
-   :members:
-
-dal_gm2m
-========
-
-Fields
-------
-
-.. automodule:: dal_gm2m.fields
-   :members:
-
-dal_genericm2m
-==============
-
-Fields
-------
-
-.. automodule:: dal_genericm2m.fields
-   :members:
-
 dal_select2_taggit
 ==================
 
@@ -144,11 +108,3 @@ Fields
 .. automodule:: dal_select2_taggit.widgets
    :members:
 
-dal_select2_tagging
-===================
-
-Fields
-------
-
-.. automodule:: dal_select2_tagging.widgets
-   :members:

@@ -9,10 +9,7 @@ setting:
 - with dal_queryset_sequence and dal_select2, import from
   dal_select2_queryset_sequence,
 - with django.contrib.contenttypes, import dal_contenttypes,
-- with genericm2m, import dal_genericm2m,
-- with gm2m, import dal_gm2m,
-- with taggit, import dal_taggit,
-- with tagulous, import dal_tagulous.
+- with taggit, import dal_select2_taggit.
 
 Note that using this module is optional.
 """
@@ -80,13 +77,3 @@ if _installed('dal_select2', 'dal_queryset_sequence'):
 if _installed('dal_select2') and _installed('taggit'):
     from dal_select2_taggit.widgets import TaggitSelect2
 
-if _installed('dal_select2') and _installed('tagging'):
-    from dal_select2_tagging.widgets import TaggingSelect2
-
-if _installed('genericm2m') and _installed('dal_queryset_sequence'):
-    from dal_genericm2m_queryset_sequence.fields import (
-        GenericM2MQuerySetSequenceField
-    )
-
-if _installed('gm2m') and _installed('dal_queryset_sequence'):
-    from dal_gm2m_queryset_sequence.fields import GM2MQuerySetSequenceField
