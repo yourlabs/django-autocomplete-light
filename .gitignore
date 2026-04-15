@@ -18,3 +18,7 @@ node_modules
 
 # Pycharm
 .idea/
+
+# Claude Code
+.claude/
+.python-version
