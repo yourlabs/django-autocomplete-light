@@ -120,13 +120,7 @@ class FutureModelForm(forms.ModelForm):
 
             handled.append(name)
 
-        # Note that for historical reasons we want to include also
-        # virtual_fields here. (GenericRelation was previously a fake
-        # m2m field).
-        virtual_fields = getattr(opts, 'virtual_fields', [])
-        if not virtual_fields:
-            virtual_fields = getattr(opts, 'private_fields', [])
-        for f in chain(opts.many_to_many, virtual_fields):
+        for f in chain(opts.many_to_many, opts.private_fields):
             # Added to give the form field a chance to do the work
             if f.name in handled:
                 continue
@@ -139,25 +133,6 @@ class FutureModelForm(forms.ModelForm):
                 continue
             if f.name in cleaned_data:
                 f.save_form_data(self.instance, cleaned_data[f.name])
-
-    def save(self, commit=True):
-        """Backport from Django 1.9+ for 1.8."""
-        if self.errors:
-            raise ValueError(
-                "The %s could not be %s because the data didn't validate." % (
-                    self.instance._meta.object_name,
-                    'created' if self.instance._state.adding else 'changed',
-                )
-            )
-        if commit:
-            # If committing, save the instance and the m2m data immediately.
-            self.instance.save()
-            self._save_m2m()
-        else:
-            # If not committing, add a method to the form to allow deferred
-            # saving of m2m data.
-            self.save_m2m = self._save_m2m
-        return self.instance
 
     @classmethod
     def as_urls(cls):
