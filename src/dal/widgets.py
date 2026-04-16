@@ -4,11 +4,10 @@ import copy
 import json
 
 from django import forms
-
-from dal import forward
-
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+
+from dal import forward
 
 
 class WidgetMixin(object):
