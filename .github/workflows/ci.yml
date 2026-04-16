@@ -39,7 +39,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
       - name: Install Firefox
-        run: sudo apt-get update && sudo apt-get install -y firefox
+        uses: browser-actions/setup-firefox@v1
       - run: pip install tox tox-gh-actions
       - run: tox
         env:
