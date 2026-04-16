@@ -4,7 +4,7 @@ Install
 In your project
 ---------------
 
-Install version 3 with :pip:ref:`pip install`::
+Install version 3 with ``pip install``::
 
     pip install django-autocomplete-light
 
@@ -24,7 +24,7 @@ Install extras as needed::
 Configuration
 -------------
 Then, to let Django find the static files we need by adding to
-:django:setting:`INSTALLED_APPS`, **before** ``django.contrib.admin`` and
+``INSTALLED_APPS``, **before** ``django.contrib.admin`` and
 ``grappelli`` if present::
 
     'dal',
@@ -37,7 +37,7 @@ sets up jQuery with ``noConflict``, making jQuery available in
 ``django.jQuery`` only and not ``$``.
 
 To enable more DAL functionalities we will have to add other DAL apps
-to :django:setting:`INSTALLED_APPS`, such as 'dal_queryset_sequence' ...
+to ``INSTALLED_APPS``, such as ``'dal_queryset_sequence'`` ...
 
 JQuery 3.x
 ^^^^^^^^^^
