@@ -425,7 +425,7 @@ This way, the option 'Create "Tibet"' will be available if a user inputs
 the view which will do ``Country.objects.create(name='Tibet')``. It will be
 included in the server response so that the script can add it to the widget.
 
-By activating ``valide_create=True``, a full_clean will be run on the 
+By activating ``validate_create=True``, a full_clean will be run on the
 create_field, thus validating all the validators on the field.
 
 Note that creating objects is allowed to logged-in users with ``add`` permission
@@ -453,7 +453,7 @@ Filtering results based on the value of other fields in the form
   <http://localhost:8000/admin/linked_data/tmodel/add/>`_.
 
 In the live demo, create a TestModel with ``owner=None``, and another with
-``owner=test`` (test being the user you log in with). Then, in in a new form,
+``owner=test`` (test being the user you log in with). Then, in a new form,
 you'll see both options if you leave the owner select empty:
 
 .. image:: img/all.png
@@ -481,7 +481,7 @@ value of the continent field to the view when it fetches data. We can use the
                                                            forward=['continent'])
             }
 
-DAL's Select2 configuration script will get the value fo the form field named
+DAL's Select2 configuration script will get the value of the form field named
 ``'continent'`` and add it to the autocomplete HTTP query. This will pass the
 value for the "continent" form field in the AJAX request, and we can then
 filter as such in the view:

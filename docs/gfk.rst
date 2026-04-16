@@ -69,7 +69,7 @@ Result:
 
 .. code-block:: python
 
-    from dal import autocomplete  # don't forget to pip install django-querysetsequence
+    from dal import autocomplete  # don't forget to pip install django-autocomplete-light[gfk]
 
     class TestForm(autocomplete.FutureModelForm):
 

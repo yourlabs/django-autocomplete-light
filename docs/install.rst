@@ -12,11 +12,14 @@ Or, install the dev version with git::
 
     pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
 
-.. note::
-   If you are trying to install from git, please make sure you are not using
-   **zip/archive** url of the repo ``django-autocomplete-light`` since it will not
-   contain required submodules automatically. Otherwise these submodules will then
-   need to be updated separately using ``git submodule update --init``.
+Optional dependencies
+^^^^^^^^^^^^^^^^^^^^^
+
+Install extras as needed::
+
+    pip install django-autocomplete-light[gfk]     # GenericForeignKey support (django-querysetsequence)
+    pip install django-autocomplete-light[tags]    # django-taggit support
+    pip install django-autocomplete-light[nested]  # django-nested-admin support
 
 Configuration
 -------------
@@ -49,9 +52,8 @@ Install the demo project
 Install the demo project in a temporary virtualenv for testing purpose::
 
     cd /tmp
-    virtualenv -p python3 dal_env
+    python3 -m venv dal_env
     source dal_env/bin/activate
-    pip install django
     pip install -e git+https://github.com/yourlabs/django-autocomplete-light.git#egg=django-autocomplete-light
     cd dal_env/src/django-autocomplete-light/test_project/
     pip install -r requirements.txt
