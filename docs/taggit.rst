@@ -54,7 +54,7 @@ Select2 and a QuerySet of Tag objects:
 Don't forget to :ref:`register-view`.
 
 .. note:: For more complex filtering, refer to official documentation for
-          the :django:label:`queryset-api`.
+          the :ref:`django:queryset-api`.
 
 Form example
 ============
