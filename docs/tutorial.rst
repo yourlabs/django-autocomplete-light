@@ -152,6 +152,22 @@ widget, ie.:
         'visited_countries': autocomplete.ModelSelect2Multiple(url='country-autocomplete')
     }
 
+Initial values on edit forms
+----------------------------
+
+Because Select2 widgets load their options via AJAX, the currently selected
+value is often absent from the choices list at render time. Without special
+handling, editing an existing object would show a blank autocomplete field
+even though a value is already saved.
+
+All DAL Select2 widgets (:py:class:`~dal_select2.widgets.ModelSelect2`,
+:py:class:`~dal_select2.widgets.ModelSelect2Multiple`,
+:py:class:`~dal_select2.widgets.ListSelect2`,
+:py:class:`~dal_select2.widgets.Select2Multiple`) include
+:py:class:`~dal_select2.widgets.Select2InitialRenderMixin`, which
+automatically injects the initial value into the choices at render time so it
+appears pre-selected. No extra configuration is required.
+
 .. danger:: If you declare a form field instead of just the widget, Django
    admin won't add the "add" and "edit" button next to the autocomplete field
    for single model choice. If you want to both declare your field and have
