@@ -1,18 +1,18 @@
 # Django Autocomplete Light
 
-Bibliothèque Django d'autocomplétion basée sur Select2. Détails dans `.claude/`.
+Django autocomplete library based on Select2.
 
 ## Structure
-- `src/dal/` — noyau : `views.py`, `widgets.py`, `forms.py`, `forward.py`
-- `src/dal_select2/` — intégration Select2 : vue principale `Select2QuerySetView`
-- `test_project/` — 17 apps de test (unitaires + Selenium/Splinter)
+- `src/dal/` — core: `views.py`, `widgets.py`, `forms.py`, `forward.py`
+- `src/dal_select2/` — Select2 integration: main view `Select2QuerySetView`
+- `test_project/` — 17 test apps (unit + Selenium/Splinter)
 
-## Flux d'une requête
-`GET ?q=…&forward={…}` → `ViewMixin.dispatch()` → `BaseQuerySetView.get_queryset()` → JSON Select2
+## Request flow
+`GET ?q=…&forward={…}` → `ViewMixin.dispatch()` → `BaseQuerySetView.get_queryset()` → Select2 JSON
 
-## Personnalisation courante
-Surcharger `get_queryset()`. Configurer `search_fields`, `create_field`, `paginate_by`.
-Forwarding : `forward=['country']` sur le widget → `self.forwarded.get('country')` dans la vue.
+## Common customisation
+Override `get_queryset()`. Configure `search_fields`, `create_field`, `paginate_by`.
+Forwarding: `forward=['country']` on the widget → `self.forwarded.get('country')` in the view.
 
 ## Tests
 ```bash
