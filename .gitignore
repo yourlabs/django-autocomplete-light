@@ -1,5 +1,6 @@
 *pyc
 docs/build
+docs/_build
 docs/source/_static
 test_project/htmlcov/
 test_project/.coverage
