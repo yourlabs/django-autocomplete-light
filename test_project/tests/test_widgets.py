@@ -14,7 +14,6 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from unittest import mock
 from django.test.utils import override_settings
 
 
