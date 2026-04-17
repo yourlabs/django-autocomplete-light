@@ -36,8 +36,8 @@ echo -e "$(python changelog.py $1)\n$(cat CHANGELOG)" > CHANGELOG
 git add setup.py docs/conf.py CHANGELOG
 git commit -m "Release $1"
 git tag $1
-python setup.py sdist
-twine upload dist/django_autocomplete_light-${1/-/}.tar.gz
+python -m build
+twine upload dist/django_autocomplete_light-${1/-/}*
 git push origin master $1
 
 if [[ $stashed -eq 1 ]]; then
