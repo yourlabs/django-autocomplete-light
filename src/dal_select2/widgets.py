@@ -109,27 +109,69 @@ class Select2WidgetMixin(object):
     autocomplete_function = 'select2'
 
 
+class Select2InitialRenderMixin:
+    """Mixin that ensures initial values are rendered even if not in choices.
+
+    Select2 widgets load options via AJAX, so the initial value is often
+    absent from the choices list at render time. This mixin temporarily
+    injects missing values so they appear as selected in the HTML output.
+    """
+
+    def render(self, name, value, attrs=None, renderer=None):
+        """Render widget, injecting missing initial values into choices."""
+        if not value:
+            return super().render(name, value, attrs=attrs, renderer=renderer)
+
+        if isinstance(value, (list, tuple)):
+            values = list(value)
+        else:
+            values = [value]
+
+        existing = dict(self.choices)
+        extended = [(v, v) for v in values if v not in existing]
+        if extended:
+            original_choices = self.choices
+            self.choices = list(self.choices) + extended
+            try:
+                return super().render(name, values, attrs=attrs, renderer=renderer)
+            finally:
+                self.choices = original_choices
+
+        return super().render(name, values, attrs=attrs, renderer=renderer)
+
+
 class Select2(Select2WidgetMixin, Select):
     """Select2 widget for regular choices."""
 
 
-class Select2Multiple(Select2WidgetMixin, SelectMultiple):
+class Select2Multiple(Select2InitialRenderMixin, Select2WidgetMixin, SelectMultiple):
     """Select2Multiple widget for regular choices."""
 
 
-class ListSelect2(WidgetMixin, Select2WidgetMixin, forms.Select):
+class ListSelect2(
+    Select2InitialRenderMixin,
+    WidgetMixin,
+    Select2WidgetMixin,
+    forms.Select,
+):
     """Select widget for regular choices and Select2."""
 
 
-class ModelSelect2(QuerySetSelectMixin,
-                   Select2WidgetMixin,
-                   forms.Select):
+class ModelSelect2(
+    Select2InitialRenderMixin,
+    QuerySetSelectMixin,
+    Select2WidgetMixin,
+    forms.Select,
+):
     """Select widget for QuerySet choices and Select2."""
 
 
-class ModelSelect2Multiple(QuerySetSelectMixin,
-                           Select2WidgetMixin,
-                           forms.SelectMultiple):
+class ModelSelect2Multiple(
+    Select2InitialRenderMixin,
+    QuerySetSelectMixin,
+    Select2WidgetMixin,
+    forms.SelectMultiple,
+):
     """SelectMultiple widget for QuerySet choices and Select2."""
 
 

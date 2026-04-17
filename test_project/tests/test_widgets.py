@@ -2,7 +2,9 @@
 
 import django
 from django import forms, http, test
+from django.http import HttpResponse
 from django.urls import re_path as url
+from django.views import View
 
 from dal.autocomplete import Select2
 from dal.widgets import Select, WidgetMixin
@@ -12,13 +14,19 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-import mock
+from unittest import mock
 from django.test.utils import override_settings
+
+
+class DummyView(View):
+    def get(self, request):
+        return HttpResponse("ok")
+
 
 urlpatterns = [
     url(
         r'^test-url/$',
-        mock.Mock(),
+        DummyView.as_view(),
         name='test_url'
     ),
 ]
@@ -154,3 +162,31 @@ class WidgetMixinTest(test.TestCase):  # noqa
         # attrs with id
         observed = widget.render('myname', '', attrs={'id': 'myid'})
         self.assertEqual(observed, 'myid')
+
+
+@override_settings(ROOT_URLCONF='tests.test_widgets')
+class Select2InitialRenderMixinTest(test.TestCase):
+    def test_listselect2_adds_missing_selected_value(self):
+        class Form(forms.Form):
+            test = forms.ChoiceField(
+                widget=select2_widget.ListSelect2(url=reverse('test_url')),
+                required=False,
+            )
+
+        form = Form(initial={'test': 'Urdu'})
+        rendered = form.as_p()
+
+        assert 'value="Urdu" selected' in rendered
+
+    def test_select2multiple_adds_multiple_selected_values(self):
+        class Form(forms.Form):
+            test = forms.MultipleChoiceField(
+                widget=select2_widget.Select2Multiple(url=reverse('test_url')),
+                required=False,
+            )
+
+        form = Form(initial={'test': ['English', 'Urdu']})
+        rendered = form.as_p()
+
+        assert 'value="English" selected' in rendered
+        assert 'value="Urdu" selected' in rendered
