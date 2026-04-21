@@ -125,9 +125,7 @@ class Select2InitialRenderMixin:
             # single-select widgets.
             original_queryset = self.choices.queryset
             pk_values = [v for v in values if v]
-            self.choices.queryset = original_queryset.model._default_manager.filter(
-                pk__in=pk_values
-            )
+            self.choices.queryset = original_queryset.filter(pk__in=pk_values)
             try:
                 render_value = values if self.allow_multiple_selected else value
                 return super().render(
