@@ -1,3 +1,42 @@
+4.0.0
+
+    BREAKING: drop Python < 3.11 and Django < 5.2
+    BREAKING: remove packages dal_genericm2m, dal_gm2m, dal_select2_tagging,
+              dal_legacy_static, dal_genericm2m_queryset_sequence,
+              dal_gm2m_queryset_sequence
+
+    Packaging
+    - Migrate setup.py → pyproject.toml (PEP 517/518)
+    - python_requires = ">=3.11", django >= 5.2
+    - Build: python -m build (PR #1383 by dimbleby)
+    - package.json version synced to 4.0.0
+
+    CI
+    - Matrix: py{311,312,313,314}-dj52, py{312,313,314}-dj{60,main}
+    - Migrate linter flake8 → ruff
+    - GitHub Actions: actions/checkout@v6, actions/setup-python@v6
+
+    Fixes
+    - #1076/#1292  Select2InitialRenderMixin: pre-selected values now render
+                   correctly on edit forms for all Select2 widgets
+    - #1357        ModelSelect2Multiple.filter_choices_to_render: preserve
+                   Select2 submission order via Case/When; fix empty-selection
+                   regression that left queryset unfiltered
+    - #1398        allowClear: only enabled when a non-empty placeholder is set,
+                   satisfying Select2 4.x contract; use space as fallback
+    - #1311        HTMX afterSettle listener now includes root element via
+                   .find(...).addBack(...) for outerHTML swap support
+    - #1334        WidgetMixin.__init__: (kwargs.get("attrs") or {}) guards
+                   against explicit attrs=None
+    - #1396        Remove Python 2 dead code (lru_cache try/except,
+                   collections.Sequence try/except)
+
+    Cleanup
+    - Removed dal_legacy_static (~6 500 lines of unused JS/CSS)
+    - Removed VERSION guards for Django < 2.0 and Python 2 compat shims
+    - Removed super(Class, self), unicode_literals, bare excepts
+    - Docs: removed genericm2m/gm2m/tagging sections; updated for Django 5.2+
+
 3.12.1
 
     d327718 Update changelog by jpic

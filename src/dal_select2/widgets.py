@@ -165,9 +165,10 @@ class ModelSelect2Multiple(
     def filter_choices_to_render(self, selected_choices):
         """Filter choices preserving the order submitted by Select2."""
         pks = [c for c in selected_choices if c]
-        if not pks:
-            return
         try:
+            if not pks:
+                self.choices.queryset = self.choices.queryset.none()
+                return
             preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pks)])
             self.choices.queryset = self.choices.queryset.filter(
                 pk__in=pks
