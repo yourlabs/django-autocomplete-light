@@ -89,14 +89,15 @@ document.addEventListener('dal-init-function', function () {
                 tokenSeparators = null;
             }
         }
+        var placeholderText = $element.attr('data-placeholder') || '';
         $element.select2({
             tokenSeparators: tokenSeparators,
             debug: true,
             containerCssClass: ':all:',
-            placeholder: $element.attr('data-placeholder') || '',
+            placeholder: placeholderText,
             language: $element.attr('data-autocomplete-light-language'),
             minimumInputLength: $element.attr('data-minimum-input-length') || 0,
-            allowClear: !$element.is('[required]'),
+            allowClear: !$element.is('[required]') && placeholderText !== '',
             templateResult: result_template,
             templateSelection: selected_template,
             ajax: ajax,

@@ -1,9 +1,6 @@
 """Select2 view implementation."""
 
-try:
-    from collections.abc import Sequence
-except ImportError:  # py < 3.10
-    from collections import Sequence
+from collections.abc import Sequence
 from collections import OrderedDict
 
 from django import http

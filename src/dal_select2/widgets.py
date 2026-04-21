@@ -1,16 +1,10 @@
 """Select2 widget implementation module."""
 
-try:
-    from functools import lru_cache
-except ImportError:
-    # py2
-    try:
-        from backports.functools_lru_cache import lru_cache
-    except ImportError:
-        lru_cache = None
+from functools import lru_cache
 
 from django import forms
 from django.conf import settings
+from django.db.models import Case, When
 
 from dal.widgets import QuerySetSelectMixin, Select, SelectMultiple, WidgetMixin
 
@@ -53,13 +47,7 @@ def get_i18n_name(lang_code):
         return lang_code.split('-')[0]
 
 
-if lru_cache:
-    get_i18n_name = lru_cache()(get_i18n_name)
-else:
-    import warnings
-    warnings.warn(
-        'Python2: no cache on get_i18n_name, pip install backports.functools-lru-cache'
-    )
+get_i18n_name = lru_cache()(get_i18n_name)
 
 
 class Select2WidgetMixin(object):
@@ -173,6 +161,19 @@ class ModelSelect2Multiple(
     forms.SelectMultiple,
 ):
     """SelectMultiple widget for QuerySet choices and Select2."""
+
+    def filter_choices_to_render(self, selected_choices):
+        """Filter choices preserving the order submitted by Select2."""
+        pks = [c for c in selected_choices if c]
+        if not pks:
+            return
+        try:
+            preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pks)])
+            self.choices.queryset = self.choices.queryset.filter(
+                pk__in=pks
+            ).order_by(preserved)
+        except ValueError:
+            pass
 
 
 class TagSelect2(WidgetMixin,
