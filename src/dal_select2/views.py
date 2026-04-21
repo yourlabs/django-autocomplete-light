@@ -1,7 +1,7 @@
 """Select2 view implementation."""
 
-from collections.abc import Sequence
 from collections import OrderedDict
+from collections.abc import Sequence
 
 from django import http
 from django.core.exceptions import ImproperlyConfigured
