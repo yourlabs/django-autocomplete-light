@@ -484,7 +484,9 @@ window.addEventListener("load", function () {
 
 document.addEventListener('htmx:afterSettle', function (e) {
     if (window.__dal__initialize && window.django && django.jQuery) {
-        django.jQuery('[data-autocomplete-light-function]', e.detail.elt)
+        var $root = django.jQuery(e.detail.elt);
+        $root.find('[data-autocomplete-light-function]')
+            .addBack('[data-autocomplete-light-function]')
             .excludeTemplateForms()
             .each(window.__dal__initialize);
     }
