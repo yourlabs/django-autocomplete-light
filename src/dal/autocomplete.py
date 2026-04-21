@@ -77,3 +77,10 @@ if _installed('dal_select2', 'dal_queryset_sequence'):
 if _installed('dal_select2') and _installed('taggit'):
     from dal_select2_taggit.widgets import TaggitSelect2
 
+if _installed('dal_contenttypes') and _installed('django.contrib.contenttypes'):
+    from dal_contenttypes.fields import (
+        ContentTypeModelFieldMixin,
+        ContentTypeModelMultipleFieldMixin,
+        GenericModelMixin,
+    )
+
