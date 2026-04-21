@@ -5,6 +5,7 @@ from functools import lru_cache
 from django import forms
 from django.conf import settings
 from django.db.models import Case, When
+from django.forms.models import ModelChoiceIterator
 
 from dal.widgets import QuerySetSelectMixin, Select, SelectMultiple, WidgetMixin
 
@@ -115,17 +116,35 @@ class Select2InitialRenderMixin:
         else:
             values = [value]
 
-        existing = dict(self.choices)
-        extended = [(v, v) for v in values if v not in existing]
-        if extended:
-            original_choices = self.choices
-            self.choices = list(self.choices) + extended
+        if isinstance(self.choices, ModelChoiceIterator):
+            # Queryset-backed widget: replace the queryset with a simple PK
+            # filter so self.choices stays a ModelChoiceIterator — converting
+            # it to a plain list breaks filter_choices_to_render in
+            # QuerySetSelectMixin and ModelSelect2Multiple (AttributeError on
+            # .queryset). Also preserve the original scalar value for
+            # single-select widgets.
+            original_queryset = self.choices.queryset
+            pk_values = [v for v in values if v]
+            self.choices.queryset = original_queryset.model._default_manager.filter(
+                pk__in=pk_values
+            )
             try:
-                return super().render(name, values, attrs=attrs, renderer=renderer)
+                render_value = values if self.allow_multiple_selected else value
+                return super().render(name, render_value, attrs=attrs, renderer=renderer)
             finally:
-                self.choices = original_choices
+                self.choices.queryset = original_queryset
+        else:
+            existing = dict(self.choices)
+            extended = [(v, v) for v in values if v not in existing]
+            if extended:
+                original_choices = self.choices
+                self.choices = list(self.choices) + extended
+                try:
+                    return super().render(name, values, attrs=attrs, renderer=renderer)
+                finally:
+                    self.choices = original_choices
 
-        return super().render(name, values, attrs=attrs, renderer=renderer)
+            return super().render(name, values, attrs=attrs, renderer=renderer)
 
 
 class Select2(Select2WidgetMixin, Select):
