@@ -89,7 +89,8 @@ document.addEventListener('dal-init-function', function () {
                 tokenSeparators = null;
             }
         }
-        var placeholderText = $element.attr('data-placeholder') || '';
+        var isRequired = $element.is('[required]');
+        var placeholderText = $element.attr('data-placeholder') || (!isRequired ? ' ' : '');
         $element.select2({
             tokenSeparators: tokenSeparators,
             debug: true,
@@ -97,7 +98,7 @@ document.addEventListener('dal-init-function', function () {
             placeholder: placeholderText,
             language: $element.attr('data-autocomplete-light-language'),
             minimumInputLength: $element.attr('data-minimum-input-length') || 0,
-            allowClear: !$element.is('[required]') && placeholderText !== '',
+            allowClear: !isRequired,
             templateResult: result_template,
             templateSelection: selected_template,
             ajax: ajax,
