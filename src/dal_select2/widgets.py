@@ -130,7 +130,9 @@ class Select2InitialRenderMixin:
             )
             try:
                 render_value = values if self.allow_multiple_selected else value
-                return super().render(name, render_value, attrs=attrs, renderer=renderer)
+                return super().render(
+                    name, render_value, attrs=attrs, renderer=renderer
+                )
             finally:
                 self.choices.queryset = original_queryset
         else:
