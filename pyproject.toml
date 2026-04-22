@@ -40,6 +40,9 @@ nested = ["django-nested-admin>=3.0.21"]
 tags = ["django-taggit"]
 gfk = ["django-querysetsequence>=0.11"]
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
