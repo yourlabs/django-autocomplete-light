@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.html import format_html
 from dal.widgets import QuerySetSelectMixin
 
 
@@ -18,10 +19,12 @@ class AlightWidgetMixin:
         attrs.setdefault('slot', 'select')
         widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
         deck = '<div slot="deck"></div>'
-        input = (
-            f'<autocomplete-select-input slot="input" url="{self.url}">'
-            f'<input name="{name}-input" slot="input" class="vTextField" />'
-            f'</autocomplete-select-input>'
+        input = format_html(
+            '<autocomplete-select-input slot="input" url="{}">'
+            '<input name="{}-input" slot="input" class="vTextField" />'
+            '</autocomplete-select-input>',
+            self.url,
+            name,
         )
         return widget + deck + input
 
