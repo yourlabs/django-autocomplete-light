@@ -1,3 +1,11 @@
+4.0.2
+
+    New
+    - #1332   Add dal_alight: new autocomplete backend based on the
+              autocomplete-light web component (no Select2 dependency).
+              Opt-in via INSTALLED_APPS = [..., 'dal_alight'].
+              Use ModelAlight widget and AlightQuerySetView.
+
 4.0.1
 
     Fixes
