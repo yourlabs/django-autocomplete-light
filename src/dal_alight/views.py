@@ -1,5 +1,6 @@
 from django import http
 from django.utils.html import format_html, mark_safe
+
 from dal.views import BaseQuerySetView
 
 
