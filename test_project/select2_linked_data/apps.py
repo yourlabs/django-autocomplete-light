@@ -5,7 +5,7 @@ from dal.test.utils import OwnedFixtures
 
 
 class TestApp(AppConfig):
-    name = 'secure_data'
+    name = 'select2_linked_data'
 
     def ready(self):
         post_migrate.connect(OwnedFixtures(), sender=self)
