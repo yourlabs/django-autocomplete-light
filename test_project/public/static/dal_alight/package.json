@@ -1,0 +1,13 @@
+{
+  "name": "autocomplete-light",
+  "version": "1.0.0",
+  "description": "Extremely lightweight autocompletion web component",
+  "main": "autocomplete_light/static/autocomplete_light/autocomplete-light.js",
+  "type": "module",
+  "scripts": {
+    "start": "python serve.py",
+    "test": "python serve.py & pytest -sv test_alight.py"
+  },
+  "author": "jpic",
+  "license": "MIT"
+}

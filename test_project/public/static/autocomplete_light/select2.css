@@ -1,0 +1,87 @@
+.select2-container {
+    min-width: 20em;
+}
+
+ul li.select2-selection__choice,
+ul li.select2-search {
+    /* Cancel out django's style */
+    list-style-type: none;
+}
+
+.errors .select2-selection {
+    /* Highlight select box with error */
+    border-color: #ba2121;
+}
+
+/*
+Add support for using Django CSS variables so that the select2 fields match the look and feel of Django
+for light and dark themes.
+
+The CSS variables were added to Django in 3.2. If they aren't found then we fallback to using the default styles from select2.
+*/
+
+/* Create new CSS variable to control the color of the highlighted row
+
+These values will be used for the light theme.
+*/
+.select2-container--default {
+    --select2-highlighted-bg: #5897fb;
+    --select2-highlighted-fg: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+    /* For dark theme, use the Django selected row color and the body foreground color for the selected row. */
+    .select2-container--default {
+        --select2-highlighted-bg: var(--selected-row, #5897fb);
+        --select2-highlighted-fg: var(--body-fg, #000);
+    }
+}
+
+.select2-container--default .select2-dropdown {
+    /* The dropdown container where choices are displayed */
+    background-color: var(--body-bg, #fff);
+    border-color: var(--border-color, #aaa);
+}
+
+.select2-container--default .select2-selection {
+    /* The select field input */
+    background-color: var(--body-bg, #fff);
+    border-color: var(--border-color, #aaa);
+}
+
+.select2-container--default .select2-selection .select2-selection__rendered {
+    /* Text for the chosen item when the dropdown is closed */
+    color: var(--body-fg, #444);
+}
+
+.select2-container--default .select2-results__option[aria-selected="true"] {
+    /* The option that has been chosen */
+    background-color: var(--selected-bg, #ddd);
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    /* The search input for the choices */
+    background-color: var(--darkened-bg, #fff);
+    border-color: var(--border-color, #aaa);
+    color: var(--body-fg, #000);
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    /* The option that is in focus */
+    background-color: var(--select2-highlighted-bg, #5897fb);
+    color: var(--select2-highlighted-fg, #fff);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    /* Selected choices when multiple are allowed */
+    background-color: var(--darkened-bg, #e4e4e4);
+    border-color: var(--border-color, #aaa);
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+    color: var(--body-fg, #000);
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: var(--border-color, #000);
+}
