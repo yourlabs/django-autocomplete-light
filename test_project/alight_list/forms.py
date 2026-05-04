@@ -14,4 +14,4 @@ class TForm(forms.ModelForm):
 
     class Meta:
         model = TModel
-        fields = ('test',)
+        fields = ('name', 'test')
