@@ -1,0 +1,20 @@
+from django import forms
+
+from dal import autocomplete, forward
+
+from .models import TModel
+
+
+class TForm(forms.ModelForm):
+    class Meta:
+        model = TModel
+        fields = ('name', 'owner', 'test')
+        widgets = {
+            'test': autocomplete.ModelAlight(
+                url='alight_rename_forward_autocomplete',
+                forward=(
+                    forward.Field(src='owner', dst='possessor'),
+                    forward.Const(val=42, dst='secret'),
+                ),
+            )
+        }

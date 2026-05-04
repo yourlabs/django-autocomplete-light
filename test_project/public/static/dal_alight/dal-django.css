@@ -1,0 +1,10 @@
+/* Django admin integration fixes for autocomplete-light web components. */
+
+autocomplete-select {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+autocomplete-select-input {
+  display: inline-block;
+}

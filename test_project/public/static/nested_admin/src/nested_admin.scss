@@ -1,0 +1,390 @@
+/* stylelint-disable no-descending-specificity */
+
+@mixin cursor($val) {
+  cursor: $val;
+  cursor: -moz-$val;
+  cursor: -webkit-$val;
+}
+
+.djn-group .djn-group-nested {
+  float: none;
+  width: auto;
+  margin: 0 10px;
+  background: transparent;
+}
+
+.djn-group-nested.grp-stacked > h2.djn-collapse-handler,
+.djn-group-nested.grp-stacked > .grp-tools {
+  display: none;
+}
+.djn-group-nested {
+  border-color: transparent;
+}
+.grp-tools span.delete {
+  cursor: auto !important;
+}
+.djn-group-nested .djn-items .inline-related {
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  #grp-content & {
+    margin-bottom: 5px;
+    border: 1px solid #a7a7a7;
+
+    &.djn-item-dragging {
+      border: 0;
+    }
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &.last-related {
+    margin-bottom: 0;
+  }
+}
+
+.djn-group-nested div.items .module:first-child {
+  margin-top: 0 !important;
+}
+
+.nested-placeholder,
+.djn-group .ui-sortable-placeholder {
+  margin-bottom: 5px;
+  background: #9f9f9f !important;
+}
+.djn-group .ui-nestedsortable-error,
+.djn-group .ui-nestedSortable-error {
+  background: #9f6464 !important;
+}
+.ui-sortable .grp-module.ui-sortable-placeholder.ui-nestedSortable-error {
+  background-color: #9f6464 !important;
+}
+
+.djn-items {
+  position: relative;
+  min-height: 0;
+  overflow: visible;
+}
+.djn-item {
+  overflow: visible;
+}
+.djn-item.djn-no-drag:first-child {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+  height: 19px;
+
+  & + .djn-item.ui-sortable-helper,
+  & + .djn-item-dragging {
+    margin-top: 0;
+  }
+}
+
+.djn-item-dragging {
+  height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.djn-tbody.djn-item-dragging {
+  display: none !important;
+}
+.djn-tbody.ui-sortable-placeholder td {
+  background: #fbfad0;
+}
+
+.djn-collapse-handler-verbose-name {
+  display: inline;
+}
+
+#grp-content .grp-tabular .grp-table .grp-tbody {
+  .grp-th,
+  .grp-td {
+    vertical-align: top;
+    overflow: visible;
+  }
+  .grp-tr > td.original:first-child {
+    width: 0;
+    padding: 0;
+    border: 0;
+    background: #eee;
+  }
+  .grp-tr.djn-has-inlines .grp-td {
+    border-bottom: 0 !important;
+  }
+}
+#grp-content .grp-tabular .grp-table .grp-thead .grp-th {
+  border-radius: 0;
+  border-top: 0;
+  border-bottom: 0;
+  line-height: 16px;
+  color: #aaa;
+  font-weight: bold;
+}
+
+#grp-content table.djn-table thead > tr > th {
+  font-size: 11px;
+  line-height: inherit;
+}
+#grp-content .grp-tabular .grp-table.djn-table .grp-thead > .grp-tr > .grp-th {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+#grp-content
+  .grp-tabular
+  .grp-table.djn-table
+  .grp-thead
+  > .grp-tr
+  > .grp-th:last-of-type {
+  border-right: 0;
+}
+
+#grp-content
+  .grp-tabular
+  .grp-table.djn-table
+  .grp-tbody
+  > .grp-tr
+  > .grp-td:first-of-type {
+  border-left: 1px solid #d4d4d4 !important;
+}
+
+table.djn-table.grp-table td div.grp-readonly,
+table.djn-table.grp-table th div.grp-readonly {
+  margin: 0 !important;
+}
+.grp-tabular.djn-tabular td.grp-td ul.errorlist {
+  margin: 0 !important;
+}
+table.djn-table.grp-table td div.grp-readonly:empty,
+table.djn-table.grp-table th div.grp-readonly:empty {
+  margin-bottom: -5px !important;
+}
+
+table.djn-table.grp-table td > input[type="checkbox"],
+table.djn-table.grp-table td > input[type="radio"],
+table.djn-table.grp-table th > input[type="checkbox"],
+table.djn-table.grp-table th > input[type="radio"] {
+  margin: 3px 0.5ex !important;
+  margin: revert !important;
+}
+
+table.djn-table.grp-table td > textarea,
+table.djn-table.grp-table th > textarea {
+  margin: 0 !important;
+}
+// Grappelli is the absolute worst with !important
+table.djn-table.grp-table td > input[type="text"],
+table.djn-table.grp-table td > input[type="password"],
+table.djn-table.grp-table td > input[type="url"],
+table.djn-table.grp-table td > input[type="email"],
+table.djn-table.grp-table td > input[type="number"],
+table.djn-table.grp-table td > input[type="button"],
+table.djn-table.grp-table td > select,
+table.djn-table.grp-table td p input[type="text"],
+table.djn-table.grp-table td p input[type="url"],
+table.djn-table.grp-table td p input[type="email"],
+table.djn-table.grp-table td p input[type="number"],
+table.djn-table.grp-table td p > input[type="button"],
+table.djn-table.grp-table th > input[type="text"],
+table.djn-table.grp-table th > input[type="password"],
+table.djn-table.grp-table th > input[type="url"],
+table.djn-table.grp-table th > input[type="email"],
+table.djn-table.grp-table th > input[type="number"],
+table.djn-table.grp-table th > input[type="button"],
+table.djn-table.grp-table th > select,
+table.djn-table.grp-table th p input[type="text"],
+table.djn-table.grp-table th p input[type="url"],
+table.djn-table.grp-table th p input[type="email"],
+table.djn-table.grp-table th p input[type="number"],
+table.djn-table.grp-table th p > input[type="button"] {
+  vertical-align: middle;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.djn-empty-form {
+  &,
+  & * {
+    display: none !important;
+  }
+}
+
+// Django (sans grappelli) specific styles
+#content.colM {
+  .inline-group .tabular .ui-sortable-placeholder tr.has_original td {
+    padding: 1px;
+  }
+  .inline-group.djn-group ul.tools {
+    height: 0;
+  }
+
+  .djn-item.module {
+    margin-bottom: 0;
+  }
+
+  tr.djn-has-inlines td {
+    border-bottom: 1px solid #fff;
+  }
+
+  td.original {
+    width: 0;
+    padding: 2px 0 0 0;
+  }
+
+  td.original.is-sortable {
+    position: relative;
+    width: 15px;
+  }
+  td.original.is-sortable .djn-drag-handler {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    display: block;
+    width: 10px;
+    height: 20px;
+    margin: 5px;
+    cursor: move;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAyCAYAAABcfPsmAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAE5JREFUeNrs0zEKACAMBEEDST6X9+Z92lpYHNgI7naBK9KMdfcch6rK9lvdeWYOJXXnESEN1d2HH9J9hhSkEFKQQkhBClKQghSkPNYSYADFZiuygfao+AAAAABJRU5ErkJggg==")
+      no-repeat top left;
+    background-size: 10px 25px;
+    @include cursor(grab);
+  }
+
+  // (Optional) Apply a "closed-hand" cursor during drag operation.
+  td.original.is-sortable .djn-drag-handler:active {
+    @include cursor(grabbing);
+  }
+  td.original.is-sortable p + .djn-drag-handler {
+    top: 20px;
+  }
+
+  td.original.is-sortable p {
+    top: 0;
+    left: 19px;
+    white-space: nowrap;
+  }
+
+  fieldset.has-inlines > .djn-form-row-last {
+    border-bottom: 0;
+  }
+}
+
+// polymorphic
+.polymorphic-add-choice {
+  .grp-tools {
+    overflow: visible;
+  }
+  .grp-tools li {
+    float: none;
+  }
+  .grp-tools li:first-child,
+  .grp-tools li:last-child {
+    padding: 4px 8px;
+  }
+  .grp-tools a {
+    width: auto;
+    height: auto;
+  }
+  .grp-tools > li > a {
+    min-width: 24px;
+    min-height: 24px;
+  }
+  .grp-tools .polymorphic-type-menu {
+    right: 0.5em;
+    left: auto;
+  }
+}
+
+.grp-tools.grp-related-widget-tools a.add-another {
+  top: 0;
+  margin: 0;
+}
+.grp-td > .grp-related-widget-wrapper .grp-related-widget-tools {
+  overflow: visible;
+  display: flex;
+}
+
+.select2-container + .grp-tools.grp-related-widget-tools {
+  position: relative;
+  right: 0;
+}
+
+#grp-content .grp-group > .grp-items > .grp-module > .grp-tabular {
+  background: #fff;
+  border: 2px solid #ccc;
+  margin-bottom: 5px;
+
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+table.grp-table.djn-table td.djn-td > input[type="text"],
+table.grp-table.djn-table td.djn-td > input[type="password"],
+table.grp-table.djn-table td.djn-td > input[type="url"],
+table.grp-table.djn-table td.djn-td > input[type="email"],
+table.grp-table.djn-table td.djn-td > input[type="number"],
+table.grp-table.djn-table td.djn-td > input[type="button"],
+table.grp-table.djn-table td.djn-td > select,
+table.grp-table.djn-table td.djn-td p input[type="text"],
+table.grp-table.djn-table td.djn-td p input[type="url"],
+table.grp-table.djn-table td.djn-td p input[type="email"],
+table.grp-table.djn-table td.djn-td p input[type="number"],
+table.grp-table.djn-table td.djn-td p > input[type="button"],
+table.grp-table.djn-table td.djn-td div.grp-related-widget-wrapper,
+table.grp-table.djn-table th.djn-th > input[type="text"],
+table.grp-table.djn-table th.djn-th > input[type="password"],
+table.grp-table.djn-table th.djn-th > input[type="url"],
+table.grp-table.djn-table th.djn-th > input[type="email"],
+table.grp-table.djn-table th.djn-th > input[type="number"],
+table.grp-table.djn-table th.djn-th > input[type="button"],
+table.grp-table.djn-table th.djn-th > select,
+table.grp-table.djn-table th.djn-th p input[type="text"],
+table.grp-table.djn-table th.djn-th p input[type="url"],
+table.grp-table.djn-table th.djn-th p input[type="email"],
+table.grp-table.djn-table th.djn-th p input[type="number"],
+table.grp-table.djn-table th.djn-th p > input[type="button"],
+table.grp-table.djn-table th.djn-th div.grp-related-widget-wrapper {
+  vertical-align: baseline;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+table.grp-table.djn-table td.djn-td a.fb_show,
+table.grp-table.djn-table td.djn-td a.related-lookup,
+table.grp-table.djn-table td.djn-td .ui-datepicker-trigger,
+table.grp-table.djn-table td.djn-td .ui-timepicker-trigger,
+table.grp-table.djn-table th.djn-th a.fb_show,
+table.grp-table.djn-table th.djn-th a.related-lookup,
+table.grp-table.djn-table th.djn-th .ui-datepicker-trigger,
+table.grp-table.djn-table th.djn-th .ui-timepicker-trigger {
+  margin: 0 0 0 -25px !important;
+}
+
+table.grp-table.djn-table td.djn-td .grp-autocomplete-wrapper-m2m,
+table.grp-table.djn-table td.djn-td .grp-autocomplete-wrapper-fk,
+table.grp-table.djn-table th.djn-th .grp-autocomplete-wrapper-m2m,
+table.grp-table.djn-table th.djn-th .grp-autocomplete-wrapper-fk {
+  margin: 0 !important;
+}
+
+table.grp-table.djn-table td.djn-td > input[type="file"],
+table.grp-table.djn-table td.djn-td > input[type="checkbox"],
+table.grp-table.djn-table td.djn-td > input[type="radio"],
+table.grp-table.djn-table td.djn-td > select,
+table.grp-table.djn-table td.djn-td p input[type="text"],
+table.grp-table.djn-table th.djn-th > input[type="file"],
+table.grp-table.djn-table th.djn-th > input[type="checkbox"],
+table.grp-table.djn-table th.djn-th > input[type="radio"],
+table.grp-table.djn-table th.djn-th > select,
+table.grp-table.djn-table th.djn-th p input[type="text"] {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
