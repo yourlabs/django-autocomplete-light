@@ -20,5 +20,10 @@ class TModel(models.Model):
         related_name='inline_test_models',
     )
 
+    class Meta:
+        db_table = 'select2_foreign_key_tmodel'
+        managed = False
+        ordering = ['name']
+
     def __str__(self):
         return self.name
