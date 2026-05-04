@@ -8,9 +8,9 @@ from .models import TModel
 class AlightLinkedDataView(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = super().get_queryset()
-        group = self.forwarded.get('group', None)
-        if group:
-            qs = qs.filter(group_id=group)
+        owner = self.forwarded.get('owner', None)
+        if owner:
+            qs = qs.filter(owner_id=owner)
         return qs
 
 
