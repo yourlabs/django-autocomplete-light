@@ -2,23 +2,26 @@ from django.urls import re_path as url
 
 from dal import autocomplete
 
+from .models import TModel
 
-FRUITS = ['apple', 'apricot', 'banana', 'cherry']
 
-
-class FruitListView(autocomplete.AlightListView):
+class TModelListView(autocomplete.AlightListView):
     def get_list(self):
-        return FRUITS
+        return list(
+            TModel.objects.exclude(test__isnull=True)
+            .exclude(test='')
+            .values_list('test', flat=True)
+            .distinct()
+        )
 
     def create(self, text):
-        FRUITS.append(text)
         return text
 
 
 urlpatterns = [
     url(
         r'autocomplete/$',
-        FruitListView.as_view(),
+        TModelListView.as_view(),
         name='alight_list',
     ),
 ]
