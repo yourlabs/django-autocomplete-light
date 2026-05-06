@@ -33,7 +33,7 @@ class AlightWidgetMixin:
     @property
     def media(self):
         return forms.Media(
-            css=dict(all=['dal_alight/autocomplete-light.css', 'dal_alight/dal-django.css']),
+            css=dict(all=['dal_alight/autocomplete-light.css']),
             js=['dal_alight/autocomplete-light.js', 'dal_alight/dal-django.js'],
         )
 
