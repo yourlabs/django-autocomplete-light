@@ -10,35 +10,18 @@
 
 ## Remaining
 
-- [ ] **alight_rename_forward** — Forward with a renamed destination key
-  - URL: /admin/alight_rename_forward/tmodel/
+- [x] **alight_rename_forward** — Forward with a renamed destination key (forwarding works; text search intentionally unfiltered — diagnostic app)
 
-- [ ] **alight_rename_forward** — Forward with a renamed destination key
-  - URL: /admin/alight_rename_forward/tmodel/
+- [x] **alight_secure_data** — Filters by owner; anonymous returns empty; save_model auto-assigns owner on create
 
-- [ ] **alight_secure_data** — Autocomplete requires login; anonymous access returns no results or 403
-  - URL: /admin/alight_secure_data/tmodel/
-  - Check: autocomplete URL rejects unauthenticated requests
+- [x] **alight_generic_foreign_key** — Both GFK fields work; grouping, filtering, save/reload all good
 
-- [ ] **alight_generic_foreign_key** — GenericForeignKey: content-type selector + object picker
-  - URL: /admin/alight_generic_foreign_key/tmodel/
-  - Check: both GFK fields (test and test2) work independently
+- [x] **alight_djhacker_formfield** — Main form gets alight widget via djhacker without any form= declaration; inline plain select is parity with select2
 
-- [ ] **alight_djhacker_formfield** — Widget overridden via djhacker (not declared in the form)
-  - URL: /admin/alight_djhacker_formfield/tmodel/
+- [x] **alight_nestedadmin** — Forwarding across nested inline levels works; fixed prefix-aware field lookup in dal-django.js
 
-- [ ] **alight_nestedadmin** — Three levels of nested inlines, each with autocomplete
-  - URL: /admin/alight_nestedadmin/tmodelone/
-  - Check: autocomplete works in deeply nested inline rows
+- [x] **alight_taggit** — Tag selection, multiple tags, save/reload all work
 
-- [ ] **alight_taggit** — django-taggit tag field via autocomplete
-  - URL: /admin/alight_taggit/tmodel/
-  - Check: type a tag, select or create it; multiple tags; save and reload
+- [x] **alight_outside_admin** — Widget renders and functions correctly outside Django admin
 
-- [ ] **alight_outside_admin** — Widget used on a non-admin page
-  - URL: /alight_outside_admin/ (or similar)
-  - Check: widget renders and functions outside Django admin context
-
-- [ ] **alight_tag** — Free-text tag field (comma-separated, no model backing)
-  - URL: /admin/alight_tag/tmodel/
-  - Check: type tags, create new ones, save as comma-separated string
+- [x] **alight_tag** — Free-text tag autocomplete, create new tags, saves as comma-separated string
