@@ -4,15 +4,14 @@
 - [x] **alight_foreign_key** — Basic FK single-select, search, create (inline + popup), save, inline
 - [x] **alight_one_to_one** — Same as FK; self-ref and already-linked items shown (matches select2 behaviour)
 - [x] **alight_many_to_many** — Multi-select chips, remove with ×, save/reload, inline
+- [x] **alight_list** — Dynamic list from DB (fused with select2_list_tmodel); create new entry; save; for_inline selector present
+- [x] **alight_linked_data** — Forwarding works; owner filters test dropdown correctly
+- [x] **alight_forward_different_fields** — Forwarded dict visible in dropdown; all field types (checkbox, select, radio, multiselect, JS handlers, Self) arrive correctly; select-a-valid-choice on submit is expected (no choice_list set, diagnostic app)
 
 ## Remaining
 
-- [x] **alight_list** — Dynamic list from DB (fused with select2_list_tmodel); create new entry; save; for_inline selector present
-
-- [x] **alight_linked_data** — Forwarding works; owner filters test dropdown correctly
-
-- [ ] **alight_forward_different_fields** — Forward a value from a non-FK field to the autocomplete view
-  - URL: /admin/alight_forward_different_fields/tmodel/
+- [ ] **alight_rename_forward** — Forward with a renamed destination key
+  - URL: /admin/alight_rename_forward/tmodel/
 
 - [ ] **alight_rename_forward** — Forward with a renamed destination key
   - URL: /admin/alight_rename_forward/tmodel/
