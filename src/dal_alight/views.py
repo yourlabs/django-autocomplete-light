@@ -1,10 +1,9 @@
 from collections import OrderedDict
-from collections.abc import Sequence
 
 from django import http
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import F
-from django.utils.html import format_html, mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.views.generic.list import View
 
@@ -42,8 +41,6 @@ class AlightQuerySetView(BaseQuerySetView):
         html = []
         for result in context['object_list']:
             label = self.get_result_label(result)
-            if self.template:
-                label = mark_safe(label)
             html.append(format_html(
                 '<div data-value="{}">{}</div>',
                 self.get_result_value(result),
@@ -57,7 +54,7 @@ class AlightQuerySetView(BaseQuerySetView):
                 _('Create "%(new_value)s"') % {'new_value': q},
             ))
 
-        if context.get('page_obj') and context['page_obj'].has_next():
+        if self.has_more(context):
             html.append(format_html(
                 '<div data-next-page="{}">{}</div>',
                 context['page_obj'].next_page_number(),
@@ -105,8 +102,6 @@ class AlightGroupQuerySetView(AlightQuerySetView):
             ))
             for result in results:
                 label = self.get_result_label(result)
-                if self.template:
-                    label = mark_safe(label)
                 html.append(format_html(
                     '<div data-value="{}">{}</div>',
                     self.get_result_value(result),

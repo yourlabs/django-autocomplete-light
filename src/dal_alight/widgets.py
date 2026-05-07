@@ -28,6 +28,8 @@ class AlightWidgetMixin:
         </autocomplete-select>
     """
 
+    # Read by dal.widgets.WidgetMixin.render() (called via MRO after this
+    # mixin) to wrap the slot trio in <autocomplete-select>…</autocomplete-select>.
     component = 'autocomplete-select'
 
     @property
@@ -48,7 +50,7 @@ class AlightWidgetMixin:
         if self.url:
             input_el = format_html(
                 '<autocomplete-select-input slot="input" url="{}">'
-                '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'
+                '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'  # noqa: E501
                 '</autocomplete-select-input>',
                 self.url,
                 name,
@@ -56,7 +58,7 @@ class AlightWidgetMixin:
         else:
             input_el = format_html(
                 '<autocomplete-select-input slot="input">'
-                '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'
+                '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'  # noqa: E501
                 '</autocomplete-select-input>',
                 name,
             )
@@ -83,7 +85,9 @@ class AlightInitialRenderMixin:
             self.choices.queryset = original_queryset.filter(pk__in=pk_values)
             try:
                 render_value = values if self.allow_multiple_selected else value
-                return super().render(name, render_value, attrs=attrs, renderer=renderer)
+                return super().render(
+                    name, render_value, attrs=attrs, renderer=renderer
+                )
             finally:
                 self.choices.queryset = original_queryset
         else:
@@ -152,6 +156,10 @@ class ListAlight(WidgetMixin, AlightWidgetMixin, forms.Select):
 class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
     """Free-text tag widget — value stored as comma-separated text.
 
+    AlightInitialRenderMixin is intentionally omitted: tags are not PKs so
+    the queryset-filter approach would break; optgroups() handles initial
+    values directly via _iter_tag_values().
+
     Tags are not backed by a model: the tag text IS the option value.
     Use alongside ``AlightListView`` with a ``create()`` method, or any view
     that returns HTML fragments.
@@ -169,7 +177,12 @@ class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
         for v in value:
             if not v:
                 continue
-            parts = v.split(',') if isinstance(v, str) else ([v] if not _is_iterable(v) else v)
+            if isinstance(v, str):
+                parts = v.split(',')
+            elif _is_iterable(v):
+                parts = v
+            else:
+                parts = [v]
             for part in parts:
                 values.add(self.option_value(str(part).strip()))
         return values
@@ -181,10 +194,7 @@ class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
         for v in value:
             if not v:
                 continue
-            parts = v.split(',') if hasattr(v, 'split') else v
-            parts = [parts] if not _is_iterable(parts) else parts
-            for part in parts:
-                yield self.option_value(str(part).strip())
+            yield self.option_value(str(v).strip())
 
     def optgroups(self, name, value, attrs=None):
         default = (None, [], 0)

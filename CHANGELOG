@@ -1,10 +1,57 @@
-4.0.2
+4.1.0
 
     New
-    - #1332   Add dal_alight: new autocomplete backend based on the
-              autocomplete-light web component (no Select2 dependency).
-              Opt-in via INSTALLED_APPS = [..., 'dal_alight'].
-              Use ModelAlight widget and AlightQuerySetView.
+    - #1332   dal_alight: new autocomplete backend based on the
+              autocomplete-light web component, with no Select2 / no
+              jQuery dependency.  Opt-in via
+              INSTALLED_APPS = [..., 'dal_alight'].
+
+              Views (dal_alight.views):
+              - AlightQuerySetView           -- HTML-fragment QuerySet view
+              - AlightGroupQuerySetView      -- grouped (group_by_related)
+              - AlightListView               -- list-of-strings/tuples view
+              - AlightGroupListView          -- grouped variant
+
+              Widgets (dal_alight.widgets):
+              - ModelAlight, ModelAlightMultiple   (QuerySet-backed)
+              - Alight, AlightMultiple             (arbitrary choices)
+              - ListAlight                         (paired with AlightListView)
+              - TagAlight                          (free-text comma tags)
+              - TaggitAlight                       (django-taggit bridge)
+
+              Fields (dal_alight.fields):
+              - AlightListChoiceField, AlightListCreateChoiceField
+
+              Test helper (dal_alight.test):
+              - AlightStory -- Selenium selectors + custom-element wait,
+                drop-in replacement for Select2Story.
+
+              Static (dal_alight/static/dal_alight/):
+              - autocomplete-light.js / .css -- vendored from the
+                autocomplete-light web component submodule.
+              - dal-django.js -- Django adapter: reads dal-forward-conf
+                divs, appends &forward= to autocomplete URLs, handles
+                autocompleteCreate POST + CSRF, syncs Django admin
+                add/change-related popups into the component deck.
+
+    - #1332   dal_alight_queryset_sequence: companion package combining
+              dal_queryset_sequence with the autocomplete-light backend.
+              Active when both 'dal_alight' and 'dal_queryset_sequence'
+              are in INSTALLED_APPS.
+
+              - AlightQuerySetSequenceView, AlightQuerySetSequenceAutoView
+              - QuerySetSequenceAlight, QuerySetSequenceAlightMultiple
+              - AlightGenericForeignKeyModelField
+
+    - #1332   test_project: 14 alight_* apps mirroring their select2_*
+              counterparts, covering FK, M2M, OneToOne, GenericFK, list,
+              tag, taggit, linked_data, forward_different_fields,
+              rename_forward, secure_data, outside_admin, nestedadmin,
+              and djhacker_formfield.
+
+    Cleanup
+    - Removed internal planning notes (src/dal_alight/PLAN.md, TODO.md,
+      GAPS.md, test_project/TO_TEST.md) used during development.
 
 4.0.1
 
