@@ -6,7 +6,12 @@ from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase
 
 from dal_alight.fields import AlightListChoiceField, AlightListCreateChoiceField
-from dal_alight.views import AlightListView, AlightQuerySetView
+from dal_alight.views import (
+    AlightGroupListView,
+    AlightGroupQuerySetView,
+    AlightListView,
+    AlightQuerySetView,
+)
 from dal_alight.widgets import (
     Alight,
     AlightMultiple,
@@ -14,6 +19,7 @@ from dal_alight.widgets import (
     ModelAlight,
     ModelAlightMultiple,
     TagAlight,
+    TaggitAlight,
 )
 
 User = get_user_model()
@@ -290,10 +296,10 @@ class ModelAlightRenderTest(TestCase):
         html = w.render('test', None)
         self.assertIn('slot="select"', html)
 
-    def test_renders_deck_div(self):
+    def test_renders_deck_span(self):
         w = self._widget()
         html = w.render('test', None)
-        self.assertIn('<div slot="deck">', html)
+        self.assertIn('<span slot="deck">', html)
 
     def test_renders_autocomplete_select_input(self):
         w = self._widget()
@@ -503,3 +509,224 @@ class ForwardCloningTest(TestCase):
         w2 = copy.deepcopy(w)
         w2.forward.append('c')
         self.assertNotIn('c', w.forward)
+
+
+# ---------------------------------------------------------------------------
+# AlightGroupQuerySetView
+# ---------------------------------------------------------------------------
+
+class AlightGroupQuerySetViewTest(TestCase):
+    """AlightGroupQuerySetView renders grouped HTML fragments.
+
+    Uses the self-referential ``test`` FK on alight_foreign_key.TModel so
+    that no additional model is needed.  Parent objects become the group
+    labels; children become the grouped items.
+    """
+
+    def setUp(self):
+        self.TModel = get_tmodel()
+        self.parent = self.TModel.objects.create(name='parent_grp')
+        self.child1 = self.TModel.objects.create(name='child_a', test=self.parent)
+        self.child2 = self.TModel.objects.create(name='child_b', test=self.parent)
+        self.factory = RequestFactory()
+
+    def _view_class(self):
+        class GroupedView(AlightGroupQuerySetView):
+            group_by_related = 'test'
+            related_field_name = 'name'
+            search_fields = ['name']
+        return GroupedView
+
+    def _get(self, q=''):
+        view = self._view_class().as_view(model=self.TModel)
+        request = self.factory.get('/', {'q': q})
+        request.user = User()
+        return view(request)
+
+    def test_group_header_rendered(self):
+        r = self._get(q='child')
+        self.assertIn('autocomplete-light-group', r.content.decode())
+
+    def test_group_header_contains_parent_name(self):
+        r = self._get(q='child')
+        self.assertIn('parent_grp', r.content.decode())
+
+    def test_items_in_group_have_data_value(self):
+        r = self._get(q='child')
+        content = r.content.decode()
+        self.assertIn('data-value="%s"' % self.child1.pk, content)
+        self.assertIn('data-value="%s"' % self.child2.pk, content)
+
+    def test_content_type_is_html(self):
+        r = self._get(q='child')
+        self.assertEqual(r['Content-Type'], 'text/html; charset=utf-8')
+
+    def test_raises_without_group_by_related(self):
+        from django.core.exceptions import ImproperlyConfigured
+        view = AlightGroupQuerySetView.as_view(model=self.TModel)
+        request = self.factory.get('/')
+        request.user = User()
+        with self.assertRaises(ImproperlyConfigured):
+            view(request)
+
+
+# ---------------------------------------------------------------------------
+# AlightGroupListView
+# ---------------------------------------------------------------------------
+
+class AlightGroupListViewTest(TestCase):
+    """AlightGroupListView renders grouped HTML fragments from a list."""
+
+    class CountryView(AlightGroupListView):
+        def get_list(self):
+            return [
+                ('Europe', 'France'),
+                ('Europe', 'Germany'),
+                ('Asia', 'Japan'),
+                ('Asia', 'China'),
+                'Ungrouped',
+            ]
+
+    class TupleValueView(AlightGroupListView):
+        def get_list(self):
+            return [
+                ('Fruit', ('a', 'Apple')),
+                ('Fruit', ('b', 'Banana')),
+            ]
+
+    def _get(self, view_cls, q=''):
+        factory = RequestFactory()
+        request = factory.get('/', {'q': q})
+        request.user = get_user_model()()
+        return view_cls.as_view()(request)
+
+    def test_group_header_rendered(self):
+        r = self._get(self.CountryView)
+        self.assertIn('autocomplete-light-group', r.content.decode())
+
+    def test_group_header_text(self):
+        r = self._get(self.CountryView)
+        content = r.content.decode()
+        self.assertIn('Europe', content)
+        self.assertIn('Asia', content)
+
+    def test_items_under_group(self):
+        r = self._get(self.CountryView)
+        content = r.content.decode()
+        self.assertIn('data-value="France"', content)
+        self.assertIn('data-value="Japan"', content)
+
+    def test_ungrouped_items_appear_first(self):
+        r = self._get(self.CountryView)
+        content = r.content.decode()
+        # 'Ungrouped' should appear before any group header
+        ungrouped_pos = content.index('Ungrouped')
+        group_pos = content.index('autocomplete-light-group')
+        self.assertLess(ungrouped_pos, group_pos)
+
+    def test_filters_by_query(self):
+        r = self._get(self.CountryView, q='Fran')
+        content = r.content.decode()
+        self.assertIn('France', content)
+        self.assertNotIn('Germany', content)
+        self.assertNotIn('Japan', content)
+
+    def test_tuple_value_label(self):
+        r = self._get(self.TupleValueView)
+        content = r.content.decode()
+        self.assertIn('data-value="a"', content)
+        self.assertIn('Apple', content)
+
+    def test_content_type_is_html(self):
+        r = self._get(self.CountryView)
+        self.assertEqual(r['Content-Type'], 'text/html; charset=utf-8')
+
+
+# ---------------------------------------------------------------------------
+# AlightListView POST edge cases
+# ---------------------------------------------------------------------------
+
+class AlightListViewPostEdgeCasesTest(TestCase):
+    class ViewWithCreate(AlightListView):
+        def get_list(self):
+            return ['a', 'b']
+
+        def create(self, text):
+            return None  # simulate failure
+
+    def test_post_missing_text_returns_400(self):
+        factory = RequestFactory()
+        request = factory.post('/', {})  # no 'text' key
+        request.user = get_user_model()()
+        r = self.ViewWithCreate.as_view()(request)
+        self.assertEqual(r.status_code, 400)
+
+    def test_post_create_returns_none_gives_400(self):
+        factory = RequestFactory()
+        request = factory.post('/', {'text': 'new_value'})
+        request.user = get_user_model()()
+        r = self.ViewWithCreate.as_view()(request)
+        self.assertEqual(r.status_code, 400)
+
+    def test_post_without_create_method_raises(self):
+        from django.core.exceptions import ImproperlyConfigured
+
+        class PlainView(AlightListView):
+            def get_list(self):
+                return ['a']
+
+        factory = RequestFactory()
+        request = factory.post('/', {'text': 'x'})
+        request.user = get_user_model()()
+        with self.assertRaises(ImproperlyConfigured):
+            PlainView.as_view()(request)
+
+
+# ---------------------------------------------------------------------------
+# TaggitAlight widget
+# ---------------------------------------------------------------------------
+
+class TaggitAlightTest(TestCase):
+    """TaggitAlight differences from TagAlight."""
+
+    def _widget(self):
+        return TaggitAlight(url='/tag-autocomplete/')
+
+    def test_single_tag_gets_trailing_comma(self):
+        w = self._widget()
+        # Simulate a single-tag submission (no comma yet).
+        data = {'tags': ['multi word tag']}
+        result = w.value_from_datadict(data, {}, 'tags')
+        # Should end with a comma so taggit parses "multi word tag" as one tag.
+        self.assertTrue(result.endswith(','), repr(result))
+
+    def test_multi_tag_no_trailing_comma_added(self):
+        w = self._widget()
+        data = {'tags': ['foo', 'bar']}
+        result = w.value_from_datadict(data, {}, 'tags')
+        # Already comma-joined by super(); trailing comma only added for singles.
+        self.assertIn(',', result)
+        # Count commas: "foo,bar" has one comma, which is not a trailing comma.
+        self.assertEqual(result, 'foo,bar')
+
+    def test_option_value_plain_string(self):
+        w = self._widget()
+        self.assertEqual(w.option_value('django'), 'django')
+
+    def test_option_value_tagged_item(self):
+        """option_value should unwrap TaggedItem-like objects via .tag.name."""
+
+        class FakeTag:
+            name = 'python'
+
+        class FakeTaggedItem:
+            tag = FakeTag()
+
+        w = self._widget()
+        self.assertEqual(w.option_value(FakeTaggedItem()), 'python')
+
+    def test_empty_value_unchanged(self):
+        w = self._widget()
+        data = {'tags': []}
+        result = w.value_from_datadict(data, {}, 'tags')
+        self.assertEqual(result, '')
