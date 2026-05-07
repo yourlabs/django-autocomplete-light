@@ -1,9 +1,8 @@
+from alight_foreign_key.forms import TForm
+from alight_foreign_key.models import TModel
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views import generic
-
-from alight_foreign_key.forms import TForm
-from alight_foreign_key.models import TModel
 
 
 class UpdateView(generic.UpdateView):

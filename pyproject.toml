@@ -48,7 +48,7 @@ where = ["src"]
 
 [tool.ruff]
 line-length = 88
-exclude = ["src/dal_alight/static/dal_alight"]
+exclude = ["src/dal_alight/static/dal_alight", "test_project/public/static/dal_alight"]
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "C90", "I", "N", "T10"]

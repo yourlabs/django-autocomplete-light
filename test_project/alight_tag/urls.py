@@ -2,7 +2,6 @@ from django.urls import re_path as url
 
 from dal import autocomplete
 
-
 TAGS = ['django', 'python', 'javascript', 'css']
 
 

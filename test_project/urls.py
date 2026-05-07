@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^alight_list/', include('alight_list.urls')),
     url(r'^alight_tag/', include('alight_tag.urls')),
     url(r'^alight_one_to_one/', include('alight_one_to_one.urls')),
-    url(r'^alight_forward_different_fields/', include('alight_forward_different_fields.urls')),
+    url(r'^alight_forward_different_fields/', include('alight_forward_different_fields.urls')),  # noqa: E501
     url(r'^alight_rename_forward/', include('alight_rename_forward.urls')),
     url(r'^alight_secure_data/', include('alight_secure_data.urls')),
     url(r'^alight_outside_admin/', include('alight_outside_admin.urls')),

@@ -38,7 +38,7 @@ class AlightGenericForeignKeyModelField(QuerySetSequenceModelField):
                                for model in model_choice]
             kwargs['queryset'] = QuerySetSequence(*models_queryset)
 
-        super(AlightGenericForeignKeyModelField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def as_url(self, form):
         """Return url pattern for the auto-generated autocomplete view."""

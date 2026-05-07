@@ -1,7 +1,5 @@
 from django import http, test
-
 from django.urls import reverse
-
 from taggit.models import Tag
 
 from .forms import TForm
