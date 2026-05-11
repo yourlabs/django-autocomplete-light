@@ -5,7 +5,7 @@ from dal import autocomplete
 
 class TModelListView(autocomplete.AlightListView):
     def get_list(self):
-        return ['apple', 'grape', 'apricot', 'orange']
+        return ['apple', 'mango', 'apricot', 'orange']
 
     def create(self, text):
         return text

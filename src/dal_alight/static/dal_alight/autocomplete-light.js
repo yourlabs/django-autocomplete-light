@@ -47,8 +47,8 @@ class AutocompleteLight extends HTMLElement {
       this.input.setAttribute('aria-expanded', 'false')
       return
     }
-    // clear any unsent xhr
-    this.xhr && this.xhr.readyState === 0 && this.xhr.abort()
+    // abort any pending or in-flight xhr so stale responses never overwrite the box
+    this.xhr && this.xhr.readyState !== 4 && this.xhr.abort()
     // clear any planned xhr
     this.timeoutId && window.clearTimeout(this.timeoutId)
     // debounce: 200ms

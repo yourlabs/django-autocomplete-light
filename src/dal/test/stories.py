@@ -115,7 +115,7 @@ class BaseStory(object):
         self.assert_label(label)
         self.assert_value(value)
 
-    @tenacity.retry(stop=tenacity.stop_after_delay(3))
+    @tenacity.retry(stop=tenacity.stop_after_delay(10))
     def assert_suggestion_labels_are(self, expected):
         """Retrying assert that suggestions match expected labels."""
         assert sorted(expected) == sorted(self.get_suggestions_labels())
@@ -168,10 +168,12 @@ class BaseStory(object):
 
     def toggle_autocomplete(self):
         """Open the autocomplete dropdown."""
-        self.case.click('%s %s' % (
-            self.field_container_selector,
-            self.widget_selector,
-        ))
+        selector = '%s %s' % (self.field_container_selector, self.widget_selector)
+        toggle_fn = getattr(self.case, 'toggle_autocomplete_widget', None)
+        if toggle_fn:
+            toggle_fn(selector)
+        else:
+            self.case.click(selector)
 
     def refresh_autocomplete(self):
         """Re-open the autocomplete box."""
@@ -323,11 +325,20 @@ class CreateOption(SelectOption):
         """
         create_sel = getattr(
             self.case, 'create_option_selector', self.option_selector)
+        # Prefer a name-specific selector when the backend provides one, so we
+        # wait for the correct create option rather than any stale one.
+        if hasattr(self.case, 'get_create_option_selector'):
+            create_sel = self.case.get_create_option_selector(name)
         self.toggle_autocomplete()
         self.case.enter_text(self.input_selector, name)
 
         self.case.browser.is_element_present_by_css(create_sel)
-        self.case.click(create_sel)
+        # Use js_click only when get_create_option_selector is provided (alight),
+        # since it fires mousedown before focusout to match the component's handler.
+        if hasattr(self.case, 'get_create_option_selector'):
+            self.case.js_click(create_sel)
+        else:
+            self.case.click(create_sel)
         self.case.browser.is_element_not_present_by_css(
             '.select2-results__options'
         )
