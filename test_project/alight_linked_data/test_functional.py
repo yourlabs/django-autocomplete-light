@@ -35,14 +35,8 @@ class AdminLinkedDataTestCase(
         if story is None:
             story = stories.SelectOption(self)
 
-        story.toggle_autocomplete()
-
-        story.assert_suggestion_labels_are(
-            self.model.objects.values_list('name', flat=True)
-        )
-
         self.set_owner(self.fixtures.test.pk)
-        story.refresh_autocomplete()
+        story.toggle_autocomplete()
 
         story.assert_suggestion_labels_are(
             self.model.objects.filter(

@@ -25,6 +25,10 @@ class AdminRenameForwardTest(
         self.get(url=self.get_modeladmin_url('add'))
 
     def test_filtered_options(self):
+        self.browser.execute_script(
+            "document.querySelector('[name=owner]').value = %d"
+            % self.fixtures.test.pk
+        )
         story = stories.SelectOption(self)
         story.toggle_autocomplete()
 

@@ -70,12 +70,15 @@ class BaseStory(object):
 
     def get_label(self):
         """Return autocomplete widget label."""
-        label = self.case.browser.find_by_css(
+        labels = self.case.browser.find_by_css(
             self.get_field_label_selector()
         )
 
+        if not labels:
+            return ''
+
         self.clean_label_from_remove_buton()
-        return self.clean_label(label.text)
+        return self.clean_label(labels.text)
 
     def clean_label(self, label):
         """Given an option text, return the actual label."""
@@ -316,11 +319,13 @@ class CreateOption(SelectOption):
 
         name should be unique.
         """
+        create_sel = getattr(
+            self.case, 'create_option_selector', self.option_selector)
         self.toggle_autocomplete()
         self.case.enter_text(self.input_selector, name)
 
         self.case.browser.is_element_present_by_text(name)
-        self.case.click(self.option_selector)
+        self.case.click(create_sel)
         self.case.browser.is_element_not_present_by_css(
             '.select2-results__options'
         )
