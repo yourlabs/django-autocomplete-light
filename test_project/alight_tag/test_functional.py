@@ -15,7 +15,6 @@ class AdminTagTestCase(
     def setUp(self):
         super().setUp()
         self.get(url=self.get_modeladmin_url('add'))
-        self.browser.fill('name', 'tag_test_%s' % self.id())
 
     def test_can_add_existing_tag(self):
         story = stories.SelectOption(self)

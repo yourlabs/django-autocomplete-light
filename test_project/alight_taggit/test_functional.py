@@ -13,6 +13,7 @@ class TagAlightAdminTestMixin(AlightStory, case.AdminMixin):
         self.fill_name()
         self.labels = [self.id() + '0', self.id() + '1']
         self.tag_model.objects.create(name=self.labels[0])
+        self.tag_model.objects.create(name=self.labels[1])
 
     def test_can_select_options(self):
         story = stories.SelectOptionMultiple(self)

@@ -2,17 +2,10 @@ from django.urls import re_path as url
 
 from dal import autocomplete
 
-from .models import TModel
-
 
 class TModelListView(autocomplete.AlightListView):
     def get_list(self):
-        return list(
-            TModel.objects.exclude(test__isnull=True)
-            .exclude(test='')
-            .values_list('test', flat=True)
-            .distinct()
-        )
+        return ['apple', 'pineapple', 'apricot', 'orange']
 
     def create(self, text):
         return text

@@ -39,6 +39,8 @@ class AlightStory:
     dropdown_selector = '.autocomplete-light-box'
     # Selectable result items (excludes create / group headers).
     option_selector = '.autocomplete-light-box [data-value]:not([data-create])'
+    # All result items including create-on-the-fly entry.
+    create_option_selector = '.autocomplete-light-box [data-value]'
     # Currently selected value label in the deck (single-select).
     label_selector = 'autocomplete-select [slot=deck] [data-value]'
     # Deck items (multiple-select).
