@@ -423,7 +423,10 @@ class InlineSelectOptionMultiple(MultipleMixin, InlineSelectOption):
             **kwargs
         )
 
-        self.input_selector = '%s %s' % (
-            self.field_container_selector,
-            self.input_selector,
-        )
+        # InlineSelectOption already scoped input_selector when
+        # input_in_field_container is True; avoid scoping it a second time.
+        if not getattr(case, 'input_in_field_container', False):
+            self.input_selector = '%s %s' % (
+                self.field_container_selector,
+                self.input_selector,
+            )
