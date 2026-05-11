@@ -82,6 +82,8 @@ class BaseStory(object):
 
     def clean_label(self, label):
         """Given an option text, return the actual label."""
+        if hasattr(self.case, 'clean_label'):
+            return self.case.clean_label(label)
         return label.replace('%20', ' ')
 
     @tenacity.retry(stop=tenacity.stop_after_delay(3))
@@ -187,7 +189,7 @@ class BaseStory(object):
                 return 'Searching' in options[0].text
             except StaleElementReferenceException:
                 return True
-            except IndexError:
+            except Exception:
                 return True
 
         options = get_options()
@@ -324,7 +326,7 @@ class CreateOption(SelectOption):
         self.toggle_autocomplete()
         self.case.enter_text(self.input_selector, name)
 
-        self.case.browser.is_element_present_by_text(name)
+        self.case.browser.is_element_present_by_css(create_sel)
         self.case.click(create_sel)
         self.case.browser.is_element_not_present_by_css(
             '.select2-results__options'
