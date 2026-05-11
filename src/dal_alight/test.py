@@ -39,8 +39,8 @@ class AlightStory:
     dropdown_selector = '.autocomplete-light-box'
     # Selectable result items (excludes create / group headers).
     option_selector = '.autocomplete-light-box [data-value]:not([data-create])'
-    # All result items including create-on-the-fly entry.
-    create_option_selector = '.autocomplete-light-box [data-value]'
+    # Create-on-the-fly entry only (has data-create attribute).
+    create_option_selector = '.autocomplete-light-box [data-create]'
     # Currently selected value label in the deck (single-select).
     label_selector = 'autocomplete-select [slot=deck] [data-value]'
     # Deck items (multiple-select).
@@ -51,6 +51,15 @@ class AlightStory:
     widget_selector = 'autocomplete-select-input input'
     # The outer web component element.
     container_selector = 'autocomplete-select'
+
+    def get_create_option_selector(self, name):
+        """Return a selector for the create option that matches ``name`` exactly.
+
+        Using ``[data-value="name"]`` prevents clicking a stale create option
+        left over from a previous query before the new XHR has returned.
+        """
+        escaped = name.replace('"', '\\"')
+        return f'.autocomplete-light-box [data-create][data-value="{escaped}"]'
 
     def wait_script(self):
         """Wait until the autocomplete-select custom element is registered."""
@@ -69,6 +78,24 @@ class AlightStory:
         raise Exception(
             'autocomplete-select custom element was not defined after 15 seconds.'
         )
+
+    def toggle_autocomplete_widget(self, selector):
+        """Open the autocomplete, ensuring focus fires even if already focused.
+
+        For alight, ``focus`` on the text input is what triggers the XHR.
+        When the input already has focus (e.g. after a previous call in
+        ``refresh_autocomplete``), a plain Selenium click does not re-fire
+        ``focus``.  Blurring first resets the focus state so the subsequent
+        click fires a real ``focus`` event and starts a fresh XHR.
+        """
+        self.browser.execute_script(
+            """
+            var el = document.querySelector(arguments[0]);
+            if (el && document.activeElement === el) { el.blur(); }
+            """,
+            selector,
+        )
+        self.click(selector)
 
     def clean_label(self, label):
         """Remove the × clear button text from a label string."""

@@ -1,5 +1,6 @@
 """Test case for autocomplete implementations."""
 
+import time
 import uuid
 
 import pytest
@@ -41,6 +42,34 @@ class AutocompleteTestCase(StaticLiveServerTestCase):
             element._element,
         )
         element.click()
+
+    def js_click(self, selector):
+        """Atomically find + click via JS, firing mousedown before focusout.
+
+        Use this for autocomplete box options whose handlers listen on
+        ``mousedown`` (which fires before ``focusout``).  Selenium's normal
+        click can trigger ``focusout`` first, hiding the box before the handler
+        runs.  A single ``execute_script`` call has no Python round-trips and
+        is immune to stale-element races.
+        """
+        deadline = time.time() + 5
+        while time.time() < deadline:
+            found = self.browser.execute_script(
+                """
+                var el = document.querySelector(arguments[0]);
+                if (!el) return false;
+                el.scrollIntoView({block: 'center'});
+                el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true}));
+                el.dispatchEvent(new MouseEvent('mouseup',   {bubbles: true, cancelable: true}));
+                el.dispatchEvent(new MouseEvent('click',     {bubbles: true, cancelable: true}));
+                return true;
+                """,
+                selector,
+            )
+            if found:
+                return
+            time.sleep(0.05)
+        raise Exception('Element not found after 5s: %s' % selector)
 
     def enter_text(self, selector, text):
         """Enter text in an element by css selector."""
