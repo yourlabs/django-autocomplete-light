@@ -185,11 +185,11 @@ class BaseStory(object):
             return self.case.browser.find_by_css(self.option_selector)
 
         def is_searching(options):
+            if not options:
+                return False
             try:
                 return 'Searching' in options[0].text
             except StaleElementReferenceException:
-                return True
-            except Exception:
                 return True
 
         options = get_options()
