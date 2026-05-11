@@ -241,6 +241,14 @@ class InlineSelectOption(SelectOption):
             self.field_name
         )
 
+        # Scope input_selector to the inline container when the widget
+        # embeds its text input inside the field (e.g. alight), rather than
+        # in a global dropdown (e.g. select2 whose .select2-search__field
+        # lives outside the field container).
+        if getattr(case, 'input_in_field_container', False):
+            self.input_selector = '%s %s' % (
+                self.field_container_selector, self.input_selector)
+
         # Ensure the inline is displayed else click to add it
         add = self.case.browser.links.find_by_partial_text('Add another').first
 

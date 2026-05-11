@@ -29,6 +29,10 @@ class AlightStory:
         </div>
     """
 
+    # The text input lives inside the widget, not in a global dropdown.
+    # This lets InlineSelectOption scope enter_text to the field container.
+    input_in_field_container = True
+
     # Text input embedded inside the web component.
     input_selector = 'autocomplete-select-input input'
     # Floating dropdown box appended to body.

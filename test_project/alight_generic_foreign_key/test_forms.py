@@ -81,7 +81,7 @@ class GenericFormTest(test.TestCase):  # noqa
         self.assertIn('</autocomplete-select>', result)
 
         # The autocomplete URL for this field should be present
-        self.assertIn(reverse('TForm_autocomp_test'), result)
+        self.assertIn(reverse('alight_TForm_autocomp_test'), result)
 
         # The pre-selected value should be present
         self.assertIn(str(self.get_value(relation)), result)
