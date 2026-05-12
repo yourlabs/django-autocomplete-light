@@ -69,7 +69,8 @@ class AlightStory:
             try:
                 result = self.browser.evaluate_script(
                     "customElements.get('autocomplete-select') !== undefined"
-                    " && !document.querySelector('autocomplete-select-input:not([data-bound])') "
+                    " && !document.querySelector("
+                    "'autocomplete-select-input:not([data-bound])') "
                 )
                 if result:
                     return result
