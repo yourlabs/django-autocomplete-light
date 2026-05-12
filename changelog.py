@@ -1,11 +1,9 @@
-from datetime import datetime
-from github import Github
-from pprint import pprint
 import os
 import re
-import requests
 import subprocess
 import sys
+
+from github import Github
 
 g = Github(os.getenv('GITHUB_TOKEN'))
 repo = g.get_repo('yourlabs/django-autocomplete-light')

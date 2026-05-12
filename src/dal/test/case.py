@@ -59,9 +59,12 @@ class AutocompleteTestCase(StaticLiveServerTestCase):
                 var el = document.querySelector(arguments[0]);
                 if (!el) return false;
                 el.scrollIntoView({block: 'center'});
-                el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true}));
-                el.dispatchEvent(new MouseEvent('mouseup',   {bubbles: true, cancelable: true}));
-                el.dispatchEvent(new MouseEvent('click',     {bubbles: true, cancelable: true}));
+                el.dispatchEvent(
+                    new MouseEvent('mousedown', {bubbles: true, cancelable: true}));
+                el.dispatchEvent(
+                    new MouseEvent('mouseup', {bubbles: true, cancelable: true}));
+                el.dispatchEvent(
+                    new MouseEvent('click', {bubbles: true, cancelable: true}));
                 return true;
                 """,
                 selector,

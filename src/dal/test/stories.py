@@ -344,7 +344,8 @@ class CreateOption(SelectOption):
             deadline = time.time() + 5
             while time.time() < deadline:
                 count = self.case.browser.evaluate_script(
-                    'document.querySelectorAll("%s option").length' % self.field_selector
+                    'document.querySelectorAll("%s option").length'
+                    % self.field_selector
                 )
                 if count > initial_count:
                     break
