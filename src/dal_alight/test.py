@@ -62,12 +62,14 @@ class AlightStory:
         return f'.autocomplete-light-box [data-create][data-value="{escaped}"]'
 
     def wait_script(self):
-        """Wait until the autocomplete-select custom element is registered."""
+        """Wait until the autocomplete-select custom element is registered and all
+        autocomplete-select-input instances have completed connectedCallback."""
         tries = 100
         while tries:
             try:
                 result = self.browser.evaluate_script(
                     "customElements.get('autocomplete-select') !== undefined"
+                    " && !document.querySelector('autocomplete-select-input:not([data-bound])') "
                 )
                 if result:
                     return result

@@ -332,16 +332,32 @@ class CreateOption(SelectOption):
         self.toggle_autocomplete()
         self.case.enter_text(self.input_selector, name)
 
-        self.case.browser.is_element_present_by_css(create_sel)
-        # Use js_click only when get_create_option_selector is provided (alight),
-        # since it fires mousedown before focusout to match the component's handler.
         if hasattr(self.case, 'get_create_option_selector'):
+            # alight: wait for the name-specific create option, then use
+            # js_click (atomic mousedown/up/click) to avoid the focusout race,
+            # then wait for the new <option> to confirm AJAX completion.
+            self.case.browser.is_element_present_by_css(create_sel)
+            initial_count = self.case.browser.evaluate_script(
+                'document.querySelectorAll("%s option").length' % self.field_selector
+            )
             self.case.js_click(create_sel)
+            deadline = time.time() + 5
+            while time.time() < deadline:
+                count = self.case.browser.evaluate_script(
+                    'document.querySelectorAll("%s option").length' % self.field_selector
+                )
+                if count > initial_count:
+                    break
+                time.sleep(0.1)
         else:
-            self.case.click(create_sel)
-        self.case.browser.is_element_not_present_by_css(
-            '.select2-results__options'
-        )
+            # Select2: wait until the create option text appears (robust against
+            # stale "Searching…" results), then click and wait for the dropdown
+            # to close (Select2 calls select2('close') on AJAX success).
+            self.case.browser.is_element_present_by_text(name)
+            self.case.click(self.option_selector)
+            self.case.browser.is_element_not_present_by_css(
+                '.select2-results__options'
+            )
 
 
 class MultipleMixin(object):

@@ -45,7 +45,7 @@
     var f = fields[0]
     if (f.type === 'checkbox') return f.checked
     if (f.multiple) return Array.from(f.selectedOptions).map(function (o) { return o.value })
-    return f.value || undefined
+    return f.value !== '' ? f.value : undefined
   }
 
   /**

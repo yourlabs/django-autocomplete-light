@@ -27,7 +27,7 @@ class AdminLinkedDataTestCase(
 
     def set_owner(self, value):
         self.browser.execute_script(
-            'document.querySelector("[name=%s]").value = %s'
+            'document.querySelector(\'[name="%s"]\').value = %s'
             % (self.prefix + 'owner', value)
         )
 
