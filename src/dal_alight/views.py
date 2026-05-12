@@ -83,15 +83,16 @@ class AlightGroupQuerySetView(AlightQuerySetView):
     group_by_related = None
     related_field_name = 'name'
 
-    def render_to_response(self, context):
+    def get_queryset(self):
         if not self.group_by_related:
             raise ImproperlyConfigured('Missing group_by_related.')
-
-        groups = OrderedDict()
-        qs = context['object_list'].annotate(
+        return super().get_queryset().annotate(
             _group_name=F(f'{self.group_by_related}__{self.related_field_name}')
         )
-        for result in qs:
+
+    def render_to_response(self, context):
+        groups = OrderedDict()
+        for result in context['object_list']:
             groups.setdefault(getattr(result, '_group_name'), []).append(result)
 
         html = []
