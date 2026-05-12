@@ -18,7 +18,9 @@ User = get_user_model()
 
 def _make_view(model_choice):
     """Return a concrete AlightQuerySetSequenceAutoView subclass."""
-    return type('AutoView', (AlightQuerySetSequenceAutoView,), {'model_choice': model_choice})
+    return type(
+        'AutoView', (AlightQuerySetSequenceAutoView,), {'model_choice': model_choice}
+    )
 
 
 class AlightQuerySetSequenceViewTest(TestCase):
