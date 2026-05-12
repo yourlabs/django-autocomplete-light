@@ -88,18 +88,12 @@ class AlightQuerySetSequenceAutoView(AlightQuerySetSequenceView):
             }
             forward_filtered = [Q(**kwargs_model)]
 
-            try:
-                forward_fields = model_args[2]
-                for forward in forward_fields:
-                    field_value = self.forwarded.get(forward[0])
-                    if field_value is None:
-                        continue
-                    field_key = '{}__icontains'.format(forward[1])
-                    forward_filtered.append(Q(**{field_key: field_value}))
-            except IndexError:
-                # No list on the 3rd index of self.model_choice
-                # (reserved for forwarding fields).
-                pass
+            for forward in model_args[2] if len(model_args) > 2 else []:
+                field_value = self.forwarded.get(forward[0])
+                if field_value is None:
+                    continue
+                field_key = '{}__icontains'.format(forward[1])
+                forward_filtered.append(Q(**{field_key: field_value}))
 
             # Combine filters with AND.
             and_forward_filtered = reduce(lambda x, y: x & y, forward_filtered)

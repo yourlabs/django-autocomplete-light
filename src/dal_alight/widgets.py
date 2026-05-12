@@ -47,21 +47,14 @@ class AlightWidgetMixin:
         attrs.setdefault('slot', 'select')
         widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
         deck = '<span slot="deck"></span>'
-        if self.url:
-            input_el = format_html(
-                '<autocomplete-select-input slot="input" url="{}">'
-                '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'  # noqa: E501
-                '</autocomplete-select-input>',
-                self.url,
-                name,
-            )
-        else:
-            input_el = format_html(
-                '<autocomplete-select-input slot="input">'
-                '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'  # noqa: E501
-                '</autocomplete-select-input>',
-                name,
-            )
+        url_attr = format_html(' url="{}"', self.url) if self.url else ''
+        input_el = format_html(
+            '<autocomplete-select-input slot="input"{}>'
+            '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'  # noqa: E501
+            '</autocomplete-select-input>',
+            url_attr,
+            name,
+        )
         return widget + deck + input_el
 
 
@@ -91,11 +84,12 @@ class AlightInitialRenderMixin:
             finally:
                 self.choices.queryset = original_queryset
         else:
-            existing = dict(self.choices)
+            choices_list = list(self.choices)
+            existing = dict(choices_list)
             extended = [(v, v) for v in values if v not in existing]
             if extended:
                 original_choices = self.choices
-                self.choices = list(self.choices) + extended
+                self.choices = choices_list + extended
                 try:
                     return super().render(name, values, attrs=attrs, renderer=renderer)
                 finally:
