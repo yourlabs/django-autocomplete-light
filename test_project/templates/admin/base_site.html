@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{{ title }} | {{ site_header|default:_('Django administration') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}
+{% if user.is_staff %}
+<div class="dal-admin-search">
+  <autocomplete-light url="{% url 'admin-global-search' %}" minimum-characters="2">
+    <input slot="input" type="text"
+           placeholder="{% trans 'Search objects…' %}"
+           autocomplete="off"
+           aria-label="{% trans 'Global object search' %}">
+  </autocomplete-light>
+</div>
+<script>
+document.addEventListener('autocompleteChoiceSelected', function(ev) {
+  var url = ev.detail.choice.dataset.url
+  if (url) window.location.href = url
+})
+</script>
+{% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'dal_alight/autocomplete-light.css' %}">
+<script src="{% static 'dal_alight/autocomplete-light.js' %}"></script>
+<style>
+/* push user-tools to the end so the search bar can sit in the middle */
+#user-tools { order: 3; }
+.dal-admin-search {
+  order: 2;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 16px;
+}
+.dal-admin-search autocomplete-light {
+  display: block;
+  width: 280px;
+}
+.dal-admin-search input[slot="input"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 13px;
+}
+.dal-admin-search input[slot="input"]::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+.dal-admin-search input[slot="input"]:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+</style>
+{% endblock %}
