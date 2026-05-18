@@ -23,3 +23,8 @@ node_modules
 # Claude Code
 .claude/
 .python-version
+
+# SQLite databases
+*.sqlite3
+*.sqlite
+*.db
