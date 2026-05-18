@@ -13,6 +13,11 @@ class AlightOutsideAdminTestCase(
     field_name = 'test'
     model = TModel
     labels_selector = 'autocomplete-select [slot=deck] [data-value]'
+    # No Django admin wrapper on this page — the autocomplete sits in a plain
+    # <p> tag, so the default 'fieldset.aligned .field-test' container selector
+    # would find nothing. An empty string makes BaseStory use the widget
+    # selector alone, which matches the first autocomplete on the page.
+    field_container_selector = ''
 
     def setUp(self):
         super().setUp()

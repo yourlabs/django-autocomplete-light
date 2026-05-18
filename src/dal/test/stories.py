@@ -34,8 +34,10 @@ class BaseStory(object):
         self.option_selector = option_selector or self.case.option_selector
         self.widget_selector = widget_selector or self.case.widget_selector
 
-        self.field_container_selector = ('fieldset.aligned .field-%s' %
-                                         self.field_name)
+        default_container = 'fieldset.aligned .field-%s' % self.field_name
+        self.field_container_selector = getattr(
+            case, 'field_container_selector', default_container
+        )
         self.field_selector = '#id_%s' % self.field_name
         self.field_clear_selector = '%s %s' % (
             self.field_container_selector,
@@ -279,6 +281,10 @@ class InlineSelectOption(SelectOption):
                 continue
 
             num += 1
+            # Wait for any newly-connected web components (e.g. alight) to
+            # finish their connectedCallback before the next interaction.
+            if hasattr(self.case, 'wait_script'):
+                self.case.wait_script()
 
 
 class RenameOption(SelectOption):
