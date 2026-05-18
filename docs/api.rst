@@ -108,3 +108,30 @@ Fields
 .. automodule:: dal_select2_taggit.widgets
    :members:
 
+dal_alight
+==========
+
+Views
+-----
+
+.. automodule:: dal_alight.views
+   :members:
+
+Widgets
+-------
+
+.. automodule:: dal_alight.widgets
+   :members:
+
+Fields
+------
+
+.. automodule:: dal_alight.fields
+   :members:
+
+Test tools
+----------
+
+.. automodule:: dal_alight.test
+   :members:
+
