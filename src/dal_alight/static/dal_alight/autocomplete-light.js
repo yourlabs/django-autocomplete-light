@@ -304,6 +304,22 @@ class AutocompleteSelectInput extends AutocompleteLight {
     return url
   }
 
+  receive(ev) {
+    if (ev.target.status && !(ev.target.status >= 200 && ev.target.status < 300)) return
+    const selectedValues = new Set(
+      Array.from(this.parentNode.querySelectorAll('option[selected]')).map(o => o.value)
+    )
+    if (selectedValues.size) {
+      const tmp = document.createElement('div')
+      tmp.innerHTML = ev.target.response
+      tmp.querySelectorAll('[data-value]').forEach(item => {
+        if (selectedValues.has(item.getAttribute('data-value'))) item.remove()
+      })
+      ev = {target: {status: ev.target.status, response: tmp.innerHTML}}
+    }
+    super.receive(ev)
+  }
+
   download() {
     if (this.url) {
       return super.download()
@@ -334,6 +350,11 @@ class AutocompleteSelect extends HTMLElement {
       return
     }
 
+    if (this.getAttribute('data-bound')) {
+      this.reconcileState()
+      return
+    }
+
     const attrMax = parseInt(this.getAttribute('max-choices'))
     this.maxChoices = isNaN(attrMax) ? 0 : attrMax
 
@@ -345,12 +366,16 @@ class AutocompleteSelect extends HTMLElement {
       'autocompleteChoiceSelected',
       (ev) => this.choiceSelect(ev.detail.choice)
     )
-    this.input.hidden = this.maxChoices && this.selected.length >= this.maxChoices
 
+    this.reconcileState()
+    this.setAttribute('data-bound', 'true')
+  }
+
+  reconcileState() {
     // ensure all selected options are in deck
     Array.from(
       this.select.querySelectorAll('option[selected]')
-    ).map((option) => {
+    ).forEach((option) => {
       var exists = this.deck.querySelectorAll(
         '[data-value="' + option.getAttribute('value') + '"]'
       )
@@ -365,14 +390,14 @@ class AutocompleteSelect extends HTMLElement {
     // ensure all deck values are in select
     Array.from(
       this.deck.querySelectorAll('[data-value]')
-    ).map((choice) => {
+    ).forEach((choice) => {
       if (!this.select.querySelector('option[value="' + choice.getAttribute('data-value') + '"]')) {
         this.choiceSelect(choice, false)
       }
       this.addClear(choice)
     })
 
-    this.setAttribute('data-bound', 'true')
+    this.input.hidden = this.maxChoices && this.selected.length >= this.maxChoices
   }
 
   get deck() {
