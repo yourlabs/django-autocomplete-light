@@ -62,15 +62,23 @@ class AlightStory:
         return f'.autocomplete-light-box [data-create][data-value="{escaped}"]'
 
     def wait_script(self):
-        """Wait until the autocomplete-select custom element is registered and all
-        autocomplete-select-input instances have completed connectedCallback."""
+        """Wait until all alight web components have finished connectedCallback.
+
+        autocomplete-select.connectedCallback fires before its child
+        autocomplete-select-input's callback (parent-first connection order),
+        so it schedules a 100 ms retry.  We must wait for BOTH elements to
+        have data-bound before interacting: autocomplete-select installs the
+        autocompleteChoiceSelected listener only on its own retry, and
+        clicking an option before that listener exists silently does nothing.
+        """
         tries = 100
         while tries:
             try:
                 result = self.browser.evaluate_script(
                     "customElements.get('autocomplete-select') !== undefined"
                     " && !document.querySelector("
-                    "'autocomplete-select-input:not([data-bound])') "
+                    "'autocomplete-select-input:not([data-bound]),"
+                    " autocomplete-select:not([data-bound])') "
                 )
                 if result:
                     return result
