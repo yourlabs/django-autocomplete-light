@@ -24,6 +24,17 @@ Added a global search bar to the Django admin topbar that searches across all ad
 
 Commit: (this session)
 
+## List behavior: fix tag loss on update
+
+Fixed selected tags reappearing in the dropdown after a list refresh.
+
+- `AutocompleteSelectInput.receive()`: filters already-selected items from server HTML before rendering the dropdown
+- `AutocompleteSelect.reconcileState()`: extracted deck↔select sync logic from `connectedCallback()` into a reusable method
+- `AutocompleteSelect.connectedCallback()`: early-return with `reconcileState()` when `data-bound` is set (handles form re-render / reconnect)
+- Added `test_tags_survive_list_refresh` and `test_tags_dont_appear_in_dropdown_after_selection` to `alight_tag` test suite
+
+Commit: `3d22ad94`
+
 ## Untrack db.sqlite3
 
 Removed `test_project/db.sqlite3` from git tracking and prevented future sqlite files from being committed.
