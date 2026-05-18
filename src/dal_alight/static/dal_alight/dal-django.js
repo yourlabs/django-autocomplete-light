@@ -234,6 +234,40 @@
     })
   }
 
+  // --- Dark mode toggle -------------------------------------------------------
+
+  window.AutocompleteLightDarkMode = {
+    STORAGE_KEY: 'alight-dark-mode',
+
+    initialize: function () {
+      var stored = localStorage.getItem(this.STORAGE_KEY)
+      if (stored === 'dark') {
+        document.documentElement.classList.add('alight-dark-mode')
+      } else if (stored === 'light') {
+        document.documentElement.classList.remove('alight-dark-mode')
+      } else {
+        // Follow system preference when no explicit user choice is stored.
+        var mq = window.matchMedia('(prefers-color-scheme: dark)')
+        if (mq.matches) document.documentElement.classList.add('alight-dark-mode')
+        mq.addEventListener('change', function (e) {
+          if (localStorage.getItem('alight-dark-mode')) return
+          document.documentElement.classList.toggle('alight-dark-mode', e.matches)
+        })
+      }
+    },
+
+    toggle: function () {
+      var isDark = document.documentElement.classList.toggle('alight-dark-mode')
+      localStorage.setItem(this.STORAGE_KEY, isDark ? 'dark' : 'light')
+    },
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    window.AutocompleteLightDarkMode.initialize()
+  })
+
+  // --- Django admin popup sync -----------------------------------------------
+
   document.addEventListener('DOMContentLoaded', function () {
     // Initial state for selects that already have a value (edit forms).
     document.querySelectorAll('autocomplete-select select').forEach(function (select) {
