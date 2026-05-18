@@ -43,3 +43,11 @@ Removed `test_project/db.sqlite3` from git tracking and prevented future sqlite 
 - Added wildcard patterns to `.gitignore`: `*.sqlite3`, `*.sqlite`, `*.db`
 
 Commit: `5312239f`
+
+## Verify taggit integration
+
+Verified `TaggitAlight` / `AlightQuerySetView` integration is production-ready (5/5 tests green, parity with `dal_select2_taggit`). Closed the three remaining gaps:
+
+- Added `AlightTagAutocompleteView` convenience base class to `src/dal_alight/views.py` — overrides `get_result_value()` to return `result.name`; exported from `dal.autocomplete`
+- Added `test_project/alight_taggit/test_edge_cases.py` — 4 new form-level tests: unicode tag names, HTML special-char tag names, 99-char tag names, tag removal
+- Extended `docs/taggit.rst` with Alight view and form examples (using `AlightTagAutocompleteView` and `TaggitAlight`)

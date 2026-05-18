@@ -45,6 +45,7 @@ if _installed('dal_alight'):
         AlightGroupQuerySetView,
         AlightListView,
         AlightQuerySetView,
+        AlightTagAutocompleteView,
     )
     from dal_alight.fields import (
         AlightListChoiceField,
