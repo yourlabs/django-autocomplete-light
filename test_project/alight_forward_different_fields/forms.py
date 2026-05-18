@@ -56,4 +56,4 @@ class TForm(forms.ModelForm):
         )
 
     class Media:
-        js = ('js_handlers.js',)
+        js = ('js/js_handlers.js',)

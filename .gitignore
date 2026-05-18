@@ -28,3 +28,6 @@ node_modules
 *.sqlite3
 *.sqlite
 *.db
+
+# collectstatic output
+test_project/public/
