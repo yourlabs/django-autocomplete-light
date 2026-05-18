@@ -346,11 +346,19 @@ class AutocompleteSelect extends HTMLElement {
 
   connectedCallback(retries = 20) {
     if (!this.select || !this.input.input) {
+      // Strip data-bound while waiting for children — it may have been
+      // inherited from a cloneNode(true), which would make wait_script()
+      // return too early before full init completes in the retry.
+      this.removeAttribute('data-bound')
       if (retries > 0) setTimeout(() => this.connectedCallback(retries - 1), 100)
       return
     }
 
-    if (this.getAttribute('data-bound')) {
+    // Use an instance property (not the attribute) to guard against
+    // double-init on legitimate reconnects of already-initialised elements.
+    // cloneNode(true) copies attributes but NOT instance properties, so
+    // cloned elements always go through the full setup on their first connect.
+    if (this._initialized) {
       this.reconcileState()
       return
     }
@@ -368,6 +376,7 @@ class AutocompleteSelect extends HTMLElement {
     )
 
     this.reconcileState()
+    this._initialized = true
     this.setAttribute('data-bound', 'true')
   }
 
