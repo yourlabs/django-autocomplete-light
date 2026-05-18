@@ -1,8 +1,8 @@
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from alight_many_to_many.models import TModel
 from django.urls import reverse
 
-from alight_many_to_many.models import TModel
+from dal.test import case, stories
+from dal_alight.test import AlightStory
 
 
 class AlightOutsideAdminTestCase(

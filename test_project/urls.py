@@ -7,7 +7,11 @@ urlpatterns = [
     url(r'^$', views.IndexView.as_view()),
 
     url(r'^admin/', admin.site.urls),
-    url(r'^admin-search/$', views.AdminGlobalSearchView.as_view(), name='admin-global-search'),
+    url(
+        r'^admin-search/$',
+        views.AdminGlobalSearchView.as_view(),
+        name='admin-global-search',
+    ),
     url(r'^login/', views.LoginView.as_view()),
 
     url(r'^alight_foreign_key/', include('alight_foreign_key.urls')),

@@ -10,7 +10,6 @@ from django.contrib import admin
 from django.db.models import Q
 from django.forms.models import ModelChoiceIterator, ModelMultipleChoiceField
 from django.http import HttpResponse, HttpResponseForbidden
-from django.http.response import HttpResponse
 from django.urls import NoReverseMatch, reverse, reverse_lazy
 from django.utils.html import format_html
 from django.views import View, generic
@@ -32,6 +31,44 @@ class AdminGlobalSearchView(View):
 
     max_per_model = 5
 
+    def _search_fields_for(self, model, model_admin):
+        if model_admin.search_fields:
+            return list(model_admin.search_fields)
+        for f in model._meta.fields:
+            if not f.primary_key and f.get_internal_type() in ('CharField', 'TextField'):
+                return [f.name]
+        return []
+
+    def _model_results(self, request, model, model_admin, q):
+        search_fields = self._search_fields_for(model, model_admin)
+        if not search_fields:
+            return []
+        app_label = model._meta.app_label
+        model_name = model._meta.model_name
+        try:
+            qs = model_admin.get_queryset(request)
+            or_queries = [Q(**{'%s__icontains' % f: q}) for f in search_fields]
+            qs = qs.filter(reduce(operator.or_, or_queries))[:self.max_per_model]
+            results = []
+            for obj in qs:
+                try:
+                    url = reverse(
+                        'admin:%s_%s_change' % (app_label, model_name),
+                        args=[obj.pk],
+                    )
+                except NoReverseMatch:
+                    continue
+                results.append(format_html(
+                    '<div data-value="{}" data-url="{}">{}: {}</div>',
+                    obj.pk,
+                    url,
+                    model._meta.verbose_name.capitalize(),
+                    str(obj),
+                ))
+            return results
+        except Exception:
+            return []
+
     def get(self, request):
         if not request.user.is_staff:
             return HttpResponseForbidden()
@@ -45,41 +82,7 @@ class AdminGlobalSearchView(View):
             admin.site._registry.items(),
             key=lambda x: x[0]._meta.verbose_name,
         ):
-            app_label = model._meta.app_label
-            model_name = model._meta.model_name
-
-            search_fields = list(model_admin.search_fields) if model_admin.search_fields else []
-            if not search_fields:
-                for f in model._meta.fields:
-                    if not f.primary_key and f.get_internal_type() in ('CharField', 'TextField'):
-                        search_fields.append(f.name)
-                        break
-
-            if not search_fields:
-                continue
-
-            try:
-                qs = model_admin.get_queryset(request)
-                or_queries = [Q(**{'%s__icontains' % f: q}) for f in search_fields]
-                qs = qs.filter(reduce(operator.or_, or_queries))[:self.max_per_model]
-
-                for obj in qs:
-                    try:
-                        url = reverse(
-                            'admin:%s_%s_change' % (app_label, model_name),
-                            args=[obj.pk],
-                        )
-                    except NoReverseMatch:
-                        continue
-                    html.append(format_html(
-                        '<div data-value="{}" data-url="{}">{}: {}</div>',
-                        obj.pk,
-                        url,
-                        model._meta.verbose_name.capitalize(),
-                        str(obj),
-                    ))
-            except Exception:
-                continue
+            html.extend(self._model_results(request, model, model_admin, q))
 
         return HttpResponse(''.join(html), content_type='text/html; charset=utf-8')
 

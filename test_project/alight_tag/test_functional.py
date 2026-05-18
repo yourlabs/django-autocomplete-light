@@ -57,7 +57,8 @@ class AdminTagTestCase(
         # Clear the text left by select_option, then focus to load all remaining results
         self.browser.find_by_css(self.input_selector).first.value = ''
         story.toggle_autocomplete()
-        story.find_option('python')  # wait for dropdown (server returns all 4, Fix 1 removes django)
+        # wait for dropdown (server returns all 4, Fix 1 removes django)
+        story.find_option('python')
         option_labels = [
             self.clean_label(o.text)
             for o in self.browser.find_by_css(self.option_selector)
