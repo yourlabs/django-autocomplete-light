@@ -40,3 +40,27 @@ class AdminTagTestCase(
             ['django', 'css'],
             ['django', 'css'],
         )
+
+    def test_tags_survive_list_refresh(self):
+        story = stories.SelectOptionMultiple(self)
+        story.select_option('django')
+        story.assert_labels(['django'])
+        # Refresh the dropdown by typing a new query
+        self.enter_text(self.input_selector, 'p')
+        story.find_option('python')  # wait for refreshed results
+        # Deck must be unchanged after dropdown refresh
+        story.assert_labels(['django'])
+
+    def test_tags_dont_appear_in_dropdown_after_selection(self):
+        story = stories.SelectOptionMultiple(self)
+        story.select_option('django')
+        # Clear the text left by select_option, then focus to load all remaining results
+        self.browser.find_by_css(self.input_selector).first.value = ''
+        story.toggle_autocomplete()
+        story.find_option('python')  # wait for dropdown (server returns all 4, Fix 1 removes django)
+        option_labels = [
+            self.clean_label(o.text)
+            for o in self.browser.find_by_css(self.option_selector)
+        ]
+        self.assertNotIn('django', option_labels)
+        self.assertIn('python', option_labels)
