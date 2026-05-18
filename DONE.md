@@ -1,5 +1,13 @@
 # DONE — alight-cleanup
 
+## Add outside-admin view for dal_alight
+
+Completed the `alight_outside_admin` app to match parity with `select2_outside_admin`.
+
+- `views.py`: switched from `alight_foreign_key` to `alight_many_to_many` models/forms to showcase M2M autocomplete (data fixtures already provided by `select2_many_to_many`'s AppConfig)
+- `templates/base.html`: added nav link `{% url 'alight_outside_admin' %}` alongside the select2 link
+- `alight_outside_admin/test_functional.py`: added 3 Selenium tests — page loads with `<autocomplete-select>`, option selection, form submission
+
 ## Dark mode
 
 Added dark mode support to `dal_alight` via CSS custom properties and an optional JS toggle.
