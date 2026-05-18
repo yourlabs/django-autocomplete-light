@@ -48,6 +48,7 @@ where = ["src"]
 
 [tool.ruff]
 line-length = 88
+exclude = ["src/dal_alight/static/dal_alight", "test_project/public/static/dal_alight"]
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "C90", "I", "N", "T10"]
@@ -64,5 +65,6 @@ max-complexity = 8
 "test_project/**" = ["N"]                      # nommage libre dans les tests
 "test_project/settings/__init__.py" = ["F403"] # wildcard import intentionnel
 "test_project/select2_djhacker_formfield/urls.py" = ["E402"]  # imports après init djhacker
+"test_project/alight_djhacker_formfield/urls.py" = ["E402"]  # imports après init djhacker
 "test_project/views.py" = ["E501"]             # URLs longues dans commentaires/HTML
 "**/migrations/**" = ["E501"]                  # fichiers auto-générés

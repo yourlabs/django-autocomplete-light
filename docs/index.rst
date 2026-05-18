@@ -17,6 +17,15 @@ Basics
    install
    tutorial
 
+Backends
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   backends
+   alight
+
 External app support
 --------------------
 

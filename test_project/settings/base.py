@@ -38,6 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # test apps
+    'alight_foreign_key',
+    'alight_many_to_many',
+    'alight_linked_data',
+    'alight_list',
+    'alight_tag',
+    'alight_one_to_one',
+    'alight_forward_different_fields',
+    'alight_rename_forward',
+    'alight_secure_data',
+    'alight_outside_admin',
+    'alight_taggit',
+    'alight_generic_foreign_key',
+    'alight_nestedadmin',
+    'alight_djhacker_formfield',
     'select2_foreign_key',
     'select2_list',
     'select2_generic_foreign_key',
@@ -45,10 +59,10 @@ INSTALLED_APPS = [
     'select2_one_to_one',
     'select2_outside_admin',
     'select2_nestedadmin',
-    'secure_data',
-    'linked_data',
-    'rename_forward',
-    'forward_different_fields',
+    'select2_secure_data',
+    'select2_linked_data',
+    'select2_rename_forward',
+    'select2_forward_different_fields',
     'custom_select2',
     'select2_djhacker_formfield',
 
@@ -57,6 +71,8 @@ INSTALLED_APPS = [
 
     # Autocomplete
     'dal',
+    # Enable plugins
+    'dal_alight',
     'dal_select2',
     'queryset_sequence',
     'dal_queryset_sequence',
@@ -102,6 +118,9 @@ SITE_ID = 1
 
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, 'static'),
+]
 
 TEMPLATES = [
     {

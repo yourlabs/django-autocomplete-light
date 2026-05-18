@@ -1,0 +1,17 @@
+from django import forms
+
+from dal import autocomplete
+
+from .models import TModelThree
+
+
+class TFormThree(forms.ModelForm):
+    class Meta:
+        model = TModelThree
+        fields = ('name', 'test')
+        widgets = {
+            'test': autocomplete.ModelAlight(
+                url='nested_alight_linked_data',
+                forward=('level_one', 'level_two'),
+            )
+        }

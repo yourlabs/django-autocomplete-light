@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{# Don't forget that one ! #}
+{% load static %}
+
+{% block content %}
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div style="display: none" class="formset-empty">
+            {{ view.formset.empty_form }}
+        </div>
+
+        <div class="formset-rows">
+            {{ view.formset }}
+        </div>
+
+        <span id="add-form" class="button">Add form</span>
+
+        <input type="submit" />
+    </form>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+
+<script>
+(function($) {
+    $('#add-form').click(function() {
+        var index = $('#id_inline_test_models-TOTAL_FORMS').val()
+        var newForm = $('#id_inline_test_models-__prefix__-DELETE').closest('.formset-empty').clone()
+        newForm.find(':input').each(function() {
+            for (attr of ['name', 'id'])
+                $(this).attr(
+                    attr,
+                    $(this).attr(attr).replace('__prefix__', index)
+                )
+        })
+        newForm.removeAttr('style').removeClass('formset-empty')
+        newForm.insertBefore($(this))
+        $('#id_inline_test_models-TOTAL_FORMS').val(
+            parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
+        )
+        newForm.slideDown()
+    })
+})($)
+</script>
+{% endblock %}

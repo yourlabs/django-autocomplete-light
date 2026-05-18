@@ -1,0 +1,3 @@
+[submodule "src/dal_alight/static/dal_alight/component"]
+	path = src/dal_alight/static/dal_alight/component
+	url = https://yourlabs.io/PurpleToti/autocomplete-light.git

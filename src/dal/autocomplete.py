@@ -31,6 +31,31 @@ def _installed(*apps):
     return True
 
 
+if _installed('dal_alight'):
+    from dal_alight.widgets import (
+        Alight,
+        AlightMultiple,
+        ListAlight,
+        ModelAlight,
+        ModelAlightMultiple,
+        TagAlight,
+    )
+    from dal_alight.views import (
+        AlightGroupListView,
+        AlightGroupQuerySetView,
+        AlightListView,
+        AlightQuerySetView,
+        AlightTagAutocompleteView,
+    )
+    from dal_alight.fields import (
+        AlightListChoiceField,
+        AlightListCreateChoiceField,
+    )
+
+
+if _installed('dal_alight') and _installed('taggit'):
+    from dal_alight.widgets import TaggitAlight
+
 if _installed('dal_select2'):
     from dal_select2.widgets import (
         Select2,
@@ -72,6 +97,19 @@ if _installed('dal_select2', 'dal_queryset_sequence'):
     )
     from dal_select2_queryset_sequence.fields import (
         Select2GenericForeignKeyModelField,
+    )
+
+if _installed('dal_alight') and _installed('dal_queryset_sequence'):
+    from dal_alight_queryset_sequence.views import (
+        AlightQuerySetSequenceView,
+        AlightQuerySetSequenceAutoView,
+    )
+    from dal_alight_queryset_sequence.widgets import (
+        QuerySetSequenceAlight,
+        QuerySetSequenceAlightMultiple,
+    )
+    from dal_alight_queryset_sequence.fields import (
+        AlightGenericForeignKeyModelField,
     )
 
 if _installed('dal_select2') and _installed('taggit'):
