@@ -1,5 +1,5 @@
-from alight_foreign_key.forms import TForm
-from alight_foreign_key.models import TModel
+from alight_many_to_many.forms import TForm
+from alight_many_to_many.models import TModel
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views import generic
