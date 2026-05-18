@@ -183,6 +183,17 @@ class AlightListView(ViewMixin, View):
         return http.JsonResponse({'id': result, 'text': result})
 
 
+class AlightTagAutocompleteView(AlightQuerySetView):
+    """Convenience base for taggit tag autocomplete views.
+
+    Returns ``result.name`` as the option value so ``TaggitAlight``
+    can match tags by name rather than by PK.
+    """
+
+    def get_result_value(self, result):
+        return result.name
+
+
 class AlightGroupListView(AlightListView):
     """Grouped list view — mirrors Select2GroupListView.
 
