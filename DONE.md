@@ -59,3 +59,17 @@ Verified `TaggitAlight` / `AlightQuerySetView` integration is production-ready (
 - Added `AlightTagAutocompleteView` convenience base class to `src/dal_alight/views.py` — overrides `get_result_value()` to return `result.name`; exported from `dal.autocomplete`
 - Added `test_project/alight_taggit/test_edge_cases.py` — 4 new form-level tests: unicode tag names, HTML special-char tag names, 99-char tag names, tag removal
 - Extended `docs/taggit.rst` with Alight view and form examples (using `AlightTagAutocompleteView` and `TaggitAlight`)
+
+## Static files management
+
+Followed the STATICFILES_DIRS / collectstatic pattern.
+
+- `test_project/settings/base.py`: added `STATICFILES_DIRS = [os.path.join(PROJECT_ROOT, 'static')]`
+- Created `test_project/static/js/` and moved three scattered per-app JS files into it: `js_handlers.js`, `linked_data.js`, `t_select2.js`
+- Updated references in `select2_forward_different_fields/forms.py`, `alight_forward_different_fields/forms.py`, `select2_linked_data/forms.py`, `custom_select2/widgets.py` to use `js/` prefix
+- Deleted old per-app `static/` JS files (4 files removed from git)
+- Added `test_project/public/` to `.gitignore` (collectstatic output — not a source artifact)
+- Ran `git rm --cached -r test_project/public/` to untrack 239 previously-committed build files
+- Verified `python manage.py collectstatic --noinput` completes cleanly (246 files, no errors)
+
+**Note:** `select2_rename_forward/static/linked_data.js` was intentionally left in place — it has subtly different content from `select2_linked_data`'s copy and was not listed in the TODO.

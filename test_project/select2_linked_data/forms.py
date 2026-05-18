@@ -25,5 +25,5 @@ class TForm(forms.ModelForm):
 
     class Media:
         js = (
-            'linked_data.js',
+            'js/linked_data.js',
         )
