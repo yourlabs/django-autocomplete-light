@@ -13,6 +13,17 @@ Added dark mode support to `dal_alight` via CSS custom properties and an optiona
 
 Commits: `3f37f365`, `1124cac7`, `3265172c`
 
+## Admin global search bar
+
+Added a global search bar to the Django admin topbar that searches across all admin-registered models and navigates to the selected object's change page.
+
+- `AdminGlobalSearchView` in `test_project/views.py` — searches all admin-registered models; auto-detects first `CharField`/`TextField` as fallback when no `search_fields` defined; respects staff permission; returns HTML fragments with `data-url` pointing to each object's change page
+- URL registered at `/admin-search/` as `admin-global-search`
+- `test_project/templates/admin/base_site.html` — overrides admin header to embed `<autocomplete-light>` in the topbar; CSS `order` trick places it visually between branding (left) and user-tools (right)
+- On `autocompleteChoiceSelected` event, JS navigates to `choice.dataset.url`
+
+Commit: (this session)
+
 ## Untrack db.sqlite3
 
 Removed `test_project/db.sqlite3` from git tracking and prevented future sqlite files from being committed.
