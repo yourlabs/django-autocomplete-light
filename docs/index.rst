@@ -25,6 +25,7 @@ Backends
 
    backends
    alight
+   upgrade_from_select2_to_alight
 
 External app support
 --------------------

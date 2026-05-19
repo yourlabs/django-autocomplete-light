@@ -24,17 +24,17 @@ class Field(Forward):
 
     The following rules are used to deduce the forwarded type.
 
-     - If there is only one field in the form or subform with name ``src``
-    and this field is a checkbox without ``value`` HTML-attribute,
-    then boolean value indicating if this checkbox is checked is forwarded.
+    - If there is only one field in the form or subform with name ``src``
+      and this field is a checkbox without ``value`` HTML-attribute,
+      then boolean value indicating if this checkbox is checked is forwarded.
 
-     - If there is only one field in the form or subform with name ``src``
-    and it has ``multiple`` HTML-attribute, then this field is forwarded as a
-    list of strings, containing values from this field.
+    - If there is only one field in the form or subform with name ``src``
+      and it has ``multiple`` HTML-attribute, then this field is forwarded as a
+      list of strings, containing values from this field.
 
     - If there are one or more fields in the form with name ``src`` and all of
-    them are checkboxes with HTML-attribute ``value`` set the list of strings
-    containing checked checkboxes is forwarded.
+      them are checkboxes with HTML-attribute ``value`` set the list of strings
+      containing checked checkboxes is forwarded.
 
     - Otherwise ``src`` field value forwarded as a string.
 
@@ -103,9 +103,9 @@ class JavaScript(Forward):
 
     .. code-block:: javascript
 
-    yl.registerForwardHandler("your_handler", function (autocompleteElement) {
-        // your code here
-    });
+        yl.registerForwardHandler("your_handler", function (autocompleteElement) {
+            // your code here
+        });
 
     Then if your add ``JavaScript("your_handler", "some_value")`` to your
     forwards declaration, your function will be called, autocomplete field
@@ -114,13 +114,13 @@ class JavaScript(Forward):
 
     .. py:attribute:: handler
 
-    The name of the registered handler.
+        The name of the registered handler.
 
     .. py:attribute:: dst
 
-    The name of the key of the forwarded value from the src field in the
-    forwarded dictionary. If this value is ``None``, then the key is
-    ``handler``
+        The name of the key of the forwarded value from the src field in the
+        forwarded dictionary. If this value is ``None``, then the key is
+        ``handler``.
     """
 
     type = "javascript"
