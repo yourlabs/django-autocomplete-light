@@ -46,17 +46,28 @@ class AlightWidgetMixin:
         attrs = attrs or {}
         attrs.setdefault('slot', 'select')
 
-        if value and getattr(self, '_narrow_choices_on_render', False) and isinstance(self.choices, ModelChoiceIterator):
+        narrow = (
+            value
+            and getattr(self, '_narrow_choices_on_render', False)
+            and isinstance(self.choices, ModelChoiceIterator)
+        )
+        if narrow:
             values = list(value) if isinstance(value, (list, tuple)) else [value]
             original_queryset = self.choices.queryset
-            self.choices.queryset = original_queryset.filter(pk__in=[v for v in values if v])
+            self.choices.queryset = original_queryset.filter(
+                pk__in=[v for v in values if v]
+            )
             try:
                 render_value = values if self.allow_multiple_selected else value
-                widget = super().render(name, render_value, attrs=attrs, renderer=renderer, **kwargs)
+                widget = super().render(
+                    name, render_value, attrs=attrs, renderer=renderer, **kwargs
+                )
             finally:
                 self.choices.queryset = original_queryset
         else:
-            widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
+            widget = super().render(
+                name, value, attrs=attrs, renderer=renderer, **kwargs
+            )
 
         deck = '<span slot="deck"></span>'
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
