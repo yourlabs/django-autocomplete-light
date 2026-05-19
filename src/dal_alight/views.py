@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from django import http
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db.models import F
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
@@ -35,6 +35,40 @@ class AlightQuerySetView(BaseQuerySetView):
             return q not in existing
         q_lower = q.lower()
         return not any(label.lower() == q_lower for label in existing)
+
+    def post(self, request, *args, **kwargs):
+        """Create an object and return an HTML fragment for the new choice."""
+        if not self.has_add_permission(request):
+            return http.HttpResponseForbidden()
+
+        if not self.create_field:
+            raise ImproperlyConfigured('Missing "create_field"')
+
+        text = request.POST.get('text', None)
+        if text is None:
+            return http.HttpResponseBadRequest()
+
+        if self.validate_create:
+            try:
+                self.validate(text)
+            except ValidationError as error:
+                msg = None
+                if hasattr(error, 'message_dict'):
+                    msgs = error.message_dict.get(self.create_field)
+                    if msgs:
+                        msg = msgs[0] if isinstance(msgs, list) else msgs
+                return http.HttpResponse(str(msg or error), status=422)
+
+        result = self.create_object(text)
+
+        return http.HttpResponse(
+            format_html(
+                '<div data-value="{}">{}</div>',
+                self.get_result_value(result),
+                self.get_selected_result_label(result),
+            ),
+            content_type='text/html; charset=utf-8',
+        )
 
     def render_to_response(self, context):
         q = self.request.GET.get('q', '')
