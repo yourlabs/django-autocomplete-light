@@ -22,12 +22,13 @@ document.addEventListener('dal-init-function', function () {
         function result_template(item) {
             var is_data_html = ($element.attr('data-html') !== undefined || $element.attr('data-result-html') !== undefined)
 
-            if (item.create_id) {
+            if (item.create_id || item.newTag) {
               var $result = $('<span>').addClass('dal-create');
+              var displayText = item.create_id ? item.text : 'Create "' + item.text + '"';
               if (is_data_html){
-                return $result.html(item.text);
+                return $result.html(displayText);
               } else {
-                return $result.text(item.text);
+                return $result.text(displayText);
               }
             } else {
                 return template(item.text, is_data_html);
@@ -39,10 +40,11 @@ document.addEventListener('dal-init-function', function () {
                 return template(item.selected_text,
                     $element.attr('data-html') !== undefined || $element.attr('data-selected-html') !== undefined
                 );
+            } else if (item.newTag) {
+                return item.text;
             } else {
                 return result_template(item);
             }
-            return
         }
 
         var ajax = null;
@@ -91,6 +93,18 @@ document.addEventListener('dal-init-function', function () {
         }
         var isRequired = $element.is('[required]');
         var placeholderText = $element.attr('data-placeholder') || (!isRequired ? ' ' : '');
+
+        // When in tags mode, show an explicit "Create X" label for new entries
+        // so the user knows typing unknown text will create a new tag.
+        var createTagFn = null;
+        if (use_tags) {
+            createTagFn = function(params) {
+                var term = $.trim(params.term);
+                if (!term) return null;
+                return { id: term, text: term, newTag: true };
+            };
+        }
+
         $element.select2({
             tokenSeparators: tokenSeparators,
             debug: true,
@@ -104,6 +118,7 @@ document.addEventListener('dal-init-function', function () {
             ajax: ajax,
             with: null,
             tags: use_tags,
+            createTag: createTagFn,
         });
 
         $element.on('select2:selecting', function (e) {

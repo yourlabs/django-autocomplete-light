@@ -25,6 +25,15 @@ class TagAlightAdminTestMixin(AlightStory, case.AdminMixin):
         story.assert_labels(self.labels)
         story.assert_values(self.labels)
 
+    def test_can_create_new_tag(self):
+        new_tag = self.id() + 'new'
+        story = stories.CreateOptionMultiple(self)
+        story.create_option(new_tag)
+        story.assert_labels([new_tag])
+        story.submit()
+        story.assert_labels([new_tag])
+        story.assert_values([new_tag])
+
     def test_can_select_option_in_first_inline(self):
         story = stories.InlineSelectOptionMultiple(self, inline_number=0)
         for option in self.labels:
