@@ -18,7 +18,7 @@ class AlightQuerySetSequenceView(BaseQuerySetSequenceView):
     Returns results grouped by model type, rendered as HTML divs instead of
     JSON.  Group headers use ``class="autocomplete-light-group"``; individual
     results carry a ``data-value`` attribute with the ``ctype_pk-object_pk``
-    composite identifier used by :py:mod:`dal_queryset_sequence`.
+    composite identifier used by ``dal_queryset_sequence``.
 
     Example usage::
 

@@ -150,10 +150,9 @@ Initial values on edit forms
 ----------------------------
 
 :py:class:`~dal_alight.widgets.ModelAlight` and
-:py:class:`~dal_alight.widgets.ModelAlightMultiple` include
-:py:class:`~dal_alight.widgets.AlightInitialRenderMixin`, which injects the
-currently selected object(s) into the ``<select>`` options at render time so
-they appear pre-selected without an extra AJAX call.
+:py:class:`~dal_alight.widgets.ModelAlightMultiple` inject the currently
+selected object(s) into the ``<select>`` options at render time so they
+appear pre-selected without an extra AJAX call.
 
 Automation with djhacker
 ------------------------

@@ -13,6 +13,12 @@ Widgets
 .. automodule:: dal.widgets
    :members:
 
+Forward
+-------
+
+.. automodule:: dal.forward
+   :members:
+
 FutureModelForm
 ===============
 
@@ -133,5 +139,26 @@ Test tools
 ----------
 
 .. automodule:: dal_alight.test
+   :members:
+
+dal_alight_queryset_sequence
+============================
+
+Views
+-----
+
+.. automodule:: dal_alight_queryset_sequence.views
+   :members:
+
+Widgets
+-------
+
+.. automodule:: dal_alight_queryset_sequence.widgets
+   :members:
+
+Fields
+------
+
+.. automodule:: dal_alight_queryset_sequence.fields
    :members:
 

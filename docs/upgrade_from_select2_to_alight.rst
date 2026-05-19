@@ -72,7 +72,7 @@ Behavioural differences
 ========================
 
 - **Response format**: Select2 views return JSON; alight views return HTML fragments.
-  Override :py:meth:`~dal_alight.views.AlightQuerySetView.get_result_label` instead of
+  Override :py:meth:`~dal.views.BaseQuerySetView.get_result_label` instead of
   ``get_result_label`` + ``get_selected_result_label``.
 - **Create**: the POST response returns an HTML label fragment, not ``{"id": …, "text": …}`` JSON.
 - **Forwarding**: the ``forward`` widget argument and :py:mod:`dal.forward` helpers work identically.
