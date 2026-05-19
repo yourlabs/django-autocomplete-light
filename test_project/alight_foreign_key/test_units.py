@@ -1,6 +1,5 @@
 """Unit tests for dal_alight views, widgets, and fields."""
 
-import json
 
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase
@@ -145,9 +144,9 @@ class AlightQuerySetViewGetTest(TestCase):
         request.user = superuser
         r = view(request)
         self.assertEqual(r.status_code, 200)
-        data = json.loads(r.content)
-        self.assertIn('id', data)
-        self.assertEqual(data['text'], 'brand_new')
+        body = r.content.decode()
+        self.assertIn('data-value=', body)
+        self.assertIn('brand_new', body)
         self.assertTrue(self.TModel.objects.filter(name='brand_new').exists())
 
     def test_post_without_permission_returns_403(self):
