@@ -27,7 +27,7 @@ class TagAlightAdminTestMixin(AlightStory, case.AdminMixin):
 
     def test_can_create_new_tag(self):
         new_tag = self.id() + 'new'
-        story = stories.CreateOptionMultiple(self)
+        story = stories.AlightCreateOptionMultiple(self)
         story.create_option(new_tag)
         story.assert_labels([new_tag])
         story.submit()

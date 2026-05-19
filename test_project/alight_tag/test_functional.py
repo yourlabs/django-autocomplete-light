@@ -22,7 +22,7 @@ class AdminTagTestCase(
         story.assert_label('python')
 
     def test_can_create_new_tag(self):
-        story = stories.CreateOption(self)
+        story = stories.AlightCreateOption(self)
         story.create_option('newtag')
         story.assert_label('newtag')
 

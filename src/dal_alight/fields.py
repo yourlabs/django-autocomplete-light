@@ -27,21 +27,14 @@ class AlightListChoiceField(ChoiceField):
     value is the text itself (no PK).
     """
 
-    def __init__(self, choice_list=None, required=True, widget=None,
-                 label=None, initial=None, help_text='', *args, **kwargs):
-        choices = ChoiceCallable(choice_list)
-        super().__init__(
-            choices=choices, required=required, widget=widget, label=label,
-            initial=initial, help_text=help_text, *args, **kwargs,
-        )
+    def __init__(self, choice_list=None, *args, **kwargs):
+        kwargs['choices'] = ChoiceCallable(choice_list)
+        super().__init__(*args, **kwargs)
 
 
 class AlightListCreateChoiceField(AlightListChoiceField):
-    """Like ``AlightListChoiceField`` but skips choice validation.
-
-    Allows values created on-the-fly (via POST) to be accepted by the form.
-    """
+    """Like ``AlightListChoiceField`` but allows values created on-the-fly."""
 
     def validate(self, value):
-        # Only check for empty; do not validate against the choice list.
+        # Skip ChoiceField.validate so arbitrary created values are accepted.
         super(ChoiceField, self).validate(value)

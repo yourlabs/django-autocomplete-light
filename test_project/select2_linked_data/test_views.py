@@ -16,6 +16,14 @@ class ViewMixinTest(test.TestCase):  # noqa
     def setUp(self):
         self.factory = test.RequestFactory()
 
+    def test_no_data(self):
+        request = self.factory.get(reverse('linked_data'))
+
+        response = LinkedDataView.as_view(model=TModel)(request)
+        self.assertEqual(response.status_code, 200)
+        results = json.loads(force_str(response.content))['results']
+        self.assertEqual(len(results), 4)
+
     def test_not_dict(self):
         request = self.factory.get(
             reverse('linked_data') + '?forward=' + json.dumps('[]')

@@ -169,15 +169,10 @@
     xhr.setRequestHeader('X-CSRFToken', csrf)
     xhr.addEventListener('load', function () {
       if (!(xhr.status >= 200 && xhr.status < 300)) return
-      var result
-      try {
-        result = JSON.parse(xhr.responseText)
-      } catch (e) { return }
-      if (!result.id) return
-
-      var choice = document.createElement('div')
-      choice.setAttribute('data-value', result.id)
-      choice.textContent = result.text || result.id
+      var tmp = document.createElement('div')
+      tmp.innerHTML = xhr.responseText.trim()
+      var choice = tmp.firstElementChild
+      if (!choice || !choice.hasAttribute('data-value')) return
 
       autocompleteSelectEl.choiceSelect(choice)
     })

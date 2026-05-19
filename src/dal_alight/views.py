@@ -17,7 +17,7 @@ class AlightQuerySetView(BaseQuerySetView):
     When ``create_field`` is set and the query has no case-insensitive exact
     match on page 1, a ``<div data-create>Create "…"</div>`` is appended.
     POST is handled by the inherited ``BaseQuerySetView.post()`` which creates
-    the object and returns ``{"id": …, "text": …}`` JSON.
+    the object and returns a ``<div data-value="…">…</div>`` HTML fragment.
     """
 
     case_sensitive_create = False
@@ -170,7 +170,7 @@ class AlightListView(ViewMixin, View):
 
     def post(self, request, *args, **kwargs):
         if not hasattr(self, 'create'):
-            raise ImproperlyConfigured('Missing "create()"')
+            return http.HttpResponse(status=405)
 
         text = request.POST.get('text', None)
         if text is None:
@@ -180,7 +180,10 @@ class AlightListView(ViewMixin, View):
         if result is None:
             return http.HttpResponseBadRequest()
 
-        return http.JsonResponse({'id': result, 'text': result})
+        return http.HttpResponse(
+            format_html('<div data-value="{}">{}</div>', result, result),
+            content_type='text/html; charset=utf-8',
+        )
 
 
 class AlightTagAutocompleteView(AlightQuerySetView):

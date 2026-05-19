@@ -31,7 +31,7 @@ class AdminManyToManyTestCase(
         )
 
     def test_can_create_option_on_the_fly(self):
-        story = stories.CreateOptionMultiple(self)
+        story = stories.AlightCreateOptionMultiple(self)
         existing = self.create_option()
         story.select_option(existing.name)
 

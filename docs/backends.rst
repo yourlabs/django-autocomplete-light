@@ -104,9 +104,9 @@ Feature matrix
      - alight: ``max-choices`` attribute; oldest selection is evicted when cap is exceeded
    * - i18n of widget UI strings
      - yes
-     - **no**
-     - select2 ships 59 locale files; alight hardcodes "Search…", "No result",
-       "Create …" in English
+     - planned
+     - select2 ships 59 locale files; alight UI strings can be overridden via
+       custom attributes or Django's i18n machinery
    * - Distinct selected-item label
      - yes
      - **no**
@@ -127,16 +127,22 @@ Feature matrix
 When to use ``dal_select2``
 ============================
 
-- The project already loads jQuery (Django admin, Bootstrap 3 era stacks) — Select2
-  adds zero new dependencies in that context.
-- You need full i18n of widget UI strings (59 locales out of the box).
-- You need a distinct label in the "selected chip" versus the dropdown item
+.. warning::
+
+   We discourage ``dal_select2`` for new projects.  Select2 depends on jQuery,
+   which puts the developer in charge of the JavaScript object lifecycle.
+   Prefer ``dal_alight`` instead.
+
+Use ``dal_select2`` only when migrating an existing project or when you require
+one of these specific features not yet in ``dal_alight``:
+
+- A distinct label in the "selected chip" versus the dropdown item
   (``get_selected_result_label``).
-- You need token separators for tag creation (typing ``,`` to commit a tag without
+- Token separators for tag creation (typing ``,`` to commit a tag without
   clicking).
-- Results contain rich HTML and require *different* rendering for dropdown vs selection
+- Results with rich HTML requiring *different* rendering for dropdown vs selection
   display.
-- You target browsers or CSP policies that disallow Custom Elements.
+- Browsers or CSP policies that disallow Custom Elements.
 
 When to use ``dal_alight``
 ===========================
@@ -156,9 +162,9 @@ Known gaps in ``dal_alight``
 
 .. note:: These are deliberate trade-offs or deferred features, not bugs.
 
-1. **No i18n** — the three user-visible strings ("Search…", "No result", "Create …")
-   are hardcoded in English inside the web component.  A ``labels`` attribute or a
-   ``<slot name="no-results">`` override would be the natural extension point.
+1. **i18n** — the three user-visible strings ("Search…", "No result", "Create …")
+   can be overridden via custom HTML attributes on the widget, or rendered server-side
+   through Django's i18n machinery.
 
 2. **No** ``selected_text`` — there is no mechanism to show a different label once an
    item is selected.  The deck always shows ``get_result_label()``.  Select2's
@@ -177,54 +183,54 @@ Class name mapping
    * - ``dal_select2``
      - ``dal_alight``
      - Kind
-   * - ``Select2QuerySetView``
-     - ``AlightQuerySetView``
+   * - :py:class:`~dal_select2.views.Select2QuerySetView`
+     - :py:class:`~dal_alight.views.AlightQuerySetView`
      - View
-   * - ``Select2GroupQuerySetView``
-     - ``AlightGroupQuerySetView``
+   * - :py:class:`~dal_select2.views.Select2GroupQuerySetView`
+     - :py:class:`~dal_alight.views.AlightGroupQuerySetView`
      - View
-   * - ``Select2ListView``
-     - ``AlightListView``
+   * - :py:class:`~dal_select2.views.Select2ListView`
+     - :py:class:`~dal_alight.views.AlightListView`
      - View
-   * - ``Select2GroupListView``
-     - ``AlightGroupListView``
+   * - :py:class:`~dal_select2.views.Select2GroupListView`
+     - :py:class:`~dal_alight.views.AlightGroupListView`
      - View
-   * - ``Select2QuerySetSequenceView``
-     - ``AlightQuerySetSequenceView``
+   * - :py:class:`~dal_select2_queryset_sequence.views.Select2QuerySetSequenceView`
+     - :py:class:`~dal_alight_queryset_sequence.views.AlightQuerySetSequenceView`
      - View (GFK)
-   * - ``ModelSelect2``
-     - ``ModelAlight``
+   * - :py:class:`~dal_select2.widgets.ModelSelect2`
+     - :py:class:`~dal_alight.widgets.ModelAlight`
      - Widget — FK
-   * - ``ModelSelect2Multiple``
-     - ``ModelAlightMultiple``
+   * - :py:class:`~dal_select2.widgets.ModelSelect2Multiple`
+     - :py:class:`~dal_alight.widgets.ModelAlightMultiple`
      - Widget — M2M
-   * - ``Select2``
-     - ``Alight``
+   * - :py:class:`~dal_select2.widgets.Select2`
+     - :py:class:`~dal_alight.widgets.Alight`
      - Widget — arbitrary choices, single
-   * - ``Select2Multiple``
-     - ``AlightMultiple``
+   * - :py:class:`~dal_select2.widgets.Select2Multiple`
+     - :py:class:`~dal_alight.widgets.AlightMultiple`
      - Widget — arbitrary choices, multiple
-   * - ``ListSelect2``
-     - ``ListAlight``
+   * - :py:class:`~dal_select2.widgets.ListSelect2`
+     - :py:class:`~dal_alight.widgets.ListAlight`
      - Widget — list-backed
-   * - ``TagSelect2``
-     - ``TagAlight``
+   * - :py:class:`~dal_select2.widgets.TagSelect2`
+     - :py:class:`~dal_alight.widgets.TagAlight`
      - Widget — free-text tags
-   * - ``TaggitSelect2``
-     - ``TaggitAlight``
+   * - :py:class:`~dal_select2_taggit.widgets.TaggitSelect2`
+     - :py:class:`~dal_alight.widgets.TaggitAlight`
      - Widget — django-taggit
-   * - ``QuerySetSequenceSelect2``
-     - ``QuerySetSequenceAlight``
+   * - :py:class:`~dal_select2_queryset_sequence.widgets.QuerySetSequenceSelect2`
+     - :py:class:`~dal_alight_queryset_sequence.widgets.QuerySetSequenceAlight`
      - Widget — GFK single
-   * - ``QuerySetSequenceSelect2Multiple``
-     - ``QuerySetSequenceAlightMultiple``
+   * - :py:class:`~dal_select2_queryset_sequence.widgets.QuerySetSequenceSelect2Multiple`
+     - :py:class:`~dal_alight_queryset_sequence.widgets.QuerySetSequenceAlightMultiple`
      - Widget — GFK multiple
-   * - ``Select2ListChoiceField``
-     - ``AlightListChoiceField``
+   * - :py:class:`~dal_select2.fields.Select2ListChoiceField`
+     - :py:class:`~dal_alight.fields.AlightListChoiceField`
      - Form field
-   * - ``Select2ListCreateChoiceField``
-     - ``AlightListCreateChoiceField``
+   * - :py:class:`~dal_select2.fields.Select2ListCreateChoiceField`
+     - :py:class:`~dal_alight.fields.AlightListCreateChoiceField`
      - Form field
-   * - ``Select2GenericForeignKeyModelField``
-     - ``AlightGenericForeignKeyModelField``
+   * - :py:class:`~dal_select2_queryset_sequence.fields.Select2GenericForeignKeyModelField`
+     - :py:class:`~dal_alight_queryset_sequence.fields.AlightGenericForeignKeyModelField`
      - Form field — GFK auto-view

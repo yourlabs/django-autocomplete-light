@@ -9,11 +9,9 @@ Autocomplete-Light Backend (dal_alight)
 Overview
 ========
 
-``dal_alight`` is an alternative autocomplete backend for DAL that uses native
-`Web Components <https://developer.mozilla.org/en-US/docs/Web/Web_Components>`_
-instead of Select2 and jQuery.  The public API mirrors ``dal_select2``
-closely — if you know the Select2 backend, the class names follow the same
-pattern with ``Select2`` replaced by ``Alight``.
+``dal_alight`` is a DAL autocomplete backend built on native
+`Web Components <https://developer.mozilla.org/en-US/docs/Web/Web_Components>`_.
+No jQuery or third-party JS library is required.
 
 Key differences from the Select2 backend:
 
@@ -58,8 +56,7 @@ Create an autocomplete view
 - Live demo: `/alight_foreign_key/test-autocomplete/?q=test
   <http://localhost:8000/alight_foreign_key/test-autocomplete/?q=test>`_
 
-Use :py:class:`~dal_alight.views.AlightQuerySetView` the same way you would
-use ``Select2QuerySetView``:
+Use :py:class:`~dal_alight.views.AlightQuerySetView`:
 
 .. code-block:: python
 
@@ -180,8 +177,7 @@ Automation with djhacker
 Using autocompletes in the admin
 ================================
 
-Register a ``ModelAdmin`` with your custom form exactly as you would for
-Select2:
+Register a ``ModelAdmin`` with your custom form:
 
 .. code-block:: python
 
@@ -212,8 +208,7 @@ Using autocompletes outside the admin
 - Live demo: `/alight_outside_admin/
   <http://localhost:8000/alight_outside_admin/>`_
 
-Unlike Select2, ``dal_alight`` does not rely on jQuery.  You only need to
-include ``{{ form.media }}`` — the widget's ``media`` property loads
+Include ``{{ form.media }}`` — the widget's ``media`` property loads
 ``autocomplete-light.js`` and ``dal-django.js`` automatically:
 
 .. literalinclude:: ../test_project/alight_outside_admin/templates/alight_outside_admin/alight_outside_admin.html
@@ -241,7 +236,8 @@ Set ``create_field`` on the view to enable on-the-fly object creation:
 When no exact match exists the view appends a
 ``<div data-create data-value="…">Create "…"</div>`` element to its response.
 Selecting it triggers a POST to the same URL; the view creates the object and
-returns ``{"id": …, "text": …}`` JSON.
+returns the rendered HTML label directly (a ``<div data-value="…">…</div>``
+fragment), which the component inserts into the selection deck.
 
 Add ``validate_create=True`` to run ``full_clean()`` before saving:
 
@@ -249,48 +245,7 @@ Add ``validate_create=True`` to run ``full_clean()`` before saving:
 
     CountryAutocomplete.as_view(create_field='name', validate_create=True)
 
-Filtering results based on other form fields (forwarding)
-=========================================================
-
-- Example source: `test_project/alight_linked_data
-  <https://github.com/yourlabs/django-autocomplete-light/tree/alight-backend/test_project/alight_linked_data>`_
-- Live demo: `Admin / Alight Linked Data / Add
-  <http://localhost:8000/admin/alight_linked_data/tmodel/add/>`_
-
-The ``forward`` widget argument works identically to the Select2 backend:
-
-.. code-block:: python
-
-    class PersonForm(forms.ModelForm):
-        continent = forms.ChoiceField(choices=CONTINENT_CHOICES)
-
-        class Meta:
-            model = Person
-            fields = ('__all__',)
-            widgets = {
-                'birth_country': autocomplete.ModelAlight(
-                    url='country-autocomplete',
-                    forward=['continent'],
-                )
-            }
-
-In the view, read the forwarded value from ``self.forwarded``:
-
-.. code-block:: python
-
-    class CountryAutocomplete(autocomplete.AlightQuerySetView):
-        def get_queryset(self):
-            qs = Country.objects.all()
-            continent = self.forwarded.get('continent', None)
-            if continent:
-                qs = qs.filter(continent=continent)
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
-            return qs
-
-All forwarding features documented for Select2 (``forward.Field``,
-``forward.Const``, ``forward.Self``, ``forward.JavaScript``, renaming) work
-unchanged — they live in ``dal.forward`` and are backend-independent.
+.. include:: _forward.rst
 
 Autocompleting from a list of strings
 ======================================
@@ -441,24 +396,9 @@ Generic Foreign Key support
 - Live demo: `/admin/alight_generic_foreign_key/tmodel/add/
   <http://localhost:8000/admin/alight_generic_foreign_key/tmodel/add/>`_
 
-See :doc:`gfk` for the model setup.  Replace the Select2 classes with their
-Alight equivalents:
+See :doc:`gfk` for the model setup.
 
-.. list-table::
-   :header-rows: 1
-
-   * - Select2
-     - Alight
-   * - ``Select2GenericForeignKeyModelField``
-     - ``AlightGenericForeignKeyModelField``
-   * - ``QuerySetSequenceSelect2``
-     - ``QuerySetSequenceAlight``
-   * - ``QuerySetSequenceSelect2Multiple``
-     - ``QuerySetSequenceAlightMultiple``
-   * - ``Select2QuerySetSequenceView``
-     - ``AlightQuerySetSequenceView``
-
-Automatic view using ``AlightGenericForeignKeyModelField``:
+Automatic view using :py:class:`~dal_alight_queryset_sequence.fields.AlightGenericForeignKeyModelField`:
 
 .. code-block:: python
 
@@ -511,70 +451,50 @@ Class reference
    :header-rows: 1
 
    * - Class
-     - Select2 equivalent
      - Description
    * - :py:class:`~dal_alight.views.AlightQuerySetView`
-     - ``Select2QuerySetView``
      - QuerySet-backed autocomplete, returns HTML fragments
    * - :py:class:`~dal_alight.views.AlightGroupQuerySetView`
-     - ``Select2GroupQuerySetView``
      - QuerySet-backed, results grouped by a related field
    * - :py:class:`~dal_alight.views.AlightListView`
-     - ``Select2ListView``
      - Autocomplete from a Python list
    * - :py:class:`~dal_alight.views.AlightGroupListView`
-     - ``Select2GroupListView``
      - Grouped autocomplete from a Python list
-   * - ``AlightQuerySetSequenceView``
-     - ``Select2QuerySetSequenceView``
+   * - :py:class:`~dal_alight_queryset_sequence.views.AlightQuerySetSequenceView`
      - Multi-model Generic FK view (``dal_alight_queryset_sequence``)
 
 .. list-table:: Widgets
    :header-rows: 1
 
    * - Class
-     - Select2 equivalent
      - Description
    * - :py:class:`~dal_alight.widgets.ModelAlight`
-     - ``ModelSelect2``
      - Single select, QuerySet-backed (ForeignKey)
    * - :py:class:`~dal_alight.widgets.ModelAlightMultiple`
-     - ``ModelSelect2Multiple``
      - Multi select, QuerySet-backed (ManyToManyField)
    * - :py:class:`~dal_alight.widgets.Alight`
-     - ``Select2``
      - Single select, arbitrary choices
    * - :py:class:`~dal_alight.widgets.AlightMultiple`
-     - ``Select2Multiple``
      - Multi select, arbitrary choices
    * - :py:class:`~dal_alight.widgets.ListAlight`
-     - ``ListSelect2``
      - Single select, list-backed
    * - :py:class:`~dal_alight.widgets.TagAlight`
-     - ``TagSelect2``
      - Free-text tag widget (comma-separated)
    * - :py:class:`~dal_alight.widgets.TaggitAlight`
-     - ``TaggitSelect2``
      - django-taggit integration
-   * - ``QuerySetSequenceAlight``
-     - ``QuerySetSequenceSelect2``
+   * - :py:class:`~dal_alight_queryset_sequence.widgets.QuerySetSequenceAlight`
      - Single select, multi-model GFK (``dal_alight_queryset_sequence``)
-   * - ``QuerySetSequenceAlightMultiple``
-     - ``QuerySetSequenceSelect2Multiple``
+   * - :py:class:`~dal_alight_queryset_sequence.widgets.QuerySetSequenceAlightMultiple`
      - Multi select, multi-model GFK (``dal_alight_queryset_sequence``)
 
 .. list-table:: Form fields
    :header-rows: 1
 
    * - Class
-     - Select2 equivalent
      - Description
    * - :py:class:`~dal_alight.fields.AlightListChoiceField`
-     - ``Select2ListChoiceField``
      - ChoiceField validated against a list or callable
    * - :py:class:`~dal_alight.fields.AlightListCreateChoiceField`
-     - ``Select2ListCreateChoiceField``
-     - Like above but skips choice validation (allows on-the-fly values)
-   * - ``AlightGenericForeignKeyModelField``
-     - ``Select2GenericForeignKeyModelField``
+     - Like above, allows on-the-fly created values
+   * - :py:class:`~dal_alight_queryset_sequence.fields.AlightGenericForeignKeyModelField`
      - Auto-wired GFK field (``dal_alight_queryset_sequence``)
