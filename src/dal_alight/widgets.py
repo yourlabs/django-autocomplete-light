@@ -50,7 +50,7 @@ class AlightWidgetMixin:
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
         input_el = format_html(
             '<autocomplete-select-input slot="input"{}>'
-            '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" />'  # noqa: E501
+            '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" autocomplete="off" />'  # noqa: E501
             '</autocomplete-select-input>',
             url_attr,
             name,
