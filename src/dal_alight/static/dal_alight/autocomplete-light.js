@@ -461,10 +461,6 @@ class AutocompleteSelect extends HTMLElement {
 
     var value = choice.getAttribute('data-value')
 
-    if (!this.select.multiple) {
-      this.select.value = value
-    }
-
     var option = this.select.querySelector('option[value="' + value + '"]')
     if (!option) {
       option = document.createElement('option')
@@ -472,7 +468,12 @@ class AutocompleteSelect extends HTMLElement {
       option.innerHTML = choice.innerHTML
       this.select.appendChild(option)
     }
+    option.selected = true
     option.setAttribute('selected', 'selected')
+
+    if (!this.select.multiple) {
+      this.select.value = value
+    }
 
     if (!this.deck.querySelector('[data-value="' + value + '"]')) {
       choice = choice.cloneNode(true)
