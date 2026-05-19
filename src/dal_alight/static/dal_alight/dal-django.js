@@ -243,10 +243,12 @@
       var stored = localStorage.getItem(this.STORAGE_KEY)
       if (stored === 'dark') {
         document.documentElement.classList.add('alight-dark-mode')
+        document.documentElement.classList.remove('alight-light-mode')
       } else if (stored === 'light') {
         document.documentElement.classList.remove('alight-dark-mode')
-      } else {
-        // Follow system preference when no explicit user choice is stored.
+        document.documentElement.classList.add('alight-light-mode')
+      } else if (!document.documentElement.dataset.theme) {
+        // No explicit alight preference and no admin data-theme — follow system preference.
         var mq = window.matchMedia('(prefers-color-scheme: dark)')
         if (mq.matches) document.documentElement.classList.add('alight-dark-mode')
         mq.addEventListener('change', function (e) {
@@ -258,6 +260,7 @@
 
     toggle: function () {
       var isDark = document.documentElement.classList.toggle('alight-dark-mode')
+      document.documentElement.classList.toggle('alight-light-mode', !isDark)
       localStorage.setItem(this.STORAGE_KEY, isDark ? 'dark' : 'light')
     },
   }
