@@ -58,6 +58,6 @@ class AdminSelect2List(Select2Story, case.AdminMixin, case.OptionMixin,
 
     def test_can_create_new_option(self):
         new_option_text = random_text()
-        story = stories.CreateOption(self, new_option_text)
+        story = stories.Select2CreateOption(self, new_option_text)
         story.select_option(new_option_text)
         story.assert_selection(new_option_text, new_option_text)

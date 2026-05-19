@@ -225,20 +225,19 @@ class AlightListViewTest(TestCase):
         r = self._get(self.FruitView, q='anything')
         self.assertNotIn('data-create', r.content.decode())
 
-    def test_post_creates_and_returns_json(self):
+    def test_post_creates_and_returns_html(self):
         r = self._post(self.FruitViewWithCreate, 'dragonfruit')
         self.assertEqual(r.status_code, 200)
-        data = json.loads(r.content)
-        self.assertEqual(data['id'], 'dragonfruit')
-        self.assertEqual(data['text'], 'dragonfruit')
+        content = r.content.decode()
+        self.assertIn('data-value="dragonfruit"', content)
+        self.assertIn('dragonfruit', content)
 
-    def test_post_without_create_raises(self):
-        from django.core.exceptions import ImproperlyConfigured
+    def test_post_without_create_returns_405(self):
         factory = RequestFactory()
         request = factory.post('/', {'text': 'x'})
         request.user = User()
-        with self.assertRaises(ImproperlyConfigured):
-            self.FruitView.as_view()(request)
+        response = self.FruitView.as_view()(request)
+        self.assertEqual(response.status_code, 405)
 
     def test_tuple_list_value_label(self):
         r = self._get(self.TupleListView, q='ph')
@@ -668,9 +667,7 @@ class AlightListViewPostEdgeCasesTest(TestCase):
         r = self.ViewWithCreate.as_view()(request)
         self.assertEqual(r.status_code, 400)
 
-    def test_post_without_create_method_raises(self):
-        from django.core.exceptions import ImproperlyConfigured
-
+    def test_post_without_create_method_returns_405(self):
         class PlainView(AlightListView):
             def get_list(self):
                 return ['a']
@@ -678,8 +675,8 @@ class AlightListViewPostEdgeCasesTest(TestCase):
         factory = RequestFactory()
         request = factory.post('/', {'text': 'x'})
         request.user = get_user_model()()
-        with self.assertRaises(ImproperlyConfigured):
-            PlainView.as_view()(request)
+        response = PlainView.as_view()(request)
+        self.assertEqual(response.status_code, 405)
 
 
 # ---------------------------------------------------------------------------

@@ -22,6 +22,62 @@ Consider such a model, using `django-taggit
         def __str__(self):
             return self.name
 
+Alight view example
+===================
+
+When using the ``autocomplete-light`` web component instead of Select2, extend
+:py:class:`~dal_alight.views.AlightTagAutocompleteView` — a convenience
+subclass that overrides ``get_result_value()`` to return ``result.name``
+so that :py:class:`~dal_alight.widgets.TaggitAlight` can match tags by name:
+
+.. code-block:: python
+
+    from dal import autocomplete
+
+    from taggit.models import Tag
+
+
+    class TagAutocomplete(autocomplete.AlightTagAutocompleteView):
+        def get_queryset(self):
+            if not self.request.user.is_authenticated:
+                return Tag.objects.none()
+
+            qs = Tag.objects.all()
+
+            if self.q:
+                qs = qs.filter(name__istartswith=self.q)
+
+            return qs
+
+Alternatively, extend :py:class:`~dal_alight.views.AlightQuerySetView`
+directly and override ``get_result_value()`` yourself:
+
+.. code-block:: python
+
+    class TagAutocomplete(autocomplete.AlightQuerySetView):
+        def get_result_value(self, result):
+            return result.name
+
+Don't forget to :ref:`register-view`.
+
+Alight form example
+===================
+
+Use :py:class:`~dal_alight.widgets.TaggitAlight` in place of
+:py:class:`~dal_select2_taggit.widgets.TaggitSelect2`:
+
+.. code-block:: python
+
+    class TestForm(autocomplete.FutureModelForm):
+        class Meta:
+            model = TestModel
+            fields = ('name',)
+            widgets = {
+                'tags': autocomplete.TaggitAlight(
+                    'your-taggit-autocomplete-url'
+                )
+            }
+
 View example
 ============
 
@@ -79,62 +135,6 @@ Example:
             fields = ('name',)
             widgets = {
                 'tags': autocomplete.TaggitSelect2(
-                    'your-taggit-autocomplete-url'
-                )
-            }
-
-Alight view example
-===================
-
-When using the ``autocomplete-light`` web component instead of Select2, extend
-:py:class:`~dal_alight.views.AlightTagAutocompleteView` — a convenience
-subclass that overrides ``get_result_value()`` to return ``result.name``
-so that :py:class:`~dal_alight.widgets.TaggitAlight` can match tags by name:
-
-.. code-block:: python
-
-    from dal import autocomplete
-
-    from taggit.models import Tag
-
-
-    class TagAutocomplete(autocomplete.AlightTagAutocompleteView):
-        def get_queryset(self):
-            if not self.request.user.is_authenticated:
-                return Tag.objects.none()
-
-            qs = Tag.objects.all()
-
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
-
-            return qs
-
-Alternatively, extend :py:class:`~dal_alight.views.AlightQuerySetView`
-directly and override ``get_result_value()`` yourself:
-
-.. code-block:: python
-
-    class TagAutocomplete(autocomplete.AlightQuerySetView):
-        def get_result_value(self, result):
-            return result.name
-
-Don't forget to :ref:`register-view`.
-
-Alight form example
-===================
-
-Use :py:class:`~dal_alight.widgets.TaggitAlight` in place of
-:py:class:`~dal_select2_taggit.widgets.TaggitSelect2`:
-
-.. code-block:: python
-
-    class TestForm(autocomplete.FutureModelForm):
-        class Meta:
-            model = TestModel
-            fields = ('name',)
-            widgets = {
-                'tags': autocomplete.TaggitAlight(
                     'your-taggit-autocomplete-url'
                 )
             }

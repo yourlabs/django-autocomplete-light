@@ -239,7 +239,7 @@ latex_documents = [
     (
         master_doc,
         'django-autocomplete-light.tex',
-        u'django-autocomplete-light Documentation',
+        'django-autocomplete-light Documentation',
         u'James Pic \\& contributors',
         'manual',
     ),
@@ -274,7 +274,7 @@ man_pages = [
     (
         master_doc,
         'django-autocomplete-light',
-        u'django-autocomplete-light Documentation',
+        'django-autocomplete-light Documentation',
         [author],
         1,
     )
@@ -293,7 +293,7 @@ texinfo_documents = [
     (
         master_doc,
         'django-autocomplete-light',
-        u'django-autocomplete-light Documentation',
+        'django-autocomplete-light Documentation',
         author,
         'django-autocomplete-light',
         'One line description of project.',

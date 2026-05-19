@@ -25,7 +25,7 @@ class AdminListTestCase(
         )
 
     def test_can_create_new_item(self):
-        story = stories.CreateOption(self)
+        story = stories.AlightCreateOption(self)
         new_value = 'starfruit'
         story.create_option(new_value)
         story.assert_selection_persists(new_value, new_value)

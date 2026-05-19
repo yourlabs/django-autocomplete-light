@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.models import ModelChoiceIterator
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 from dal.widgets import QuerySetSelectMixin, WidgetMixin
 
@@ -40,61 +41,39 @@ class AlightWidgetMixin:
         )
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
-        # Only queryset-backed choices have .field with empty_label.
         if hasattr(self.choices, 'field'):
             self.choices.field.empty_label = None
         attrs = attrs or {}
         attrs.setdefault('slot', 'select')
-        widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
-        deck = '<span slot="deck"></span>'
-        url_attr = format_html(' url="{}"', self.url) if self.url else ''
-        input_el = format_html(
-            '<autocomplete-select-input slot="input"{}>'
-            '<input name="{}-input" slot="input" class="vTextField" placeholder="Search…" autocomplete="off" />'  # noqa: E501
-            '</autocomplete-select-input>',
-            url_attr,
-            name,
-        )
-        return widget + deck + input_el
 
-
-class AlightInitialRenderMixin:
-    """Ensure selected objects appear pre-filled on edit forms.
-
-    Without this, the ``<select>`` renders with no ``<option>`` and the deck
-    is empty because the queryset-backed choices iterator returns nothing for
-    the current pk(s) when the view hasn't been called yet.
-    """
-
-    def render(self, name, value, attrs=None, renderer=None):
-        if not value:
-            return super().render(name, value, attrs=attrs, renderer=renderer)
-
-        values = list(value) if isinstance(value, (list, tuple)) else [value]
-
-        if isinstance(self.choices, ModelChoiceIterator):
+        if value and getattr(self, '_narrow_choices_on_render', False) and isinstance(self.choices, ModelChoiceIterator):
+            values = list(value) if isinstance(value, (list, tuple)) else [value]
             original_queryset = self.choices.queryset
-            pk_values = [v for v in values if v]
-            self.choices.queryset = original_queryset.filter(pk__in=pk_values)
+            self.choices.queryset = original_queryset.filter(pk__in=[v for v in values if v])
             try:
                 render_value = values if self.allow_multiple_selected else value
-                return super().render(
-                    name, render_value, attrs=attrs, renderer=renderer
-                )
+                widget = super().render(name, render_value, attrs=attrs, renderer=renderer, **kwargs)
             finally:
                 self.choices.queryset = original_queryset
         else:
-            choices_list = list(self.choices)
-            existing = dict(choices_list)
-            extended = [(v, v) for v in values if v not in existing]
-            if extended:
-                original_choices = self.choices
-                self.choices = choices_list + extended
-                try:
-                    return super().render(name, values, attrs=attrs, renderer=renderer)
-                finally:
-                    self.choices = original_choices
-            return super().render(name, values, attrs=attrs, renderer=renderer)
+            widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
+
+        deck = '<span slot="deck"></span>'
+        url_attr = format_html(' url="{}"', self.url) if self.url else ''
+        input_widget = forms.TextInput(attrs={
+            'name': f'{name}-input',
+            'slot': 'input',
+            'class': 'vTextField',
+            'placeholder': _('Search'),
+            'autocomplete': 'off',
+        })
+        input_html = input_widget.render(f'{name}-input', '', renderer=renderer)
+        input_el = format_html(
+            '<autocomplete-select-input slot="input"{}>{}</autocomplete-select-input>',
+            url_attr,
+            input_html,
+        )
+        return widget + deck + str(input_el)
 
 
 # ---------------------------------------------------------------------------
@@ -102,21 +81,23 @@ class AlightInitialRenderMixin:
 # ---------------------------------------------------------------------------
 
 class ModelAlight(
-    AlightInitialRenderMixin,
     QuerySetSelectMixin,
     AlightWidgetMixin,
     forms.Select,
 ):
     """Single-select autocomplete widget backed by a QuerySet."""
 
+    _narrow_choices_on_render = True
+
 
 class ModelAlightMultiple(
-    AlightInitialRenderMixin,
     QuerySetSelectMixin,
     AlightWidgetMixin,
     forms.SelectMultiple,
 ):
     """Multi-select autocomplete widget backed by a QuerySet."""
+
+    _narrow_choices_on_render = True
 
 
 # ---------------------------------------------------------------------------
