@@ -5,6 +5,7 @@ from functools import lru_cache
 from django import forms
 from django.conf import settings
 from django.db.models import Case, When
+
 from dal.widgets import QuerySetSelectMixin, Select, SelectMultiple, WidgetMixin
 
 try:
