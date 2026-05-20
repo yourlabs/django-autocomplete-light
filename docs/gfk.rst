@@ -55,7 +55,7 @@ non-editable fields, which GenericForeignKey is. Instead, we'll use
 :py:class:`dal.forms.FutureModelForm`.
 
 Then we need to add the
-:py:class:`dal_select2_queryset_sequence.fields.Select2GenericForeignKeyModelField`
+:py:class:`dal_alight_queryset_sequence.fields.AlightGenericForeignKeyModelField`
 field, with model_choice as keyword: this is a list of tuple, with the models
 you want in the autocompletion and the validation, and the value of the
 attribute of the model you want to query in the widget searchbox. Optionally,
@@ -73,7 +73,7 @@ Result:
 
     class TestForm(autocomplete.FutureModelForm):
 
-        location = autocomplete.Select2GenericForeignKeyModelField(
+        location = autocomplete.AlightGenericForeignKeyModelField(
             # Model with values to filter, linked with the name field
             model_choice=[(Country, 'country_code', [('language', 'spoken_language'),]),
                           (City, 'name')],
@@ -94,15 +94,16 @@ and the view takes a queryset in its "as_view()" method, you can use
 
         location = autocomplete.GenericForeignKeyModelField(
             model_choice=[(Country,), (City,)],  # Models
-            widget=autocomplete.QuerySetSequenceSelect2,
-            view=autocomplete.Select2QuerySetSequenceView,
+            widget=autocomplete.QuerySetSequenceAlight,
+            view=autocomplete.AlightQuerySetSequenceView,
         )
 
         class Meta:
             model = TestModel
 
-In this example, we took :py:class:`~dal_select2_queryset_sequence.widgets.QuerySetSequenceSelect2` as the
-custom widget and :py:class:`~dal_select2_queryset_sequence.views.Select2QuerySetSequenceView`.
+In this example, we took :py:class:`~dal_alight_queryset_sequence.widgets.QuerySetSequenceAlight` as the
+custom widget and :py:class:`~dal_alight_queryset_sequence.views.AlightQuerySetSequenceView`.
+
 
 
 Register the view for the form

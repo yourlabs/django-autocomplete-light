@@ -23,26 +23,17 @@ Install extras as needed::
 
 Configuration
 -------------
-Then, to let Django find the static files we need by adding to
-``INSTALLED_APPS``, **before** ``django.contrib.admin`` and
-``grappelli`` if present::
+Add ``dal`` and ``dal_alight`` to ``INSTALLED_APPS`` **before**
+``django.contrib.admin`` (and ``grappelli`` if present) so that DAL can
+override admin widget templates::
 
     'dal',
-    'dal_select2',
+    'dal_alight',
     # 'grappelli',
     'django.contrib.admin',
 
-This is to override the ``jquery.init.js`` script provided by the admin, which
-sets up jQuery with ``noConflict``, making jQuery available in
-``django.jQuery`` only and not ``$``.
-
 To enable more DAL functionalities we will have to add other DAL apps
 to ``INSTALLED_APPS``, such as ``'dal_queryset_sequence'`` ...
-
-JQuery 3.x
-^^^^^^^^^^
-JQuery 3.x comes with a "slim" version. This "slim" version is not compatible with
-DAL since the slim version does not contain Ajax functionality.
 
 .. _demo-install:
 

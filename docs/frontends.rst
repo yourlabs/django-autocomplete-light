@@ -1,7 +1,7 @@
-Backend Comparison: select2 vs alight
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Frontend Comparison: select2 vs alight
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Both backends share the same Django-side base classes
+Both frontends share the same Django-side base classes
 (``BaseQuerySetView``, ``ViewMixin``, ``forward.py``).
 They differ in what the view returns and which JS component renders it.
 
@@ -147,7 +147,7 @@ one of these specific features not yet in ``dal_alight``:
 When to use ``dal_alight``
 ===========================
 
-- No jQuery in the stack (modern frontend, HTMX, API-only backend, etc.).
+- No jQuery in the stack (modern frontend, HTMX, API-only server-side, etc.).
 - Minimising JS payload and eliminating third-party dependencies is a priority.
 - You want ``max-choices`` enforcement client-side without extra code.
 - Some fields use a small static choice list and local filtering avoids an unnecessary

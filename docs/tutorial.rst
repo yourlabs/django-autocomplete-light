@@ -1,5 +1,5 @@
-Tutorial
-~~~~~~~~
+Select2 Tutorial
+~~~~~~~~~~~~~~~~
 
 .. _select2-tutorial:
 
@@ -88,7 +88,9 @@ Create a :ref:`named url <django:naming-url-patterns>` for the view, ie:
         ),
     ]
 
-Ensure that the url can be reversed, ie::
+Ensure that the url can be reversed, ie:
+
+.. code-block:: console
 
     ./manage.py shell
     In [1]: from django.urls import reverse
