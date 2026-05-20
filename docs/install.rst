@@ -4,7 +4,7 @@ Install
 In your project
 ---------------
 
-Install version 3 with ``pip install``::
+Install with ``pip``::
 
     pip install django-autocomplete-light
 
