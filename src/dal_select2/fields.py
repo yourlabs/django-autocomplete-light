@@ -1,4 +1,9 @@
-from dal.fields import ChoiceCallable, ListChoiceField, ListCreateChoiceField
+from dal.fields import ListChoiceField, ListCreateChoiceField
 
-Select2ListChoiceField = ListChoiceField
-Select2ListCreateChoiceField = ListCreateChoiceField
+
+class Select2ListChoiceField(ListChoiceField):
+    pass
+
+
+class Select2ListCreateChoiceField(ListCreateChoiceField):
+    pass

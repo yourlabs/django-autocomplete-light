@@ -165,10 +165,9 @@ even though a value is already saved.
 All DAL Select2 widgets (:py:class:`~dal_select2.widgets.ModelSelect2`,
 :py:class:`~dal_select2.widgets.ModelSelect2Multiple`,
 :py:class:`~dal_select2.widgets.ListSelect2`,
-:py:class:`~dal_select2.widgets.Select2Multiple`) include
-:py:class:`~dal_select2.widgets.Select2InitialRenderMixin`, which
-automatically injects the initial value into the choices at render time so it
-appears pre-selected. No extra configuration is required.
+:py:class:`~dal_select2.widgets.Select2Multiple`) automatically inject the
+initial value into the choices at render time so it appears pre-selected. No
+extra configuration is required.
 
 .. danger:: If you declare a form field instead of just the widget, Django
    admin won't add the "add" and "edit" button next to the autocomplete field

@@ -1,4 +1,9 @@
-from dal.fields import ChoiceCallable, ListChoiceField, ListCreateChoiceField
+from dal.fields import ListChoiceField, ListCreateChoiceField
 
-AlightListChoiceField = ListChoiceField
-AlightListCreateChoiceField = ListCreateChoiceField
+
+class AlightListChoiceField(ListChoiceField):
+    pass
+
+
+class AlightListCreateChoiceField(ListCreateChoiceField):
+    pass
