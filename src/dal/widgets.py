@@ -66,9 +66,10 @@ class WidgetMixin(object):
         return attrs
 
     def filter_choices_to_render(self, selected_choices):
-        """Replace self.choices with selected_choices."""
-        self.choices = [c for c in self.choices if
-                        str(c[0]) in selected_choices]
+        """Filter choices to selected ones; inject values absent from the list."""
+        existing_keys = {str(c[0]) for c in self.choices}
+        self.choices = [c for c in self.choices if str(c[0]) in selected_choices]
+        self.choices += [(v, v) for v in selected_choices if v not in existing_keys]
 
     @staticmethod
     def _make_forward_dict(f):

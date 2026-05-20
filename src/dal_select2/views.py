@@ -15,8 +15,6 @@ from dal.views import BaseQuerySetView, ViewMixin
 class Select2ViewMixin(object):
     """View mixin to render a JSON response for Select2."""
 
-    case_sensitive_create = False
-
     def get_results(self, context):
         """Return data for the 'results' key of the response."""
         return [
@@ -29,35 +27,13 @@ class Select2ViewMixin(object):
 
     def get_create_option(self, context, q):
         """Form the correct create_option to append to results."""
-        create_option = []
-        display_create_option = False
-        if self.create_field and q:
-            page_obj = context.get('page_obj', None)
-            if page_obj is None or page_obj.number == 1:
-                display_create_option = True
-
-            if not self.case_sensitive_create:
-                # Don't offer to create a new option if a
-                # case-insensitive) identical one already exists
-                existing_options = (self.get_result_label(result).lower()
-                                    for result in context['object_list'])
-                if q.lower() in existing_options:
-                    display_create_option = False
-            else:
-                existing_options = (
-                    self.get_result_label(result)
-                    for result in context['object_list']
-                )
-                if q in existing_options:
-                    display_create_option = False
-
-        if display_create_option and self.has_add_permission(self.request):
-            create_option = [{
-                'id': q,
-                'text': _('Create "%(new_value)s"') % {'new_value': q},
-                'create_id': True,
-            }]
-        return create_option
+        if not self._should_show_create(context, q):
+            return []
+        return [{
+            'id': q,
+            'text': _('Create "%(new_value)s"') % {'new_value': q},
+            'create_id': True,
+        }]
 
     def render_to_response(self, context):
         """Return a JSON response in Select2 format."""
