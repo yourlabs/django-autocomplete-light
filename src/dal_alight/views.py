@@ -20,22 +20,6 @@ class AlightQuerySetView(BaseQuerySetView):
     the object and returns a ``<div data-value="…">…</div>`` HTML fragment.
     """
 
-    case_sensitive_create = False
-
-    def _should_show_create(self, context, q):
-        if not self.create_field or not q:
-            return False
-        page_obj = context.get('page_obj')
-        if page_obj and page_obj.number != 1:
-            return False
-        if not self.has_add_permission(self.request):
-            return False
-        existing = (self.get_result_label(r) for r in context['object_list'])
-        if self.case_sensitive_create:
-            return q not in existing
-        q_lower = q.lower()
-        return not any(label.lower() == q_lower for label in existing)
-
     def post(self, request, *args, **kwargs):
         """Create an object and return an HTML fragment for the new choice."""
         if not self.has_add_permission(request):

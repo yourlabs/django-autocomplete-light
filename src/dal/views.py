@@ -78,6 +78,21 @@ class BaseQuerySetView(ViewMixin, BaseListView):
     split_words = None
     template = None
     validate_create = None
+    case_sensitive_create = False
+
+    def _should_show_create(self, context, q):
+        if not self.create_field or not q:
+            return False
+        page_obj = context.get('page_obj')
+        if page_obj and page_obj.number != 1:
+            return False
+        if not self.has_add_permission(self.request):
+            return False
+        q_lower = q.lower()
+        labels = [self.get_result_label(r) for r in context['object_list']]
+        if self.case_sensitive_create:
+            return q not in labels
+        return not any(label.lower() == q_lower for label in labels)
 
     def has_more(self, context):
         """For widgets that have infinite-scroll feature."""

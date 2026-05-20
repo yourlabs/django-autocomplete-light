@@ -1,5 +1,4 @@
 from django import forms
-from django.forms.models import ModelChoiceIterator
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
@@ -46,28 +45,7 @@ class AlightWidgetMixin:
         attrs = attrs or {}
         attrs.setdefault('slot', 'select')
 
-        narrow = (
-            value
-            and getattr(self, '_narrow_choices_on_render', False)
-            and isinstance(self.choices, ModelChoiceIterator)
-        )
-        if narrow:
-            values = list(value) if isinstance(value, (list, tuple)) else [value]
-            original_queryset = self.choices.queryset
-            self.choices.queryset = original_queryset.filter(
-                pk__in=[v for v in values if v]
-            )
-            try:
-                render_value = values if self.allow_multiple_selected else value
-                widget = super().render(
-                    name, render_value, attrs=attrs, renderer=renderer, **kwargs
-                )
-            finally:
-                self.choices.queryset = original_queryset
-        else:
-            widget = super().render(
-                name, value, attrs=attrs, renderer=renderer, **kwargs
-            )
+        widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
 
         deck = '<span slot="deck"></span>'
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
@@ -98,8 +76,6 @@ class ModelAlight(
 ):
     """Single-select autocomplete widget backed by a QuerySet."""
 
-    _narrow_choices_on_render = True
-
 
 class ModelAlightMultiple(
     QuerySetSelectMixin,
@@ -107,8 +83,6 @@ class ModelAlightMultiple(
     forms.SelectMultiple,
 ):
     """Multi-select autocomplete widget backed by a QuerySet."""
-
-    _narrow_choices_on_render = True
 
 
 # ---------------------------------------------------------------------------
