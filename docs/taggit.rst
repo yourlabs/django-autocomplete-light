@@ -22,10 +22,10 @@ Consider such a model, using `django-taggit
         def __str__(self):
             return self.name
 
-Alight view example
-===================
+View example
+============
 
-When using the ``autocomplete-light`` web component instead of Select2, extend
+Extend
 :py:class:`~dal_alight.views.AlightTagAutocompleteView` — a convenience
 subclass that overrides ``get_result_value()`` to return ``result.name``
 so that :py:class:`~dal_alight.widgets.TaggitAlight` can match tags by name:
@@ -60,11 +60,10 @@ directly and override ``get_result_value()`` yourself:
 
 Don't forget to :ref:`register-view`.
 
-Alight form example
-===================
+Form example
+============
 
-Use :py:class:`~dal_alight.widgets.TaggitAlight` in place of
-:py:class:`~dal_select2_taggit.widgets.TaggitSelect2`:
+Use :py:class:`~dal_alight.widgets.TaggitAlight`:
 
 .. code-block:: python
 
@@ -78,11 +77,10 @@ Use :py:class:`~dal_alight.widgets.TaggitAlight` in place of
                 )
             }
 
-View example
-============
+View example (dal_select2)
+==========================
 
-The :ref:`QuerySet view<queryset-view>` works here too: we're relying on
-Select2 and a QuerySet of Tag objects:
+The :ref:`QuerySet view<queryset-view>` works here too with the Select2 frontend:
 
 .. code-block:: python
 
@@ -112,14 +110,13 @@ Don't forget to :ref:`register-view`.
 .. note:: For more complex filtering, refer to official documentation for
           the :ref:`django:queryset-api`.
 
-Form example
-============
+Form example (dal_select2)
+==========================
 
-As usual, we need a backend-aware widget that will make only selected choices
+As usual, we need a frontend-aware widget that will make only selected choices
 to render initially, to avoid butchering the database.
 
-As we're using a QuerySet of Tag and Select2 in its "tag" appearance, we'll use
-:py:class:`~dal_select2_taggit.widgets.TaggitSelect2`. It is compatible with
+:py:class:`~dal_select2_taggit.widgets.TaggitSelect2` is compatible with
 the default form field created by the model field: TaggeableManager - which
 actually inherits ``django.db.models.fields.Field`` and
 ``django.db.models.fields.related.RelatedField`` and **not** from

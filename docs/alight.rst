@@ -1,5 +1,5 @@
-Autocomplete-Light Backend (dal_alight)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Autocomplete-Light Frontend (dal_alight)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. _alight-tutorial:
 
@@ -9,11 +9,11 @@ Autocomplete-Light Backend (dal_alight)
 Overview
 ========
 
-``dal_alight`` is a DAL autocomplete backend built on native
+``dal_alight`` is a DAL autocomplete frontend built on native
 `Web Components <https://developer.mozilla.org/en-US/docs/Web/Web_Components>`_.
 No jQuery or third-party JS library is required.
 
-Key differences from the Select2 backend:
+Key differences from the Select2 frontend:
 
 - **No jQuery / Select2 required.**  The component is a pure web component
   (``<autocomplete-select>``) with no external library dependency.
@@ -26,7 +26,9 @@ Key differences from the Select2 backend:
 Install
 =======
 
-Add ``dal_alight`` to ``INSTALLED_APPS`` **before** ``django.contrib.admin``::
+Add ``dal_alight`` to ``INSTALLED_APPS`` **before** ``django.contrib.admin``:
+
+.. code-block:: python
 
     INSTALLED_APPS = [
         'dal',
@@ -36,7 +38,9 @@ Add ``dal_alight`` to ``INSTALLED_APPS`` **before** ``django.contrib.admin``::
         ...
     ]
 
-For Generic Foreign Key support also add ``dal_queryset_sequence``::
+For Generic Foreign Key support also add ``dal_queryset_sequence``:
+
+.. code-block:: python
 
     INSTALLED_APPS = [
         'dal',

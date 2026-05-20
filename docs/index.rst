@@ -15,17 +15,7 @@ Basics
    :maxdepth: 2
 
    install
-   tutorial
-
-Backends
---------
-
-.. toctree::
-   :maxdepth: 2
-
-   backends
    alight
-   upgrade_from_select2_to_alight
 
 External app support
 --------------------
@@ -33,8 +23,25 @@ External app support
 .. toctree::
    :maxdepth: 2
 
-   gfk
    taggit
+   gfk
+
+Migrating from Select2
+-----------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   upgrade_from_select2_to_alight
+   tutorial
+
+Frontend comparison
+-------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   frontends
 
 API
 ---

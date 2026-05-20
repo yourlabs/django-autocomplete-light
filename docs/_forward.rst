@@ -6,7 +6,7 @@ Filtering results based on other form fields (forwarding)
 - Live demo: `Admin / Alight Linked Data / Add
   <http://localhost:8000/admin/alight_linked_data/tmodel/add/>`_
 
-The ``forward`` widget argument works the same way as in any DAL backend:
+The ``forward`` widget argument works the same way as in any DAL frontend:
 
 .. code-block:: python
 
@@ -39,4 +39,4 @@ In the view, read the forwarded value from ``self.forwarded``:
 
 All forwarding features (``forward.Field``,
 ``forward.Const``, ``forward.Self``, ``forward.JavaScript``, renaming) work
-the same — they live in :py:mod:`dal.forward` and are backend-independent.
+the same — they live in :py:mod:`dal.forward` and are frontend-agnostic.
