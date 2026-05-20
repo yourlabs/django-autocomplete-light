@@ -12,7 +12,7 @@ Features
 - Django (multiple) choice support,
 - Django (multiple) model choice support,
 - Django generic foreign key support (through django-querysetsequence),
-- Multiple widget support: select2.js, easy to add more.
+- Multiple widget support: native web component (``dal_alight``), select2.js (``dal_select2``).
 - Creating choices that don't exist in the autocomplete,
 - Offering choices that depend on other fields in the form, in an elegant and
   innovative way,
