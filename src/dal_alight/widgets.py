@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from dal.widgets import QuerySetSelectMixin, WidgetMixin
@@ -24,13 +25,9 @@ class AlightWidgetMixin:
           <autocomplete-select-input slot="input" [url="…"]>
             <input …/>
           </autocomplete-select-input>
-          <!-- dal-forward-conf div injected by WidgetMixin.render() -->
+          <div class="dal-forward-conf">…</div>
         </autocomplete-select>
     """
-
-    # Read by dal.widgets.WidgetMixin.render() (called via MRO after this
-    # mixin) to wrap the slot trio in <autocomplete-select>…</autocomplete-select>.
-    component = 'autocomplete-select'
 
     @property
     def media(self):
@@ -62,7 +59,10 @@ class AlightWidgetMixin:
             url_attr,
             input_html,
         )
-        return widget + deck + str(input_el)
+        field_id = (attrs or {}).get('id') or name
+        conf = self.render_forward_conf(field_id)
+        inner = widget + deck + str(input_el) + conf
+        return mark_safe(f'<autocomplete-select>{inner}</autocomplete-select>')
 
 
 # ---------------------------------------------------------------------------

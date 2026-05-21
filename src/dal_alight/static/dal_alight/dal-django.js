@@ -119,32 +119,8 @@
     return Object.keys(data).length ? JSON.stringify(data) : null
   }
 
-  // --- Patch AutocompleteSelectInput.url ------------------------------------
-
-  /**
-   * Wait until the custom element is defined, then override the url getter on
-   * its prototype so that every request automatically appends forward data.
-   */
-  customElements.whenDefined('autocomplete-select-input').then(function () {
-    var proto = customElements.get('autocomplete-select-input').prototype
-    var originalDescriptor = Object.getOwnPropertyDescriptor(proto, 'url')
-    if (!originalDescriptor) return
-
-    Object.defineProperty(proto, 'url', {
-      get: function () {
-        var base = originalDescriptor.get.call(this)
-        if (!base) return base
-
-        var autocompleteSelectEl = this.closest('autocomplete-select')
-        if (!autocompleteSelectEl) return base
-
-        var forward = buildForward(autocompleteSelectEl)
-        if (forward) base += '&forward=' + encodeURIComponent(forward)
-        return base
-      },
-      configurable: true,
-    })
-  })
+  // Expose buildForward so AutocompleteSelectInput.url can call it fresh on every request.
+  window.AutocompleteLightBuildForward = buildForward
 
   // --- Create POST handler --------------------------------------------------
 
@@ -229,41 +205,6 @@
     })
   }
 
-  // --- Dark mode toggle -------------------------------------------------------
-
-  window.AutocompleteLightDarkMode = {
-    STORAGE_KEY: 'alight-dark-mode',
-
-    initialize: function () {
-      var stored = localStorage.getItem(this.STORAGE_KEY)
-      if (stored === 'dark') {
-        document.documentElement.classList.add('alight-dark-mode')
-        document.documentElement.classList.remove('alight-light-mode')
-      } else if (stored === 'light') {
-        document.documentElement.classList.remove('alight-dark-mode')
-        document.documentElement.classList.add('alight-light-mode')
-      } else if (!document.documentElement.dataset.theme) {
-        // No explicit alight preference and no admin data-theme — follow system preference.
-        var mq = window.matchMedia('(prefers-color-scheme: dark)')
-        if (mq.matches) document.documentElement.classList.add('alight-dark-mode')
-        mq.addEventListener('change', function (e) {
-          if (localStorage.getItem('alight-dark-mode')) return
-          document.documentElement.classList.toggle('alight-dark-mode', e.matches)
-        })
-      }
-    },
-
-    toggle: function () {
-      var isDark = document.documentElement.classList.toggle('alight-dark-mode')
-      document.documentElement.classList.toggle('alight-light-mode', !isDark)
-      localStorage.setItem(this.STORAGE_KEY, isDark ? 'dark' : 'light')
-    },
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    window.AutocompleteLightDarkMode.initialize()
-  })
-
   // --- Django admin popup sync -----------------------------------------------
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -289,14 +230,7 @@
     window.dismissChangeRelatedObjectPopup = function (win, objId, newRepr, newId) {
       if (origChange) origChange.call(this, win, objId, newRepr, newId)
       var el = findAutocompleteSelect(win.name)
-      if (!el) return
-      var deck = el.querySelector('[slot="deck"]')
-      if (!deck) return
-      var item = deck.querySelector('[data-value="' + String(objId) + '"]')
-      if (!item) return
-      var clearSpan = item.querySelector('.clear')
-      item.textContent = String(newRepr)
-      if (clearSpan) item.appendChild(clearSpan)
+      if (el) el.choiceUpdate(String(objId), String(newRepr))
     }
   })
 })()

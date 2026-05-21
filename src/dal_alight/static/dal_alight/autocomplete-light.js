@@ -301,6 +301,14 @@ class AutocompleteSelectInput extends AutocompleteLight {
     this.parentNode.querySelectorAll('option[selected]').forEach((option) => {
       url += '&_=' + option.value
     })
+    var buildFwd = window.AutocompleteLightBuildForward
+    if (buildFwd) {
+      var parent = this.closest('autocomplete-select')
+      if (parent) {
+        var fwd = buildFwd(parent)
+        if (fwd) url += '&forward=' + encodeURIComponent(fwd)
+      }
+    }
     return url
   }
 
@@ -452,6 +460,17 @@ class AutocompleteSelect extends HTMLElement {
       this.input.hidden = this.maxChoices && this.selected.length >= this.maxChoices
 
     this.changeTrigger()
+  }
+
+  choiceUpdate(value, newLabel) {
+    var item = this.deck.querySelector('[data-value="' + value + '"]')
+    if (item) {
+      var clearSpan = item.querySelector('.clear')
+      item.textContent = newLabel
+      if (clearSpan) item.appendChild(clearSpan)
+    }
+    var option = this.select.querySelector('option[value="' + value + '"]')
+    if (option) option.textContent = newLabel
   }
 
   choiceSelect(choice, trigger = true) {
