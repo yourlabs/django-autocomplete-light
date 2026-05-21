@@ -14,3 +14,4 @@ whitenoise
 sqlparse>=0.4.2 # not directly required, pinned by Snyk to avoid a vulnerability
 djhacker
 setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
+idna>=3.15 # not directly required, pinned by Snyk to avoid a vulnerability
