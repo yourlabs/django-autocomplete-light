@@ -4,7 +4,7 @@ from collections import OrderedDict
 from collections.abc import Sequence
 
 from django import http
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db.models import F
 from django.utils.translation import gettext as _
 from django.views.generic.list import View
@@ -52,6 +52,21 @@ class Select2ViewMixin(object):
 
 class Select2QuerySetView(Select2ViewMixin, BaseQuerySetView):
     """List options for a Select2 widget."""
+
+    def post(self, request, *args, **kwargs):
+        """Create an object and return its id/text as JSON for Select2."""
+        try:
+            result = self._post(request)
+        except ValidationError as error:
+            msg = error.message_dict.get(self.create_field, str(error)) \
+                if hasattr(error, 'message_dict') else str(error)
+            return http.JsonResponse({'error': msg if isinstance(msg, str) else msg[0]})
+        if isinstance(result, http.HttpResponse):
+            return result
+        return http.JsonResponse({
+            'id': self.get_result_value(result),
+            'text': self.get_selected_result_label(result),
+        })
 
 
 class Select2GroupQuerySetView(Select2QuerySetView):

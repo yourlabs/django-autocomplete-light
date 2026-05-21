@@ -22,29 +22,17 @@ class AlightQuerySetView(BaseQuerySetView):
 
     def post(self, request, *args, **kwargs):
         """Create an object and return an HTML fragment for the new choice."""
-        if not self.has_add_permission(request):
-            return http.HttpResponseForbidden()
-
-        if not self.create_field:
-            raise ImproperlyConfigured('Missing "create_field"')
-
-        text = request.POST.get('text', None)
-        if text is None:
-            return http.HttpResponseBadRequest()
-
-        if self.validate_create:
-            try:
-                self.validate(text)
-            except ValidationError as error:
-                msg = None
-                if hasattr(error, 'message_dict'):
-                    msgs = error.message_dict.get(self.create_field)
-                    if msgs:
-                        msg = msgs[0] if isinstance(msgs, list) else msgs
-                return http.HttpResponse(str(msg or error), status=422)
-
-        result = self.create_object(text)
-
+        try:
+            result = self._post(request)
+        except ValidationError as error:
+            msg = None
+            if hasattr(error, 'message_dict'):
+                msgs = error.message_dict.get(self.create_field)
+                if msgs:
+                    msg = msgs[0] if isinstance(msgs, list) else msgs
+            return http.HttpResponse(str(msg or error), status=422)
+        if isinstance(result, http.HttpResponse):
+            return result
         return http.HttpResponse(
             format_html(
                 '<div data-value="{}">{}</div>',

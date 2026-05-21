@@ -9,7 +9,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not(.alight-light-mode):not([data-theme="light"]) {
+  :root:not([data-theme="light"]) {
     --autocomplete-light-bg: #1e1e1e;
     --autocomplete-light-border: #444;
     --autocomplete-light-border-light: #333;
@@ -31,26 +31,6 @@ html[data-theme="dark"] {
 }
 
 html[data-theme="light"] {
-  --autocomplete-light-bg: white;
-  --autocomplete-light-border: #d4d4d4;
-  --autocomplete-light-border-light: #eee;
-  --autocomplete-light-highlight-bg: #f5f5f5;
-  --autocomplete-light-text: rgba(0,0,0,.87);
-  --autocomplete-light-text-muted: #999;
-  --autocomplete-light-text-secondary: #666;
-}
-
-html.alight-dark-mode {
-  --autocomplete-light-bg: #1e1e1e;
-  --autocomplete-light-border: #444;
-  --autocomplete-light-border-light: #333;
-  --autocomplete-light-highlight-bg: #333;
-  --autocomplete-light-text: rgba(255,255,255,.87);
-  --autocomplete-light-text-muted: #b0b0b0;
-  --autocomplete-light-text-secondary: #999;
-}
-
-html.alight-light-mode {
   --autocomplete-light-bg: white;
   --autocomplete-light-border: #d4d4d4;
   --autocomplete-light-border-light: #eee;

@@ -126,10 +126,7 @@ class WidgetMixin(object):
         except (KeyError, TypeError):
             field_id = name
         conf = self.render_forward_conf(field_id)
-        html = widget + conf
-        if getattr(self, 'component', None):
-            html = f'<{self.component}>{html}</{self.component}>'
-        return mark_safe(html)
+        return mark_safe(widget + conf)
 
     def _get_url(self):
         if self._url is None:
