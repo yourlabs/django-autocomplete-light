@@ -7,11 +7,9 @@ from functools import reduce
 from django import http
 from django.contrib.admin.utils import lookup_spawns_duplicates
 from django.contrib.auth import get_permission_codename
-from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.template.loader import render_to_string
-from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import BaseListView
 
 
