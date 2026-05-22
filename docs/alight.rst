@@ -56,7 +56,7 @@ Create an autocomplete view
 ===========================
 
 - Example source: `test_project/alight_foreign_key
-  <https://github.com/yourlabs/django-autocomplete-light/blob/alight-backend/test_project/alight_foreign_key/urls.py>`_
+  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/alight_foreign_key/urls.py>`_
 - Live demo: `/alight_foreign_key/test-autocomplete/?q=test
   <http://localhost:8000/alight_foreign_key/test-autocomplete/?q=test>`_
 
@@ -162,7 +162,7 @@ Automation with djhacker
 ------------------------
 
 - Example source: `test_project/alight_djhacker_formfield
-  <https://github.com/yourlabs/django-autocomplete-light/blob/alight-backend/test_project/alight_djhacker_formfield/urls.py>`_
+  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/alight_djhacker_formfield/urls.py>`_
 - Live demo: `/admin/alight_djhacker_formfield/tmodel/add/
   <http://localhost:8000/admin/alight_djhacker_formfield/tmodel/add/>`_
 
@@ -207,7 +207,7 @@ Using autocompletes outside the admin
 =====================================
 
 - Example source: `test_project/alight_outside_admin
-  <https://github.com/yourlabs/django-autocomplete-light/tree/alight-backend/test_project/alight_outside_admin>`_
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/alight_outside_admin>`_
 - Live demo: `/alight_outside_admin/
   <http://localhost:8000/alight_outside_admin/>`_
 
@@ -220,7 +220,7 @@ Creation of new choices
 =======================
 
 - Example source: `test_project/alight_one_to_one
-  <https://github.com/yourlabs/django-autocomplete-light/blob/alight-backend/test_project/alight_one_to_one/urls.py>`_
+  <https://github.com/yourlabs/django-autocomplete-light/blob/master/test_project/alight_one_to_one/urls.py>`_
 - Live demo: `/admin/alight_one_to_one/tmodel/add/
   <http://localhost:8000/admin/alight_one_to_one/tmodel/add/>`_
 
@@ -254,7 +254,7 @@ Autocompleting from a list of strings
 ======================================
 
 - Example source: `test_project/alight_list
-  <https://github.com/yourlabs/django-autocomplete-light/tree/alight-backend/test_project/alight_list>`_
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/alight_list>`_
 
 Use :py:class:`~dal_alight.views.AlightListView` when results come from a
 plain Python list rather than a QuerySet:
@@ -354,7 +354,7 @@ django-taggit integration
 -------------------------
 
 - Example source: `test_project/alight_taggit
-  <https://github.com/yourlabs/django-autocomplete-light/tree/alight-backend/test_project/alight_taggit>`_
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/alight_taggit>`_
 - Live demo: `/admin/alight_taggit/tmodel/add/
   <http://localhost:8000/admin/alight_taggit/tmodel/add/>`_
 
@@ -395,7 +395,7 @@ Generic Foreign Key support
 ===========================
 
 - Example source: `test_project/alight_generic_foreign_key
-  <https://github.com/yourlabs/django-autocomplete-light/tree/alight-backend/test_project/alight_generic_foreign_key>`_
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/alight_generic_foreign_key>`_
 - Live demo: `/admin/alight_generic_foreign_key/tmodel/add/
   <http://localhost:8000/admin/alight_generic_foreign_key/tmodel/add/>`_
 

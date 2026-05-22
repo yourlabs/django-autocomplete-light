@@ -2,7 +2,7 @@ Filtering results based on other form fields (forwarding)
 =========================================================
 
 - Example source: `test_project/alight_linked_data
-  <https://github.com/yourlabs/django-autocomplete-light/tree/alight-backend/test_project/alight_linked_data>`_
+  <https://github.com/yourlabs/django-autocomplete-light/tree/master/test_project/alight_linked_data>`_
 - Live demo: `Admin / Alight Linked Data / Add
   <http://localhost:8000/admin/alight_linked_data/tmodel/add/>`_
 
