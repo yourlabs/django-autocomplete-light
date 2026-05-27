@@ -1,5 +1,5 @@
-Autocomplete-Light Frontend (dal_alight)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tutorial
+~~~~~~~~
 
 .. _alight-tutorial:
 
