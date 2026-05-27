@@ -81,6 +81,10 @@
 4.0.1
 
     Fixes
+    - #1417        ModelSelect2(Multiple) without a URL now renders the full
+                   queryset again (regression: Select2InitialRenderMixin
+                   unconditionally narrowed choices to selected PKs at render
+                   time, breaking non-AJAX edit forms)
     - #1333        WidgetMixin.forward list is now copied on __init__ and
                    __deepcopy__, preventing silent mutation across form
                    subclasses that share a base class widget instance
