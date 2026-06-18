@@ -21,6 +21,25 @@ Features
   use cases too,
 - A documented automatically tested example for each use case in test_project.
 
+Compatibility
+-------------
+
+Use this matrix to pick the django-autocomplete-light version series for your
+Django version:
+
+==========================  ==========================
+django-autocomplete-light   Django
+==========================  ==========================
+5.x                         5.2, 6.0+
+4.x                         4.2, 5.2, 6.0+
+3.12.x                      3.2 to 5.2
+==========================  ==========================
+
+Upgrade instructions are maintained in the docs/ directory / on RTFD.
+
+*WARNING*: 4.0.1 Introduced too many breaking changes from 4.0, and was
+           re-released as 5.0.
+
 Resources
 ---------
 

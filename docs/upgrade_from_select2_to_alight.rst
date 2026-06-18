@@ -1,7 +1,8 @@
 Migrating from dal_select2 to dal_alight
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This guide helps you migrate an existing ``dal_select2`` project to ``dal_alight``.
+This guide helps you migrate an existing ``dal_select2`` project to
+``dal_alight``. It's not a requirement, but it's supposed to be doable.
 
 Why migrate
 ===========

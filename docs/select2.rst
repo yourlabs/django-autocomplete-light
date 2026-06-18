@@ -3,6 +3,11 @@ Select2 Tutorial
 
 .. _select2-tutorial:
 
+.. warning:: Select2 basically has the "object lifecycle management in jQuery"
+   problem, so it's **NOT** recommended to deploy Select2 in new projects.
+   For new projects, we recommend :doc:`Autocomplete-Light Web
+   Component<alight>` instead.
+
 .. note:: **For demo links** to work, you need to run the :ref:`test project
    <demo-install>` on localhost.
 

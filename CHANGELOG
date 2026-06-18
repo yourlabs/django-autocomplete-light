@@ -2,6 +2,10 @@
 
     WARNING: BC break identified with DAL v4, in the process of resolution
 
+    Upgrade from 4.0.3 to 5.0.0
+
+    See docs/upgrade_from_v4_to_v5.rst.
+
     New
     - #1332   dal_alight: new autocomplete backend based on the
               autocomplete-light web component, with no Select2 / no
@@ -80,17 +84,26 @@
       STATICFILES_DIRS; collectstatic output (test_project/public/) removed
       from version control.
 
+4.0.3
+
+    - Add Django 4.2 support for DAL v4 while keeping Python >= 3.11.
+    - Test Django 4.2, 5.2, and 6.0 in GitHub Actions with one Python
+      version for each Django line.
+    - Normalize callable list choices to tuples for Django 4.2 compatibility.
+    - Make taggit widget tests account for Django 5.2+ help-text
+      aria-describedby rendering.
+
+    Upgrade from 3.12.1 to 4.0.3
+
+    See docs/upgrade_from_v3_to_v4.rst.
+
+4.0.2
+
+    Publish for around a minute, failed attempt at what 4.0.3 is.
+
 4.0.1
 
-    Fixes
-    - #1417        ModelSelect2(Multiple) without a URL now renders the full
-                   queryset again (regression: Select2InitialRenderMixin
-                   unconditionally narrowed choices to selected PKs at render
-                   time, breaking non-AJAX edit forms)
-    - #1333        WidgetMixin.forward list is now copied on __init__ and
-                   __deepcopy__, preventing silent mutation across form
-                   subclasses that share a base class widget instance
-                   (port of upstream PR #1358)
+    That release was deleted and re-released as v5.
 
 4.0.0
 

@@ -26,6 +26,15 @@ External app support
    taggit
    gfk
 
+Upgrading
+---------
+
+.. toctree::
+   :maxdepth: 2
+
+   upgrade_from_v3_to_v4
+   upgrade_from_v4_to_v5
+
 Migrating from Select2
 -----------------------
 
@@ -33,7 +42,7 @@ Migrating from Select2
    :maxdepth: 2
 
    upgrade_from_select2_to_alight
-   tutorial
+   select2
 
 Frontend comparison
 -------------------
@@ -57,4 +66,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
