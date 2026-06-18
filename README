@@ -21,6 +21,48 @@ Features
   use cases too,
 - A documented automatically tested example for each use case in test_project.
 
+Upgrade from 3.12.1 to 4.0.0
+----------------------------
+
+DAL 4.0.0 is a breaking release focused on modern supported runtimes and
+removing unmaintained integration packages.
+
+Before upgrading, make sure your application runs on Python 3.11 or newer and
+Django 5.2 or newer. Then upgrade the package::
+
+    pip install -U "django-autocomplete-light<5"
+
+If you use optional integrations, install the matching extra explicitly::
+
+    pip install -U "django-autocomplete-light[gfk]<5"     # GenericForeignKey support
+    pip install -U "django-autocomplete-light[tags]<5"    # django-taggit support
+    pip install -U "django-autocomplete-light[nested]<5"  # django-nested-admin support
+
+Remove the following packages from ``INSTALLED_APPS`` and imports; they are no
+longer shipped in DAL 4.0.0:
+
+- ``dal_genericm2m``
+- ``dal_genericm2m_queryset_sequence``
+- ``dal_gm2m``
+- ``dal_gm2m_queryset_sequence``
+- ``dal_select2_tagging``
+- ``dal_legacy_static``
+
+The ``genericm2m`` extra was removed. Generic foreign key support remains
+available through ``django-autocomplete-light[gfk]`` and
+``dal_queryset_sequence``. django-taggit support remains available through
+``django-autocomplete-light[tags]`` and ``dal_select2_taggit``.
+
+If your deployment or packaging scripts build DAL from source, switch from
+``setup.py`` entry points to the PEP 517 build backend::
+
+    python -m build
+
+After upgrading, test forms that render existing Select2 values, multiple
+Select2 submissions, clearable placeholders, HTMX swaps, and any custom
+``attrs=None`` widget construction. These areas changed between 3.12.1 and
+4.0.0.
+
 Resources
 ---------
 
