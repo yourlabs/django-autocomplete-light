@@ -11,11 +11,12 @@ license = {text = "MIT"}
 authors = [{name = "James Pic", email = "jamespic@gmail.com"}]
 keywords = ["django", "autocomplete"]
 requires-python = ">=3.11"
-dependencies = ["django>=5.2"]
+dependencies = ["django>=4.2"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Web Environment",
     "Framework :: Django",
+    "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.2",
     "Framework :: Django :: 6.0",
     "Intended Audience :: Developers",
