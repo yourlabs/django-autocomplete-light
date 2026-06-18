@@ -35,25 +35,18 @@ Upgrading
    upgrade_from_v3_to_v4
    upgrade_from_v4_to_v5
 
-Migrating from Select2
------------------------
-
-.. toctree::
-   :maxdepth: 2
-
-   upgrade_from_select2_to_alight
-   select2
-
-Frontend comparison
--------------------
+Select2 frontend
+----------------
 
 .. toctree::
    :maxdepth: 2
 
    frontends
+   select2
+   upgrade_from_select2_to_alight
 
-API
----
+Reference
+---------
 
 .. toctree::
    :maxdepth: 1
