@@ -1,4 +1,6 @@
-4.1.0
+5.0.0
+
+    WARNING: BC break identified with DAL v4, in the process of resolution
 
     New
     - #1332   dal_alight: new autocomplete backend based on the
