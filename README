@@ -8,7 +8,7 @@
 Features
 --------
 
-- **Python 3.11–3.14 and Django 5.2–6.0+ support**
+- **Python 3.11–3.14 and Django 4.2–6.0+ support**
 - Django (multiple) choice support,
 - Django (multiple) model choice support,
 - Django generic foreign key support (through django-querysetsequence),
@@ -28,7 +28,7 @@ DAL 4.0.0 is a breaking release focused on modern supported runtimes and
 removing unmaintained integration packages.
 
 Before upgrading, make sure your application runs on Python 3.11 or newer and
-Django 5.2 or newer. Then upgrade the package::
+Django 4.2 or newer. Then upgrade the package::
 
     pip install -U "django-autocomplete-light<5"
 

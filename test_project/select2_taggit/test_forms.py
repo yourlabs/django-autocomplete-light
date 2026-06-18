@@ -55,20 +55,23 @@ class TagSelect2TestMixin(object):
         # Instanciate the modelform for that instance
         form = self.form(instance=fixture)
 
+        expected_attrs = {
+            'data-autocomplete-light-function': 'select2',
+            'data-autocomplete-light-url': reverse(self.url_name),
+            'data-autocomplete-light-language': 'en',
+            'data-tags': ',',
+            'id': 'id_test',
+        }
+        if django.VERSION >= (5, 2):
+            expected_attrs['aria-describedby'] = 'id_test_helptext'
+
         # Ensure that the widget rendered right, with only the selection
         self.assertHTMLEqual(
             forms.SelectMultiple(
                 choices=(
                     (str(tag), str(tag)),
                 ),
-                attrs={
-                    'aria-describedby': 'id_test_helptext',
-                    'data-autocomplete-light-function': 'select2',
-                    'data-autocomplete-light-url': reverse(self.url_name),
-                    'data-autocomplete-light-language': 'en',
-                    'data-tags': ',',
-                    'id': 'id_test',
-                }
+                attrs=expected_attrs
             ).render('test', value=[
                 str(tag),
             ], attrs={'required': django.VERSION >= (1, 10)}),

@@ -33,17 +33,17 @@ jobs:
       matrix:
         include:
           - python-version: "3.11"
-            django-version: "3.2"
-            tox-env: py311-dj32
-          - python-version: "3.11"
             django-version: "4.2"
             tox-env: py311-dj42
-          - python-version: "3.12"
+          - python-version: "3.14"
             django-version: "5.2"
-            tox-env: py312-dj52
-          - python-version: "3.12"
+            tox-env: py314-dj52
+          - python-version: "3.14"
             django-version: "6.0"
-            tox-env: py312-dj60
+            tox-env: py314-dj60
+          - python-version: "3.14"
+            django-version: "main"
+            tox-env: py314-djmain
     name: Python ${{ matrix.python-version }} / Django ${{ matrix.django-version }}
     steps:
       - uses: actions/checkout@v6

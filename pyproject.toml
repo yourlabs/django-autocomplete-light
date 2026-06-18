@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-autocomplete-light"
-version = "4.0.0"
+version = "4.0.3"
 description = "Fresh autocompletes for Django"
 readme = {file = "README", content-type = "text/x-rst"}
 license = {text = "MIT"}
@@ -16,6 +16,7 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Web Environment",
     "Framework :: Django",
+    "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.2",
     "Framework :: Django :: 6.0",
     "Intended Audience :: Developers",

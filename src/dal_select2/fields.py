@@ -16,7 +16,7 @@ class ChoiceCallable:
         choices = self.choices() if callable(self.choices) else self.choices
         for choice in choices or []:
             if isinstance(choice, (list, tuple)):
-                result.append(choice)
+                result.append(tuple(choice))
             else:
                 result.append((choice, choice))
         return result

@@ -1,3 +1,20 @@
+4.0.3
+
+    - Add Django 4.2 support for DAL v4 while keeping Python >= 3.11.
+    - Test Django 4.2, 5.2, and 6.0 in GitHub Actions with one Python
+      version for each Django line.
+    - Normalize callable list choices to tuples for Django 4.2 compatibility.
+    - Make taggit widget tests account for Django 5.2+ help-text
+      aria-describedby rendering.
+
+4.0.2
+
+    Publish for around a minute, failed attempt at what 4.0.3 is.
+
+4.0.1
+
+    That release was deleted and re-released as v5.
+
 4.0.0
 
     BREAKING: drop Python < 3.11 and Django < 5.2
