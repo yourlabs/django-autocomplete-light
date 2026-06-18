@@ -24,6 +24,13 @@ Features
 Compatibility
 -------------
 
+*WARNING*: Did I unexpectedly break your build? Do you have an issue that may
+           be affecting everyone's build? I am likely to miss your issue or not
+           catch it in time, **DO TEXT ME** in this kind of emergency case, I
+           can always yank a release, if you don't have any reply in 24h, feel
+           free to **TEXT AGAIN**. My cell number has been on the yourlabs.org
+           footer for years (TECH section) and is meant to stay.
+
 Use this matrix to pick the django-autocomplete-light version series for your
 Django version:
 
