@@ -1,3 +1,4 @@
+import django
 from django import forms
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -31,9 +32,25 @@ class AlightWidgetMixin:
 
     @property
     def media(self):
+        # Django 6+ forms.Media supports Script(type="module"), which ensures
+        # each URL executes once when multiple widgets merge media
+        # (customElements.define must not run twice).  On older Django versions
+        # we fall back to plain script paths.
+        if django.VERSION >= (6, 0):
+            from django.forms.widgets import Script
+
+            js = [
+                Script('dal_alight/autocomplete-light.js', type='module'),
+                Script('dal_alight/dal-django.js', type='module'),
+            ]
+        else:
+            js = [
+                'dal_alight/autocomplete-light.js',
+                'dal_alight/dal-django.js',
+            ]
         return forms.Media(
             css=dict(all=['dal_alight/autocomplete-light.css']),
-            js=['dal_alight/autocomplete-light.js', 'dal_alight/dal-django.js'],
+            js=js,
         )
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):

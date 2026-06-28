@@ -32,7 +32,7 @@ document.addEventListener('autocompleteChoiceSelected', function(ev) {
 {% block extrahead %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'dal_alight/autocomplete-light.css' %}">
-<script src="{% static 'dal_alight/autocomplete-light.js' %}"></script>
+<script type="module" src="{% static 'dal_alight/autocomplete-light.js' %}"></script>
 <style>
 /* push user-tools to the end so the search bar can sit in the middle */
 #user-tools { order: 3; }

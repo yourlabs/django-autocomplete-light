@@ -9,6 +9,10 @@ Features
 --------
 
 - **Python 3.11–3.14 and Django 5.2–6.0+ support**
+- **Django 6.0+ recommended** for ``dal_alight``: widget media uses
+  ``type="module"`` scripts so merged form media does not double-execute
+  web component registration.  On Django 5.2, ``dal_alight`` falls back to
+  classic script tags.
 - Django (multiple) choice support,
 - Django (multiple) model choice support,
 - Django generic foreign key support (through django-querysetsequence),

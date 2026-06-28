@@ -270,6 +270,16 @@ class AlightWidgetMixinMediaTest(TestCase):
         media_css = str(w.media)
         self.assertIn('autocomplete-light.css', media_css)
 
+    def test_media_uses_module_scripts_on_django_6(self):
+        import django
+
+        w = ModelAlight(url='x')
+        media_js = str(w.media)
+        if django.VERSION >= (6, 0):
+            self.assertIn('type="module"', media_js)
+        else:
+            self.assertNotIn('type="module"', media_js)
+
 
 class ModelAlightRenderTest(TestCase):
     def setUp(self):
