@@ -154,8 +154,8 @@ Initial values on edit forms
 ----------------------------
 
 :py:class:`~dal_alight.widgets.ModelAlight` and
-:py:class:`~dal_alight.widgets.ModelAlightMultiple` inject the currently
-selected object(s) into the ``<select>`` options at render time so they
+:py:class:`~dal_alight.widgets.ModelAlightMultiple` render the currently
+selected object(s) as hidden inputs and deck chips at render time so they
 appear pre-selected without an extra AJAX call.
 
 Automation with djhacker
@@ -476,11 +476,11 @@ Class reference
    * - :py:class:`~dal_alight.widgets.ModelAlightMultiple`
      - Multi select, QuerySet-backed (ManyToManyField)
    * - :py:class:`~dal_alight.widgets.Alight`
-     - Single select, arbitrary choices
+     - Single select, arbitrary choices (requires ``url``)
    * - :py:class:`~dal_alight.widgets.AlightMultiple`
-     - Multi select, arbitrary choices
+     - Multi select, arbitrary choices (requires ``url``)
    * - :py:class:`~dal_alight.widgets.ListAlight`
-     - Single select, list-backed
+     - Single select, list-backed (requires ``url``)
    * - :py:class:`~dal_alight.widgets.TagAlight`
      - Free-text tag widget (comma-separated)
    * - :py:class:`~dal_alight.widgets.TaggitAlight`

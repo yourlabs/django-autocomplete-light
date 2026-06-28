@@ -5,10 +5,9 @@
  *  1. Forward: read the dal-forward-conf div emitted by AlightWidgetMixin and
  *     append &forward=<json> to every autocomplete URL request.
  *  2. Create: listen for autocompleteCreate events, POST to the view with the
- *     CSRF token, then feed the returned {id, text} into choiceSelect().
- *  3. Popup sync: when Django admin's "add related" popup creates an object and
- *     adds an option to the native <select>, sync it into the deck via a
- *     change-event listener so the component reflects the new selection.
+ *     CSRF token, then feed the returned HTML fragment into choiceSelect().
+ *  3. Popup sync: when Django admin's "add related" popup creates an object,
+ *     sync it into the deck via choiceSelect().
  */
 
 (function () {
@@ -42,6 +41,12 @@
       return checked.length ? checked : undefined
     }
 
+    // Multiple hidden inputs with the same name (alight multi-select).
+    if (fields.length > 1 && fields.every(function (f) { return f.type === 'hidden' })) {
+      var hiddenValues = fields.map(function (f) { return f.value }).filter(function (v) { return v !== '' })
+      return hiddenValues.length ? hiddenValues : undefined
+    }
+
     var f = fields[0]
     if (f.type === 'checkbox') return f.checked
     if (f.multiple) return Array.from(f.selectedOptions).map(function (o) { return o.value })
@@ -60,8 +65,14 @@
    * formset "name-index" pairs).  The empty prefix (exact match) is always
    * tried last.
    */
+  function getSearchInput(autocompleteSelectEl) {
+    return autocompleteSelectEl.querySelector(
+      'autocomplete-select-input [slot=input], autocomplete-light [slot=input]'
+    )
+  }
+
   function getFormPrefixes(autocompleteSelectEl, form) {
-    var input = autocompleteSelectEl.querySelector('input[name]')
+    var input = getSearchInput(autocompleteSelectEl)
     if (!input) return ['']
     var parts = input.getAttribute('name').replace(/-input$/, '').split('-').slice(0, -1)
     var prefixes = []
@@ -73,6 +84,16 @@
     }
     prefixes.push('')
     return prefixes
+  }
+
+  function getSelfValue(autocompleteSelectEl) {
+    var inputs = Array.from(autocompleteSelectEl.querySelectorAll('[slot=values]'))
+    if (!inputs.length) return undefined
+    if (inputs.length > 1) {
+      var values = inputs.map(function (input) { return input.value }).filter(function (v) { return v !== '' })
+      return values.length ? values : undefined
+    }
+    return inputs[0].value || undefined
   }
 
   /**
@@ -95,7 +116,6 @@
     if (!Array.isArray(list) || !list.length) return null
 
     var form = getForm(autocompleteSelectEl)
-    var select = autocompleteSelectEl.querySelector('select')
     var data = {}
 
     list.forEach(function (field) {
@@ -112,7 +132,7 @@
         }
       } else if (field.type === 'self') {
         var dst = field.dst || 'self'
-        if (select) data[dst] = select.value || undefined
+        data[dst] = getSelfValue(autocompleteSelectEl)
       }
     })
 
@@ -169,27 +189,21 @@
   function findAutocompleteSelect(winName) {
     // Django admin's removePopupIndex strips "__N" suffix (double underscore + popup index).
     var name = winName.replace(/__\d+$/, '')
-    var select = document.getElementById(name)
-    if (!select) return null
-    return select.closest('autocomplete-select')
+    var el = document.getElementById(name)
+    if (!el || el.tagName !== 'AUTOCOMPLETE-SELECT') return null
+    return el
   }
 
-  // Defer patching until DOMContentLoaded so that RelatedObjectLookups.js
-  // (which loads after dal-django.js in the merged media) has already run
-  // and defined window.dismissAddRelatedObjectPopup.
   // --- Related-object link enable/disable ----------------------------------
 
   /**
-   * Django admin's updateRelatedObjectLinks uses nextAll() on the <select>
-   * to find .view-related/.change-related buttons.  For our widget the
-   * <select> is nested inside <autocomplete-select>, so the buttons are
-   * siblings of <autocomplete-select>, not of <select>.  We traverse up
-   * first, then look sideways.
+   * Django admin's updateRelatedObjectLinks uses nextAll() on the field
+   * widget to find .view-related/.change-related buttons.  For our widget the
+   * buttons are siblings of <autocomplete-select>, not of the value inputs.
    */
-  function updateAlightRelatedLinks(select) {
-    var acEl = select.closest('autocomplete-select')
+  function updateAlightRelatedLinks(acEl) {
     if (!acEl) return
-    var value = select.value
+    var value = getSelfValue(acEl)
     var buttons = acEl.parentNode
       ? Array.from(acEl.parentNode.querySelectorAll('.view-related, .change-related, .delete-related'))
       : []
@@ -208,29 +222,34 @@
   // --- Django admin popup sync -----------------------------------------------
 
   document.addEventListener('DOMContentLoaded', function () {
-    // Initial state for selects that already have a value (edit forms).
-    document.querySelectorAll('autocomplete-select select').forEach(function (select) {
-      updateAlightRelatedLinks(select)
-      select.addEventListener('change', function () {
-        updateAlightRelatedLinks(select)
+    // Initial state for widgets that already have a value (edit forms).
+    document.querySelectorAll('autocomplete-select[id]').forEach(function (acEl) {
+      updateAlightRelatedLinks(acEl)
+      acEl.addEventListener('change', function () {
+        updateAlightRelatedLinks(acEl)
       })
     })
     var origAdd = window.dismissAddRelatedObjectPopup
     window.dismissAddRelatedObjectPopup = function (win, newId, newRepr) {
-      if (origAdd) origAdd.call(this, win, newId, newRepr)
       var el = findAutocompleteSelect(win.name)
-      if (!el) return
-      var choice = document.createElement('div')
-      choice.setAttribute('data-value', String(newId))
-      choice.textContent = String(newRepr)
-      el.choiceSelect(choice)
+      if (el) {
+        var choice = document.createElement('div')
+        choice.setAttribute('data-value', String(newId))
+        choice.textContent = String(newRepr)
+        el.choiceSelect(choice)
+        return
+      }
+      if (origAdd) origAdd.call(this, win, newId, newRepr)
     }
 
     var origChange = window.dismissChangeRelatedObjectPopup
     window.dismissChangeRelatedObjectPopup = function (win, objId, newRepr, newId) {
-      if (origChange) origChange.call(this, win, objId, newRepr, newId)
       var el = findAutocompleteSelect(win.name)
-      if (el) el.choiceUpdate(String(objId), String(newRepr))
+      if (el) {
+        el.choiceUpdate(String(objId), String(newRepr))
+        return
+      }
+      if (origChange) origChange.call(this, win, objId, newRepr, newId)
     }
   })
 })()

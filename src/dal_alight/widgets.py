@@ -18,12 +18,12 @@ def _is_iterable(x):
 class AlightWidgetMixin:
     """Mixin that renders the autocomplete-light web component shell.
 
-    Wraps the underlying ``<select>`` (rendered by ``super().render()``) in::
+    Wraps hidden value inputs and the search field in::
 
-        <autocomplete-select>
-          <select slot="select">…</select>
-          <div slot="deck"></div>
-          <autocomplete-select-input slot="input" [url="…"]>
+        <autocomplete-select id="id_{field}">
+          <input type="hidden" name="{field}" value="…" slot="values" …>
+          <span slot="deck">…</span>
+          <autocomplete-select-input slot="input" url="…">
             <input …/>
           </autocomplete-select-input>
           <div class="dal-forward-conf">…</div>
@@ -53,18 +53,55 @@ class AlightWidgetMixin:
             js=js,
         )
 
+    def _render_values_and_deck(self, name, value, attrs=None):
+        """Build hidden inputs and deck chips for the current selection."""
+        value = self.format_value(value)
+        hidden_parts = []
+        deck_parts = []
+        for _group_name, group_options, _group_index in self.optgroups(
+            name, value, attrs=attrs
+        ):
+            for option in group_options:
+                if not option['selected']:
+                    continue
+                val = option['value']
+                if val is None or val == '':
+                    continue
+                label = option['label']
+                hidden_parts.append(format_html(
+                    '<input type="hidden" name="{}" value="{}" slot="values" '
+                    'data-label="{}">',
+                    name,
+                    val,
+                    label,
+                ))
+                deck_parts.append(format_html(
+                    '<div data-value="{}">{}</div>',
+                    val,
+                    label,
+                ))
+        values_html = mark_safe(''.join(hidden_parts))
+        if deck_parts:
+            deck_html = format_html(
+                '<span slot="deck">{}</span>',
+                mark_safe(''.join(deck_parts)),
+            )
+        else:
+            deck_html = '<span slot="deck"></span>'
+        return values_html, deck_html
+
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         if hasattr(self.choices, 'field'):
             self.choices.field.empty_label = None
         attrs = attrs or {}
-        attrs.setdefault('slot', 'select')
+        field_id = attrs.get('id') or name
 
-        widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
+        values_html, deck_html = self._render_values_and_deck(
+            name, value, attrs=attrs
+        )
 
-        deck = '<span slot="deck"></span>'
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
         input_widget = forms.TextInput(attrs={
-            'name': f'{name}-input',
             'slot': 'input',
             'class': 'vTextField',
             'placeholder': _('Search'),
@@ -76,10 +113,32 @@ class AlightWidgetMixin:
             url_attr,
             input_html,
         )
-        field_id = (attrs or {}).get('id') or name
         conf = self.render_forward_conf(field_id)
-        inner = widget + deck + str(input_el) + conf
-        return mark_safe(f'<autocomplete-select>{inner}</autocomplete-select>')
+
+        multiple_attr = (
+            ' data-multiple' if getattr(self, 'allow_multiple_selected', False) else ''
+        )
+        inner = values_html + deck_html + str(input_el) + conf
+        return mark_safe(format_html(
+            '<autocomplete-select id="{}"{}>{}</autocomplete-select>',
+            field_id,
+            mark_safe(multiple_attr),
+            mark_safe(inner),
+        ))
+
+
+class _AlightUrlRequiredMixin:
+    """Choice widgets that always fetch from the server must have a url."""
+
+    def __init__(self, url=None, *args, **kwargs):
+        if url is None and args and isinstance(args[0], str):
+            url = args[0]
+        if not url:
+            raise ValueError(
+                '{} requires a url; client-side local filtering was removed.'
+                .format(self.__class__.__name__)
+            )
+        super().__init__(url, *args, **kwargs)
 
 
 # ---------------------------------------------------------------------------
@@ -106,20 +165,23 @@ class ModelAlightMultiple(
 # Non-queryset widgets (arbitrary choice lists)
 # ---------------------------------------------------------------------------
 
-class Alight(WidgetMixin, AlightWidgetMixin, forms.Select):
+class Alight(_AlightUrlRequiredMixin, WidgetMixin, AlightWidgetMixin, forms.Select):
     """Single-select autocomplete for arbitrary choices.
 
-    Without a ``url`` the component filters ``<option>`` elements locally in
-    JS — no server round-trip needed.  With a ``url`` it fetches from the
-    view as usual.
+    Requires a ``url`` — results are always fetched from the autocomplete view.
     """
 
 
-class AlightMultiple(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
+class AlightMultiple(
+    _AlightUrlRequiredMixin,
+    WidgetMixin,
+    AlightWidgetMixin,
+    forms.SelectMultiple,
+):
     """Multiple-select autocomplete for arbitrary choices."""
 
 
-class ListAlight(WidgetMixin, AlightWidgetMixin, forms.Select):
+class ListAlight(_AlightUrlRequiredMixin, WidgetMixin, AlightWidgetMixin, forms.Select):
     """Single-select autocomplete backed by ``AlightListView``.
 
     Use alongside ``AlightListView`` on the server.

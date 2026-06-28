@@ -296,13 +296,19 @@ class ModelAlightRenderTest(TestCase):
     def test_renders_autocomplete_select_wrapper(self):
         w = self._widget()
         html = w.render('test', None)
-        self.assertIn('<autocomplete-select>', html)
+        self.assertIn('<autocomplete-select id="test"', html)
         self.assertIn('</autocomplete-select>', html)
 
-    def test_renders_select_with_slot(self):
+    def test_renders_id_on_autocomplete_select(self):
+        w = self._widget()
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('<autocomplete-select id="id_test"', html)
+
+    def test_renders_hidden_values_slot(self):
         w = self._widget()
         html = w.render('test', None)
-        self.assertIn('slot="select"', html)
+        self.assertNotIn('slot="select"', html)
+        self.assertNotIn('<select', html)
 
     def test_renders_deck_span(self):
         w = self._widget()
@@ -369,6 +375,8 @@ class AlightInitialRenderMixinTest(TestCase):
     def test_prefills_single_value(self):
         html = self._widget(self.obj.pk)
         self.assertIn('pre-filled', html)
+        self.assertIn('slot="values"', html)
+        self.assertIn('type="hidden"', html)
 
     def test_does_not_fail_on_none_value(self):
         html = self._widget(None)
@@ -398,16 +406,14 @@ class NonQuerysetWidgetTest(TestCase):
         # Use a path (contains '/') so WidgetMixin doesn't try to reverse it.
         w = Alight(url='/autocomplete/', choices=self.CHOICES)
         html = w.render('field', None, attrs={'id': 'id_field'})
-        self.assertIn('<autocomplete-select>', html)
+        self.assertIn('<autocomplete-select id="id_field"', html)
 
-    def test_alight_without_url_no_url_attr(self):
-        w = Alight(url=None, choices=self.CHOICES)
-        html = w.render('field', None, attrs={'id': 'id_field'})
-        # Should render without url="…" on the input element.
-        self.assertNotIn('url="', html)
+    def test_alight_without_url_raises(self):
+        with self.assertRaises(ValueError):
+            Alight(url=None, choices=self.CHOICES)
 
     def test_alight_multiple_allow_multiple(self):
-        w = AlightMultiple(url=None, choices=self.CHOICES)
+        w = AlightMultiple(url='/autocomplete/', choices=self.CHOICES)
         self.assertTrue(w.allow_multiple_selected)
 
     def test_list_alight_renders_component(self):
@@ -453,7 +459,7 @@ class TagAlightTest(TestCase):
     def test_render_includes_component(self):
         w = self._widget()
         html = w.render('tags', 'foo,bar', attrs={'id': 'id_tags'})
-        self.assertIn('<autocomplete-select>', html)
+        self.assertIn('<autocomplete-select id="id_tags"', html)
 
     def test_allow_multiple_selected(self):
         self.assertTrue(self._widget().allow_multiple_selected)
