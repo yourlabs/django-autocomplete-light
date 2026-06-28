@@ -1,3 +1,24 @@
+5.1.0
+
+    Changed
+    - dal_alight: widget values are submitted via ``<input type="hidden"
+      slot="values">`` instead of a hidden ``<select slot="select">``.
+      The ``id`` attribute is rendered on ``<autocomplete-select>``.
+      Initial selections are rendered as hidden inputs and deck chips.
+
+    - dal_alight: ``Alight``, ``AlightMultiple``, and ``ListAlight`` now
+      require a ``url``; client-side local filtering of ``<option>``
+      elements was removed.
+
+    - dal.test.stories: backend-specific Selenium story classes moved to
+      ``dal_alight.test`` and ``dal_select2.test``. Shared stories raise
+      ``NotImplementedError`` for value assertions; functional tests
+      import the appropriate backend subclass.
+
+    Improvements
+    - test_project: pytest runs in parallel via ``pytest-xdist`` (``-n auto``
+      in tox).
+
 5.0.0
 
     WARNING: BC break identified with DAL v4, in the process of resolution
