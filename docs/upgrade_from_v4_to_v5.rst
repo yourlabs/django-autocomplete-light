@@ -172,7 +172,7 @@ If you override ``templateResult`` or ``templateSelection``, handle
 items.
 
 Migrating custom JavaScript from Select2 to alight
--------------------------------------------------
+--------------------------------------------------
 
 The new ``dal_alight`` backend does not use jQuery or Select2.  It uses native
 web components plus ``dal-django.js``.
