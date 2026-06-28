@@ -1,8 +1,8 @@
 from alight_many_to_many.models import TModel
 from django.urls import reverse
 
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import AlightStory, AlightSelectOption, AlightSelectOptionMultiple
 
 
 class AlightOutsideAdminTestCase(
@@ -28,7 +28,7 @@ class AlightOutsideAdminTestCase(
 
     def test_can_select_option(self):
         opt = self.create_option()
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option(opt.name)
         labels = [
             self.clean_label(el.text)
@@ -38,7 +38,7 @@ class AlightOutsideAdminTestCase(
 
     def test_form_submits_with_selection(self):
         opt = self.create_option()
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option(opt.name)
         self.browser.find_by_css('[type=submit]').first.click()
         obj = TModel.objects.first()

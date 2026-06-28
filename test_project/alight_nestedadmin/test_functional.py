@@ -1,8 +1,8 @@
 import json
 import time
 
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import AlightStory, AlightSelectOption
 
 from .models import TModelOne
 
@@ -35,7 +35,7 @@ class AdminNestedLinkedDataTest(AlightStory,
 
         self.browser.execute_script(script)
 
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.toggle_autocomplete()
 
         # The component debounces requests by 200ms; wait for the XHR to fire.

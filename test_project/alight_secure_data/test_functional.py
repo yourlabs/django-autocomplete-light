@@ -1,6 +1,6 @@
-from dal.test import case, stories
+from dal.test import case
 from dal.test.utils import OwnedFixtures
-from dal_alight.test import AlightStory
+from dal_alight.test import AlightStory, AlightSelectOption
 
 from .models import TModel
 
@@ -25,7 +25,7 @@ class AdminSecureDataTest(
         self.get(url=self.get_modeladmin_url('add'))
 
     def test_filtered_options(self):
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.toggle_autocomplete()
 
         story.assert_suggestion_labels_are(

@@ -1,7 +1,7 @@
 import json
 
-from dal.test import case, stories
-from dal_select2.test import Select2Story
+from dal.test import case
+from dal_select2.test import Select2Story, Select2SelectOption
 
 from .models import TModelOne
 
@@ -34,7 +34,7 @@ class AdminNestedLinkedDataTest(Select2Story,
 
         self.browser.execute_script(script)
 
-        story = stories.SelectOption(self)
+        story = Select2SelectOption(self)
         story.toggle_autocomplete()
 
         forward_val = self.browser.evaluate_script('window.forward_val')

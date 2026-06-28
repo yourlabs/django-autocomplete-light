@@ -94,11 +94,14 @@ class BaseStory(object):
         assert text == self.get_label()
 
     def get_value(self):
-        """Return the autocomplete field value."""
-        field = self.case.browser.find_by_css(
-            self.field_selector)
+        """Return the autocomplete field value.
 
-        return field['value']
+        Backend-specific story subclasses in ``dal_select2.test`` and
+        ``dal_alight.test`` must override this.
+        """
+        raise NotImplementedError(
+            'Use Select2SelectOption or AlightSelectOption.'
+        )
 
     @tenacity.retry(stop=tenacity.stop_after_delay(3))
     def assert_value(self, value):
@@ -225,13 +228,13 @@ class SelectOption(BaseStory):
         self.case.click(self.field_clear_selector)
 
 
-class InlineSelectOption(SelectOption):
-    """Same as UserCanSelectOption, in a given inline."""
+class InlineSelectOptionMixin:
+    """Shared inline formset setup for autocomplete stories."""
 
     def __init__(self, case, inline_number, inline_related_name=None,
                  **kwargs):
         """
-        Do the same as UserCanSelectOption, in inline inline_number.
+        Do the same as SelectOption, in inline inline_number.
 
         Where inline_related_name should be the related_name option for the
         foreign key used for the InlineModelAdmin.
@@ -250,15 +253,15 @@ class InlineSelectOption(SelectOption):
             self.field_name
         )
 
-        # Scope input_selector to the inline container when the widget
-        # embeds its text input inside the field (e.g. alight), rather than
-        # in a global dropdown (e.g. select2 whose .select2-search__field
-        # lives outside the field container).
-        if getattr(case, 'input_in_field_container', False):
-            self.input_selector = '%s %s' % (
-                self.field_container_selector, self.input_selector)
+        self._scope_inline_input_selector()
+        self._ensure_inline_visible()
 
-        # Ensure the inline is displayed else click to add it
+    def _scope_inline_input_selector(self):
+        """Override in backend-specific inline story subclasses."""
+        raise NotImplementedError
+
+    def _ensure_inline_visible(self):
+        """Ensure enough inline rows exist and widgets are ready."""
         add = self.case.browser.links.find_by_partial_text('Add another').first
 
         num = len(
@@ -269,20 +272,17 @@ class InlineSelectOption(SelectOption):
         while num < self.inline_number + 1:
             add.click()
 
-            # Did it work or wasn't the js loaded yet ?
             try:
                 self.case.browser.find_by_css(
                     self.field_selector.replace(
                         str(self.inline_number),
                         str(num),
                     )
-                ).first  # as usual, rely on implicit wait
+                ).first
             except Exception:
                 continue
 
             num += 1
-            # Wait for any newly-connected web components (e.g. alight) to
-            # finish their connectedCallback before the next interaction.
             if hasattr(self.case, 'wait_script'):
                 self.case.wait_script()
 
@@ -328,40 +328,6 @@ class CreateOption(SelectOption):
         self.case.enter_text(self.input_selector, name)
 
 
-class AlightCreateOption(CreateOption):
-    """Create an option on the fly — alight backend."""
-
-    def create_option(self, name):
-        create_sel = self.case.get_create_option_selector(name)
-        self._open_and_type(name)
-        self.case.browser.is_element_present_by_css(create_sel)
-        initial_count = self.case.browser.evaluate_script(
-            'document.querySelectorAll("%s option").length' % self.field_selector
-        )
-        self.case.js_click(create_sel)
-        deadline = time.time() + 5
-        while time.time() < deadline:
-            count = self.case.browser.evaluate_script(
-                'document.querySelectorAll("%s option").length'
-                % self.field_selector
-            )
-            if count > initial_count:
-                break
-            time.sleep(0.1)
-
-
-class Select2CreateOption(CreateOption):
-    """Create an option on the fly — select2 backend."""
-
-    def create_option(self, name):
-        self._open_and_type(name)
-        self.case.browser.is_element_present_by_text(name)
-        self.case.click(self.option_selector)
-        self.case.browser.is_element_not_present_by_css(
-            '.select2-results__options'
-        )
-
-
 class MultipleMixin(object):
     """Enable multiple choice support with stories."""
 
@@ -393,15 +359,14 @@ class MultipleMixin(object):
         ]
 
     def get_values(self):
-        """Return the autocomplete field value."""
-        script = """
-        window.GET_VALUES = [];
-        document.querySelectorAll("%s option:checked").forEach(function(opt) {
-            GET_VALUES.push(opt.value);
-        });
-        """ % self.field_selector
-        self.case.browser.execute_script(script)
-        return self.case.browser.evaluate_script('window.GET_VALUES')
+        """Return the autocomplete field values.
+
+        Backend-specific story subclasses in ``dal_select2.test`` and
+        ``dal_alight.test`` must override this.
+        """
+        raise NotImplementedError(
+            'Use Select2SelectOptionMultiple or AlightSelectOptionMultiple.'
+        )
 
     def assert_labels(self, texts):
         """Assert that all labels match texts."""
@@ -438,39 +403,4 @@ class MultipleMixin(object):
         self.assert_values(values)
 
 
-class CreateOptionMultiple(MultipleMixin, CreateOption):
-    """Multiple version of CreateOptions."""
 
-
-class AlightCreateOptionMultiple(MultipleMixin, AlightCreateOption):
-    """Multiple-select variant of AlightCreateOption."""
-
-
-class Select2CreateOptionMultiple(MultipleMixin, Select2CreateOption):
-    """Multiple-select variant of Select2CreateOption."""
-
-
-class SelectOptionMultiple(MultipleMixin, SelectOption):
-    """Multiple version of CreateOptions."""
-
-
-class InlineSelectOptionMultiple(MultipleMixin, InlineSelectOption):
-    """Multiple options for InlineSelectOption."""
-
-    def __init__(self, case, inline_number, inline_related_name=None,
-                 **kwargs):
-        """Set input_selector with field_container_selector."""
-        super().__init__(
-            case,
-            inline_number,
-            inline_related_name=inline_related_name,
-            **kwargs
-        )
-
-        # InlineSelectOption already scoped input_selector when
-        # input_in_field_container is True; avoid scoping it a second time.
-        if not getattr(case, 'input_in_field_container', False):
-            self.input_selector = '%s %s' % (
-                self.field_container_selector,
-                self.input_selector,
-            )

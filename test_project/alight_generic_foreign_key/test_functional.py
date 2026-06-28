@@ -1,5 +1,5 @@
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import AlightStory, AlightInlineSelectOption, AlightSelectOption
 
 from .models import TModel
 
@@ -18,7 +18,7 @@ class AdminGenericForeignKeyTestCase(AlightStory, case.AdminMixin,
 
     def test_can_select_option(self):
         option, ctype = self.create_option()
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.select_option(option.name)
         story.assert_selection_persists(
             '%s-%s' % (ctype.pk, option.pk),
@@ -27,7 +27,7 @@ class AdminGenericForeignKeyTestCase(AlightStory, case.AdminMixin,
 
     def test_can_select_option_in_first_inline(self):
         option, ctype = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=0)
+        story = AlightInlineSelectOption(self, inline_number=0)
         story.select_option(option.name)
         story.assert_selection_persists(
             '%s-%s' % (ctype.pk, option.pk),
@@ -36,6 +36,6 @@ class AdminGenericForeignKeyTestCase(AlightStory, case.AdminMixin,
 
     def test_can_select_option_in_first_extra_inline(self):
         option, ctype = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=3)
+        story = AlightInlineSelectOption(self, inline_number=3)
         story.select_option(option.name)
         story.assert_value('%s-%s' % (ctype.pk, option.pk))

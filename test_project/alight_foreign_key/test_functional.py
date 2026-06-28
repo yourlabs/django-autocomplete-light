@@ -1,5 +1,5 @@
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import AlightStory, AlightInlineSelectOption, AlightSelectOption
 
 from .models import TModel
 
@@ -21,25 +21,25 @@ class AdminForeignKeyTestCase(
 
     def test_can_select_option(self):
         option = self.create_option()
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.select_option(option.name)
         story.assert_selection_persists(option.pk, option.name)
 
     def test_can_select_option_in_first_inline(self):
         option = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=0)
+        story = AlightInlineSelectOption(self, inline_number=0)
         story.select_option(option.name)
         story.assert_selection(option.pk, option.name)
 
     def test_can_select_option_in_first_extra_inline(self):
         option = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=3)
+        story = AlightInlineSelectOption(self, inline_number=3)
         story.select_option(option.name)
         story.assert_selection(option.pk, option.name)
 
     def test_can_unselect_option(self):
         option = self.create_option()
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.select_option(option.name)
         story.submit()
         story.clear_option()
@@ -51,6 +51,6 @@ class AdminForeignKeyTestCase(
         # Save a record with the option selected.
         instance = self.model.objects.create(name='edit_me', test=option)
         self.get(url=self.get_modeladmin_url('change', object_id=instance.pk))
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.assert_label(option.name)
         story.assert_value(option.pk)
