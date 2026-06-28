@@ -20,11 +20,11 @@ class AlightWidgetMixin:
 
     Wraps hidden value inputs and the search field in::
 
-        <autocomplete-select id="id_{field}">
+        <autocomplete-select>
           <input type="hidden" name="{field}" value="…" slot="values" …>
           <span slot="deck">…</span>
           <autocomplete-select-input slot="input" url="…">
-            <input …/>
+            <input id="id_{field}" slot="input" …/>
           </autocomplete-select-input>
           <div class="dal-forward-conf">…</div>
         </autocomplete-select>
@@ -101,13 +101,19 @@ class AlightWidgetMixin:
         )
 
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
-        input_widget = forms.TextInput(attrs={
-            'slot': 'input',
-            'class': 'vTextField',
-            'placeholder': _('Search'),
-            'autocomplete': 'off',
-        })
-        input_html = input_widget.render(f'{name}-input', '', renderer=renderer)
+        input_widget = forms.TextInput()
+        input_html = input_widget.render(
+            f'{name}-input',
+            '',
+            attrs={
+                'id': field_id,
+                'slot': 'input',
+                'class': 'vTextField',
+                'placeholder': _('Search'),
+                'autocomplete': 'off',
+            },
+            renderer=renderer,
+        )
         input_el = format_html(
             '<autocomplete-select-input slot="input"{}>{}</autocomplete-select-input>',
             url_attr,
@@ -120,8 +126,7 @@ class AlightWidgetMixin:
         )
         inner = values_html + deck_html + str(input_el) + conf
         return mark_safe(format_html(
-            '<autocomplete-select id="{}"{}>{}</autocomplete-select>',
-            field_id,
+            '<autocomplete-select{}>{}</autocomplete-select>',
             mark_safe(multiple_attr),
             mark_safe(inner),
         ))

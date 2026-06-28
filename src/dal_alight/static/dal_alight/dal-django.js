@@ -190,8 +190,9 @@
     // Django admin's removePopupIndex strips "__N" suffix (double underscore + popup index).
     var name = winName.replace(/__\d+$/, '')
     var el = document.getElementById(name)
-    if (!el || el.tagName !== 'AUTOCOMPLETE-SELECT') return null
-    return el
+    if (!el) return null
+    if (el.tagName === 'AUTOCOMPLETE-SELECT') return el
+    return el.closest('autocomplete-select')
   }
 
   // --- Related-object link enable/disable ----------------------------------
@@ -223,7 +224,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     // Initial state for widgets that already have a value (edit forms).
-    document.querySelectorAll('autocomplete-select[id]').forEach(function (acEl) {
+    document.querySelectorAll('autocomplete-select').forEach(function (acEl) {
       updateAlightRelatedLinks(acEl)
       acEl.addEventListener('change', function () {
         updateAlightRelatedLinks(acEl)

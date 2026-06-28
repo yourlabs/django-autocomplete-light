@@ -77,7 +77,7 @@ class GenericFormTest(test.TestCase):  # noqa
         result = str(form['test'].as_widget())
 
         # Alight widget renders an <autocomplete-select> web component.
-        self.assertIn('<autocomplete-select id="id_test"', result)
+        self.assertIn('id="id_test"', result)
         self.assertIn('</autocomplete-select>', result)
 
         # The autocomplete URL for this field should be present

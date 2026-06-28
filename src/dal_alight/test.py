@@ -13,13 +13,13 @@ class AlightStory:
 
     HTML structure produced by ``AlightWidgetMixin``::
 
-        <autocomplete-select id="id_{field}">
+        <autocomplete-select>
           <input type="hidden" name="{field}" value="1" slot="values" data-label="Label">
           <span slot="deck">
             <div data-value="1">Label<span class="clear">×</span></div>
           </span>
           <autocomplete-select-input slot="input" url="…">
-            <input name="{field}-input" slot="input" class="vTextField" />
+            <input id="id_{field}" name="{field}-input" slot="input" class="vTextField" />
           </autocomplete-select-input>
         </autocomplete-select>
 
@@ -114,10 +114,12 @@ class AlightStory:
 class AlightSelectOption(stories.SelectOption):
     """Single-select user story for the alight backend."""
 
+    def _values_selector(self):
+        """Hidden inputs live in the component; Django's id is on the search input."""
+        return 'autocomplete-select:has(%s) [slot=values]' % self.field_selector
+
     def get_value(self):
-        fields = self.case.browser.find_by_css(
-            '%s [slot=values]' % self.field_selector
-        )
+        fields = self.case.browser.find_by_css(self._values_selector())
         if not fields:
             return ''
         return fields.first['value']
@@ -129,10 +131,10 @@ class AlightMultipleMixin(stories.MultipleMixin):
     def get_values(self):
         script = """
         window.GET_VALUES = [];
-        document.querySelectorAll("%s [slot=values]").forEach(function(inp) {
+        document.querySelectorAll("%s").forEach(function(inp) {
             GET_VALUES.push(inp.value);
         });
-        """ % self.field_selector
+        """ % self._values_selector()
         self.case.browser.execute_script(script)
         return self.case.browser.evaluate_script('window.GET_VALUES')
 
@@ -168,7 +170,7 @@ class AlightCreateOption(AlightSelectOption, stories.CreateOption):
         create_sel = self.case.get_create_option_selector(name)
         self._open_and_type(name)
         self.case.browser.is_element_present_by_css(create_sel)
-        value_selector = '%s [slot=values]' % self.field_selector
+        value_selector = self._values_selector()
         initial_count = self.case.browser.evaluate_script(
             'document.querySelectorAll("%s").length' % value_selector
         )

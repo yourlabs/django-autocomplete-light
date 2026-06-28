@@ -3,8 +3,9 @@
     Changed
     - dal_alight: widget values are submitted via ``<input type="hidden"
       slot="values">`` instead of a hidden ``<select slot="select">``.
-      The ``id`` attribute is rendered on ``<autocomplete-select>``.
-      Initial selections are rendered as hidden inputs and deck chips.
+      Django's field ``id`` is rendered on the search ``<input>`` so
+      ``<label for="…">`` works; initial selections are hidden inputs
+      and deck chips.
 
     - dal_alight: ``Alight``, ``AlightMultiple``, and ``ListAlight`` now
       require a ``url``; client-side local filtering of ``<option>``
