@@ -31,7 +31,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        include:
+          - python-version: "3.11"
+            django-version: "5.2"
+            tox-env: py311-dj52
+          - python-version: "3.12"
+            django-version: "5.2"
+            tox-env: py312-dj52
+          - python-version: "3.13"
+            django-version: "5.2"
+            tox-env: py313-dj52
+          - python-version: "3.14"
+            django-version: "5.2"
+            tox-env: py314-dj52
+          - python-version: "3.14"
+            django-version: "6.0"
+            tox-env: py314-dj60
+    name: Python ${{ matrix.python-version }} / Django ${{ matrix.django-version }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -40,8 +56,8 @@ jobs:
           allow-prereleases: true
       - name: Install Firefox
         uses: browser-actions/setup-firefox@v1
-      - run: pip install tox tox-gh-actions
-      - run: tox
+      - run: pip install tox
+      - run: tox -e ${{ matrix.tox-env }}
         env:
           MOZ_HEADLESS: "1"
           BROWSER: firefox
