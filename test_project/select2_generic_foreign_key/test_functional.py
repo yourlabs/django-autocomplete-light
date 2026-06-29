@@ -1,5 +1,9 @@
-from dal.test import case, stories
-from dal_select2.test import Select2Story
+from dal.test import case
+from dal_select2.test import (
+    Select2InlineSelectOption,
+    Select2SelectOption,
+    Select2Story,
+)
 
 from .models import TModel
 
@@ -18,7 +22,7 @@ class AdminGenericForeignKeyTestCase(Select2Story, case.AdminMixin,
 
     def test_can_select_option(self):
         option, ctype = self.create_option()
-        story = stories.SelectOption(self)
+        story = Select2SelectOption(self)
         story.select_option(option.name)
         story.assert_selection_persists(
             '%s-%s' % (ctype.pk, option.pk),
@@ -27,7 +31,7 @@ class AdminGenericForeignKeyTestCase(Select2Story, case.AdminMixin,
 
     def test_can_select_option_in_first_inline(self):
         option, ctype = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=0)
+        story = Select2InlineSelectOption(self, inline_number=0)
         story.select_option(option.name)
         story.assert_selection_persists(
             '%s-%s' % (ctype.pk, option.pk),
@@ -36,6 +40,6 @@ class AdminGenericForeignKeyTestCase(Select2Story, case.AdminMixin,
 
     def test_can_select_option_in_first_extra_inline(self):
         option, ctype = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=3)
+        story = Select2InlineSelectOption(self, inline_number=3)
         story.select_option(option.name)
         story.assert_value('%s-%s' % (ctype.pk, option.pk))

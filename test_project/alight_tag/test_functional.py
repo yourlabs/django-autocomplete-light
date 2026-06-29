@@ -1,5 +1,10 @@
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import (
+    AlightCreateOption,
+    AlightSelectOption,
+    AlightSelectOptionMultiple,
+    AlightStory,
+)
 
 from .models import TModel
 
@@ -17,23 +22,23 @@ class AdminTagTestCase(
         self.get(url=self.get_modeladmin_url('add'))
 
     def test_can_add_existing_tag(self):
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.select_option('python')
         story.assert_label('python')
 
     def test_can_create_new_tag(self):
-        story = stories.AlightCreateOption(self)
+        story = AlightCreateOption(self)
         story.create_option('newtag')
         story.assert_label('newtag')
 
     def test_can_add_multiple_tags(self):
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option('django')
         story.select_option('python')
         story.assert_labels(['django', 'python'])
 
     def test_tags_persist_after_submit(self):
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option('django')
         story.select_option('css')
         story.assert_selection_persists(
@@ -42,7 +47,7 @@ class AdminTagTestCase(
         )
 
     def test_tags_survive_list_refresh(self):
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option('django')
         story.assert_labels(['django'])
         # Refresh the dropdown by typing a new query
@@ -52,7 +57,7 @@ class AdminTagTestCase(
         story.assert_labels(['django'])
 
     def test_tags_dont_appear_in_dropdown_after_selection(self):
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option('django')
         # Clear the text left by select_option, then focus to load all remaining results
         self.browser.find_by_css(self.input_selector).first.value = ''

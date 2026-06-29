@@ -1,7 +1,11 @@
 from taggit.models import Tag
 
-from dal.test import case, stories
-from dal_select2.test import Select2Story
+from dal.test import case
+from dal_select2.test import (
+    Select2InlineSelectOptionMultiple,
+    Select2SelectOptionMultiple,
+    Select2Story,
+)
 
 from .models import TModel
 
@@ -16,7 +20,7 @@ class TagSelect2AdminTestMixin(Select2Story, case.AdminMixin):
         self.tag_model.objects.create(name=self.labels[0])
 
     def test_can_select_options(self):
-        story = stories.SelectOptionMultiple(self)
+        story = Select2SelectOptionMultiple(self)
 
         for option in self.labels:
             story.select_option(option)
@@ -33,7 +37,7 @@ class TagSelect2AdminTestMixin(Select2Story, case.AdminMixin):
         story.assert_values(self.labels)
 
     def test_can_select_option_in_first_inline(self):
-        story = stories.InlineSelectOptionMultiple(self, inline_number=0)
+        story = Select2InlineSelectOptionMultiple(self, inline_number=0)
 
         for option in self.labels:
             story.select_option(option)

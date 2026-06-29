@@ -1,5 +1,9 @@
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import (
+    AlightCreateOptionMultiple,
+    AlightSelectOptionMultiple,
+    AlightStory,
+)
 
 from .models import TModel
 
@@ -22,7 +26,7 @@ class AdminManyToManyTestCase(
     def test_can_select_multiple_options(self):
         opt1 = self.create_option()
         opt2 = self.create_option()
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option(opt1.name)
         story.select_option(opt2.name)
         story.assert_selection_persists(
@@ -31,7 +35,7 @@ class AdminManyToManyTestCase(
         )
 
     def test_can_create_option_on_the_fly(self):
-        story = stories.AlightCreateOptionMultiple(self)
+        story = AlightCreateOptionMultiple(self)
         existing = self.create_option()
         story.select_option(existing.name)
 

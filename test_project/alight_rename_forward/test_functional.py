@@ -1,6 +1,6 @@
-from dal.test import case, stories
+from dal.test import case
 from dal.test.utils import OwnedFixtures
-from dal_alight.test import AlightStory
+from dal_alight.test import AlightSelectOption, AlightStory
 
 from .models import TModel
 
@@ -29,7 +29,7 @@ class AdminRenameForwardTest(
             "document.querySelector('[name=owner]').value = %d"
             % self.fixtures.test.pk
         )
-        story = stories.SelectOption(self)
+        story = AlightSelectOption(self)
         story.toggle_autocomplete()
 
         story.assert_suggestion_labels_are(

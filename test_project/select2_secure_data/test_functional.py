@@ -1,6 +1,6 @@
-from dal.test import case, stories
+from dal.test import case
 from dal.test.utils import OwnedFixtures
-from dal_select2.test import Select2Story
+from dal_select2.test import Select2SelectOption, Select2Story
 
 from .models import TModel
 
@@ -21,7 +21,7 @@ class AdminLinkedDataTest(Select2Story, case.AdminMixin, case.OptionMixin,
         self.get(url=self.get_modeladmin_url('add'))
 
     def test_filtered_options(self):
-        story = stories.SelectOption(self)
+        story = Select2SelectOption(self)
         story.toggle_autocomplete()
 
         story.assert_suggestion_labels_are(
