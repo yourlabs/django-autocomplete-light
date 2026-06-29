@@ -254,6 +254,52 @@ class AlightListViewTest(TestCase):
 # Widget render tests
 # ---------------------------------------------------------------------------
 
+class AlightMediaTest(TestCase):
+    """Module script media via Django Script or dal_alight backport."""
+
+    def test_backport_script_renders_module_type(self):
+        from dal_alight.media import Script as BackportScript
+
+        tag = str(BackportScript('dal_alight/autocomplete-light.js', type='module'))
+        self.assertIn('type="module"', tag)
+        self.assertIn('autocomplete-light.js', tag)
+
+    def test_alight_media_uses_script_instances(self):
+        from dal_alight.media import alight_media, get_script_class
+
+        media = alight_media()
+        script_cls = get_script_class()
+        for path in media._js:
+            self.assertIsInstance(path, script_cls)
+
+    def test_get_script_class_returns_django_script_when_available(self):
+        from dal_alight.media import Script as BackportScript
+        from dal_alight.media import get_script_class
+
+        try:
+            from django.forms.widgets import Script as DjangoScript
+        except ImportError:
+            self.assertIs(get_script_class(), BackportScript)
+            return
+        self.assertIs(get_script_class(), DjangoScript)
+
+    def test_script_dedupes_with_plain_path_in_media_merge(self):
+        from django.forms.widgets import Media
+
+        from dal_alight.media import Script as BackportScript
+
+        script = BackportScript('dal_alight/autocomplete-light.js', type='module')
+        merged = Media.merge(
+            [script, 'dal_alight/dal-django.js'],
+            ['dal_alight/autocomplete-light.js'],
+        )
+        paths = [
+            item if isinstance(item, str) else item._path
+            for item in merged
+        ]
+        self.assertEqual(paths.count('dal_alight/autocomplete-light.js'), 1)
+
+
 class AlightWidgetMixinMediaTest(TestCase):
     def test_media_includes_autocomplete_js(self):
         w = ModelAlight(url='x')
@@ -270,15 +316,21 @@ class AlightWidgetMixinMediaTest(TestCase):
         media_css = str(w.media)
         self.assertIn('autocomplete-light.css', media_css)
 
-    def test_media_uses_module_scripts_on_django_6(self):
-        import django
-
+    def test_media_uses_module_scripts(self):
         w = ModelAlight(url='x')
         media_js = str(w.media)
-        if django.VERSION >= (6, 0):
-            self.assertIn('type="module"', media_js)
-        else:
-            self.assertNotIn('type="module"', media_js)
+        self.assertIn('type="module"', media_js)
+        self.assertEqual(media_js.count('type="module"'), 2)
+
+    def test_media_module_scripts_for_both_js_files(self):
+        w = ModelAlight(url='x')
+        media_js = str(w.media)
+        self.assertIn('autocomplete-light.js', media_js)
+        self.assertIn('dal-django.js', media_js)
+        for path in ('autocomplete-light.js', 'dal-django.js'):
+            idx = media_js.index(path)
+            end = media_js.index('</script>', idx)
+            self.assertIn('type="module"', media_js[idx:end])
 
 
 class ModelAlightRenderTest(TestCase):
