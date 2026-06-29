@@ -5,6 +5,7 @@ django-nested-admin
 django-taggit
 selenium
 pytest
+pytest-xdist
 splinter
 pytest-django
 pytest-cov
