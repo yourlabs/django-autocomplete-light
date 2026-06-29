@@ -33,8 +33,6 @@ def _installed(*apps):
 
 if _installed('dal_alight'):
     from dal_alight.widgets import (
-        Alight,
-        AlightMultiple,
         ListAlight,
         ModelAlight,
         ModelAlightMultiple,

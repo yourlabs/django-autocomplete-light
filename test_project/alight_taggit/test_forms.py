@@ -49,8 +49,8 @@ class TagAlightTestMixin(object):
         # Instantiate the modelform for that instance
         form = self.form(instance=fixture)
 
-        # The alight widget wraps the <select> in <autocomplete-select>,
-        # so we use assertIn checks instead of strict HTML equality.
+        # Alight renders <autocomplete-select> with hidden value inputs, not a
+        # <select>, so we use assertIn checks instead of strict HTML equality.
         rendered = str(form['test'].as_widget())
         self.assertIn('autocomplete-select', rendered)
         self.assertIn(reverse(self.url_name), rendered)

@@ -76,8 +76,8 @@ class GenericFormTest(test.TestCase):  # noqa
         # Ensure that the widget rendered right, with the alight component
         result = str(form['test'].as_widget())
 
-        # Alight widget wraps the select in <autocomplete-select>
-        self.assertIn('<autocomplete-select>', result)
+        # Alight widget renders an <autocomplete-select> web component.
+        self.assertIn('id="id_test"', result)
         self.assertIn('</autocomplete-select>', result)
 
         # The autocomplete URL for this field should be present

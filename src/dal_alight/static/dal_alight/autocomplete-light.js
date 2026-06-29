@@ -297,25 +297,26 @@ class AutocompleteLight extends HTMLElement {
 class AutocompleteSelectInput extends AutocompleteLight {
   get url() {
     if (!this.getAttribute('url')) return
-    var url = this.getAttribute('url') + '?q=' + this.input.value
-    this.parentNode.querySelectorAll('option[selected]').forEach((option) => {
-      url += '&_=' + option.value
-    })
+    var url = this.getAttribute('url') + '?q=' + encodeURIComponent(this.input.value)
+    var parent = this.closest('autocomplete-select')
+    if (parent) {
+      parent.valueInputs.forEach((input) => {
+        url += '&_=' + encodeURIComponent(input.value)
+      })
+    }
     var buildFwd = window.AutocompleteLightBuildForward
-    if (buildFwd) {
-      var parent = this.closest('autocomplete-select')
-      if (parent) {
-        var fwd = buildFwd(parent)
-        if (fwd) url += '&forward=' + encodeURIComponent(fwd)
-      }
+    if (buildFwd && parent) {
+      var fwd = buildFwd(parent)
+      if (fwd) url += '&forward=' + encodeURIComponent(fwd)
     }
     return url
   }
 
   receive(ev) {
     if (ev.target.status && !(ev.target.status >= 200 && ev.target.status < 300)) return
+    const parent = this.closest('autocomplete-select')
     const selectedValues = new Set(
-      Array.from(this.parentNode.querySelectorAll('option[selected]')).map(o => o.value)
+      parent ? Array.from(parent.valueInputs).map((input) => input.value) : []
     )
     if (selectedValues.size) {
       const tmp = document.createElement('div')
@@ -332,19 +333,6 @@ class AutocompleteSelectInput extends AutocompleteLight {
     if (this.url) {
       return super.download()
     }
-
-    // No URL: filter local <option> tags instead of fetching from server.
-    this.receive({
-      target: {
-        response: Array.from(
-          this.closest('autocomplete-select').select.options
-        ).filter(
-          (item) => !item.selected && item.innerText.startsWith(this.input.value)
-        ).map(
-          (item) => `<div data-value="${item.getAttribute('value')}">${item.innerHTML}</div>`
-        ).join('\n'),
-      }
-    })
   }
 }
 
@@ -353,7 +341,7 @@ class AutocompleteSelect extends HTMLElement {
   maxChoices = 0
 
   connectedCallback(retries = 20) {
-    if (!this.select || !this.input.input) {
+    if (!this.deck || !this.input || !this.input.input) {
       // Strip data-bound while waiting for children — it may have been
       // inherited from a cloneNode(true), which would make wait_script()
       // return too early before full init completes in the retry.
@@ -374,7 +362,7 @@ class AutocompleteSelect extends HTMLElement {
     const attrMax = parseInt(this.getAttribute('max-choices'))
     this.maxChoices = isNaN(attrMax) ? 0 : attrMax
 
-    if (!this.select.multiple) {
+    if (!this.multiple) {
       this.maxChoices = 1
     }
 
@@ -388,27 +376,27 @@ class AutocompleteSelect extends HTMLElement {
     this.setAttribute('data-bound', 'true')
   }
 
+  findDeckItem(value) {
+    return Array.from(this.deck.querySelectorAll('[data-value]'))
+      .find((el) => el.getAttribute('data-value') === value) || null
+  }
+
   reconcileState() {
-    // ensure all selected options are in deck
-    Array.from(
-      this.select.querySelectorAll('option[selected]')
-    ).forEach((option) => {
-      var exists = this.deck.querySelectorAll(
-        '[data-value="' + option.getAttribute('value') + '"]'
-      )
-      if (exists.length) return
+    // ensure all hidden value inputs are in deck
+    Array.from(this.valueInputs).forEach((input) => {
+      var value = input.value
+      if (this.findDeckItem(value)) return
       var cmp = document.createElement('div')
-      cmp.setAttribute('selected', 'selected')
-      cmp.setAttribute('data-value', option.getAttribute('value'))
-      cmp.innerHTML = option['innerHTML']
+      cmp.setAttribute('data-value', value)
+      cmp.textContent = input.getAttribute('data-label') || value
       this.choiceSelect(cmp, false)
     })
 
-    // ensure all deck values are in select
+    // ensure all deck values have hidden inputs
     Array.from(
       this.deck.querySelectorAll('[data-value]')
     ).forEach((choice) => {
-      if (!this.select.querySelector('option[value="' + choice.getAttribute('data-value') + '"]')) {
+      if (!this.getValueInput(choice.getAttribute('data-value'))) {
         this.choiceSelect(choice, false)
       }
       this.addClear(choice)
@@ -417,12 +405,34 @@ class AutocompleteSelect extends HTMLElement {
     this.input.hidden = this.maxChoices && this.selected.length >= this.maxChoices
   }
 
+  get multiple() {
+    return this.hasAttribute('data-multiple')
+  }
+
   get deck() {
     return this.querySelector('[slot=deck]')
   }
 
-  get select() {
-    return this.querySelector('[slot=select]')
+  get valueInputs() {
+    return this.querySelectorAll('[slot=values]')
+  }
+
+  get searchInput() {
+    return this.querySelector(
+      'autocomplete-select-input [slot=input], autocomplete-light [slot=input]'
+    )
+  }
+
+  get fieldName() {
+    var input = this.querySelector('[slot=values]')
+    if (input) return input.getAttribute('name')
+    var search = this.searchInput
+    if (search) return search.getAttribute('name').replace(/-input$/, '')
+    return null
+  }
+
+  getValueInput(value) {
+    return Array.from(this.valueInputs).find((input) => input.value === value)
   }
 
   get selected() {
@@ -442,18 +452,14 @@ class AutocompleteSelect extends HTMLElement {
   choiceUnselect(choice, noShowHide = false) {
     var value = choice.getAttribute('data-value')
 
-    var option = this.select.querySelector('option[value="' + value + '"]')
-    if (option) {
-      option.removeAttribute('selected')
+    var hidden = this.getValueInput(value)
+    if (hidden) {
+      hidden.parentNode.removeChild(hidden)
     }
 
-    var decked = this.deck.querySelector('[data-value="' + value + '"]')
+    var decked = this.findDeckItem(value)
     if (decked) {
       decked.parentNode.removeChild(decked)
-    }
-
-    if (!this.selected.length) {
-      this.select.value = ''
     }
 
     if (!noShowHide)
@@ -462,15 +468,27 @@ class AutocompleteSelect extends HTMLElement {
     this.changeTrigger()
   }
 
-  choiceUpdate(value, newLabel) {
-    var item = this.deck.querySelector('[data-value="' + value + '"]')
+  choiceUpdate(value, newLabel, newId) {
+    var newValue = value
+    if (newId !== undefined && newId !== null && String(newId) !== String(value)) {
+      newValue = String(newId)
+    }
+    var item = this.findDeckItem(value)
     if (item) {
+      if (newValue !== value) {
+        item.setAttribute('data-value', newValue)
+      }
       var clearSpan = item.querySelector('.clear')
       item.textContent = newLabel
       if (clearSpan) item.appendChild(clearSpan)
     }
-    var option = this.select.querySelector('option[value="' + value + '"]')
-    if (option) option.textContent = newLabel
+    var hidden = this.getValueInput(value)
+    if (hidden) {
+      if (newValue !== value) {
+        hidden.value = newValue
+      }
+      hidden.setAttribute('data-label', newLabel)
+    }
   }
 
   choiceSelect(choice, trigger = true) {
@@ -479,22 +497,29 @@ class AutocompleteSelect extends HTMLElement {
     }
 
     var value = choice.getAttribute('data-value')
+    var label = choice.textContent || choice.innerHTML
 
-    var option = this.select.querySelector('option[value="' + value + '"]')
-    if (!option) {
-      option = document.createElement('option')
-      option.setAttribute('value', value)
-      option.innerHTML = choice.innerHTML
-      this.select.appendChild(option)
-    }
-    option.selected = true
-    option.setAttribute('selected', 'selected')
-
-    if (!this.select.multiple) {
-      this.select.value = value
+    if (!this.multiple) {
+      Array.from(this.valueInputs).forEach((input) => {
+        input.parentNode.removeChild(input)
+      })
+      Array.from(this.deck.querySelectorAll('[data-value]')).forEach((item) => {
+        item.parentNode.removeChild(item)
+      })
     }
 
-    if (!this.deck.querySelector('[data-value="' + value + '"]')) {
+    var hidden = this.getValueInput(value)
+    if (!hidden) {
+      hidden = document.createElement('input')
+      hidden.setAttribute('type', 'hidden')
+      hidden.setAttribute('name', this.fieldName)
+      hidden.setAttribute('value', value)
+      hidden.setAttribute('slot', 'values')
+      hidden.setAttribute('data-label', label)
+      this.deck.parentNode.insertBefore(hidden, this.deck)
+    }
+
+    if (!this.findDeckItem(value)) {
       choice = choice.cloneNode(true)
       choice.classList.remove('hilight')
       this.addClear(choice)
@@ -507,7 +532,7 @@ class AutocompleteSelect extends HTMLElement {
   }
 
   changeTrigger() {
-    this.select.dispatchEvent(
+    this.dispatchEvent(
       new Event('change', {bubbles: true, cancelable: false})
     )
   }
@@ -523,6 +548,12 @@ class AutocompleteSelect extends HTMLElement {
   }
 }
 
-window.customElements.define('autocomplete-light', AutocompleteLight)
-window.customElements.define('autocomplete-select-input', AutocompleteSelectInput)
-window.customElements.define('autocomplete-select', AutocompleteSelect)
+if (!customElements.get('autocomplete-light')) {
+  customElements.define('autocomplete-light', AutocompleteLight)
+}
+if (!customElements.get('autocomplete-select-input')) {
+  customElements.define('autocomplete-select-input', AutocompleteSelectInput)
+}
+if (!customElements.get('autocomplete-select')) {
+  customElements.define('autocomplete-select', AutocompleteSelect)
+}

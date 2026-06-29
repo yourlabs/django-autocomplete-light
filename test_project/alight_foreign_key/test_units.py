@@ -1,6 +1,7 @@
 """Unit tests for dal_alight views, widgets, and fields."""
 
 
+from django import forms
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase
 
@@ -12,8 +13,6 @@ from dal_alight.views import (
     AlightQuerySetView,
 )
 from dal_alight.widgets import (
-    Alight,
-    AlightMultiple,
     ListAlight,
     ModelAlight,
     ModelAlightMultiple,
@@ -333,6 +332,108 @@ class AlightWidgetMixinMediaTest(TestCase):
             self.assertIn('type="module"', media_js[idx:end])
 
 
+class AlightSearchInputAttrsTest(TestCase):
+    """Search input receives standard widget attrs (TextInput base)."""
+
+    def setUp(self):
+        self.TModel = get_tmodel()
+
+    def _bound_widget(self, label='Country', **widget_kw):
+        from django.forms import ModelChoiceField
+        field = ModelChoiceField(
+            queryset=self.TModel.objects.all(),
+            label=label,
+        )
+        w = ModelAlight(url='alight_fk', **widget_kw)
+        w.choices = field.widget.choices
+        w.choices.field = field
+        return w
+
+    def test_is_text_input_not_select(self):
+        w = self._bound_widget()
+        self.assertIsInstance(w, forms.TextInput)
+        self.assertNotIsInstance(w, forms.Select)
+
+    def test_no_forced_vtextfield_class(self):
+        w = self._bound_widget()
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertNotIn('vTextField', html)
+
+    def test_attrs_class_from_init(self):
+        w = self._bound_widget(attrs={'class': 'my-input'})
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('class="my-input"', html)
+
+    def test_render_attrs_class_from_render_attrs(self):
+        w = self._bound_widget()
+        html = w.render(
+            'test', None, attrs={'id': 'id_test', 'class': 'render-class'},
+        )
+        self.assertIn('class="render-class"', html)
+
+    def test_attrs_placeholder_from_widget_attrs(self):
+        w = self._bound_widget(label='Country')
+        html = w.render(
+            'test', None,
+            attrs={'id': 'id_test', 'placeholder': 'Pick one…'},
+        )
+        self.assertIn('placeholder="Pick one…"', html)
+
+    def test_slot_input_always_set(self):
+        w = self._bound_widget(attrs={'slot': 'evil'})
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('slot="input"', html)
+        self.assertNotIn('slot="evil"', html)
+
+    def test_list_alight_attrs_apply(self):
+        w = ListAlight(
+            url='/list-autocomplete/',
+            choices=[('a', 'Alpha')],
+            attrs={'class': 'plain-alight'},
+        )
+        html = w.render('field', None, attrs={'id': 'id_field'})
+        self.assertIn('class="plain-alight"', html)
+
+    def test_no_select2_data_attrs_on_search_input(self):
+        w = self._bound_widget()
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('url="', html)
+        self.assertNotIn('data-autocomplete-light-url', html)
+
+    def test_aria_describedby_passes_through(self):
+        w = self._bound_widget()
+        html = w.render(
+            'test', None,
+            attrs={'id': 'id_test', 'aria-describedby': 'id_test_helptext'},
+        )
+        self.assertIn('aria-describedby="id_test_helptext"', html)
+
+    def test_disabled_passes_through(self):
+        w = self._bound_widget(attrs={'disabled': True})
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('disabled', html)
+
+    def test_data_attr_passes_through(self):
+        w = self._bound_widget(attrs={'data-foo': 'bar'})
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('data-foo="bar"', html)
+
+    def test_required_not_on_search_input(self):
+        from django.forms import ModelChoiceField
+        field = ModelChoiceField(
+            queryset=self.TModel.objects.all(),
+            required=True,
+        )
+        w = ModelAlight(url='alight_fk')
+        w.choices = field.widget.choices
+        w.choices.field = field
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertNotRegex(
+            html,
+            r'<input type="text"[^>]*\srequired(?:\s|>|=)',
+        )
+
+
 class ModelAlightRenderTest(TestCase):
     def setUp(self):
         self.TModel = get_tmodel()
@@ -348,13 +449,20 @@ class ModelAlightRenderTest(TestCase):
     def test_renders_autocomplete_select_wrapper(self):
         w = self._widget()
         html = w.render('test', None)
-        self.assertIn('<autocomplete-select>', html)
+        self.assertIn('<autocomplete-select', html)
         self.assertIn('</autocomplete-select>', html)
 
-    def test_renders_select_with_slot(self):
+    def test_renders_id_on_search_input(self):
+        w = self._widget()
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('id="id_test"', html)
+        self.assertNotIn('<autocomplete-select id=', html)
+
+    def test_renders_hidden_values_slot(self):
         w = self._widget()
         html = w.render('test', None)
-        self.assertIn('slot="select"', html)
+        self.assertNotIn('slot="select"', html)
+        self.assertNotIn('<select', html)
 
     def test_renders_deck_span(self):
         w = self._widget()
@@ -421,6 +529,8 @@ class AlightInitialRenderMixinTest(TestCase):
     def test_prefills_single_value(self):
         html = self._widget(self.obj.pk)
         self.assertIn('pre-filled', html)
+        self.assertIn('slot="values"', html)
+        self.assertIn('type="hidden"', html)
 
     def test_does_not_fail_on_none_value(self):
         html = self._widget(None)
@@ -441,30 +551,19 @@ class AlightInitialRenderMixinTest(TestCase):
         self.assertIn('second', html)
 
 
-class NonQuerysetWidgetTest(TestCase):
-    """Alight, AlightMultiple, ListAlight render correctly."""
+class ListAlightWidgetTest(TestCase):
+    """ListAlight render and url requirements."""
 
     CHOICES = [('a', 'Alpha'), ('b', 'Beta')]
 
-    def test_alight_renders_component(self):
-        # Use a path (contains '/') so WidgetMixin doesn't try to reverse it.
-        w = Alight(url='/autocomplete/', choices=self.CHOICES)
-        html = w.render('field', None, attrs={'id': 'id_field'})
-        self.assertIn('<autocomplete-select>', html)
-
-    def test_alight_without_url_no_url_attr(self):
-        w = Alight(url=None, choices=self.CHOICES)
-        html = w.render('field', None, attrs={'id': 'id_field'})
-        # Should render without url="…" on the input element.
-        self.assertNotIn('url="', html)
-
-    def test_alight_multiple_allow_multiple(self):
-        w = AlightMultiple(url=None, choices=self.CHOICES)
-        self.assertTrue(w.allow_multiple_selected)
+    def test_list_alight_without_url_raises(self):
+        with self.assertRaises(ValueError):
+            ListAlight(url=None, choices=self.CHOICES)
 
     def test_list_alight_renders_component(self):
         w = ListAlight(url='/list-autocomplete/', choices=self.CHOICES)
         html = w.render('field', None, attrs={'id': 'id_field'})
+        self.assertIn('id="id_field"', html)
         self.assertIn('url="', html)
 
 
@@ -492,10 +591,9 @@ class TagAlightTest(TestCase):
         result = w.format_value(['foo', 'bar'])
         self.assertEqual(result, {'foo', 'bar'})
 
-    def test_optgroups_creates_selected_options(self):
+    def test_iter_selected_options_yields_flat_tags(self):
         w = self._widget()
-        groups = w.optgroups('tags', 'foo,bar')
-        options = groups[0][1]
+        options = list(w._iter_selected_options('tags', 'foo,bar'))
         values = [o['value'] for o in options]
         self.assertIn('foo', values)
         self.assertIn('bar', values)
@@ -505,7 +603,7 @@ class TagAlightTest(TestCase):
     def test_render_includes_component(self):
         w = self._widget()
         html = w.render('tags', 'foo,bar', attrs={'id': 'id_tags'})
-        self.assertIn('<autocomplete-select>', html)
+        self.assertIn('id="id_tags"', html)
 
     def test_allow_multiple_selected(self):
         self.assertTrue(self._widget().allow_multiple_selected)
