@@ -1,4 +1,6 @@
 :root {
+  /* Above Unpoly modals (.up-modal-close is 15000) and popups (20000). */
+  --autocomplete-light-z-index: 20000;
   --autocomplete-light-bg: white;
   --autocomplete-light-border: #d4d4d4;
   --autocomplete-light-border-light: #eee;
@@ -43,7 +45,7 @@ html[data-theme="light"] {
 .autocomplete-light-box {
   position: absolute;
   border: 1px solid var(--autocomplete-light-border);
-  z-index: 1000;
+  z-index: var(--autocomplete-light-z-index);
   background-color: var(--autocomplete-light-bg);
   border-radius: 2px;
   pointer-events: all !important;
