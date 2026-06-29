@@ -138,6 +138,28 @@ Use :py:class:`~dal_alight.widgets.ModelAlight` for a ``ForeignKey`` field:
                 'birth_country': autocomplete.ModelAlight(url='country-autocomplete')
             }
 
+Customizing the search input
+----------------------------
+
+Alight widgets extend :class:`django.contrib.admin.widgets.AdminTextInputWidget`
+— the visible search field is a regular ``TextInput``.  Configure it with the
+usual widget ``attrs`` (``class``, ``placeholder``, ``aria-label``, …)::
+
+    widgets = {
+        'birth_country': autocomplete.ModelAlight(
+            url='country-autocomplete',
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Search countries…',
+            },
+        ),
+    }
+
+By default the search input uses the admin ``vTextField`` class and the bound
+field label as placeholder.  Passing ``class`` in ``attrs`` replaces the
+default class.  Selected values are stored in hidden inputs inside the
+``<autocomplete-select>`` component, not in the search field itself.
+
 ManyToManyField (multi select)
 ------------------------------
 

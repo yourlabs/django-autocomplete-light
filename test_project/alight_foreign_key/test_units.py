@@ -1,6 +1,7 @@
 """Unit tests for dal_alight views, widgets, and fields."""
 
 
+from django import forms
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase
 
@@ -279,6 +280,80 @@ class AlightWidgetMixinMediaTest(TestCase):
             self.assertIn('type="module"', media_js)
         else:
             self.assertNotIn('type="module"', media_js)
+
+
+class AlightSearchInputAttrsTest(TestCase):
+    """Search input receives standard widget attrs (TextInput base)."""
+
+    def setUp(self):
+        self.TModel = get_tmodel()
+
+    def _bound_widget(self, label='Country', **widget_kw):
+        from django.forms import ModelChoiceField
+        field = ModelChoiceField(
+            queryset=self.TModel.objects.all(),
+            label=label,
+        )
+        w = ModelAlight(url='alight_fk', **widget_kw)
+        w.choices = field.widget.choices
+        w.choices.field = field
+        return w
+
+    def test_is_text_input_not_select(self):
+        w = self._bound_widget()
+        self.assertIsInstance(w, forms.TextInput)
+        self.assertNotIsInstance(w, forms.Select)
+
+    def test_default_vtextfield_class(self):
+        w = self._bound_widget()
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('class="vTextField"', html)
+
+    def test_attrs_class_replaces_default(self):
+        w = self._bound_widget(attrs={'class': 'my-input'})
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('class="my-input"', html)
+        self.assertNotIn('vTextField', html)
+
+    def test_render_attrs_class_replaces_default(self):
+        w = self._bound_widget()
+        html = w.render(
+            'test', None, attrs={'id': 'id_test', 'class': 'render-class'},
+        )
+        self.assertIn('class="render-class"', html)
+
+    def test_placeholder_from_field_label(self):
+        w = self._bound_widget(label='Birth country')
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('placeholder="Birth country"', html)
+
+    def test_placeholder_fallback_to_name(self):
+        w = Alight(url='/autocomplete/', choices=[('a', 'A')])
+        html = w.render('my_field', None, attrs={'id': 'id_my_field'})
+        self.assertIn('placeholder="my_field"', html)
+
+    def test_attrs_placeholder_overrides_label(self):
+        w = self._bound_widget(label='Country')
+        html = w.render(
+            'test', None,
+            attrs={'id': 'id_test', 'placeholder': 'Pick one…'},
+        )
+        self.assertIn('placeholder="Pick one…"', html)
+
+    def test_slot_input_always_set(self):
+        w = self._bound_widget(attrs={'slot': 'evil'})
+        html = w.render('test', None, attrs={'id': 'id_test'})
+        self.assertIn('slot="input"', html)
+        self.assertNotIn('slot="evil"', html)
+
+    def test_alight_attrs_apply(self):
+        w = Alight(
+            url='/autocomplete/',
+            choices=[('a', 'Alpha')],
+            attrs={'class': 'plain-alight'},
+        )
+        html = w.render('field', None, attrs={'id': 'id_field'})
+        self.assertIn('class="plain-alight"', html)
 
 
 class ModelAlightRenderTest(TestCase):

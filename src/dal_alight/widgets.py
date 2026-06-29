@@ -1,8 +1,9 @@
 import django
 from django import forms
+from django.contrib.admin.widgets import AdminTextInputWidget
+from django.forms.widgets import ChoiceWidget
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
 
 from dal.widgets import QuerySetSelectMixin, WidgetMixin
 
@@ -15,27 +16,49 @@ def _is_iterable(x):
     return True
 
 
+class AlightChoiceMixin(ChoiceWidget):
+    """Choice plumbing for Alight widgets; rendering is in AlightWidgetMixin."""
+
+    # ChoiceWidget sets template_name = None; keep TextInput rendering working.
+    template_name = 'django/forms/widgets/text.html'
+    input_type = 'text'
+
+
+class AlightMultipleMixin:
+    """Multiple-selection behaviour for hidden value inputs."""
+
+    allow_multiple_selected = True
+
+    def value_from_datadict(self, data, files, name):
+        try:
+            return data.getlist(name)
+        except AttributeError:
+            val = data.get(name)
+            if val is None:
+                return []
+            if isinstance(val, list):
+                return val
+            return [val]
+
+
 class AlightWidgetMixin:
     """Mixin that renders the autocomplete-light web component shell.
 
-    Wraps hidden value inputs and the search field in::
-
-        <autocomplete-select>
-          <input type="hidden" name="{field}" value="…" slot="values" …>
-          <span slot="deck">…</span>
-          <autocomplete-select-input slot="input" url="…">
-            <input id="id_{field}" slot="input" …/>
-          </autocomplete-select-input>
-          <div class="dal-forward-conf">…</div>
-        </autocomplete-select>
+    The visible search field is a ``TextInput``; callers configure it with the
+    usual widget ``attrs``.  Selected values are stored in hidden
+    ``slot="values"`` inputs.
     """
+
+    def __init__(self, *args, **kwargs):
+        # AlightChoiceMixin.__init__ reaches Widget directly, skipping
+        # AdminTextInputWidget.__init__, so apply the default class here.
+        attrs = dict(kwargs.get('attrs') or {})
+        attrs.setdefault('class', 'vTextField')
+        kwargs['attrs'] = attrs
+        super().__init__(*args, **kwargs)
 
     @property
     def media(self):
-        # Django 6+ forms.Media supports Script(type="module"), which ensures
-        # each URL executes once when multiple widgets merge media
-        # (customElements.define must not run twice).  On older Django versions
-        # we fall back to plain script paths.
         if django.VERSION >= (6, 0):
             from django.forms.widgets import Script
 
@@ -52,6 +75,13 @@ class AlightWidgetMixin:
             css=dict(all=['dal_alight/autocomplete-light.css']),
             js=js,
         )
+
+    def _get_input_placeholder(self, name):
+        field = getattr(getattr(self, 'choices', None), 'field', None)
+        label = getattr(field, 'label', None)
+        if label:
+            return label
+        return name
 
     def _render_values_and_deck(self, name, value, attrs=None):
         """Build hidden inputs and deck chips for the current selection."""
@@ -90,6 +120,34 @@ class AlightWidgetMixin:
             deck_html = '<span slot="deck"></span>'
         return values_html, deck_html
 
+    def _render_search_input(self, name, attrs, renderer=None, **kwargs):
+        """Render the visible search input; attrs apply like any TextInput.
+
+        Use a dedicated ``AdminTextInputWidget`` instance so
+        ``ChoiceWidget.format_value`` does not format the search value.
+        """
+        # BoundField attrs include field-level keys (e.g. required) that apply
+        # to submitted values, not the auxiliary search box.
+        excluded = frozenset({'required', 'aria-describedby', 'name'})
+        search_attrs = {
+            k: v for k, v in {**self.attrs, **(attrs or {})}.items()
+            if k not in excluded
+        }
+        search_attrs.update({
+            'slot': 'input',
+            'autocomplete': 'off',
+        })
+        search_attrs.setdefault(
+            'placeholder', self._get_input_placeholder(name),
+        )
+        return AdminTextInputWidget().render(
+            f'{name}-input',
+            '',
+            attrs=search_attrs,
+            renderer=renderer,
+            **kwargs,
+        )
+
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         if hasattr(self.choices, 'field'):
             self.choices.field.empty_label = None
@@ -101,18 +159,8 @@ class AlightWidgetMixin:
         )
 
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
-        input_widget = forms.TextInput()
-        input_html = input_widget.render(
-            f'{name}-input',
-            '',
-            attrs={
-                'id': field_id,
-                'slot': 'input',
-                'class': 'vTextField',
-                'placeholder': _('Search'),
-                'autocomplete': 'off',
-            },
-            renderer=renderer,
+        input_html = self._render_search_input(
+            name, attrs, renderer=renderer, **kwargs
         )
         input_el = format_html(
             '<autocomplete-select-input slot="input"{}>{}</autocomplete-select-input>',
@@ -153,7 +201,8 @@ class _AlightUrlRequiredMixin:
 class ModelAlight(
     QuerySetSelectMixin,
     AlightWidgetMixin,
-    forms.Select,
+    AlightChoiceMixin,
+    AdminTextInputWidget,
 ):
     """Single-select autocomplete widget backed by a QuerySet."""
 
@@ -161,7 +210,9 @@ class ModelAlight(
 class ModelAlightMultiple(
     QuerySetSelectMixin,
     AlightWidgetMixin,
-    forms.SelectMultiple,
+    AlightMultipleMixin,
+    AlightChoiceMixin,
+    AdminTextInputWidget,
 ):
     """Multi-select autocomplete widget backed by a QuerySet."""
 
@@ -170,7 +221,13 @@ class ModelAlightMultiple(
 # Non-queryset widgets (arbitrary choice lists)
 # ---------------------------------------------------------------------------
 
-class Alight(_AlightUrlRequiredMixin, WidgetMixin, AlightWidgetMixin, forms.Select):
+class Alight(
+    _AlightUrlRequiredMixin,
+    AlightWidgetMixin,
+    WidgetMixin,
+    AlightChoiceMixin,
+    AdminTextInputWidget,
+):
     """Single-select autocomplete for arbitrary choices.
 
     Requires a ``url`` — results are always fetched from the autocomplete view.
@@ -179,14 +236,22 @@ class Alight(_AlightUrlRequiredMixin, WidgetMixin, AlightWidgetMixin, forms.Sele
 
 class AlightMultiple(
     _AlightUrlRequiredMixin,
-    WidgetMixin,
     AlightWidgetMixin,
-    forms.SelectMultiple,
+    WidgetMixin,
+    AlightMultipleMixin,
+    AlightChoiceMixin,
+    AdminTextInputWidget,
 ):
     """Multiple-select autocomplete for arbitrary choices."""
 
 
-class ListAlight(_AlightUrlRequiredMixin, WidgetMixin, AlightWidgetMixin, forms.Select):
+class ListAlight(
+    _AlightUrlRequiredMixin,
+    AlightWidgetMixin,
+    WidgetMixin,
+    AlightChoiceMixin,
+    AdminTextInputWidget,
+):
     """Single-select autocomplete backed by ``AlightListView``.
 
     Use alongside ``AlightListView`` on the server.
@@ -197,12 +262,14 @@ class ListAlight(_AlightUrlRequiredMixin, WidgetMixin, AlightWidgetMixin, forms.
 # Tag widget
 # ---------------------------------------------------------------------------
 
-class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
+class TagAlight(
+    AlightWidgetMixin,
+    WidgetMixin,
+    AlightMultipleMixin,
+    AlightChoiceMixin,
+    AdminTextInputWidget,
+):
     """Free-text tag widget — value stored as comma-separated text.
-
-    AlightInitialRenderMixin is intentionally omitted: tags are not PKs so
-    the queryset-filter approach would break; optgroups() handles initial
-    values directly via _iter_tag_values().
 
     Tags are not backed by a model: the tag text IS the option value.
     Use alongside ``AlightListView`` with a ``create()`` method, or any view
@@ -255,11 +322,9 @@ class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
 class TaggitAlight(TagAlight):
     def value_from_datadict(self, data, files, name):
         value = super().value_from_datadict(data, files, name)
-        # trailing comma keeps multi-word single tags intact for taggit's parser
         if value and ',' not in value:
             value = '%s,' % value
         return value
 
     def option_value(self, value):
-        # taggit may yield TaggedItem objects on initial render
         return value.tag.name if hasattr(value, 'tag') else value

@@ -28,6 +28,11 @@
       import the appropriate backend subclass.
 
     Improvements
+    - dal_alight: widgets now extend ``AdminTextInputWidget``
+      (``forms.TextInput``) instead of ``forms.Select*``.  Standard widget
+      ``attrs`` configure the visible search input; default placeholder is the
+      bound field label.
+
     - test_project: pytest runs in parallel via ``pytest-xdist`` (``-n auto``
       in tox).
 
