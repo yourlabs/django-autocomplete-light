@@ -1,7 +1,7 @@
 from django import forms
+from django.forms.widgets import ChoiceWidget
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
 
 from dal.widgets import QuerySetSelectMixin, WidgetMixin
 
@@ -16,52 +16,142 @@ def _is_iterable(x):
     return True
 
 
+class AlightChoiceMixin(ChoiceWidget):
+    """Choice plumbing for Alight widgets; rendering is in AlightWidgetMixin."""
+
+    # ChoiceWidget sets template_name = None; keep TextInput rendering working.
+    template_name = 'django/forms/widgets/text.html'
+    input_type = 'text'
+
+    def get_context(self, name, value, attrs):
+        """Text input context for the search field (no ChoiceWidget optgroups)."""
+        context = super(ChoiceWidget, self).get_context(name, value, attrs)
+        # Search input is always empty; ChoiceWidget.format_value would list-wrap.
+        context["widget"]["value"] = forms.TextInput.format_value(self, value)
+        return context
+
+
+class AlightMultipleMixin:
+    """Multiple-selection behaviour for hidden value inputs."""
+
+    allow_multiple_selected = True
+
+    def value_from_datadict(self, data, files, name):
+        try:
+            return data.getlist(name)
+        except AttributeError:
+            val = data.get(name)
+            if val is None:
+                return []
+            if isinstance(val, list):
+                return val
+            return [val]
+
+
 class AlightWidgetMixin:
     """Mixin that renders the autocomplete-light web component shell.
 
-    Wraps the underlying ``<select>`` (rendered by ``super().render()``) in::
-
-        <autocomplete-select>
-          <select slot="select">…</select>
-          <div slot="deck"></div>
-          <autocomplete-select-input slot="input" [url="…"]>
-            <input …/>
-          </autocomplete-select-input>
-          <div class="dal-forward-conf">…</div>
-        </autocomplete-select>
+    The visible search field is a ``TextInput``; callers configure it with the
+    usual widget ``attrs``.  Selected values are stored in hidden
+    ``slot="values"`` inputs.
     """
 
     @property
     def media(self):
         return alight_media()
 
+    def _iter_selected_options(self, name, value, attrs=None):
+        """Yield selected options as flat dicts for deck/hidden inputs.
+
+        Alight has no optgroup UI; this hides Django's grouped optgroups() API.
+        """
+        for _group, options, _index in self.optgroups(name, value, attrs=attrs):
+            for option in options:
+                if not option['selected']:
+                    continue
+                val = option['value']
+                if val is None or val == '':
+                    continue
+                yield option
+
+    def _render_values_and_deck(self, name, value, attrs=None):
+        """Build hidden inputs and deck chips for the current selection."""
+        value = self.format_value(value)
+        hidden_parts = []
+        deck_parts = []
+        disabled = mark_safe(' disabled') if attrs and attrs.get('disabled') else ''
+        for option in self._iter_selected_options(name, value, attrs=attrs):
+            val = option['value']
+            label = option['label']
+            hidden_parts.append(format_html(
+                '<input type="hidden" name="{}" value="{}" slot="values" '
+                'data-label="{}"{}>',
+                name,
+                val,
+                label,
+                disabled,
+            ))
+            deck_parts.append(format_html(
+                '<div data-value="{}">{}</div>',
+                val,
+                label,
+            ))
+        values_html = mark_safe(''.join(hidden_parts))
+        if deck_parts:
+            deck_html = format_html(
+                '<span slot="deck">{}</span>',
+                mark_safe(''.join(deck_parts)),
+            )
+        else:
+            deck_html = '<span slot="deck"></span>'
+        return values_html, deck_html
+
+    def _render_search_input(self, name, attrs, renderer=None, **kwargs):
+        """Render the visible search input via the TextInput ``render()`` MRO."""
+        # BoundField puts ``required`` in attrs for the field widget.  The search
+        # input is auxiliary (values submit via hidden inputs); strip it so the
+        # browser does not run HTML5 validation on an empty search box.
+        search_attrs = {k: v for k, v in attrs.items() if k != 'required'}
+        search_attrs['slot'] = 'input'
+        search_attrs['autocomplete'] = 'off'
+        return super(AlightChoiceMixin, self).render(
+            f'{name}-input',
+            '',
+            attrs=search_attrs,
+            renderer=renderer,
+            **kwargs,
+        )
+
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         if hasattr(self.choices, 'field'):
             self.choices.field.empty_label = None
-        attrs = attrs or {}
-        attrs.setdefault('slot', 'select')
+        final_attrs = self.build_attrs(self.attrs, attrs)
+        field_id = final_attrs.get('id') or name
 
-        widget = super().render(name, value, attrs=attrs, renderer=renderer, **kwargs)
+        values_html, deck_html = self._render_values_and_deck(
+            name, value, attrs=final_attrs
+        )
 
-        deck = '<span slot="deck"></span>'
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
-        input_widget = forms.TextInput(attrs={
-            'name': f'{name}-input',
-            'slot': 'input',
-            'class': 'vTextField',
-            'placeholder': _('Search'),
-            'autocomplete': 'off',
-        })
-        input_html = input_widget.render(f'{name}-input', '', renderer=renderer)
+        input_html = self._render_search_input(
+            name, final_attrs, renderer=renderer, **kwargs
+        )
         input_el = format_html(
             '<autocomplete-select-input slot="input"{}>{}</autocomplete-select-input>',
             url_attr,
             input_html,
         )
-        field_id = (attrs or {}).get('id') or name
         conf = self.render_forward_conf(field_id)
-        inner = widget + deck + str(input_el) + conf
-        return mark_safe(f'<autocomplete-select>{inner}</autocomplete-select>')
+
+        multiple_attr = (
+            ' data-multiple' if getattr(self, 'allow_multiple_selected', False) else ''
+        )
+        inner = values_html + deck_html + str(input_el) + conf
+        return mark_safe(format_html(
+            '<autocomplete-select{}>{}</autocomplete-select>',
+            mark_safe(multiple_attr),
+            mark_safe(inner),
+        ))
 
 
 # ---------------------------------------------------------------------------
@@ -69,55 +159,62 @@ class AlightWidgetMixin:
 # ---------------------------------------------------------------------------
 
 class ModelAlight(
-    QuerySetSelectMixin,
     AlightWidgetMixin,
-    forms.Select,
+    QuerySetSelectMixin,
+    AlightChoiceMixin,
+    forms.TextInput,
 ):
     """Single-select autocomplete widget backed by a QuerySet."""
 
 
 class ModelAlightMultiple(
-    QuerySetSelectMixin,
     AlightWidgetMixin,
-    forms.SelectMultiple,
+    QuerySetSelectMixin,
+    AlightMultipleMixin,
+    AlightChoiceMixin,
+    forms.TextInput,
 ):
     """Multi-select autocomplete widget backed by a QuerySet."""
 
 
 # ---------------------------------------------------------------------------
-# Non-queryset widgets (arbitrary choice lists)
+# List-backed widgets (non-queryset)
 # ---------------------------------------------------------------------------
 
-class Alight(WidgetMixin, AlightWidgetMixin, forms.Select):
-    """Single-select autocomplete for arbitrary choices.
-
-    Without a ``url`` the component filters ``<option>`` elements locally in
-    JS — no server round-trip needed.  With a ``url`` it fetches from the
-    view as usual.
-    """
-
-
-class AlightMultiple(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
-    """Multiple-select autocomplete for arbitrary choices."""
-
-
-class ListAlight(WidgetMixin, AlightWidgetMixin, forms.Select):
+class ListAlight(
+    AlightWidgetMixin,
+    WidgetMixin,
+    AlightChoiceMixin,
+    forms.TextInput,
+):
     """Single-select autocomplete backed by ``AlightListView``.
 
     Use alongside ``AlightListView`` on the server.
     """
+
+    def __init__(self, url=None, *args, **kwargs):
+        if url is None and args and isinstance(args[0], str):
+            url = args[0]
+        if not url:
+            raise ValueError(
+                '{} requires a url; client-side local filtering was removed.'
+                .format(self.__class__.__name__)
+            )
+        super().__init__(url, *args, **kwargs)
 
 
 # ---------------------------------------------------------------------------
 # Tag widget
 # ---------------------------------------------------------------------------
 
-class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
+class TagAlight(
+    AlightWidgetMixin,
+    WidgetMixin,
+    AlightMultipleMixin,
+    AlightChoiceMixin,
+    forms.TextInput,
+):
     """Free-text tag widget — value stored as comma-separated text.
-
-    AlightInitialRenderMixin is intentionally omitted: tags are not PKs so
-    the queryset-filter approach would break; optgroups() handles initial
-    values directly via _iter_tag_values().
 
     Tags are not backed by a model: the tag text IS the option value.
     Use alongside ``AlightListView`` with a ``create()`` method, or any view
@@ -155,12 +252,9 @@ class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
                 continue
             yield self.option_value(str(v).strip())
 
-    def optgroups(self, name, value, attrs=None):
-        default = (None, [], 0)
-        groups = [default]
-        for i, v in enumerate(self._iter_tag_values(value)):
-            default[1].append(self.create_option(v, v, v, True, i))
-        return groups
+    def _iter_selected_options(self, name, value, attrs=None):
+        for v in self._iter_tag_values(value):
+            yield {'value': v, 'label': v, 'selected': True}
 
     def value_from_datadict(self, data, files, name):
         values = super().value_from_datadict(data, files, name)
@@ -170,11 +264,9 @@ class TagAlight(WidgetMixin, AlightWidgetMixin, forms.SelectMultiple):
 class TaggitAlight(TagAlight):
     def value_from_datadict(self, data, files, name):
         value = super().value_from_datadict(data, files, name)
-        # trailing comma keeps multi-word single tags intact for taggit's parser
         if value and ',' not in value:
             value = '%s,' % value
         return value
 
     def option_value(self, value):
-        # taggit may yield TaggedItem objects on initial render
         return value.tag.name if hasattr(value, 'tag') else value
