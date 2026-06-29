@@ -43,9 +43,9 @@ form fields.
    * - :py:class:`~dal_select2.widgets.ModelSelect2Multiple`
      - :py:class:`~dal_alight.widgets.ModelAlightMultiple`
    * - :py:class:`~dal_select2.widgets.Select2`
-     - :py:class:`~dal_alight.widgets.Alight`
+     - :py:class:`~dal_alight.widgets.ListAlight`
    * - :py:class:`~dal_select2.widgets.Select2Multiple`
-     - :py:class:`~dal_alight.widgets.AlightMultiple`
+     - :py:class:`~dal_alight.widgets.ModelAlightMultiple` or :py:class:`~dal_alight.widgets.TagAlight`
    * - :py:class:`~dal_select2.widgets.ListSelect2`
      - :py:class:`~dal_alight.widgets.ListAlight`
    * - :py:class:`~dal_select2.widgets.TagSelect2`
@@ -79,3 +79,18 @@ Behavioural differences
 - **Forwarding**: the ``forward`` widget argument and :py:mod:`dal.forward` helpers work identically.
 - **Admin registration**: ``ModelAdmin.form`` assignment works identically.
 - **Static files**: replace ``dal_select2`` media with ``dal_alight`` media; jQuery is no longer loaded by the widget.
+
+Changes in 5.1
+==============
+
+Since 5.1.0 (see ``CHANGELOG``):
+
+- Widget ``attrs`` apply to the visible search ``<input>``, not a hidden
+  ``<select>``.
+- ``ListAlight`` now requires a ``url``; client-side local filtering of static
+  ``choices`` was removed.  Use ``ListAlight`` with ``AlightListView``, or a
+  plain ``<select>`` for tiny static lists.
+- The ``change`` event fires on ``<autocomplete-select>``, not a ``<select>``.
+- ``Alight`` and ``AlightMultiple`` were removed; use the widget mapping table
+  above (``Select2`` → ``ListAlight``; ``Select2Multiple`` →
+  ``ModelAlightMultiple`` or ``TagAlight``).

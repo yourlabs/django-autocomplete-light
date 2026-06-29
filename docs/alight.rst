@@ -138,6 +138,26 @@ Use :py:class:`~dal_alight.widgets.ModelAlight` for a ``ForeignKey`` field:
                 'birth_country': autocomplete.ModelAlight(url='country-autocomplete')
             }
 
+Customizing the search input
+----------------------------
+
+Alight widgets extend django.forms.widgets.TextInput — the visible
+search field is a regular text input.  Configure it with the
+usual widget ``attrs`` (``class``, ``placeholder``, ``aria-label``, …)::
+
+    widgets = {
+        'birth_country': autocomplete.ModelAlight(
+            url='country-autocomplete',
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Search countries…',
+            },
+        ),
+    }
+
+Selected values are stored in hidden inputs inside the
+``<autocomplete-select>`` component, not in the search field itself.
+
 ManyToManyField (multi select)
 ------------------------------
 
@@ -154,8 +174,8 @@ Initial values on edit forms
 ----------------------------
 
 :py:class:`~dal_alight.widgets.ModelAlight` and
-:py:class:`~dal_alight.widgets.ModelAlightMultiple` inject the currently
-selected object(s) into the ``<select>`` options at render time so they
+:py:class:`~dal_alight.widgets.ModelAlightMultiple` render the currently
+selected object(s) as hidden inputs and deck chips at render time so they
 appear pre-selected without an extra AJAX call.
 
 Automation with djhacker
@@ -475,12 +495,8 @@ Class reference
      - Single select, QuerySet-backed (ForeignKey)
    * - :py:class:`~dal_alight.widgets.ModelAlightMultiple`
      - Multi select, QuerySet-backed (ManyToManyField)
-   * - :py:class:`~dal_alight.widgets.Alight`
-     - Single select, arbitrary choices
-   * - :py:class:`~dal_alight.widgets.AlightMultiple`
-     - Multi select, arbitrary choices
    * - :py:class:`~dal_alight.widgets.ListAlight`
-     - Single select, list-backed
+     - Single select, list-backed (requires ``url``)
    * - :py:class:`~dal_alight.widgets.TagAlight`
      - Free-text tag widget (comma-separated)
    * - :py:class:`~dal_alight.widgets.TaggitAlight`

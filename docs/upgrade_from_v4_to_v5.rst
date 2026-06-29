@@ -205,8 +205,6 @@ Select2 convenience import style.
 
 - ``ModelAlight``
 - ``ModelAlightMultiple``
-- ``Alight``
-- ``AlightMultiple``
 - ``ListAlight``
 - ``TagAlight``
 - ``TaggitAlight``
