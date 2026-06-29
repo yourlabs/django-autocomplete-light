@@ -1,15 +1,26 @@
 5.1.0
 
+    BC BREAK: whatever hack you had to implement to design the text input for
+    the alight web component: you can now set the widget attrs directly.
+
     Changed
-    - dal_alight: widget values are submitted via ``<input type="hidden"
-      slot="values">`` instead of a hidden ``<select slot="select">``.
-      Django's field ``id`` is rendered on the search ``<input>`` so
-      ``<label for="…">`` works; initial selections are hidden inputs
-      and deck chips.
+    - dal_alight: Django widget attrs (``id``, classes, etc.) are rendered
+      on the visible search ``<input>`` instead of a hidden ``<select>``.
+      The search field is the only part of the widget that needs theming;
+      ``<label for="…">`` and admin field identity follow the input as
+      usual.
+
+    - dal_alight: selected values are submitted via ``<input type="hidden"
+      slot="values">`` (and deck chips) instead of a hidden
+      ``<select slot="select">``.  This removed a large amount of
+      option-sync logic from the JS.
 
     - dal_alight: ``Alight``, ``AlightMultiple``, and ``ListAlight`` now
-      require a ``url``; client-side local filtering of ``<option>``
-      elements was removed.
+      require a ``url``.  Client-side local filtering of ``<option>``
+      elements was removed to keep the JS small.  For a static choice
+      list without a server round-trip, use a normal ``<select>`` in
+      your UI — as long as select and text-input styling match your
+      theme, the experience stays consistent.
 
     - dal.test.stories: backend-specific Selenium story classes moved to
       ``dal_alight.test`` and ``dal_select2.test``. Shared stories raise
