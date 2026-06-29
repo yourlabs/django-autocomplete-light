@@ -54,8 +54,15 @@ class Select2WidgetMixin(object):
     """Mixin for Select2 widgets."""
 
     def build_attrs(self, *args, **kwargs):
-        """Set data-autocomplete-light-language."""
+        """Set Select2 data-* attributes for autocomplete_light.js."""
         attrs = super(Select2WidgetMixin, self).build_attrs(*args, **kwargs)
+        if self.url is not None:
+            attrs['data-autocomplete-light-url'] = self.url
+        if getattr(self, 'autocomplete_function', None):
+            attrs.setdefault(
+                'data-autocomplete-light-function',
+                self.autocomplete_function,
+            )
         lang_code = self._get_language_code()
         if lang_code:
             attrs.setdefault('data-autocomplete-light-language', lang_code)

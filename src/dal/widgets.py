@@ -52,19 +52,6 @@ class WidgetMixin(object):
         clone.forward = self.forward.copy()
         return clone
 
-    def build_attrs(self, *args, **kwargs):
-        """Build HTML attributes for the widget."""
-        attrs = super(WidgetMixin, self).build_attrs(*args, **kwargs)
-
-        if self.url is not None:
-            attrs['data-autocomplete-light-url'] = self.url
-
-        autocomplete_function = getattr(self, 'autocomplete_function', None)
-        if autocomplete_function:
-            attrs.setdefault('data-autocomplete-light-function',
-                             autocomplete_function)
-        return attrs
-
     def filter_choices_to_render(self, selected_choices):
         """Filter choices to selected ones; inject values absent from the list."""
         existing_keys = {str(c[0]) for c in self.choices}
