@@ -53,9 +53,7 @@ class SelectTest(test.TestCase):  # noqa
 
         form = Form(http.QueryDict('test=4'))
         expected = '''
-<select data-autocomplete-light-function="select2"\
- data-autocomplete-light-language="en"\
- data-autocomplete-light-url="/test-url/" id="id_test" name="test">
+<select id="id_test" name="test">
 <option value="4" %s>label for 4</option>
 </select>
         '''.strip() % selected_tag()
