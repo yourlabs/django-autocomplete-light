@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=65.5.1", "wheel"]
+requires = ["setuptools>=65.5.1", "wheel", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-autocomplete-light"
-version = "5.1.0"
+dynamic = ["version"]
 description = "Fresh autocompletes for Django"
 readme = {file = "README", content-type = "text/x-rst"}
 license = {text = "MIT"}
@@ -39,6 +39,8 @@ Source = "https://github.com/yourlabs/django-autocomplete-light"
 nested = ["django-nested-admin>=3.0.21"]
 tags = ["django-taggit"]
 gfk = ["django-querysetsequence>=0.11"]
+
+[tool.setuptools_scm]
 
 [tool.setuptools]
 include-package-data = true
