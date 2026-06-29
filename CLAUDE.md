@@ -17,6 +17,7 @@ Forwarding: `forward=['country']` on the widget → `self.forwarded.get('country
 ## Tests
 ```bash
 cd test_project/
-pytest -v --liveserver 127.0.0.1:9999
-BROWSER=firefox MOZ_HEADLESS=1 pytest -v   # headless
+tox -e py314-dj52 -- --ignore-glob='**/test_functional.py'           # unit (-n auto)
+tox -e py314-dj52 -- --ignore-glob='**/test_units.py' --ignore-glob='**/test_views.py' --ignore-glob='**/test_forms.py'  # browser (-n auto)
+BROWSER=firefox tox -e py314-dj52 -- --ignore-glob='**/test_units.py' --ignore-glob='**/test_views.py' --ignore-glob='**/test_forms.py' --splinter-headless
 ```

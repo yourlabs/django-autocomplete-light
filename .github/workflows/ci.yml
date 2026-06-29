@@ -26,7 +26,7 @@ jobs:
       - run: pip install tox
       - run: tox -e docs
 
-  tests:
+  unit-tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -47,7 +47,38 @@ jobs:
           - python-version: "3.14"
             django-version: "6.0"
             tox-env: py314-dj60
-    name: Python ${{ matrix.python-version }} / Django ${{ matrix.django-version }}
+    name: unit / Python ${{ matrix.python-version }} / Django ${{ matrix.django-version }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
+      - run: pip install tox
+      - run: tox -e ${{ matrix.tox-env }} -- --ignore-glob='**/test_functional.py'
+
+  browser-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: "3.11"
+            django-version: "5.2"
+            tox-env: py311-dj52
+          - python-version: "3.12"
+            django-version: "5.2"
+            tox-env: py312-dj52
+          - python-version: "3.13"
+            django-version: "5.2"
+            tox-env: py313-dj52
+          - python-version: "3.14"
+            django-version: "5.2"
+            tox-env: py314-dj52
+          - python-version: "3.14"
+            django-version: "6.0"
+            tox-env: py314-dj60
+    name: browser / Python ${{ matrix.python-version }} / Django ${{ matrix.django-version }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -57,7 +88,7 @@ jobs:
       - name: Install Firefox
         uses: browser-actions/setup-firefox@v1
       - run: pip install tox
-      - run: tox -e ${{ matrix.tox-env }}
+      - run: tox -e ${{ matrix.tox-env }} -- --ignore-glob='**/test_units.py' --ignore-glob='**/test_views.py' --ignore-glob='**/test_forms.py'
         env:
           MOZ_HEADLESS: "1"
           BROWSER: firefox
