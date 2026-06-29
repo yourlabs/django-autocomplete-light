@@ -1,3 +1,50 @@
+5.1.0
+
+    BC BREAK: whatever hack you had to implement to design the text input for
+    the alight web component: you can now set the widget attrs directly.
+
+    Changed
+    - dal_alight: Django widget attrs (``id``, classes, etc.) are rendered
+      on the visible search ``<input>`` instead of a hidden ``<select>``.
+      The search field is the only part of the widget that needs theming;
+      ``<label for="…">`` and admin field identity follow the input as
+      usual.
+
+    - dal_alight: selected values are submitted via ``<input type="hidden"
+      slot="values">`` (and deck chips) instead of a hidden
+      ``<select slot="select">``.  This removed a large amount of
+      option-sync logic from the JS.
+
+    - dal_alight: ``ListAlight`` now requires a ``url``.  Client-side
+      local filtering of ``<option>`` elements was removed to keep the JS
+      small.  For a static choice list without a server round-trip, use a
+      normal ``<select>`` in your UI — as long as select and text-input
+      styling match your theme, the experience stays consistent.
+
+    - dal_alight: removed ``Alight`` and ``AlightMultiple`` widgets.
+      They were redundant with ``ListAlight`` (single) and
+      ``ModelAlightMultiple`` / ``TagAlight`` (multi) after client-side
+      filtering was dropped.  Migrate ``Alight`` → ``ListAlight`` with
+      ``AlightListView``.
+
+    - dal.test.stories: backend-specific Selenium story classes moved to
+      ``dal_alight.test`` and ``dal_select2.test``. Shared stories raise
+      ``NotImplementedError`` for value assertions; functional tests
+      import the appropriate backend subclass.
+
+    Improvements
+    - dal_alight: widgets extend ``forms.TextInput`` (via
+      ``AlightChoiceMixin`` for choice/deck plumbing) instead of
+      ``forms.Select*``.  Standard widget ``attrs`` — merged with
+      ``build_attrs()`` — configure the visible search input.
+
+    - dal.widgets: ``data-autocomplete-light-url`` and
+      ``data-autocomplete-light-function`` moved from shared ``WidgetMixin`` to
+      ``dal_select2.widgets.Select2WidgetMixin`` (Select2-only).
+
+    - test_project: tests run in parallel via ``pytest-xdist`` (``-n auto``);
+      CI splits unit and browser suites into separate workflow jobs.
+
 5.0.0
 
     WARNING: BC break identified with DAL v4, in the process of resolution
@@ -20,7 +67,6 @@
 
               Widgets (dal_alight.widgets):
               - ModelAlight, ModelAlightMultiple   (QuerySet-backed)
-              - Alight, AlightMultiple             (arbitrary choices)
               - ListAlight                         (paired with AlightListView)
               - TagAlight                          (free-text comma tags)
               - TaggitAlight                       (django-taggit bridge)

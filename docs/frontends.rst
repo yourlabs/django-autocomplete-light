@@ -94,10 +94,9 @@ Feature matrix
      - yes
      - alight uses × buttons in the deck
    * - Client-side local filtering
-     - yes
      - **no**
-     - alight: ``Alight`` / ``AlightMultiple`` without a ``url`` filter ``<option>``
-       elements locally — no server round-trip
+     - yes
+     - alight choice widgets require a ``url``; values are submitted via hidden inputs
    * - Max-choices cap with auto-eviction
      - yes
      - **no**
@@ -130,8 +129,6 @@ When to use ``dal_alight``
 - No jQuery in the stack (modern frontend, HTMX, API-only server-side, etc.).
 - Minimising JS payload and eliminating third-party dependencies is a priority.
 - You want ``max-choices`` enforcement client-side without extra code.
-- Some fields use a small static choice list and local filtering avoids an unnecessary
-  server round-trip.
 - You prefer the server to own result rendering (HTML fragments) rather than templating
   in JS — useful when labels contain Django template logic or server-side permissions.
 - You are building a web-component or shadow-DOM ecosystem and need a widget that fits
@@ -198,12 +195,6 @@ Class name mapping
    * - :py:class:`~dal_alight.widgets.ModelAlightMultiple`
      - :py:class:`~dal_select2.widgets.ModelSelect2Multiple`
      - Widget — M2M
-   * - :py:class:`~dal_alight.widgets.Alight`
-     - :py:class:`~dal_select2.widgets.Select2`
-     - Widget — arbitrary choices, single
-   * - :py:class:`~dal_alight.widgets.AlightMultiple`
-     - :py:class:`~dal_select2.widgets.Select2Multiple`
-     - Widget — arbitrary choices, multiple
    * - :py:class:`~dal_alight.widgets.ListAlight`
      - :py:class:`~dal_select2.widgets.ListSelect2`
      - Widget — list-backed

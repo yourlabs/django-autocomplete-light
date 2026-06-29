@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-autocomplete-light"
-version = "5.0.0"
+version = "5.1.0"
 description = "Fresh autocompletes for Django"
 readme = {file = "README", content-type = "text/x-rst"}
 license = {text = "MIT"}
