@@ -1,7 +1,10 @@
 5.1.0
 
-    BC BREAK: whatever hack you had to implement to design the text input for
-    the alight web component: you can now set the widget attrs directly.
+    BC BREAKS:
+    - whatever hack you had to implement to design the text input for the
+      alight web component: you can now set the widget attrs directly.
+    - no more non-URL alight widget support, just use plain
+      select/radio/checkboxes which your UI should support already
 
     Changed
     - dal_alight: Django widget attrs (``id``, classes, etc.) are rendered
