@@ -1,6 +1,6 @@
-from dal.test import case, stories
+from dal.test import case
 from dal.test.utils import OwnedFixtures
-from dal_alight.test import AlightStory
+from dal_alight.test import AlightInlineSelectOption, AlightSelectOption, AlightStory
 
 from .models import TModel
 
@@ -33,7 +33,7 @@ class AdminLinkedDataTestCase(
 
     def test_filter_options(self, story=None):
         if story is None:
-            story = stories.SelectOption(self)
+            story = AlightSelectOption(self)
 
         self.set_owner(self.fixtures.test.pk)
         story.toggle_autocomplete()
@@ -55,10 +55,10 @@ class AdminLinkedDataTestCase(
 
     def test_filter_option_in_first_inline(self):
         self.prefix = '%s-%s-' % (self.inline_related_name, 0)
-        story = stories.InlineSelectOption(self, inline_number=0)
+        story = AlightInlineSelectOption(self, inline_number=0)
         self.test_filter_options(story)
 
     def test_can_select_option_in_first_extra_inline(self):
-        story = stories.InlineSelectOption(self, inline_number=3)
+        story = AlightInlineSelectOption(self, inline_number=3)
         self.prefix = '%s-%s-' % (self.inline_related_name, 3)
         self.test_filter_options(story)

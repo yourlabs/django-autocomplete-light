@@ -1,6 +1,10 @@
-from dal.test import case, stories
+from dal.test import case
 from dal.test.utils import OwnedFixtures
-from dal_select2.test import Select2Story
+from dal_select2.test import (
+    Select2InlineSelectOption,
+    Select2SelectOption,
+    Select2Story,
+)
 
 from .models import TModel
 
@@ -31,7 +35,7 @@ class AdminLinkedDataTest(Select2Story,
 
     def test_filter_options(self, story=None):
         if story is None:
-            story = stories.SelectOption(self)
+            story = Select2SelectOption(self)
 
         story.toggle_autocomplete()
 
@@ -59,10 +63,10 @@ class AdminLinkedDataTest(Select2Story,
 
     def test_filter_option_in_first_inline(self):
         self.prefix = '%s-%s-' % (self.inline_related_name, 0)
-        story = stories.InlineSelectOption(self, inline_number=0)
+        story = Select2InlineSelectOption(self, inline_number=0)
         self.test_filter_options(story)
 
     def test_can_select_option_in_first_extra_inline(self):
-        story = stories.InlineSelectOption(self, inline_number=3)
+        story = Select2InlineSelectOption(self, inline_number=3)
         self.prefix = '%s-%s-' % (self.inline_related_name, 3)
         self.test_filter_options(story)

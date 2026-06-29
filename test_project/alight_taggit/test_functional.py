@@ -1,7 +1,12 @@
 from taggit.models import Tag
 
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import (
+    AlightCreateOptionMultiple,
+    AlightInlineSelectOptionMultiple,
+    AlightSelectOptionMultiple,
+    AlightStory,
+)
 
 from .models import TModel
 
@@ -16,7 +21,7 @@ class TagAlightAdminTestMixin(AlightStory, case.AdminMixin):
         self.tag_model.objects.create(name=self.labels[1])
 
     def test_can_select_options(self):
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         for option in self.labels:
             story.select_option(option)
         story.assert_labels(self.labels)
@@ -27,7 +32,7 @@ class TagAlightAdminTestMixin(AlightStory, case.AdminMixin):
 
     def test_can_create_new_tag(self):
         new_tag = self.id() + 'new'
-        story = stories.AlightCreateOptionMultiple(self)
+        story = AlightCreateOptionMultiple(self)
         story.create_option(new_tag)
         story.assert_labels([new_tag])
         story.submit()
@@ -35,7 +40,7 @@ class TagAlightAdminTestMixin(AlightStory, case.AdminMixin):
         story.assert_values([new_tag])
 
     def test_can_select_option_in_first_inline(self):
-        story = stories.InlineSelectOptionMultiple(self, inline_number=0)
+        story = AlightInlineSelectOptionMultiple(self, inline_number=0)
         for option in self.labels:
             story.select_option(option)
         story.assert_selection_persists(self.labels, self.labels)

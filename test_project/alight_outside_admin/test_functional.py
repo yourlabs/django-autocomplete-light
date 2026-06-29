@@ -1,8 +1,11 @@
+import time
+import uuid
+
 from alight_many_to_many.models import TModel
 from django.urls import reverse
 
-from dal.test import case, stories
-from dal_alight.test import AlightStory
+from dal.test import case
+from dal_alight.test import AlightSelectOptionMultiple, AlightStory
 
 
 class AlightOutsideAdminTestCase(
@@ -28,7 +31,7 @@ class AlightOutsideAdminTestCase(
 
     def test_can_select_option(self):
         opt = self.create_option()
-        story = stories.SelectOptionMultiple(self)
+        story = AlightSelectOptionMultiple(self)
         story.select_option(opt.name)
         labels = [
             self.clean_label(el.text)
@@ -37,9 +40,15 @@ class AlightOutsideAdminTestCase(
         assert opt.name in labels
 
     def test_form_submits_with_selection(self):
-        opt = self.create_option()
-        story = stories.SelectOptionMultiple(self)
+        edited = TModel.objects.order_by('name').first()
+        assert edited is not None
+        edited_pk = edited.pk
+        # Name must sort after the edited row so get_object() still returns
+        # edited on POST (view always uses TModel.objects.first()).
+        opt = self.model.objects.create(name='zzz-' + str(uuid.uuid1()))
+        story = AlightSelectOptionMultiple(self)
         story.select_option(opt.name)
         self.browser.find_by_css('[type=submit]').first.click()
-        obj = TModel.objects.first()
-        assert obj is not None
+        time.sleep(2)
+        edited = TModel.objects.get(pk=edited_pk)
+        assert edited.test.filter(pk=opt.pk).exists()

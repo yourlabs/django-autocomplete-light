@@ -2,6 +2,8 @@
 
 import time
 
+from dal.test import stories
+
 
 class AlightStory:
     """CSS selectors and wait logic for the autocomplete-light web component.
@@ -12,12 +14,13 @@ class AlightStory:
     HTML structure produced by ``AlightWidgetMixin``::
 
         <autocomplete-select>
-          <select slot="select" id="id_{field}">…</select>
-          <div slot="deck">
+          <input type="hidden" name="{field}" value="1"
+                 slot="values" data-label="Label">
+          <span slot="deck">
             <div data-value="1">Label<span class="clear">×</span></div>
-          </div>
+          </span>
           <autocomplete-select-input slot="input" url="…">
-            <input name="{field}-input" slot="input" class="vTextField" />
+            <input id="id_{field}" name="{field}-input" slot="input" />
           </autocomplete-select-input>
         </autocomplete-select>
 
@@ -28,10 +31,6 @@ class AlightStory:
           <div data-create data-value="foo">Create "foo"</div>
         </div>
     """
-
-    # The text input lives inside the widget, not in a global dropdown.
-    # This lets InlineSelectOption scope enter_text to the field container.
-    input_in_field_container = True
 
     # Text input embedded inside the web component.
     input_selector = 'autocomplete-select-input input'
@@ -111,3 +110,85 @@ class AlightStory:
     def clean_label(self, label):
         """Remove the × clear button text from a label string."""
         return label.replace('×', '').strip()
+
+
+class AlightSelectOption(stories.SelectOption):
+    """Single-select user story for the alight backend."""
+
+    def _values_selector(self):
+        """Hidden inputs live in the component; Django's id is on the search input."""
+        return 'autocomplete-select:has(%s) [slot=values]' % self.field_selector
+
+    def get_value(self):
+        fields = self.case.browser.find_by_css(self._values_selector())
+        if not fields:
+            return ''
+        return fields.first['value']
+
+
+class AlightMultipleMixin(stories.MultipleMixin):
+    """Multiple-select assertions using alight hidden value inputs."""
+
+    def get_values(self):
+        script = """
+        window.GET_VALUES = [];
+        document.querySelectorAll("%s").forEach(function(inp) {
+            GET_VALUES.push(inp.value);
+        });
+        """ % self._values_selector()
+        self.case.browser.execute_script(script)
+        return self.case.browser.evaluate_script('window.GET_VALUES')
+
+
+class AlightSelectOptionMultiple(AlightMultipleMixin, AlightSelectOption):
+    """Multiple-select user story for the alight backend."""
+
+
+class AlightInlineSelectOption(
+    stories.InlineSelectOptionMixin,
+    AlightSelectOption,
+):
+    """Single-select user story for alight inlines."""
+
+    def _scope_inline_input_selector(self):
+        self.input_selector = '%s %s' % (
+            self.field_container_selector,
+            self.input_selector,
+        )
+
+
+class AlightInlineSelectOptionMultiple(
+    AlightMultipleMixin,
+    AlightInlineSelectOption,
+):
+    """Multiple-select user story for alight inlines."""
+
+
+class AlightCreateOption(AlightSelectOption, stories.CreateOption):
+    """Create an option on the fly — alight backend only."""
+
+    def create_option(self, name):
+        create_sel = self.case.get_create_option_selector(name)
+        self._open_and_type(name)
+        self.case.browser.is_element_present_by_css(create_sel)
+        value_selector = self._values_selector()
+        initial_count = self.case.browser.evaluate_script(
+            'document.querySelectorAll("%s").length' % value_selector
+        )
+        self.case.js_click(create_sel)
+        deadline = time.time() + 5
+        while time.time() < deadline:
+            count = self.case.browser.evaluate_script(
+                'document.querySelectorAll("%s").length' % value_selector
+            )
+            if count > initial_count:
+                break
+            if self.case.browser.is_element_present_by_css(
+                '.invalid-feedback', wait_time=0,
+            ):
+                break
+            time.sleep(0.1)
+
+
+class AlightCreateOptionMultiple(AlightMultipleMixin, AlightCreateOption):
+    """Multiple-select variant of :class:`AlightCreateOption`."""

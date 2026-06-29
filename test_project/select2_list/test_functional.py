@@ -1,7 +1,12 @@
 import uuid
 
-from dal.test import case, stories
-from dal_select2.test import Select2Story
+from dal.test import case
+from dal_select2.test import (
+    Select2CreateOption,
+    Select2InlineSelectOption,
+    Select2SelectOption,
+    Select2Story,
+)
 
 from .models import TModel
 
@@ -31,25 +36,25 @@ class AdminSelect2List(Select2Story, case.AdminMixin, case.OptionMixin,
 
     def test_can_select_option(self):
         option = self.create_option()
-        story = stories.SelectOption(self)
+        story = Select2SelectOption(self)
         story.select_option(option.test)
         story.assert_selection_persists(option.test, option.test)
 
     def test_can_select_option_in_first_inline(self):
         option = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=0)
+        story = Select2InlineSelectOption(self, inline_number=0)
         story.select_option(option.test)
         story.assert_selection(option.test, option.test)
 
     def test_can_select_option_in_first_extra_inline(self):
         option = self.create_option()
-        story = stories.InlineSelectOption(self, inline_number=3)
+        story = Select2InlineSelectOption(self, inline_number=3)
         story.select_option(option.test)
         story.assert_selection(option.test, option.test)
 
     def test_can_change_selected_option(self):
         option = self.create_option()
-        story = stories.SelectOption(self)
+        story = Select2SelectOption(self)
         story.select_option(option.test)
         story.assert_selection_persists(option.test, option.test)
         option = self.create_option()
@@ -58,6 +63,6 @@ class AdminSelect2List(Select2Story, case.AdminMixin, case.OptionMixin,
 
     def test_can_create_new_option(self):
         new_option_text = random_text()
-        story = stories.Select2CreateOption(self, new_option_text)
+        story = Select2CreateOption(self, new_option_text)
         story.select_option(new_option_text)
         story.assert_selection(new_option_text, new_option_text)
