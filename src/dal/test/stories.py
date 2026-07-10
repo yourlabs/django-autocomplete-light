@@ -219,6 +219,16 @@ class SelectOption(BaseStory):
         if not len(dropdown) or not dropdown.visible:
             self.toggle_autocomplete()
 
+        # The alight frontend populates the dropdown asynchronously (debounce +
+        # XHR).  Wait a short time so the box is actually visible before we
+        # assert and start typing.
+        deadline = time.time() + 5
+        while time.time() < deadline:
+            dd = self.case.browser.find_by_css(self.dropdown_selector)
+            if dd and dd.first.visible:
+                break
+            time.sleep(0.05)
+
         self.case.assert_visible(self.dropdown_selector)
         self.case.enter_text(self.input_selector, text)
         self.find_option(text).click()

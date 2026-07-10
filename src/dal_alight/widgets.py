@@ -108,10 +108,11 @@ class AlightWidgetMixin:
 
     def _render_search_input(self, name, attrs, renderer=None, **kwargs):
         """Render the visible search input via the TextInput ``render()`` MRO."""
-        # BoundField puts ``required`` in attrs for the field widget.  The search
-        # input is auxiliary (values submit via hidden inputs); strip it so the
-        # browser does not run HTML5 validation on an empty search box.
-        search_attrs = {k: v for k, v in attrs.items() if k != 'required'}
+        # The search input carries ``required`` (when appropriate) so that the
+        # browser's native HTML5 validation can show an error when a required
+        # field has no selection yet.  JS removes the attribute once a choice
+        # is made (see autocomplete-light.js).
+        search_attrs = dict(attrs)
         search_attrs['slot'] = 'input'
         search_attrs['autocomplete'] = 'off'
         return super(AlightChoiceMixin, self).render(
@@ -133,8 +134,23 @@ class AlightWidgetMixin:
         )
 
         url_attr = format_html(' url="{}"', self.url) if self.url else ''
+
+        # Only put ``required`` on the visible search input when the field is
+        # required AND there is no current selection.  This lets the browser
+        # show its native validation message for empty required autocompletes.
+        # Once a value is chosen, JS removes the attribute from the input.
+        search_attrs = dict(final_attrs)
+        if final_attrs.get('required'):
+            currently_selected = list(
+                self._iter_selected_options(name, self.format_value(value), attrs=final_attrs)
+            )
+            if currently_selected:
+                search_attrs.pop('required', None)
+        else:
+            search_attrs.pop('required', None)
+
         input_html = self._render_search_input(
-            name, final_attrs, renderer=renderer, **kwargs
+            name, search_attrs, renderer=renderer, **kwargs
         )
         input_el = format_html(
             '<autocomplete-select-input slot="input"{}>{}</autocomplete-select-input>',
@@ -146,10 +162,12 @@ class AlightWidgetMixin:
         multiple_attr = (
             ' data-multiple' if getattr(self, 'allow_multiple_selected', False) else ''
         )
+        required_attr = mark_safe(' data-required') if final_attrs.get('required') else ''
         inner = values_html + deck_html + str(input_el) + conf
         return mark_safe(format_html(
-            '<autocomplete-select{}>{}</autocomplete-select>',
+            '<autocomplete-select{}{}>{}</autocomplete-select>',
             mark_safe(multiple_attr),
+            required_attr,
             mark_safe(inner),
         ))
 

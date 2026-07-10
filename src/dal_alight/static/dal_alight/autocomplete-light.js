@@ -72,6 +72,7 @@ class AutocompleteLight extends HTMLElement {
     }))
     this.box.setAttribute('hidden', 'true')
     this.input.setAttribute('aria-expanded', 'false')
+    this.input.removeAttribute('required')
   }
 
   handleCreate() {
@@ -81,6 +82,7 @@ class AutocompleteLight extends HTMLElement {
     }))
     this.box.setAttribute('hidden', 'true')
     this.input.setAttribute('aria-expanded', 'false')
+    this.input.removeAttribute('required')
   }
 
   get url() {
@@ -403,6 +405,16 @@ class AutocompleteSelect extends HTMLElement {
     })
 
     this.input.hidden = this.maxChoices && this.selected.length >= this.maxChoices
+
+    // Sync required state on the search input after reconciling prefilled values.
+    var si = this.searchInput
+    if (si) {
+      if (this.selected.length > 0) {
+        si.removeAttribute('required')
+      } else if (this.hasAttribute('data-required')) {
+        si.setAttribute('required', 'required')
+      }
+    }
   }
 
   get multiple() {
@@ -466,6 +478,13 @@ class AutocompleteSelect extends HTMLElement {
       this.input.hidden = this.maxChoices && this.selected.length >= this.maxChoices
 
     this.changeTrigger()
+
+    // If this is a required field and all selections have been cleared,
+    // restore required on the search input so the browser can validate.
+    if (!this.selected.length && this.hasAttribute('data-required')) {
+      var si = this.searchInput
+      if (si) si.setAttribute('required', 'required')
+    }
   }
 
   choiceUpdate(value, newLabel, newId) {
@@ -529,6 +548,13 @@ class AutocompleteSelect extends HTMLElement {
     this.input.hidden = this.maxChoices && this.selected.length >= this.maxChoices
 
     trigger && this.changeTrigger()
+
+    // A selection satisfies a required field; remove required from the
+    // visible search input so the browser does not block submission.
+    if (this.selected.length > 0) {
+      var si = this.searchInput
+      if (si) si.removeAttribute('required')
+    }
   }
 
   changeTrigger() {
