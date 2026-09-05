@@ -31,11 +31,10 @@ getLanguageFiles(function (files) {
         [license, ...contents] = fs.readFileSync(file.path, "utf8").split('\n');
         let code = `${license}
         
-        var dalLoadLanguage = function (jQuery) { 
-            ${contents.join('')} 
-        } 
-        var event = new CustomEvent("dal-language-loaded", { lang: "${file.file.slice(0, -3)}"});
-        document.dispatchEvent(event);`;
+        var dalLoadLanguage = function (jQuery) {
+            ${contents.join('')}
+        }
+        document.dispatchEvent(new CustomEvent("dal-language-loaded", { lang: "${file.file.slice(0, -3)}"}));`;
         let inputs = {};
         inputs[file.file] = code;
         let result = UglifyJS.minify(inputs, {output: {comments: true}})
