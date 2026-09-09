@@ -82,7 +82,6 @@ class AutocompleteLight extends HTMLElement {
     }))
     this.box.setAttribute('hidden', 'true')
     this.input.setAttribute('aria-expanded', 'false')
-    this.input.removeAttribute('required')
   }
 
   get url() {
