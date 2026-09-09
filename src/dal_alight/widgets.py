@@ -142,7 +142,9 @@ class AlightWidgetMixin:
         search_attrs = dict(final_attrs)
         if final_attrs.get('required'):
             currently_selected = list(
-                self._iter_selected_options(name, self.format_value(value), attrs=final_attrs)
+                self._iter_selected_options(
+                    name, self.format_value(value), attrs=final_attrs
+                )
             )
             if currently_selected:
                 search_attrs.pop('required', None)
@@ -162,7 +164,9 @@ class AlightWidgetMixin:
         multiple_attr = (
             ' data-multiple' if getattr(self, 'allow_multiple_selected', False) else ''
         )
-        required_attr = mark_safe(' data-required') if final_attrs.get('required') else ''
+        required_attr = (
+            mark_safe(' data-required') if final_attrs.get('required') else ''
+        )
         inner = values_html + deck_html + str(input_el) + conf
         return mark_safe(format_html(
             '<autocomplete-select{}{}>{}</autocomplete-select>',
