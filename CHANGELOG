@@ -48,6 +48,18 @@
     - test_project: tests run in parallel via ``pytest-xdist`` (``-n auto``);
       CI splits unit and browser suites into separate workflow jobs.
 
+    Fixes
+    - dal_alight: required empty autocomplete fields now trigger the
+      browser's native HTML5 validation.  ``required`` stays on the
+      visible search input until a choice is selected or created;
+      ``data-required`` is set on the ``<autocomplete-select>`` wrapper.
+
+    - Select2 i18n scripts no longer leak a global ``var event``, which
+      shadowed ``window.event``.
+
+    - dal_alight: autocomplete dropdown no longer renders below Unpoly
+      modals.
+
 5.0.0
 
     WARNING: BC break identified with DAL v4, in the process of resolution
